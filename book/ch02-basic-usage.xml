@@ -1,23 +1,23 @@
 <chapter id="svn.tour">
-  <title>Basic Usage</title>
+  <title>Uso Básico</title>
 
-  <para>Now we will go into the details of using Subversion.  By the
-    time you reach the end of this chapter, you will be able to
-    perform all the tasks you need to use Subversion in a normal day's
-    work.  You'll start with getting your files into Subversion,
-    followed by an initial checkout of your code.  We'll then walk you
-    through making changes and examining those changes.  You'll also
-    see how to bring changes made by others into your working copy,
-    examine them, and work through any conflicts that might
-    arise.</para>
+  <para>Agora entraremos em detalhes do uso do Subversion.  Quando
+    chegar ao final deste capítulo, você será capaz de realizar
+    todas as tarefas necessárias para usar Subversion em um dia normal
+    de trabalho.  Iniciará acessando seus arquivos que estão no Subversion,
+    após um checkout inicial de seu código.  Guiaremos você pelo
+    processo de fazer mudificações e examinar estas modificações.  Também verá
+    como trazer mudanças feitas por outros para sua cópia de trabalho,
+    examiná-las, e resolver quaisquer conflitos que possam
+    surgir.</para>
 
-  <para>Note that this chapter is not meant to be an exhaustive list
-    of all Subversion's commands&mdash;rather, it's a conversational
-    introduction to the most common Subversion tasks you'll
-    encounter.  This chapter assumes that you've read and understood
-    <xref linkend="svn.basic"/> and are familiar with the general
-    model of Subversion.  For a complete reference of all commands,
-    see <xref linkend="svn.ref"/>.</para>
+  <para>Note que este capítulo não pretende ser uma lista exaustiva
+    de todos os comandos do Subversion&mdash;antes, é uma introdução
+    conversacional às tarefas mais comuns que você encontrará no
+    Subversion.  Este capítulo assume que você leu e entendeu o
+    <xref linkend="svn.basic"/> e está familiarizado com o modelo
+    geral do Subversion.  Para uma referência completa de todos os
+    comandos, veja <xref linkend="svn.ref"/>.</para>
 
 
   <!-- ================================================================= -->
