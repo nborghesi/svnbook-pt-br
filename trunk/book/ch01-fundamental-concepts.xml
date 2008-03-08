@@ -1,60 +1,62 @@
 <chapter id="svn.basic">
-  <title>Fundamental Concepts</title>
-<!-- bla -->
-  <para>This chapter is a short, casual introduction to Subversion.
-    If you're new to version control, this chapter is definitely for
-    you.  We begin with a discussion of general version control
-    concepts, work our way into the specific ideas behind
-    Subversion, and show some simple examples of Subversion in
-    use.</para>
+  <title>Conceitos Fundamentais</title>
 
-  <para>Even though the examples in this chapter show people sharing
-    collections of program source code, keep in mind that Subversion
-    can manage any sort of file collection&mdash;it's not limited to
-    helping computer programmers.</para>
+  <para>Este capítulo é uma breve e casual introdução ao Subversion.
+    Se você é novo em controle de versão, este capítulo é
+    definitivamente para você. Nós começaremos com uma discussão
+    sobre os conceitos gerais de controle de versão, avançaremos
+    para as idéias específicas por trás do Subversion, e mostraremos
+    alguns exemplos simples do Subversion em uso.</para>
+
+  <para>Embora os exemplos neste capítulo mostrem pessoas compartilhando
+    coleções de código fonte de programas, tenha em mente que o Subversion
+    pode gerenciar qualquer tipo de coleção de arquivos - ele não está limitado
+    a ajudar programadores.</para>
 
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.basic.repository">
-    <title>The Repository</title>
+    <title>O Repositório</title>
 
-    <para>Subversion is a centralized system for sharing information.
-      At its core is a repository, which is a central store of data.
-      The repository stores information in the form of a
-      <firstterm>filesystem tree</firstterm>&mdash;a typical hierarchy
-      of files and directories.  Any number of
-      <firstterm>clients</firstterm> connect to the repository, and
-      then read or write to these files.  By writing data, a client
-      makes the information available to others; by reading data, the
-      client receives information from others.  <xref
-      linkend="svn.basic.repository.dia-1"/> illustrates this.</para>
+    <para>O Subversion é um sistema centralizado de comparilhamento de
+      informação. Em seu núcleo está um repositório, que é uma central
+      de armazenamento de dados. O repositório armazena informação em
+      forma de uma <firstterm>árvore de arquivos</firstterm>
+      - uma hierarquia típica de arquivos e diretórios. Qualquer número
+      de <firstterm>clientes</firstterm> se conecta ao repositório, e
+      então lê ou escreve nestes arquivos. Ao gravar dados, um cliente
+      torna a informação disponível para outros; ao ler os dados, o
+      cliente recebe informação de outros. <xref
+      linkend="svn.basic.repository.dia-1"/> ilustra isso.</para>
 
     <figure id="svn.basic.repository.dia-1">
-      <title>A typical client/server system</title>
+      <title>Um típico sistema cliente/servidor</title>
       <graphic fileref="images/ch02dia1.png"/>
     </figure>
 
-    <para>So why is this interesting?  So far, this sounds like the
-      definition of a typical file server.  And indeed, the repository
-      <emphasis>is</emphasis> a kind of file server, but it's not your
-      usual breed.  What makes the Subversion repository special is
-      that <emphasis>it remembers every change</emphasis> ever written
-      to it: every change to every file, and even changes to the
-      directory tree itself, such as the addition, deletion, and
-      rearrangement of files and directories.</para>
+    <para>Então, por que razão isto é interessante? Até ao momento,
+      isto soa como a definição de um típico servidor de arquivos.
+      E, na verdade, o repositório <emphasis>é</emphasis> uma espécie
+      de servidor de arquivos, mas não de um tipo comum. O que torna o
+      repositório do Subversion especial é que <emphasis>ele se lembra
+      de cada alteração</emphasis> já ocorrida nele: de cada mudança em
+      cada arquivo, e até mesmo alterações na árvore de diretórios em
+      si, como a adição, eliminação, e reorganização de arquivos e
+      diretórios.</para>
 
-    <para>When a client reads data from the repository, it normally
-      sees only the latest version of the filesystem tree.  But the
-      client also has the ability to view
-      <emphasis>previous</emphasis> states of the filesystem.  For
-      example, a client can ask historical questions like, <quote>What
-      did this directory contain last Wednesday?</quote> or <quote>Who
-      was the last person to change this file, and what changes did he
-      make?</quote> These are the sorts of questions that are at the
-      heart of any <firstterm>version control system</firstterm>:
-      systems that are designed to track changes to data over time.
+    <para>Quando um cliente lê dados de um repositório, ele normalmente
+      vê apenas a última versão da árvore de arquivos. Mas o cliente
+      também tem a habilidade de ver os estados <emphasis>anteriores
+      </emphasis> do sistema de arquivos. Por exemplo, um cliente pode
+      perguntar questões de histórico como, <quote>O que este
+      diretório continha na última quarta-feira?</quote> ou <quote>Quem
+      foi a última pessoa que alterou este aquivo, e que alterações ela
+      fez?</quote> Estes são os tipos de questões que estão no coração
+      de qualquer <firstterm>sistema de controle de versão</firstterm>:
+      sistemas que são projetados para monitorar alterações nos dados ao
+      longo do tempo.
     </para>
   </sect1>
 
