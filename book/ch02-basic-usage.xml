@@ -26,27 +26,27 @@
   <sect1 id="svn.tour.help">
     <title>Help!</title>
 
-    <para>Before reading on, here is the most important command you'll
-      ever need when using Subversion: <command>svn help</command>.
-      The Subversion command-line client is self-documenting&mdash;at
-      any time, a quick <command>svn help
-      <replaceable>SUBCOMMAND</replaceable></command> will describe
-      the syntax, options, and behavior of the subcommand.</para>
+    <para>Antes de continuar a leitura, aqui está o comando mais importante que
+      você precisará quando usar o Subversion: <command>svn help</command>.
+      A linha de comando do cliente Subversion é auto-documentada&mdash;a
+      qualquer momento, um rápido <command>svn help
+      <replaceable>SUBCOMANDO</replaceable></command> descreverá
+      a sintaxe, opções, e comportamento do subcomando.</para>
 
     <screen>
 $ svn help import
-import: Commit an unversioned file or tree into the repository.
-usage: import [PATH] URL
+import: Faz commit de um arquivo não versionado ou árvore no repositório.
+uso: import [CAMINHO] URL
 
-  Recursively commit a copy of PATH to URL.
-  If PATH is omitted '.' is assumed.
-  Parent directories are created as necessary in the repository.
-  If PATH is a directory, the contents of the directory are added
-  directly under URL.
+  Recursivamente faz commit de uma cópia de CAMINHO para URL.
+  Se CAMINHO é omitido '.' é assumido.
+  Diretórios pais são criados conforme necessário no repositório.
+  Se CAMINHO é um diretório, seu conteúdo será adicionado diretamente
+  abaixo de URL.
 
-Valid options:
-  -q [--quiet]             : print as little as possible
-  -N [--non-recursive]     : operate on single directory only
+Opções válidas:
+  -q [--quiet]             : imprime o mínimo possível
+  -N [--non-recursive]     : opera somente em um diretório
 &hellip;
 </screen>
   </sect1>
