@@ -55,13 +55,13 @@ Opções válidas:
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.tour.importing">
-    <title>Getting Data into your Repository</title>
+    <title>Colocando dados em seu Repositório</title>
 
-    <para>There are two ways to get new files into your Subversion
-      repository: <command>svn import</command> and <command>svn
-      add</command>.  We'll discuss <command>svn import</command> here
-      and <command>svn add</command> later in this chapter when we
-      review a typical day with Subversion.</para>
+    <para>Há dois modos de colocar novos arquivos em seu repositório
+      Subversion: <command>svn import</command> e <command>svn
+      add</command>.  Discutiremos <command>svn import</command> aqui
+      e <command>svn add</command> mais adiante neste capítulo quando
+      analisarmos um dia típico com o Subversion.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.importing.import">
