@@ -208,7 +208,7 @@
         informá-lo que seu arquivo A está <firstterm>desatualizado</firstterm>
         (out-of-date). Em outras palavras, este arquivo A no repositório foi de
         alguma forma alterado desde a última vez que ele foi copiado. Então Harry
-        pede a seu programa cliente para ajudá-lo a <firsterm>combinar</firsterm>
+        pede a seu programa cliente para ajudá-lo a <firstterm>combinar</firstterm>
         (merge) todas as alterações no repositório da sua cópia de trabalho de A.
         Provavelmente as mudanças de Sally não se sobrepõem com as suas próprias;
         então, uma vez que ele tiver ambos os conjuntos de alterações integradas,
