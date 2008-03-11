@@ -6,5 +6,4 @@ Abaixo estão as regras gerais para traduzir o texto do livro.
 
   * Preservar espaços em branco
   * Efetuar commit de pequenos trechos do livro sempre que possível
-  * Sempre incluir mensagem de log descrevendo o que foi feito (apenas o suficiente
-    para comunicar aos outros tradutores o que foi realizado)
+  * Sempre incluir mensagem de log descrevendo o que foi feito (apenas o suficiente para comunicar aos outros tradutores o que foi realizado)
