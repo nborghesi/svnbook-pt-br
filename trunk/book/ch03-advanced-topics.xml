@@ -845,165 +845,165 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.props.file-portability">
-    <title>File Portability</title>
+    <title>Portabilidade de Arquivo</title>
 
-    <para>Fortunately for Subversion users who routinely find
-      themselves on different computers with different operating
-      systems, Subversion's command-line program behaves almost
-      identically on all those systems.  If you know how to wield
-      <command>svn</command> on one platform, you know how to wield it
-      everywhere.</para>
+    <para>Felizmente para os usuários do Subversion que rotineiramente
+      se encontram em diferentes computadores com diferentes sistemas
+      operacionais, o programa de linha de comando do Subversion comporta-se
+      quase que identicamente em todos os sistemas.  Se você sabe como usar
+      o <command>svn</command> em uma plataforma, você sabe como manuseá-lo
+      em qualquer lugar.</para>
 
-    <para>However, the same is not always true of other general classes
-      of software, or of the actual files you keep in Subversion.  For
-      example, on a Windows machine, the definition of a <quote>text
-      file</quote> would be similar to that used on a Linux box, but
-      with a key difference&mdash;the character sequences used to mark
-      the ends of the lines of those files.  There are other
-      differences, too.  Unix platforms have (and Subversion supports)
-      symbolic links; Windows does not.  Unix platforms use filesystem
-      permission to determine executability; Windows uses filename
-      extensions.</para>
+    <para>Entretanto, o mesmo nem sempre é verdade em outras classes gerais
+      de software, ou nos atuais arquivos que você mantém no Subversion. Por
+      exemplo, em uma máquina Windows, a definição de um <quote>arquivo de
+      texto</quote> seria similar à usada em uma máquina Linux, porém
+      com uma diferença chave&mdash;os caracteres usados para marcar
+      o fim das linhas destes arquivos.  Existem outras diferenças,
+      também.  As platformas Unix têm (e o Subversion suporta) links
+      simbólicos; Windows não.  As plataformas Unix usam as permissões do
+      sistema de arquivos para determinar a executabilidade; Windows usa
+      as extensões no nome do arquivo.</para>
 
-    <para>Because Subversion is in no position to unite the whole
-      world in common definitions and implementations of all of these
-      things, the best it can do is to try to help make your life
-      simpler when you need to work with your versioned files and
-      directories on multiple computers and operating systems.  This
-      section describes some of the ways Subversion does this.</para>
+    <para>Pela razão de que o Subversion não está em condição de unir o
+      mundo inteiro em definições comuns e implementações de todas estas
+      coisas, o melhor que podemos fazer é tentar ajudar a tornar sua vida
+      mais simples quando você precisar trabalhar com seus arquivos e
+      diretórios versionados em múltiplos computadores e sistemas operacionais.
+      Esta seção descreve alguns dos meios que o Subversion faz isto.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.special.mime-type">
-      <title>File Content Type</title>
+      <title>Tipo de Conteúdo do Arquivo</title>
       
-      <para>Subversion joins the ranks of the many applications which
-        recognize and make use of Multipurpose Internet Mail
-        Extensions (MIME) content types.  Besides being a
-        general-purpose storage location for a file's content type,
-        the value of the <literal>svn:mime-type</literal> file
-        property determines some behavioral characteristics of
-        Subversion itself.</para>
+      <para>O Subversion combina a qualidade das muitas aplicações que
+        reconhecem e fazem uso dos tipos de conteúdo do <emphasis>Multipurpose
+        Internet Mail Extensions</emphasis> (MIME).  Além de ser um local
+        de armazenamento de propósito geral para um tipo de conteúdo do arquivo,
+        o valor da propriedade de arquivo <literal>svn:mime-type</literal>
+        determina algumas características comportamentais do próprio
+        Subversion.</para>
 
       <sidebar>
-        <title>Identifying File Types</title>
+        <title>Identificando Tipos de Arquivo</title>
     
-        <para>Various programs on most modern operating systems make
-          assumptions about the type and format of the contents of a
-          file by the file's name, specifically its file extension.
-          For example, files whose names end in
-          <filename>.txt</filename> are generally assumed to be
-          human-readable, able to be understood by simple perusal
-          rather than requiring complex processing to decipher.  Files
-          whose names end in <filename>.png</filename>, on the other
-          hand, are assumed to be of the Portable Network Graphics
-          type&mdash;not human-readable at all, and sensible only when
-          interpreted by software which understands the PNG format and
-          can render the information in that format as a raster
-          image.</para>
+        <para>Vários programas nos sistemas operacionais mais modernos fazem
+          suposições sobre o tipo e formato do conteúdo de um arquivo
+          pelo nome do arquivo, especificamente sua extensão de arquivo.
+          Por exemplo, arquivos cujos nomes terminam em
+          <filename>.txt</filename> são geralmente supostos ser legíveis
+          humanamente, passíveis de serem compreendidos por simples leitura,
+          em vez dos que requerem processamento complexo para os decifrar.
+          Arquivos cujos nomes terminam em <filename>.png</filename>, por
+          outro lado, são assumidos serem do tipo <emphasis>Portable Network
+          Graphics</emphasis>&mdash;não legível humanamente no todo, e
+          perceptível apenas quando interpretado pelo software que entende
+          o formato PNG e pode tornar a informação neste formato como uma
+          imagem desenhada por linhas.</para>
 
-        <para>Unfortunately, some of those extensions have changed
-          their meanings over time.  When personal computers first appeared,
-          a file named <filename>README.DOC</filename> would have
-          almost certainly been a plaintext file, just like today's
-          <filename>.txt</filename> files.  But by the mid-1990's, you
-          could almost bet that a file of that name would not be a
-          plaintext file at all, but instead a Microsoft Word document
-          in a proprietary, non-human-readable format.  But this
-          change didn't occur overnight&mdash;there was certainly a
-          period of confusion for computer users over what exactly
-          they had in hand when they saw a <filename>.DOC</filename>
-          file.
+        <para>Infelizmente, algumas destas extensões têm seus significados
+          modificados ao longo do tempo.  Quando os computadores pessoais
+          apareceram pela primeira vez, um arquivo nomeado
+          <filename>README.DOC</filename> teria sido certamente um arquivo de
+          texto simples, como são hoje os arquivos <filename>.txt</filename>.
+          Porém, no meio dos anos de 1990, você poderia apostar que um arquivo
+          com este nome não seria um arquivo de texto simples, mas sim um
+          documento do Microsoft Word em um formato proprietário e humanamente
+          ilegível. Mas esta mudança não ocorreu da noite para o dia&mdash;houve
+          certamente um período de confusão para os usuário de computador sobre
+          o que exatamente eles tinham em mãos quando viam um arquivo
+          <filename>.DOC</filename>.
           <footnote>
-            <para>You think that was rough?  During that same era,
-              WordPerfect also used <filename>.DOC</filename> for their
-              proprietary file format's preferred extension!</para>
+            <para>Você pensa que foi árduo?  Durante este mesmo período, o
+              WordPerfect também usou <filename>.DOC</filename> como extensão
+              escolhida para seu formato de arquivo proprietário!</para>
           </footnote>
         </para>
 
-        <para>The popularity of computer networking cast still more
-          doubt on the mapping between a file's name and its content.
-          With information being served across networks and generated
-          dynamically by server-side scripts, there was often no real
-          file per se, and therefore no file name.  Web
-          servers, for example, needed some other way to tell browsers
-          what they were downloading so the browser could do something
-          intelligent with that information, whether that was to
-          display the data using a program registered to handle that
-          data type, or to prompt the user for where on the client
-          machine to store the downloaded data.</para>
+        <para>A popularidade das redes de computadores lançou ainda mais
+          dúvidas sobre o mapeamento entre um nome de arquivo e seu conteúdo.
+          Com informações sendo servidas através de redes e geradas
+          dinamicamente por scripts no servidor, não houve muitas vezes
+          arquivos reais por si só, e portanto, sem nome de arquivo. Os
+          servidores Web, por exemplo, precisavam de algum outro modo de dizer
+          aos navegadores que eles estavam baixando um arquivo, assim o navegador
+          poderia fazer algo inteligente com esta informação, quer seja para
+          exibir os dados usando um programa registrado para lidar com este
+          tipo de dados, ou para solicitar ao usário onde armazenar na máquina
+          cliente os dados baixados.</para>
 
-        <para>Eventually, a standard emerged for, among other things,
-          describing the contents of a data stream.  In 1996, RFC2045
-          was published, the first of five RFCs describing MIME.  It
-          describes the concept of media types and subtypes, and
-          recommends a syntax for the representation of those types.
-          Today, MIME media types&mdash;or <quote>MIME
-          types</quote>&mdash;are used almost universally across
-          e-mail applications, Web servers, and other software as the
-          de facto mechanism for clearing up the file content
-          confusion.</para>
+        <para>Finalmente, um padrão surgiu para, entre outras coisas,
+          descrever o conteúdo de um fluxo de dados.  Em 1996, a RFC2045
+          foi publicada, a primeira de cinco RFC's descrevendo o MIME.
+          Esta descreve o conceito de tipos e subtipos de mídia, e
+          recomenda uma sintaxe para a representação destes tipos.  Hoje,
+          os tipos de mídia MIME&mdash;ou <quote>tipos MIME</quote>&mdash;são
+		  usados quase que universalmente em todas as aplicações de e-mail,
+		  servidores Web, e outros softwares como o mecanismo de fato
+		  para esclarecer a confusão do conteúdo de
+		  arquivo.</para>
 
       </sidebar>
     
-      <para>For example, one of the benefits that Subversion typically
-        provides is contextual, line-based merging of changes received
-        from the server during an update into your working file.  But
-        for files containing non-textual data, there is often no
-        concept of a <quote>line</quote>.  So, for versioned files
-        whose <literal>svn:mime-type</literal> property is set to a
-        non-textual MIME type (generally, something that doesn't begin
-        with <literal>text/</literal>, though there are exceptions),
-        Subversion does not attempt to perform contextual merges
-        during updates.  Instead, any time you have locally modified a
-        binary working copy file that is also being updated, your file
-        is left untouched and Subversion creates two new files.  One
-        file has a <filename>.oldrev</filename> extension and contains
-        the BASE revision of the file.  The other file has a
-        <filename>.newrev</filename> extension and contains the
-        contents of the updated revision of the file.  This behavior
-        is really for the protection of the user against failed
-        attempts at performing contextual merges on files that simply
-        cannot be contextually merged.</para>
+      <para>Por exemplo, um dos benefícios que o Subversion tipicamente
+        fornece é a fusão contextual, baseada nas linhas, das mudanças recebidas
+        do servidor durante uma atuaização em seu arquivo de trabalho.  Mas
+        para arquivos contendo dados não-textuais, extiste muitas vezes nenhum
+        conceito de uma <quote>linha</quote>.  Assim, para arquivos versionados
+        cuja propriedade <literal>svn:mime-type</literal> é definida com
+        um tipo MIME não-textual (geralmente, algo que não inicie com
+        <literal>text/</literal>, embora existam exceções), o
+        Subversion não tenta executar fusões contextuais durante
+        as atualizações.  Em vez disso, toda vez que você tenha modificado localmente
+        um arquivo binário da cópia de trabalho que está também sendo atualizada, seu arquivo
+        é deixado intocado e o Subversion cria dois novos arquivos.  Um
+        arquivo tem uma extensão <filename>.oldrev</filename> e contém a
+        revisão BASE do arquivo.  O outro arquivo tem uma extensão
+        <filename>.newrev</filename> e contém o conteúdo
+        da revisão atualizada do arquivo.  Este comportamento
+        é realmente para a proteção do usuário contra tentativas falhas
+        ao executar fusões contextuais nos arquivos que simplesmente
+        não podem ser contextualmente fundidos.</para>
 
-      <para>Also, if the <literal>svn:mime-type</literal> property is
-        set, then the Subversion Apache module will use its value to
-        populate the <literal>Content-type:</literal> HTTP header when
-        responding to GET requests.  This gives your web browser a
-        crucial clue about how to display a file when you use it to
-        peruse your Subversion repository's contents.</para>
+      <para>Além disso, se a propriedade <literal>svn:mime-type</literal> está
+        definida, etão o módulo Apache do Subversion usará seu valor para
+        preencher o cabeçalho HTTP <literal>Content-type:</literal> quando
+        responder a solicitações GET.  Isto oferece ao seu navegador web uma
+        dica crucial sobre como exibir um arquivo quando você o utiliza para
+        examinar o conteúdo de seu repositório Subversion.</para>
 
     </sect2>
   
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.special.executable">
-      <title>File Executability</title>
+      <title>Executabilidade de Arquivo</title>
  
-      <para>On many operating systems, the ability to execute a file
-        as a command is governed by the presence of an execute
-        permission bit.  This bit usually defaults to being disabled,
-        and must be explicitly enabled by the user for each file that
-        needs it.  But it would be a monumental hassle to have to
-        remember exactly which files in freshly checked-out working
-        copy were supposed to have their executable bits toggled on,
-        and then to have to do that toggling.  So, Subversion provides
-        the <literal>svn:executable</literal> property as a way to
-        specify that the executable bit for the file on which that
-        property is set should be enabled, and Subversion honors that
-        request when populating working copies with such files.</para>
+      <para>Em muitos sistemas operacionais, a capacidade de executar um arquivo
+        como um comando é governada pela presença de um bit de permissão
+        para execução.  Este bit usualmente está desabilitado por padrão,
+        e deve ser explicitamente habilitado pelo usuário em cada arquivo que
+        seja necessário.  Mas seria um grande incômodo ter que lembrar
+        exatamente quais arquivos em uma cópia de trabalho verificada
+        recentemente estavam supostos a terem seus bits de execução habilitados,
+        e então ter que os alternar.  Por esta razão, o Subversion oferece
+        a propriedade <literal>svn:executable</literal> como um modo para
+        especificar que o bit de execução para o arquivo no qual esta
+        propriedade está definida deve ser habilitado, e o Subversion honra esta
+        solicitação ao preencher cópias de trabalho com tais arquivos.</para>
 
-      <para>This property has no effect on filesystems that have no
-        concept of an executable permission bit, such as FAT32 and
+      <para>Esta propriedade não tem efeito em sistemas de arquivo que não possuem
+        o conceito de um bit de permissão para executável, assim como FAT32 e
         NTFS.
         <footnote>
-          <para>The Windows filesystems use file extensions (such as
-            <literal>.EXE</literal>, <literal>.BAT</literal>, and
-            <literal>.COM</literal>) to denote executable
-            files.</para>
+          <para>Os sitemas de arquivo do Windows usam extensões de arquivo (tais como
+            <literal>.EXE</literal>, <literal>.BAT</literal>, e
+            <literal>.COM</literal>) para indicar arquivos
+            executáveis.</para>
         </footnote>
-        Also, although it has no defined values, Subversion will force
-        its value to <literal>*</literal> when setting this property.
-        Finally, this property is valid only on files, not on
-        directories.</para>
+        Além disso, embora não tenha definido valores, o Subversion forçará
+        seu valor para <literal>*</literal> ao definir esta propriedade.
+        Finalmente, esta propriedade é válida somente em arquivos, não em
+        diretórios.</para>
 
     </sect2>
 
