@@ -51,46 +51,44 @@
   <!-- ================================================================= -->
   <sect1 id="svn.preface.audience">
 
-    <title>Audience</title>
+    <title>Público-Alvo</title>
     
-    <para>This book is written for computer-literate folk who want to
-      use Subversion to manage their data.  While Subversion runs on a
-      number of different operating systems, its primary user
-      interface is command-line based.  That command-line tool
-      (<command>svn</command>), and some auxiliary programs, are the
-      focus of this book.</para>
+    <para>Este livro foi escrito para pessoas habituadas com computadores
+      que desejam usar o Subversion para gerenciar seus dados.  Ainda que
+      o Subversion rode em vários sistemas operacionais diferentes, a sua
+      interface de usuário primária é baseada em linha de comando.  Essa
+      ferramenta de linha de comando (<command>svn</command>), e alguns
+      programas auxiliares, são o foco deste livro.</para>
 
-    <para>For consistency, the examples in this book assume the reader
-      is using a Unix-like operating system and is relatively comfortable
-      with Unix and command-line interfaces.  That said, the
-      <command>svn</command> program also runs on non-Unix platforms
-      like Microsoft Windows.  With a few minor exceptions, such as
-      the use of backward slashes (<literal>\</literal>) instead of
-      forward slashes (<literal>/</literal>) for path separators, the
-      input to and output from this tool when run on Windows are
-      identical to its Unix counterpart.</para>
+    <para>Por motivo de consistência, os exemplos neste livro presumem que
+      o leitor está usando um sistema operacional baseado em Unix e se sente
+      relativamente confortável com Unix e com interfaces de linha de comando.
+      Dito isto, o programa <command>svn</command> também roda em plataformas
+      não-Unix, como o Microsoft Windows.  Com poucas exceções, como o uso de
+      barras invertidas (<literal>\</literal>) em lugar de barras regulares
+      (<literal>/</literal>) para separadores de caminho, a entrada e a saída
+      desta ferramenta, quando executada no Windows, são idênticas ao seu
+      companheiro Unix.</para>
 
-    <para>Most readers are probably programmers or system
-      administrators who need to track changes to source code.  This
-      is the most common use for Subversion, and therefore it is the
-      scenario underlying all of the book's examples.  But Subversion
-      can be used to manage changes to any sort of
-      information&mdash;images, music, databases, documentation, and
-      so on.  To Subversion, all data is just data.</para>
+    <para>Muitos leitores são provavelmente programadores ou administradores de
+      sistemas que necessitam rastrear alterações em código-fonte.  Essa é a
+      finalidade mais comum para o Subversion, e por isso é o cenário por trás
+      de todos os exemplos deste livro.  Entretanto, o Subversion pode ser usado
+      para gerenciar qualquer tipo de informação&mdash;imagens, músicas, bancos
+      de dados, documentação, etc.  Para o Subversion, dados são apenas dados.</para>
     
-    <para>While this book is written with the assumption that the
-      reader has never used a version control system, we've also tried
-      to make it easy for users of CVS (and other systems) to make a
-      painless leap into Subversion.  Special sidebars may mention
-      other version control systems from time to time, and a special
-      appendix summarizes many of the differences between CVS and
-      Subversion.</para>
+    <para>Enquanto que este livro presume que o leitor nunca usou um
+      sistema de controle de versão, nós também tentamos facilitar para
+      os usuários do CVS (e outros sistemas) a migração para o Subversion.
+      Ocasionalmente, notas especiais poderão mencionar outros controles
+      de versão. Há também um apêndice que resume muitas das diferenças entre
+      CVS e Subversion.</para>
 
-    <para>Note also that the source code examples used throughout the
-      book are only examples.  While they will compile with the proper
-      compiler incantations, they are intended to illustrate a
-      particular scenario, not necessarily serve as examples of good
-      programming style or practices.</para>
+    <para>Note também que os exemplos de código-fonte usados ao longo
+      do livro são apenas exemplos.  Ainda que eles compilem com os
+      truques apropriados do compilador, seu propósito é ilustrar um
+      cenário em particular, não necessariamente servir como exemplos
+      de boas práticas de programação.
 
   </sect1>
 
