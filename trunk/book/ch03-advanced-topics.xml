@@ -1127,10 +1127,10 @@ $
           <listitem>
             <para>Isso faz com que o arquivo contenha caracteres
               <literal>CR</literal> como marcadores EOL, indiferentemente
-				do sistema operacional em uso.  Este estilo de término
-				de linha não é muito comum.  Ele foi utilizado em antigas
-				plataformas Macintosh (nas quais o Subversion não executa
-				regularmente).</para>
+                do sistema operacional em uso.  Este estilo de término
+                de linha não é muito comum.  Ele foi utilizado em antigas
+                plataformas Macintosh (nas quais o Subversion não executa
+                run).</para>
           </listitem>
         </varlistentry>
       </variablelist>
