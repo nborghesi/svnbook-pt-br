@@ -1,64 +1,64 @@
-<appendix id="svn.forcvs">
-  <title>Subversion for CVS Users</title>
+﻿<appendix id="svn.forcvs">
+  <title>Subversion para Usuários de CVS</title>
 
-  <para>This appendix is a guide for CVS users new to Subversion.
-    It's essentially a list of differences between the two systems
-    as <quote>viewed from 10,000 feet</quote>.  For each section, we
-    provide backreferences to relevant chapters when
-    possible.</para>
+    <para>Este apêndice é um guia para usuários de CVS novos no Subversion.
+      É essencialmente uma lista das diferenças entre os dois sistemas
+      como são <quote>vistos a 10.000 pés de altura</quote>.  Em cada seção, nós
+      fornecemos referências a capítulos relevantes, quando
+      possível.</para>
 
-  <para>Although the goal of Subversion is to take over the current
-    and future CVS user base, some new features and design changes
-    were required to fix certain <quote>broken</quote> behaviors
-    that CVS had.  This means that, as a CVS user, you may need to
-    break habits&mdash;ones that you forgot were odd to begin
-    with.</para>
+    <para>Embora o objetivo do Subversion seja assumir a atual
+      e futura base de usuários do CVS, algumas novas características e mudanças de projeto
+      foram necessárias para corrigir certos comportamentos <quote>quebrados</quote>
+      que o CVS apresentava.  Isto significa que, como um usuário de CVS, você pode precisar
+      mudar hábitos&mdash;a começar pelos que você esqueceu que eram
+      estranhos.</para>
 
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.revnums">
-    <title>Revision Numbers Are Different Now</title>
+    <title>Os Números de Revisão Agora São Diferentes</title>
 
-    <para>In CVS, revision numbers are per-file.  This is because CVS
-      stores its data in RCS files; each file has a corresponding RCS
-      file in the repository, and the repository is roughly laid out
-      according to the structure of your project tree.</para>
+    <para>No CVS, os números de revisão são por arquivo.  Isso porque o CVS
+      armazena seus dados em arquivos RCS; cada arquivo tem um arquivo RCS
+      correspondente no repositório, e o repositório é organizado aproximadamente
+      de acordo com a estrutura da árvore do seu projeto.</para>
 
-    <para>In Subversion, the repository looks like a single
-      filesystem.  Each commit results in an entirely new filesystem
-      tree; in essence, the repository is an array of trees.  Each of
-      these trees is labeled with a single revision number.  When
-      someone talks about <quote>revision 54</quote>, they're talking
-      about a particular tree (and indirectly, the way the filesystem
-      looked after the 54th commit).</para>
+    <para>No Subversion, o repositório parece um sistema de arquivos
+      único.  Cada submissão resulta em uma árvore de sistema de arquivos inteiramente
+      nova; em essência, o repositório é um conjunto ordenado de árvores.  Cada uma
+      dessas árvores é rotulada com um número de revisão único.  Quando
+      alguém fala sobre a <quote>revisão 54</quote>, está falando
+      sobre uma árvore em particular (e, indiretamente, sobre a forma que o sistema de arquivos
+      apresentava após a 54ª submissão).</para>
 
-    <para>Technically, it's not valid to talk about <quote>revision 5
-      of <filename>foo.c</filename></quote>.  Instead, one would say
-      <quote><filename>foo.c</filename> as it appears in revision
-      5</quote>.  Also, be careful when making assumptions about the
-      evolution of a file.  In CVS, revisions 5 and 6 of
-      <filename>foo.c</filename> are always different.  In Subversion,
-      it's most likely that <filename>foo.c</filename> did
-      <emphasis>not</emphasis> change between revisions 5 and
+    <para>Tecnicamente, não é válido falar sobre a <quote>revisão 5
+      de <filename>foo.c</filename></quote>.  Em vez disso, diria-se
+      <quote><filename>foo.c</filename> como aparece na revisão
+      5</quote>.  Também seja cuidadoso ao fazer suposições sobre a
+      evolução de um arquivo.  No CVS, as revisões 5 e 6 de
+      <filename>foo.c</filename> são sempre diferentes.  No Subversion,
+      é mais provável que <filename>foo.c</filename>
+      <emphasis>não</emphasis> tenha mudado entre as revisões 5 e
       6.</para>
-
-    <para>Similarly, in CVS a tag or branch is an annotation on the
-      file, or on the version information for that individual file,
-      whereas in Subversion a tag or branch is a copy of an entire
-      tree (by convention, into the <filename>/branches</filename>
-      or <filename>/tags</filename> directories that appear at the top
-      level of the repository, beside <filename>/trunk</filename>). In
-      the repository as a whole, many versions of each file may be
-      visible: the latest version on each branch, every tagged
-      version, and of course the latest version on the trunk
-      itself. So, to refine the terms even further, one would often
-      say <quote><filename>foo.c</filename> as it appears in
-      <filename>/branches/REL1</filename> in revision
+      
+    <para>Similarmente, no CVS um rótulo ou ramo é uma anotação no
+      arquivo, ou na informação de versão para aquele arquivo individual,
+      enquanto no Subversion um rótulo ou ramo é uma cópia de uma árvore
+      inteira (por convenção, nos diretórios <filename>/branches</filename>
+      ou <filename>/tags</filename> que aparecem no nível
+      superior do repositório, ao lado de <filename>/trunk</filename>). No
+      repositório como um todo, muitas versões de cada arquivo podem estar
+      visíveis: a última versão em cada ramo, cada versão
+      rotulada, e, claro, a última versão no próprio
+      tronco. Assim, para refinar ainda mais os termos, poderia-se freqüentemente
+      dizer <quote><filename>foo.c</filename> como aparece em
+      <filename>/branches/REL1</filename> na revisão
       5.</quote></para>
 
-    <para>For more details on this topic, see <xref
+    <para>Para mais detalhes sobre este tópico, veja <xref
       linkend="svn.basic.in-action.revs" />.</para>
 
   </sect1>
@@ -67,72 +67,72 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.directories">
-    <title>Directory Versions</title>
+    <title>Versões de Diretório</title>
     
-    <para>Subversion tracks tree structures, not just file contents.
-      It's one of the biggest reasons Subversion was written to
-      replace CVS.</para>
+    <para>O Subversion rastreia estruturas de árvores, e não apenas o conteúdo dos arquivos.
+      Esta é uma das maiores razões pelas quais o Subversion foi escrito para
+      substituir o CVS.</para>
 
-    <para>Here's what this means to you, as a former CVS user:</para>
+    <para>Aqui está o que isto significa para você, como antigo usuário de CVS:</para>
 
     <itemizedlist>
       <listitem>
-        <para>The <command>svn add</command> and <command>svn
-          delete</command> commands work on directories now, just as
-          they work on files.  So do <command>svn copy</command> and
-          <command>svn move</command>.  However, these commands do
-          <emphasis>not</emphasis> cause any kind of immediate change
-          in the repository.  Instead, the working items are simply
-          <quote>scheduled</quote> for addition or deletion.  No
-          repository changes happen until you run <command>svn
+        <para>Os comandos <command>svn add</command> e <command>svn
+          delete </command> agora funcionam em diretórios, da mesma forma como
+          funcionam em arquivos.  O mesmo vale para <command>svn copy</command> e
+          <command>svn move</command>.  Entretanto, estes comandos
+          <emphasis>não</emphasis> causam nenhum tipo de mudança
+          imediata no repositório.  Em vez disso, os itens de trabalho são simplesmente
+          <quote>marcados</quote> para adição ou exclusão.  Nenhuma
+          mudança no repositório acontece até que você execute <command>svn
           commit</command>.</para>
       </listitem>
       <listitem>
-        <para>Directories aren't dumb containers anymore; they have
-          revision numbers like files.  (Or more properly, it's
-          correct to talk about <quote>directory
-          <filename>foo/</filename> in revision 5</quote>.)</para>
+        <para>Os diretórios não são mais simples contêineres; eles têm
+          números de revisão como os arquivos.  (Ou, mais propriamente, é
+          correto dizer <quote>diretório
+          <filename>foo/</filename> na revisão 5</quote>.)</para>
       </listitem>
     </itemizedlist>
 
-    <para>Let's talk more about that last point.  Directory versioning
-      is a hard problem; because we want to allow mixed-revision
-      working copies, there are some limitations on how far we can
-      abuse this model.</para>
+    <para>Vamos falar mais sobre esse último ponto.  O versionamento de diretórios
+      é um problema difícil; como nós queremos permitir cópias de trabalho
+      de revisões mistas, há algumas limitações no quanto podemos
+      abusar deste modelo.</para>
 
-    <para>From a theoretical point of view, we define <quote>revision
-      5 of directory <filename>foo</filename></quote> to mean a
-      specific collection of directory-entries and properties.  Now
-      suppose we start adding and removing files from
-      <filename>foo</filename>, and then commit.  It would be a lie
-      to say that we still have revision 5 of
-      <filename>foo</filename>.  However, if we bumped
-      <filename>foo</filename>'s revision number after the commit,
-      that would be a lie too; there may be other changes to
-      <filename>foo</filename> we haven't yet received, because we
-      haven't updated yet.</para>
+    <para>De um ponto de vista teórico, nós definimos que a <quote>revisão
+      5 do diretório <filename>foo</filename></quote> significa uma
+      coleção específica de entradas de diretório e propriedades.  Agora
+      suponha que começamos a adicionar e remover arquivos de
+      <filename>foo</filename>, e então submetemos.  Seria mentira
+      dizer que nós ainda temos a revisão 5 de
+      <filename>foo</filename>.  Entretanto, se nós mudássemos
+      o número de revisão de <filename>foo</filename> depois da submissão,
+      isso também seria falso; pode haver outras mudanças em
+      <filename>foo</filename> que nós ainda não recebemos, porque
+      ainda não atualizamos.</para>
     
-    <para>Subversion deals with this problem by quietly tracking
-      committed adds and deletes in the <filename>.svn</filename>
-      area.  When you eventually run <command>svn update</command>,
-      all accounts are settled with the repository, and the
-      directory's new revision number is set correctly.
-      <emphasis>Therefore, only after an update is it truly safe to
-      say that you have a <quote>perfect</quote> revision of a
-      directory.</emphasis> Most of the time, your working copy will
-      contain <quote>imperfect</quote> directory revisions.</para>
+    <para>O Subversion lida com este problema rastreando secretamente
+      na área <filename>.svn</filename> as adições e exclusões
+      submetidas.  Quando você eventualmente executa <command>svn update</command>,
+      todas as contas são acertadas com o repositório, e o
+      novo número de revisão do diretório é determinado corretamente.
+      <emphasis>Portanto, apenas depois de uma atualização é realmente seguro
+      dizer que você tem uma <quote>perfeita</quote> revisão de um
+      diretório.</emphasis> Na maior parte do tempo, sua cópia de trabalho
+      conterá revisões de diretório <quote>imperfeitas</quote>.</para>
     
-    <para>Similarly, a problem arises if you attempt to commit
-      property changes on a directory.  Normally, the commit would
-      bump the working directory's local revision number.  But again,
-      that would be a lie, because there may be adds or deletes that
-      the directory doesn't yet have, because no update has happened.
-      <emphasis>Therefore, you are not allowed to commit
-      property-changes on a directory unless the directory is
-      up-to-date.</emphasis></para>
+    <para>Similarmente, surge um problema se você tenta submeter
+      mudanças de propriedades em um diretório.  Normalmente, a submissão
+      mudaria o número de revisão local do diretório de trabalho.  Mas, novamente,
+      isso seria falso, porque pode haver adições ou exclusões que
+      o diretório ainda não tem, porque nenhuma atualização aconteceu.
+      <emphasis>Portanto, não é permitido que você submeta
+      mudanças de propriedade em um diretório, a não ser que ele esteja
+      atualizado.</emphasis></para>
 
-    <para>For more discussion about the limitations of directory
-      versioning, see <xref linkend="svn.basic.in-action.mixedrevs"/>.</para>
+    <para>Para mais discussão sobre as limitações do versionamento de
+      diretórios, veja <xref linkend="svn.basic.in-action.mixedrevs"/>.</para>
 
   </sect1>
 
@@ -141,25 +141,25 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.disconnected">
-    <title>More Disconnected Operations</title>
+    <title>Mais Operações Desconectadas</title>
 
-    <para>In recent years, disk space has become outrageously cheap
-      and abundant, but network bandwidth has not.  Therefore, the
-      Subversion working copy has been optimized around the scarcer
-      resource.</para>
+    <para>Nos últimos anos, espaço em disco tornou-se ultrajantemente barato
+      e abundante, mas largura de banda não.  Portanto, a
+      cópia de trabalho do Subversion foi otimizada em função do recurso mais
+      escasso.</para>
 
-    <para>The <filename>.svn</filename> administrative directory
-      serves the same purpose as the <filename>CVS</filename>
-      directory, except that it also stores read-only,
-      <quote>pristine</quote> copies of your files.  This allows you
-      to do many things off-line:</para>
+    <para>O diretório administrativo <filename>.svn</filename>
+      serve ao mesmo propósito que o diretório <filename>CVS</filename>,
+      exceto porque também armazena cópias somente-leitura e
+      <quote>intocadas</quote> dos seus arquivos.  Isto permite que você
+      faça muitas coisas desconectado:</para>
     
     <variablelist>
       
       <varlistentry>
         <term><command>svn status</command></term>
         <listitem>
-          <para>Shows you any local changes you've made (see <xref
+          <para>Mostra quaisquer mudanças locais que você fez (see <xref
             linkend="svn.tour.cycle.examine.status"/>)</para>
         </listitem>
       </varlistentry>
@@ -167,7 +167,7 @@
       <varlistentry>
         <term><command>svn diff</command></term>
         <listitem>
-          <para>Shows you the details of your changes (see <xref
+          <para>Mostra os detalhes das suas mudanças (see <xref
             linkend="svn.tour.cycle.examine.diff"/>)</para>
         </listitem>
       </varlistentry>
@@ -175,22 +175,22 @@
       <varlistentry>
         <term><command>svn revert</command></term>
         <listitem>
-          <para>Removes your local changes (see <xref
+          <para>Remove suas mudanças locais (see <xref
             linkend="svn.tour.cycle.revert"/>)</para>
         </listitem>
       </varlistentry>
 
     </variablelist>
 
-    <para>Also, the cached pristine files allow the Subversion client
-      to send differences when committing, which CVS cannot do.</para>
+    <para>Os arquivos originais guardados também permitem que o cliente Subversion
+      envie diferenças ao submeter, o que o CVS não é capaz de fazer.</para>
 
-    <para>The last subcommand in the list is new; it will not only
-      remove local changes, but it will un-schedule operations such as
-      adds and deletes.  It's the preferred way to revert a file;
-      running <command>rm file; svn update</command> will still work, but
-      it blurs the purpose of updating.  And, while we're on this
-      subject&hellip;
+    <para>O último subcomando da lista é novo; ele não apenas
+      removerá mudanças locais, mas irá desmarcar operações agendadas, como
+      adições e exclusões.  É a maneira preferida de reverter um arquivo;
+      executar <command>rm file; svn update</command> também irá funcionar, mas
+      isso mancha o propósito da atualização.  E, por falar
+      nisso&hellip;
 
     </para>
 
@@ -200,67 +200,67 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.status-vs-update">
-    <title>Distinction Between Status and Update</title>
+    <title>Distinção Entre Status e Update</title>
 
-    <para>In Subversion, we've tried to erase a lot of the confusion
-      between the <command>cvs status</command> and
-      <command>cvs update</command> commands.</para>
+    <para>No Subversion, nós tentamos dirimir boa parte da confusão
+      entre os comandos <command>cvs status</command> e
+      <command>cvs update</command>.</para>
 
-    <para>The <command>cvs status</command> command has two purposes:
-      first, to show the user any local modifications in the working
-      copy, and second, to show the user which files are out-of-date.
-      Unfortunately, because of CVS's hard-to-read status output, many
-      CVS users don't take advantage of this command at all.  Instead,
-      they've developed a habit of running <command>cvs
-      update</command> or <command>cvs -n update</command> to quickly
-      see their changes.  If users forget to use
-      the <option>-n</option> option, this has the side effect of
-      merging repository changes they may not be ready to deal
-      with.</para>
+    <para>O comando <command>cvs status</command> tem dois propósitos:
+      primeiro, mostrar ao usuário qualquer modificação local na cópia de
+      trabalho, e, segundo, mostrar ao usuário quais arquivos estão desatualizados.
+      Infelizmente, devido à dificuldade para ler a saída produzida pelo status no CVS, muitos
+      usuários de CVS não tiram nenhuma vantagem deste comando.  Em vez disso,
+      eles desenvolveram um hábito de executar <command>cvs
+      update</command> ou <command> cvs -n update</command> para ver rapidamente
+      suas mudanças.  Se os usuários se esquecem de usar
+      a opção <option>-n</option>, isto tem o efeito colateral de
+      fundir alterações no repositório com as quais eles podem não estar preparados para
+      lidar.</para>
 
-    <para>With Subversion, we've tried to remove this muddle by making
-      the output of <command>svn status</command> easy to read for
-      both humans and parsers.  Also, <command>svn update</command>
-      only prints information about files that are updated,
-      <emphasis>not</emphasis> local modifications.</para>
+    <para>Com o Subversion, nós tentamos eliminar esta confusão tornando
+      a saída do <command>svn status</command> fácil de ler
+      tanto para humanos quanto para programas analisadores.  Além disso, <command>svn update</command>
+      só imprime informação sobre arquivos que estão atualizados, e
+      <emphasis>não</emphasis> modificações locais.</para>
 
     <sect2 id="svn.forcvs.status-vs-update.status">
       <title>Status</title>
 
-      <para><command>svn status</command> prints all files that have
-        local modifications.  By default, the repository is not
-        contacted.  While this subcommand accepts a fair number of
-        options, the following are the most commonly used ones:</para>
+      <para><command>svn status</command> imprime todos os arquivos que têm
+        modificações locais. Por padrão, o repositório não é
+        contatado.  Embora este subcomando aceite um bom número de
+        opções, as seguintes são as mais comumente usadas:</para>
 
       <variablelist>
         <varlistentry>
           <term><option>-u</option></term>
           <listitem>
-            <para>Contact the repository to determine, and then display,
-              out-of-dateness information.</para>
+            <para>Contatar o repositório para determinar, e então mostrar,
+              informações sobre desatualização.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>-v</option></term>
           <listitem>
-            <para>Show <emphasis>all</emphasis> entries under
-              version control.</para>
+            <para>Mostrar <emphasis>todas</emphasis> as entradas sob
+              controle de versão.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>-N</option></term>
           <listitem>
-            <para>Run non-recursively (do not descend into
-              subdirectories).</para>
+            <para>Executar não-recursivamente (não descer para os
+              subdiretórios).</para>
           </listitem>
         </varlistentry>
       </variablelist>
 
-      <para>The <command>status</command> command has two output
-        formats.  In the default <quote>short</quote> format, local
-        modifications look like this:</para>
+      <para>O comando <command>status</command> tem dois formatos
+        de saída.  No formato <quote>curto</quote> padrão, modificações
+        locais parecem com isto:</para>
 
       <screen>
 $ svn status
@@ -268,9 +268,9 @@ M      foo.c
 M      bar/baz.c
 </screen>
 
-      <para>If you specify the <option>--show-updates</option>
-        (<option>-u</option>) option, a longer output format is
-        used:</para>
+      <para>Se você especificar a opção <option>--show-updates</option>
+        (<option>-u</option>), um formato mais longo de saída é
+        usado:</para>
 
       <screen>
 $ svn status -u
@@ -281,61 +281,62 @@ M            1050   bar/baz.c
 Status against revision:   1066
 </screen>
 
-      <para>In this case, two new columns appear.  The second column
-        contains an asterisk if the file or directory is out-of-date.
-        The third column shows the working-copy's revision number of the
-        item.  In the example above, the asterisk indicates that
-        <filename>faces.html</filename> would be patched if we updated,
-        and that <filename>bloo.png</filename> is a newly added file in
-        the repository.  (The absence of any revision number next to
-        <filename>bloo.png</filename> means that it doesn't yet exist in
-        the working copy.)</para>
+      <para>Neste caso, duas novas colunas aparecem.  A segunda coluna
+        contém um asterisco se o arquivo ou diretório está desatualizado.
+        A terceira coluna mostra o número de revisão da cópia de trabalho
+        do item.  No exemplo acima, o asterisco indica que
+        <filename>faces.html</filename> seria alterado se nós atualizássemos,
+        e que <filename>bloo.png</filename> é um arquivo recém-adicionado
+        ao repositório.  (A falta de qualquer número de revisão próximo a
+        <filename>bloo.png</filename> significa que ele ainda não existe na
+        cópia de trabalho.)</para>
 
-      <!-- ###TODO describe -v here as well as -uv. -u and -v use
-           different <quote>long</quote> formats and need to be
-           documented separately.  Moreover, as you can combine -u and
-           -v, it needs to be explained what each of them does.  As -u is
-           much more important than -v, and the example following that
-           paragraph *is* about -u, not -v, my patch concentrated on
-           that. -->
+      <!-- ###TODO descrever -v aqui, bem como -uv. -u e -v usam
+           diferentes formatos <quote>longos</quote> e precisam ser
+           documentados separadamente.  Além disso, como você pode combinar -u e
+           -v, é preciso explicar o que cada um deles faz.  Como -u é
+           muito mais importante do que -v, e o exemplo após aquele
+           parágrafo *é* sobre -u, e não -v, minha correção concentrou-se
+           nisso. -->
 
-      <para>At this point, you should take a quick look at the list of
-        all possible status codes in
-        <xref linkend="svn.ref.svn.c.status"/>.  Here are a few of the
-        more common status codes you'll see:</para>
+      <para>A esta altura, você deve dar uma rápida olhada na lista de 
+        todos os códigos de status possíveis em
+        <xref linkend="svn.ref.svn.c.status"/>.  Aqui estão alguns dos
+        códigos de status mais comuns que você verá:</para>
 
       <screen>
-A    Resource is scheduled for Addition
-D    Resource is scheduled for Deletion
-M    Resource has local Modifications
-C    Resource has Conflicts (changes have not been completely merged
-       between the repository and working copy version)
-X    Resource is eXternal to this working copy (may come from another
-       repository).  See <xref linkend="svn.advanced.externals" />
-?    Resource is not under version control
-!    Resource is missing or incomplete (removed by another tool than
-       Subversion)
+A    O recurso está programado para Adição
+D    O recurso está programado para exclusão
+M    O recurso tem Modificações locais
+C    O recurso tem Conflitos (as mudanças não foram completamente fundidas
+       entre o repositório e a versão da cópia de trabalho)
+X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
+       repositório).  Veja <xref linkend="svn.advanced.externals" />
+?    O recurso não está sob controle de versão
+!    O recurso está faltando ou incompleto (removido por outra ferramenta que
+       não Subversion)
 </screen>
 
-      <para>For a more detailed discussion of <command>svn
-        status</command>, see <xref linkend="svn.tour.cycle.examine.status" />.</para>
+      <para>Para uma discussão mais detalhada de <command>svn
+        status</command>, veja <xref linkend="svn.tour.cycle.examine.status" />.</para>
 
     </sect2>
 
     <sect2 id="svn.forcvs.status-vs-update.update">
       <title>Update</title>
 
-      <para><command>svn update</command> updates your working copy,
-        and only prints information about files that it updates.</para>
+      <para><command>svn update</command> atualiza sua cópia de trabalho,
+        e só imprime informação sobre arquivos que ele atualiza.</para>
 
-      <para>Subversion has combined the CVS <literal>P</literal> and
-        <literal>U</literal> codes into just <literal>U</literal>.  When
-        a merge or conflict occurs, Subversion simply prints
-        <literal>G</literal> or <literal>C</literal>, rather than a
-        whole sentence about it.</para>
+      <para>O Subversion combinou os códigos <literal>P</literal> e
+        <literal>U</literal> do CVS em apenas <literal>U</literal>.  Quando
+        ocorre uma fusão ou conflito, o Subversion simplesmente imprime
+        <literal>G</literal> ou <literal>C</literal>, em vez de uma
+        sentença inteira.</para>
 
-      <para>For a more detailed discussion of <command>svn
-        update</command>, see <xref linkend="svn.tour.cycle.update" />.</para>
+      <para>Para uma discussão mais detalhada de <command>svn
+        update</command>, veja <xref linkend="svn.tour.cycle.update" />.
+        </para>
 
     </sect2>
 
@@ -345,28 +346,28 @@ X    Resource is eXternal to this working copy (may come from another
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.branches-and-tags">
-    <title>Branches and Tags</title>
+    <title>Ramos e Rótulos</title>
 
-    <para>Subversion doesn't distinguish between filesystem space and
-      <quote>branch</quote> space; branches and tags are ordinary
-      directories within the filesystem.  This is probably the single
-      biggest mental hurdle a CVS user will need to climb.  Read all
-      about it in <xref linkend="svn.branchmerge"/>.</para>
+    <para>O Subversion não distingue entre espaço do sistema de arquivos 
+      e espaço do <quote>ramo</quote>; ramos e rótulos são diretórios
+      normais dentro do sistema de arquivos.  Esta é provavelmente o único
+      maior obstáculo mental que um usuário de CVS precisará escalar.  Leia tudo
+      sobre isso em <xref linkend="svn.branchmerge"/>.</para>
 
 
     <warning>
-      <para>Since Subversion treats branches and tags as ordinary
-        directories, always remember to check out the
-        <literal>trunk</literal>
+      <para>Visto que o Subversion trata ramos e rótulos como diretórios
+        normais, sempre se lembre de efetuar checkout do
+        <literal>tronco</literal>
         (<literal>http://svn.example.com/repos/calc/trunk/</literal>)
-        of your project, and not the project itself
-        (<literal>http://svn.example.com/repos/calc/</literal>).  If
-        you make the mistake of checking out the project itself,
-        you'll wind up with a working copy that contains a copy of
-        your project for every branch and tag you
-        have.<footnote><para>That is, providing you don't run out of
-        disk space before your checkout
-        finishes.</para></footnote></para>
+        do seu projeto, e não do projeto em si
+        (<literal>http://svn.example.com/repos/calc/</literal>).  Se
+        você cometer o erro de efetuar checkout do projeto em si,
+        vai terminar com uma cópia de trabalho que contém uma cópia
+        do seu projeto para cada ramo e rótulo que você
+        tem.<footnote><para>Isto é, desde que o espaço em disco não acabe 
+        antes de o seu checkout
+        terminar.</para></footnote></para>
     </warning>
 
   </sect1>
