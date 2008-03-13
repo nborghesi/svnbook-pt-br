@@ -1,9 +1,24 @@
 #summary Regras gerais para tradução
 
-= Diretrizes =
-
-Abaixo estão as regras gerais para traduzir o texto do livro.
-
-  * Preservar espaços em branco, procurando sempre manter a mesma forma do texto original
+  * Preservar indentação com espaços em branco, procurando sempre manter a mesma forma do texto original
   * Efetuar commit de pequenos trechos do livro sempre que possível
-  * Sempre incluir mensagem de log descrevendo o que foi feito (apenas o suficiente para comunicar aos outros tradutores o que foi realizado)
+  * Sempre incluir mensagem de log descrevendo o que foi feito, por exemplo:
+
+----
+
+Tradução de:
+
+Advanced Topics -> Keyword Substitution
+Advanced Topics -> Locking
+
+----
+
+Corrige do espaçamento que havia sido substituído por tabulação em:
+
+Tópicos Avançados -> Portabilidade de Arquivo -> Seqüência de Caracteres de Fim-de-Linha
+
+----
+
+Correção de erros de ortografia.
+
+----
