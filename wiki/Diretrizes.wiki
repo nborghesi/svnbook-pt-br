@@ -3,6 +3,7 @@
   * Preservar indentação com espaços em branco, procurando sempre manter a mesma forma do texto original
   * Efetuar commit de pequenos trechos do livro sempre que possível
   * Sempre incluir mensagem de log descrevendo o que foi feito. Veja abaixo alguns modelos.
+  * Certificar-se de que a codificação de caracteres do arquivo é UTF-8.
 
 == Modelos de mensagem de log ==
 
