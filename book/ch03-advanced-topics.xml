@@ -1009,128 +1009,128 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.special.eol-style">
-      <title>End-of-Line Character Sequences</title>
+      <title>Seqüência de Caracteres de Fim-de-Linha</title>
 
-      <para>Unless otherwise noted using a versioned file's
-        <literal>svn:mime-type</literal> property, Subversion
-        assumes the file contains human-readable data.  Generally
-        speaking, Subversion only uses this knowledge to determine
-        if contextual difference reports for that file are
-        possible.  Otherwise, to Subversion, bytes are bytes.</para>
+      <para>A não ser que esteja usando a propriedade
+        <literal>svn:mime-type</literal> em um arquivo versionado, o Subversion
+        assume que o arquivo contém dados humanamente legíveis.  De uma forma
+        geral, o Subversion somente usa esse conhecimento para determinar
+        se relatórios de diferenças contextuais para este arquivo são
+        possíveis.  Ao contrário, para o Subversion, bytes são bytes.</para>
       
-      <para>This means that by default, Subversion doesn't pay any
-        attention to the type of <firstterm>end-of-line (EOL)
-        markers</firstterm> used in your files.  Unfortunately,
-        different operating systems have different conventions about
-        which character sequences represent the end of a line of text
-        in a file.  For example, the usual line ending token used by
-        software on the Windows platform is a pair of ASCII control
-        characters&mdash;a carriage return (<literal>CR</literal>)
-        followed by a line feed (<literal>LF</literal>).  Unix
-        software, however, just uses the <literal>LF</literal>
-        character to denote the end of a line.</para>
+      <para>Isto significa que por padrão, o Subversion não presta qualquer
+        atenção para o tipo de <firstterm>marcadores de fim-de-linha
+        (EOL)</firstterm> usados em seus arquivos.  Infelizmente,
+        diferentes sistemas operacionais possuem diferentes convenções sobre
+        qual seqüência de caracteres representa o fim de uma linha de texto
+        em um arquivo.  Por exemplo, a marca usual de término de linha usada por
+        softwares na plataforma Windows é um par de caracteres de controle
+        ASCII&mdash;um retorno de carro (<literal>CR</literal>) seguido
+        por um avanço de linha (<literal>LF</literal>).  Os softwares em
+        Unix, entretanto, utilizam apenas o caracter <literal>LF</literal>
+        para definir o término de uma linha.</para>
 
-      <para>Not all of the various tools on these operating systems
-        understand files that contain line endings
-        in a format that differs from the <firstterm>native line
-        ending style</firstterm> of the operating system on which
-        they are running.  So, typically, Unix programs
-        treat the <literal>CR</literal> character present in Windows
-        files as a regular character (usually rendered as
-        <literal>^M</literal>), and Windows programs combine
-        all of the lines of a Unix file into one giant line because
-        no carriage return-linefeed (or <literal>CRLF</literal>)
-        character combination was found to denote the ends of
-        the lines.</para>
+      <para>Nem todas as várias ferramentas nestes sistemas operacionais
+        compreendem arquivos que contêm terminações de linha em um
+        formato que difere do <firstterm>estilo nativo de terminação
+        de linha</firstterm> do sistema operacional no qual estão
+        executando.  Assim, normalmente, programas Unix
+        tratam o caracter <literal>CR</literal> presente em arquivos
+        Windows como um caracter normal (usualmente representado como
+        <literal>^M</literal>), e programas Windows combinam todas
+        as linhas de um arquivo Unix dentro de uma linha enorme porque
+        nenhuma combinação dos caracteres de retorno de carro e avanço de
+        linha (ou <literal>CRLF</literal>) foi encontrada para determinar
+        os términos das linhas.</para>
 
-      <para>This sensitivity to foreign EOL markers can be
-        frustrating for folks who share a file across different
-        operating systems.  For example, consider a source code
-        file, and developers that edit this file on both Windows and
-        Unix systems.  If all the developers always use tools which
-        preserve the line ending style of the file, no problems
-        occur.</para>
+      <para>Esta sensibilidade quanto aos marcadores EOL pode ser
+        frustrante para pessoas que compartilham um arquivo em diferentes
+        sistemas operacionais.  Por exemplo, considere um arquivo de
+        código-fonte, e desenvolvedores que editam este arquivo em ambos sistemas,
+        Windows e Unix.  Se todos os desenvolvedores sempre usarem ferramentas
+        que preservem o estilo de término de linha do arquivo, nenhum problema
+        ocorrerá.</para>
 
-      <para>But in practice, many common tools either fail to
-        properly read a file with foreign EOL markers, or they
-        convert the file's line endings to the native style when the
-        file is saved.  If the former is true for a developer, he
-        has to use an external conversion utility (such as
-        <command>dos2unix</command> or its companion,
-        <command>unix2dos</command>) to prepare the file for
-        editing.  The latter case requires no extra preparation.
-        But both cases result in a file that differs from the
-        original quite literally on every line!  Prior to committing
-        his changes, the user has two choices.  Either he can use a
-        conversion utility to restore the modified file to the same
-        line ending style that it was in before his edits were made.
-        Or, he can simply commit the file&mdash;new EOL markers and
-        all.</para>
+      <para>Mas na prática, muitas ferramentas comuns, ou falham ao
+        ler um arquivo com marcadores EOL externos, ou convertem as
+        terminações de linha do arquivo para o estilo nativo quando o
+        arquivo é salvo.  Se o precedente é verdadeiro para um desenvolvedor,
+        ele deve usar um utilitário de conversão externo (tal como
+        <command>dos2unix</command> ou seu parceiro,
+        <command>unix2dos</command>) para preparar o arquivo para
+        edição.  O caso posterior requer nenhuma preparação extra.
+        Mas ambos os casos resultam em um arquivo que difere do
+        original literalmente em cada uma das linhas!  Antes de submeter
+        suas alterações, o usuário tem duas opções.  Ou ele pode utilizar um
+        utilitário de conversão para restaurar o arquivo modificado para o mesmo
+        estilo de término de linha utilizado antes de suas edições serem feitas.
+        Ou ele pode simplesmente submeter o arquivo&mdash;as novas marcas EOL e
+        tudo mais.</para>
 
-      <para>The result of scenarios like these include wasted time
-        and unnecessary modifications to committed files.  Wasted
-        time is painful enough.  But when commits change every line
-        in a file, this complicates the job of determining which of
-        those lines were changed in a non-trivial way.  Where was
-        that bug really fixed?  On what line was a syntax error
-        introduced?</para>
+      <para>O resultado de cenários como estes incluem perda de tempo
+        e modificções desnecessárias aos arquivos submetidos.  A perda de tempo
+        é suficientemente dolorosa.  Mas quando submissões mudam cada uma das linhas
+        em um arquivo, isso dificulta o trabalho de determinar quais dessas
+        linhas foram modificadas de uma forma não trivial.  Onde que o bug
+        foi realmente corrigido?  Em qual linha estava o erro de sintaxe
+        introduzido?</para>
 
-      <para>The solution to this problem is the
-        <literal>svn:eol-style</literal> property.  When this
-        property is set to a valid value, Subversion uses it to
-        determine what special processing to perform on the file so
-        that the file's line ending style isn't flip-flopping with
-        every commit that comes from a different operating
-        system.  The valid values are:</para>
+      <para>A solução para este problema é a propriedade
+        <literal>svn:eol-style</literal>.  Quando esta propriedade
+        é definida com um valor válido, o Subversion a utiliza para
+        determinar que tratamento especial realizar sobre o arquivo de
+        modo que o estilo de término de linha do arquivo não fique
+        alternando a cada submissão vinda de um sistema operacional
+        diferente.  Os valores válidos são:</para>
 
       <variablelist>
         <varlistentry>
           <term><literal>native</literal></term>
           <listitem>
-            <para>This causes the file to contain the EOL markers
-              that are native to the operating system on which
-              Subversion was run.  In other words, if a user on a
-              Windows machine checks out a working copy that
-              contains a file with an
-              <literal>svn:eol-style</literal> property set to
-              <literal>native</literal>, that file will contain
-              <literal>CRLF</literal> EOL markers.  A Unix user
-              checking out a working copy which contains the same
-              file will see <literal>LF</literal> EOL markers in his
-              copy of the file.</para>
+            <para>Isso faz com que o arquivo contenha as marcas EOL
+              que são nativas ao sistema operacional no qual o
+              Subversion foi executado.  Em outras palavras, se um
+              usuário em um computador Windows adquire uma cópia de trabalho
+              que contém um arquivo com a propriedade
+              <literal>svn:eol-style</literal> atribuída para
+              <literal>native</literal>, este arquivo conterá
+              <literal>CRLF</literal> como marcador EOL.  Um usuário Unix
+              adquirindo uma cópia de trabalho que contém o mesmo
+              arquivo verá <literal>LF</literal> como marcador EOL em sua
+              cópia do arquivo.</para>
 
-            <para>Note that Subversion will actually store the file
-              in the repository using normalized
-              <literal>LF</literal> EOL markers regardless of the
-              operating system.  This is basically transparent to
-              the user, though.</para>
+            <para>Note que o Subversion na verdade armazenará o arquivo
+              no repositório usando marcadores normalizados como
+              <literal>LF</literal> indiferentemente do sistema
+              operacional.  Isto está essencialmente transparente para
+              o usuário, entretanto.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><literal>CRLF</literal></term>
           <listitem>
-            <para>This causes the file to contain
-              <literal>CRLF</literal> sequences for EOL markers,
-              regardless of the operating system in use.</para>
+            <para>Isso faz com que o arquivo contenha seqüências
+              <literal>CRLF</literal> como marcadores EOL,
+              indiferentemente do sistema operacional em uso.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><literal>LF</literal></term>
           <listitem>
-            <para>This causes the file to contain
-              <literal>LF</literal> characters for EOL markers,
-              regardless of the operating system in use.</para>
+            <para>Isso faz com que o arquivo contenha caracteres
+              <literal>LF</literal> como marcadores EOL,
+              indiferentemente do sistema operacional em uso.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><literal>CR</literal></term>
           <listitem>
-            <para>This causes the file to contain
-              <literal>CR</literal> characters for EOL markers,
-              regardless of the operating system in use.  This line
-              ending style is not very common.  It was used on older
-              Macintosh platforms (on which Subversion doesn't even
-              run).</para>
+            <para>Isso faz com que o arquivo contenha caracteres
+              <literal>CR</literal> como marcadores EOL, indiferentemente
+				do sistema operacional em uso.  Este estilo de término
+				de linha não é muito comum.  Ele foi utilizado em antigas
+				plataformas Macintosh (nas quais o Subversion não executa
+				regularmente).</para>
           </listitem>
         </varlistentry>
       </variablelist>
