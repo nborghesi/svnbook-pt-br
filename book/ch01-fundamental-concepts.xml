@@ -68,7 +68,7 @@
 
     <para>A missão principal de um sistema de controle de versão é permitir
       a edição colaborativa e o compartilhamento de dados. Mas diferentes
-      sistemas usam difrentes estratégias para atingir este objetivo. É
+      sistemas usam diferentes estratégias para atingir este objetivo. É
       importante compreender essas diferentes estratégias por várias razões.
       Primeiro, irá ajudá-lo a comparar os sistemas de controle de versão
       existentes, no caso de você encontrar outros sistemas similares ao
@@ -81,7 +81,7 @@
       <title>O Problema do Compartilhamento de Arquivos</title>
       
       <para>Todos so sistemas de controle de versão têm de resolver
-        o mesmo problema undamental: como os sistema irá permitir que
+        o mesmo problema fundamental: como os sistema irá permitir que
         os usuários compartilhem informação, e como ele irá prevenir
         que eles acidentalmente tropecem uns nos pés dos outros? É muito
         fácil para os usuários acidentalmente sobrescrever as mudanças
@@ -93,13 +93,13 @@
         Sally. Cada um deles decide editar o mesmo arquivo no repositório
         ao mesmo tempo. Se Harry salvar suas alterações no repositório
         primeiro, então é possível que (poucos momentos depois) Sally
-        possa acitentalmente sobrescrevê-lo com a sua prórpia nova versão
+        possa acidentalmente sobrescrevê-lo com a sua própria nova versão
         do arquivo. Embora a versão de Harry não seja perdida para sempre
         (porque o sistema se lembra de cada mudança), todas as mudanças
         feitas por Harry <emphasis>não</emphasis> vão estar presentes na
         versão mais recente do arquivo de Sally, porque ela nunca viu as
         mudanças de Harry's para começar. O trabalho de Harry efetivamente
-        se perdeu - ou pelo menos desapareceu da última versão do aqruivo -
+        se perdeu - ou pelo menos desapareceu da última versão do arquivo -
         e provavelmente por acidente. Trata-se definitivamente de uma
         situação que queremos evitar!</para>
 
@@ -116,7 +116,7 @@
       
       <para>Muitos sistemas de controle de versão usam o modelo
         <firstterm>lock-modify-unlock</firstterm> (travar-modificar-destravar)
-        para reslover o problema de vários autores destruirem o trabalho uns
+        para resolver o problema de vários autores destruirem o trabalho uns
         dos outros. Neste modelo, o repositório permite que apenas uma
         pessoa de cada vez altere o arquivo. Esta política de exclusividade
         é gerenciada usando locks (travas). Harry precisa <quote>travar
@@ -141,14 +141,14 @@
       <itemizedlist>
         <listitem>
           <para><emphasis>Locks podem causar problemas
-            adminstrativos.</emphasis>
+            administrativos.</emphasis>
 
             Algumas vezes Harry irá travar o arquivo e se esquecer disso.
             Entretanto, devido a Sally ainda estar esperando para editar
             o arquivo, suas mãos estão atadas. E Harry então sai de férias.
             Agora Sally tem que pedir a um administrador para destravar
             o arquivo que Harry travou. Essa situação acaba causando uma
-            série de atrazos desnecessários e perda de tempo.</para>
+            série de atrasos desnecessários e perda de tempo.</para>
         </listitem>
         
         <listitem>
