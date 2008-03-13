@@ -22,6 +22,10 @@ Tradução do capítulo 1 - Conceitos Fundamentais, seções:
 }}}
 ----
 {{{
+Tradução do texto inicial do capítulo 2 - Uso Básico.
+}}}
+----
+{{{
 Corrige espaçamento que havia sido substituído por tabulação no capítulo 3 - Tópicos Avançados, na seção:
   * Portabilidade de Arquivo
     - Seqüência de Caracteres de Fim-de-Linha
