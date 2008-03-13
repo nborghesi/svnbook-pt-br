@@ -20,7 +20,7 @@
   <sect1 id="svn.basic.repository">
     <title>O Repositório</title>
 
-    <para>O Subversion é um sistema centralizado de comparilhamento de
+    <para>O Subversion é um sistema centralizado de compartilhamento de
       informação. Em seu núcleo está um repositório, que é uma central
       de armazenamento de dados. O repositório armazena informação em
       forma de uma <firstterm>árvore de arquivos</firstterm>
