@@ -51,44 +51,44 @@
   <!-- ================================================================= -->
   <sect1 id="svn.preface.audience">
 
-    <title>P˙blico-Alvo</title>
+    <title>P√∫blico-Alvo</title>
     
     <para>Este livro foi escrito para pessoas habituadas com computadores
       que desejam usar o Subversion para gerenciar seus dados.  Ainda que
-      o Subversion rode em v·rios sistemas operacionais diferentes, a sua
-      interface de usu·rio prim·ria È baseada em linha de comando.  Essa
+      o Subversion rode em v√°rios sistemas operacionais diferentes, a sua
+      interface de usu√°rio prim√°ria √© baseada em linha de comando.  Essa
       ferramenta de linha de comando (<command>svn</command>), e alguns
-      programas auxiliares, s„o o foco deste livro.</para>
+      programas auxiliares, s√£o o foco deste livro.</para>
 
-    <para>Por motivo de consistÍncia, os exemplos neste livro presumem que
-      o leitor est· usando um sistema operacional baseado em Unix e se sente
-      relativamente confort·vel com Unix e com interfaces de linha de comando.
-      Dito isto, o programa <command>svn</command> tambÈm roda em plataformas
-      n„o-Unix, como o Microsoft Windows.  Com poucas exceÁıes, como o uso de
+    <para>Por motivo de consist√™ncia, os exemplos neste livro presumem que
+      o leitor est√° usando um sistema operacional baseado em Unix e se sente
+      relativamente confort√°vel com Unix e com interfaces de linha de comando.
+      Dito isto, o programa <command>svn</command> tamb√©m roda em plataformas
+      n√£o-Unix, como o Microsoft Windows.  Com poucas exce√ß√µes, como o uso de
       barras invertidas (<literal>\</literal>) em lugar de barras regulares
-      (<literal>/</literal>) para separadores de caminho, a entrada e a saÌda
-      desta ferramenta, quando executada no Windows, s„o idÍnticas ao seu
+      (<literal>/</literal>) para separadores de caminho, a entrada e a sa√≠da
+      desta ferramenta, quando executada no Windows, s√£o id√™nticas ao seu
       companheiro Unix.</para>
 
-    <para>Muitos leitores s„o provavelmente programadores ou administradores de
-      sistemas que necessitam rastrear alteraÁıes em cÛdigo-fonte.  Essa È a
-      finalidade mais comum para o Subversion, e por isso È o cen·rio por tr·s
+    <para>Muitos leitores s√£o provavelmente programadores ou administradores de
+      sistemas que necessitam rastrear altera√ß√µes em c√≥digo-fonte.  Essa √© a
+      finalidade mais comum para o Subversion, e por isso √© o cen√°rio por tr√°s
       de todos os exemplos deste livro.  Entretanto, o Subversion pode ser usado
-      para gerenciar qualquer tipo de informaÁ„o&mdash;imagens, m˙sicas, bancos
-      de dados, documentaÁ„o, etc.  Para o Subversion, dados s„o apenas dados.</para>
+      para gerenciar qualquer tipo de informa√ß√£o&mdash;imagens, m√∫sicas, bancos
+      de dados, documenta√ß√£o, etc.  Para o Subversion, dados s√£o apenas dados.</para>
     
     <para>Enquanto que este livro presume que o leitor nunca usou um
-      sistema de controle de vers„o, nÛs tambÈm tentamos facilitar para
-      os usu·rios do CVS (e outros sistemas) a migraÁ„o para o Subversion.
-      Ocasionalmente, notas especiais poder„o mencionar outros controles
-      de vers„o. H· tambÈm um apÍndice que resume muitas das diferenÁas entre
+      sistema de controle de vers√£o, n√≥s tamb√©m tentamos facilitar para
+      os usu√°rios do CVS (e outros sistemas) a migra√ß√£o para o Subversion.
+      Ocasionalmente, notas especiais poder√£o mencionar outros controles
+      de vers√£o. H√° tamb√©m um ap√™ndice que resume muitas das diferen√ßas entre
       CVS e Subversion.</para>
 
-    <para>Note tambÈm que os exemplos de cÛdigo-fonte usados ao longo
-      do livro s„o apenas exemplos.  Ainda que eles compilem com os
-      truques apropriados do compilador, seu propÛsito È ilustrar um
-      cen·rio em particular, n„o necessariamente servir como exemplos
-      de boas pr·ticas de programaÁ„o.
+    <para>Note tamb√©m que os exemplos de c√≥digo-fonte usados ao longo
+      do livro s√£o apenas exemplos.  Ainda que eles compilem com os
+      truques apropriados do compilador, seu prop√≥sito √© ilustrar um
+      cen√°rio em particular, n√£o necessariamente servir como exemplos
+      de boas pr√°ticas de programa√ß√£o.</para>
 
   </sect1>
 
