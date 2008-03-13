@@ -377,20 +377,20 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.properties">
-    <title>Metadata Properties</title>
+    <title>Propriedades de Metadados</title>
 
-    <para>A new feature of Subversion is that you can attach arbitrary
-      metadata (or <quote>properties</quote>) to files and
-      directories.  Properties are arbitrary name/value pairs
-      associated with files and directories in your working
-      copy.</para>
+    <para>Uma nova característica do Subversion é que você pode atribuir um metadado
+      arbitrário (ou <quote>propriedades</quote>) as arquivos e
+      diretórios.  Propriedades são pares nome/valor arbitrários
+      associados com arquivos e diretórios na sua cópia de
+      trabalho.</para>
     
-    <para>To set or get a property name, use the <command>svn
-      propset</command> and <command>svn propget</command>
-      subcommands.  To list all properties on an object, use
+    <para>Para atribuir ou obter o nome de uma propriedade, use os subcomandos <command>svn
+      propset</command> e <command>svn propget
+      </command>.  Para listar todas as propriedades de um objeto, use
       <command>svn proplist</command>.</para>
 
-    <para>For more information, see <xref linkend="svn.advanced.props"/>.</para>
+    <para>Para mais informações, veja <xref linkend="svn.advanced.props"/>.</para>
 
   </sect1>
 
@@ -398,72 +398,72 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.conflicts">
-    <title>Conflict Resolution</title>
+    <title>Resolução de Conflitos</title>
 
-    <para>CVS marks conflicts with in-line <quote>conflict
-      markers</quote>, and prints a <literal>C</literal> during an
-      update.  Historically, this has caused problems, because CVS
-      isn't doing enough.  Many users forget about (or don't see) the
-      <literal>C</literal> after it whizzes by on their terminal.
-      They often forget that the conflict-markers are even present,
-      and then accidentally commit files containing
-      conflict-markers.</para>
+    <para>O CVS marca conflitos com <quote>marcadores de
+      conflito</quote> em-linha, e imprime um <literal>C</literal> durante uma
+      atualização.  Historicamente, isso tem causado problemas, porque o CVS
+      não está fazendo o suficiente. Muitos usuários esquecem (ou não vêem) o
+      <literal>C</literal> depois que ele passa correndo pelo terminal.
+      Eles freqüentemente esquecem até mesmo que os marcadores de conflitos estão presentes,
+      e então acidentalmente submetem arquivos contendo
+      marcadores de conflitos.</para>
 
-    <para>Subversion solves this problem by making conflicts more
-      tangible.  It remembers that a file is in a state of conflict,
-      and won't allow you to commit your changes until you run
-      <command>svn resolved</command>.  See <xref
-      linkend="svn.tour.cycle.resolve"/> for more details.</para>
+    <para>O Subversion resolve este problema tornando os conflitos mais
+      tangíveis.  Ele se lembra de que um arquivo encontra-se em um estado de conflito,
+      e não permitirá que você submeta suas mudanças até que execute
+      <command>svn resolved</command>.  Veja <xref
+      linkend="svn.tour.cycle.resolve"/> para mais detalhes.</para>
   </sect1>
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.binary-and-trans">
-    <title>Binary Files and Translation</title>
+    <title>Arquivos Binários e Tradução</title>
 
-    <para>In the most general sense, Subversion handles binary files
-      more gracefully than CVS does.  Because CVS uses RCS, it can
-      only store successive full copies of a changing binary file.
-      Subversion, however, expresses differences between files using a
-      binary-differencing algorithm, regardless of whether they
-      contain textual or binary data.  That means that all files are
-      stored differentially (compressed) in the repository.</para>
+    <para>No sentido mais geral, o Subversion lida com arquivos binários
+      de forma mais elegante que o CVS.  Por usar RCS, o CVS só pode
+      armazenar sucessivas cópias inteiras de um arquivo binário que está sendo alterado.
+      O Subversion, entretanto, expressa as diferenças entre arquivos usando um
+      algoritmo de diferenciação binária, não importando se eles
+      contêm dados textuais ou binários.  Isso significa que todos os arquivos são
+      armazenados diferencialmente (comprimidos) no repositório.</para>
     
-    <para>CVS users have to mark binary files with
-      <option>-kb</option> flags, to prevent data from being garbled
-      (due to keyword expansion and line-ending translations).  They
-      sometimes forget to do this.</para>
+    <para>Os usuários de CVS têm que marcar arquivos binários com
+      flags <option>-kb</option>, para prevenir que os dados sejam corrompidos
+      (devido a expansão de palavras-chave e tradução de quebras de linha).  Eles
+      algumas vezes se esquecem de fazer isso.</para>
 
-    <para>Subversion takes the more paranoid route&mdash;first, it never
-      performs any kind of keyword or line-ending translation unless
-      you explicitly ask it do so (see <xref
-      linkend="svn.advanced.props.special.keywords"/> and <xref
-      linkend="svn.advanced.props.special.eol-style"/> for more details).  By default,
-      Subversion treats all file data as literal byte strings, and
-      files are always stored in the repository in an untranslated
-      state.</para>
+    <para>O Subversion segue a rota mais paranóica&mdash;primeiro, nunca
+      realiza nenhum tipo de tradução de palavra-chave ou de quebra de linha, a menos que
+      você explicitamente o instrua a fazê-lo (veja <xref
+      linkend="svn.advanced.props.special.keywords"/> e <xref
+      linkend="svn.advanced.props.special.eol-style"/> para mais detalhes). Por padrão,
+      o Subversion trata todos os dados do arquivo como cadeias de bytes literais, e os
+      arquivos sempre são armazenados no repositório em estado
+      não-traduzido.</para>
 
-    <para>Second, Subversion maintains an internal notion of whether a
-      file is <quote>text</quote> or <quote>binary</quote> data, but
-      this notion is <emphasis>only</emphasis> extant in the working
-      copy.  During an <command>svn update</command>, Subversion will
-      perform contextual merges on locally modified text files, but
-      will not attempt to do so for binary files.</para>
+    <para>Segundo, o Subversion mantém uma noção interna de se um
+      arquivo contém dados <quote>de texto</quote> ou <quote>binários</quote>, mas
+      esta noção existe <emphasis>apenas</emphasis> na cópia de
+      trabalho.  Durante um <command>svn update</command>, o Subversion 
+      realizará fusões contextuais em arquivos de texto modificados localmente, mas
+      não tentará fazer o mesmo com arquivos binários.</para>
 
-    <para>To determine whether a contextual merge is possible,
-      Subversion examines the <literal>svn:mime-type</literal>
-      property.  If the file has no <literal>svn:mime-type</literal>
-      property, or has a mime-type that is textual (e.g.
+    <para>Para determinar se uma fusão contextual é possível, o
+      Subversion examina a propriedade <literal>svn:mime-type</literal>.
+      Se o arquivo não tem a propriedade <literal>svn:mime-type</literal>,
+      ou tem um mime-type que é textual (por exemplo,
       <literal>text/*</literal>),
-      Subversion assumes it is text.  Otherwise, Subversion assumes
-      the file is binary.  Subversion also helps users by running a
-      binary-detection algorithm in the <command>svn import</command>
-      and <command>svn add</command> commands.  These commands will
-      make a good guess and then (possibly) set a binary
-      <literal>svn:mime-type</literal> property on the file being
-      added.  (If Subversion guesses wrong, the user can always remove
-      or hand-edit the property.)</para>
+      o Subversion supõe que ele é texto.  Caso contrário, o Subversion supõe
+      que o arquivo é binário.  O Subversion também ajuda os usuários executando um
+      algoritmo para detectar arquivos binários nos comandos <command>svn import</command>
+      e <command>svn add</command>.  Estes comandos
+      farão uma boa suposição e então (possivelmente) colocarão uma propriedade
+      <literal>svn:mime-type</literal> binária no arquivo que está sendo
+      adicionado.  (Se o Subversion fizer uma suposição errada, o usuário sempre pode remover
+      ou editar manualmente a propriedade.)</para>
 
   </sect1>
 
@@ -472,16 +472,16 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.modules">
 
-    <title>Versioned Modules</title>
+    <title>Módulos sob Controle de Versão</title>
 
-    <para>Unlike CVS, a Subversion working copy is aware that it has
-      checked out a module.  That means that if somebody changes the
-      definition of a module (e.g. adds or removes components), then a
-      call to <command>svn update</command> will update the working
-      copy appropriately, adding and removing components.</para>
+    <para>Diferentemente do que ocorre no CVS, uma cópia de trabalho do Subversion sabe que 
+      efetuou checkout de um módulo.  Isso significa que se alguém muda a
+      definição de um módulo (por exemplo, adiciona ou remove componentes), então uma
+      chamada a <command>svn update</command> irá atualizar a cópia de
+      trabalho apropriadamente, adicionando e removendo componentes.</para>
 
-    <para>Subversion defines modules as a list of directories within a
-      directory property:  see <xref linkend="svn.advanced.externals"/>.</para>
+    <para>O Subversion define módulos como uma lista de diretórios dentro de uma
+      propriedade de diretório:  see <xref linkend="svn.advanced.externals"/>.</para>
 
   </sect1>
 
@@ -490,31 +490,31 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.auth">
 
-    <title>Authentication</title>
+    <title>Autenticação</title>
 
-    <para>With CVS's pserver, you are required to <quote>login</quote>
-      to the server before any read or write operation&mdash;you
-      sometimes even have to login for anonymous operations.  With a
-      Subversion repository using Apache <command>httpd</command> or
-      <command>svnserve</command> as the server, you don't provide
-      any authentication credentials at the outset&mdash;if an
-      operation that you perform requires authentication, the server
-      will challenge you for your credentials (whether those
-      credentials are username and password, a client certificate, or
-      even both).  So if your repository is world-readable, you will
-      not be required to authenticate at all for read
-      operations.</para>
+    <para>Com o pserver do CVS, exige-se que você <quote>inicie sessão</quote>
+      no servidor antes de qualquer operação de leitura ou escrita&mdash;às vezes
+      você tem de iniciar uma sessão até para operações anônimas.  Com um
+      repositório Subversion usando Apache <command>httpd</command> ou
+      <command>svnserve</command> como servidor, você não fornece
+      quaisquer credenciais de autenticação a princípio &mdash;se uma
+      operação que você realiza requer autenticação, o servidor
+      irá pedir suas credenciais (sejam essas
+      credenciais nome de usuário e senha, um certificado de cliente, ou
+      mesmo ambos).  Assim, se o seu repositório pode ser lido por todo o mundo,
+      não será exigido que você se autentique para operações de
+      leitura.</para>
 
-    <para>As with CVS, Subversion still caches your credentials on
-      disk (in your <filename>~/.subversion/auth/</filename>
-      directory) unless you tell it not to by using the
-      <option>--no-auth-cache</option> option.</para>
+    <para>Assim como o CVS, o Subversion ainda guarda suas credenciais em
+      disco (em seu diretório <filename>~/.subversion/auth/</filename>),
+      a menos que você o instrua a não fazê-lo, usando a
+      opção <option>--no-auth-cache</option>.</para>
 
-    <para>The exception to this behavior, however, is in the case of
-      accessing an <command>svnserve</command> server over an SSH
-      tunnel, using the <literal>svn+ssh://</literal> URL scheme.  In
-      that case, the <command>ssh</command> program unconditionally
-      demands authentication just to start the tunnel.</para>
+    <para>A exceção a este comportamento, entretanto, é no caso de se
+      acessar um servidor <command>svnserve</command> através de um
+      túnel SSH, usando o esquema de URL <literal>svn+ssh://</literal>.  
+      Nesse caso, o programa <command>ssh</command> incondicionalmente requer
+      autenticação para iniciar o túnel.</para>
 
   </sect1>
 
@@ -523,31 +523,31 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
   <!-- ================================================================= -->
   <sect1 id="svn.forcvs.convert">
 
-    <title>Converting a Repository from CVS to Subversion</title>
+    <title>Convertendo um Repositório de CVS para Subversion</title>
 
-    <para>Perhaps the most important way to familiarize CVS users with
-      Subversion is to let them continue to work on their projects
-      using the new system.  And while that can be somewhat
-      accomplished using a flat import into a Subversion repository of
-      an exported CVS repository, the more thorough solution involves
-      transferring not just the latest snapshot of their data, but all
-      the history behind it as well, from one system to another.  This
-      is an extremely difficult problem to solve that involves
-      deducing changesets in the absence of atomicity, and translating
-      between the systems' completely orthogonal branching policies,
-      among other complications.  Still, there are a handful of tools
-      claiming to at least partially support the ability to convert
-      existing CVS repositories into Subversion ones.</para>
+    <para>Talvez a forma mais importante de familiarizar usuários de CVS com o
+      Subversion é deixá-los continuar trabalhando em seus projetos
+      usando o novo sistema.  E mesmo que isso possa de certa forma ser
+      conseguido usando uma importação simples em um repositório Subversion de
+      um repositório CVS exportado, a solução mais completa envolve
+      transferir não apenas o estado mais recente dos seus dados, mas toda 
+      a história atrás dele também, de um sistema para o outro.  Isto
+      é um problema extremamente difícil de resolver, que envolve
+      deduzir conjuntos de mudanças na falta de atomicidade, e traduzir
+      entre as políticas de ramificação completamente ortogonais dos dois sistemas,
+      entre outras complicações.  Todavia, há um punhado de ferramentas
+      prometendo suportar ao menos parcialmente a habilidade de converter
+      repositórios CVS em repositórios Subversion.</para>
 
-    <para>The most popular (and likely the most mature) conversion
-      tool is cvs2svn (<ulink url="http://cvs2svn.tigris.org/"/>), a
-      Python script originally created by members of Subversion's own
-      development community.  This tool is meant to run exactly
-      once:  it scans your CVS repository multiple times and attempts
-      to deduce commits, branches, and tags as best it can.  When it
-      finishes, the result is a either a Subversion repository or a
-      portable Subversion dumpfile representing your code's history.
-      See the website for detailed instructions and caveats.</para>
+    <para>A mais popular (e provavelmente a mais madura) ferramenta de
+      conversão é cvs2svn (<ulink url="http://cvs2svn.tigris.org/"/>), um
+      script Python originalmente criado por membros da própria comunidade de
+      desenvovimento do Subversion.  Esta ferramenta é destinada a ser executada exatamente
+      uma vez:  ela examina seu repositório CVS diversas vezes e tenta
+      deduzir submissões, ramos e rótulos da melhor forma que consegue.  Quando
+      termina, o resultado é ou um repositório Subversion ou um
+      arquivo de despejo portável representando a história do seu código.
+      Veja o website para instruções detalhadas e advertências.</para>
 
   </sect1>
 
