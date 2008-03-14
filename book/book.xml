@@ -31,7 +31,7 @@
 
     <!-- Using revnumber would be more appropriate, but our stylesheets -->
     <!-- don't seem to render it. -->
-    <subtitle>(Compilado da &svn.l10n_revision;&svn.version;)</subtitle>
+    <subtitle>(Compilado da &svn.l10n_revision; &svn.version;)</subtitle>
 
     <edition>Segunda</edition>
     <isbn>?-?????-???-?</isbn>
