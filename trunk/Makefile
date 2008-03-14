@@ -1,2 +1,2 @@
 include ../tools/Makefile.base
-L10N_REVISION = r
+L10N_REVISION = revisão
