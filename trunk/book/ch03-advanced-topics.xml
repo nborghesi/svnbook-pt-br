@@ -1130,7 +1130,7 @@ $
                 do sistema operacional em uso.  Este estilo de término
                 de linha não é muito comum.  Ele foi utilizado em antigas
                 plataformas Macintosh (nas quais o Subversion não executa
-                run).</para>
+                regularmente).</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -1142,45 +1142,45 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.props.special.ignore">
-    <title>Ignoring Unversioned Items</title>
+    <title>Ignorando Itens Não-Versionados</title>
 
-    <para>In any given working copy there is a good chance that
-      alongside all those versioned files and directories are other
-      files and directories which are neither versioned nor intended
-      to be.  Text editors litter directories with backup files.
-      Software compilers generate intermediate&mdash;or even
-      final&mdash;files which you typically wouldn't bother to
-      version.  And users themselves drop various other files and
-      directories wherever they see fit, often in version control
-      working copies.</para>
+    <para>Em qualquer cópia de trabalho obtida, há uma boa chance que
+      juntamente com todos os arquivos e diretórios versionados estão outros
+      arquivos e diretórios que não são versionados e nem pretendem
+      ser.  Editores de texto deixam diretórios com arquivos de backup.
+      Compiladores de software produzem arquivos intermediários&mdash;ou
+      mesmo definitivos&mdash;que você normalmente não faria controle de
+      versão.  E os próprios usuários deixam vários outros arquivos e
+      diretórios, sempre que acharem adequado, muitas vezes em cópias de
+      trabalho com controle de versão.</para>
 
-    <para>It's ludicrous to expect Subversion working copies to be
-      somehow impervious to this kind of clutter and impurity.  In
-      fact, Subversion counts it as a <emphasis>feature</emphasis>
-      that its working copies are just typical directories, just like
-      unversioned trees.  But these not-to-be-versioned files and
-      directories can cause some annoyance for Subversion users.  For
-      example, because the <command>svn add</command> and <command>svn
-      import</command> commands act recursively by default, and don't
-      know which files in a given tree you do and don't wish to
-      version, it's easy to accidentally add stuff to version control
-      that you didn't mean to.  And because <command>svn
-      status</command> reports, by default, every item of interest in
-      a working copy&mdash;including unversioned files and
-      directories&mdash;its output can get quite noisy where many of
-      these things exist.</para>
+    <para>É ridículo esperar que cópias de trabalho do Subversion sejam
+      de algum modo impenetráveis a este tipo de resíduo e impureza.  De
+      fato, o Subversion os considera como um <emphasis>recurso</emphasis>
+      que suas cópias de trabalho estão apenas com diretórios normais, como
+      árvores não-versionadas.  Mas estes arquivos e diretórios que não deveriam
+      ser versionados podem causar algum incômodo aos usuários do Subversion.  Por
+      exemplo, pelo fato dos comandos <command>svn add</command> e <command>svn
+      import</command> agirem recursivamente por padrão, e não saberem
+      quais arquivos em uma dada árvore você deseja ou não versionar,
+      é acidentalmente fácil adicionar coisas ao controle de versão que
+      você não pretendia.  E pelo fato do comando <command>svn
+      status</command> reportar, por padrão, cada item de interesse em
+      uma cópia de trabalho&mdash;incluindo arquivos e diretórios não
+      versionados&mdash;sua saída pode ficar muito poluída, onde grande número
+      destas coisas aparecem.</para>
 
-    <para>So Subversion provides two ways for telling it which
-      files you would prefer that it simply disregard.  One of the
-      ways involves the use of Subversion's runtime configuration
-      system (see <xref linkend="svn.advanced.confarea" />), and
-      therefore applies to all the Subversion operations which make
-      use of that runtime configuration, generally those performed on
-      a particular computer, or by a particular user of a computer.
-      The other way makes use of Subversion's directory property
-      support, is more tightly bound to the versioned tree itself, and
-      therefore affects everyone who has a working copy of that tree.
-      Both of the mechanisms use file patterns.</para>
+    <para>Portanto, o Subversion oferece dois meios para dizer quais
+      arquivos você preferiria que ele simplesmente desconsiderasse.  Um dos
+      meios envolve o uso do sistema de configuração do ambiente de execução do
+      Subversion (veja <xref linkend="svn.advanced.confarea" />), e
+      conseqüentemente aplica-se a todas operações do Subversion que fazem
+      uso desta configuração do ambiente de execução, geralmente aquelas executadas
+      em um computador específico, ou por um usuário específico de um computador.
+      O outro meio faz uso do suporte de propriedade de diretório do
+      Subversion, é mais fortemente vinculado à própria árvore versionada e,
+      conseqüentemente, afeta todos aqueles que têm uma cópia de trabalho desta árvore.
+      Os dois mecanismos usam filtros de arquivo.</para>
 
     <para>The Subversion runtime configuration system provides an
       option, <literal>global-ignores</literal>, whose value is a
