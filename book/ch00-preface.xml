@@ -102,7 +102,7 @@
       fazer uma leitura <firstterm>top-down</firstterm> (do início ao fim)
       ou <firstterm>bottom-up</firstterm> (do fim ao começo).  
       Um leitor top-down
-      prefe ler ou folhear toda a documentação antes, ter uma visão geral de 
+      prefere ler ou folhear toda a documentação antes, ter uma visão geral de 
       como o sistema funciona e apenas, então, é que que ele inicia o uso do 
       software.  Já um leitor bottom-up <quote>aprende fazendo</quote>, ele é 
       alguém que mergulha no software e o esmiuça, voltando às seções do livro 
@@ -117,7 +117,7 @@
       que já querem ir fazendo, podem pular direto para o  
       <xref linkend="svn.intro"/>.</para>
 
-    <para>Independente do seu estilo de aprendizado, este livro pretente ser
+    <para>Independente do seu estilo de aprendizado, este livro pretende ser
       útil para os mais diversos tipos de pessoas &mdash; os que não possuem 
       nenhuma experiência com controle de versão até 
       os administradores de sistema mais experientes.  
@@ -134,7 +134,7 @@
             controle de versão anteriormente, e está morrendo de vontade de usar
             um servidor Subversion o quanto antes. O
             <xref linkend="svn.reposadmin"/> e o
-            <xref linkend="svn.serverconfig"/> irão motrar como criar seu
+            <xref linkend="svn.serverconfig"/> irão mostrar como criar seu
             primeiro repositório e torná-lo disponível na rede. Depois disso, o
             <xref linkend="svn.tour"/> e o
             <xref linkend="svn.forcvs"/> vão mostrar o caminho mais rápido para
@@ -158,7 +158,7 @@
       <varlistentry>
         <term>Usuários avançados</term>
         <listitem>
-          <para>Seja você um usuário ou um administrador, eventualmente seu 
+          <para>Seja você é um usuário ou um administrador, eventualmente seu 
             projeto irá crescer muito.  Você irá querer aprender a fazer 
             coisas avançadas com o Subversion, como usar branches e fazer merges
             (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
@@ -215,7 +215,7 @@
         <varlistentry>
           <term><replaceable>Largura constante em itálico</replaceable></term>
           <listitem>
-            <para>usado par substituir itens no código e texto</para>
+            <para>Usado para substituir itens no código e texto</para>
           </listitem>
         </varlistentry>
 
