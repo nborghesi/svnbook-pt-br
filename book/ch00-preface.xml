@@ -99,8 +99,8 @@
     <title>Como ler este livro</title>
 
     <para>Livros técnicos sempre enfrentam um certo dilema: se os leitores devem
-      fazer uma leitura <firstterm>top-down</firstterm>(do início ao fim)
-      ou <firstterm>bottom-up</firstterm>(do fim ao começo).  
+      fazer uma leitura <firstterm>top-down</firstterm> (do início ao fim)
+      ou <firstterm>bottom-up</firstterm> (do fim ao começo).  
       Um leitor top-down
       prefe ler ou folhear toda a documentação antes, ter uma visão geral de 
       como o sistema funciona e apenas, então, é que que ele inicia o uso do 
@@ -162,7 +162,7 @@
             projeto irá crescer muito.  Você irá querer aprender a fazer 
             coisas avançadas com o Subversion, como usar branches e fazer merges
             (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
-            suporte do Subversion(<xref linkend="svn.advanced"/>), como
+            suporte do Subversion (<xref linkend="svn.advanced"/>), como
             configurar as opções de runtime 
             (<xref linkend="svn.customization"/>), 
             entre outras coisas.  
