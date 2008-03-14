@@ -22,18 +22,18 @@
 <!ENTITY index    SYSTEM "index.xml">
 ]>
 
-<book id="svn">
-  <title>Version Control with Subversion</title>
+<book id="svn" lang="pt_br">
+  <title>Controle de Versão com Subversion</title>
 
   <bookinfo>
 
-    <subtitle>For Subversion 1.4</subtitle>
+    <subtitle>Para Subversion 1.4</subtitle>
 
     <!-- Using revnumber would be more appropriate, but our stylesheets -->
     <!-- don't seem to render it. -->
-    <subtitle>(Compiled from &svn.l10n_revision;&svn.version;)</subtitle>
+    <subtitle>(Compilado da &svn.l10n_revision;&svn.version;)</subtitle>
 
-    <edition>Second</edition>
+    <edition>Segunda</edition>
     <isbn>?-?????-???-?</isbn>
     <authorgroup>
 
@@ -74,10 +74,10 @@
       <holder>C. Michael Pilato</holder>
     </copyright>
 
-    <legalnotice><para>This work is licensed under the Creative
-      Commons Attribution License.  To view a copy of this license,
-      visit <ulink url="http://creativecommons.org/licenses/by/2.0/"/>
-      or send a letter to Creative Commons, 559 Nathan Abbott Way,
+    <legalnotice><para>Este trabalho está licenciado sob a licença Creative
+      Commons Attribution License.  Para obter uma cópia dessa licença,
+      visite <ulink url="http://creativecommons.org/licenses/by/2.0/"/>
+      ou envie uma carta para Creative Commons, 559 Nathan Abbott Way,
       Stanford, California 94305, USA.</para></legalnotice>
 
   </bookinfo>
