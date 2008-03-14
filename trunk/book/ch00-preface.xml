@@ -96,97 +96,97 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.preface.howread">
-    <title>How to Read this Book</title>
+    <title>Como ler este livro</title>
 
-    <para>Technical books always face a certain dilemma: whether to
-      cater to <firstterm>top-down</firstterm>
-      or <firstterm>bottom-up</firstterm> learners.  A top-down
-      learner prefers to read or skim documentation, getting a large
-      overview of how the system works; only then does she actually
-      start using the software.  A bottom-learner is a <quote>learn by
-      doing</quote> person, someone who just wants to dive into the
-      software and figure it out as she goes, referring to book
-      sections when necessary.  Most books tend to be written for one
-      type of person or the other, and this book is undoubtedly biased
-      towards top-down learners.  (And if you're actually reading this
-      section, you're probably already a top-down learner yourself!)
-      However, if you're a bottom-up person, don't despair.  While the
-      book may be laid out as a broad survey of Subversion topics, the
-      contents of each section tends to be heavy with specific
-      examples that you can try-by-doing.  For the impatient folks who
-      just want to get going, you can jump right to
+    <para>Livros técnicos sempre enfrentam um certo dilema: se os leitores devem
+      fazer uma leitura <firstterm>top-down</firstterm>(do início ao fim)
+      ou <firstterm>bottom-up</firstterm>(do fim ao começo).  
+      Um leitor top-down
+      prefe ler ou folhear toda a documentação antes, ter uma visão geral de 
+      como o sistema funciona e apenas, então, é que que ele inicia o uso do 
+      software.  Já um leitor bottom-up <quote>aprende fazendo</quote>, ele é 
+      alguém que mergulha no software e o esmiuça, voltando às seções do livro 
+      quando necessário. Muitos livros são escritos para um ou outro tipo de
+      pessoa, e esse livro é, sem dúvida, indicado para o leitor top-down. (Se
+      você está lendo esta seção, provavelmente você já é um leitor top-down
+      nato). No entanto, se você é um leitor bottom-up, não se desespere.  
+      Mesmo que este livro pode ser definido como um apanhado geral sobre o 
+      Subversion, o conteúdo de cada seção tende a aprofundar com exemplos 
+      específicos nos quais você pode aprender fazendo.  
+      As pessoas impacientes
+      que já querem ir fazendo, podem pular direto para o  
       <xref linkend="svn.intro"/>.</para>
 
-    <para>Regardless of your learning style, this book aims to be
-      useful to people of widely different backgrounds&mdash;from
-      people with no previous experience in version control to
-      experienced system administrators.  Depending on your own
-      background, certain chapters may be more or less important to
-      you.  The following can be considered a
-      <quote>recommended reading list</quote> for various types of
-      readers:</para>
+    <para>Independente do seu estilo de aprendizado, este livro pretente ser
+      útil para os mais diversos tipos de pessoas &mdash; os que não possuem 
+      nenhuma experiência com controle de versão até 
+      os administradores de sistema mais experientes.  
+      Dependendo do seu conhecimento, certos  
+      capítulos podem ser mais ou menos importantes para você. A lista abaixo 
+      é uma <quote>recomendação de leitura</quote> para os diversos tipos de 
+      leitores:</para>
 
     <variablelist>
       <varlistentry>
-        <term>Experienced System Administrators</term>
+        <term>Administradores de Sistemas Experientes</term>
         <listitem>
-          <para>The assumption here is that you've probably used
-            version control before before, and are dying to get a
-            Subversion server up and running ASAP.
-            <xref linkend="svn.reposadmin"/> and
-            <xref linkend="svn.serverconfig"/> will show you how to
-            create your first repository and make it available over
-            the network.  After that's done,
-            <xref linkend="svn.tour"/> and
-            <xref linkend="svn.forcvs"/> are the fastest routes to
-            learning the Subversion client.</para>
+          <para>Supõem-se aqui que você, provavelmente, já tenha usado 
+            controle de versão anteriormente, e está morrendo de vontade de usar
+            um servidor Subversion o quanto antes. O
+            <xref linkend="svn.reposadmin"/> e o
+            <xref linkend="svn.serverconfig"/> irão motrar como criar seu
+            primeiro repositório e torná-lo disponível na rede. Depois disso, o
+            <xref linkend="svn.tour"/> e o
+            <xref linkend="svn.forcvs"/> vão mostrar o caminho mais rápido para
+            se aprender a usar o cliente 
+            Subversion.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term>New users</term>
+        <term>Novos usuário</term>
         <listitem>
-          <para>Your administrator has probably set up Subversion
-            already, and you need to learn how to use the client.  If
-            you've never used a version control system, then
-            <xref linkend="svn.basic"/> is a vital introduction to the
-            ideas behind version control.  <xref linkend="svn.tour"/>
-            is a guided tour of the Subversion client.</para>
+          <para>Seu administrador provavelmente já diponibilizou um servidor  
+            Subversion, e você precisa aprender a usar o cliente. Se você nunca 
+            utilizou um sistema de controle de versão, então o 
+            <xref linkend="svn.basic"/> será vital para introduzir e mostrar as 
+            idéias por trás do controle de versão.  O <xref linkend="svn.tour"/> 
+            é um guia do cliente do Subversion.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term>Advanced users</term>
+        <term>Usuários avançados</term>
         <listitem>
-          <para>Whether you're a user or administrator, eventually
-            your project will grow larger.  You're going to want to
-            learn how to do more advanced things with Subversion, such
-            as how to use branches and perform merges (<xref
-            linkend="svn.branchmerge"/>), how to use Subversion's
-            property support (<xref linkend="svn.advanced"/>), how to
-            configure runtime options (<xref
-            linkend="svn.customization"/>), and other things.  These
-            chapters aren't critical at first, but be sure to read
-            them once you're comfortable with the basics.</para>
+          <para>Seja você um usuário ou um administrador, eventualmente seu 
+            projeto irá crescer muito.  Você irá querer aprender a fazer 
+            coisas avançadas com o Subversion, como usar branches e fazer merges
+            (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
+            suporte do Subversion(<xref linkend="svn.advanced"/>), como
+            configurar as opções de runtime 
+            (<xref linkend="svn.customization"/>), 
+            entre outras coisas.  
+            Estes capítulos não são críticos no início, porém não deixe de 
+            lê-los quando estiver familiarizado com o básico.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
-        <term>Developers</term>
+        <term>Desenvolvedores</term>
         <listitem>
-          <para>Presumably, you're already familiar with Subversion,
-            and now want to either extend it or build new software on
-            top of its many APIs.  <xref linkend="svn.developer"/> is
-            just for you.</para>
+          <para>Presumidamente, você já está familiarizado com o Subversion,
+            e quer ou extendê-lo ou construir um novo software baseado nas
+            suas diversas APIs.  O <xref linkend="svn.developer"/> foi feito
+            justamente pra pra você.</para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>The book ends with reference material&mdash;<xref
-      linkend="svn.ref"/> is a reference guide for all Subversion
-      commands, and the appendices cover a number of useful topics.
-      These are the chapters you're mostly likely to come back to
-      after you've finished the book.</para>
+    <para>O livro termina com um material de referência &mdash; o <xref
+      linkend="svn.ref"/> é um guia de referência para todos os comandos do 
+      Subversion, e o apêndice cobre um número considerável de tópicos úteis. 
+      Estes capítulos serão os que você irá voltar com mais freqüência depois 
+      que terminar de ler o livro.</para>
 
   </sect1>
 
@@ -194,35 +194,35 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.preface.conventions">
-    <title>Conventions Used in This Book</title>
+    <title>Convenções Usadas Neste Livro</title>
     
-    <para>This section covers the various conventions used in this
-      book.</para>
+    <para>Esta seção cobre as várias convenções usadas neste 
+    livro.</para>
     
     <!-- =============================================================== -->
     <sect2 id="svn.preface.conventions.typo">
-      <title>Typographic Conventions</title>
+      <title>Convenções tipográficas</title>
       
       <variablelist>
         
         <varlistentry>
-          <term><command>Constant width</command></term>
+          <term><command>Largura constante</command></term>
           <listitem>
-            <para>Used for commands, command output, and options</para>
+            <para>Comandos usados, comando de saída, e opções</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
-          <term><replaceable>Constant width italic</replaceable></term>
+          <term><replaceable>Largura constante em itálico</replaceable></term>
           <listitem>
-            <para>Used for replaceable items in code and text</para>
+            <para>usado par substituir itens no código e texto</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
-          <term><filename>Italic</filename></term>
+          <term><filename>Itálico</filename></term>
           <listitem>
-            <para>Used for file and directory names</para>
+            <para>Usado para nomes de arquivo e diretório</para>
           </listitem>
         </varlistentry>
         
@@ -232,21 +232,21 @@
 
     <!-- =============================================================== -->
     <sect2 id="svn.preface.conventions.icons">
-      <title>Icons</title>
+      <title>Ícones</title>
 
       <note>
-        <para>This icon designates a note relating to the surrounding
-          text.</para>
+        <para>Este ícone representa uma nota relacionada ao texto em 
+        citado.</para>
       </note>
 
       <tip>
-        <para>This icon designates a helpful tip relating to the surrounding
-          text.</para>
+        <para>Este ícone representa uma dica útil relacionada ao texto 
+        citado.</para>
       </tip>
 
       <warning>
-        <para>This icon designates a warning relating to the surrounding
-          text.</para>
+        <para>Este ícone representa um aviso relacionado ao texto 
+        citado.</para>
       </warning>
     </sect2>
 
