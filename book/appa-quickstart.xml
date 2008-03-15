@@ -1,19 +1,19 @@
-<appendix id="svn.intro">
+﻿<appendix id="svn.intro">
 
-  <title>Subversion Quick-Start Guide</title>
+  <title>Guia Rápido de Subversion</title>
 
 
-  <para>If you're eager to get Subversion up and running (and you
-    enjoy learning by experimentation), this chapter will show you how
-    to create a repository, import code, and then check it back out
-    again as a working copy.  Along the way, we give links to the
-    relevant chapters of this book.</para>
+  <para>Se você está FIXME eager para ter o Subversion FIXME funcionando (e você
+    gosta de aprender experimentando), este capítulo mostrará a você como
+    criar um repositório, importar código, e então FIXME check it back out
+    novamente como uma cópia de trabalho.  FIXME Ao longo do caminho, fornecemos links para os
+    FIXME capítulos relevantes deste livro.</para>
 
   <warning>
-  <para>If you're new to the entire concept of version control or to
-    the <quote>copy-modify-merge</quote> model used by both CVS and
-    Subversion, then you should read <xref linkend="svn.basic"/>
-    before going any further.</para>
+  <para>Se você FIXME you're new to the entire conceito de controle de versão ou FIXME to
+    the modelo <quote>copiar-modificar-FIXMEmerge</quote> usado tanto pelo CVS quanto
+    pelo Subversion, então você deve ler <xref linkend="svn.basic"/>
+    antes de ir adiante.</para>
   </warning>
 
 
@@ -22,65 +22,65 @@
   <!-- ================================================================= -->
   <sect1 id="svn.intro.install">
 
-    <title>Installing Subversion</title>
+    <title>Instalando o Subversion</title>
 
-    <para>Subversion is built on a portability layer called
-      APR&mdash;the Apache Portable Runtime library.  The APR library
-      provides all the interfaces that Subversion needs to function on
-      different operating systems: disk access, network access, memory
-      management, and so on.  While Subversion is able to use Apache
-      as one of its network server programs, its dependence on APR
-      <emphasis>does not</emphasis> mean that Apache is a required
-      component.  APR is a standalone library useable by any
-      application.  It does mean, however, that like Apache,
-      Subversion clients and servers run on any operating system that
-      the Apache httpd server runs on: Windows, Linux, all flavors of
-      BSD, Mac OS X, Netware, and others.</para>
+    <para>O Subversion é FIXME construído sobre uma camada de portabilidade chamada
+      APR&mdash;a biblioteca Apache Portable Runtime.  A biblioteca APR
+      fornece todas as interfaces de que o Subversion necessita para funcionar em
+      diferentes sistemas operacionais: acesso a disco, acesso a rede, gerenciamento de
+      memória, e assim por diante.  Embora o Subversion seja capaz de usar o Apache
+      como um de seus programas servidores de rede, sua dependência da APR
+      <emphasis>não</emphasis> significa que o Apache é um componente
+      obrigatório.  A APR é uma biblioteca FIXME standalone usável por qualquer
+      aplicação.  Isso significa, entretanto, que, como o Apache,
+      os clientes e servidores Subversion podem ser executados em qualquer sistema operacional no qual
+      o servidor Apache httpd também possa: Windows, Linux, todas as FIXME variedades de
+      BSD, Mac OS X, Netware, e outros.</para>
 
-    <para>The easiest way to get Subversion is to download a binary
-      package built for your operating system.  Subversion's website
-      (<ulink url="http://subversion.tigris.org"/>) often has these
-      packages available for download, posted by volunteers.  The site
-      usually contains graphical installer packages for users of
-      Microsoft operating systems.  If you run a Unix-like operating
-      system, you can use your system's native package distribution
-      system (RPMs, DEBs, the ports tree, etc.) to get
-      Subversion.</para>
+    <para>A forma mais fácil de obter o Subversion é baixar um pacote
+      binário construído para o seu sistema operacional.  O website do Subversion
+      (<ulink url="http://subversion.tigris.org"/>) freqüentemente tem esses
+      pacotes disponíveis para serem baixados, FIXME postados por voluntários.  O site
+      normalmente contém pacotes com instaladores gráficos para usuários de
+      sistemas operacionais da Microsoft.  Se você executa um sistema operacional FIXME semelhante a Unix,
+      pode usar o sistema de distribuição de pacotes nativo do seu sistema
+      (RPMs, DEBs, a árvore de FIXME ports, etc.) para obter
+      o Subversion.</para>
 
-    <para>Alternately, you can build Subversion directly from source
-      code, though it's not always an easy task. (If you're not
-      experienced at building open source software packages, you're
-      probably better off downloading a binary distribution instead!)
-      From the Subversion website, download the latest source-code
-      release.  After unpacking it, follow the instructions in
-      the <filename>INSTALL</filename> file to build it.  Note that a
-      released source package may not contain everything you need to
-      build a command-line client capable of talking to a remote
-      repository.  Starting with Subversion 1.4 and later, the
-      libraries Subversion depends on (apr, apr-util, and neon) are
-      distributed in a separate source package suffixed
-      with <filename>-deps</filename>.  These libraries are now common
-      enough that they may already be installed on your system.  If
-      not, you'll need to unpack the dependency package into the same
-      directory where you unpacked the main Subversion source.
-      Regardless, it's possible that you may want to fetch other
-      optional dependencies such as Berkeley DB and possibly Apache
-      httpd.  If you want to do a complete build, make sure you have
-      all of the packages documented in
-      the <filename>INSTALL</filename> file.</para>
+    <para>Alternativamente, você pode construir o Subversion diretamente do código-fonte,
+      embora essa nem sempre seja uma tarefa fácil. (Se você não tem
+      experiência em construir pacotes de software de código aberto,
+      provavelmente FIXME se sairá melhor baixando uma distribuição binária!)
+      Do website do Subversion, baixe o último código-fonte
+      lançado.  Após FIXME descompactá-lo, siga as instruções do
+      arquivo <filename>INSTALL</filename> para construí-lo.  Observe que um
+      pacote de fontes lançado pode não conter tudo o que você precisa para
+      construir um cliente de linha de comando capaz de conversar com um repositório
+      remoto.  A partir do Subversion 1.4, as
+      bibliotecas de que o Subversion depende (apr, apr-util, e neon) são
+      distribuídas em um pacote de fontes separado FIXME sufixado
+      com <filename>-deps</filename>.  Estas bibliotecas agora são tão comuns
+      que podem já estar instaladas no seu sistema.  Se
+      não, você precisará descompactar o pacote de dependências no mesmo
+      diretório onde descompactou os fontes principais do Subversion.
+      FIXME Regardless, é possível que você queira FIXME to fetch outras
+      dependências opcionais como o Berkeley DB e possivelmente o Apache
+      httpd.  Se você quiser fazer uma construção completa, assegure-se de ter
+      todos os pacotes documentados no
+      arquivo <filename>INSTALL</filename>.</para>
 
-    <para>If you're one of those folks that likes to use bleeding-edge
-      software, you can also get the Subversion source code from the
-      Subversion repository in which it lives.  Obviously, you'll need
-      to already have a Subversion client on hand to do this.  But
-      once you do, you can check out a working copy of the Subversion source
-      repository from <ulink url="http://svn.collab.net/repos/svn/trunk/"/>:
+    <para>Se você é uma das pessoas que gostam de usar software
+      FIXME bleeding-edge, também pode obter o código-fonte do Subversion do
+      repositório Subversion onde ele FIXME reside.  Obviamente, você precisará
+      já ter um cliente Subversion à mão para fazer isto.  Mas
+      uma vez que o tenha, você pode efetuar check out de uma cópia de trabalho do repositório de fontes
+      do Subversion em <ulink url="http://svn.collab.net/repos/svn/trunk/"/>:
       <footnote>
-        <para>Note that the URL checked out in the example above
-          ends not with <literal>svn</literal>, but with a
-          subdirectory thereof called <literal>trunk</literal>.  See
-          our discussion of Subversion's branching and tagging model
-          for the reasoning behind this.</para>
+        <para>Observe que o checkout realizado a partir da URL acima
+          não resulta em <literal>svn</literal>, mas em um
+          subdiretório FIXME thereof chamado <literal>trunk</literal>.  Veja
+          nossa discussão do modelo de ramificação e rotulação do Subversion
+          para entender o FIXME motivo por trás disso.</para>
       </footnote></para>
 
     <screen>
@@ -93,16 +93,16 @@ A    subversion/build.conf
 &hellip;
 </screen>
 
-    <para>The above command will create a working copy of the latest
-      (unreleased) Subversion source code into a subdirectory
-      named <filename>subversion</filename> in your current working
-      directory.  You can adjust that last argument as you see fit.
-      Regardless of what you call the new working copy directory,
-      though, after this operation completes, you will now have the
-      Subversion source code.  Of course, you will still need to fetch
-      a few helper libraries (apr, apr-util, etc.)&mdash;see
-      the <filename>INSTALL</filename> file in the top level of the
-      working copy for details.</para>
+    <para>O comando acima criará uma cópia de trabalho do último
+      código-fonte (não-lançado) do Subversion em um subdiretório
+      chamado <filename>subversion</filename> em seu diretório de trabalho
+      atual.  Você pode ajustar o último argumento como FIXME preferir.
+      FIXME Independentemente de como você chame o diretório da nova cópia de trabalho,
+      entretanto, depois que esta operação termina, você agora terá o
+      código-fonte do Subversion.  FIXME Obviamente, você ainda precisará FIXME to fetch
+      algumas bibliotecas FIXME auxiliares (apr, apr-util, etc.)&mdash;veja
+      o arquivo <filename>INSTALL</filename> no nível superior da
+      cópia de trabalho para detalhes.</para>
 
   </sect1>
 
@@ -111,32 +111,32 @@ A    subversion/build.conf
   <!-- ================================================================= -->
   <sect1 id="svn.intro.quickstart">
 
-    <title>High-speed Tutorial</title>
+    <title>Tutorial de alta velocidade</title>
 
     <blockquote>
-      <para><quote>Please make sure your seat backs are in their full,
-        upright position, and that your tray tables are stored.
-        Flight attendants, prepare for take-off&hellip;.</quote></para>
+      <para><quote>Por favor assegure-se de que os FIXME encostos das suas poltronas estão em FIXME posição
+        vertical, e que suas bandejas estão FIXME recolhidas.
+        FIXME Comissárias de bordo, preparem-se para a decolagem&hellip;.</quote></para>
     </blockquote>
 
-    <para>What follows is a quick tutorial that walks you through some
-      basic Subversion configuration and operation.  When you finish
-      it, you should have a basic understanding of Subversion's
-      typical usage.</para>
+    <para>O que segue é um rápido tutorial que o conduz através da
+      configuração e operação básicas do Subversion.  Quando você terminá-lo,
+      deverá ter um entendimento básico da utilização típica
+      do Subversion.</para>
 
     <note>
-      <para>The examples used in this appendix assume that you have
-        <command>svn</command>, the Subversion command-line client,
-        and <command>svnadmin</command>, the administrative tool,
-        ready to go on a Unix-like operating system.  (This tutorial
-        also works at the Windows commandline prompt, assuming you
-        make some obvious tweaks.)  We also assume you are using
-        Subversion 1.2 or later (run <command>svn --version</command>
-        to check.)</para>
+      <para>Os exemplos usados neste apêndice supõem que você tem
+        <command>svn</command>, o cliente de linha de comando do Subversion,
+        e <command>svnadmin</command>, a ferramenta administrativa,
+        FIXME prontos para uso em um sistema operacional FIXME semelhante a Unix.  (Este tutorial
+        também funciona no prompt de linha de comando do Windows, supondo que você
+        faça alguns FIXME ajustes óbvios.)  Nós também supomos que você está usando
+        Subversion 1.2 ou posterior (execute <command>svn --version</command>
+        para verificar.)</para>
     </note>
 
-    <para>Subversion stores all versioned data in a central
-      repository.  To begin, create a new repository:</para>
+    <para>O Subversion armazena todos os dados versionados em um repositório
+      central.  Para começar, crie um novo repositório:</para>
 
     <screen>
 $ svnadmin create /path/to/repos
@@ -144,42 +144,42 @@ $ ls /path/to/repos
 conf/  dav/  db/  format  hooks/  locks/  README.txt
 </screen>
 
-    <para>This command creates a new directory
-      <filename>/path/to/repos</filename> which contains a Subversion
-      repository.  This new directory contains (among other things) a
-      collection of database files.  You won't see your versioned
-      files if you peek inside.  For more information about repository
-      creation and maintenance, see
+    <para>Este comando cria um novo diretório
+      <filename>/path/to/repos</filename> que contém um repositório
+      Subversion.  Este novo diretório contém (entre outras coisas) uma
+      coleção de arquivos de banco de dados.  Você não verá seus arquivos versionados
+      se FIXME you peek inside.  Para mais informação sobre criação e manutenção
+      de repositórios, veja
       <xref linkend="svn.reposadmin"/>.</para>
 
-    <para>Subversion has no concept of a <quote>project</quote>.  The
-      repository is just a virtual versioned filesystem, a large tree
-      that can hold anything you wish.  Some administrators prefer to
-      store only one project in a repository, and others prefer to
-      store multiple projects in a repository by placing them into
-      separate directories.  The merits of each approach are discussed
-      in <xref linkend="svn.reposadmin.projects.chooselayout"/>.
-      Either way, the repository only manages files and directories,
-      so it's up to humans to interpret particular directories
-      as <quote>projects</quote>.  So while you might see references
-      to projects throughout this book, keep in mind that we're only
-      ever talking about some directory (or collection of directories)
-      in the repository.</para>
+    <para>O Subversion não tem um conceito de <quote>projeto</quote>.  O
+      repositório é apenas um sistema de arquivos virtual versionado, uma grande árvore
+      que pode conter qualquer coisa que você desejar.  Alguns administradores preferem
+      armazenar apenas um projeto em um repositório, e outros preferem
+      armazenar múltiplos projetos em um repositório colocando-os em
+      diretórios separados.  Os méritos de cada abordagem são discutidos
+      em <xref linkend="svn.reposadmin.projects.chooselayout"/>.
+      FIXME De uma forma ou de outra, o repositório só gerencia arquivos e diretórios,
+      então fica a cargo dos humanos interpretar diretórios particulares
+      como <quote>projetos</quote>.  Assim, embora você possa ver referências
+      a projetos ao longo deste livro, tenha em mente que estamos falando apenas
+      FIXME ever sobre algum diretório (ou coleção de diretórios)
+      no repositório.</para>
 
-    <para>In this example, we assume that you already have some sort
-      of project (a collection of files and directories) that you wish
-      to import into your newly created Subversion repository.  Begin
-      by organizing your data into a single directory
-      called <filename>myproject</filename> (or whatever you wish).
-      For reasons that will be clear later (see
-      <xref linkend="svn.branchmerge"/>), your project's tree
-      structure should contain three top-level directories
-      named <filename>branches</filename>,
-      <filename>tags</filename>, and
-      <filename>trunk</filename>.  The <filename>trunk</filename>
-      directory should contain all of your data,
-      while <filename>branches</filename>
-      and <filename>tags</filename> directories are empty:</para>
+    <para>Neste exemplo, nós supomos que você já tem algum tipo
+      de projeto (uma coleção de arquivos e diretórios) que você deseja
+      importar para o seu recém-criado repositório Subversion.  Comece
+      organizando seus dados em um único diretório
+      chamado <filename>myproject</filename> (ou o que você desejar).
+      Por razões que se tornarão claras depois (veja
+      <xref linkend="svn.branchmerge"/>), a árvore da estrutura do
+      seu projeto deve conter três diretórios no nível superior
+      chamados <filename>branches</filename>,
+      <filename>tags</filename>, e
+      <filename>trunk</filename>.  O diretório <filename>trunk</filename>
+      deve conter todos os seus dados,
+      enquanto os diretórios <filename>branches</filename>
+      e <filename>tags</filename> estão vazios:</para>
 
     <screen>
 /tmp/myproject/branches/
@@ -191,14 +191,14 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
                      &hellip;
 </screen>
 
-    <para>The <filename>branches</filename>, <filename>tags</filename>,
-      and <filename>trunk</filename> subdirectories aren't actually
-      required by Subversion.  They're merely a popular convention
-      that you'll most likely want to use later on.</para>
+    <para>Os subdiretórios <filename>branches</filename>, <filename>tags</filename>,
+      e <filename>trunk</filename> na verdade não são
+      exigidos pelo Subversion.  Eles são meramente uma popular convenção
+      que você provavelmente vai querer usar FIXME later on.</para>
 
-    <para>Once you have your tree of data ready to go, import it into
-      the repository with the <command>svn import</command> command
-      (see <xref linkend="svn.tour.importing"/>):</para>
+    <para>Uma vez que você tenha sua árvore de dados FIXME ready to go, importe-a para
+      o repositório com o comando <command>svn import</command>
+      (veja <xref linkend="svn.tour.importing"/>):</para>
 
     <screen>
 $ svn import /tmp/myproject file:///path/to/repos/myproject -m "initial import"
@@ -213,21 +213,21 @@ Committed revision 1.
 $ 
 </screen>
 
-    <para>Now the repository contains this tree of data.  As mentioned
-      earlier, you won't see your files by directly peeking into the
-      repository;  they're all stored within a database.  But the
-      repository's imaginary filesystem now contains a top-level
-      directory named <filename>myproject</filename>, which in turn
-      contains your data.</para>
+    <para>Agora o repositório contém esta árvore de dados.  Como mencionado
+      anteriormente, você não verá seus arquivos FIXME by directly peeking into the
+      repositório;  eles são todos armazenados em um banco de dados.  Mas o
+      sistema de arquivos imaginário do repositório agora contém um diretório no nível
+      superior chamado <filename>myproject</filename>, FIXME que por sua vez
+      contém seus dados.</para>
 
-    <para>Note that the original <filename>/tmp/myproject</filename>
-      directory is unchanged; Subversion is unaware of it.  (In fact,
-      you can even delete that directory if you wish.)  In order to
-      start manipulating repository data, you need to create a new
-      <quote>working copy</quote> of the data, a sort of private
-      workspace.  Ask Subversion to <quote>check out</quote> a working
-      copy of the <filename>myproject/trunk</filename> directory in
-      the repository:</para>
+    <para>Observe que o diretório <filename>/tmp/myproject</filename>
+      original está inalterado; O Subversion FIXME não sabe disso.  (De fato,
+      você pode até mesmo excluir esse diretório se quiser.)  Para
+      começar a manipular os dados do repositório, você precisa criar uma nova
+      <quote>cópia de trabalho</quote> dos dados, um tipo de FIXME workspace
+      privado.  Peça ao Subversion para <quote>efetuar check out</quote> de uma cópia
+      de trabalho do diretório <filename>myproject/trunk</filename> do
+      repositório:</para>
 
     <screen>
 $ svn checkout file:///path/to/repos/myproject/trunk myproject
@@ -238,41 +238,41 @@ A  myproject/Makefile
 Checked out revision 1.
 </screen>
 
-    <para>Now you have a personal copy of part of the repository in a
-      new directory named <filename>myproject</filename>.  You can edit
-      the files in your working copy and then commit those changes
-      back into the repository.</para>
+    <para>Agora você tem uma cópia pessoal de parte do repositório em um
+      novo diretório chamado <filename>myproject</filename>.  Você pode editar
+      os arquivos da sua cópia de trabalho e então submeter essas mudanças
+      de volta para o repositório.</para>
 
     <itemizedlist>
       <listitem>
-        <para>Enter your working copy and edit a file's
-          contents.</para>
+        <para>FIXME Acesse sua cópia de trabalho e edite o conteúdo
+          de um arquivo.</para>
       </listitem>
       <listitem>
-        <para>Run <command>svn diff</command> to see unified diff
-          output of your changes.</para>
+        <para>Execute <command>svn diff</command> para ver a FIXME uma saída contendo a diferença
+          unificada das suas mudanças.</para>
       </listitem>
       <listitem>
-        <para>Run <command>svn commit</command> to commit the new
-          version of your file to the repository.</para>
+        <para>Execute <command>svn commit</command> para submeter a nova
+          versão do seu arquivo ao repositório.</para>
       </listitem>
       <listitem>
-        <para>Run <command>svn update</command> to bring your working
-          copy <quote>up-to-date</quote> with the repository.</para>
+        <para>Execute <command>svn update</command> para tornar sua cópia de
+          trabalho <quote>atualizada</quote> com o repositório.</para>
       </listitem>
     </itemizedlist>
 
-    <para>For a full tour of all the things you can do with your
-      working copy, read <xref linkend="svn.tour"/>.</para>
+    <para>Para um FIXME passeio completo por todas as coisas que você pode fazer com sua
+      cópia de trabalho, leia <xref linkend="svn.tour"/>.</para>
 
-    <para>At this point, you have the option of making your repository
-      available to others over a network.  See <xref
-      linkend="svn.serverconfig"/> to learn about the different sorts of
-      server processes available and how to configure them.</para>
+    <para>FIXME Neste ponto, você tem a opção de tornar seu repositório
+      disponível FIXME para outros através de uma rede.  Veja <xref
+      linkend="svn.serverconfig"/> para aprender sobre os diferentes tipos de
+      processos de servidor disponíveis e como configurá-los.</para>
 
     <!--
-    <para>### TODO: Let's make this into a full tutorial, rather than
-              simply referring off to other sections. ###</para>
+    <para>### TODO: Vamos transformar isto num tutorial completo, em vez de
+              simplesmente FIXME referring off para outras seções. ###</para>
       -->
 
   </sect1>
