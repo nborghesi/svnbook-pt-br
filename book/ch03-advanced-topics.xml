@@ -847,20 +847,20 @@ $
   <sect1 id="svn.advanced.props.file-portability">
     <title>Portabilidade de Arquivo</title>
 
-    <para>Felizmente para os usuários do Subversion que rotineiramente
-      se encontram em diferentes computadores com diferentes sistemas
+    <para>Felizmente, para os usuários do Subversion que rotineiramente
+      se encontram em diferentes computadores, com diferentes sistemas
       operacionais, o programa de linha de comando do Subversion comporta-se
-      quase que identicamente em todos os sistemas.  Se você sabe como usar
-      o <command>svn</command> em uma plataforma, você sabe como manuseá-lo
-      em qualquer lugar.</para>
+      quase que da mesma forma em todos os sistemas.  Se você sabe como usar
+      o <command>svn</command> em uma plataforma, você saberá como manuseá-lo
+      em qualquer outra.</para>
 
-    <para>Entretanto, o mesmo nem sempre é verdade em outras classes gerais
-      de software, ou nos atuais arquivos que você mantém no Subversion. Por
+    <para>Entretanto, o mesmo nem sempre é verdade em outras classes de software
+      em geral, ou nos atuais arquivos que você mantém no Subversion. Por
       exemplo, em uma máquina Windows, a definição de um <quote>arquivo de
       texto</quote> seria similar à usada em uma máquina Linux, porém
       com uma diferença chave&mdash;os caracteres usados para marcar
-      o fim das linhas destes arquivos.  Existem outras diferenças,
-      também.  As platformas Unix têm (e o Subversion suporta) links
+      o fim das linhas destes arquivos.  Existem outras diferenças
+      também.  As plataformas Unix têm (e o Subversion suporta) links
       simbólicos; Windows não.  As plataformas Unix usam as permissões do
       sistema de arquivos para determinar a executabilidade; Windows usa
       as extensões no nome do arquivo.</para>
@@ -870,7 +870,7 @@ $
       coisas, o melhor que podemos fazer é tentar ajudar a tornar sua vida
       mais simples quando você precisar trabalhar com seus arquivos e
       diretórios versionados em múltiplos computadores e sistemas operacionais.
-      Esta seção descreve alguns dos meios que o Subversion faz isto.</para>
+      Esta seção descreve alguns dos meios de como o Subversion faz isto.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.special.mime-type">
@@ -889,57 +889,57 @@ $
     
         <para>Vários programas nos sistemas operacionais mais modernos fazem
           suposições sobre o tipo e formato do conteúdo de um arquivo
-          pelo nome do arquivo, especificamente sua extensão de arquivo.
+          pelo nome do arquivo, especificamente por sua extensão.
           Por exemplo, arquivos cujos nomes terminam em
-          <filename>.txt</filename> são geralmente supostos ser legíveis
-          humanamente, passíveis de serem compreendidos por simples leitura,
+          <filename>.txt</filename> são, geralmente, supostos ser legíveis
+          por humanos, passíveis de serem compreendidos por simples leitura,
           em vez dos que requerem processamento complexo para os decifrar.
-          Arquivos cujos nomes terminam em <filename>.png</filename>, por
-          outro lado, são assumidos serem do tipo <emphasis>Portable Network
-          Graphics</emphasis>&mdash;não legível humanamente no todo, e
-          perceptível apenas quando interpretado pelo software que entende
-          o formato PNG e pode tornar a informação neste formato como uma
+          Por outro lado, arquivos cujos nomes terminam em <filename>
+          .png</filename> assume-se serem do tipo <emphasis>Portable Network
+          Graphics</emphasis>&mdash; que não são legíveis por humanos, sendo
+          perceptíveis apenas quando interpretados pelo software que entende
+          o formato PNG, e pode tornar a informação neste formato como uma
           imagem desenhada por linhas.</para>
 
         <para>Infelizmente, algumas destas extensões têm seus significados
           modificados ao longo do tempo.  Quando os computadores pessoais
-          apareceram pela primeira vez, um arquivo nomeado
-          <filename>README.DOC</filename> teria sido certamente um arquivo de
+          apareceram pela primeira vez, um arquivo chamado
+          <filename>README.DOC</filename> certamente era um arquivo de
           texto simples, como são hoje os arquivos <filename>.txt</filename>.
           Porém, no meio dos anos de 1990, você poderia apostar que um arquivo
-          com este nome não seria um arquivo de texto simples, mas sim um
+          com este nome não seria mais um arquivo de texto simples, mas sim um
           documento do Microsoft Word em um formato proprietário e humanamente
           ilegível. Mas esta mudança não ocorreu da noite para o dia&mdash;houve
           certamente um período de confusão para os usuário de computador sobre
           o que exatamente eles tinham em mãos quando viam um arquivo
           <filename>.DOC</filename>.
           <footnote>
-            <para>Você pensa que foi árduo?  Durante este mesmo período, o
+            <para>Você acha que foi complicado?  Durante este mesmo período, o
               WordPerfect também usou <filename>.DOC</filename> como extensão
-              escolhida para seu formato de arquivo proprietário!</para>
+              para seu formato de arquivo proprietário!</para>
           </footnote>
         </para>
 
         <para>A popularidade das redes de computadores lançou ainda mais
           dúvidas sobre o mapeamento entre um nome de arquivo e seu conteúdo.
-          Com informações sendo servidas através de redes e geradas
-          dinamicamente por scripts no servidor, não houve muitas vezes
-          arquivos reais por si só, e portanto, sem nome de arquivo. Os
-          servidores Web, por exemplo, precisavam de algum outro modo de dizer
-          aos navegadores que eles estavam baixando um arquivo, assim o navegador
+          Com informações sendo servidas através das redes e geradas
+          dinamicamente por scripts no servidor, freqüentemente, observava-se
+          arquivos não reais e, portanto, sem nome. Os servidores
+          Web, por exemplo, precisavam de algum outro modo para dizer aos 
+          navegadores que eles estavam baixando um arquivo, assim o navegador
           poderia fazer algo inteligente com esta informação, quer seja para
           exibir os dados usando um programa registrado para lidar com este
-          tipo de dados, ou para solicitar ao usário onde armazenar na máquina
-          cliente os dados baixados.</para>
+          tipo de dados, quer seja para solicitar ao usário onde armazenar
+          os dados baixados.</para>
 
         <para>Finalmente, um padrão surgiu para, entre outras coisas,
           descrever o conteúdo de um fluxo de dados.  Em 1996, a RFC2045
           foi publicada, a primeira de cinco RFC's descrevendo o MIME.
-          Esta descreve o conceito de tipos e subtipos de mídia, e
+          Esta RFC descreve o conceito de tipos e subtipos de mídia, e
           recomenda uma sintaxe para a representação destes tipos.  Hoje,
           os tipos de mídia MIME&mdash;ou <quote>tipos MIME</quote>&mdash;são
 		  usados quase que universalmente em todas as aplicações de e-mail,
-		  servidores Web, e outros softwares como o mecanismo de fato
+		  servidores Web e outros softwares como o mecanismo de fato
 		  para esclarecer a confusão do conteúdo de
 		  arquivo.</para>
 
@@ -947,28 +947,28 @@ $
     
       <para>Por exemplo, um dos benefícios que o Subversion tipicamente
         fornece é a fusão contextual, baseada nas linhas, das mudanças recebidas
-        do servidor durante uma atuaização em seu arquivo de trabalho.  Mas
-        para arquivos contendo dados não-textuais, extiste muitas vezes nenhum
-        conceito de uma <quote>linha</quote>.  Assim, para arquivos versionados
+        do servidor durante uma atualização em seu arquivo de trabalho.  Mas,
+        para arquivos contendo dados não-textuais, muitas vezes não existe o
+        conceito de <quote>linha</quote>.  Assim, para os arquivos versionados
         cuja propriedade <literal>svn:mime-type</literal> é definida com
         um tipo MIME não-textual (geralmente, algo que não inicie com
-        <literal>text/</literal>, embora existam exceções), o
-        Subversion não tenta executar fusões contextuais durante
-        as atualizações.  Em vez disso, toda vez que você tenha modificado localmente
-        um arquivo binário da cópia de trabalho que está também sendo atualizada, seu arquivo
-        é deixado intocado e o Subversion cria dois novos arquivos.  Um
-        arquivo tem uma extensão <filename>.oldrev</filename> e contém a
+        <literal>text/</literal>, embora existam exceções), o Subversion
+        não tenta executar fusões contextuais durante as atualizações.
+        Em vez disso, quando você modifica localmente um arquivo binário
+        em sua cópia de trabalho, na momento da atualização, seu 
+        arquivo não é mexido, pois o Subversion cria dois novos arquivos.  Um
+        deles tem a extensão <filename>.oldrev</filename> e contém a
         revisão BASE do arquivo.  O outro arquivo tem uma extensão
         <filename>.newrev</filename> e contém o conteúdo
         da revisão atualizada do arquivo.  Este comportamento
-        é realmente para a proteção do usuário contra tentativas falhas
-        ao executar fusões contextuais nos arquivos que simplesmente
+        serve de proteção ao usuário contra falhas na tentativa
+        de executar fusões contextuais nos arquivos que simplesmente
         não podem ser contextualmente fundidos.</para>
 
-      <para>Além disso, se a propriedade <literal>svn:mime-type</literal> está
-        definida, etão o módulo Apache do Subversion usará seu valor para
-        preencher o cabeçalho HTTP <literal>Content-type:</literal> quando
-        responder a solicitações GET.  Isto oferece ao seu navegador web uma
+      <para>Além disso, se a propriedade <literal>svn:mime-type</literal> 
+        estiver definida, então o módulo Apache do Subversion usará seu valor 
+        para preencher o cabeçalho HTTP <literal>Content-type:</literal> quando
+        responder a solicitações GET.  Isto oferece ao navegador web uma
         dica crucial sobre como exibir um arquivo quando você o utiliza para
         examinar o conteúdo de seu repositório Subversion.</para>
 
