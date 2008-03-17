@@ -8,7 +8,7 @@ There is a difference between the words foreword and preface.
 A foreword is an introductory statement written by someone other
 than the book's author.
 A preface is an introductory statement written by the book's author.
-So I think that "Apresentação" it would be a nice translation from Foreword.
+So I think that "ApresentaÃ§Ã£o" it would be a nice translation from Foreword.
 
 Herrera
 -->
@@ -20,15 +20,15 @@ Herrera
       <firstname>Karl</firstname>
       <surname>Fogel</surname>
     </author>
-    <pubdate>Chicago, 14 de Março de 2004</pubdate>
+    <pubdate>Chicago, 14 de MarÃ§o de 2004</pubdate>
   </prefaceinfo>
 
-  <title>Apresentação</title>
+  <title>ApresentaÃ§Ã£o</title>
 
-  <para>Uma base ruim de Perguntas Freqüentes (FAQ), é aquela que é
-    composta não de perguntas que as pessoas realmente fizeram, mas
+  <para>Uma base ruim de Perguntas FreqÃ¼entes (FAQ), Ã© aquela que Ã©
+    composta nÃ£o de perguntas que as pessoas realmente fizeram, mas
     de perguntas que o autor da FAQ <emphasis>desejou</emphasis> que
-    as pessoas tivessem feito. Talvez você já tenha visto isto antes:</para>
+    as pessoas tivessem feito. Talvez vocÃª jÃ¡ tenha visto isto antes:</para>
 
   <blockquote>
     <para>P: De que forma posso utilizar o Glorbosoft XYZ para
@@ -37,59 +37,59 @@ Herrera
 
   <blockquote>
     <para>R: Muitos dos nossos clientes desejam saber como podem
-      maximizar a produtividade através de nossas inovações
-      patenteadas de groupware para escritórios.  A resposta é
+      maximizar a produtividade atravÃ©s de nossas inovaÃ§Ãµes
+      patenteadas de groupware para escritÃ³rios.  A resposta Ã©
       simples: primeiro, clique no menu 
-      <quote><literal>Arquivo</literal></quote>. Desça até a opção
+      <quote><literal>Arquivo</literal></quote>. DesÃ§a atÃ© a opÃ§Ã£o
       <quote><literal>Aumentar&nbsp;Produtividade</literal></quote>,
-      então&hellip;</para>
+      entÃ£o&hellip;</para>
   </blockquote>
 
-<!-- Nesta seção tinha um termo "Field Naturalist" que eh uma espécie de 
-     cientista biólogo. Achei melhor ficar só com o termo cientista.
+<!-- Nesta seÃ§Ã£o tinha um termo "Field Naturalist" que eh uma espÃ©cie de 
+     cientista biÃ³logo. Achei melhor ficar sÃ³ com o termo cientista.
 -->
 
-  <para>O problema com estas bases de FAQ é que eles não são,
-    propriamente ditas, FAQ.  Ninguém nunca liga para o suporte
-    técnico e pergunta <quote>Como nós podemos maximizar a
+  <para>O problema com estas bases de FAQ Ã© que eles nÃ£o sÃ£o,
+    propriamente ditas, FAQ.  NinguÃ©m nunca liga para o suporte
+    tÃ©cnico e pergunta <quote>Como nÃ³s podemos maximizar a
     produtividade?</quote>.  Em vez disso, as pessoas fazem perguntas
-    muito mais específicas, como: <quote>Como podemos alterar o
-    sistema de calendário para enviar lembretes dois dias antes ao
-    invés de um?</quote>, etc.  Mas é muito mais fácil forjar
-    Perguntas Freqüentes imaginárias do que descobrir as
+    muito mais especÃ­ficas, como: <quote>Como podemos alterar o
+    sistema de calendÃ¡rio para enviar lembretes dois dias antes ao
+    invÃ©s de um?</quote>, etc.  Mas Ã© muito mais fÃ¡cil forjar
+    Perguntas FreqÃ¼entes imaginÃ¡rias do que descobrir as
     verdadeiras.  Compilar uma verdadeira base de FAQ exige um
-    esforço contínuo e organizado: através do ciclo de vida do
-    software, as questões que chegam devem ser rastreadas, respostas
+    esforÃ§o contÃ­nuo e organizado: atravÃ©s do ciclo de vida do
+    software, as questÃµes que chegam devem ser rastreadas, respostas
     monitoradas, e tudo deve ser reunido em um todo coerente,
-    pesquisável que reflete a experiência coletiva dos usuários
-    em seu mundo.  Isto requer a paciência e a atitude observadora de
-    um cientista.  Nenhuma grande teoria ou pronunciamentos visionários
-    aqui&mdash;olhos abertos e anotações precisas são o principal.</para>
+    pesquisÃ¡vel que reflete a experiÃªncia coletiva dos usuÃ¡rios
+    em seu mundo.  Isto requer a paciÃªncia e a atitude observadora de
+    um cientista.  Nenhuma grande teoria ou pronunciamentos visionÃ¡rios
+    aqui&mdash;olhos abertos e anotaÃ§Ãµes precisas sÃ£o o principal.</para>
 
-  <para>O que eu amo neste livro é que ele surgiu deste processo, e
-    isto é evidenciado em cada página.  Ele é o resultado direto dos
-    encontros entre os autores e usuários.  Ele começou quando Ben
+  <para>O que eu amo neste livro Ã© que ele surgiu deste processo, e
+    isto Ã© evidenciado em cada pÃ¡gina.  Ele Ã© o resultado direto dos
+    encontros entre os autores e usuÃ¡rios.  Ele comeÃ§ou quando Ben
     Collins-Sussman observou que as pessoas estavam fazendo as mesmas
-    perguntas básicas diversas vezes nas listas de discussão
-    do Subversion, como por exemplo: Quais são os
-    procedimentos-padrão para se utilizar o Subversion?
+    perguntas bÃ¡sicas diversas vezes nas listas de discussÃ£o
+    do Subversion, como por exemplo: Quais sÃ£o os
+    procedimentos-padrÃ£o para se utilizar o Subversion?
     Branches e tags funcionam do mesmo modo como em outros sistemas
-    de controle de versão?  Como eu posso saber quem realizou uma
-    alteração em particular?</para>
+    de controle de versÃ£o?  Como eu posso saber quem realizou uma
+    alteraÃ§Ã£o em particular?</para>
 
-  <para>Frustrado em ver as mesmas questões dia após dia, Ben
-    trabalhou intensamente durante um mês no verão de 2002 para
+  <para>Frustrado em ver as mesmas questÃµes dia apÃ³s dia, Ben
+    trabalhou intensamente durante um mÃªs no verÃ£o de 2002 para
     escrever <citetitle>The Subversion Handbook</citetitle>, um
-    manual de sessenta páginas cobrindo todas as funcionalidades
-    básicas do Subversion.  O manual não tinha a pretensão de ser
-    completo, mas ele foi distribuído com o Subversion e auxiliou os
-    usuários a ultrapassarem as dificuldades iniciais na curva de
+    manual de sessenta pÃ¡ginas cobrindo todas as funcionalidades
+    bÃ¡sicas do Subversion.  O manual nÃ£o tinha a pretensÃ£o de ser
+    completo, mas ele foi distribuÃ­do com o Subversion e auxiliou os
+    usuÃ¡rios a ultrapassarem as dificuldades iniciais na curva de
     aprendizado.  Quando a O'Reilly and Associates decidiu publicar
-    um livro completo sobre o Subversion, o caminho menos crítico
-    estava óbvio: apenas estender o manual.</para>
+    um livro completo sobre o Subversion, o caminho menos crÃ­tico
+    estava Ã³bvio: apenas estender o manual.</para>
 
-  <para>Para os três co-autores do novo livro então lhes foi dada uma
-    oportunidade ímpar.  Oficialmente, sua tarefa era escrever um
+  <para>Para os trÃªs co-autores do novo livro entÃ£o lhes foi dada uma
+    oportunidade Ã­mpar.  Oficialmente, sua tarefa era escrever um
     livro top-down, starting from a table of contents and an initial draft.  But they also had access to a steady
     stream&mdash;indeed, an uncontrollable geyser&mdash;of bottom-up
     source material.  Subversion was already in the hands of
@@ -98,44 +98,44 @@ Herrera
     documentation.</para>
 
   <para>Durante todo o tempo em que eles escreveram o livro, Ben,
-    Mike, e Brian habitaram as listas de discussão e salas de
+    Mike, e Brian habitaram as listas de discussÃ£o e salas de
     bate-papo do Subversion, registrando cuidadosamente os problemas
-    que os usuário estavam tendo em situações na vida-real.
-    Monitorar este feedback, fazia parte da descrição de sua função
+    que os usuÃ¡rio estavam tendo em situaÃ§Ãµes na vida-real.
+    Monitorar este feedback, fazia parte da descriÃ§Ã£o de sua funÃ§Ã£o
     na CollabNet, e isto lhes deu uma enorme vantagem quando
-    começaram a documentar o Subversion.  O livro que eles produziram
-    é solidamente fundamentado na rocha da experiência, não nas
-    areias mutáveis da ilusão; ele combina os melhores aspectos de um
-    manual de usuário e uma base de FAQ.  Esta dualidade talvez não
-    seja perceptível numa primeira leitura.  Lido na ordem, de frente
-    para trás, o livro é uma descrição bem direta de uma peça de
-    software.  Existe a visão geral, o obrigatório tour, o capítulo
-    sobre configuração administrativa, alguns tópicos avançados, e é
-    claro uma referência de comandos e um guia de resolução de
-    problemas.  Somente quando você o ler novamente mais tarde,
-    procurando a solução para um problema específico, é que sua
-    autenticidade reluzirá: the telling details that can only result from encounters
+    comeÃ§aram a documentar o Subversion.  O livro que eles produziram
+    Ã© solidamente fundamentado na rocha da experiÃªncia, nÃ£o nas
+    areias mutÃ¡veis da ilusÃ£o; ele combina os melhores aspectos de um
+    manual de usuÃ¡rio e uma base de FAQ.  Esta dualidade talvez nÃ£o
+    seja perceptÃ­vel numa primeira leitura.  Lido na ordem, de frente
+    para trÃ¡s, o livro Ã© uma descriÃ§Ã£o bem direta de uma peÃ§a de
+    software.  Existe a visÃ£o geral, o obrigatÃ³rio tour, o capÃ­tulo
+    sobre configuraÃ§Ã£o administrativa, alguns tÃ³picos avanÃ§ados, e Ã©
+    claro uma referÃªncia de comandos e um guia de resoluÃ§Ã£o de
+    problemas.  Somente quando vocÃª o ler novamente mais tarde,
+    procurando a soluÃ§Ã£o para um problema especÃ­fico, Ã© que sua
+    autenticidade reluzirÃ¡: the telling details that can only result from encounters
     with the unexpected, the examples honed from genuine use cases,
     and most of all the sensitivity to the user's needs and the
     user's point of view.</para>
 
-  <para>É claro, que ninguém pode prometer que este livro responderá
-    todas as dúvidas que você tem sobre o Subversion.  Certas vezes,
-    a precisão com que ele antecipa suas perguntas parecerá
-    assustadoramente telepática; ainda sim, ocasionalmente, você will stumble into a
-    hole no conhecimento da comunidade, e sairá de mãos-vazias.
-    Quando isto acontecer, a melhor coisa que você pode fazer é
+  <para>Ã‰ claro, que ninguÃ©m pode prometer que este livro responderÃ¡
+    todas as dÃºvidas que vocÃª tem sobre o Subversion.  Certas vezes,
+    a precisÃ£o com que ele antecipa suas perguntas parecerÃ¡
+    assustadoramente telepÃ¡tica; ainda sim, ocasionalmente, vocÃª will stumble into a
+    hole no conhecimento da comunidade, e sairÃ¡ de mÃ£os-vazias.
+    Quando isto acontecer, a melhor coisa que vocÃª pode fazer Ã©
     enviar um email para <email>users@subversion.tigris.org</email> e
-    apresentar seu problema.  Os autores ainda estão lá, continuam
-    observando, e não somente os três listados na capa, mas muitos
-    outros que contribuíram com correções e materiais originais.
-    Do ponto de vista da comunidade, resolver o seu problema é
-    meramente um agradável efeito de um projeto muito maior&mdash;namely,
+    apresentar seu problema.  Os autores ainda estÃ£o lÃ¡, continuam
+    observando, e nÃ£o somente os trÃªs listados na capa, mas muitos
+    outros que contribuÃ­ram com correÃ§Ãµes e materiais originais.
+    Do ponto de vista da comunidade, resolver o seu problema Ã©
+    meramente um agradÃ¡vel efeito de um projeto muito maior&mdash;namely,
     slowly adjusting this book, and ultimately Subversion itself, to
     more closely match the way people actually use it.  They are
     eager to hear from you not merely because they can help you, but
     because you can help them.  Com o Subversion, assim como em todo
-    projeto ativo de software livre, <emphasis>você não está
+    projeto ativo de software livre, <emphasis>vocÃª nÃ£o estÃ¡
     sozinho</emphasis>.</para>
 
   <para>Que este livro seja seu primeiro companheiro.</para>
