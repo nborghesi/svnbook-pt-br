@@ -1182,61 +1182,61 @@ $
       conseqüentemente, afeta todos aqueles que têm uma cópia de trabalho desta árvore.
       Os dois mecanismos usam filtros de arquivo.</para>
 
-    <para>The Subversion runtime configuration system provides an
-      option, <literal>global-ignores</literal>, whose value is a
-      whitespace-delimited collection of file patterns (also known as
-      <firstterm>globs</firstterm>).  The Subversion client checks
-      these patterns against the names of the files which are
-      candidates for addition to version control, as well as to
-      unversioned files which the <command>svn status</command>
-      command notices.  If any file's name matches one of the
-      patterns, Subversion will basically act as if the file didn't
-      exist at all.  This is really useful for the kinds of files that
-      you almost never want to version, such as editor backup files
-      like Emacs' <literal>*~</literal> and <literal>.*~</literal>
-      files.</para>
+    <para>O sistema de configuração <foreignphrase>runtime</foreignphrase> do Subversion oferece uma
+      opção, <literal>global-ignores</literal>, cujo valor é uma coleção
+      de filtros de arquivo delimitados por espaços em branco (também conhecida com
+      <firstterm>globs</firstterm>).  O cliente do Subversion verifica
+      esses filtros em comparação com os nomes dos arquivos que são
+      candidatos para adição ao controle de versão, bem como os arquivos
+      não versionados os quais o comando <command>svn status</command>
+      notifica.  Se algum nome de arquivo coincidir com um dos
+      filtros, basicamente, o Subversion atuará como se o arquivo não
+      existisse.  Isto é realmente útil para os tipos de arquivos que
+      você raramente precisará controlar versão, tal como cópias de arquivos feitas por editores
+      como os arquivos <literal>*~</literal> e <literal>.*~</literal> do
+      <foreignphrase>Emacs</foreignphrase>.</para>
 
-    <para>When found on a versioned directory, the
-      <literal>svn:ignore</literal> property is expected to contain a
-      list of newline-delimited file patterns which Subversion should
-      use to determine ignorable objects in that same directory.
-      These patterns do not override those found in the
-      <literal>global-ignores</literal> runtime configuration option,
-      but are instead appended to that list.  And it's worth noting
-      again that, unlike the <literal>global-ignores</literal> option,
-      the patterns found in the <literal>svn:ignore</literal>
-      property apply only to the directory on which that property is
-      set, and not to any of its subdirectories.  The
-      <literal>svn:ignore</literal> property is a good way to tell
-      Subversion to ignore files that are likely to be present in
-      every user's working copy of that directory, such as compiler
-      output or&mdash;to use an example more appropriate to this
-      book&mdash;the HTML, PDF, or PostScript files generated as the
-      result of a conversion of some source DocBook XML files to a
-      more legible output format.</para>
+    <para>Quando encontrada em um diretório versionado, a propriedade
+      <literal>svn:ignore</literal> espera que contenha uma lista de
+      filtros de arquivo delimitadas por quebras de linha que o Subversion deve
+      usar para determinar objetos ignoráveis neste mesmo diretório.
+      Estes filtros não anulam os encontrados na opção
+      <literal>global-ignores</literal> da configuração <foreignphrase>runtime</foreignphrase>,
+      porém, são apenas anexados a esta lista.  E é importante notar mais
+      uma vez que, ao contrário da opção <literal>global-ignores</literal>,
+      os filtros encontrados na propriedade <literal>svn:ignore</literal>
+      aplicam-se somente ao diretório no qual esta propriedade está
+      definida, e em nenhum de seus subdiretórios.  A propriedade
+      <literal>svn:ignore</literal> é uma boa meneira para dizer ao
+      Subversion ignorar arquivos que estão susceptíveis a estarem presentes em
+      todas as cópias de trabalho de usuário deste diretório, assim como as saídas
+      de compilador ou&mdash;para usar um exemplo mais apropriado para este
+      livro&mdash;os arquivos HTML, PDF, ou PostScript produzidos como o
+      resultado de uma conversão de alguns arquivos XML do fonte DocBook para um
+      formato de saída mais legível.</para>
 
     <note>
-      <para>Subversion's support for ignorable file patterns extends
-        only to the one-time process of adding unversioned
-        files and directories to version control.  Once an object is
-        under Subversion's control, the ignore pattern mechanisms no
-        longer apply to it.  In other words, don't expect Subversion
-        to avoid committing changes you've made to a versioned file
-        simply because that file's name matches an ignore
-        pattern&mdash;Subversion <emphasis>always</emphasis> notices
-        all of its versioned objects.</para>
+      <para>O suporte do Subversion para filtros de arquivos ignoráveis extende
+        somente até o processo de adicionar arquivos e diretórios
+        não versionados ao controle de versão.  Desde que um objeto está
+        sob o controle do Subversion, os mecanismos de filtro de ignoração já
+        não são mais aplicáveis a ele.  Em outras palavras, não espere que o Subversion
+        deixe de realizar a submissão de mudanças que você efetuou em arquivos versionados
+        simplesmente porque estes nomes de arquivo coincidem com um filtro de
+        ignoração&mdash;o Subversion <emphasis>sempre</emphasis> avisa quais
+        objetos foram versionados.</para>
     </note>
 
     <sidebar>
-      <title>Ignore Patterns for CVS Users</title>
+      <title>Filtros de Rejeição para Usuários CVS</title>
     
-      <para>The Subversion <literal>svn:ignore</literal> property is
-        very similar in syntax and function to the CVS
-        <filename>.cvsignore</filename> file.  In fact, if you are
-        migrating a CVS working copy to Subversion, you can directly
-        migrate the ignore patterns by using the
-        <filename>.cvsignore</filename> file as input file to the
-        <command>svn propset</command> command:</para>
+      <para>A propriedade <literal>svn:ignore</literal> do Subversion é
+        muito similar em sintaxe e função ao arquivo
+        <filename>.cvsignore</filename> do CVS.  De fato, se você está
+        migrando de uma cópia de trabalho CVS para Subversion, você pode
+        migrar os filtros de rejeição, diretamente, pelo uso do arquivo
+        <filename>.cvsignore</filename> como arquivo de entrada para o
+        comando <command>svn propset</command>:</para>
    
       <screen>
 $ svn propset svn:ignore -F .cvsignore .
@@ -1244,13 +1244,13 @@ property 'svn:ignore' set on '.'
 $
 </screen>        
     
-      <para>There are, however, some differences in the ways that CVS
-        and Subversion handle ignore patterns.  The two systems use
-        the ignore patterns at some different times, and there are
-        slight discrepancies in what the ignore patterns apply to.
-        Also, Subversion does not recognize the use of the
-        <literal>!</literal> pattern as a reset back to having no
-        ignore patterns at all.</para>
+      <para>Existem, entretanto, algumas diferenças nos meios que CVS
+        e Subversion manipulam filtros de rejeição.  Os dois sistemas usam
+        os filtros de rejeição em tempos um pouco diferentes, e existem
+        legeiras discrepâncias na aplicação dos filtros de rejeição.
+        Além disso, o Subversion não reconhece o uso do filtro
+        <literal>!</literal> como uma redefinição que torna os filtros
+        seguintes como não-ignorados.</para>
 
     </sidebar>
 
