@@ -2943,18 +2943,17 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.reposadmin.summary">
-    <title>Summary</title>
+    <title>Sumário</title>
 
-    <para>By now you should have a basic understanding of how to
-      create, configure, and maintain Subversion repositories.  We've
-      introduced you to the various tools that will assist you with
-      this task.  Throughout the chapter, we've noted common
-      administration pitfalls, and suggestions for avoiding
-      them.</para>
+    <para>Até agora você deve ter tido um entendimento de como 
+	criar, configurar e manter repositórios Subversion.
+	Nós o introduzimos a várias ferramentas que o ajudarão
+	nessa tarefa. Ao longo desse capítulo, nós mostramos
+	obstáculos comuns e sugestões para evitá-los.</para>
 
-    <para>All that remains is for you to decide what exciting data to
-      store in your repository, and finally, how to make it available
-      over a network.  The next chapter is all about networking.</para>
+    <para>Tudo que falta é para você é decidir que tipo de informação
+	armazenar no seu repositório, e finalmente, como deixá-lo 
+	disponível na rede. O próximo capítulo é todo sobre rede.</para>
 
   </sect1>
 </chapter>
