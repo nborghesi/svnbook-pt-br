@@ -1,35 +1,35 @@
 <chapter id="svn.reposadmin">
-  <title>Repository Administration</title>
+  <title>Administração do Respositório</title>
 
-  <para>The Subversion repository is the central storehouse of all
-    your versioned data.  As such, it becomes an obvious candidate for
-    all the love and attention an administrator can offer.  While the
-    repository is generally a low-maintenance item, it is important to
-    understand how to properly configure and care for it so that
-    potential problems are avoided, and actual problems are safely
-    resolved.</para>
+  <para>O respositório Subversion é a central de todos os dados que 
+      estão sobre o controle de versão. Assim, ele se transforma num candidato
+      óbivo para receber todo amor e atenção que o administrador pode oferecer.
+      Enquanto o respositório é geralmente um item de manutenção baixa, 
+      é importante entender como configurar e cuidar propriamente para que potenciais 
+      problemas sejam evitados e eventuais problemas sejam resolvidos de maneira 
+      segura.</para>
 
-  <para>In this chapter, we'll discuss how to create and configure a
-    Subversion repository.  We'll also talk about repository
-    maintenance, providing examples of how and when to use the
-    <command>svnlook</command> and <command>svnadmin</command> tools
-    provided with Subversion.  We'll address some common questions and
-    mistakes, and give some suggestions on how to arrange the data in
-    the repository.</para>
+  <para>Neste capítulo, vamos discutir como criar e configura um respositório
+      Subversion. Vamos falar também sobre manutenção, dando exemplos de 
+      como e quando usar as ferramentas <command>svnlook</command> e 
+      <command>svnadmin</command> providas pelo Subversion. Vamos apontar
+      alguns questionamentos e erros, e dar algumas sugestões em como 
+      organizar seus dados em um repositório.</para>
 
-  <para>If you plan to access a Subversion repository only in the
-    role of a user whose data is under version control (that is, via
-    a Subversion client), you can skip this chapter altogether.
-    However, if you are, or wish to become, a Subversion repository
-    administrator,
-    <footnote>
-      <para>This may sound really prestigious and lofty, but we're
-        just talking about anyone who is interested in that
-        mysterious realm beyond the working copy where everyone's
-        data hangs out.</para>
-    </footnote>
-    this chapter is for you.</para>
 
+  <para>Se você planeja acessar um respositório Subversion apenas 
+      como um usuário cujos dados estão em um controle de versão 
+      (que seria via um cliente Subversion), você pode pular esse
+      capítulo todo. Entretanto, se você é, ou deseja se tornar, 
+      um administrador de um respositório Subversion,
+      <footnote>
+	  <para>
+	      Isto pode soar bem metido ou arrogante, mas nós estomos
+	      apenas falando de alguém que tenha interesse no misterioso
+	      local por trás das cópias de trabalho onde os dados de 
+	      todos ficam.</para>
+      </footnote> 
+      este capítulo é para você.</para>
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
