@@ -2556,23 +2556,25 @@ $ svn_load_dirs.pl -t libcomplex-1.1                              \
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.summary">
-    <title>Summary</title>
+    <title>Sumário</title>
 
-    <para>We've covered a lot of ground in this chapter.  We've
-      discussed the concepts of tags and branches, and demonstrated
-      how Subversion implements these concepts by copying directories
-      with the <command>svn copy</command> command.  We've shown how
-      to use <command>svn merge</command> to copy changes from one
-      branch to another, or roll back bad changes.  We've gone over
-      the use of <command>svn switch</command> to create
-      mixed-location working copies.  And we've talked about how one
-      might manage the organization and lifetimes of branches in a
-      repository.</para>
+    <para>Nós cobrimos muito chão nesse capítulo. Nós discutimos
+	conceitos de rótulo<foreignphrase>tags</foreignphrase> e
+	ramos <foreignphrase>branches</foreignphrase>, e demonstramos
+	como Subversion implementa estes conceitos através da cópia de 
+	diretórios com o comando <command>svn copy</command>. Nós mostramos
+	como usar <command>svn merge</command> para copiar mudanças de um
+	ramo <foreignphrase>branch</foreignphrase> para outro, ou reverter
+	mudanças indesejadas. Nós passamos pelo uso do <command>svn switch</command>
+	para criar locais mistos de copias de trabalho. E nós falamos sobre como eles
+	podem gerenciar a organização e vida dos ramos <foreignphrase>branches</foreignphrase>
+	em um respositório.
 
-    <para>Remember the Subversion mantra: branches and tags are cheap.
-      So use them liberally!  At the same time, don't forget to use
-      good merging habits.  Cheap copies are only useful when you're
-      careful about tracking your merging actions.</para>
+    <para>Lembre-se do mantra do Subversion: ramos <foreignphrase>branches</foreignphrase>
+	e rótulos <foreignphrase>tags</foreignphrase> são baratos. Então use-os livremente!
+	Ao mesmo tempo, não esqueça de usar bons hábitos de fusão 
+	<foreignphrase>merge</foreignphrase>. Copias baratas são úteis apenas quando você
+	é cuidadoso ao rastrear suas fusões<foreignphrase>merges</foreignphrase>.</para> 
 
   </sect1>
 
