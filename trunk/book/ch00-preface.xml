@@ -256,148 +256,148 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.preface.organization">
-    <title>Organization of This Book</title>
+    <title>Organização Deste Livro</title>
 
-    <para>The chapters that follow and their contents are listed
-      here:</para>
+    <para>Abaixo estão listados os capítulos e seus conteúdos estão listados: 
+      </para>
 
       <variablelist>
         
         <varlistentry>
           <term><xref linkend="svn.preface"/></term>
           <listitem>
-            <para>Covers the history of Subversion as well as its
-              features, architecture, and components.</para>
+            <para>Cobre a história do Subversion bem como suas 
+              características, arquitetura e compomentes.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.basic"/></term>
           <listitem>
-            <para>Explains the basics of version control and different
-              versioning models, along with Subversion's repository,
-              working copies, and revisions.</para>
+            <para>Explica o básico sobre controle de versão e os diferentes
+              modelos de versionamento, o repositório do Subversion,
+              cópias de trabalho e revisões.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.tour"/></term>
           <listitem>
-            <para>Walks you through a day in the life of a Subversion
-              user.  It demonstrates how to use a Subversion client to
-              obtain, modify, and commit data.</para>
+            <para>Faz um tour em um dia na vida de um usuário do Subversion.
+              Demonstra como usar o cliente do subversion para
+              obter, modificar e submeter dados.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.advanced"/></term>
           <listitem>
-            <para>Covers more complex features that regular users will
-              eventually come into contact with, such as versioned
-              metadata, file locking, and peg revisions.</para>
+            <para>Cobre as características mais complexas que os usuários 
+              regulares irão encontrar eventualmente, como metadados, travamento
+               de arquivo(<foreignphrase>locking</foreignphrase>) e rotulagem de revisões.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.branchmerge"/></term>
           <listitem>
-            <para>Discusses branches, merges, and tagging, including
-              best practices for branching and merging, common
-              use cases, how to undo changes, and how to easily swing
-              from one branch to the next.</para>
+            <para>Discute sobre ramos, fusões, e rotulagem, 
+              incluindo as melhores práticas para a criação de ramos e fusões,
+              casos de uso comuns, como desfazer alterações, e como facilitar 
+              a troca de um ramo para o outro.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.reposadmin"/></term>
           <listitem>
-            <para>Describes the basics of the Subversion repository,
-              how to create, configure, and maintain a repository, and
-              the tools you can use to do all of this.</para>
+            <para>Descreve o básico de um repositório Subversion,
+              como criar, configurar, e manter um repositório, e
+              as ferramentas que podem ser usadas para isso.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.serverconfig"/></term>
           <listitem>
-            <para>Explains how to configure your Subversion server and
-              different ways to access your repository:
-              <literal>HTTP</literal>, the <literal>svn</literal>
-              protocol, and local disk access.  It also covers the details
-              of authentication, authorization and anonymous
-              access.</para>
+            <para>Explica como configurar um servidor Subversion e os
+              diferentes caminhos para acessar seu repositório:
+              <literal>HTTP</literal>, o protocolo<literal>svn</literal>
+              e o acesso local pelo disco.  Também cobre os detalhes de 
+              autenticação, autorização e acesso 
+              anônimo.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.customization"/></term>
           <listitem>
-            <para>Explores the Subversion client configuration files,
-              the handling of internationalized text, and how to make
-              external tools cooperate with Subversion.</para>
+            <para>Explora os arquivos de configuração do cliente Subversion,
+              a internacionalização de texto, e como fazer com que
+              ferramentas externas trabalhem com o subversion.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.developer"/></term>
           <listitem>
-            <para>Describes the internals of Subversion, the
-              Subversion filesystem, and the working copy
-              administrative areas from a programmer's point of view.
-              Demonstrates how to use the public APIs to write a
-              program that uses Subversion, and most importantly, how
-              to contribute to the development of Subversion.</para>
+            <para>Descreve as partes internas do Subversion, o sistema de
+              arquivos do Subversion, e a cópia de trabalho da área 
+              administrativa do ponto de vista de um programador.
+              Demonstra como usar as APIs públicas para escrever um programa
+              que usa o Subversion, e o mais importante, como contribuir para
+              o desenvolvimento do Subversion.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.ref"/></term>
           <listitem>
-            <para>Explains in great detail every subcommand of
-              <command>svn</command>, <command>svnadmin</command>, and
-              <command>svnlook</command> with plenty of examples for
-              the whole family!</para>
+            <para>Explica em detalhes todos os subcomandos do
+              <command>svn</command>, <command>svnadmin</command>, e
+              <command>svnlook</command> com abundância de exemplos para toda
+              a família!</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.intro"/></term>
           <listitem>
-            <para>For the impatient, a whirlwind explanation of how to
-              install Subversion and start using it immediately.  You
-              have been warned.</para>
+            <para>Para os impacientes, uma rápida explicação de como 
+              instalar o Subversion e iniciar seu uso imediatamente. Você foi
+              avisado.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.forcvs"/></term>
           <listitem>
-            <para>Covers the similarities and differences between
-              Subversion and CVS, with numerous suggestions on how to
-              break all the bad habits you picked up from years of
-              using CVS.  Included are descriptions of Subversion
-              revision numbers, versioned directories, offline
-              operations, <command>update</command>
-              vs. <command>status</command>, branches, tags, metadata,
-              conflict resolution, and authentication.</para>
+            <para>Cobre as similaridades e diferenças entre o 
+              Subversion e o CVS, com numerosas sugestões de como fazer para
+              quebrar todos os maus hábitos que você adquiriu ao longo dos anos
+              com o uso do CVS.  Inclui a descrição de número de revisão
+              do Subversion, versionamento de diretórios, operações offline,
+              <command>update</command>
+              vs. <command>status</command>, ramos, rótulos, 
+              resolução de conflitos e autenticação.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.webdav"/></term>
           <listitem>
-            <para>Describes the details of WebDAV and DeltaV, and how
-              you can configure your Subversion repository to be
-              mounted read/write as a DAV share.</para>
+            <para>Descreve os detalhes do WebDAV e DeltaV, e como você pode
+              configurar e montar seu repositório Subversion em modo de
+              leitura/escrita em um compartilhamento DAV.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><xref linkend="svn.3rdparty"/></term>
           <listitem>
-            <para>Discusses tools that support or use Subversion,
-              including alternative client programs, repository
-              browser tools, and so on.</para>
+            <para>Discute as ferramentas que suportam ou usam o Subversion,
+              incluindo programas clientes alternativos, ferramentas para 
+              navegação no repositório, e muito mais.</para>
           </listitem>
         </varlistentry>
 
