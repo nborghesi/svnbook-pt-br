@@ -1,71 +1,71 @@
 <chapter id="svn.branchmerge">
-  <title>Branching and Merging</title>
+  <title>Fundindo e Ramificando</title>
 
   <blockquote>
-    <attribution>Confucius</attribution>
+    <attribution>Confucio</attribution>
     <para><quote>君子务本
       (It is upon the Trunk that a gentleman works.)</quote></para>
   </blockquote>
 
 
-  <para>Branching, tagging, and merging are concepts common to
-    almost all version control systems.  If you're not familiar with
-    these ideas, we provide a good introduction in this chapter.  If
-    you are familiar, then hopefully you'll find it interesting to
-    see how Subversion implements these ideas.</para>
+  <para>Criar Ramos, Rótulo, e Fundir são conceitor comuns a quase 
+	todos os sistemas de controle de Versão. Caso você não esteja
+	familiarizado com estes conceitos, nos oferecemos uma boa
+	introdução a estes nesse capitulo. Se você ja conhece estes 
+	conceitos, então você vai achar interessante conhecer a maneira
+	como o Subversion implementa esses conceitos.</para>
 
-  <para>Branching is a fundamental part of version control.  If
-    you're going to allow Subversion to manage your data, then this
-    is a feature you'll eventually come to depend on.  This chapter
-    assumes that you're already familiar with Subversion's basic
-    concepts (<xref linkend="svn.basic"/>).</para>
+  <para>Criar Ramos é um item fundamental para Controle de Versão. Se
+	você vai usar o Subversion para gerenciar seus dados, então essa
+	é uma funcionalidade da qual você vai acaber dependendo. Este 
+	capitulo assume que você já esta familiarizado com os conceitos
+	básicos do Subversion(<xref linkend="svn.basic"/>).</para>
 
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.whatis">
-    <title>What's a Branch?</title>
+    <title>O que é um Ramo?</title>
 
-    <para>Suppose it's your job to maintain a document for a division
-      in your company, a handbook of some sort.  One day a different
-      division asks you for the same handbook, but with a few parts
-      <quote>tweaked</quote> for them, since they do things slightly
-      differently.</para>
+    <para>Suponha que é o seu trabalho manter um documento de uma
+	  divisão de sua empresa, um livro de anotações por exemplo. Um
+	  dia, uma outra divisão lhe pede este mesmo livro, mas com 
+	  alguns <quote>ajustes</quote> para eles, uma vez que eles
+	  trabalham de uma forma um pouco diferente.</para>
 
-    <para>What do you do in this situation?  You do the obvious thing:
-      you make a second copy of your document, and begin maintaining
-      the two copies separately.  As each department asks you to make
-      small changes, you incorporate them into one copy or the
-      other.</para>
+    <para>O que você faz nessa situação? Você faz o obvio: faz uma
+	  segunda cópia do seu documento, e começa a controlar as duas
+	  cópias separadamente. Quando cada departamento lhe requisitar
+	  por alterações, você as realiza em um copia, ou na outra.</para>
 
-    <para>You often want to make the same change to both copies.  For
-      example, if you discover a typo in the first copy, it's very
-      likely that the same typo exists in the second copy.  The two
-      documents are almost the same, after all; they only differ in
-      small, specific ways.</para>
+    <para>Em raros casos você vai precisar fazer alterações nos 
+	  dois documentos. Um exemplo, se você encontrar um erro em um
+	  dos arquivos, é muito provavel que este erro exista na segunda 
+	  cópia. A final, os dois documentos são quase identicos, eles
+	  apenas tem pequenas diferenças, em locais especificos.</para>
 
-    <para>This is the basic concept of a
-      <firstterm>branch</firstterm>&mdash;namely, a line of
-      development that exists independently of another line, yet still
-      shares a common history if you look far enough back in time.  A
-      branch always begins life as a copy of something, and moves on
-      from there, generating its own history (see <xref
-      linkend="svn.branchmerge.whatis.dia-1"/>).</para>
+    <para>Este é o conceito basico de 
+	  <firstterm>Ramo</firstterm>&mdash;namely, uma linha de
+	  desenvolvimento que existe independente de outra linha, e ainda, 
+	  partilham um historico em comum, se você olha para tras na linha
+	  tempo. Um Ramo sempre se inicia como cópia de outra coisa, e segue
+	  rumo proprio a partir desse ponto, gerando seu proprio historico.
+	  (veja <xref linkend="svn.branchmerge.whatis.dia-1"/>).</para>
 
       <figure id="svn.branchmerge.whatis.dia-1">
-        <title>Branches of development</title>
+        <title>Ramos no desenvolvimento</title>
         <graphic fileref="images/ch04dia1.png"/>
       </figure>
 
-    <para>Subversion has commands to help you maintain parallel
-      branches of your files and directories.  It allows you to create
-      branches by copying your data, and remembers that the copies are
-      related to one another.  It also helps you duplicate changes
-      from one branch to another.  Finally, it can make portions of
-      your working copy reflect different branches, so that you can
-      <quote>mix and match</quote> different lines of development in
-      your daily work.</para>
+    <para>O Subversion tem comandos para ajudar a controlar Ramos
+	  paralelos de um arquivo ou diretorio. Ele permite você criar
+	  ramos copiando seus dados, e ainda lembra que as copias tem
+	  relação entre si. Ainda é possivel duplicar copias de um ramo 
+	  para outro. Finalmente, ele pode fazer com que partes de sua
+	  copia de trabalho reflitam ramos diferentes, assim você pode
+	  <quote>misturar e combinar</quote> diferentes linhas de desenvolvimento no seu 
+	  trabalho de dia-a-dia.</para>
 
   </sect1>
 
