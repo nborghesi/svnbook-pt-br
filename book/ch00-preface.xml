@@ -412,39 +412,39 @@
   <sect1 id="svn.preface.free">
     <title>This Book is Free</title>
 
-    <para>This book started out as bits of documentation written by
-      Subversion project developers, which were then coalesced into a
-      single work and rewritten.  As such, it has always been under a
-      free license.  (See <xref linkend="svn.copyright"/>.)  In fact,
-      the book was written in the public eye, originally as a part of
-      Subversion project itself.  This means two things:</para>
+    <para>Este livro teve início com a documentação escrita pelos desenvolvedores
+      do projeto Subversion, o qual foi reunido em um único trabalho e 
+      reescrito.  Assim, ele sempre esteve sob uma licença livre.
+      (Veja <xref linkend="svn.copyright"/>.)  De fato,
+      o livro foi escrito sob uma visão pública, originalmente como parte do
+      próprio projeto Subversion.  Isto significa duas coisas:</para>
 
     <itemizedlist>
       <listitem>
-        <para>You will always find the latest version of this book in
-          the book's own Subversion repository.</para>
+        <para>Você sempre irá encontrar a última versão deste livro no próprio
+          repositório Subversion do livro.</para>
       </listitem>
 
       <listitem>
-        <para>You can make changes to this book and redistribute it
-          however you wish&mdash;it's under a free license.  Your only
-          obligation is to maintain proper attribution to the original
-          authors.  Of course, rather than distribute your own private
-          version of this book, we'd much rather you send feedback and
-          patches to the Subversion developer community.</para>
+        <para>Você pode fazer alterações neste livro e redistribuí-lo, 
+          entretanto você deve fazê-lo&mdash;sob uma licença livre.  Sua 
+          única obrigação é manter o créditos originais dos autores.
+          É claro que, ao invés de distribuir sua própria versão deste 
+          livro, gostaríamos muito mais que você enviasse seu feedback
+          e correções para a comunidade de desenvolvimento do Subversion.</para>
       </listitem>
     </itemizedlist>
     
     <!-- O'REILLY SHOULD TWEAK THIS PARAGRAPH -->
-    <para>The online home of this book's development and most of the
-      volunteer-driven translation efforts around it is
-      <ulink url="http://svnbook.red-bean.com"/>.  There, you can find
-      links to the latest releases and tagged versions of the book in
-      various formats, as well as instructions for accessing the
-      book's Subversion repository (where lives its DocBook XML source
-      code).  Feedback is welcome&mdash;encouraged, even.  Please
-      submit all comments, complaints, and patches against the book
-      sources to <email>svnbook-dev@red-bean.com</email>.</para>
+    <para>O site deste livro está em desenvolvimento, e muitos dos tradutores 
+      voluntários estão se reunindo no site
+      <ulink url="http://svnbook.red-bean.com"/>.  Lá você pode encontrar
+      links para as últimas versões lançadas e versões compiladas deste livro 
+      em diversos formatos, bem como as instruções de acesso ao repositório 
+      Subversion do livro(onde está o código-fonte em formato DocBook XML)
+      Um feedback é bem vindo&mdash;e encorajado também.  Por favor,
+      envie todos os seus comentários, reclamações, e retificações dos fontes
+      do livro para o e-mail <email>svnbook-dev@red-bean.com</email>.</para>
 
   </sect1>
 
