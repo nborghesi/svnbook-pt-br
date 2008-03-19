@@ -2007,7 +2007,7 @@ Committed revision 352.
 	evento solitário, e esse método exige a criação de um ramo
 	com mudanças extras em arquivos, tudo em uma única revisão.
 	Isso dificulta muito (mais tarde) a identificar um número
-       	de uma revisão como um ponto de um ramo.
+       	de uma revisão como um ponto de um ramo.</para>
 
       <tip>
 	  <para>Já se encontrou fazendo edições complexas (no sua
