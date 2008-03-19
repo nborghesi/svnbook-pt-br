@@ -2014,7 +2014,7 @@ Committed revision 352.
 	      cópia de trabalho <filename>/trunk</filename>) e
 	      de repente percebe, <quote>Ei, estas mudanças deviam estar
 		  num ramo próprio?</quote> Uma ótima técnica para fazer isso
-      pode ser resumir em dois passos:	      
+      pode ser resumir em dois passos:</para>
 
           <screen>
 $ svn copy http://svn.example.com/repos/calc/trunk \
@@ -2562,7 +2562,7 @@ $ svn_load_dirs.pl -t libcomplex-1.1                              \
 	mudanças indesejadas. Nós passamos pelo uso do <command>svn switch</command>
 	para criar locais mistos de copias de trabalho. E nós falamos sobre como eles
 	podem gerenciar a organização e vida dos ramos <foreignphrase>branches</foreignphrase>
-	em um respositório.
+	em um respositório.</para>
 
     <para>Lembre-se do mantra do Subversion: ramos <foreignphrase>branches</foreignphrase>
 	e rótulos <foreignphrase>tags</foreignphrase> são baratos. Então use-os livremente!
