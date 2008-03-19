@@ -1875,111 +1875,104 @@ URL: http://svn.example.com/repos/calc/branches/my-calc-branch
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.tags">
-    <title>Tags</title>
+    <title>Rótulos</title>
 
-    <para>Another common version control concept is a
-      <firstterm>tag</firstterm>.  A tag is just a
-      <quote>snapshot</quote> of a project in time.  In Subversion,
-      this idea already seems to be everywhere.  Each repository
-      revision is exactly that&mdash;a snapshot of the filesystem
-      after each commit.</para>
+    <para>Outro conceito comum do controle de versão é <firstterm>ramo</firstterm>.
+	Um ramo é apenas uma <quote>foto</quote> do projeto no momento. No Subversion,
+	essa idéia parece estar em todo lugar. Cada revisão do repositório é 
+	exatamente isso&mdash;uma foto da estrutura depois de 
+	cada commit.</para>
 
-    <para>However, people often want to give more human-friendly names
-      to tags, like <literal>release-1.0</literal>.  And they want to
-      make snapshots of smaller subdirectories of the filesystem.
-      After all, it's not so easy to remember that release-1.0 of a
-      piece of software is a particular subdirectory of revision
-      4822.</para>
+    <para>Entretando, pessoas normalmente querem dar rótulos mais amigáveis
+	como nomes de tags, como <literal>versão-1.0</literal>. E querem
+	fazer <quote>fotos</quote> de pequenos sub-diretórios da estrutura.
+	Além do mais, não é fácil lembrar que versão-1.0 de um pedaço do
+	software é um particular sub-diretório da revisão 4822.</para>	
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.tags.mksimple">
-      <title>Creating a Simple Tag</title>
+      <title>Criando um rótulo simples</title>
 
-      <para>Once again, <command>svn copy</command> comes to the
-        rescue.  If you want to create a snapshot of
-        <filename>/calc/trunk</filename> exactly as it looks in the
-        <literal>HEAD</literal> revision, then make a copy of it:</para>
+      <para>Mais uma vez, <command>snv copy</command> vem para nos
+	  socorrer. Se você quer criar uma foto do <filename>/calc/trunk</filename>
+	  exatamente como ele está na revisão <literal>HEAD</literal>, 
+	  fazendo uma copia dela:</para>
 
       <screen>
 $ svn copy http://svn.example.com/repos/calc/trunk \
            http://svn.example.com/repos/calc/tags/release-1.0 \
-      -m "Tagging the 1.0 release of the 'calc' project."
+      -m "Rótulando a versão 1.0 do projeto 'calc'."
 
 Committed revision 351.
 </screen>
 
-      <para>This example assumes that a
-        <filename>/calc/tags</filename> directory already exists.  (If
-        it doesn't, you can create it using <command>svn
-        mkdir</command>.)  After the copy completes, the new
-        <filename>release-1.0</filename> directory is forever a
-        snapshot of how the project looked in the
-        <literal>HEAD</literal> revision at the time you made the
-        copy.  Of course you might want to be more precise about
-        exactly which revision you copy, in case somebody else may
-        have committed changes to the project when you weren't
-        looking.  So if you know that revision 350 of
-        <filename>/calc/trunk</filename> is exactly the snapshot you
-        want, you can specify it by passing <option>-r 350</option> to
-        the <command>svn copy</command> command.</para>
+    <para>Este exemplo assume que o diretório <filename>/calc/tags</filename> 
+    já existe.
+    (Se ele não existir, você pode criá-lo usando <command>svn mkdir</command>.)
+    Depois da copia completar, o novo diretório <filename>versão-1.0</filename>
+    será para sempre uma foto de como o projeto estava na revisão
+    <literal>HEAD</literal> no momento que a copia foi feita. Claro 
+    que você pode querer mais precisão em saber qual revisão a copia foi 
+    feita, em caso de alguém ter feito commit no projeto quando você não 
+    estava vendo. Então se você sabe que a revisão 350 do 
+    <filename>/calc/trunk</filename> é exatamente a foto que você quer,
+    você pode especificar isso passando <option>-r 350</option>
+    para o comando <command>svn copy</command>.</para> 
 
-      <para>But wait a moment: isn't this tag-creation procedure the
-        same procedure we used to create a branch?  Yes, in fact, it
-        is.  In Subversion, there's no difference between a tag and a
-        branch.  Both are just ordinary directories that are created
-        by copying.  Just as with branches, the only reason a copied
-        directory is a <quote>tag</quote> is because
-        <emphasis>humans</emphasis> have decided to treat it that way:
-        as long as nobody ever commits to the directory, it forever
-        remains a snapshot.  If people start committing to it, it
-        becomes a branch.</para>
+    <para>Mas espere um pouco: não é essa criação do rótulo o mesmo procedimento
+    para criar um ramo? Sim, de fato, é. No Subversion, não há diferença
+    entre um rótulo e um ramo. Assim como com ramos, a única razão uma 
+    cópia é um <quote>rótulo</quote> é porque <emphasis>humanos</emphasis>
+    decidiram tratar isso desse jeito: desde que ninguém nunca faça commit
+    para esse diretório, ele permanecerá para sempre uma foto. Se as pessoas
+    começarem a fazer commit para ele, ele se transoforma num ramo.</para>
 
-      <para>If you are administering a repository, there are two
-        approaches you can take to managing tags.  The first approach
-        is <quote>hands off</quote>: as a matter of project policy,
-        decide where your tags will live, and make sure all users know
-        how to treat the directories they copy in there.  (That is,
-        make sure they know not to commit to them.)  The second
-        approach is more paranoid: you can use one of the
-        access-control scripts provided with Subversion to prevent
-        anyone from doing anything but creating new copies in the
-        tags-area (See <xref linkend="svn.serverconfig"/>.)  The paranoid
-        approach, however, isn't usually necessary.  If a user
-        accidentally commits a change to a tag-directory, you can
-        simply undo the change as discussed in the previous section.
-        This is version control, after all.</para>
+    <para>Se você está administrando um repositório, existe duas maneiras
+	para gerenciar rótulos. A primeira é <quote>não toque</quote>:
+	como uma política do projeto, decida onde os rótulos vão morar,
+	e garanta que todos os usuários saibam como tratar os diretórios
+	que eles vão copiar para lá. (Isso quer dizer, garanta que 
+	eles saibam que não devem fazer neles.) A segunda é mais paranóica:
+	você pode usar um dos scripts de controle de acesso providos com 
+	o Subversion para previnir que alguém faça algo além de apenas
+	criar novas copias na área de rótulos (Veja <xref linkend="svn.serverconfig"/>.)
+	A maneira paranoica, entrentanto, não é necessária. Se algum
+	usuário acidentalmente fizer commit de alguam mudança
+	para o diretório de rótulo, você pode simplesmente desfazer
+	a mudança como discutido na revisção anterior. É um controle
+	de versão apesar de tudo.</para>
+
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.tags.mkcomplex">
-      <title>Creating a Complex Tag</title>
+      <title>Criando um rótulo complexo</title>
 
-      <para>Sometimes you may want your <quote>snapshot</quote> to be
-        more complicated than a single directory at a single
-        revision.</para>
+      <para>Algumas vezes você que sua <quote>foto</quote> seja mais 
+	  complicada que um simples diretório de uma única revisão.</para>
 
-      <para>For example, pretend your project is much larger than our
-        <filename>calc</filename> example: suppose it contains a
-        number of subdirectories and many more files.  In the course
-        of your work, you may decide that you need to create a working
-        copy that is designed to have specific features and bug fixes.
-        You can accomplish this by selectively backdating files or
-        directories to particular revisions (using <command>svn update
-        -r</command> liberally), or by switching files and directories
-        to particular branches (making use of <command>svn
-        switch</command>).  When you're done, your working copy is a
-        hodgepodge of repository locations from different revisions.
-        But after testing, you know it's the precise combination of
-        data you need.</para>
+      <para>Por exemplo, pense que seu projeto é muito maior que nosso
+	  exemplo <filename>calc</filename>: suponha que contém um 
+	  número de sub-diretórios e muitos outros arquivos. No curso 
+	  do seu trabalho, você pode decidir que você precisa criar um
+	  cópia de trabalho que é destinado para novos recursos e 
+	  correções de erros. Você pode conseguir isso selecionando
+	  arquivos e diretórios com datas anteriores em uma revisão
+	  particular (usando <command>svn update -r </command> livremente),
+	  ou mudando arquivos e diretórios para um ramo em particular
+	  (fazendo uso do <command>svn switch</command>). Quando estiver
+	  pronto, sua cópia de trabalho será uma mistura de diferentes 
+	  revisões. Mas depois de testes, você saberá que é exatamente
+	  a combinação que você precisa.</para>
 
-      <para>Time to make a snapshot.  Copying one URL to another won't
-        work here.  In this case, you want to make a snapshot of your
-        exact working copy arrangement and store it in the repository.
-        Luckily, <command>svn copy</command> actually has four
-        different uses (which you can read about in <xref
-        linkend="svn.ref"/>), including the ability to copy a
-        working-copy tree to the repository:</para>
+      <para>Hora de fazer a foto. Copiar uma URL para outra não vai 
+	  funcionar aqui. Nesse caso, você quer fazer uma foto exata
+	  da cópia de trabalho que você organizou e armazenar no 
+	  repositório. Felizmente, <command>svn copy</command> na verdade
+	  tem quatro diferentes maneiras de ser usado (você pode ler sobre
+	  em <xref linkend="svn.ref"/>), incluindo a habilidade de copiar
+	  uma árvore de cópia de trablho para o respositório:</para>
 
       <screen>
 $ ls
@@ -1990,11 +1983,23 @@ $ svn copy my-working-copy http://svn.example.com/repos/calc/tags/mytag
 Committed revision 352.
 </screen>
 
-      <para>Now there is a new directory in the repository,
-        <filename>/calc/tags/mytag</filename>, which is an exact
-        snapshot of your working copy&mdash;mixed revisions, URLs,
-        and all.</para>
+	<para>Agora existe um novo diretório no respositório
+	<filename>/calc/tags/mytag</filename>, que é uma foto exata
+	da sua cópia de trabalho&mdash;combinado revisões, URLs, e 
+	tudo mais.</para>
 
+    <para>Outros usuários tem encontrado usos interessantes para esse
+	recurso. Algumas vezes existe situações onde você tem um monte
+	de mudanças locais na sua cópia de trabalho, e você gostaria
+	que um colega de trabalho as visse. Ao invés de usar 
+	<command>svn diff</command> e enviar o arquivo patch (que 
+	não irá ter as informações de mudança na árvore de diretórios,
+	em symlink e mudanças nas propriedades), você pode usar 
+	<command>svn copy</command> para <quote>subir</quote> 
+	sua cópia local para uma área privada no repositório. Seu colega
+	pode verificar o nome de cópia da sua cópia de trabalho, ou
+	usar <command>svn merge</command> para receber as exatas
+	mudanças.</para>	
       <para>Other users have found interesting uses for this feature.
         Sometimes there are situations where you have a bunch of local
         changes made to your working copy, and you'd like a
