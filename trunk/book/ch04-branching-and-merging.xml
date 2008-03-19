@@ -2000,32 +2000,21 @@ Committed revision 352.
 	pode verificar o nome de cópia da sua cópia de trabalho, ou
 	usar <command>svn merge</command> para receber as exatas
 	mudanças.</para>	
-      <para>Other users have found interesting uses for this feature.
-        Sometimes there are situations where you have a bunch of local
-        changes made to your working copy, and you'd like a
-        collaborator to see them.  Instead of running <command>svn
-        diff</command> and sending a patch file (which won't capture
-        tree changes, symlink changes or changes in properties), you can
-        instead use <command>svn copy</command> to <quote>upload</quote>
-        your working copy to a private area of the repository.  Your
-        collaborator can then either check out a verbatim copy of your
-        working copy, or use <command>svn merge</command> to receive
-        your exact changes.</para>
 
-      <para>While this is a nice method for uploading a quick snapshot
-        of your working copy, note that this is <emphasis>not</emphasis>
-        a good way to initially create a branch.  Branch creation should
-        be an event onto itself, and this method conflates the creation
-        of a branch with extra changes to files, all within a single revision.
-        This makes it very difficult (later on) to identify a single
-        revision number as a branch point.</para>
+    <para>Sendo isso um método legal para subir uma rápida foto do seu 
+	trabalho local, note que isso <emphasis>não</emphasis> é uma boa
+	maneira de iniciar um ramo. A criação de um ramo deve ser um
+	evento solitário, e esse método exige a criação de um ramo
+	com mudanças extras em arquivos, tudo em uma única revisão.
+	Isso dificulta muito (mais tarde) a identificar um número
+       	de uma revisão como um ponto de um ramo.
 
       <tip>
-        <para>Have you ever found yourself making some complex edits
-          (in your <filename>/trunk</filename> working copy) and
-          suddenly realized, <quote>hey, these changes ought to be in
-          their own branch?</quote>  A great technique to do this can
-          be summarized in two steps:</para>
+	  <para>Já se encontrou fazendo edições complexas (no sua
+	      cópia de trabalho <filename>/trunk</filename>) e
+	      de repente percebe, <quote>Ei, estas mudanças deviam estar
+		  num ramo próprio?</quote> Uma ótima técnica para fazer isso
+      pode ser resumir em dois passos:	      
 
           <screen>
 $ svn copy http://svn.example.com/repos/calc/trunk \
@@ -2036,12 +2025,12 @@ $ svn switch http://svn.example.com/repos/calc/branches/newbranch
 At revision 353.
 </screen>
 
-        <para>The <command>svn switch</command> command, like
-          <command>svn update</command>, preserves your local edits.
-          At this point, your working copy is now a reflection of the
-          newly created branch, and your next <command>svn
-          commit</command> invocation will send your changes
-          there.</para> </tip>
+	<para>O comando <command>svn switch</command>, 
+	    como <command>svn update</command>, preserva suas
+	    edições locais. Nesse ponto, sua cópia de trabablho
+	    é um reflexo do novo ramo criado, e seu próximo 
+	    <command>svn commit</command> ira enviar suas 
+	    mudanças para lá.</para></tip>
 
     </sect2>
 
