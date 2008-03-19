@@ -979,30 +979,30 @@ $
       <title>Executabilidade de Arquivo</title>
  
       <para>Em muitos sistemas operacionais, a capacidade de executar um arquivo
-        como um comando é governada pela presença de um bit de permissão
-        para execução.  Este bit usualmente está desabilitado por padrão,
+        como um comando é comandada pela presença de um bit de permissão
+        para execução.  Este bit, usualmente, vem desabilitado por padrão,
         e deve ser explicitamente habilitado pelo usuário em cada arquivo que
-        seja necessário.  Mas seria um grande incômodo ter que lembrar
-        exatamente quais arquivos em uma cópia de trabalho verificada
-        recentemente estavam supostos a terem seus bits de execução habilitados,
-        e então ter que os alternar.  Por esta razão, o Subversion oferece
-        a propriedade <literal>svn:executable</literal> como um modo para
+        seja necessário.  Mas seria um grande incômodo ter que lembrar,
+        exatamente, quais arquivos de uma cópia de trabalho verificada
+        recentemente estavam com seus bits de execução habilitados,
+        e, então, ter que trocá-los.  Por esta razão, o Subversion oferece
+        a propriedade <literal>svn:executable</literal>, que é um modo de
         especificar que o bit de execução para o arquivo no qual esta
         propriedade está definida deve ser habilitado, e o Subversion honra esta
-        solicitação ao preencher cópias de trabalho com tais arquivos.</para>
+        solicitação ao popular cópias de trabalho com tais arquivos.</para>
 
       <para>Esta propriedade não tem efeito em sistemas de arquivo que não possuem
-        o conceito de um bit de permissão para executável, assim como FAT32 e
-        NTFS.
+        o conceito de bit de permissão para executável, como, por exemplo,
+        FAT32 e NTFS.
         <footnote>
-          <para>Os sitemas de arquivo do Windows usam extensões de arquivo (tais como
-            <literal>.EXE</literal>, <literal>.BAT</literal>, e
+          <para>Os sitemas de arquivos do Windows usam extensões de arquivo 
+          (tais como <literal>.EXE</literal>, <literal>.BAT</literal>, e
             <literal>.COM</literal>) para indicar arquivos
             executáveis.</para>
         </footnote>
-        Além disso, embora não tenha definido valores, o Subversion forçará
-        seu valor para <literal>*</literal> ao definir esta propriedade.
-        Finalmente, esta propriedade é válida somente em arquivos, não em
+        Além disso, quando não houver valor definido, o Subversion forçará
+        o valor <literal>*</literal> ao definir esta propriedade.
+        Por fim, esta propriedade só é válido em arquivos, não em
         diretórios.</para>
 
     </sect2>
@@ -1011,15 +1011,15 @@ $
     <sect2 id="svn.advanced.props.special.eol-style">
       <title>Seqüência de Caracteres de Fim-de-Linha</title>
 
-      <para>A não ser que esteja usando a propriedade
-        <literal>svn:mime-type</literal> em um arquivo versionado, o Subversion
+      <para>A não você ser que esteja usando a propriedade
+        <literal>svn:mime-type</literal> em um arquivo sob controle de versão, o Subversion
         assume que o arquivo contém dados humanamente legíveis.  De uma forma
         geral, o Subversion somente usa esse conhecimento para determinar
-        se relatórios de diferenças contextuais para este arquivo são
+        se os relatórios de diferenças contextuais para este arquivo são
         possíveis.  Ao contrário, para o Subversion, bytes são bytes.</para>
       
-      <para>Isto significa que por padrão, o Subversion não presta qualquer
-        atenção para o tipo de <firstterm>marcadores de fim-de-linha
+      <para>Isto significa que, por padrão, o Subversion não presta qualquer
+        atenção para o tipo de <firstterm>marcadores de fim-de-linha, ou <foreignphrase>end-of-line</foreignphrase>
         (EOL)</firstterm> usados em seus arquivos.  Infelizmente,
         diferentes sistemas operacionais possuem diferentes convenções sobre
         qual seqüência de caracteres representa o fim de uma linha de texto
@@ -1030,15 +1030,15 @@ $
         Unix, entretanto, utilizam apenas o caracter <literal>LF</literal>
         para definir o término de uma linha.</para>
 
-      <para>Nem todas as várias ferramentas nestes sistemas operacionais
+      <para>Nem todas as ferramentas nestes sistemas operacionais
         compreendem arquivos que contêm terminações de linha em um
         formato que difere do <firstterm>estilo nativo de terminação
         de linha</firstterm> do sistema operacional no qual estão
         executando.  Assim, normalmente, programas Unix
-        tratam o caracter <literal>CR</literal> presente em arquivos
-        Windows como um caracter normal (usualmente representado como
-        <literal>^M</literal>), e programas Windows combinam todas
-        as linhas de um arquivo Unix dentro de uma linha enorme porque
+        tratam o caracter <literal>CR</literal>, presente em arquivos
+        Windows, como um caracter normal (usualmente representado como
+        <literal>^M</literal>), e programas Windows juntam todas
+        as linhas de um arquivo Unix dentro de uma linha enorme, porque
         nenhuma combinação dos caracteres de retorno de carro e avanço de
         linha (ou <literal>CRLF</literal>) foi encontrada para determinar
         os términos das linhas.</para>
@@ -1046,7 +1046,7 @@ $
       <para>Esta sensibilidade quanto aos marcadores EOL pode ser
         frustrante para pessoas que compartilham um arquivo em diferentes
         sistemas operacionais.  Por exemplo, considere um arquivo de
-        código-fonte, e desenvolvedores que editam este arquivo em ambos sistemas,
+        código-fonte, onde desenvolvedores que editam este arquivo em ambos os sistemas,
         Windows e Unix.  Se todos os desenvolvedores sempre usarem ferramentas
         que preservem o estilo de término de linha do arquivo, nenhum problema
         ocorrerá.</para>
@@ -1056,9 +1056,9 @@ $
         terminações de linha do arquivo para o estilo nativo quando o
         arquivo é salvo.  Se o precedente é verdadeiro para um desenvolvedor,
         ele deve usar um utilitário de conversão externo (tal como
-        <command>dos2unix</command> ou seu parceiro,
+        <command>dos2unix</command> ou seu similar,
         <command>unix2dos</command>) para preparar o arquivo para
-        edição.  O caso posterior requer nenhuma preparação extra.
+        edição.  O caso posterior não requer nenhuma preparação extra.
         Mas ambos os casos resultam em um arquivo que difere do
         original literalmente em cada uma das linhas!  Antes de submeter
         suas alterações, o usuário tem duas opções.  Ou ele pode utilizar um
@@ -1071,7 +1071,7 @@ $
         e modificções desnecessárias aos arquivos submetidos.  A perda de tempo
         é suficientemente dolorosa.  Mas quando submissões mudam cada uma das linhas
         em um arquivo, isso dificulta o trabalho de determinar quais dessas
-        linhas foram modificadas de uma forma não trivial.  Onde que o bug
+        linhas foram modificadas de uma forma não trivial.  Onde o bug
         foi realmente corrigido?  Em qual linha estava o erro de sintaxe
         introduzido?</para>
 
@@ -1101,9 +1101,9 @@ $
 
             <para>Note que o Subversion na verdade armazenará o arquivo
               no repositório usando marcadores normalizados como
-              <literal>LF</literal> indiferentemente do sistema
-              operacional.  Isto está essencialmente transparente para
-              o usuário, entretanto.</para>
+              <literal>LF</literal> independentemente do sistema
+              operacional.  Isto, no entanto, será essencialmente transparente para
+              o usuário.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -1111,7 +1111,7 @@ $
           <listitem>
             <para>Isso faz com que o arquivo contenha seqüências
               <literal>CRLF</literal> como marcadores EOL,
-              indiferentemente do sistema operacional em uso.</para>
+              independentemente do sistema operacional em uso.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -1119,14 +1119,14 @@ $
           <listitem>
             <para>Isso faz com que o arquivo contenha caracteres
               <literal>LF</literal> como marcadores EOL,
-              indiferentemente do sistema operacional em uso.</para>
+              independentemente do sistema operacional em uso.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><literal>CR</literal></term>
           <listitem>
             <para>Isso faz com que o arquivo contenha caracteres
-              <literal>CR</literal> como marcadores EOL, indiferentemente
+              <literal>CR</literal> como marcadores EOL, independentemente
                 do sistema operacional em uso.  Este estilo de término
                 de linha não é muito comum.  Ele foi utilizado em antigas
                 plataformas Macintosh (nas quais o Subversion não executa
