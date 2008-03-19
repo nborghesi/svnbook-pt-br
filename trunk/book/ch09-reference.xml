@@ -1,13 +1,11 @@
 <chapter id="svn.ref">
-  <title>Subversion Complete Reference</title>
+  <title>Referência Completa do Subverion</title>
   
-  <para>This chapter is intended to be a complete reference to using
-    Subversion.  This includes the command line client
-    (<command>svn</command>) and all its subcommands, as well as the
-    repository administration programs (<command>svnadmin</command>
-    and <command>svnlook</command>) and their respective
-    subcommands.</para>
-
+  <para>Este capítulo tem a intenção de ser uma referência completa
+      para o uso do Subversion. Ele inclui o comando (<command>svn</command>)
+      e todos os seus sub-comandos, assim como programas de administração
+      de repositório (<command>svnadmin</command> e <command>svnlook</command>)
+      e seus respectivos sub-comandos.</para>
   
   <!-- ================================================================= -->
   <!-- ================================================================= -->
