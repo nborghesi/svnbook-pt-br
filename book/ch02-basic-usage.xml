@@ -67,29 +67,29 @@ Opções válidas:
     <sect2 id="svn.tour.importing.import">
       <title>svn import</title>
 
-      <para>The <command>svn import</command> command is a quick way to
-        copy an unversioned tree of files into a repository, creating
-        intermediate directories as necessary.  <command>svn
-        import</command> doesn't require a working copy, and your files
-        are immediately committed to the repository.  This is typically
-        used when you have an existing tree of files that you want to
-        begin tracking in your Subversion repository.  For example:</para>
+      <para>O comando <command>svn import</command> é um modo rápido para
+        copiar uma árvore de arquivos não versionada em um repositório, criando
+        diretórios intermediários quando necessário.  <command>svn
+        import</command> não requer uma cópia de trabalho, e seus arquivos
+        são imediatamente submetidos ao repositório.  Este é tipicamente
+        usado quando você tem uma árvore de arquivos existente que você quer
+        monitorar em seu repositório Subversion.  Por exemplo:</para>
 
       <screen>
 $ svnadmin create /usr/local/svn/newrepos
 $ svn import mytree file:///usr/local/svn/newrepos/some/project \
-             -m "Initial import"
-Adding         mytree/foo.c
-Adding         mytree/bar.c
-Adding         mytree/subdir
-Adding         mytree/subdir/quux.h
+             -m "Importação inicial"
+Adicionando    mytree/foo.c
+Adicionando    mytree/bar.c
+Adicionando    mytree/subdir
+Adicionando    mytree/subdir/quux.h
 
-Committed revision 1.
+Commit da revisão 1.
 </screen>
 
-      <para>The previous example copied the contents of directory
-        <filename>mytree</filename> under the directory
-        <filename>some/project</filename> in the repository:</para>
+      <para>O exemplo anterior copiou o conteúdo do diretório
+        <filename>mytree</filename> no diretório
+        <filename>some/project</filename> no repositório:</para>
 
       <screen>
 $ svn list file:///usr/local/svn/newrepos/some/project
@@ -98,10 +98,10 @@ foo.c
 subdir/
 </screen>
 
-      <para>Note that after the import is finished, the original tree
-        is <emphasis>not</emphasis> converted into a working copy.  To
-        start working, you still need to <command>svn
-        checkout</command> a fresh working copy of the tree.</para>
+      <para>Note que após a importação finalizar, a árvore inicial
+        <emphasis>não</emphasis> está convertida em uma cópia de trabalho.  Para
+        começar a trabalhar, você ainda precisa obter(<command>svn
+        checkout</command>) uma nova cópia de trabalho da árvore.</para>
 
     </sect2>
 
