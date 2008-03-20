@@ -1,28 +1,28 @@
 <chapter id="svn.developer">
   <title>Incorporando o Subversion</title>
   
-  <para>O Subversion tem uma estrutura modular: é implementado
-      como uma coleção de bibliotecas em C. Cada biblioteca
-      tem um propósito bem definido e uma Aplicação de Interface
+  <para>O Subversion tem uma estrutura modular: Ã© implementado
+      como uma coleÃ§Ã£o de bibliotecas em C. Cada biblioteca
+      tem um propÃ³sito bem definido e uma AplicaÃ§Ã£o de Interface
       (API - Application Program Interface), e que a interface
-      está disponível não só para o próprio Subversion usar, mas 
-      para qualquer software que queira incorporar ou através de 
-      programação controlar o Subversion. Adicionalmente, a API
-      do Subversion está disponível não só para outros programas
-      em C, mas também programas em linguagens de alto nível como 
+      estÃ¡ disponÃ­vel nÃ£o sÃ³ para o prÃ³prio Subversion usar, mas 
+      para qualquer software que queira incorporar ou atravÃ©s de 
+      programaÃ§Ã£o controlar o Subversion. Adicionalmente, a API
+      do Subversion estÃ¡ disponÃ­vel nÃ£o sÃ³ para outros programas
+      em C, mas tambÃ©m programas em linguagens de alto nÃ­vel como 
       Python, Perl, Java ou Ruby.</para>  
 
-  <para>Este capítulo é para aqueles que desejam interagir com o 
-      Subversion através da sua API pública ou seus vários 
-      bindings de linguagem. Se você deseja escrever scripts robustos
+  <para>Este capÃ­tulo Ã© para aqueles que desejam interagir com o 
+      Subversion atravÃ©s da sua API pÃºblica ou seus vÃ¡rios 
+      bindings de linguagem. Se vocÃª deseja escrever scripts robustos
       ao redor das funcionalidades do Subversion para simplificar sua 
-      vida, se está tentando desenvolver integrações mais complexas
+      vida, se estÃ¡ tentando desenvolver integraÃ§Ãµes mais complexas
       entre o Subversion e outros partes de um software, ou apenas
-      tem interesse nas várias bibliotecas modulares e o que 
-      elas tem a oferecer, este capítulo é para você. Se, entretanto,
-      você não se vê participando com o Subversion nesse nível, 
-      sinta-se livre para pular este capítulo certo que suas experiências
-      como usuários do Subversion não serão afetadas.
+      tem interesse nas vÃ¡rias bibliotecas modulares e o que 
+      elas tem a oferecer, este capÃ­tulo Ã© para vocÃª. Se, entretanto,
+      vocÃª nÃ£o se vÃª participando com o Subversion nesse nÃ­vel, 
+      sinta-se livre para pular este capÃ­tulo certo que suas experiÃªncias
+      como usuÃ¡rios do Subversion nÃ£o serÃ£o afetadas.
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
