@@ -1360,112 +1360,112 @@ I      calc/debug_log.3.gz
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.props.special.keywords">
-    <title>Keyword Substitution</title>
+    <title>Substituição de Palavra-Chave</title>
 
-    <para>Subversion has the ability to substitute
-      <firstterm>keywords</firstterm>&mdash;pieces of useful,
-      dynamic information about a versioned file&mdash;into the
-      contents of the file itself.  Keywords generally provide
-      information about the last modification made to the file.
-      Because this information changes each time the
-      file changes, and more importantly, just
-      <emphasis>after</emphasis> the file changes, it is a hassle
-      for any process except the version control system to keep
-      the data completely up-to-date.  Left to human authors, the
-      information would inevitably grow stale.</para>
+    <para>O Subversion possui a capacidade de substituir
+      <firstterm>palavras-chave</firstterm>&mdash;pedaços de informação
+      úteis e dinâmicos sobre um arquivo versionado&mdash;dentro do
+      conteúdo do próprio arquivo.  As palavras-chave geralmente fornece
+      informação sobre a última modificação realizada no arquivo.
+      Pelo fato desta informação modificar toda vez que o arquivo
+      é modificado, e mais importante, apenas
+      <emphasis>depois</emphasis> que o arquivo é modificado, isto é um aborrecimento
+      para qualquer processo a não ser que o sistema de controle de versão mantenha
+      os dados completamente atualizados.  Se deixada para os autores humanos, a
+      informação se tornaria inevitavelmente obsoleta.</para>
 
-    <para>For example, say you have a document in which you would
-      like to display the last date on which it was modified.  You
-      could burden every author of that document to, just before
-      committing their changes, also tweak the part of the
-      document that describes when it was last changed.  But
-      sooner or later, someone would forget to do that.  Instead,
-      simply ask Subversion to perform keyword substitution on the
-      <literal>LastChangedDate</literal> keyword.  You control
-      where the keyword is inserted into your document by placing
-      a <firstterm>keyword anchor</firstterm> at the desired
-      location in the file.  This anchor is just a string of text
-      formatted as
-      <literal>$</literal><replaceable>KeywordName</replaceable><literal>$</literal>.</para>
+    <para>Por exemplo, digamos que você tem um documento no qual gostaria
+      de mostrar a última data em que ele foi modificado.  Você
+      poderia obrigar que cada autor deste documento que, pouco antes de
+      submeter suas alterações, também ajustasse a parte do
+      documento que descreve quando ele fez a última alteração.  Porém,
+      mais cedo ou mais tarde, alguém esqueceria de fazer isto.  Em vez disso,
+      basta solicitar ao Subversion que efetue a substituição da palavra-chave
+      <literal>LastChangedDate</literal> pelo valor adequado.  Você controla
+      onde a palavra-chave é inserida em seu documento colocando uma
+      <firstterm>âncora de palavra-chave</firstterm> no local desejado
+      dentro do arquivo.  Esta âncora é apenas uma sequência de texto
+      formatada como
+      <literal>$</literal><replaceable>NomeDaPalavraChave</replaceable><literal>$</literal>.</para>
 
-    <para>All keywords are case-sensitive where they appear as
-      anchors in files: you must use the correct capitalization in
-      order for the keyword to be expanded.  You should consider the
-      value of the <literal>svn:keywords</literal> property to be
-      case-sensitive too&mdash;certain keyword names will be recognized
-      regardless of case, but this behavior is deprecated.</para>
+    <para>Todas as palavras-chave são sensíveis a minúsculas e maiúsculas onde aparecem como
+      âncoras em arquivos: você deve usar a capitalização correta para
+      que a palavra-chave seja expandida.  Você deve considerar que o
+      valor da propriedade <literal>svn:keywords</literal> esteja ciente da
+      capitalização também&mdash;certos nomes de palavras-chave serão reconhecidos,
+      independentemente do caso, mas este comportamento está desaprovado.</para>
 
-    <para>Subversion defines the list of keywords available for
-      substitution.  That list contains the following five keywords, 
-      some of which have aliases that you can also use:</para>
+    <para>O Subversion define a lista de palavras-chave disponíveis para
+      substituição.  Esta lista contém as seguintes cinco palavras-chave, 
+      algumas das quais possuem apelidos que você pode também utilizar:</para>
 
     <variablelist>
       <varlistentry>
         <term><literal>Date</literal></term>
         <listitem>
-          <para>This keyword describes the last time the file was
-            known to have been changed in the repository, and
-            is of the form <literal>$Date:
+          <para>Esta palavra-chave descreve a última vez conhecida em
+            que o arquivo foi modificado no repositório, e
+            está na forma <literal>$Date:
             2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006)
-            $</literal>.  It may also be specified as
+            $</literal>.  Ela também pode ser especificada como
             <literal>LastChangedDate</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><literal>Revision</literal></term>
         <listitem>
-          <para>This keyword describes the last known revision in
-            which this file changed in the repository, and looks
-            something like <literal>$Revision: 144 $</literal>.  
-            It may also be specified as
-            <literal>LastChangedRevision</literal> or
+          <para>Esta palavra-chave descreve a última revisão conhecida em
+            que este arquivo foi modificado no repositório, e é apresentada
+            na forma <literal>$Revision: 144 $</literal>.  
+            Ela também pode ser especificada como
+            <literal>LastChangedRevision</literal> ou
             <literal>Rev</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><literal>Author</literal></term>
         <listitem>
-          <para>This keyword describes the last known user to
-            change this file in the repository, and looks
-            something like <literal>$Author: harry $</literal>.  
-            It may also be specified as 
+          <para>Esta palavra-chave descreve o último usuário conhecido que
+            modificou este arquivo no repositório, e é apresentada
+            na forma <literal>$Author: harry $</literal>.  
+            Ela também pode ser especificada como 
             <literal>LastChangedBy</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><literal>HeadURL</literal></term>
         <listitem>
-          <para>This keyword describes the full URL to the latest
-            version of the file in the repository, and looks
-            something like <literal>$HeadURL:
+          <para>Esta palavra-chave descreve a URL completa para a versão
+            mais recente do arquivo no repositório, e é apresentada
+            na forma <literal>$HeadURL:
             http://svn.collab.net/repos/trunk/README $</literal>.
-            It may be abbreviated as
+            Ela também pode ser abreviada como
             <literal>URL</literal>.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term><literal>Id</literal></term>
         <listitem>
-          <para>This keyword is a compressed combination of the
-            other keywords.  Its substitution looks something like
+          <para>Esta palavra-chave é uma combinação comprimida das
+            outras palavras-chave.  Sua substituição apresenta-se como
             <literal>$Id: calc.c 148 2006-07-28 21:30:43Z sally
-            $</literal>, and is interpreted to mean that the file
-            <filename>calc.c</filename> was last changed in revision
-            148 on the evening of July 28, 2006 by the user
+            $</literal>, e é interpretada no sentido de que o arquivo
+            <filename>calc.c</filename> foi modificado pela última vez na revisão
+            148 na noite de 28 de julho de 2006 pelo usuário
             <literal>sally</literal>.</para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>Several of the previous descriptions use the phrase
-      <quote>last known</quote> or similar wording.  Keep in mind that
-      keyword expansion is a client-side operation, and your client
-      only <quote>knows</quote> about changes which have occurred in
-      the repository when you update your working copy to include
-      those changes.  If you never update your working copy, your
-      keywords will never expand to different values even if those
-      versioned files are being changed regularly in the
-      repository.</para>
+    <para>Muitas das descrições anteriores usam a frase <quote>último
+      valor conhecido</quote> ou algo parecido.  Tenha em mente que
+      a expansão da palavra-chave é uma operação no lado do cliente, e seu cliente
+      somente <quote>conhece</quote> sobre mudanças que tenham ocoridas no
+      repositório quando você atualiza sua cópia de trabalho para incluir
+      essas mudanças.  Se você nunca atualizar sua cópia de trabalho, suas
+      palavras-chave nunca expandirão para valores diferentes, mesmo que esses
+      arquivos versionados estejam sendo modificados regularmente no
+      repositório.</para>
 
     <para>Simply adding keyword anchor text to your file does
       nothing special.  Subversion will never attempt to perform
