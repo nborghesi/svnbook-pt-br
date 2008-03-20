@@ -59,7 +59,7 @@
       </figure>
 
     <para>O Subversion tem comandos para ajudar a controlar Ramos
-	  paralelos de um arquivo ou diretorio. Ele permite você criar
+	  paralelos de um arquivo ou diretório. Ele permite você criar
 	  ramos copiando seus dados, e ainda lembra que as copias tem
 	  relação entre si. Ainda é possivel duplicar copias de um ramo 
 	  para outro. Finalmente, ele pode fazer com que partes de sua
@@ -75,17 +75,17 @@
   <sect1 id="svn.branchmerge.using">
     <title>Using Branches</title>
 
-    <para>Ate aqui, você ja deve saber como cada commit cria uma nova
-	  arvore de arquivos (chamada de <quote>revisão</quote>) no 
-	  repositorio. Caso não saiba, volte e leia sobre revisões em
+    <para>Até aqui, você ja deve saber como cada commit cria uma nova
+	  árvore de arquivos (chamada de <quote>revisão</quote>) no 
+	  repositório. Caso não saiba, volte e leia sobre revisões em
 	  <xref linkend="svn.basic.in-action.revs"/>.</para>
 
     <para>Neste capítulo, vamos usar o mesmo exemplo de antes:
       <xref linkend="svn.basic"/>. Lembre-se que você e Sally estão
-	  compartilhando um repositorio que contem dois projetos, 
+	  compartilhando um repositório que contem dois projetos, 
       <filename>paint</filename> e <filename>calc</filename>. 
 	  Note que em <xref linkend="svn.branchmerge.using.dia-1"/>,entretanto,
-	  cada diretorio de projeto contem subdiretorios chamados
+	  cada diretório de projeto contem subdiretorios chamados
       <filename>trunk</filename> e <filename>branches</filename>.
       O motivo para isso logo ficará mais claro.</para>
 
@@ -97,7 +97,7 @@
     <para>Como antes, assuma que você e Sally possuem copias de trabalho
 	  do projeto <quote>calc</quote>. Especificamente, cada um de vocês
 	  tem uma copia de trabalho de <filename>/calc/trunk</filename>.
-	  Todos os arquivos deste projeto estão nesse diretorio ao invés de
+	  Todos os arquivos deste projeto estão nesse diretório ao invés de
 	  estarem no <filename>/calc</filename>, porque a sua equipe decidiu
 	  que <filename>/calc/trunk</filename> é onde a 
 	  <quote>Linha Principal</quote> de desenvolvimento vai ficar.</para>
@@ -119,21 +119,21 @@
 	  trabalho. Existem alguns problemas aqui. Primeiro, não é seguro.
 	  A maioria das pessoas gostam de salvar seu trabalho no repositorio
 	  com frequencia, caso algo ruim aconteça por acidente à cópia de
-	  trabalho. Segundo, não é nada flexivel. Se você faz seu trabalho
+	  trabalho. Segundo, não é nada flexível. Se você faz seu trabalho
 	  em computadores diferentes (talves você tenha uma cópia de trabalho
-	  de <filename>/calc/trunk</filename> em duas maquinas diferentes), 
-	  você terá que, manualmente, copiar suas alterações de uma maquina
+	  de <filename>/calc/trunk</filename> em duas máquinas diferentes), 
+	  você terá que, manualmente, copiar suas alterações de uma máquina
 	  para outra, ou simplesmente, realizar todo o trabalho em um único 
 	  computador. Por esse mesmo método, é dificil compartilhar suas
 	  constantes modificações com qualquer pessoa. Uma <quote>boa
-      pratica</quote> comum em desenvolvimento de software é permitir
+      prática</quote> comum em desenvolvimento de software é permitir
 	  que outros envolvidos revisem seu trabalho enquanto sendo realizado.
-	  Se ninguem verificar seus commits intermediários, você perde um
+	  Se ninguém verificar seus commits intermediários, você perde um
 	  potêncial feedback. E por fim, quando você terminar todas as
 	  modificações, você pode achar muito dificil de fundir seu trabalho
 	  com o resto da linha principal de desenvolvimento da empresa. Sally
 	  (ou outros) podem ter realizado muitas outras mudanças no repositório
-	  que podem ser dificeis de incorporar com sua cópia de trabalho&mdash;
+	  que podem ser difíceis de incorporar com sua cópia de trabalho&mdash;
 	  especialmente se você rodar um <command>svn update</command> depois 
 	  de semanas trabalhando sozinho.</para>
 
