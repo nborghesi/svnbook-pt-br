@@ -3,8 +3,8 @@
 
   <blockquote>
     <attribution>Confucio</attribution>
-    <para><quote>君子务本
-      (It is upon the Trunk that a gentleman works.)</quote></para>
+    <para><quote>
+      (É sobre o 'Tronco' que trabalha um cavalheiro.)</quote></para>
   </blockquote>
 
 
@@ -64,8 +64,8 @@
 	  relação entre si. Ainda é possivel duplicar copias de um ramo 
 	  para outro. Finalmente, ele pode fazer com que partes de sua
 	  copia de trabalho reflitam ramos diferentes, assim você pode
-	  <quote>misturar e combinar</quote> diferentes linhas de desenvolvimento no seu 
-	  trabalho de dia-a-dia.</para>
+	  <quote>misturar e combinar</quote> diferentes linhas de 
+	  desenvolvimento no seu trabalho de dia-a-dia.</para>
 
   </sect1>
 
@@ -75,75 +75,74 @@
   <sect1 id="svn.branchmerge.using">
     <title>Using Branches</title>
 
-    <para>At this point, you should understand how each commit creates
-      an entire new filesystem tree (called a <quote>revision</quote>)
-      in the repository.  If not, go back and read about revisions in
-      <xref linkend="svn.basic.in-action.revs"/>.</para>
+    <para>Ate aqui, você ja deve saber como cada commit cria uma nova
+	  arvore de arquivos (chamada de <quote>revisão</quote>) no 
+	  repositorio. Caso não saiba, volte e leia sobre revisões em
+	  <xref linkend="svn.basic.in-action.revs"/>.</para>
 
-    <para>For this chapter, we'll go back to the same example from
-      <xref linkend="svn.basic"/>.  Remember that you and your
-      collaborator, Sally, are sharing a repository that contains two
-      projects, <filename>paint</filename> and
-      <filename>calc</filename>.  Notice that in <xref
-      linkend="svn.branchmerge.using.dia-1"/>, however, each project
-      directory now contains subdirectories named
-      <filename>trunk</filename> and <filename>branches</filename>.
-      The reason for this will soon become clear.</para>
+    <para>Neste capítulo, vamos usar o mesmo exemplo de antes:
+      <xref linkend="svn.basic"/>. Lembre-se que você e Sally estão
+	  compartilhando um repositorio que contem dois projetos, 
+      <filename>paint</filename> e <filename>calc</filename>. 
+	  Note que em <xref linkend="svn.branchmerge.using.dia-1"/>,entretanto,
+	  cada diretorio de projeto contem subdiretorios chamados
+      <filename>trunk</filename> e <filename>branches</filename>.
+      O motivo para isso logo ficará mais claro.</para>
 
       <figure id="svn.branchmerge.using.dia-1">
-        <title>Starting repository layout</title>
+        <title>Layout Inical do Repositorio</title>
         <graphic fileref="images/ch04dia2.png"/>
       </figure>
 
-    <para>As before, assume that Sally and you both have working
-      copies of the <quote>calc</quote> project.  Specifically, you
-      each have a working copy of <filename>/calc/trunk</filename>.
-      All the files for the project are in this subdirectory rather
-      than in <filename>/calc</filename> itself, because your team has
-      decided that <filename>/calc/trunk</filename> is where the
-      <quote>main line</quote> of development is going to take
-      place.</para>
+    <para>Como antes, assuma que você e Sally possuem copias de trabalho
+	  do projeto <quote>calc</quote>. Especificamente, cada um de vocês
+	  tem uma copia de trabalho de <filename>/calc/trunk</filename>.
+	  Todos os arquivos deste projeto estão nesse diretorio ao invés de
+	  estarem no <filename>/calc</filename>, porque a sua equipe decidiu
+	  que <filename>/calc/trunk</filename> é onde a 
+	  <quote>Linha Principal</quote> de desenvolvimento vai ficar.</para>
 
-    <para>Let's say that you've been given the task of implementing
-      radical new project feature.  It will take a long time to write,
-      and will affect all the files in the project.  The problem here
-      is that you don't want to interfere with Sally, who is in the
-      process of fixing small bugs here and there.  She's depending on
-      the fact that the latest version of the project (in
-      <filename>/calc/trunk</filename>) is always usable.  If you
-      start committing your changes bit-by-bit, you'll surely break
-      things for Sally.</para>
+    <para>Digamos que você recebeu a tarefa de implementar uma grande 
+	  funcionalidade nova no projeto. Isso vai requerer muito tempo para 
+	  escrever, e vai afetar todos os arquivos do projeto. O problema aqui
+	  é que você não quer interferir no trabalho de Sally, que esta 
+	  corrigindo pequenos bugs aqui e ali. Ela depende de que a ultima
+	  versão do projeto (em <filename>/calc/trunk</filename>) esteja 
+	  sempre disponível. Se você começar a fazer commits de suas
+	  modificações bit-a-bit, com certeza você vai dificultar o trabalho de
+	  Sally.</para>
 
-    <para>One strategy is to crawl into a hole: you and Sally can stop
-      sharing information for a week or two.  That is, start gutting
-      and reorganizing all the files in your working copy, but don't
-      commit or update until you're completely finished with the task.
-      There are a number of problems with this, though.  First, it's
-      not very safe.  Most people like to save their work to the
-      repository frequently, should something bad accidentally happen
-      to their working copy.  Second, it's not very flexible.  If you
-      do your work on different computers (perhaps you have a working
-      copy of <filename>/calc/trunk</filename> on two different
-      machines), you'll need to manually copy your changes back and
-      forth, or just do all the work on a single computer.  By that
-      same token, it's difficult to share your changes-in-progress
-      with anyone else.  A common software development <quote>best
-      practice</quote> is to allow your peers to review your work as you
-      go.  If nobody sees your intermediate commits, you lose
-      potential feedback.  Finally, when you're finished with all your
-      changes, you might find it very difficult to re-merge your final
-      work with the rest of the company's main body of code.  Sally
-      (or others) may have made many other changes in the repository
-      that are difficult to incorporate into your working
-      copy&mdash;especially if you run <command>svn update</command>
-      after weeks of isolation.</para>
+    <para>Um estratégia é cavar um buraco: você e Sally podem para de
+	  compartilhar informações por uma semana ou duas.Isto é, começar
+	  cortar e reorganizar todos os arquivos da sua cópia de trabalho, 
+	  mas não realizar commit ou update antes de ter terminado todo o 
+	  trabalho. Existem alguns problemas aqui. Primeiro, não é seguro.
+	  A maioria das pessoas gostam de salvar seu trabalho no repositorio
+	  com frequencia, caso algo ruim aconteça por acidente à cópia de
+	  trabalho. Segundo, não é nada flexivel. Se você faz seu trabalho
+	  em computadores diferentes (talves você tenha uma cópia de trabalho
+	  de <filename>/calc/trunk</filename> em duas maquinas diferentes), 
+	  você terá que, manualmente, copiar suas alterações de uma maquina
+	  para outra, ou simplesmente, realizar todo o trabalho em um único 
+	  computador. Por esse mesmo método, é dificil compartilhar suas
+	  constantes modificações com qualquer pessoa. Uma <quote>boa
+      pratica</quote> comum em desenvolvimento de software é permitir
+	  que outros envolvidos revisem seu trabalho enquanto sendo realizado.
+	  Se ninguem verificar seus commits intermediários, você perde um
+	  potêncial feedback. E por fim, quando você terminar todas as
+	  modificações, você pode achar muito dificil de fundir seu trabalho
+	  com o resto da linha principal de desenvolvimento da empresa. Sally
+	  (ou outros) podem ter realizado muitas outras mudanças no repositório
+	  que podem ser dificeis de incorporar com sua cópia de trabalho&mdash;
+	  especialmente se você rodar um <command>svn update</command> depois 
+	  de semanas trabalhando sozinho.</para>
 
-    <para>The better solution is to create your own branch, or line of
-      development, in the repository.  This allows you to save your
-      half-broken work frequently without interfering with others, yet
-      you can still selectively share information with your
-      collaborators.  You'll see exactly how this works later
-      on.</para>
+    <para>A melhor solução é criar seu próprio ramo, ou linha de
+	  desenvolvimento, no repositório. Isso lhe permite salvar seu 
+	  trabalho ainda incompleto, sem interferir com outros, e ainda
+	  você pode escolher que informações compartilhar com seus 
+	  colaboradores. Você verá exatamente como isso funciona mais a
+	  frente.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.using.create">
