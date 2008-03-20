@@ -1254,14 +1254,14 @@ $
 
     </sidebar>
 
-    <para>The global list of ignore patterns tends to be more a
-      matter of personal taste, and tied more closely to a user's
-      particular tool chain than to the details of any particular
-      working copy's needs.  So, the rest of this section will focus
-      on the <literal>svn:ignore</literal> property and its
-      uses.</para>
+    <para>A lista global de filtros de rejeição tende ser mais uma
+      questão de gosto pessoal, e vinculada mais estreitamente a uma série de
+      ferramentas específicas do usuário do que aos detalhes de qualquer
+      cópia de trabalho particular necessita.  Assim, o resto desta seção
+      focará na propriedade <literal>svn:ignore</literal> e seus
+      usos.</para>
 
-    <para>Say you have the following output from <command>svn
+    <para>Digamos que você tenha a seguinte saída do <command>svn
       status</command>:</para>
 
     <screen>
@@ -1275,37 +1275,37 @@ $ svn status calc
 ?      calc/debug_log.3.gz
 </screen>
     
-    <para>In this example, you have made some property modifications
-      to <filename>button.c</filename>, but in your working copy you
-      also have some unversioned files: the latest
-      <filename>calculator</filename> program that you've compiled
-      from your source code, a source file named
-      <filename>data.c</filename>, and a set of debugging output log
-      files.  Now, you know that your build system always results in
-      the <filename>calculator</filename> program being generated.
+    <para>Neste exemplo, você realizou algumas modificações no arquivo
+      <filename>button.c</filename>, mas em sua cópia de trabalho você
+      também possui alguns arquivos não-versionados: o mais recente programa
+      <filename>calculator</filename> que você compilou a partir
+      do seu código fonte, um arquivo fonte nomeado
+      <filename>data.c</filename>, e uma série de arquivos de registro da saída de
+      depuração.  Agora, você sabe que seu sistema de construção sempre resulta
+      no programa <filename>calculator</filename> como produto.
       <footnote>
-        <para>Isn't that the whole point of a build system?</para>
+        <para>Não é isso o resultado completo de um sistema de construção?</para>
       </footnote>
-      And you know that your test suite always leaves those debugging
-      log files lying around.  These facts are true for all working
-      copies of this project, not just your own.  And you know that
-      you aren't interested in seeing those things every time you run
-      <command>svn status</command>, and pretty sure that nobody else
-      is interested in them either.  So you use <command>svn propedit
-      svn:ignore calc</command> to add some ignore patterns to the
-      <filename>calc</filename> directory.  For example, you might add
-      this as the new value of the <literal>svn:ignore</literal>
-      property:</para>
+      E você sabe que sua ferramenta de testes sempre deixa aqueles arquivos de
+      registro de depuração alojando ao redor.  Estes fatos são verdadeiros para todas cópias
+      de trabalho deste projeto, não para apenas sua própria.  E você também
+      não está interessado em ver aquelas coisas toda vez que você executa
+      <command>svn status</command>, e bastante seguro que ninguém mais
+      está interessado em nenhuma delas.  Sendo assim, você executa <command>svn propedit
+      svn:ignore calc</command> para adicionar alguns filtros de rejeição para o
+      diretório <filename>calc</filename>.  Por exemplo, você pode adicionar
+      os filtros abaixo como o novo valor da propriedade
+      <literal>svn:ignore</literal>:</para>
 
     <programlisting>
 calculator
 debug_log*
 </programlisting>
     
-    <para>After you've added this property, you will now have a local
-      property modification on the <filename>calc</filename>
-      directory.  But notice what else is different about your
-      <command>svn status</command> output:</para>
+    <para>Depois de você adicionar esta propriedade, você terá agora uma modificação
+      de propriedade local no diretório <filename>calc</filename>.
+      Mas note que o restante da saída é diferente para o comando
+      <command>svn status</command>:</para>
 
     <screen>
 $ svn status
@@ -1314,19 +1314,19 @@ $ svn status
 ?      calc/data.c
 </screen>
     
-    <para>Now, all that cruft is missing from the output!  Of course,
-      your <filename>calculator</filename> compiled program and all
-      those logfiles are still in your working copy.  Subversion is
-      simply not reminding you that they are present and unversioned.
-      And now with all the uninteresting noise removed from the
-      display, you are left with more interesting items&mdash;such as
-      that source code file <filename>data.c</filename> that you
-      probably forgot to add to version control.</para>
+    <para>Agora, todas aqueles resíduos não são apresentados nos resultados!  Certamente,
+      seu programa compidado <filename>calculator</filename> e todos aqueles
+      arquivos de registro estão ainda em sua cópia de trabalho.  O Subversion está
+      simplesmente não lembrando você que eles estão presentes e não-versionados.
+      E agora com todos os arquivos desinteressantes removidos dos resultados,
+      você visualizará somente os itens mais interessantes&mdash;assim como
+      o arquivo de código fonte <filename>data.c</filename> que você
+      provavelmente esqueceu de adicionar ao controle de versão.</para>
 
-    <para>Of course, this less-verbose report of your working copy
-      status isn't the only one available.  If you actually want to
-      see the ignored files as part of the status report, you can pass
-      the <option>--no-ignore</option> option to Subversion:</para>
+    <para>Evidentemente, este relatório menos prolixo da situação de sua cópia
+      de trabalho não é a única disponível.  Se você realmente quiser ver
+      os arquivos ignorados como parte do relatório de situação, você pode passar
+      a opção <option>--no-ignore</option> para o Subversion:</para>
 
     <screen>
 $ svn status --no-ignore
@@ -1340,19 +1340,19 @@ I      calc/debug_log.2.gz
 I      calc/debug_log.3.gz
 </screen>
     
-    <para>As mentioned earlier, the list of file patterns to ignore is
-      also used by <command>svn add</command> and <command>svn
-      import</command>.  Both of these operations involve asking
-      Subversion to begin managing some set of files and directories.
-      Rather than force the user to pick and choose which files in a
-      tree she wishes to start versioning, Subversion uses the ignore
-      patterns&mdash;both the global and the per-directory
-      lists&mdash;to determine which files should not be swept into
-      the version control system as part of a larger recursive
-      addition or import operation.  And here again, you can use the
-      <option>--no-ignore</option> option to tell Subversion ignore
-      its ignores list and operate on all the files and directories
-      present.</para>
+    <para>Como mencionado anteriormente, a lista de filtros de arquivos a ignorar
+      também é usada pelos comandos <command>svn add</command> e <command>svn
+      import</command>.  Estas duas operações implicam solicitar ao
+      Subversion iniciar o gerenciamento de algum conjunto de arquivos e diretórios.
+      Ao invés de forçar o usuário a escolher quais arquivos em uma
+      árvore ele deseja iniciar o versionamento, o Subversion usa os filtros de
+      rejeição&mdash;tanto a lista global quanto a por diretório
+      (<literal>svn-ignore</literal>)&mdash;para determinar quais arquivos não devem
+      ser varridos para o sistema de controle de versão como parte de uma operação
+      recursiva de adição ou importação.  E da mesma forma, você pode usar a opção
+      <option>--no-ignore</option> para indicar ao Subversion desconsiderar
+      suas listas de rejeição e operar em todos os arquivos e diretórios
+      presentes.</para>
 
   </sect1>
 
