@@ -175,248 +175,256 @@
 	  e é, da perspectiva do usuário Subversion, a coisa do 
 	  <quote>outro lado da linha</quote></para> 
 
-      <para>The Subversion Filesystem is not a kernel-level filesystem
-        that one would install in an operating system (like the Linux
-        ext2 or NTFS), but a virtual filesystem.  Rather than storing
-        <quote>files</quote> and <quote>directories</quote> as real
-        files and directories (as in, the kind you can navigate
-        through using your favorite shell program), it uses one of two
-        available abstract storage backends&mdash;either a Berkeley DB
-        database environment, or a flat-file representation.  (To
-        learn more about the two repository back-ends, see <xref
-        linkend="svn.reposadmin.basics.backends"/>.)  There has even
-        been considerable interest by the development community in
-        giving future releases of Subversion the ability to use other
-        back-end database systems, perhaps through a mechanism such as
-        Open Database Connectivity (ODBC).  In fact, Google did
-        something similar to this before launching the Google Code
-        Project Hosting service:  they announced in mid-2006 that members
-        of its Open Source team had written a new proprietary
-        Subversion filesystem plugin which used their ultra-scalable
-        Bigtable database for its storage.</para>
+      <para>O Sistema de Arquivos não é um sistema de arquivos no nível
+	  do kernel que se pode instalar em um sistema operacional (como
+	  o ext2 do Linux ou NTFS), mas um sistema de arquivos virtual.
+	  Além de guardar arquivos e diretórios (como os que você navega
+	  usando seu programa shell favorito), ele usa um dos dois 
+	  --FIXEME-- available abstract storage backends&mdash;mesmo o
+	  ambiente de banco de dados Berkeley DB, uma representação 
+	  plana de um arquivo. (Para aprender mais sobre os dois 
+	 --FIXEME-- respository back-end, veja  <xref
+	     linkend="svn.reposadmin.basics.backends"/>.) Sempre houve um
+	 considerável interesse pela comunidade de desenvolvimento 
+	 em dar a futuros releases do Subversion a habilidade de usar
+	 --FIXEME-- back-end database systems, talvez através de um
+	 mecanismo como um ODBC (Open Database Connectivity). De fato, 
+	 Google fez algo similar a isso antes de lançar o serviço Google para
+	 Host e Projetos: eles anunciaram em meados de 2006 que os membros
+	 do time Open Source teria escrito um novo plugin de sistema de arquivos 
+	 proprietário para o Subversion que seria usaria um banco de dados
+	 de Grande tabela ultra escalonável para armazenamento.</para> 
 
-      <para>The filesystem API exported by libsvn_fs contains the
-        kinds of functionality you would expect from any other
-        filesystem API&mdash;you can create and remove files and
-        directories, copy and move them around, modify file contents,
-        and so on.  It also has features that are not quite as common,
-        such as the ability to add, modify, and remove metadata
-        (<quote>properties</quote>) on each file or directory.
-        Furthermore, the Subversion Filesystem is a versioning
-        filesystem, which means that as you make changes to your
-        directory tree, Subversion remembers what your tree looked
-        like before those changes.  And before the previous changes.
-        And the previous ones.  And so on, all the way back through
-        versioning time to (and just beyond) the moment you first
-        started adding things to the filesystem.</para>
+     <para>A API do sistema de arquivos exportado pelo libsvn_fs contém
+	 funcionalidades que você esperaria de uma API de sistema de
+	 arquivos&mdash;você pode criar e remover arquivos e
+	 diretórios, copiar e move-los, modificar seus conteudos, 
+	 e assim por diante. Ela também tem funcionalidades que não são
+	 muito comuns, como a habilidade de adicionar, modificar, e 
+	 remover metadata (<quote>propriedades</quote>) em cada arquivo
+	 ou diretório. Além do mais, o sistema de arquivos Subversion 
+	 é um sistema versionado, o que significa que assim que você faz 
+	 mudanças na sua árvore de diretórios, Subversion lembra como sua
+	 árvore estava quando as mudanças foram feitas. E as mudanças anteriores.
+	 E as anteriores a essas. E assim por diante, todas as mudanças até
+	 durante o tempo de versionamento até (e no máximo) o primeiro momento
+	 que as coisas foram adicionadas ao sistema de arquivos.</para>
 
-      <para>All the modifications you make to your tree are done
-        within the context of a Subversion commit transaction.  The
-        following is a simplified general routine for modifying your
-        filesystem:</para>
+     <para>Todas as modificações que você fez a sua árvore são feitas
+	 dentro do contexto de uma transação de commit do Subversion.
+	 A seguir veremos uma rotina simplificada e genérica de 
+	 modificação do seu sistema de arquivos:</para>
 
       <orderedlist>
         <listitem>
-          <para>Begin a Subversion commit transaction.</para>
+          <para>Iniciar uma transação de commit do Subversion.</para>
         </listitem>
         <listitem>
-          <para>Make your changes (adds, deletes, property
-            modifications, etc.).</para>
+          <para>Fazendo modificações (adicionar, apagar, modificações
+            de propriedades, etc.).</para>
         </listitem>
         <listitem>
-          <para>Commit your transaction.</para>
+          <para>Commit as sua transação.</para>
         </listitem>
       </orderedlist>
 
-      <para>Once you have committed your transaction, your filesystem
-        modifications are permanently stored as historical artifacts.
-        Each of these cycles generates a single new revision of your
-        tree, and each revision is forever accessible as an immutable
-        snapshot of <quote>the way things were.</quote></para>
+      <para>Uma vez que você commitou sua transação, as modificações
+	  do seu sistema de arquivo é permanentemente armazenado
+	  como um histórico. Cada um desses ciclos gerá um única
+	  nova revisão da sua árvore, e cada revisão é para sempre
+	  acessível como uma imutável foto de <quote>como as coisas
+	  estavam</quote></para>
 
       <sidebar>
-        <title>The Transaction Distraction</title>
+        <title>--FIXME--The Transaction Distraction</title>
 
-        <para>The notion of a Subversion transaction can become easily
-          confused with the transaction support provided by the
-          underlying database itself, especially given the former's
-          close proximity to the Berkeley DB database code in
-          libsvn_fs_base.  Both types of transaction exist to provide
-          atomicity and isolation.  In other words, transactions give
-          you the ability to perform a set of actions in an
-          all-or-nothing fashion&mdash;either all the actions in the
-          set complete with success, or they all get treated as if
-          <emphasis>none</emphasis> of them ever happened&mdash;and in
-          a way that does not interfere with other processes acting on
-          the data.</para>
+	<para>A noção de transação no Subversion pode facilmente
+	    ser confundida com as transações suportadas providas
+	    pelo próprio banco de dados, especialmente pelo código 
+	    do libsvn_fs_base se aproximar ao código do baco de dados
+	    Berkeley DB. Os 2 tipos de transação existem para prover
+	    atomicidade e isolamento. Em outra palavras, transações
+	    dão a você a habilidade de fazer um conjunto de ações
+	    no modo tudo ou nada&mdash;ou todas as ações são completadas
+	    com sucesso, ou todas são tratadas como se 
+	    <emphasis>nenhuma</emphasis> tivesse ocorrido&mdash;e 
+	    de um certo modo que não há interefência nos outros
+	    processos que estão agindo nos dados.</para> 
 
-        <para>Database transactions generally encompass small
-          operations related specifically to the modification of data
-          in the database itself (such as changing the contents of a
-          table row).  Subversion transactions are larger in scope,
-          encompassing higher-level operations like making
-          modifications to a set of files and directories which are
-          intended to be stored as the next revision of the filesystem
-          tree.  If that isn't confusing enough, consider the fact
-          that Subversion uses a database transaction during the
-          creation of a Subversion transaction (so that if the
-          creation of Subversion transaction fails, the database will
-          look as if we had never attempted that creation in the first
-          place)!</para>
+	<para>Transações de banco de dados geralmente contém
+	    pequenas operações relacionadas com a modificações
+	    de dados no banco de dados (como modificações em dados
+	    de uma linha de uma tabela). Transações do Subversion
+	    são grandes em escopo, com operações de alto nível 
+	    como fazer modificações de um conjunto de arquivos
+	    e diretórios os quais serão guardados como a próxima
+	    revisão da árvore de sistema de arquivos. Como se já
+	    não fosse confuso o suficiente, considerar o fato que
+	    o Subversion criam usa uma transação durante a criação
+	    de uma transação Subversion ( então se a criação
+	    da transação do Subversion falhar, o banco de dados
+	    irá travar como se nenhum tentativa de criação tivesse
+	    ocorrido em primeiro lugar)!</para>
 
-        <para>Fortunately for users of the filesystem API, the
-          transaction support provided by the database system itself
-          is hidden almost entirely from view (as should be expected
-          from a properly modularized library scheme).  It is only
-          when you start digging into the implementation of the
-          filesystem itself that such things become visible (or
-          interesting).</para>
+	<para>Felizmente para os usuários da API do sistema de arquivos,
+	    o suporte à transação provido pelo sistema de banco de dados
+	    é encondido quase totalmente de vista (como é esperado
+	    de um esquema de bibliotecas modularizadas). Apenas
+	    quando você começa a procurar dentro da implementação do 
+	    sistema de arquivos que essas coisas começam a ficar 
+	   visível (ou interessante). 
 
       </sidebar>
 
-      <para>Most of the functionality provided by the filesystem
-        interface deals with actions that occur on individual
-        filesystem paths.  That is, from outside of the filesystem, the
-        primary mechanism for describing and accessing the individual
-        revisions of files and directories comes through the use of
-        path strings like <filename>/foo/bar</filename>, just as if
-        you were addressing files and directories through your
-        favorite shell program.  You add new files and directories by
-        passing their paths-to-be to the right API functions.  You
-        query for information about them by the same mechanism.</para>
+      <para>A maioria das funcionalidades providas pela interface 
+	  dos sitema de arquivos lida com ações que ocorrem em 
+	  caminhos de sistema de arquivos individuais. Isto é,
+	  de fora do sistema de arquivos, o mecanismo primário
+	  para descrever e acessar as revisões individuais de 
+	  arquivos e diretórios que veem do uso de string de 
+	  caminhos como <filename>/foo/bar</filename>, como se
+	  você estivesse endereçando arquivos e diretórios através
+	  do seu programa shell favorito. Você adiciona novos
+	  arquivos e diretórios passando o futuro caminho 
+	  para as funções certas da API. Você requisita uma informação
+	  sobre eles pelo menos mecanismo.</para>
 
-      <para>Unlike most filesystems, though, a path alone is not
-        enough information to identify a file or directory in
-        Subversion.  Think of a directory tree as a two-dimensional
-        system, where a node's siblings represent a sort of
-        left-and-right motion, and descending into subdirectories a
-        downward motion.  <xref
-        linkend="svn.developer.layerlib.repos.dia-1"/> shows a typical
-        representation of a tree as exactly that.</para>
+      <para>Ao contrário de muitos sistemas de arquivos, entrentanto, 
+	  um cmainho sozinho não é informação suficiente para identificar
+	  um arquivo ou diretório no Subversion. Pense na árvore de 
+	  diretório como uma sistema de duas dimensões, onde um 
+	  nodo irmão representa um conjunto de movimentos direita-esquerda,
+	  e descendendo nos sub-diretórios em um movimento de descida.<xref
+	      linkend="svn.developer.layerlib.repos.dia-1"/> mostrando uma
+	  típica representação de uma árvore exatemente assim.</para>
 
       <figure id="svn.developer.layerlib.repos.dia-1">
-        <title>Files and directories in two dimensions</title>
+        <title>Arquivos e diretórios em duas dimensões</title>
         <graphic fileref="images/ch08dia1.png"/>
       </figure>
 
-      <para>The difference here is that the Subversion filesystem has a
-        nifty third dimension that most filesystems do not
-        have&mdash;Time!
+      <para>A diferença aqui é que o sistema de arquivos Subversion tem
+	  uma brilhante terceira dimensão que muitos sistemas de aquivo
+	  não tem&mdash;Tempo!
         <footnote>
-          <para>We understand that this may come as a shock to sci-fi
-            fans who have long been under the impression that Time was
-            actually the <emphasis>fourth</emphasis> dimension, and we
-            apologize for any emotional trauma induced by our
-            assertion of a different theory.</para>
+	    <para>Nós entendemos que isso é um shock para fans de ficção
+		científica que tem a impressão que tempo é na verdade
+		a <emphasis>quarta</emphasis> dimensão, e nos desculpamos
+		pelo trauma emocional causado pela nossa declaração
+		de uma teoria diferente.</para>
         </footnote>
-        In the filesystem interface, nearly every function that has a
-        <parameter>path</parameter> argument also expects a
-        <parameter>root</parameter> argument.  This
-        <structname>svn_fs_root_t</structname> argument describes
-        either a revision or a Subversion transaction (which is simply
-        a revision-in-the-making), and provides that third-dimensional
-        context needed to understand the difference between
-        <filename>/foo/bar</filename> in revision 32, and the same
-        path as it exists in revision 98.  <xref
-        linkend="svn.developer.layerlib.repos.dia-2"/> shows revision
-        history as an added dimension to the Subversion filesystem
-        universe.</para>
+	Numa interface de sistema de arquivos, quase toda função que tem
+	um <parameter>caminho</parameter> como argumento também espera uma
+	<parameter>raíz</parameter> como arguemnto. Este argumento
+	<structname>svn_fs_root_t</structname> descreve tanto
+	a revisão ou a transação Subversion (que é simplesmente uma
+	--FIXME-- revision-in-the-making), e provê essa terceira 
+	dimensão necessário para entender a diferença entre 
+	<filename>/foot/bar</filename> na revisão 32, e o mesmo 
+	caminho como ele existe na revisão 98.<xref
+	    linkend="svn.developer.layerlib.repos.dia-2"/> mostra
+	o histórico de revisão como uma dimensão adicional ao 
+	universo do sistema de arquivos Subversion.
 
       <figure id="svn.developer.layerlib.repos.dia-2">
         <title>Versioning time&mdash;the third dimension!</title>
         <graphic fileref="images/ch08dia2.png"/>
       </figure>
 
-      <para>As we mentioned earlier, the libsvn_fs API looks and feels
-        like any other filesystem, except that it has this wonderful
-        versioning capability.  It was designed to be usable by any
-        program interested in a versioning filesystem.  Not
-        coincidentally, Subversion itself is interested in that
-        functionality.  But while the filesystem API should be
-        sufficient for basic file and directory versioning support,
-        Subversion wants more&mdash;and that is where libsvn_repos
-        comes in.</para>
+      <para>Como mencionado anteriormente, a API libsvn_fs parece 
+	  qualquer outro sistema de arquivos, exceto que ele tem 
+	  essa maravilhosa capacidade de versionamento. Ele foi desenhado
+	  para ser usável por qualquer programa interessado em 
+	  versionar arquivos. Não coincidentemente, o próprio
+	  Subversion tem interesse nessa funcionalidade. Mas
+	  enquanto a API do sistema de arquivos deveria ser 
+	  suficiente para suporte básico de arquivos e diretórios,
+	  Subversion quer mais&mdash;e é aí que entra a libsvn_repos.</para>
 
-      <para>The Subversion repository library (libsvn_repos) sits
-        (logically speaking) atop the libsvn_fs API, providing
-        additional functionality beyond that of the underlying
-        versioned filesystem logic.  It does not completely wrap each
-        and every filesystem function&mdash;only certain major steps
-        in the general cycle of filesystem activity are wrapped by the
-        repository interface.  Some of these include the creation and
-        commit of Subversion transactions, and the modification of
-        revision properties.  These particular events are wrapped by
-        the repository layer because they have hooks associated with
-        them.  A repository hook system is not strictly related to
-        implementing a versioning filesystem, so it lives in the
-        repository wrapper library.</para>
+      <para>A biblioteca de respositório Subversion (libsvn_repos)
+	  está sentada (logicamente falando) no topo da API
+	  libsvn_fs, provendo funcionalidades adicionais além 
+	  das frisadas pelo versionamenteo logico do sistema de
+	  arquivos. Não contém completamente cada uma de todas
+	  as funções de um sistema de arquivos&mdash;apenas
+	  alguns grades passos no ciclo geral da atividade 
+	  de um sistema de arquivos é contida pela interface
+	  do respositório. Algumas dessas incluem a criação
+	  e commit de transações Subversion, e as modificações
+	  de propriedades de revisão. Esses eventos particulares
+	  estão contidos na camada de repositório porque eles tem
+	  --FIXME-- hooks associados a eles. Um --FIXME-- respository
+	  hook system não está restritamente relacionado a implemnentação
+	  de um sistema de arquivos relacionados, então ele fica 
+	  contido na biblioteca de repositório</para>
       
-      <para>The hooks mechanism is but one of the reasons for the
-        abstraction of a separate repository library from the rest of
-        the filesystem code.  The libsvn_repos API provides several
-        other important utilities to Subversion.  These include the
-        abilities to:</para>
+      <para>--FIXME--The hooks mechanism é uma das razões para a 
+	  abstração da separação da biblioteca de respositório
+	  do resto do código do sistema de arquivo. A API libsvn_repos
+	  provê muitas utilidades importantes para o Subversion. Isso 
+	  inclui habilidades para:</para>
 
       <itemizedlist>
         <listitem>
-          <para>create, open, destroy, and perform recovery steps on a
-            Subversion repository and the filesystem included in that
-            repository.</para>
+	    <para>criar, abrir, destruir, e recuperar passos no 
+		respositório Subversion e o sistema de arquivos 
+		incluido nesse respositório.</para>
         </listitem>
         <listitem>
-          <para>describe the differences between two filesystem
-            trees.</para>
+	    <para>descrever a diferença entre duas árovres de 
+		sistema de arquivos.</para>
         </listitem>
         <listitem>
-          <para>query for the commit log messages associated with all
-            (or some) of the revisions in which a set of files was
-            modified in the filesystem.</para>
+	    <para>requisitar ao log de messagens do commit associados
+		a todas (ou algumas) das revisões nas quais um conjunto
+		de arquivos foi modificado no sistema de arquivos.</para>
         </listitem>
         <listitem>
-          <para>generate a human-readable <quote>dump</quote> of the
-            filesystem, a complete representation of the revisions in
-            the filesystem.</para>
+	    <para>gerar um <quote>dump</quote> compreensível ao ser humano
+		do sistema de arquivos, uma completa representação da
+		revisão do sitema de arquivos.</para>
         </listitem>
         <listitem>
-          <para>parse that dump format, loading the dumped revisions
-            into a different Subversion repository.</para>
+	    <para>--FIXME--parse that dump, carregando a revisão dumped
+		no repositório Subversion diferente.</para>
         </listitem>
       </itemizedlist>
 
-      <para>As Subversion continues to evolve, the repository library
-        will grow with the filesystem library to offer increased
-        functionality and configurable option support.</para>
+      <para>Como o Subversion coninua a evoluir, a biblioteca de 
+	  repositório irá crescer com a biblioteca de sistema de 
+	  arquivos para oferecer um número crescente de funcionalidades
+	  e opções de configuração.</para>
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.layerlib.ra">
-      <title>Repository Access Layer</title>
+      <title>Camada de Acesso ao Repositório</title>
 
-      <para>If the Subversion Repository Layer is at <quote>the other
-        end of the line</quote>, the Repository Access (RA) Layer is
-        the line itself.  Charged with marshaling data between the
-        client libraries and the repository, this layer includes the
-        libsvn_ra module loader library, the RA modules themselves
-        (which currently includes libsvn_ra_dav, libsvn_ra_local,
-        libsvn_ra_serf, and libsvn_ra_svn), and any additional
-        libraries needed by one or more of those RA modules (such as
-        the mod_dav_svn Apache module or libsvn_ra_svn's server,
-        <command>svnserve</command>).</para>
+      <para>Se a Camada de Repositório do Subversion está <quote>
+      do outro lado da linha</quote>, a Camada de Accesso (RA)
+      está na linha. Carregado com dados--FIXME--marshaling entre as bibliotecas
+      de clientes e o respositório, esta camada inclue o módulo 
+      carregamento de bibliotecas libsvn_ra, os módulos RA mesmos 
+      (que normalmente incluem libsvn_ra_dav, libsvn_ra_local, 
+      libsvn_ra_serf, e libsvn_ra_svn), e qualquer biblioteca
+      adicional necessária por um ou mais dos módulos RA (assim como
+      o  módulo Apache mod_dav_svn ou servidor do libsvn_ra_svn, 
+      <command>svnserv</command>).</para>  
 
-      <para>Since Subversion uses URLs to identify its repository
-        resources, the protocol portion of the URL scheme (usually
-        <literal>file://</literal>, <literal>http://</literal>,
-        <literal>https://</literal>, <literal>svn://</literal>, or
-        <literal>svn+ssh://</literal>) is used to determine which RA
-        module will handle the communications.  Each module registers
-        a list of the protocols it knows how to <quote>speak</quote>
-        so that the RA loader can, at runtime, determine which module
-        to use for the task at hand.  You can determine which RA
-        modules are available to the Subversion command-line client,
-        and what protocols they claim to support, by running
-        <command>svn --version</command>:</para>
-     
+  <para>Já que Subversion usa URLs para identificar seus respositórios,
+      o porção de protocolo do esquema URL (normalmente
+      <literal>file://</literal>, <literal>http://<literal>,
+      <literal>https://</literal>, <literal>svn://</literal>,
+      ou <literal>svn+ssh://</literal>) é usado para determinar 
+      que módulo RA irá dar conta das comunicações. Cada módulo
+      possui uma lista de protocolos que sabem como <quote>falar</quote>
+      para que o carregador RA possa, em tempo de execução, determinar
+      que módulo usar para faze a tarefa. Você pode saber que 
+      módulo RA está disponível para o cliente de linha de comando
+      do Subversion e que protocolos ele suporta, apenas com o comando
+      <command>svn --version</command>:</para>
+
       <screen>
 $ svn --version
 svn, version 1.4.3 (r23084)
@@ -439,123 +447,129 @@ The following repository access (RA) modules are available:
 $
 </screen>
 
-      <para>The public API exported by the RA Layer contains
-        functionality necessary for sending and receiving versioned
-        data to and from the repository.  And each of the available RA
-        plugins is able to perform that task using a specific
-        protocol&mdash;libsvn_ra_dav speaks HTTP/WebDAV (optionally
-        using SSL encryption) with an Apache HTTP Server that is
-        running the mod_dav_svn Subversion server module;
-        libsvn_ra_svn speaks a custom network protocol with the
-        <command>svnserve</command> program; and so on.</para>
+    <para>A API pública exportada pela Camada RA contém 
+	funcionalidades necessárias por enviar e receber dados
+	versionados para e do resposítorio. Cada um dos plugins
+	RA estão disponíveis para fazer a tarefa de usar protocolos
+	específicos&mdash;libsvn_ra_dav fala HTTP/WebDAV (opcionalmente
+	usando SSL encryption) com um servidor Apache HTTP que estiver
+	rodando o módulo servidor mod_dav_svn; libsvn_ra_svn fala um
+	protocolo customizável de rede com o programa <command>svnserve</command>;
+	e assim por diante.</para>
 
-      <para>And for those who wish to access a Subversion repository
-        using still another protocol, that is precisely why the
-        Repository Access Layer is modularized!  Developers can simply
-        write a new library that implements the RA interface on one
-        side and communicates with the repository on the other.  Your
-        new library can use existing network protocols, or you can
-        invent your own.  You could use inter-process communication
-        (IPC) calls, or&mdash;let's get crazy, shall we?&mdash;you
-        could even implement an email-based protocol.  Subversion
-        supplies the APIs; you supply the creativity.</para>
+      <para>E para aqueles que desejam acessar um respositório Subversion
+	  usando outro protocolo, isso é exatamente por isso que a
+	  Camada de Acesso ao Respositório é modularazada! Desenvolvedores
+	  podem simplesmente escrever uma nova biblioteca que implementa
+	  a interface RA em um dos lados e comunicar com o respositório
+	  do outro lado. Sua biblioteca pode usar protocolos já existentes,
+	  ou você pode inventar o seu próprio. Você pode usar processos
+	  de comunicação (IPC), ou&mdash;vamos ficar loucos, podemos?&mdash;
+	  você pode até implementar um protocolo baseado em email. 
+	  Subversion provê a API; você vem com a criatividade.</para>
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.layerlib.client">
-      <title>Client Layer</title>
+      <title>Camada Cliente</title>
       
-      <para>On the client side, the Subversion working copy is where
-        all the action takes place.  The bulk of functionality
-        implemented by the client-side libraries exists for the sole
-        purpose of managing working copies&mdash;directories full of
-        files and other subdirectories which serve as a sort of local,
-        editable <quote>reflection</quote> of one or more repository
-        locations&mdash;and propagating changes to and from the
-        Repository Access layer.</para>
+      <para>No lado do cliente, a cópia de trabalho do Subversion é 
+	  onde todas as ações tomam lugar. O conjunto de funcionalidades
+	  implementadas pelas bibliotecas cliente existem pelo único
+	  propósito de gerenciar as cópias de trabalho&mdash;
+	  diretórios cheios de arquivos e outros sub-diretórios
+	  que servem como um tipo de local, editáveis <quote>reflexos</quote>
+	  de um ou mais locais de repositórios&mdash;e propagando mudanças
+	  para e da Camada de Acesso ao Respositório.</para>
 
-      <para>Subversion's working copy library, libsvn_wc, is directly
-        responsible for managing the data in the working copies.  To
-        accomplish this, the library stores administrative information
-        about each working copy directory within a special
-        subdirectory.  This subdirectory, named
-        <filename>.svn</filename>, is present in each working copy
-        directory and contains various other files and directories
-        which record state and provide a private workspace for
-        administrative action.  For those familiar with CVS, this
-        <filename>.svn</filename> subdirectory is similar in purpose
-        to the <filename>CVS</filename> administrative directories
-        found in CVS working copies.  For more information about the
-        <filename>.svn</filename> administrative area, see <xref
+      <para>Cópia de trabalho Subversion, libsvn_wc, é diretamente
+	  responsável por gerenciar os dados nas cópias de trablho.
+	  Para conseguir isso, a biblioteca guarda informações 
+	  administrativas sobre cada diretório da cópia de trabalho
+	  com em um sub-diretório especial. Este sub-diretório, chama-se
+	  <filename>.svn</filename>, está presente em cada cópia de 
+	  trabalho e contém vários outros arquivos e diretórios
+	  com o estado das informações e provê um espaço privado 
+	  para ações de administração. Para os familiares com o CVS, 
+	  este sub-diretório <filename>.svn</filename> é similar em
+	  objetivo ao diretório administrativo <filenam>CVS</filename>
+	  encontrado nas cópias de trabalho CVS. Para mais informação
+	  sobre a área administrativa <filename>.svn</filename>, 
+	  veja<xref
         linkend="svn.developer.insidewc"/>in this chapter.</para>
 
-      <para>The Subversion client library, libsvn_client, has the
-        broadest responsibility; its job is to mingle the
-        functionality of the working copy library with that of the
-        Repository Access Layer, and then to provide the highest-level
-        API to any application that wishes to perform general revision
-        control actions.  For example, the function
-        <function>svn_client_checkout()</function> takes a URL as an
-        argument.  It passes this URL to the RA layer and opens an
-        authenticated session with a particular repository.  It then
-        asks the repository for a certain tree, and sends this tree
-        into the working copy library, which then writes a full
-        working copy to disk (<filename>.svn</filename> directories
-        and all).</para>
+      <para>A biblioteca do cliente Subversion, libsvn_client, 
+	  tem uma responsabilidade mais abrangente. o seu trabalho
+	  é unir as funcionalidades da biblioteca da cópia de trabalho
+	  com as da Camada de Acesso ao Respositório, e então prover uma
+	  API de alto nível para qualquer aplicação que desejar fazer
+	  controle geral de ações de revisão. Por exemplo, a função
+	  <function>svn_client_checkout()</function> pega um URL 
+	  como argumento. E passa a URL para a camada de RA e abre 
+	  uma sessão com um repositório. Ele então pede ao respositório
+	  pora uma certa árvore, e envia está árvore para a biblioteca
+	  da cópia de trabalho, que então esrever toda a cópia de trabalho
+	  no disco (o diretório <filename>.svn</filename> e tudo mais). 
 
-      <para>The client library is designed to be used by any
-        application.  While the Subversion source code includes a
-        standard command-line client, it should be very easy to write
-        any number of GUI clients on top of the client library.  New
-        GUIs (or any new client, really) for Subversion need not be
-        clunky wrappers around the included command-line
-        client&mdash;they have full access via the libsvn_client API
-        to same functionality, data, and callback mechanisms that the
-        command-line client uses.  In fact, the Subversion source code
-        tree contains a small C program (which can be found at
-        <filename>tools/examples/minimal_client.c</filename> that
-        exemplifies how to wield the Subversion API to create a simple
-        client program</para>
-
+	  <para>A biblioteca cliente foi desenhada para ser usada
+	      por qualquer aplicacação. Enquanto o código fonte
+	      inclui um cliente de linha de comando padrão, deveria
+	      ser muito fácil escrever qualquer número de clientes
+	      gráficos no topo dessa biblioteca cliente. Novas 
+	      interfaces gráficas (ou qualquer novo cliente) para
+	      não precisa ser algo em volta do cliente de linha 
+	      de comando&mdahs;eles tem total acesso via
+	      API libsvn_client às mesmas funcionalidades, dados
+	      e mecanimos de resposta que o cliente de linha
+	      de comando usa. De fato, a ávore do código fonte
+	      do Subversion contém um pequeno programa em C (
+	      que pode ser encontrado em 
+	      <filename>tools/examples/minimal_client.c</filename>
+	      que exemplifica como usar a API do Subversion para
+	      criar um programa cliente simples</para>
+	      
       <sidebar>
-        <title>Binding Directly&mdash;A Word About Correctness</title>
+        <title>Fazendo binding diretamente&mdash;Uma palavra sobre o que é certo</title>
 
-        <para>Why should your GUI program bind directly with a
-          libsvn_client instead of acting as a wrapper around a
-          command-line program?  Besides simply being more efficient,
-          it can be more correct as well.  A
-          command-line program (like the one supplied with Subversion)
-          that binds to the client library needs to effectively
-          translate feedback and requested data bits from C types to
-          some form of human-readable output.  This type of
-          translation can be lossy.  That is, the program may not
-          display all of the information harvested from the API, or
-          may combine bits of information for compact representation.</para>
+	<para>Porque seu programa de interface deveria
+	    fazer o bind diretamente com o libsvn_client ao 
+	    invés ser um programa em volta do cliente em linha 
+	    de comando? Além do fato de ser mais eficiente,
+	    é mais correto também. Um programa de linha de comando
+	    (como o que o Subversion fornece) que faz o bind
+	    para a biblioteca do cliente precisa traduzir
+	    eficientemente as respostas e requisões de bits
+	    de dados de tipos C para tipo em forma entendidas
+	    pelo ser humano. Esse tipo de tradução pode ser
+	    despendioso. Sendo assim, o programa pode não
+	    mostrar todas as informações colhidas pela API, ou
+	    pode combinar pedaços de informações para uma
+	    apresentação compacta.</para>
 
-        <para>If you wrap such a command-line program with yet another
-          program, the second program has access only to
-          already-interpreted (and as we mentioned, likely incomplete)
-          information, which it must <emphasis>again</emphasis>
-          translate into <emphasis>its</emphasis> representation
-          format.  With each layer of wrapping, the integrity of the
-          original data is potentially tainted more and more, much
-          like the result of making a copy of a copy (of a copy &hellip;)
-          of a favorite audio or video cassette.</para>
- 
-        <para>But the most compelling argument for binding directly to
-          the APIs instead of wrapping other programs is that the
-          Subversion project makes compatibility promises regarding
-          its APIs.  Across minor versions of those APIs (such as
-          between 1.3 and 1.4), no function's prototype will change.
-          In other words, you aren't forced to update your program's
-          source code simply because you've upgraded to a new version
-          of Subversion.  Certain functions might be deprecated, but
-          they still work, and this gives you a buffer of time to
-          eventually embrace the newer APIs.  These kinds of
-          compatibility promises do not exist for Subversion
-          command-line program output, which is subject to change from
-          release to release.</para>
+	<para>Se você puser o programa de linha de comando com outro 
+	    programa, o segundo programa terá acesso apenas 
+	    às informações já interpretadas (e como mencionado, 
+	    possivelemente incompletas), o que é <emphasis>novamente</emphasis>
+	    uma tradução do <emphasis>seu próprio</emphasis> formato
+	    de apresentação. Com cada camada de encapsulamento, 
+	    a integridade do dado original é um pouco mudado mais e mais,
+	    parecido com o resultado de fazer uma copia da copia (da cópia &hellip;)
+	    do seu audio ou vídeo cassete favorito.</para>
+
+	<para>Mas o argumento mais contudente para fazer o bind 
+	    diretamente para as APIs ao invés de usar outrs programas
+	    é que o projeto Subversion fez promessas de compatibilidades
+	    entre suas APIs. Através de versões menores dessas APIs
+	    (como entre 1.3 e 1.4), nenhum protótipo de função irá mudar.
+	    Em outras palavras, você não será forçado a atualizar
+	    seu código fonte semplesmente porque você atualizou para
+	    uma nova versão do Subversion. Algumas funções podem ficar
+	    defazadas, msa ainda assim irão funcionar, e isso te dá um
+	    intervaldo de tempo para começar a usar as novas APIs.
+	    Esse tipo de compatibilidade não é prometido para as 
+	    mensagens de saída do cliente de linha de comando do 
+	   Subversion, o que é objeto de mudança de versão para versão. 
 
       </sidebar>
 
