@@ -28,151 +28,152 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.developer.layerlib">
-    <title>Layered Library Design</title>
+    <title>Desing da Camada de Biblioteca</title>
 
-    <para>Each of Subversion's core libraries can be said to exist in
-      one of three main layers&mdash;the Repository Layer, the
-      Repository Access (RA) Layer, or the Client Layer (see <xref
-      linkend="svn.intro.architecture.dia-1" />).  We will examine
-      these layers shortly, but first, let's briefly summarize
-      Subversion's various libraries.  For the sake of consistency, we
-      will refer to the libraries by their extensionless Unix library
-      names (libsvn_fs, libsvn_wc, mod_dav_svn, etc.).</para>
+    <para>Para núcleo de bibliotecas do Subversion pode ser dito
+	existir em três principais camadas&mdash;a Camada do Respositório,
+	a Camada de Acesso ao Respositório (RA) ou Camada Cliente (veja
+	<xref linkend="svn.intro.architecture.dia-1" />). Nós iremos 
+	examinar essas camadas daqui a pouco, mas primeiro, vamos
+	dar uma olhada nas várias bibliotecas do Subversion. Pelo
+	bem da consistência, nós vamos nos referir às bibliotecas
+	pelos seus nomes de extensão de biblioteca Unix (libsvn_fs,
+	libsvn_wc, mod_dav_svn, etc.).</para>
 
     <variablelist>
       <varlistentry>
         <term>libsvn_client</term> 
-        <listitem><para>Primary interface for client
-          programs</para></listitem>
+        <listitem><para>Interface primária de programas
+          cliente</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_delta</term>
-        <listitem><para>Tree and byte-stream differencing
-          routines</para></listitem>
+	<listitem><para>Rotinas de diferenciação de Árvore e 
+	   byte-stream </para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_diff</term>
-        <listitem><para>Contextual differencing and merging
-          routines</para></listitem>
+	<listitem><para>Rotinas contextuais de fusão e
+          diferenciação</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs</term>
-        <listitem><para>Filesystem commons and module
-          loader</para></listitem>
+        <listitem><para>Sistema de arquivos comuns e carregamento
+          de módulos</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs_base</term>
-        <listitem><para>The Berkeley DB filesystem
-          back-end</para></listitem>
+        <listitem><para>Sistema de arquivos Berkeley DB
+          back-end --FIXME--</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs_fs</term>
-        <listitem><para>The native filesystem (FSFS)
-          back-end</para></listitem>
+        <listitem><para>Sistema de arquivos native (FSFS)
+          back-end--FIXME--</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra</term>
-        <listitem><para>Repository Access commons and module
+        <listitem><para>--FIXME--Repository Access commons and module
           loader</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_dav</term>
-        <listitem><para>The WebDAV Repository Access
-          module</para></listitem>
+        <listitem><para>Módulo WebDAV de acesso ao
+          Repositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_local</term>
-        <listitem><para>The local Repository Access
-          module</para></listitem>
+        <listitem><para>Módulo de Accesso Local ao 
+          respositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_serf</term>
-        <listitem><para>Another (experimental) WebDAV Repository
-          Access module</para></listitem>
+        <listitem><para>Outro (em experimentação) módulo WebDAV de accesso
+          ao Repositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_svn</term>
-        <listitem><para>The custom protocol Repository Access
-          module</para></listitem>
+        <listitem><para>Módulo de Acesso ao Repositório 
+          customizado</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_repos</term>
-        <listitem><para>Repository interface</para></listitem>
+        <listitem><para>Interface do Repositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_subr</term>
-        <listitem><para>Miscellaneous helpful
-          subroutines</para></listitem>
+        <listitem><para>Várias sub-rotinas de ajuda
+          </para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_wc</term>
-        <listitem><para>The working copy management
-          library</para></listitem>
+        <listitem><para>Biblioteca de gerênciamente 
+          de cópia de trabalho</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>mod_authz_svn</term>
-        <listitem><para>Apache authorization module for Subversion
-          repositories access via WebDAV</para></listitem>
+        <listitem><para>Módulo de autorização para acesso a Repositórios
+          Subversion WebDAV</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>mod_dav_svn</term>
-        <listitem><para>Apache module for mapping WebDAV operations to
-          Subversion ones</para></listitem>
+        <listitem><para>Módulo Apache para mapear operações WebDAV 
+          para operações do Subversion</para></listitem>
       </varlistentry>
     </variablelist>
 
-    <para>The fact that the word <quote>miscellaneous</quote> only
-      appears once in the previous list is a good sign.  The
-      Subversion development team is serious about making sure that
-      functionality lives in the right layer and libraries.  Perhaps
-      the greatest advantage of the modular design is its lack of
-      complexity from a developer's point of view.  As a developer,
-      you can quickly formulate that kind of <quote>big
-      picture</quote> that allows you to pinpoint the location of
-      certain pieces of functionality with relative ease.</para>
+    <para>O fato da palavara <quote>várias</quote> só aparecer 
+	uma vez na lista anterior é um bom sinal. O time de desenvolvimento
+	do Subversion leva se esforça para fazer com que funcionalidades
+	fiquem na camada certo e nas bibliotecas certas. Talvez a 
+	maior vantagem de um sistema modular é a pouca complexidade
+	do ponto de vista do desenvolvedor. Como desenvolvedor, 
+	você pode enxergar rapidamente um tipo de <quote>grande
+	quadro</quote> que permite você achar o local de certos
+	pedaços de funcionalidade com certa facilidade.</para>
 
-    <para>Another benefit of modularity is the ability to replace a
-      given module with a whole new library that implements the same
-      API without affecting the rest of the code base.  In some sense,
-      this happens within Subversion already.  The libsvn_ra_dav,
-      libsvn_ra_local, libsvn_ra_serf, and libsvn_ra_svn libraries
-      each implement the same interface, all working as plugins to
-      libsvn_ra.  And all four communicate with the Repository
-      Layer&mdash;libsvn_ra_local connects to the repository directly;
-      the other three do so over a network.  The libsvn_fs_base and
-      libsvn_fs_fs libraries are another pair of libraries that
-      implement the same functionality in different ways&mdash;both
-      are plugins to the common libsvn_fs library.</para>
+    <para>Outro benefício da modularidade é a habilidade de substituir
+	um módulo dado por uma biblioteca nova que implementa a mesma
+	API sem afetar o resto do código base. De certo modo, 
+	isso já acontece dentro do Subversion. Cada uma das bibliotecas 
+	libsvn_ra_dav, libsvn_ra_local, libsvn_ra_serf, e libsvn_ra_svn 
+	implementam a mesma interface, todas funcionam como plugins 
+	para libsvn_ra. E todas as quatro se comunicam com a camada 
+	de Repositório&mdash;libsvn_ra_local se conecta com o 
+	repositório diretamente; as outras três fazem atrás da rede.
+	As bibliotecas libsvn_fs_base e libsvn_fs_fs são outro par
+	de bibliotecas qeu implementam a mesma funcionalidade de 
+	maneiras diferentes&mdash;ambos plugins comuns a biblioteca
+	libsvn_fs.</para>
 
-    <para>The client itself also highlights the benefits of modularity
-      in the Subversion design.  Subversion's libsvn_client library is
-      a one-stop shop for most of the functionality necessary for
-      designing a working Subversion client (see <xref
-      linkend="svn.developer.layerlib.client"/>).  So while the
-      Subversion distribution provides only the <command>svn</command>
-      command-line client program, there are several third-party
-      programs which provide various forms of graphical client UI.
-      These GUIs use the same APIs that the stock command-line client
-      does.  This type of modularity has played a large role in the
-      proliferation of available Subversion clients and IDE
-      integrations and, by extension, to the tremendous adoption rate
-      of Subversion itself.</para>
+    <para>O cliente também mostra os benefícios da modularidade no 
+	design do Subversion. A biblioteca lbsvn_client do Subversion
+	é uma boa para a maioria das funcionalidades necessárias para
+	o design do cliente Subversion (veja <xref
+	linkend="svn.developer.layerlib.client"/>). Enquanto a distribuição
+	do Subverion provê apenas o <command>svn</command> como linha de comando,
+	existe várias ferramentas de terceiros que provêm várias formas
+	de gráficas do cliente. Essas interfaces gráficas usam a mesma
+	API que o clinte de linha de comando usa. Este tipo de modularidade
+	tem tido um papel importante na proliferação de clientes Subversion
+	e integrações em IDEs e, por consequência, pela grande adoção do
+	Subversion.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.layerlib.repos">
-      <title>Repository Layer</title>
+      <title>Camado do respositório</title>
 
-      <para>When referring to Subversion's Repository Layer, we're
-        generally talking about two basic concepts&mdash;the versioned
-        filesystem implementation (accessed via libsvn_fs, and
-        supported by its libsvn_fs_base and libsvn_fs_fs plugins), and
-        the repository logic that wraps it (as implemented in
-        libsvn_repos).  These libraries provide the storage and
-        reporting mechanisms for the various revisions of your
-        version-controlled data.  This layer is connected to the
-        Client Layer via the Repository Access Layer, and is, from the
-        perspective of the Subversion user, the stuff at the
-        <quote>other end of the line.</quote></para>
+      <para>Quando referindo a camada de Repositório do Subversion, 
+	  nós geralmente estamos falando sobre os conceitos&mdash;a
+	  implementação do sistema de arquivos (acessado via libsvn_fs,
+	  e suportados pelos plugins libsvn_fs_base e libsvn_fs_fs), e
+	  o respositório lógico que o contém (como implementado na
+	  libsvn_respos). Esta biblioteca provê o armazenamento 
+	  e mecanimos de relatórios para as várias revisões dos
+	  dados seus dados versionados. Esta camada é conectada
+	  a camada Cliente através da Camada de Acesso ao Repositório,
+	  e é, da perspectiva do usuário Subversion, a coisa do 
+	  <quote>outro lado da linha</quote></para> 
 
       <para>The Subversion Filesystem is not a kernel-level filesystem
         that one would install in an operating system (like the Linux
