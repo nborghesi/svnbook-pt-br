@@ -107,15 +107,15 @@ subdir/
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.importing.layout">
-      <title>Recommended repository layout</title>
+      <title>Layout de repositório recomendado</title>
 
-      <para>While Subversion's flexibility allows you to layout your
-      repository in any way that you choose, we recommend that you
-      create a <filename>trunk</filename> directory to hold the
-      <quote>main line</quote> of development, a
-      <filename>branches</filename> directory to contain branch
-      copies, and a <filename>tags</filename> directory to contain tag
-      copies, for example:</para>
+      <para>Enquanto a flexibilidade do Subversion permite que você organize
+      seu repositório da forma que você escolher, nós recomendamos que você
+      crie um diretório <filename>trunk</filename> para armazenar a
+      <quote>linha principal</quote> de desenvolvimento, um diretório
+      <filename>branches</filename> para conter cópias ramificadas,
+      e um diretório <filename>tags</filename> para conter cópias
+      rotuladas, por exemplo:</para>
 
       <screen>
 $ svn list file:///usr/local/svn/repos
@@ -124,12 +124,12 @@ $ svn list file:///usr/local/svn/repos
 /tags
 </screen>
 
-      <para>You'll learn more about tags and branches in <xref
-      linkend="svn.branchmerge"/>.  For details and how to set up
-      multiple projects, see <xref
-      linkend="svn.branchmerge.maint.layout"/> and <xref
-      linkend="svn.reposadmin.projects.chooselayout"/> to read more
-      about <quote>project roots</quote>.</para>
+      <para>Você aprenderá mais sobre tags e branches no <xref
+      linkend="svn.branchmerge"/>.  Para detalhes e como configurar
+      multiplos projetos, veja <xref
+      linkend="svn.branchmerge.maint.layout"/> e <xref
+      linkend="svn.reposadmin.projects.chooselayout"/> para ler mais
+      sobre <quote>raizes dos projetos</quote>.</para>
 
     </sect2>
 
