@@ -1467,41 +1467,41 @@ I      calc/debug_log.3.gz
       arquivos versionados estejam sendo modificados regularmente no
       repositório.</para>
 
-    <para>Simply adding keyword anchor text to your file does
-      nothing special.  Subversion will never attempt to perform
-      textual substitutions on your file contents unless
-      explicitly asked to do so.  After all, you might be writing
-      a document
+    <para>Simplesmente adicionar texto da âncora de uma palavra-chave em seu
+      arquivo faz nada de especial.  O Subversion nunca tentará executar
+      substituições textuais no conteúdo de seu arquivo a não ser que
+      seja explicitamente solicitado.  Afinal, você pode estar escrevendo
+      um documento
       <footnote>
-        <para>&hellip; or maybe even a section of a book &hellip;</para>
+        <para>&hellip; ou até mesmo uma seção de um livro &hellip;</para>
       </footnote> 
-      about how to use keywords, and you don't want Subversion to
-      substitute your beautiful examples of un-substituted keyword
-      anchors!</para>
+      sobre como usar palavras-chave, e você não quer que o Subversion
+      substitua seus belos exemplos de âncoras de palavra-chave, permanecendo
+      não-substituídas!</para>
 
-    <para>To tell Subversion whether or not to substitute keywords
-      on a particular file, we again turn to the property-related
-      subcommands.  The <literal>svn:keywords</literal> property,
-      when set on a versioned file, controls which keywords will
-      be substituted on that file.  The value is a space-delimited
-      list of the keyword names or aliases found in the previous
-      table.</para>
+    <para>Para dizer ao Subversion se substitui ou não as palavras-chave
+      em um arquivo particular, voltamos novamente aos subcomandos relacionados a
+      propriedades.  A propriedade <literal>svn:keywords</literal>,
+      quando definida em um arquivo versionado, controla quais palavras-chave serão
+      substituídas naquele arquivo.  O valor é uma lista delimitada por espaços
+      dos nomes ou apelidos de palavra-chave encontradas na tabela
+      anterior.</para>
 
-    <para>For example, say you have a versioned file named
-      <filename>weather.txt</filename> that looks like
-      this:</para>
+    <para>Por exemplo, digamos que você tenha um arquivo versionado nomeado
+      <filename>weather.txt</filename> que possui esta
+      aparência:</para>
 
     <programlisting>
-Here is the latest report from the front lines.
+Aqui está o mais recente relatório das linhas iniciais.
 $LastChangedDate$
 $Rev$
-Cumulus clouds are appearing more frequently as summer approaches.
+Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se aproxima.
 </programlisting>
         
-    <para>With no <literal>svn:keywords</literal> property set on
-      that file, Subversion will do nothing special.  Now, let's
-      enable substitution of the
-      <literal>LastChangedDate</literal> keyword.</para>
+    <para>Sem definir a propriedade <literal>svn:keywords</literal>
+      neste arquivo, o Subversion fará nada especial.  Agora, vamos
+      permitir a substituição da palavra-chave
+      <literal>LastChangedDate</literal>.</para>
 
     <screen>
 $ svn propset svn:keywords "Date Author" weather.txt
@@ -1509,46 +1509,46 @@ property 'svn:keywords' set on 'weather.txt'
 $
 </screen>        
     
-    <para>Now you have made a local property modification on the
-      <filename>weather.txt</filename> file.  You will see no
-      changes to the file's contents (unless you made some of your
-      own prior to setting the property).  Notice that the file
-      contained a keyword anchor for the <literal>Rev</literal>
-      keyword, yet we did not include that keyword in the property
-      value we set.  Subversion will happily ignore requests to
-      substitute keywords that are not present in the file, and
-      will not substitute keywords that are not present in the
-      <literal>svn:keywords</literal> property value.</para>
+    <para>Agora você fez uma modificação local da propriedade no arquivo
+      <filename>weather.txt</filename>.  Você verá nenhuma
+      mudança no conteúdo do arquivo (ao menos que você tenha feito alguma
+      definição na propriedade anteriormente).  Note que o arquivo
+      continha uma âncora de palavra-chave para a palavra-chave <literal>Rev</literal>,
+      no entanto, não incluímos esta palavra-chave no valor da propriedade
+      que definimos.  Felizmente, o Subversion ignorará pedidos para
+      substituir palavras-chave que não estão presentes no arquivo, e
+      não substituirá palavras-chave que não estão presentes no valor
+      da propriedade <literal>svn:keywords</literal>.</para>
 
-    <para>Immediately after you commit this property change,
-      Subversion will update your working file with the new
-      substitute text.  Instead of seeing your keyword anchor
-      <literal>$LastChangedDate$</literal>, you'll see its
-      substituted result.  That result also contains the name of
-      the keyword, and continues to be bounded by the dollar sign
-      (<literal>$</literal>) characters.  And as we predicted, the
-      <literal>Rev</literal> keyword was not substituted because
-      we didn't ask for it to be.</para>
+    <para>Imediatamente depois de você submeter esta mudança de propriedade,
+      o Subversion atualizará seu arquivo de trabalho com o novo
+      texto substituto.  Em vez de ver a sua âncora da palavra-chave
+      <literal>$LastChangedDate$</literal>, você verá como resultado seu
+      valor substituído.  Este resultado também contém o nome da
+      palavra-chave, que continua sendo limitada pelos caracteres de
+      sinal de moeda (<literal>$</literal>).  E como prevíamos, a
+      palavra-chave <literal>Rev</literal> não foi substituída porque
+      não solicitamos que isto fosse realizado.</para>
 
-    <para>Note also that we set the <literal>svn:keywords</literal>
-      property to <quote>Date Author</quote> yet the keyword
-      anchor used the alias <literal>$LastChangedDate$</literal>
-      and still expanded correctly.</para>
+    <para>Note também, que definimos a propriedade <literal>svn:keywords</literal>
+      para <quote>Date Author</quote> e, no entanto, a âncora da
+      palavra-chave usou o apelido <literal>$LastChangedDate$</literal>
+      e ainda sim expandiu corretamente.</para>
 
     <screen>
-Here is the latest report from the front lines.
+Aqui está o mais recente relatório das linhas iniciais.
 $LastChangedDate: 2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006) $
 $Rev$
-Cumulus clouds are appearing more frequently as summer approaches.
+Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se aproxima.
 </screen>
         
-    <para>If someone else now commits a change to
-      <filename>weather.txt</filename>, your copy of that file
-      will continue to display the same substituted keyword value
-      as before&mdash;until you update your working copy.  At that
-      time the keywords in your <filename>weather.txt</filename>
-      file will be re-substituted with information that
-      reflects the most recent known commit to that file.</para>
+    <para>Se agora alguém submeter uma mudança para
+      <filename>weather.txt</filename>, sua cópia deste arquivo
+      continuará a mostrar o mesmo valor para a palavra-chave substituída
+      como antes&mdash;até que você atualize sua cópia de trabalho.  Neste
+      momento as palavras-chave em seu arquivo <filename>weather.txt</filename>
+      serão re-substituídas com a informação que
+      reflete a mais recente submissão conhecida para este arquivo.</para>
 
     <sidebar>
       <title>Where's $GlobalRev$?</title>
