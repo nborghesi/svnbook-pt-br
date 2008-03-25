@@ -1,17 +1,17 @@
 #summary Estado geral da tradução
 
-Estimamos que cerca de 31,8% do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
+Estimamos que cerca de 35,5% do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
 
-|| *Foreword*                                || *100%* ||
+|| Foreword                                  || 85%    ||
 || Preface                                   || 49%    ||
 || *1. Fundamental Concepts*                 || *100%* ||
-|| 2. Basic Usage                            || 4%     ||
-|| 3. Advanced Topics                        || 15%    ||
-|| 4. Branching and Merging                  || 10%    ||
+|| 2. Basic Usage                            || 17%    ||
+|| 3. Advanced Topics                        || 23%    ||
+|| 4. Branching and Merging                  || 19%    ||
 || 5. Repository Administration              || 4%     ||
 || 6. Server Configuration                   ||        ||
 || 7. Customizing Your Subversion Experience ||        ||
-|| 8. Embedding Subversion                   ||        ||
+|| 8. Embedding Subversion                   || 40%    ||
 || 9. Subversion Complete Reference          ||        ||
 || A. Subversion Quick-Start Guide           || 95%    ||
 || *B. Subversion for CVS Users*             || *100%* ||
