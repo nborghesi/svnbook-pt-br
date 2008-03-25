@@ -22,7 +22,7 @@
       elas tem a oferecer, este capítulo é para você. Se, entretanto,
       você não se vê participando com o Subversion nesse nível, 
       sinta-se livre para pular este capítulo certo que suas experiências
-      como usuários do Subversion não serão afetadas.
+      como usuários do Subversion não serão afetadas.</para>
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
@@ -272,7 +272,7 @@
 	    de um esquema de bibliotecas modularizadas). Apenas
 	    quando você começa a procurar dentro da implementação do 
 	    sistema de arquivos que essas coisas começam a ficar 
-	   visível (ou interessante). 
+	   visível (ou interessante).</para>
 
       </sidebar>
 
@@ -324,7 +324,7 @@
 	caminho como ele existe na revisão 98.<xref
 	    linkend="svn.developer.layerlib.repos.dia-2"/> mostra
 	o histórico de revisão como uma dimensão adicional ao 
-	universo do sistema de arquivos Subversion.
+	universo do sistema de arquivos Subversion.</para>
 
       <figure id="svn.developer.layerlib.repos.dia-2">
         <title>Versioning time&mdash;the third dimension!</title>
@@ -414,7 +414,7 @@
 
   <para>Já que Subversion usa URLs para identificar seus respositórios,
       o porção de protocolo do esquema URL (normalmente
-      <literal>file://</literal>, <literal>http://<literal>,
+      <literal>file://</literal>, <literal>http://</literal>,
       <literal>https://</literal>, <literal>svn://</literal>,
       ou <literal>svn+ssh://</literal>) é usado para determinar 
       que módulo RA irá dar conta das comunicações. Cada módulo
@@ -493,7 +493,7 @@ $
 	  com o estado das informações e provê um espaço privado 
 	  para ações de administração. Para os familiares com o CVS, 
 	  este sub-diretório <filename>.svn</filename> é similar em
-	  objetivo ao diretório administrativo <filenam>CVS</filename>
+	  objetivo ao diretório administrativo <filename>CVS</filename>
 	  encontrado nas cópias de trabalho CVS. Para mais informação
 	  sobre a área administrativa <filename>.svn</filename>, 
 	  veja<xref
@@ -510,7 +510,7 @@ $
 	  uma sessão com um repositório. Ele então pede ao respositório
 	  pora uma certa árvore, e envia está árvore para a biblioteca
 	  da cópia de trabalho, que então esrever toda a cópia de trabalho
-	  no disco (o diretório <filename>.svn</filename> e tudo mais). 
+	  no disco (o diretório <filename>.svn</filename> e tudo mais).</para>
 
 	  <para>A biblioteca cliente foi desenhada para ser usada
 	      por qualquer aplicacação. Enquanto o código fonte
@@ -519,7 +519,7 @@ $
 	      gráficos no topo dessa biblioteca cliente. Novas 
 	      interfaces gráficas (ou qualquer novo cliente) para
 	      não precisa ser algo em volta do cliente de linha 
-	      de comando&mdahs;eles tem total acesso via
+	      de comando&mdash;eles tem total acesso via
 	      API libsvn_client às mesmas funcionalidades, dados
 	      e mecanimos de resposta que o cliente de linha
 	      de comando usa. De fato, a ávore do código fonte
@@ -569,7 +569,7 @@ $
 	    intervaldo de tempo para começar a usar as novas APIs.
 	    Esse tipo de compatibilidade não é prometido para as 
 	    mensagens de saída do cliente de linha de comando do 
-	   Subversion, o que é objeto de mudança de versão para versão. 
+	   Subversion, o que é objeto de mudança de versão para versão.</para>
 
       </sidebar>
 
