@@ -1681,26 +1681,26 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.locking">
-    <title>Locking</title>
+    <title>Travamento</title>
 
-    <para>Subversion's copy-modify-merge version control model lives
-      and dies on its data merging algorithms, specifically on how
-      well those algorithms perform when trying to resolve conflicts
-      caused by multiple users modifying the same file concurrently.
-      Subversion itself provides only one such algorithm, a three-way
-      differencing algorithm which is smart enough to handle data at a
-      granularity of a single line of text.  Subversion also allows
-      you to supplement its content merge processing with external
-      differencing utilities (as described in <xref
-      linkend="svn.advanced.externaldifftools.diff3" />), some of
-      which may do an even better job, perhaps providing granularity
-      of a word or a single character of text.  But common among those
-      algorithms is that they generally work only on text files.  The
-      landscape starts to look pretty grim when you start talking
-      about content merges of non-textual file formats.  And when you
-      can't find a tool that can handle that type of merging, you
-      begin to run into problems with the copy-modify-merge
-      model.</para>
+    <para>O modelo de controle de versão copiar-modificar-fundir do Subversion ganha e
+      perde sua utilidade em seus algoritmos de fusão de dados, especificamente sobre quão
+      bem esses algoritmos executam ao tentar resolver conflitos
+      causados por múltiplos usuários modificando o mesmo arquivo simultaneamente.
+      O próprio Subversion oferece somente um algoritmo, um algoritmo de diferenciação
+      de três meios, que é inteligente o suficiente para manipular dados até uma
+      granularidade de uma única linha de texto.  O Subversion também permite
+      que você complemente o processamento de fusão de conteúdo com utilitários de
+      diferenciação externos (como descrito em <xref
+      linkend="svn.advanced.externaldifftools.diff3" />), alguns dos
+      quais podem fazer um trabalho ainda melhor, talvez oferecendo granularidade
+      em nível de palavra ou em nível de caractere de texto.  Mas o comum entre esses
+      algoritmos é que eles geralmente trabalham apenas sobre arquivos de texto.  O
+      cenário começa a parecer consideravelmente rígido quando você começa a discursar
+      sobre fusões de conteúdo em formatos de arquivo não-textual.  E quando você não
+      pode encontrar uma ferramenta que possa manipular este tipo de fusão, você
+      começa a verificar os problemas com o modelo
+      copiar-modificar-fundir.</para>
 
    <para>Let's look at a real-life example of where this model runs
       aground.  Harry and Sally are both graphic designers working on
