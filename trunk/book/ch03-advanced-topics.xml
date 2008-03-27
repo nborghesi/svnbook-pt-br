@@ -1551,128 +1551,128 @@ Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se 
       reflete a mais recente submissão conhecida para este arquivo.</para>
 
     <sidebar>
-      <title>Where's $GlobalRev$?</title>
+      <title>Onde está $GlobalRev$?</title>
 
-      <para>New users are often confused by how the
-        <literal>$Rev$</literal> keyword works.  Since the repository
-        has a single, globally increasing revision number, many people
-        assume that it is this number which is reflected by the
-        <literal>$Rev$</literal> keyword's value.  But
-        <literal>$Rev$</literal> expands to show the last revision in
-        which the file <emphasis>changed</emphasis>, not the last
-        revision to which it was updated.  Understanding this clears
-        the confusion, but frustration often remains&mdash;without the
-        support of a Subversion keyword to do so, how can you
-        automatically get the global revision number into your
-        files?</para>
+      <para>Novos usuários são freqüentemente confundidos pela forma que a
+        palavra-chave <literal>$Rev$</literal> trabalha.  Como o repositório
+        possui um número de revisão único, globalmente incrementado, muitas pessoas
+        assumem que este número está refletido no valor da palavra-chave
+        <literal>$Rev$</literal>.  Porém,
+        <literal>$Rev$</literal> reflete a última revisão na qual
+        o arquivo foi <emphasis>modificado</emphasis>, não a última
+        revisão para qual ele foi atualizado.  Compreender isto esclarece
+        a confusão, mas a frustração muitas vezes permanece&mdash;sem o
+        suporte de uma palavra-chave do Subversion para isso, como podemos
+        obter automaticamente o número de revisão global em seus
+        arquivos?</para>
 
-      <para>To do this, you need external processing.  Subversion
-        ships with a tool called <command>svnversion</command> which
-        was designed for just this purpose.
-        <command>svnversion</command> crawls your working copy and
-        generates as output the revision(s) it finds.  You can use
-        this program, plus some additional tooling, to embed that
-        revision information into your files.  For more information on
-        <command>svnversion</command>, see <xref
+      <para>Para fazer isto, você precisa de processamento externo.  O Subversion
+        vem com uma ferramenta chamada <command>svnversion</command> que
+        foi projetada apenas para este propósito. O comando
+        <command>svnversion</command> rastreia sua cópia de trabalho e
+        produz como saída as revisões que encontra.  Você pode usar
+        este programa, mais algumas outras ferramentas, para embutir esta
+        informação sobre as revisões globais em seus arquivos.  Para mais informações sobre
+        <command>svnversion</command>, veja <xref
         linkend="svn.ref.svnversion"/>.</para>
 
     </sidebar>
 
-    <para>Subversion 1.2 introduced a new variant of the keyword
-      syntax which brought additional, useful&mdash;though perhaps
-      atypical&mdash;functionality.  You can now tell Subversion
-      to maintain a fixed length (in terms of the number of bytes
-      consumed) for the substituted keyword.  By using a
-      double-colon (<literal>::</literal>) after the keyword name,
-      followed by a number of space characters, you define that
-      fixed width.  When Subversion goes to substitute your
-      keyword for the keyword and its value, it will essentially
-      replace only those space characters, leaving the overall
-      width of the keyword field unchanged.  If the substituted
-      value is shorter than the defined field width, there will be
-      extra padding characters (spaces) at the end of the
-      substituted field; if it is too long, it is truncated with a
-      special hash (<literal>#</literal>) character just before
-      the final dollar sign terminator.</para>
+    <para>O Subversion 1.2 introduziu uma nova variante da sintaxe de
+      palavra-chave que trouxe funcionalidade adicional e útil&mdash;embora talvez
+      atípica.  Agora você dizer ao Subversion
+      para manter um tamanho fixo (em termos do número de bytes
+      consumidos) para a palavra-chave substituída.  Pelo uso de um
+      duplo dois pontos (<literal>::</literal>) após o nome da palavra-chave,
+      seguido por um número de caracteres de espaço, você define esta
+      largura fixa.  Quando o Subversion for substituir sua
+      palavra-chave para a palavra-chave e seu valor, ele substituirá
+      essencialmente apenas aqueles caracteres de espaço, deixando a largura
+      total do campo da palavra-chave inalterada.  Se o valor substituído
+      for menor que a largura definida para o campo, haverá caracteres
+      de enchimento extras (espaços) no final do campo
+      substituído; se for mais longo, será truncado com um
+      caractere de contenção especial (<literal>#</literal>) logo antes do
+      sinal de moeda delimitador de fim.</para>
 
-    <para>For example, say you have a document in which you have
-      some section of tabular data reflecting the document's
-      Subversion keywords.  Using the original Subversion keyword
-      substitution syntax, your file might look something
-      like:</para>
+    <para>Por exemplo, digamos que você possui um documento em que temos
+      alguma seção com dados tabulares refletindo as palavras-chave do
+      Subversion sobre o documento.  Usando a sintaxe de substituição de palavra-chave
+      original do Subversion, seu arquivo pode parecer com alguma coisa
+      como:</para>
 
     <screen>
-$Rev$:     Revision of last commit
-$Author$:  Author of last commit
-$Date$:    Date of last commit
+$Rev$:     Revisão da última submissão
+$Author$:  Autor da última submissão
+$Date$:    Data da última submissão
 </screen>
     
-    <para>Now, that looks nice and tabular at the start of things.
-      But when you then commit that file (with keyword substitution
-      enabled, of course), you see:</para>
+    <para>Neste momento, vemos tudo de forma agradável e tabular.  Mas quando
+      você em seguida submete este arquivo (com a substituição de palavra-chave
+      habilitada, certamente), vemos:</para>
 
     <screen>
-$Rev: 12 $:     Revision of last commit
-$Author: harry $:  Author of last commit
-$Date: 2006-03-15 02:33:03 -0500 (Wed, 15 Mar 2006) $:    Date of last commit
+$Rev: 12 $:     Revisão da última submissão
+$Author: harry $:  Autor da última submissão
+$Date: 2006-03-15 02:33:03 -0500 (Wed, 15 Mar 2006) $:    Data da última submissão
 </screen>
     
-    <para>The result is not so beautiful.  And you might be
-      tempted to then adjust the file after the substitution so
-      that it again looks tabular.  But that only holds as long as
-      the keyword values are the same width.  If the last
-      committed revision rolls into a new place value (say, from
-      99 to 100), or if another person with a longer username
-      commits the file, stuff gets all crooked again.  However, if
-      you are using Subversion 1.2 or better, you can use the new
-      fixed-length keyword syntax, define some field widths that
-      seem sane, and now your file might look like this:</para>
+    <para>O resultado não é tão elegante.  E você pode ser
+      tentado a então ajustar o arquivo depois da substituição para
+      que pareça tabular novamente.  Mas isto apenas funciona quando
+      os valores da palavra-chave são da mesma largura.  Se a última
+      revisão submetida aumentar em uma casa decimal (ou seja, de
+      99 para 100), ou se uma outra pessoa com um nome de usuário maior
+      submete o arquivo, teremos tudo bagunçado novamente.  No entanto, se
+      você está usando o Subversion 1.2 ou superior, você pode usar a nova sintaxe
+      para palavra-chave com tamanho fixo, definir algumas larguras de campo que
+      sejam razoáveis, e agora seu arquivo pode ter esta parência:</para>
 
     <screen>
-$Rev::               $:  Revision of last commit
-$Author::            $:  Author of last commit
-$Date::              $:  Date of last commit
+$Rev::               $:  Revisão da última submissão
+$Author::            $:  Autor da última submissão
+$Date::              $:  Data da última submissão
 </screen>
     
-    <para>You commit this change to your file.  This time,
-      Subversion notices the new fixed-length keyword syntax, and
-      maintains the width of the fields as defined by the padding
-      you placed between the double-colon and the trailing dollar
-      sign.  After substitution, the width of the fields is
-      completely unchanged&mdash;the short values for
-      <literal>Rev</literal> and <literal>Author</literal> are
-      padded with spaces, and the long <literal>Date</literal>
-      field is truncated by a hash character:</para>
+    <para>Você submete esta mudança ao seu arquivo.  Desta vez,
+      o Subversion nota a nova sintaxe para palavra-chave com tamanho fixo, e
+      mantém a largura dos campos como definida pelo espaçamento que
+      você colocou entre o duplo dois pontos e o sinal de moeda
+      final.  Depois da substituição, a largura dos campos está
+      completamente inalterada&mdash;os curtos valores de
+      <literal>Rev</literal> e <literal>Author</literal> são
+      preenchidos com espaços, e o longo campo <literal>Date</literal>
+      é truncado com um caractere de contenção:</para>
 
     <screen>
-$Rev:: 13            $:  Revision of last commit
-$Author:: harry      $:  Author of last commit
-$Date:: 2006-03-15 0#$:  Date of last commit
+$Rev:: 13            $:  Revisão da última submissão
+$Author:: harry      $:  Autor da última submissão
+$Date:: 2006-03-15 0#$:  Data da última submissão
 </screen>
        
-    <para>The use of fixed-length keywords is especially handy
-      when performing substitutions into complex file formats that
-      themselves use fixed-length fields for data, or for which
-      the stored size of a given data field is overbearingly
-      difficult to modify from outside the format's native
-      application (such as for Microsoft Office documents).</para>
+    <para>O uso de palavras-chave de comprimento fixo é especialmente útil
+      quando executamos substituições em formatos de arquivo complexos que
+      por si mesmo usam campos de comprimento fixo nos dados, ou que o
+      tamanho armazenado de um determinado campo de dados é predominantemente
+      difícil de modificar fora da aplicação original do formato
+      (assim como para documentos do Microsoft Office).</para>
 
     <warning>
-      <para>Be aware that because the width of a keyword field is
-        measured in bytes, the potential for corruption of
-        multi-byte values exists.  For example, a username which
-        contains some multi-byte UTF-8 characters might suffer
-        truncation in the middle of the string of bytes which make
-        up one of those characters.  The result will be a mere
-        truncation when viewed at the byte level, but will likely
-        appear as a string with an incorrect or garbled final
-        character when viewed as UTF-8 text.  It is conceivable
-        that certain applications, when asked to load the file,
-        would notice the broken UTF-8 text and deem the entire
-        file corrupt, refusing to operate on the file
-        altogether.  So, when limiting keywords to a fixed size,
-        choose a size that allows for this type of byte-wise
-        expansion.</para> 
+      <para>Esteja ciente que pelo fato da largura do campo de uma palavra-chave é
+        medida em bytes, o potencial de corrupção de valores de
+        multi-byte existe.  Por exemplo, um nome de usuário que
+        contém alguns caracteres multi-byte em UTF-8 pode sofrer
+        truncamento no meio da seqüência de bytes que compõem
+        um desses caracteres.  O resultado será um mero
+        truncamento quando visualizado à nível de byte, mas provavelmente
+        aparecerá como uma cadeia com um caractere adicional incorreto ou
+        ilegível quando exibido como texto em UTF-8.  É concebível que
+        certas aplicações, quando solicitadas a carregar o arquivo,
+        notariam o texto em UTF-8 quebrado e ainda considerem todo o arquivo
+        como corrompido, recusando-se a operar sobre o arquivo de um
+        modo geral.  Portanto, ao limitar palavras-chave para um tamanho fixo,
+        escollha um tamanho que permita este tipo de expansão ciente dos
+        bytes.</para> 
     </warning>
 
   </sect1>
