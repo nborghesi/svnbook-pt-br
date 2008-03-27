@@ -1580,7 +1580,7 @@ Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se 
 
     <para>O Subversion 1.2 introduziu uma nova variante da sintaxe de
       palavra-chave que trouxe funcionalidade adicional e útil&mdash;embora talvez
-      atípica.  Agora você dizer ao Subversion
+      atípica.  Agora você pode dizer ao Subversion
       para manter um tamanho fixo (em termos do número de bytes
       consumidos) para a palavra-chave substituída.  Pelo uso de um
       duplo dois pontos (<literal>::</literal>) após o nome da palavra-chave,
