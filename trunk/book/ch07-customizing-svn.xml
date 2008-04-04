@@ -1,15 +1,15 @@
 <chapter id="svn.customization">
-  <title>Customizando sua Experiência com Subversion</title>
+  <title>Customizando sua ExperiÃªncia com Subversion</title>
 
-  <para>Controle de versão pode ser um tema complexo, assim como
-      arte ou ciência, e oferecer variadas maneiras fazer as 
-      coisas. Através desse livro você leu sobre vários sub-comandos
-      do cliente de linha de comando e as opções para modificar
-      seu comportamento. Nesse capítulo, vamos dar uma olhada 
+  <para>Controle de versÃ£o pode ser um tema complexo, assim como
+      arte ou ciÃªncia, e oferecer variadas maneiras fazer as 
+      coisas. AtravÃ©s desse livro vocÃª leu sobre vÃ¡rios sub-comandos
+      do cliente de linha de comando e as opÃ§Ãµes para modificar
+      seu comportamento. Nesse capÃ­tulo, vamos dar uma olhada 
       e mais maneiras de customizar o jeito que o Subversion 
-      trabalha para você&mdash;setando as configurações em 
-      tempo de execução, usando ajuda de aplicações externas,
-      a interação do Subversion com as configurações locais do
+      trabalha para vocÃª&mdash;setando as configuraÃ§Ãµes em 
+      tempo de execuÃ§Ã£o, usando ajuda de aplicaÃ§Ãµes externas,
+      a interaÃ§Ã£o do Subversion com as configuraÃ§Ãµes locais do
       sistema operacional, e assim por diante.</para>
 
   <!-- TODO(cmpilato): Gut the runtime config stuff like I did the
@@ -805,9 +805,9 @@ Aufruf: cat ZIEL[@REV]...
         from the native locale into UTF-8.</para>
 
       <para>For example, suppose you create a file named
-        <filename>caffÃ¨.txt</filename>, and then when committing the
-        file, you write the log message as <quote>Adesso il caffÃ¨ Ã¨
-        piÃ¹ forte</quote>.  Both the filename and log message contain
+        <filename>caffÃƒÂ¨.txt</filename>, and then when committing the
+        file, you write the log message as <quote>Adesso il caffÃƒÂ¨ ÃƒÂ¨
+        piÃƒÂ¹ forte</quote>.  Both the filename and log message contain
         non-ASCII characters, but because your locale is set to
         <literal>it_IT</literal>, the Subversion client knows to
         interpret them as Italian.  It uses an Italian character set
