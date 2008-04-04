@@ -1,15 +1,16 @@
 <chapter id="svn.customization">
-  <title>Customizing Your Subversion Experience</title>
+  <title>Customizando sua Experiência com Subversion</title>
 
-  <para>Version control can be a complex subject, as much art as
-    science, and offering myriad ways of getting stuff done.
-    Throughout this book you've read of the various Subversion
-    command-line client subcommands and the options which modify their
-    behavior.  In this chapter, we'll look into still more ways to
-    customize the way Subversion works for you&mdash;setting up the
-    Subversion runtime configuration, using external helper
-    applications, Subversion's interaction with the operating system's
-    configured locale, and so on.</para>
+  <para>Controle de versão pode ser um tema complexo, assim como
+      arte ou ciência, e oferecer variadas maneiras fazer as 
+      coisas. Através desse livro você leu sobre vários sub-comandos
+      do cliente de linha de comando e as opções para modificar
+      seu comportamento. Nesse capítulo, vamos dar uma olhada 
+      e mais maneiras de customizar o jeito que o Subversion 
+      trabalha para você&mdash;setando as configurações em 
+      tempo de execução, usando ajuda de aplicações externas,
+      a interação do Subversion com as configurações locais do
+      sistema operacional, e assim por diante.</para>
 
   <!-- TODO(cmpilato): Gut the runtime config stuff like I did the
        property stuff, making larger topical sections to which the
