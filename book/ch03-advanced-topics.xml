@@ -1702,16 +1702,16 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       começa a verificar os problemas com o modelo
       copiar-modificar-fundir.</para>
 
-   <para>Let's look at a real-life example of where this model runs
-      aground.  Harry and Sally are both graphic designers working on
-      the same project, a bit of marketing collateral for an
-      automobile mechanic.  Central to the design of a particular
-      poster is an image of a car in need of some body work, stored in
-      a file using the PNG image format.  The poster's layout is
-      almost finished, and both Harry and Sally are pleased with the
-      particular photo they chose for their damaged car&mdash;a baby
-      blue 1967 Ford Mustang with an unfortunate bit of crumpling on
-      the left front fender.</para>
+   <para>Vejamos um exemplo da vida real onde este modelo não trabalha
+      adequadamente.  Harry e Sally são ambos desenhistas gráficos trabalhando no
+      mesmo projeto, que faz parte do marketing paralelo para um
+      automóvel mecânico.  O núcleo da concepção de um determinado
+      cartaz é uma imagem de um carro que necessita de alguns reparos, armazenada em
+      um arquivo usando o formato de imagen PNG.  O leiaute do cartaz está
+      quase pronto, e tanto Harry quanto Sally estão satisfeitos com a
+      foto que eles escolheram para o carro danificado&mdash;um Ford Mustang
+      1967 azul bebê com uma parte infelizmente amassada no
+      para-lama dianteiro esquerdo.</para>
 
     <para>Now, as is common in graphic design work, there's a change
       in plans which causes the car's color to be a concern.  So Sally
