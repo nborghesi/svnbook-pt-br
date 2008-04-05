@@ -580,85 +580,86 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.developer.insidewc">
-    <title>Inside the Working Copy Administration Area</title>
+    <title>Por dentro da área de Administração da cópia de trabalho</title>
     
-    <para>As we mentioned earlier, each directory of a Subversion
-      working copy contains a special subdirectory called
-      <filename>.svn</filename> which houses administrative data about
-      that working copy directory.  Subversion uses the information in
-      <filename>.svn</filename> to keep track of things like:</para>
+    <para>Como mencionamos anteriormente, cada diretório do Subversion
+	tem um diretório especial chamado <filename>.svn</filename> que
+	hospeda informações administrativas sobre o diretório da 
+	cópia de trabalho. Subversion usa essa informação do <filename>.svn</filename>
+	para rastrear coisas como:</para>
 
     <itemizedlist>
       <listitem>
-        <para>Which repository location(s) are represented by the
-          files and subdirectories in the working copy
-          directory.</para>
+	  <para>Qual(is) os locais dos repositórios que são representados pelos
+	      arquivos e subdiretórios no diretório da cópia de trabalho</para>
       </listitem>
       <listitem>
-        <para>What revision of each of those files and directories are
-          currently present in the working copy.</para>
+	  <para>Que revisão de cada arquivo e diretório  está
+	      representado no momento na sua cópia de trabalho</para>
       </listitem>
       <listitem>
-        <para>Any user-defined properties that might be attached
-          to those files and directories.</para>
+	  <para>Propriedades definidas pelo usuário que podem estar
+	      ligadas a esses arquivos e diretórios.</para>
       </listitem>
       <listitem>
-        <para>Pristine (un-edited) copies of the working copy
-          files.</para>
+	  <para>--FIXME--Pristine (un-edited) cópias de arquivos 
+	      da cópia de trabalho.</para>
       </listitem>
     </itemizedlist>
 
-    <para>The Subversion working copy administration area's layout and
-      contents are considered implementation details not really
-      intended for human consumption.  Developers are encouraged to
-      use Subversion's public APIs, or the tools that Subversion provides, to access and
-      manipulate the working copy data, instead of directly reading
-      or modifying those files.  The file formats employed by the working
-      copy library for its administrative data do change from time to
-      time&mdash;a fact that the public APIs do a great job of
-      hiding from the average user.  In this section, we
-      expose some of these implementation details sheerly to appease
-      your overwhelming curiosity.</para>
+    <para>A área de administração da cópia de trabalho do Subversion e
+	o seu conteúdo são consideradas implementações detalhadas e não
+	tem intenção de serem para consumo humano. Desenvolvedores
+	são encorajados a suar APÌs públicas do Subversion, ou as 
+	ferramentas que o Subversion provê, para acessar e 
+	manipular as informações da cópia local de trabalho, ao
+	invés de ler ou modificar diretamente esses arquivos.
+	Os formatos de arquivos empregados pela biblioteca
+	de cópia local para administração realmente muda de tempos
+	em tempos&mdash;um fato é que as APIs públicas fazem um
+	bom trabalho ao se esconder do usuário comum. Nessa seção,
+	vamos expor algumas desses detalhes de implementação para
+	satisfazer sua grande curiosidade.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.insidewc.entries">
-      <title>The Entries File</title>
+      <title>Os arquivos de Entrada</title>
 
-      <para>Perhaps the single most important file in the
-        <filename>.svn</filename> directory is the
-        <filename>entries</filename> file.  It
-        contains the bulk of the administrative
-        information about the versioned items in a working copy
-        directory.  It is this one file which tracks the repository
-        URLs, pristine revision, file checksums, pristine text and
-        property timestamps, scheduling and conflict state
-        information, last-known commit information (author, revision,
-        timestamp), local copy history&mdash;practically everything
-        that a Subversion client is interested in knowing about a
-        versioned (or to-be-versioned) resource!</para>
+      <para>Talvez o arquivo único de maior importância no
+	  diretório <filenam>.svn</filename> é o arquivo 
+	  <filename>entries</filename>. Nele está contido
+	  uma quantidade de informações administrativas sobre
+	 os ítens versionados no diretório da cópia de trabalho.
+	 É esse arquivo que rastreia as URLs do repositório, arquivos
+	 intocados, arquivos de checksum, textos intocados, 
+	 timestamps de propriedades, agendamento e informações de 
+	 conflitos, última informações conhecida de commit (autor, 
+	 revisão, timestamp), cópia local do histórico&mdash;praticamente
+	 tudo que um cliente Subversion tem interesse em saber sobre
+	 dados versionados ou que serão versionados!</para>
 
-      <para>Folks familiar with CVS's administrative directories will
-        have recognized at this point that Subversion's
-        <filename>.svn/entries</filename> file serves the purposes of,
-        among other things, CVS's <filename>CVS/Entries</filename>,
-        <filename>CVS/Root</filename>, and
-        <filename>CVS/Repository</filename> files combined.</para>
+     <para>Pessoas familiares com diretórios de administração do CVS
+	 vão reconhecer nesse ponto que o arquivo <filename>.svn/entries</filename>
+	 serve ao propósito de, além de outras coisas, uma combinação dos 
+	 arquivos <filename>CVS/Entries</filename>,
+	 <filename>CVS/Root</filename>, and 
+	 <filename>CVS/Repository</filename>.</para>
 
-      <para>The format of the <filename>.svn/entries</filename> file
-        has changed over time.  Originally an XML file, it now uses a
-        custom&mdash;though still human-readable&mdash;file format.
-        While XML was a great choice for early developers of
-        Subversion who were frequently debugging the file's contents
-        (and Subversion's behavior in light of them), the need for
-        easy developer debugging has diminished as Subversion has
-        matured, and has been replaced by the user's need for snappier
-        performance.  Be aware that Subversion's working copy library
-        automatically upgrades working copies from one format to
-        another&mdash;it reads the old formats, and writes the
-        new&mdash;which saves you the hassle of checking out a new
-        working copy, but can also complicate situations where
-        different versions of Subversion might be trying to use the
-        same working copy.</para>
+     <para>O formato do aquivo <filename>.snv/entries</filename> 
+	 tem mudado ao longo do tempo. Originalmente como um arquivo
+	 XML, usa um formato customizado&mdash;mas ainda legível a humanos&mdash;.
+	 Enquanto o XML foi uma boa escolha para o início do desenvolvimento
+	 do Subversion que era frequentemente debugado o conteúdo do arquivos
+	 (e o comportamento do Subversion na visão deles), a necessidade
+	 de um debug fácil no desenvolvimento foi se reduzindo com 
+	 a maturidade do Subversion, e vem sendo substituido pela
+	 impaciencia do usuário em ter performace. Fique atento
+	 que a biblioteca de cópia de trabalho do Subversion
+	 atualiza automaticamente cópias de trabalho de um formato para
+	 outro&mdash;ele lé formatos velhos, e escreve no novo&mdash;o que
+	 o salva do problema de checkar uma nova cópia de trabalho, 
+	 mas pode complicar em situações onde diferentes versões do 
+	 Subversion estão tentando usar a mesma cópia de trabablho.</para> 
 
     </sect2>
 
