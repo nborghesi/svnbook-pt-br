@@ -657,7 +657,7 @@ $
 	 que a biblioteca de cópia de trabalho do Subversion
 	 atualiza automaticamente cópias de trabalho de um formato para
 	 outro&mdash;ele lé formatos velhos, e escreve no novo&mdash;o que
-	 o salva do problema de checkar uma nova cópia de trabalho, 
+	 o salva do problema de checar uma nova cópia de trabalho, 
 	 mas pode complicar em situações onde diferentes versões do 
 	 Subversion estão tentando usar a mesma cópia de trabablho.</para> 
 
@@ -665,35 +665,32 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.insidewc.base-and-props">
-      <title>Pristine Copies and Property Files</title>
+      <title>Cópias inalteradas e Propriedade de arquivos</title>
 
-      <para>As mentioned before, the <filename>.svn</filename>
-        directory also holds the pristine <quote>text-base</quote>
-        versions of files.  Those can be found in
-        <filename>.svn/text-base</filename>.  The benefits of these
-        pristine copies are multiple&mdash;network-free checks for
-        local modifications and difference reporting, network-free
-        reversion of modified or missing files, more efficient transmission
-        of changes to the server&mdash;but comes at the cost of having
-        each versioned file stored at least twice on disk.  These
-        days, this seems to be a negligible penalty for most files.
-        However, the situation gets uglier as the size of your
-        versioned files grows.  Some attention is being given to
-        making the presence of the <quote>text-base</quote> an option.
-        Ironically though, it is as your versioned files' sizes get
-        larger that the existence of the <quote>text-base</quote>
-        becomes more crucial&mdash;who wants to transmit a huge file
-        across a network just because they want to commit a tiny
-        change to it?</para>
+      <para>Como mencionado anteriormente, o diretório<filename>.svn</filename>
+	  possui o arquivo inalterado de versão de arquivos <quote>text-base</quote>.
+	  Eles podem encotrados em <filename>.svn/text-base</filename>. Os benefícios
+	  das cópias inalteradas são muitas&mdash;checagem livre de rede
+	  para modificações locais e diferenças, checagem livre de rede
+	  de modificação de revisão e arquivos perdidos, maior eficiência
+	  na transmissão das mudanças para o servidor&mdash;mas tem o custo
+	  de ter cada arquivo armazenado 2 vezes no disco. Nos dias de hoje, 
+	  isso parece ser uma problema inofensivo para a maioria dos arquivos.
+	  Entretanto, a sutiação fica feia quando o tamanho dos seus arquivos
+	  versionados cresce. Uma atenção vem sendo dada para que a presença do 
+	  <quote>text-base</quote> seja opcional. Ironicamente, é quando 
+	  o tamanho dos seus arquivos fica grande que a existência do 
+	  <quote>text-base</quote> se torna crucial&mdash;quem gosta de 
+	  transmitir arquivos enormes pela rede apenas para comitar 
+	  uma pequena mudança?</para>
 
-      <para>Similar in purpose to the <quote>text-base</quote> files
-        are the property files and their pristine
-        <quote>prop-base</quote> copies, located in
-        <filename>.svn/props</filename> and
-        <filename>.svn/prop-base</filename> respectively.  Since
-        directories can have properties, too, there are also
-        <filename>.svn/dir-props</filename> and
-        <filename>.svn/dir-prop-base</filename> files.</para>
+      <para>Com propósito similar aos arquivos <quote>text-base</quote>
+	  estão os arquivos de propriedade e suas cópias inalteráveis 
+	  <quote>prop-base</quote>, localizados em <filename>.svn/props</filenam>
+	  e <filename>.svn/prop-base</filename> respectivamente. Já que 
+	  diretórios podem ter propriedades, também, existe também os arquivos
+        <filename>.svn/dir-props</filename> e
+        <filename>.svn/dir-prop-base</filename>.</para>
 
     </sect2>
 
