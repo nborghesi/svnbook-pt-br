@@ -114,7 +114,7 @@
 	  modificações bit-a-bit, com certeza você vai dificultar o trabalho
 	  de Sally.</para>
 
-    <para>Um estratégia é cavar um buraco: você e Sally podem para de
+    <para>Um estratégia é "se isolar": você e Sally podem para de
 	  compartilhar informações por uma semana ou duas.Isto é, começar
 	  cortar e reorganizar todos os arquivos da sua cópia de trabalho, 
 	  mas não realizar commit ou update antes de ter terminado todo o 
@@ -323,36 +323,36 @@ Checked out revision 341.
 
       <itemizedlist>
         <listitem><para>
-          You make a change to
+          Você faz uma modificação em
           <filename>/calc/branches/my-calc-branch/button.c</filename>,
-          which creates revision 342.</para>
+          o que cria a revisão 342.</para>
         </listitem>
 
         <listitem><para>
-          You make a change to
+          Você faz uma modificação em
           <filename>/calc/branches/my-calc-branch/integer.c</filename>,
-          which creates revision 343.</para>
+          o que cria a revisão 343.</para>
         </listitem>
 
         <listitem><para>
-          Sally makes a change to
-          <filename>/calc/trunk/integer.c</filename>, which creates
-          revision 344.</para>
+          Sally faz uma modificação em
+          <filename>/calc/trunk/integer.c</filename>, o que cria a
+          revisão 344.</para>
         </listitem>
       </itemizedlist>
 
-      <para>There are now two independent lines of development, shown
-        in <xref linkend="svn.branchmerge.using.work.dia-1"/>, happening on
-        <filename>integer.c</filename>.</para>
+      <para>Exitem agora duas linha independentes de desenvolvimento, 
+		mostrando em <xref linkend="svn.branchmerge.using.work.dia-1"/>,
+		afetando <filename>integer.c</filename>.</para>
 
       <figure id="svn.branchmerge.using.work.dia-1">
-        <title>The branching of one file's history</title>
+        <title>Ramificação do histórico de um arquivo</title>
         <graphic fileref="images/ch04dia4.png"/>
       </figure>
 
-      <para>Things get interesting when you look at the history of
-        changes made to your copy of
-        <filename>integer.c</filename>:</para>
+      <para>As coisas ficam interessantes quando você olha o histórico
+		das alterações feitas na sua cópia de
+		<filename>integer.c</filename>:</para>
 
       <screen>
 $ pwd
@@ -390,14 +390,14 @@ Changed paths:
 ------------------------------------------------------------------------
 </screen>
 
-      <para>Notice that Subversion is tracing the history of your
-        branch's <filename>integer.c</filename> all the way back
-        through time, even traversing the point where it was copied.
-        It shows the creation of the branch as an event in the
-        history, because <filename>integer.c</filename> was implicitly
-        copied when all of <filename>/calc/trunk/</filename> was
-        copied.  Now look what happens when Sally runs the same
-        command on her copy of the file:</para>
+      <para>Note que o Subversion esta traçando o histórico do seu
+		ramo de <filename>integer.c</filename> pelo tempo, até o
+		momento em que ele foi copiado. Isso mostra o momento em que 
+		o ramo foi criado como uma evento no histórico, ja que
+		<filename>integer.c</filename> foi copiado implicitamente 
+		quando <filename>/calc/trunk/</filename> foi copiado. Agora
+		veja o que ocorre quando Sally executa o mesmo comando em
+		sua cópia do arquivo:</para>
 
       <screen>
 $ pwd
@@ -428,14 +428,15 @@ Changed paths:
 ------------------------------------------------------------------------
 </screen>
 
-      <para>Sally sees her own revision 344 change, but not the change
-        you made in revision 343.  As far as Subversion is concerned,
-        these two commits affected different files in different
-        repository locations.  However, Subversion
-        <emphasis>does</emphasis> show that the two files share a
-        common history.  Before the branch-copy was made in revision
-        341, they used to be the same file.  That's why you and Sally
-        both see the changes made in revisions 303 and 98.</para>
+      <para>Sally vê suas proprias modificações na revisão 344, e não
+		as modificações que você fez na revisão 343. Até onde o 
+		Subversion sabe, esses dois commits afetaram arquivos 
+		diferentes em locais distintos no repositório. Entretanto
+		o Subversion <emphasis>mostra</emphasis> que os dois arquivos
+		tem um histórico em comum. Antes de ser feita a cópia/ramo na 
+		revisão 341, eles eram o mesmo arquivo. É por isso que você e
+		Sally podem ver as alterações feitas nas 
+		revisões 303 e 98.</para>
 
     </sect2>
 
@@ -443,21 +444,20 @@ Changed paths:
     <sect2 id="svn.branchmerge.using.concepts">
       <title>The Key Concepts Behind Branches</title> 
 
-      <para>There are two important lessons that you should remember
-        from this section.  First, Subversion has no internal concept
-        of a branch&mdash;it only knows how to make copies.  When you
-        copy a directory, the resulting directory is only
-        a <quote>branch</quote> because <emphasis>you</emphasis>
-        attach that meaning to it.  You may think of the directory
-        differently, or treat it differently, but to Subversion it's
-        just an ordinary directory that happens to carry some extra
-        historical information.  Second, because of this copy
-        mechanism, Subversion's branches exist as <emphasis>normal
-        filesystem directories</emphasis> in the repository.  This is
-        different from other version control systems, where branches
-        are typically defined by adding
-        extra-dimensional <quote>labels</quote> to collections of
-        files.</para>
+      <para>Há duas lições importantes que você deve se lembrar desta
+		seção. Primeiro, o Subversion não tem um conceito interno de
+		ramosmdash;ele apenas sabe fazer cópias. Quando você copia um	
+		diretório, o diretório resultante somente é um 
+		<quote>ramo</quote> porque <emphasis>você</emphasis> atribui
+		esse significado a ele. Você pode pensar de forma diferente
+		sobre esse diretório, ou trata-lo de forma diferente, mas 
+		para o subversion é apenas um diretório comum que carrega uma
+		informação extra de histórico. Segundo, devido a este mecânismo
+		de cópia, os ramos no Subversion existem como 
+		<emphasis>diretórios com sistema de arquivo normal</emphasis>
+		no repositório. Isso é de outros sistemas de controle de versão,
+		onde ramos são criados ao adicionar <quote>rótulos</quote> 
+		extra-dimensionais aos arquivos.</para>
 
     </sect2>
 
@@ -469,32 +469,33 @@ Changed paths:
   <sect1 id="svn.branchmerge.copychanges">
     <title>Copying Changes Between Branches</title>
 
-    <para>Now you and Sally are working on parallel branches of the
-      project: you're working on a private branch, and Sally is
-      working on the <firstterm>trunk</firstterm>, or main line of
-      development.</para>
+    <para>Agora você e Sally estão trabalhando em ramos paralelos
+	  do projeto: você está trabalhando no seu próprio ramo, e
+	  Sally está trabalhando no <firstterm>tronco</firstterm>,
+	  ou linha principal de desenvolvimento.</para>
 
-    <para>For projects that have a large number of contributors, it's
-      common for most people to have working copies of the trunk.
-      Whenever someone needs to make a long-running change that is
-      likely to disrupt the trunk, a standard procedure is to create a
-      private branch and commit changes there until all the work is
-      complete.</para>
+    <para>Para projetos que tenham um grande numero de colaboradores, 
+	  é comum que cada um tenha sua cópia de trabalho do tronco. Sempre
+	  que  alguem precise fazer uma longa modificação que possa 
+	  corromper o tronco, o procedimento padrão é criar um ramo privado
+	  e fazer os commits neste ramo até que todo o trabaho esteja
+	  concluido.</para>
 
-    <para>So, the good news is that you and Sally aren't interfering
-      with each other.  The bad news is that it's very easy to drift
-      <emphasis>too</emphasis> far apart.  Remember that one of the
-      problems with the <quote>crawl in a hole</quote> strategy is
-      that by the time you're finished with your branch, it may be
-      near-impossible to merge your changes back into the trunk
-      without a huge number of conflicts.</para>
+    <para>Então, a boa notícia é que você não está interferindo no 
+	  trabalho de Sally, e vice-versa. A má notícia, é que é muito 
+	  fácil se <emphasis>distânciar</emphasis> do projeto. Lembre-se
+	  que um dos problemas com a estratégia do <quote>se isolar</quote>
+	  é que quando você terminar de trabalhar no seu ramo, pode ser bem
+	  perto de impossivel de fundir suas modificações novamente com o
+	  tronco do projeto sem um grande numero de conflitos.</para>
 
-    <para>Instead, you and Sally might continue to share changes as
-      you work.  It's up to you to decide which changes are worth
-      sharing; Subversion gives you the ability to selectively
-      <quote>copy</quote> changes between branches.  And when you're
-      completely finished with your branch, your entire set of branch
-      changes can be copied back into the trunk.</para>
+    <para>Ao invés disso, você e Sally devem continuamente compartilhar
+	  as modificações ao longo do seu trabalho. Depende de você para 
+	  decidir quais modificações devem ser compartilhadas; O subversion
+	  lhe da a capacidade para selecionar o que <quote>copiar</quote>
+	  entre os ramos. E quando você terminar de trabalhar no seu ramo, 
+	  todas as modificações realizadas no seu ramo podem ser copiadas
+	  novamente para o tronco.</para>
 
 
     <!-- =============================================================== -->
