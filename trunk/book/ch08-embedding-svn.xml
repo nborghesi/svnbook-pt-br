@@ -626,7 +626,7 @@ $
       <title>Os arquivos de Entrada</title>
 
       <para>Talvez o arquivo único de maior importância no
-	  diretório <filenam>.svn</filename> é o arquivo 
+	  diretório <filename>.svn</filename> é o arquivo 
 	  <filename>entries</filename>. Nele está contido
 	  uma quantidade de informações administrativas sobre
 	 os ítens versionados no diretório da cópia de trabalho.
@@ -686,7 +686,7 @@ $
 
       <para>Com propósito similar aos arquivos <quote>text-base</quote>
 	  estão os arquivos de propriedade e suas cópias inalteráveis 
-	  <quote>prop-base</quote>, localizados em <filename>.svn/props</filenam>
+	  <quote>prop-base</quote>, localizados em <filename>.svn/props</filename>
 	  e <filename>.svn/prop-base</filename> respectivamente. Já que 
 	  diretórios podem ter propriedades, também, existe também os arquivos
         <filename>.svn/dir-props</filename> e
