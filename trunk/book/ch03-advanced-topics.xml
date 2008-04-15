@@ -2354,33 +2354,34 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.externals">
-    <title>Externals Definitions</title>
-    
-    <para>Sometimes it is useful to construct a working copy that is
-      made out of a number of different checkouts.  For example, you
-      may want different subdirectories to come from different
-      locations in a repository, or perhaps from different
-      repositories altogether.  You could certainly set up such a
-      scenario by hand&mdash;using <command>svn checkout</command> to
-      create the sort of nested working copy structure you are trying
-      to achieve.  But if this layout is important for everyone who
-      uses your repository, every other user will need to perform the
-      same checkout operations that you did.</para>
+    <title>Definições Externas</title>
 
-    <para>Fortunately, Subversion provides support for
-      <firstterm>externals definitions</firstterm>.  An externals
-      definition is a mapping of a local directory to the
-      URL&mdash;and ideally a particular revision&mdash;of a
-      versioned directory.  In Subversion, you declare externals
-      definitions in groups using the <literal>svn:externals</literal>
-      property.  You can create or modify this property using
-      <command>svn propset</command> or <command>svn
-      propedit</command> (see <xref linkend="svn.advanced.props.manip"
-      />).  It can be set on any versioned directory, and its value is
-      a multi-line table of subdirectories (relative to the versioned
-      directory on which the property is set), optional revision
-      flags, and fully qualified, absolute Subversion repository
-      URLs.</para>
+    <para>Às vezes, é útil construir uma cópia de trabalho que é
+      composta por diferentes <foreignphrase>checkouts</foreignphrase>.
+      Por exemplo, talvez você queira que diferentes subdiretórios venham
+      de diferentes locais em um repositório, ou até mesmo de diferentes
+      repositórios. Você poderia configurar tal cenário manualmente&mdash;
+      usando <command>svn checkout</command> para criar o tipo de estrutura
+      aninhada de cópia de trabalho que você está tentando construir.
+      Mas, se essa estrutura é importante para todos os que usam seu
+      repositório, todos os outros usuários precisarão realizar
+      as mesmas operações de <foreignphrase>checkout</foreignphrase> que
+      você fez.</para>
+
+    <para> Felizmente, o Subversion provê suporte para
+      <firstterm>definições externas</firstterm>.  Uma definição
+      externa é um mapeamento de um diretório local para a URL&mdash;e,
+      idealmente, uma determinada revisão&mdash;de um diretório sob
+      controle de versão.  No Subversion, você declara definições
+      externas em conjunto usando a propriedade <literal>svn:externals</literal>.
+      Você pode criar ou modificar essa propriedade usando
+      <command>svn propset</command> ou <command>svn
+      propedit</command> (veja <xref linkend="svn.advanced.props.manip"/>).
+      Essa propriedade pode ser configurada em qualquer diretório sob
+      controle de versão, e seu valor é uma tabela multi-linha de
+      subdiretórios (relativos ao diretório sob controle de versão no
+      qual a propriedade está configurada), opções de revisão, e URLs
+      absolutas (totalmente qualificadas) de repositórios Subversion.</para>
 
     <screen>
 $ svn propget svn:externals calc
@@ -2389,26 +2390,27 @@ third-party/skins              http://skins.red-bean.com/repositories/skinproj
 third-party/skins/toolkit -r21 http://svn.red-bean.com/repos/skin-maker
 </screen>
 
-    <para>The convenience of the <literal>svn:externals</literal>
-      property is that once it is set on a versioned directory,
-      everyone who checks out a working copy with that directory also
-      gets the benefit of the externals definition.  In other words,
-      once one person has made the effort to define those nested
-      working copy checkouts, no one else has to
-      bother&mdash;Subversion will, upon checkout of the original
-      working copy, also check out the external working copies.</para>
+    <para>A conveniência da propriedade <literal>svn:externals</literal>
+      é que, uma vez configurada em um diretório sob controle de versão,
+      qualquer pessoa que obtém uma cópia de trabalho desse diretório
+      também é beneficiada pelas definições externas.  Em outras palavras,
+      uma vez que alguém investiu tempo e esforço para definir essa cópia
+      de trabalho feita de <foreignphrase>checkouts</foreignphrase> aninhados,
+      ninguém mais precisa se incomodar&mdash;o Subversion, através do
+      <foreignphrase>checkout</foreignphrase> da cópia de trabalho
+      original, também obterá as cópias de trabalho externas.</para>
 
     <warning>
-      <para>The relative target subdirectories of externals
-        definitions <emphasis>must not</emphasis> already exist on your or other users'
-        systems&mdash;Subversion will create them when it checks out
-        the external working copy.</para>
+      <para>Os subdiretórios alvos relativos das definições
+        externas <emphasis>não podem</emphasis> existir no seu sistema
+        de arquivos nem no de outros usuários&mdash;o Subversion irá criá-los
+        quando obter a cópia de trabalho externa.</para>
     </warning>
 
-    <para>Note the previous externals definition example.  When
-      someone checks out a working copy of the
-      <filename>calc</filename> directory, Subversion also continues
-      to check out the items found in its externals definition.</para>
+    <para>Note o exemplo anterior de definições externas.  Quando
+      alguém obtém uma cópia de trabalho do diretório
+      <filename>calc</filename>, o Subversion também obtém os itens
+      encontrados nas suas definições externas.</para>
 
     <screen>
 $ svn checkout http://svn.example.com/repos/calc
