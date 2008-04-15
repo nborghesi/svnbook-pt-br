@@ -290,7 +290,7 @@ Gerado cópia de trabalho para revisão 8810.
 
 
     <sect2 id="svn.tour.initial.disabling-password-caching">
-      <title>Disabling Password Caching</title>
+      <title>Desabilitando o Cache de Senhas</title>
 
       <para>When you perform a Subversion operation that requires you
         to authenticate, by default Subversion caches your
