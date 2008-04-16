@@ -22,6 +22,7 @@ Eis a lista, em ordem alfabética.
 || Command-line                          || Linha de comando ||
 || Command-line client program           || Programa cliente de linha de comando ||
 || Daemon process                        || Processo daemon ||
+|| Externals definition                  || Definição externa ||
 || Feature                               || Recurso ||
 || Language binding                      || Ligação de linguagem ||
 || Lock                                  || Travar (v); Trava (s) ||
