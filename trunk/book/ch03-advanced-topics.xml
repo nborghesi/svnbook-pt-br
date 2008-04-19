@@ -1713,36 +1713,36 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       1967 azul bebê com uma parte infelizmente amassada no
       para-lama dianteiro esquerdo.</para>
 
-    <para>Now, as is common in graphic design work, there's a change
-      in plans which causes the car's color to be a concern.  So Sally
-      updates her working copy to <literal>HEAD</literal>, fires up
-      her photo editing software, and sets about tweaking the image so
-      that the car is now cherry red.  Meanwhile, Harry, feeling
-      particularly inspired that day, decides that the image would
-      have greater impact if the car also appears to have suffered
-      greater impact.  He, too, updates to <literal>HEAD</literal>,
-      and then draws some cracks on the vehicle's windshield.  He
-      manages to finish his work before Sally finishes hers, and after
-      admiring the fruits of his undeniable talent, commits the
-      modified image.  Shortly thereafter, Sally is finished with the
-      car's new finish, and tries to commit her changes.  But, as
-      expected, Subversion fails the commit, informing Sally that now
-      her version of the image is out of date.</para>
+    <para>Agora, como é comum em trabalhos de desenho gráfico, existe uma mudança
+      de planos que faz da cor do carro uma preocupação.  Então, Sally
+      atualiza sua cópia de trabalho para a revisão <literal>HEAD</literal>, inicializa
+      seu software de edição de fotos, e realiza alguns ajustes na imagem de
+      modo que o carro está agora vermelho cereja.  Enquanto isso, Harry, sentindo-se
+      particularmente inspirado neste dia, decide que a imagem
+      teria mais impacto se o carro também apresentasse ter sofrido um
+      maior impacto.  Ele, também, atualiza para a revisão <literal>HEAD</literal>,
+      e então, desenha algumas rachaduras no pára-brisa do veículo.  Ele
+      conduz de forma a concluir seu trabalho antes de Sally terminar o dela, e depois,
+      admirando o fruto de seu inegável talento, submete a imagem
+      modificada.  Pouco tempo depois, Sally finaliza sua nova versão
+      do carro, e tenta submeter suas mudanças.  Porém, como
+      esperado, o Subversion falha na submissão, informando Sally que agora
+      sua versão da imagem está desatualizada.</para>
 
-    <para>Here's where the difficulty sets in.  Were Harry and Sally
-      making changes to a text file, Sally would simply update her
-      working copy, receiving Harry's changes in the process.  In the
-      worst possible case, they would have modified the same region of
-      the file, and Sally would have to work out by hand the proper
-      resolution to the conflict.  But these aren't text
-      files&mdash;they are binary images.  And while it's a simple
-      matter to describe what one would expect the results of this
-      content merge to be, there is precious little chance that any
-      software exists which is smart enough to examine the common
-      baseline image that each of these graphic artists worked
-      against, the changes that Harry made, and the changes that Sally
-      made, and spit out an image of a busted-up red Mustang with a
-      cracked windshield!</para>
+    <para>Vejamos onde a dificuldade ocorre.  Se Harry e Sally estivessem
+      realizando mudanças em um arquivo de texto, Sally iria simplesmente atualizar sua
+      cópia de trabalho, recebendo as mudanças que Harry realizou.  No
+      pior caso possível, eles teriam modificado a mesma região do
+      arquivo, e Sally teria que realizar uma adequada
+      resolução do conflito.  Mas estes não são arquivos de
+      texto&mdash;são imagens binárias.  E enquanto seja uma simples
+      questão de descrever o que seria esperado como resultado desta
+      fusão de conteúdos, existe uma pequena chance preciosa de que qualquer
+      software existente seja inteligente o suficiente para examinar a imagem que
+      cada um dos artistas gráficos se basearam para realizarem seu
+      trabalho, as mudanças que Harry fez e as mudanças que Sally
+      faz, e produzir uma imagem de um Mustang vermelho degradado com um
+      pára-brisa trincado!</para>
 
     <para>Clearly, things would have gone more smoothly if Harry and
       Sally had serialized their modifications to the image&mdash;if, say,
