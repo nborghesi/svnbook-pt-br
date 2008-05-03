@@ -1,30 +1,30 @@
 <chapter id="svn.advanced">
-  <title>Advanced Topics</title>
+  <title>Tópicos Avançados</title>
 
-  <para>If you've been reading this book chapter by chapter, from
-    start to finish, you should by now have acquired enough
-    knowledge to use the Subversion client to perform the most
-    common version control operations.  You understand how to
-    check out a working copy from a Subversion repository.  You are
-    comfortable with submitting and receiving changes using the
-    <command>svn commit</command> and <command>svn update</command>
-    functions.  You've probably even developed a reflex which causes
-    you to run the <command>svn status</command> command almost
-    unconsciously.  For all intents and purposes, you are ready to
-    use Subversion in a typical environment.</para>
+  <para>Se você está lendo este livro capítulo por capítulo, do
+    inicio ao fim, você deve agora ter adquirido conhecimentos
+    suficientes para usar o cliente Subversion para executar a operações
+    de controle de verão mais comuns.  Você entendeu como
+    obter uma cópia de trabalho de um repositório Subversion.  Você sente-se
+    confortável para submeter e receber mudanças usando as funções
+    <command>svn commit</command> e <command>svn update</command>
+    .  Você provavelmente desenvolveu um reflexo que lhe impele
+    a executar o comando <command>svn status</command> quase
+    inconsientemente.  Para todos os intentos e propósitos, você está pronto para
+    usar o Subversion em um ambiente típico.</para>
 
-  <para>But the Subversion feature set doesn't stop at <quote>common
-    version control operations</quote>.  It has other bits of
-    functionality besides just communicating file and
-    directory changes to and from a central repository.</para>
+  <para>Mas o conjunto de recursos do Subversion não para nas <quote>operações
+    de controle de versão comuns</quote>.  Ele tem outras pequenas
+    funcionalidades além de cumunicar mudanças de arquivos e
+    diretórios para e a partir de um repositório central.</para>
 
-  <para>This chapter highlights some of Subversion's features that,
-    while important, aren't part of the typical user's daily routine.
-    It assumes that you are familiar with Subversion's basic file and
-    directory versioning capabilities.  If you aren't, you'll want to
-    first read <xref linkend="svn.basic" /> and <xref
-    linkend="svn.tour" />.  Once you've mastered those basics and
-    consumed this chapter, you'll be a Subversion power-user!</para>
+  <para>Este capítulo destaca alguns dos recursos do Subversion que,
+    apesar de importantes, não fazem pare da rotina diária de um usuário típico.
+    Ele assume que você está familiarizado com capacidades básicas de controle
+    de versão sobre arquivos e diretórios.  Se não está, você vai querer 
+    ler primeiro o <xref linkend="svn.basic" /> e <xref
+    linkend="svn.tour" />.  Uma vez tenha dominado estes fundamentos e
+    terminado este capítulo, você será um usuário avançado do Subversion!</para>
 
 
   <!-- ================================================================= -->
