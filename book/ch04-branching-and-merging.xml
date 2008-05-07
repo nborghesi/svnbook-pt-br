@@ -789,58 +789,61 @@ $ svn merge -r 100:200 http://svn.example.com/repos/trunk
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.copychanges.bestprac">
-      <title>Melhores práticas sobre Fundir</title>
+      <title>Melhores práticas sobre Fusão</title>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.copychanges.bestprac.track">
         <title>Rastreando Fusões manualmente</title>
 
-        <para>Merging changes sounds simple enough, but in practice it
-          can become a headache.  The problem is that if you
-          repeatedly merge changes from one branch to another, you
-          might accidentally merge the same change
-          <emphasis>twice</emphasis>.  When this happens, sometimes
-          things will work fine.  When patching a file, Subversion
-          typically notices if the file already has the change, and
-          does nothing.  But if the already-existing change has been
-          modified in any way, you'll get a conflict.</para>
+        <para>Fundir modificações parece simples, mas na prática
+		  pode se tornar uma dor de cabeça. O problema é que se 
+		  você repetidamente fundir as modificações de uma ramo com
+		  outro, você pode acidentalmente fundir a mesma modificação
+		  <emphasis>duas vezes</emphasis>. Quando isso ocorre, 
+		  algumas vezes as coisas vão funcionar corretamente. 
+		  Quando aplicando um patch em um arquivo, Subversion 
+		  verifica se o arquivo já possui aquelas modificações e 
+		  se tiver não faz nada. Mas se a modificaçõa ja existente
+		  tiver sido de alguma forma modificada, você terá um
+		  conflito.</para>
 
-        <para>Ideally, your version control system should prevent the
-          double-application of changes to a branch.  It should
-          automatically remember which changes a branch has already
-          received, and be able to list them for you.  It should use
-          this information to help automate merges as much as
-          possible.</para>
+        <para>O ideal seria se o seu sistema de controle de versão
+		  prevenisse o aplicar-duas-vezes modificações a um ramo.
+		  Ele deveria lembrar automaticamente quais modificações
+		  um ramo ja recebeu, e ser capaz de lista-los para você.
+		  Essa informação deveria ser usada para ajudar a 
+		  automatizar a Fusão o máximo possivel.</para>
 
-        <para>Unfortunately, Subversion is not such a system; it does
-          not yet record any information about merge operations.
-            <footnote><para>However, at the time of writing, this
-             feature is being worked on!</para></footnote>
-          When you commit local modifications, the repository has no
-          idea whether those changes came from running <command>svn
-          merge</command>, or from just hand-editing the files.</para>
+        <para>Infelizmentem, o Subversion não é esse sistema; ele
+		  ainda não grava informações sobre as fusões realizadas.
+            <footnote><para>Entretanto, neste exato momento, essa
+             funcionalidade está sendo preparada!</para></footnote>
+          Quando você faz o commit das modificações locais, o 
+		  repositório não faz a menor idéia se as alterações vieram
+		  de um comando <command>svn merge</command>, ou de uma 
+		  edição manual no arquivo.</para>
 
-        <para>What does this mean to you, the user?  It means that
-          until the day Subversion grows this feature, you'll have to
-          track merge information yourself.  The best place to do this
-          is in the commit log-message.  As demonstrated in prior
-          examples, it's recommended that your log-message mention a
-          specific revision number (or range of revisions) that are
-          being merged into your branch.  Later on, you can
-          run <command>svn log</command> to review which changes your
-          branch already contains.  This will allow you to carefully
-          construct a subsequent <command>svn merge</command> command
-          that won't be redundant with previously ported
-          changes.</para>
+        <para>O que isso significa para você, o usuário? Significa
+		  que até que o Subversion tenha essa funcionalidade, você 
+		  terá que rastrear as informações de Fusão pessoalmente. A
+		  melhor maneira de fazer isso é com as mensagens de log do
+		  commit. Como mostrado nos exemplos anteriores, é 
+		  recomendavel que sua mensagem de log informe especificamente
+		  o número da revisão (ou números das revisões) que serão 
+		  fundidas ao ramo. Depois, você pode rodar o comando 
+		  <command>svn log</command> para verificar quais modificações
+		  o seu ramo ja recebeu. Isso vai lhe ajudar a construir um
+		  próximo comando <command>svn merge</command> que não será
+		  redundante com as modificações ja aplicadas.</para>
 
-        <para>In the next section, we'll show some examples of this
-          technique in action.</para>
+        <para>Na próxima seção, vamos mostrar alguns exeplos 
+		  dessa técnica na prática.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.copychanges.bestprac.preview">
-        <title>Previewing Merges</title>
+        <title>Visualizando Fusões</title>
 
         <para>First, always remember to do your merge into a working
           copy that has <emphasis>no</emphasis> local edits and has
