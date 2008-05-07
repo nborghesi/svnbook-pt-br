@@ -709,19 +709,19 @@ U   my-calc-branch/integer.c
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.copychanges.keyconcept">
-      <title>The Key Concept Behind Merging</title>
+      <title>O conceito chave sobre fusão</title>
 
-      <para>You've now seen an example of the <command>svn
-          merge</command> command, and you're about to see several
-          more.  If you're feeling confused about exactly how merging
-          works, you're not alone.  Many users (especially those new
-          to version control) are initially perplexed about the proper
-          syntax of the command, and about how and when the feature
-          should be used.  But fear not, this command is actually much
-          simpler than you think!  There's a very easy technique for
-          understanding exactly how <command>svn merge</command>
-          behaves.</para>
-
+      <para>Agora você viu um exemplo do comando <command>svn
+          merge</command>, e você está prestes a ver vários outros.
+		  Se você está se sentindo confuso sobre como a fusão funciona,
+		  saiba que você não está sozinho. Vários usuários ( especial os
+		  novos em controle de versão) ficam perplexos com a sintaxe
+		  do comando, e sobre como e quando deve ser usado. Mas não 
+		  temas, esse comando é muito mais simples do que você imagina!
+		  Existe uma técnica muito simples para entender exatamente 
+		  o comportamento do comando <command>svn merge</command>.
+		  </para>
+		  
       <para>The main source of confusion is the
         <emphasis>name</emphasis> of the command.  The term
         <quote>merge</quote> somehow denotes that branches are
