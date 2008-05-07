@@ -755,7 +755,7 @@ U   my-calc-branch/integer.c
 		aplicadas sobre a cópia de trabalho de destino, como 
 		modificações locais. Uma vez executado o comando, o resultado
 		não é diferente do que se você tivesse editado manualmente os
-		arquivos, ou rodados vários comandos command>svn
+		arquivos, ou rodados vários comandos <command>svn
         add</command> ou <command>svn delete</command>. Se você gostar 
 		do resultado você pode fazer o commit dele. Se você não gostar
 		do resultado, você pode simplismente reverter as mudanças
