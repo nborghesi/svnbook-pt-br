@@ -279,7 +279,7 @@
         <para>Enquanto o Subversion é primariamente um sistema copy-modify-merge,
           ele ainda reconhece a necessidade ocasional de lock em algum arquivo e
           assim fornece mecanismos para isso. Este recurso será discutido mais
-          tarde neste livro, em<xref linkend="svn.advanced.locking"/>.</para>
+          tarde neste livro, em <xref linkend="svn.advanced.locking"/>.</para>
 
       </sidebar>
 
@@ -296,7 +296,7 @@
     <title>Subversion em Ação</title>
     
     <para>Chegou a hora de passar do abstrato para o concreto.
-    Nesta seção, nós mostraremos exemplos reais so Subversion
+    Nesta seção, nós mostraremos exemplos reais do Subversion
     sendo usado.</para>
 
     <!-- =============================================================== -->
