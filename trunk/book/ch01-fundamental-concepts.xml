@@ -328,13 +328,13 @@ $ svn checkout file://localhost/path/to/repos
 ...
 </screen>
   
-      <para>Além disso, usuários do esquema<literal>file://</literal>
+      <para>Além disso, usuários do esquema <literal>file://</literal>
         em plataformas Windows precisarão utilizar um padrão de
         sintaxe <quote>não-oficial</quote> para acessar
         repositórios que estão na mesma máquina, mas em um
         drive diferente do atual drive de trabalho. Qualquer
         uma das seguintes sintaxes de URLs funcionarão,
-        sendo<literal>X</literal> o drive onde o repositório
+        sendo <literal>X</literal> o drive onde o repositório
         reside:</para>
   
       <screen>
@@ -386,14 +386,14 @@ $ svn checkout http://host/path%20with%20space/project/espa%C3%B1a
   
     <!-- =============================================================== -->
     <sect2 id="svn.basic.in-action.wc">
-      <title>Cópias de Trabalho, ou Cópias Locais)</title>
+      <title>Cópias de Trabalho, ou Cópias Locais</title>
       
       <para>Você já leu sobre as cópias de trabalho; agora
         vamos demonstrar como o cliente do Subversion as
         cria e usa.</para>
       
-      <para>Uma cópia de trabalho do Subversion á uma árvore de diretórios
-        comum no seu sistema de arquivos local, conatendo uma coleção de arquivos.
+      <para>Uma cópia de trabalho do Subversion é uma árvore de diretórios
+        comum no seu sistema de arquivos local, contendo uma coleção de arquivos.
         Você pode editar esses arquivos conforme desejar, e se eles são arquivos
         de código fonte, você pode compilar o seu programa a partir deles da
         maneira usual. Sua cópia de local é sua área de trabalho privada:
@@ -404,10 +404,10 @@ $ svn checkout http://host/path%20with%20space/project/espa%C3%B1a
 
       <para>Após você ter feito algumas alterações nos arquivos de sua
         cópia de trabalho e verificado que elas funcionam corretamente,
-        o Subversion lhe disponibiliza comandos para<quote>publicar</quote>
+        o Subversion lhe disponibiliza comandos para <quote>publicar</quote>
         (commit) suas alterações para as outras pessoas que estão trabalhando
         com você no mesmo projeto (gravando no repositório). Se outras pessoas
-        publicarem alterações, o Subversion lhe didponibiliza comandos para
+        publicarem alterações, o Subversion lhe disponibiliza comandos para
         combinar (merge) essas alterações em sua cópia de trabalho (lendo do
         repositório).</para>
 
@@ -485,7 +485,7 @@ Committed revision 57.
 </screen>
 
       <para>Agora as suas alterações no arquivo <filename>button.c
-      	</filename> foram "comitadas" no repositório, com uma nota
+      	</filename> foram <quote>comitadas</quote> no repositório, com uma nota
       	descrevendo as suas alterações (especificamente você corrigiu
       	um erro de digitação). Se outros usuários fizerem check out
       	de <filename>/calc</filename>, eles verão suas alterações
