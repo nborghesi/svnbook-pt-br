@@ -1744,31 +1744,31 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       faz, e produzir uma imagem de um Mustang vermelho degradado com um
       pára-brisa trincado!</para>
 
-    <para>Clearly, things would have gone more smoothly if Harry and
-      Sally had serialized their modifications to the image&mdash;if, say,
-      Harry had waited to draw his windshield cracks on Sally's
-      now-red car, or if Sally had tweaked the color of a car whose
-      windshield was already cracked.  As is discussed in <xref
-      linkend="svn.basic.vsn-models.copy-merge" />, most of these
-      types of problems go away entirely where perfect communication
-      between Harry and Sally exists.
+    <para>Obviamente, as coias teriam sido mais simples se Harry e
+      Sally tivessem seqüenciado suas modificações na imagem&mdash;se, digamos,
+      Harry aguardasse para desenhar seus trincados no pára-brisa no novo carro
+      vermelho de Sally, ou se Sally trocasse a cor de um carro cujo
+      pára-brisa já estivesse trincado.  Como é discutido em <xref
+      linkend="svn.basic.vsn-models.copy-merge" />, a maioria destes
+      tipos de problemas desaparecerão totalmente quando existir uma perfeita
+      comunicação entre Harry e Sally.
       <footnote>
-        <para>Communication wouldn't have been such bad medicine for
-          Harry and Sally's Hollywood namesakes, either, for that
-          matter.</para>
+        <para>A comunicação não teria sido algo tão ruim para os homônimos
+          de Harry e Sally em Hollywood, ainda que seja para nosso
+          caso.</para>
       </footnote>
-      But as one's version control system is, in fact, one form of
-      communication, it follows that having that software facilitate
-      the serialization of non-parallelizable editing efforts is no
-      bad thing.  This where Subversion's implementation of the
-      lock-modify-unlock model steps into the spotlight.  This is
-      where we talk about Subversion's <firstterm>locking</firstterm>
-      feature, which is similar to the <quote>reserved
-      checkouts</quote> mechanisms of other version control
-      systems.</para>
+      Porém, como um sistema de controle de versão é de fato uma forma de
+      comunicação, ter um software que facilita a
+      a serialização de esforços não passíveis de paralelamento não é
+      ruim.  É neste cenário que a implementação do Subversion do modelo
+      travar-modificar-destravar ganha maior destaque.  Este é o momento
+      que falamos sobre a característica  de <firstterm>travamento</firstterm>
+      do Subversion, a qual é similar aos mecanismos de <quote>obter cópias
+      reservadas</quote> de outros sistemas de controle de
+      versão.</para>
 
-    <para>Subversion's locking feature serves two main
-      purposes:</para>
+    <para>O recurso de travamento do Subversion oferece dois propósitos
+      principais:</para>
 
     <itemizedlist>
       <listitem>
