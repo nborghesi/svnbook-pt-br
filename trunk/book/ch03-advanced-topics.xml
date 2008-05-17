@@ -1767,42 +1767,42 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       reservadas</quote> de outros sistemas de controle de
       versão.</para>
 
-    <para>O recurso de travamento do Subversion oferece dois propósitos
+    <para>A funcionalidade de travamento do Subversion serve dois propósitos
       principais:</para>
 
     <itemizedlist>
       <listitem>
-        <para><emphasis>Serializing access to a versioned
-          object</emphasis>.  By allowing a user to
-          programmatically claim the exclusive right to change to a
-          file in the repository, that user can be reasonably
-          confident that energy invested on unmergeable changes won't
-          be wasted&mdash;his commit of those changes will succeed.</para>
+        <para><emphasis>Serializar o acesso a um objeto
+          versionado</emphasis>.  Ao permitir que um usuário requeira
+          programaticamente o direito exclusivo de modificar um
+          arquivo no repositório, este usuário pode estar razoavelmente
+          seguro de que os esforços investidos nas mudanças não-mescláveis não
+          serão desperdiçados&mdash;a submissão de suas alterações será bem sucedida.</para>
       </listitem>
       
       <listitem>
-        <para><emphasis>Aiding communication</emphasis>.  By alerting
-          other users that serialization is in effect for a particular
-          versioned object, those other users can reasonably expect
-          that the object is about to be changed by someone else,
-          and they, too, can avoid wasting their time and energy on
-          unmergeable changes that won't be committable due to eventual
-          out-of-dateness.</para>
+        <para><emphasis>Ajudar a comunicação</emphasis>.  Ao alertar
+          outros usuários que a serialização está em vigor para um determinado
+          objeto versionado, estes outros usuários podem razoavelmente esperar
+          que o objeto está prestes de ser modificado por outra pessoa,
+          e eles, também, podem evitar o desperdício de seu tempo e energia em
+          mudanças não-mescláveis que não serão submetidas adequadamente e ocasionando
+          possível perda de dados.</para>
       </listitem>
     </itemizedlist>
 
-    <para>When referring to Subversion's locking feature, one is
-      actually talking about a fairly diverse collection of behaviors
-      which include the ability to lock a versioned file
+    <para>Quando nos referimos à funcionalidade de travamento do Subversion', estaremos
+      também falando sobre uma coleção de comportamentos bastante diversificada
+      que incluem a capacidade de travar um arquivo
       <footnote>
-        <para>Subversion does not currently allow locks on directories.</para>
+        <para>Atualmente o Subversion does não permite travas em diretórios.</para>
       </footnote>
-      (claiming the exclusive right to modify the file), to unlock
-      that file (yielding that exclusive right to modify), to see
-      reports about which files are locked and by whom, to annotate
-      files for which locking before editing is strongly advised, and
-      so on.  In this section, we'll cover all of these facets of the
-      larger locking feature.</para>
+      versionado (requerendo o direito exclusivo de modificar o arquivo), de destravar
+      este arquivo (cedendo este direito exclusivo de modificar), de ver
+      relatórios sobre quais arquivos estão travados e por quem, de marcar
+      arquivos para os quais o travamento antes da edição é fortemente aconselhado, e
+      assim por diante.  Nesta seção, cobriremos todas destas facetas da ampla
+      funcionalidade de travamento.</para>
 
     <sidebar id="svn.advanced.locking.meanings">
       <title>The three meanings of <quote>lock</quote></title>
