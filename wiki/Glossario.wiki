@@ -19,8 +19,10 @@ Eis a lista, em ordem alfabética.
 || Apache HTTP Server                    || Servidor Apache HTTP Server ||
 || Blanket access                        || Acesso geral ||
 || Branch                                || Ramificar (v); Ramo (s) ||
+|| Checkout                              || Obter cópia ||
 || Command-line                          || Linha de comando ||
 || Command-line client program           || Programa cliente de linha de comando ||
+|| Commit                                || Submeter (v); Submissão (s) ||
 || Daemon process                        || Processo daemon ||
 || Externals definition                  || Definição externa ||
 || Feature                               || Recurso ||
