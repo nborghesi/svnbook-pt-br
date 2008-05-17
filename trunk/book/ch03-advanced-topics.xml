@@ -1791,7 +1791,7 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       </listitem>
     </itemizedlist>
 
-    <para>Quando nos referimos à funcionalidade de travamento do Subversion', estaremos
+    <para>Quando nos referimos à funcionalidade de travamento do Subversion, estaremos
       também falando sobre uma coleção de comportamentos bastante diversificada
       que incluem a capacidade de travar um arquivo
       <footnote>
@@ -1805,36 +1805,36 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       funcionalidade de travamento.</para>
 
     <sidebar id="svn.advanced.locking.meanings">
-      <title>The three meanings of <quote>lock</quote></title>
+      <title>Os três significados de <quote>trava</quote></title>
 
-      <para>In this section, and almost everywhere in this book, the
-        words <quote>lock</quote> and <quote>locking</quote> describe
-        a mechanism for mutual exclusion between users to avoid
-        clashing commits. Unfortunately, there are two other sorts
-        of <quote>lock</quote> with which Subversion, and therefore
-        this book, sometimes needs to be concerned.</para>
+      <para>Nesta seção, e em quase todas neste livro, as
+        palavras <quote>trava</quote> e <quote>travamento</quote> representam
+        um mecanismo para exclusão mútua entre os usuários para evitar
+        submissões conflitantes. Infelizmente, existem dois outros tipos
+        de <quote>trava</quote> com os quais o Subversion, e portanto
+        este livro, algumas vezes precisam se preocupar.</para>
 
-      <para>The first is <firstterm>working copy locks</firstterm>,
-        used internally by Subversion to prevent clashes between
-        multiple Subversion clients operating on the same working
-        copy.  This is the sort of lock indicated by an
-        <computeroutput>L</computeroutput> in the third column of
-        <command>svn status</command> output, and removed by the
-        <command>svn cleanup</command> command, as described in <xref
+      <para>O primeiro tipo são as <firstterm>travas da cópia de trabalho</firstterm>,
+        usadas internamente pelo Subversion para prevenir conflitos entre
+        múltiplos clientes Subversion operando na mesma cópia de
+        trabalho.  Este é o tipo de trava indicada por um
+        <computeroutput>L</computeroutput> na terceira coluna da saída produzida por
+        <command>svn status</command>, e removida pelo comando
+        <command>svn cleanup</command>, como especificado em <xref
         linkend="svn.tour.cleanup"/>.</para>
 
-      <para>Secondly, there are <firstterm>database locks</firstterm>,
-        used internally by the Berkeley DB backend to prevent clashes
-        between multiple programs trying to access the database.  This
-        is the sort of lock whose unwanted persistence after an error
-        can cause a repository to be <quote>wedged</quote>, as
-        described in <xref linkend="svn.reposadmin.maint.recovery"/>.</para> 
+      <para>Em segundo lugar, existem as <firstterm>travas do banco de dados</firstterm>,
+        usadas internamente pelo sistema Berkeley DB para prevenir conflitos
+        entre múltiplos programas tentando acessar o banco de dados.  Este
+        é o tipo de trava cuja indesejável persistência após um erro
+        pode fazer com que um repositório seja <quote>corrompido</quote>, como
+        descrito em <xref linkend="svn.reposadmin.maint.recovery"/>.</para> 
 
-      <para>You can generally forget about these other kinds of locks
-        until something goes wrong that requires you to care about
-        them.  In this book, <quote>lock</quote> means the first sort
-        unless the contrary is either clear from context or explicitly
-        stated.</para>
+      <para>Você pode geralmente esquecer destes outros tipos de travas
+        até que algo de errado ocorra e requeira seus cuidados sobre
+        eles.  Neste livro, <quote>trava</quote> possui o significado do primeiro tipo
+        ao menos que o contrário esteja claro pelo contexto ou explicitamente
+        indicado.</para>
 
     </sidebar>
 
