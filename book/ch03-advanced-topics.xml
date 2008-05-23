@@ -1858,31 +1858,31 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
         processo de submissão como um tipo de prova que o cliente conhece qual
         trava ele está usando.</para>
       
-      <para>To demonstrate lock creation, let's refer back to our
-        example of multiple graphic designers working with on the same
-        binary image files.  Harry has decided to change a JPEG image.
-        To prevent other people from committing changes to the file
-        while he is modifying it (as well as alerting them that he is
-        about to change it), he locks the file in the repository using
-        the <command>svn lock</command> command.</para>
+      <para>Para demonstrar a criação de uma trava, vamos voltar ao nosso
+        exemplo de múltiplos desenhistas gráficos trabalhando sobre os mesmos
+        arquivos binários de imagem.  Harry decidiu modificar uma imagem JPEG.
+        Para prevenir que outras pessoas submetessem mudanças no arquivo
+        enquanto ele está modificando-o (bem como alertando-os que ele está
+        prestes a mudá-lo), ele trava o arquivo no repositório usando o
+        comando <command>svn lock</command>.</para>
 
       <screen>
-$ svn lock banana.jpg -m "Editing file for tomorrow's release."
+$ svn lock banana.jpg -m "Editando arquivo para a liberação de amanhã."
 'banana.jpg' locked by user 'harry'.
 $
 </screen>
 
-      <para>There are a number of new things demonstrated in the
-        previous example.  First, notice that Harry passed the
-        <option>--message (-m)</option> option to <command>svn
-        lock</command>.  Similar to <command>svn commit</command>, the
-        <command>svn lock</command> command can take comments (either
-        via <option>--message (-m)</option> or <option>--file
-        (-F)</option>) to describe the reason for locking the file.
-        Unlike <command>svn commit</command>, however, <command>svn
-        lock</command> will not demand a message by launching your
-        preferred text editor.  Lock comments are optional, but still
-        recommended to aid communication.</para>
+      <para>Existe uma série de novas coisas demonstradas no
+        exemplo anterior.  Primeiro, note que Harry passou a opção
+        <option>--message (-m)</option> para o comando <command>svn
+        lock</command>.  Similar ao <command>svn commit</command>, o
+        comando <command>svn lock</command> pode receber comentários (seja
+        via <option>--message (-m)</option> ou <option>--file
+        (-F)</option>) para descrever a razão do travamento do arquivo.
+        Ao contrário do <command>svn commit</command>, entretanto, o <command>svn
+        lock</command> não exigirá uma mensagem executando seu editor
+        de texto preferido.  Os comentários de trava são opcionais, mas ainda
+        recomendados para ajudar na comunicação.</para>
 
       <para>Secondly, the lock attempt succeeded.  This means that the
         file wasn't already locked, and that Harry had the latest
