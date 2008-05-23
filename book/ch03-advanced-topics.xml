@@ -1840,23 +1840,23 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.locking.creation">
-      <title>Creating locks</title>
+      <title>Criando travas</title>
       
-      <para>In the Subversion repository, a
-        <firstterm>lock</firstterm> is a piece of metadata which
-        grants exclusive access to one user to change a file.  This
-        user is said to be the <firstterm>lock owner</firstterm>.
-        Each lock also has a unique identifier, typically a long
-        string of characters, known as the <firstterm>lock
-        token</firstterm>.  The repository manages locks, ultimately
-        handling their creation, enforcement, and removal.  If any
-        commit transaction attempts to modify or delete a locked file
-        (or delete one of the parent directories of the file), the
-        repository will demand two pieces of information&mdash;that
-        the client performing the commit be authenticated as the lock
-        owner, and that the lock token has been provided as part of
-        the commit process as a sort of proof that client knows which
-        lock it is using.</para>
+      <para>No repositório Subversion, uma
+        <firstterm>trava</firstterm> é um pedaço de metadados que
+        concede acesso exclusivo para um usuário modificar um arquivo.  Este
+        usuário é chamado de <firstterm>proprietário da trava</firstterm>.
+        Cada trava também tem um identificador único, tipicamente uma longa
+        cadeia de caracteres, conhecida como o <firstterm>sinal de
+        trava</firstterm>.  O repositoório gerencia as travas, basicamente
+        manipulando sua criação, aplicação e remoção.  Se qualquer
+        transação de submissão tenta modificar ou excluir um arquivo travado
+        (ou excluir um dos diretórios pais do arquivo), o
+        repositório exigirá dois pedaços de informação&mdash;que
+        o cliente executante da submissão esteja autenticado como o proprietário
+        da trava, e que o sinal de trava tenha sido fornecido como parte do
+        processo de submissão como um tipo de prova que o cliente conhece qual
+        trava ele está usando.</para>
       
       <para>To demonstrate lock creation, let's refer back to our
         example of multiple graphic designers working with on the same
