@@ -1884,20 +1884,20 @@ $
         de texto preferido.  Os comentários de trava são opcionais, mas ainda
         recomendados para ajudar na comunicação.</para>
 
-      <para>Secondly, the lock attempt succeeded.  This means that the
-        file wasn't already locked, and that Harry had the latest
-        version of the file.  If Harry's working copy of the file had
-        been out-of-date, the repository would have rejected the
-        request, forcing Harry to <command>svn update</command> and
-        reattempt the locking command.  The locking command would also
-        have failed if the file already been locked by someone
-        else.</para>
+      <para>Em segundo lugar, a trava foi bem sucedida.  Isto significa que o
+        arquivo não estava travado, e que Harry tinha a mais recente
+        versão do arquivo.  Se o arquivo da cópia de trabalho de Harry estivesse
+        desatualizado, o repositório teria rejeitado a
+        requisição, forçando Harry a executar <command>svn update</command> e
+        tentar o comando de travamento novamente.  O comando de travamento também
+        teria falhado se o arquivo já estivesse travado por outro
+        usuário.</para>
 
-      <para>As you can see, the <command>svn lock</command> command
-        prints confirmation of the successful lock.  At this point,
-        the fact that the file is locked becomes apparent in the
-        output of the <command>svn status</command> and <command>svn
-        info</command> reporting subcommands.</para>
+      <para>Como você pode ver, o comando <command>svn lock</command>
+        imprime a confirmação do sucesso no travamento.  A partir deste ponto,
+        o fato de que o arquivo está travado torna-se aparente na
+        saída dos relatórios dos subcomandos <command>svn status</command>
+        e <command>svn info</command>.</para>
 
       <screen>
 $ svn status
@@ -1921,20 +1921,20 @@ Lock Token: opaquelocktoken:0c0f600b-88f9-0310-9e48-355b44d4a58e
 Lock Owner: harry
 Lock Created: 2006-06-14 17:20:31 -0500 (Wed, 14 Jun 2006)
 Lock Comment (1 line):
-Editing file for tomorrow's release.
+Editando arquivo para a liberação de amanhã.
 
 $
 </screen>
 
-      <para>That the <command>svn info</command> command, which does
-        not contact the repository when run against working copy
-        paths, can display the lock token reveals an important fact
-        about lock tokens&mdash;that they are cached in the working
-        copy.  The presence of the lock token is critical.  It gives
-        the working copy authorization to make use of the lock later
-        on.  Also, the <command>svn status</command> command shows a
-        <literal>K</literal> next to the file (short for locKed),
-        indicating that the lock token is present.</para>
+      <para>O comando <command>svn info</command>, o qual não
+        consulta o repositório quando executa sobre caminhos de uma cópia
+        de trabalho, pode mostrar o sinal de trava e revela um importante fato
+        sobre o sinal de trava&mdash;que eles são colocados em cache na cópia
+        de trabalho.  A presença do sinal de trava é crítica.  Ele dá
+        à cópia de trabalho a autorização para fazer uso da trava mais
+        tarde.  Além disso, o comando <command>svn status</command> mostra um
+        <literal>K</literal> próximo ao arquivo (abreviação para <foreignphrase>locKed</foreignphrase>),
+        indicando que o sinal de trava está presente.</para>
 
       <sidebar>
         <title>Regarding lock tokens</title>
