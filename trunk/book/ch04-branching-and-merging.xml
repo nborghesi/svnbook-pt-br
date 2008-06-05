@@ -845,31 +845,35 @@ $ svn merge -r 100:200 http://svn.example.com/repos/trunk
       <sect3 id="svn.branchmerge.copychanges.bestprac.preview">
         <title>Visualizando Fusões</title>
 
-        <para>First, always remember to do your merge into a working
-          copy that has <emphasis>no</emphasis> local edits and has
-          been recently updated.  If your working copy
-          isn't <quote>clean</quote> in these ways, you can run into
-          some headaches.</para>
+        <para>Primeiro, lembre-se de fundir seus arquivos para a 
+		  cópia de trabalho quando esta <emphasis>não</emphasis> 
+		  tiver alterações locais e tenha sido atualizada 
+		  recentemente. Se a sua cópia de trabalho não estiver
+		  <quote>limpa</quote>, você pode ter alguns problemas.
+		  </para>
 
-        <para>Assuming your working copy is tidy, merging isn't a
-          particularly high-risk operation.  If you get the merge
-          wrong the first time, simply <command>svn revert</command>
-          the changes and try again.</para>
+        <para>Assumindo que a sua cópia de trabalho está no ponto, 
+	      fazer a fusão não será uma operação de alto risco. Se 
+		  você não fizer a primeira fusão de forma correta, rode
+		  o comando <command>svn revert</command> nas modificações
+		  e tente novamente.</para>
 
-        <para>If you've merged into a working copy that already has
-          local modifications, the changes applied by a merge will be
-          mixed with your pre-existing ones, and running
-          <command>svn revert</command> is no longer an option.  The
-          two sets of changes may be impossible to separate.</para>
+        <para>Se você fez a fusão para uma cópia de trabalho que já
+		  possui modificações locais, a mudanças aplicadas pela fusão
+		  serão misturadas as pré existentes, e rodar o comando
+		  <command>svn revert</command> não é mais uma opção. Pode
+		  ser impossivel de separar os dois grupos de 
+		  modificações.</para>
 
-        <para>In cases like this, people take comfort in being able to
-          predict or examine merges before they happen.  One simple
-          way to do that is to run <command>svn diff</command> with
-          the same arguments you plan to pass to <command>svn
-          merge</command>, as we already showed in our first example
-          of merging.  Another method of previewing is to pass the
-          <option>--dry-run</option> option to the merge
-          command:</para>
+        <para>Em casos como este, as pessoas se tranquilizam em 
+		  poder prever e examinar as fusões antes de ocorrerem. Uma 
+		  maneira simples de fazer isso é rodar o comando 
+		  <command>svn diff</command> com os mesmos argumentos
+		  que você quer passar para o comando <command>svn
+          merge</command>, como mostramos no primeiro exemplo de 
+		  fusão. Outro método de prever os impactos é passar a
+		  opção <option>--dry-run</option> para o comando de 
+		  fusão:</para>
 
         <screen>
 $ svn merge --dry-run -c 344 http://svn.example.com/repos/calc/trunk
@@ -879,13 +883,13 @@ $ svn status
 #  nothing printed, working copy is still unchanged.
 </screen>
 
-        <para>The <option>--dry-run</option> option doesn't actually
-          apply any local changes to the working copy.  It only shows
-          status codes that <emphasis>would</emphasis> be printed in a
-          real merge.  It's useful for getting a <quote>high
-          level</quote> preview of the potential merge, for those
-          times when running <command>svn diff</command> gives too
-          much detail.</para>
+        <para>A opção <option>--dry-run</option> não aplica qualquer
+		  mudança para a copia de trabalho. Essa opção apenas exibe
+		  os codigos que <emphasis>seriam</emphasis> escritos em uma 
+		  situação real de fusão. É útil poder ter uma previsão de
+		  <quote>auto nível</quote> da potencial fusão, para aqueles
+		  momentos em que o comando <command>svn diff</command> dá 
+		  detalhes até demais.</para>
 
       </sect3>
 
