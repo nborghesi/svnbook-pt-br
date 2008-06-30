@@ -5483,32 +5483,32 @@ $ svnadmin verify /usr/local/svn/repos/
   <sect1 id="svn.ref.svnlook">
     <title><command>svnlook</command></title>
     
-    <para><command>svnlook</command> is a command-line utility for
-      examining different aspects of a Subversion repository.  It
-      does not make any changes to the repository&mdash;it's just
-      used for <quote>peeking</quote>.
-      <command>svnlook</command> is typically used by the
-      repository hooks, but a repository administrator might find it
-      useful for diagnostic purposes.</para>
+    <para><command>svnlook</command> é um comando de console útil
+    para examinar diferentes aspectos do repositório Subversion.
+    Ele não faz nenhuma mudança no repositório&mdash;é usado mesmo 
+    para dar uma dar uma <quote>espiada</quote>.
+      <command>svnlook</command> é usando tipicamente usado pelos
+     hooks do repositório, mas o administrador do repositório pode
+     achá-lo útil como ferramente de diagnóstico.</para>
 
-    <para>Since <command>svnlook</command> works via direct repository access
-      (and thus can only be used on the machine that holds the
-      repository), it refers to the repository with a path, not a URL.</para>
+    <para>Já que <command>svnlook</command> funciona via acesso direto ao
+    repositório, (e por isso só pode ser usado em máquinas que tenham o
+     repositórios), ele se refere ao repositório por um caminho, 
+     não uma URL.</para>
 
-    <para>If no revision or transaction is specified,
-      <command>svnlook</command> defaults to the youngest (most
-      recent) revision of the repository.</para>
+    <para>Se nenhuma revisão ou transação for especificada, 
+       o padrão do <command>svnlook</command> é da revisão mais 
+       jovem(mais recente) do repositório.  </para>
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnlook.sw">
-      <title><command>svnlook</command> Options</title>
+      <title>Opções do <command>svnlook</command></title>
       
-      <para>Options in <command>svnlook</command> are global, just
-        like in <command>svn</command> and
-        <command>svnadmin</command>; however, most options only
-        apply to one subcommand since the functionality of
-        <command>svnlook</command> is (intentionally) limited in
-        scope.</para>
+      <para>Opções no <command>svnlook</command> são globais, 
+      assim como no <command>svn</command> e <command>svnadmin</command>;
+      entretanto, a maioria das opções apenas se aplicam a um commando
+       já que as funcionalidades do <command>svnlook</command> é 
+       (intencionalmente) limitado ao escopo.</para>
 
       <variablelist>
 
