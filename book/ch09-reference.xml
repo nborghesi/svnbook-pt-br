@@ -5515,11 +5515,11 @@ $ svnadmin verify /usr/local/svn/repos/
         <varlistentry>
           <term><option>--no-diff-deleted</option></term>
           <listitem>
-            <para>Prevents <command>svnlook</command> from printing
-              differences for deleted files.  The default behavior
-              when a file is deleted in a transaction/revision is
-              to print the same differences that you would see if
-              you had left the file but removed all the content.</para>
+	      <para> Previne <command>svnlook</command> de mostrar 
+	  diferenças entre arquivos deletados. O comportamento
+	  padrão quando um arquivo é deletado numa transação/revisão
+	  é mostrar as mesmas diferenças que você veria se tivesse
+	  deixado o arquivo mas apagado seu conteudo</para> 
           </listitem>
         </varlistentry>
 
@@ -5527,19 +5527,19 @@ $ svnadmin verify /usr/local/svn/repos/
           <term><option>--revision</option>
             (<option>-r</option>)</term>
           <listitem>
-            <para>Specify a particular revision number that you wish
-              to examine.</para>
+	      <para>Especifica uma revisão em particular que você deseja
+		  examinar.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--revprop</option></term>
           <listitem>
-            <para>Operates on a revision property instead of a
-              property specific to a file or directory.  This option
-              requires that you also pass a revision with the
+	      <para>Opera uma propriedade da revisão ao invés da propriedade
+		  especificada para o arquivo ou diretório. Essa opção
+		 exige que você passe a revisão com a opção 
               <option>--revision</option> (<option>-r</option>)
-              option.</para>
+              .</para>
           </listitem>
         </varlistentry>
 
@@ -5547,16 +5547,16 @@ $ svnadmin verify /usr/local/svn/repos/
           <term><option>--transaction</option>
             (<option>-t</option>)</term>
           <listitem>
-            <para>Specify a particular transaction ID that you wish to
-              examine.</para>
+	      <para>Especifica um ID de transação particular que você deseja 
+		  examinar.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--show-ids</option></term>
           <listitem>
-            <para>Show the filesystem node revision IDs for each path in the filesystem
-              tree.</para>
+	      <para>Mostrar o ID da revisão do nodo do sistema de arquivos para cada
+		  caminho da árvore do sistema de arquivos.</para>
           </listitem>
         </varlistentry>
 
@@ -5566,33 +5566,32 @@ $ svnadmin verify /usr/local/svn/repos/
 
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnlook.c">
-      <title><command>svnlook</command> Subcommands</title>
+      <title>Sub-comandos do <command>svnlook</command> </title>
 
       <refentry id="svn.ref.svnlook.c.author">
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomandos</secondary>
           <tertiary>author</tertiary>
         </indexterm>
 
         <refnamediv>
-          <refname>svnlook author</refname>
-          <refpurpose>Print the author.</refpurpose>
+          <refname>autor svnlook </refname>
+          <refpurpose>Mostrar o autor.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinópses</title>
           <programlisting>svnlook author REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the author of a revision or transaction in
-            the repository.</para>
+          <para>Mostrar o autor da revisão ou transação no repositório.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -5601,10 +5600,10 @@ $ svnadmin verify /usr/local/svn/repos/
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-        <para><command>svnlook author</command> is handy, but not
-          very exciting:</para>
+        <para><command>svnlook author</command> é útil, mas não muito
+          excitante:</para>
 
           <screen>
 $ svnlook author -r 40 /usr/local/svn/repos 
@@ -5618,27 +5617,27 @@ sally
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomandos</secondary>
           <tertiary>cat</tertiary>
         </indexterm>
 
         <refnamediv>
           <refname>svnlook cat</refname>
-          <refpurpose>Print the contents of a file.</refpurpose>
+          <refpurpose>Mostra o conteudo de um arquivo.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook cat REPOS_PATH PATH_IN_REPOS</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the contents of a file.</para>
+          <para>Mostra o conteudo de um arquivo.</para>
 
           </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -5647,10 +5646,10 @@ sally
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This shows the contents of a file in transaction
-            <literal>ax8</literal>, located at 
+          <para>Isto motra o conteudo de um arquivo em uma transação
+            <literal>ax8</literal>, localizado no
             <filename>/trunk/README</filename>:</para>
 
           <screen>
@@ -5682,67 +5681,67 @@ Contents:
 
         <refnamediv>
           <refname>svnlook changed</refname>
-          <refpurpose>Print the paths that were changed.</refpurpose>
+          <refpurpose>Mostra os caminhos que foram mudados.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook changed REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the paths that were changed in a particular
-            revision or transaction, as well as <quote>svn
-            update-style</quote> status letters in the first two
-            columns:</para>
+          <para>Mostra os caminhos que foram mudados em uma revisão ou
+            transação particular, assim como <quote>svn
+            update-style</quote> as letras de estatus nas duas primeiras
+            colunas:</para>
 
           <variablelist>
             
             <varlistentry>
               <term>'<literal>A </literal>'</term>
               <listitem>
-                <para>Item added to repository.</para>
+                <para>Item adicionado ao repositório.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'<literal>D </literal>'</term>
               <listitem>
-                <para>Item deleted from repository.</para>
+                <para>Item apagado do respostório.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'<literal>U </literal>'</term>
               <listitem>
-                <para>File contents changed.</para>
+                <para>Conteúdo do arquivo foi mudado.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'<literal> U</literal>'</term>
               <listitem>
-                <para>Properties of item changed.  Note the leading space.</para>
+                <para>Propriedades do tem mudados.--FIXME Note the leading space.--</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'<literal>UU</literal>'</term>
               <listitem>
-                <para>File contents and properties changed.</para>
+                <para>Conteudo e propriedades mudados.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>Files and directories can be distinguished, as directory
-            paths are displayed with a trailing '<literal>/</literal>'
-            character.</para>
+	  <para>Arquivos e diretórios podem ser distinguidos, como os
+            caminhos dos diretórios são mostrados com caracter'<literal>/</literal>'
+            .</para>
 
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -5751,12 +5750,12 @@ Contents:
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This shows a list of all the changed files and
-            directories in revision 39 of a test repository.  Note
-            that the first changed item is a directory, as evidenced
-            by the trailing <literal>/</literal>:</para>
+          <para>Isto mostra a lista de todos os diretórios e arquivos
+            mudados na revisão 39 em um diretório de teste.  Note
+            que a primeira mudança é um diretório, como evidenciado pela
+            <literal>/</literal>:</para>
 
           <screen>
 $ svnlook changed -r 39 /usr/local/svn/repos
@@ -5783,21 +5782,21 @@ D   trunk/vendors/baker/baguette.txt
 
         <refnamediv>
           <refname>svnlook date</refname>
-          <refpurpose>Print the datestamp.</refpurpose>
+          <refpurpose>Mostrar data-hora.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook date REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the datestamp of a revision or transaction in
-            a repository.</para>
+          <para>Mostrar data-hora de uma revisão ou transação em um
+            repositório.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -5806,10 +5805,10 @@ D   trunk/vendors/baker/baguette.txt
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
-          <para>This shows the date of revision 40 of a test
-            repository:</para>
+          <para>Mostra a data da revisão 40 de um repositório
+            de teste:</para>
 
           <screen>
 $ svnlook date -r 40 /tmp/repos/
@@ -5829,21 +5828,22 @@ $ svnlook date -r 40 /tmp/repos/
 
         <refnamediv>
           <refname>svnlook diff</refname>
-          <refpurpose>Print differences of changed files and properties.</refpurpose>
+	  <refpurpose>Mostra diferenças de arquivos e 
+	      propriedades que foram mudados.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook diff REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print GNU-style differences of changed files and
-            properties in a repository.</para>
+	  <para>Mostra no estilo GNU diferençasde arquivos e 
+	      propriedades que foram mudados.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -5854,10 +5854,9 @@ $ svnlook date -r 40 /tmp/repos/
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
-          <para>This shows a newly added (empty) file, a deleted
-            file, and a copied file:</para>
+          <para>Isto mostra um novo arquivo adicionado, deletado e copiado:</para>
 
           <screen>
 $ svnlook diff -r 40 /usr/local/svn/repos/
@@ -5884,9 +5883,9 @@ Deleted: trunk/vendors/deli/pickle.txt
 ==============================================================================
 </screen>
           
-          <para>If a file has a non-textual
-            <literal>svn:mime-type</literal> property, then the
-            differences are not explicitly shown.</para>
+          <para>Se um arquivo tem um conteudo que não é texto, 
+            propriedade <literal>svn:mime-type</literal>, então as 
+            diferenças não são explicitamente mostradas.</para>
         </refsect1>
       </refentry>
 
@@ -5900,22 +5899,21 @@ Deleted: trunk/vendors/deli/pickle.txt
 
         <refnamediv>
           <refname>svnlook dirs-changed</refname>
-          <refpurpose>Print the directories that were themselves changed.</refpurpose>
+          <refpurpose>Mostra os diretórios que foram mudados.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook dirs-changed REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the directories that were themselves changed
-            (property edits) or whose file children were
-            changed.</para>
+          <para>Mostra os diretórios que foram mudados (edição de propriedade) 
+             ou tiveram seus filhos mudados.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -5924,10 +5922,10 @@ Deleted: trunk/vendors/deli/pickle.txt
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This shows the directories that changed in
-            revision 40 in our sample repository:</para>
+          <para>Isto mostra os difertórios que foram mudados na 
+            revisão 40 no nosso respostório de exemplo:</para>
 
           <screen>
 $ svnlook dirs-changed -r 40 /usr/local/svn/repos
@@ -5949,20 +5947,20 @@ trunk/vendors/deli/
           <refname>svnlook help</refname> <refpurpose>Help!</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
-          <programlisting>Also svnlook -h and svnlook -?.</programlisting>
+          <title>Sinopses</title>
+          <programlisting>Também svnlook -h e svnlook -?.</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Displays the help message for svnlook.  This
-            command, like its brother <command>svn help</command>, is
-            also your friend, even though you never call it anymore
-            and forgot to invite it to your last party.</para>
+          <para>Mostra a mensagem de ajuda para o svnlook.  Este
+            comando, como seu irmão <command>svn help</command>, é 
+            também seu amigo, mesmo que você não ligue mais pra ele
+            e tenha esquecido de convida-lo para sua última festa.</para>
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes alternativos</title>
           <para>?, h</para>
         </refsect1>
 
@@ -5978,24 +5976,24 @@ trunk/vendors/deli/
 
         <refnamediv>
           <refname>svnlook history</refname>
-          <refpurpose>Print information about the history of a path in
-            the repository (or the root directory if no path is
-            supplied).</refpurpose>
+          <refpurpose>Mostra informções sobre o histórico de um caminhos
+            em um repositório (ou da raiz do diretório se nenhum caminho
+            for informado).</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook history REPOS_PATH [PATH_IN_REPOS]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print information about the history of a path in
-            the repository (or the root directory if no path is
-            supplied).</para>
+          <para>Mostra informações sobre histórico de um caminho 
+            em um repositório (ou da raiz do diretório se nenhum caminho
+            for informado).</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -6004,11 +6002,11 @@ trunk/vendors/deli/
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This shows the history output for the path
-            <filename>/tags/1.0</filename> as of revision 20 in our
-            sample repository.</para>
+          <para>Isto mostra o histórico de um caminho 
+            <filename>/tags/1.0</filename>  da revisão 20 no nosso
+            repositório de exemplo.</para>
 
           <screen>
 $ svnlook history -r 20 /usr/local/svn/repos /tags/1.0 --show-ids
@@ -6043,22 +6041,22 @@ REVISION   PATH &lt;ID&gt;
 
         <refnamediv>
           <refname>svnlook info</refname>
-          <refpurpose>Print the author, datestamp, log message size,
-            and log message.</refpurpose>
+          <refpurpose>Mostra o autor, data-hora, tamanho da mensagem de log, 
+            e a mensagem de log.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook info REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the author, datestamp, log message size, and
-            log message.</para>
+          <para>Mostra o autor, data-hora, tamanho da mensagem de log, 
+            e a mensagem de log.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -6067,10 +6065,10 @@ REVISION   PATH &lt;ID&gt;
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This shows the info output for revision 40 in our
-            sample repository.</para>
+          <para>Isto mostra a saída para a revisão 40 no nosso
+            repositório de exemplo.</para>
 
           <screen>
 $ svnlook info -r 40 /usr/local/svn/repos
@@ -6094,32 +6092,32 @@ Rearrange lunch.
 
         <refnamediv>
           <refname>svnlook lock</refname>
-          <refpurpose>If a lock exists on a path in the repository,
-            describe it.</refpurpose>
+          <refpurpose>Se o lock existir no caminho do repositório,
+            o descreve.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook lock REPOS_PATH PATH_IN_REPOS</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print all information available for the lock at
-              <replaceable>PATH_IN_REPOS</replaceable>.  If
-              <replaceable>PATH_IN_REPOS</replaceable> is not locked,
-              print nothing.</para>
+          <para>Mostra todas as informações disponíveis para o lock no
+              <replaceable>PATH_IN_REPOS</replaceable>.  Se
+              <replaceable>PATH_IN_REPOS</replaceable> não estiver lockado,
+              não mostra nada.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
             
-          <para>None</para>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>This describes the lock on the file
+          <para>Descreve o lock do arquivo
             <filename>tree.jpg</filename>.</para>
 
           <screen>
@@ -6146,20 +6144,20 @@ Rework the uppermost branches on the bald cypress in the foreground.
 
         <refnamediv>
           <refname>svnlook log</refname>
-          <refpurpose>Print the log message.</refpurpose>
+          <refpurpose>Mostra a mensagem de log.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Synopsis</title>
           <programlisting>svnlook log REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
-          <para>Print the log message.</para>
+          <para>Mostra a mensagem de log.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -6168,10 +6166,10 @@ Rework the uppermost branches on the bald cypress in the foreground.
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
-          <para>This shows the log output for revision 40 in our sample
-            repository:</para>
+          <para>Isto mostra o log de saída para a revisão 40 no nosso
+           repositório de exemplo:</para>
 
           <screen>
 $ svnlook log /tmp/repos/
