@@ -895,38 +895,42 @@ $ svn status
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.copychanges.bestprac.merge">
-        <title>Merge Conflicts</title>
+        <title>Fundir conflitos</title>
 
-        <para>Just like the <command>svn update</command> command,
-          <command>svn merge</command> applies changes to your working
-          copy.  And therefore it's also capable of creating
-          conflicts.  The conflicts produced by <command>svn
-          merge</command>, however, are sometimes different, and this
-          section explains those differences.</para>
+        <para>Assim como no comando <command>svn update</command>,
+	  	  o comando <command>svn merge</command> aplica modificações à
+		  sua cópia de trabalho. E portanto também é capaz de criar
+		  conflitos. Entretanto, os conflitos criados pelo comando
+		  <command>svn merge</command> são um tanto diferentes, e essa
+		  seção explica essas diferenças.</para>
 
-        <para>To begin with, assume that your working copy has no
-          local edits.  When you <command>svn update</command> to a
-          particular revision, the changes sent by the server will
-          always apply <quote>cleanly</quote> to your working copy.
-          The server produces the delta by comparing two trees: a
-          virtual snapshot of your working copy, and the revision tree
-          you're interested in.  Because the left-hand side of the
-          comparison is exactly equal to what you already have, the
-          delta is guaranteed to correctly convert your working copy
-          into the right-hand tree.</para>
+        <para>Para começar, assuma que sua cópia de trabalho não 
+		  teve modificações locais. Quando você faz a atualização 
+		  com o comando <command>svn update</command> para um revisão
+		  específica, as modificações enviadas pelo servidor vão 
+		  ser sempre aplicadas à sua cópia de trabalho <quote>sem 
+		  erros</quote>. O servidor produz o delta a partir da 
+		  comparação de duas árvores: uma imagem virtual de sua cópia
+		  de trabalho, e a árvore da revisão na qual está interessado.
+		  Como o lado esquerdo da comparação é exatamente igual ao que
+		  você já possui, é garantido que o delta converterá 
+		  corretamente sua cópia de trabalho, para a revisão escolhida
+		  no lado direito da compração.</para>
 
-        <para>But <command>svn merge</command> has no such guarantees
-          and can be much more chaotic: the user can ask the server to
-          compare <emphasis>any</emphasis> two trees at all, even ones
-          that are unrelated to the working copy!  This means there's
-          large potential for human error.  Users will sometimes
-          compare the wrong two trees, creating a delta that doesn't
-          apply cleanly.  <command>svn merge</command> will do its
-          best to apply as much of the delta as possible, but some
-          parts may be impossible.  Just as the Unix
-          <command>patch</command> command sometimes complains about
-          <quote>failed hunks</quote>, <command>svn merge</command>
-          will complain about <quote>skipped targets</quote>:</para>
+        <para>Entretanto, o comando <command>svn merge</command> não
+		  possui essa garantia e pode ser bem mais caótico: o usuário
+		  pode pedir ao servidor para comparar 
+		  <emphasis>qualquer</emphasis> árvore, até mesmo árvores que
+		  não tenham relação com a sua cópia de trabalho! Isso significa
+		  que existem uma grande marger para erro humano. Usuário vão
+		  acabar por compara duas árvores erradas, criando um delta que
+		  não se aplica sem conflitos. O comando <command>svn 
+		  merge</command> vai fazer o melhor possivel para aplicar
+		  o delta o máximo possivel, mas em algumas partes isso pode
+		  ser impossivel. Assim como no comando Unix 
+		  <command>patch</command> que as vezes reclama sobre 
+		  <quote>failed hunks</quote>, o <command>svn merge</command>
+		  vai reclamar sobre <quote>alvos perdidos</quote>:</para>
 
         <screen>
 $ svn merge -r 1288:1351 http://svn.example.com/repos/branch
