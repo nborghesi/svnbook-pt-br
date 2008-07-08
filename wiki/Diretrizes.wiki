@@ -3,6 +3,7 @@
   * Preservar indentação com espaços em branco, procurando sempre manter a mesma forma do texto original.
   * Efetuar commit de pequenos trechos do livro sempre que possível.
   * Sempre incluir mensagem de log descrevendo o que foi feito. Veja abaixo alguns modelos.
+  * Facilite a vida dos outros tradutores: escreva mensagens de log em Português correto (com pontuação correta, capitalização adequada das letras, etc) para melhorar a legibilidade.
   * Certificar-se de que a codificação de caracteres do arquivo é UTF-8.
   * Consulte sempre o [Glossario glossário] antes de traduzir termos técnicos.
 
