@@ -307,13 +307,13 @@ Gerado cópia de trabalho para revisão 8810.
         você pode desabilitar o cache de forma permanente ou analisando
         caso a caso.</para>
 
-      <para>To disable password caching for a particular one-time
-        command, pass the <option >--no-auth-cache</option > option on
-        the commandline.  To permanently disable caching, you can add
-        the line <literal>store-passwords = no</literal> to your local
-        machine's Subversion configuration file.  See <xref
-        linkend="svn.serverconfig.netmodel.credcache"/> for
-        details.</para>
+      <para>Para desabilitar o cache de senhas para um comando específico
+        uma vez, passe a opção <option >--no-auth-cache</option > na
+        linha de comando. Para desabilitar permanentemente o cache, você pode
+        adicionar a linha <literal>store-passwords = no</literal> no arquivo
+        de configuração local do seu Subversion. Veja <xref
+        linkend="svn.serverconfig.netmodel.credcache"/> para maiores
+        detalhes.</para>
 
     </sect2>
 
