@@ -1,20 +1,20 @@
 <chapter id="svn.serverconfig">
-  <title>Server Configuration</title>
+  <title>Configuração do Servidor</title>
 
-  <para>A Subversion repository can be accessed simultaneously by
-    clients running on the same machine on which the repository
-    resides using the <literal>file://</literal> method.  But the
-    typical Subversion setup involves a single server machine being
-    accessed from clients on computers all over the office&mdash;or,
-    perhaps, all over the world.</para>
+  <para>Um repositório do Subversion pode ser acessado por clientes
+    rodando na mesma máquina onde esteja o repositório usand o método
+    <literal>file://</literal>.  Mas um cenário típico de uso envolve
+    ter-se uma única máquina servidora sendo acessada por clientes em
+    computadores por todo um escritório&mdash;ou, talvez, por todo o
+    mundo.</para>
 
-  <para>This chapter describes how to get your Subversion repository
-    exposed outside its host machine for use by remote clients.  We
-    will cover Subversion's currently available server mechanisms,
-    discussing the configuration and use of each.  After reading
-    this section, you should be able to decide which networking
-    setup is right for your needs, and understand how to enable such
-    a setup on your host computer.</para>
+  <para>Este capítulo descreve como ter seu repositório do Subversion
+    acessível além da própria máquina servidora para uso por clientes
+    remotos.  Cobriremos os mecanismos de servidor atualmente
+    disponíveis para o Subversion, discutindo a configuração e uso de
+    cada um.  Depois de ler esta seção, você deverá estar apto a decidir
+    qual configuração de rede é a mais adequada às suas necessidades, e
+    entender como habilitar tal configuração em seu servidor.</para>
 
 
   <!-- ================================================================= -->
