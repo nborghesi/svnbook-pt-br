@@ -22,136 +22,146 @@
   <!-- ================================================================= -->
   <sect1 id="svn.serverconfig.overview">
 
-    <title>Overview</title>
+    <title>Visão Geral</title>
 
-    <para>Subversion was designed with an abstract network layer.
-      This means that a repository can be programmatically accessed by
-      any sort of server process, and the client <quote>repository
-      access</quote> API allows programmers to write plugins that
-      speak relevant network protocols.  In theory, Subversion can use
-      an infinite number of network implementations.  In practice,
-      there are only two servers at the time of this writing.</para>
+    <para>O Subversion was designed with an abstract network layer.
+      Isso significa que um repositório pode ser acessado via
+      programação por qualquer tipo de processo servidor, e a API de
+      <quote>acesso ao repositório</quote> do cliente permite aos
+      programadores escrever plugins que falem com protocolos de rede
+      relevantes.  Em teoria, o Subversion pode usar um número infinito
+      de implementações de rede.  Na prática, há apenas dois servidores
+      até o momento em que este livro estava sendo escrito.</para>
+  
+    <para>O Apache é um servidor web extremamente popular; usando o
+      módulo <command>mod_dav_svn</command>, o Apache pode acessar um
+      repositório e torná-lo disponível para os clientes através do
+      protocolo WebDAV/DeltaV, que é uma extensão do HTTP.  Como o
+      Apache é um servidor web extremamente extensível, ele provê um
+      conjunto de recursos <quote>de graça</quote>, tais como
+      comunicação SSL criptografada, sistema de log, integração com
+      diversos sistemas de autenticação de terceiros, além de navegação
+      simplificada nos repositórios.</para>
 
-    <para>Apache is an extremely popular webserver; using the
-      <command>mod_dav_svn</command> module, Apache can access a
-      repository and make it available to clients via the
-      WebDAV/DeltaV protocol, which is an extension of HTTP.  Because
-      Apache is an extremely extensible web server, it provides a
-      number of features <quote>for free</quote>, such as encrypted
-      SSL communication, logging, integration with a number of
-      third-party authentication systems, and limited built-in web
-      browsing of repositories.</para>
+    <para>Por outro lado está o <command>svnserve</command>: um programa
+      servidor pequeno e leve que conversa com os clientes por meio de
+      um protocolo específico.  Pelo fato de ter sido explicitamente
+      desenvolvido para o Subversion e de manter informações de estado
+      (diferentemente do HTTP), este seu protocolo permite operações de
+      rede significativamente mais rápidas&mdash;ainda que ao custo de
+      alguns recursos.  Este protocolo só entende autenticação do tipo
+      CRAM-MD5, não possui recursos de log, nem de navegação web nos
+      repositórios, e não tem opção de criptografar o tráfego de rede.
+      Mas é, no entanto, extremamente fácil de configurar e é quase
+      sempre a melhor opção para pequenas equipes que ainda estão
+      iniciando com o Subversion.</para>
 
-    <para>In the other corner is <command>svnserve</command>: a small,
-      lightweight server program that speaks a custom protocol with
-      clients.  Because its protocol is explicitly designed for
-      Subversion and is stateful (unlike HTTP), it provides
-      significantly faster network operations&mdash;but at the cost of
-      some features as well.  It only understands CRAM-MD5
-      authentication, has no logging, no web-browsing, and no option
-      to encrypt network traffic.  It is, however, extremely easy to
-      set up and is often the best option for small teams just
-      starting out with Subversion.</para>
+    <para>Uma terceira opção é o uso do <command>svnserve</command>
+      através de uma conexão SSH.  Por mais que este cenário ainda use o
+      <command>svnserve</command>, ele difere um pouco no que diz
+      respeito aos recursos de uma implantação
+      <command>svnserve</command> tradicional.  SSH é usado para
+      criptografar toda a comunicação.  O SSH também é usado
+      exclusivamente para autenticação, então são necessárias contas
+      reais no sistema do host servidor (diferentemente do uso do
+      <command>svnserve</command> tradicional, que possui suas próprias
+      contas de usuário privativas.)  Finalmente, pelo fato desta
+      configuração precisar que cada usuário dispare um processo
+      temporário <command>svnserve</command> particular, esta opção
+      é equivalente  (do ponto de vista de permissões) a permitir total
+      acesso de um grupo local de usuários no repositório por meio de
+      URLs <literal>file://</literal>.  Assim, controle de acesso
+      com base em caminhos não faz sentido, já que cada usuário está
+      acessando os arquivos da base de dados diretamente.</para>
 
-    <para>A third option is to use <command>svnserve</command>
-      tunneled over an SSH connection.  Even though this scenario
-      still uses <command>svnserve</command>, it differs quite a bit
-      in features from a traditional <command>svnserve</command>
-      deployment.  SSH is used to encrypt all communication.  SSH is
-      also used exclusively to authenticate, so real system accounts
-      are required on the server host (unlike
-      vanilla <command>svnserve</command>, which has its own private
-      user accounts.)  Finally, because this setup requires that each
-      user spawn a private, temporary <command>svnserve</command>
-      process, it's equivalent (from a permissions point of view) to
-      allowing a group of local users to all access the repository
-      via <literal>file://</literal> URLs. Path-based access control
-      has no meaning, since each user is accessing the repository
-      database files directly.</para>
-
-    <para>Here's a quick summary of the three typical server
-      deployments.</para>
+    <para>Aqui está um breve sumário destas três configurações típicas de
+      servidor.</para>
 
     <table id="svn.serverconfig.overview.tbl-1">
-      <title>Comparison of Subversion Server Options</title>
+      <title>Comparação das Opções para o Servidor Subversion</title>
       <tgroup cols="4">
         <thead>
           <row>
-            <entry>Feature</entry>
+            <entry>Característica</entry>
             <entry>Apache + mod_dav_svn</entry>
             <entry>svnserve</entry>
-            <entry>svnserve over SSH</entry>
+            <entry>svnserve sobre SSH</entry>
           </row>
         </thead>
         <tbody>
           <row>
-            <entry>Authentication options</entry>
-            <entry>HTTP(S) basic auth, X.509 certificates, LDAP, NTLM, or
-              any other mechanism available to Apache httpd</entry>
+            <entry>Opções de autenticação</entry>
+            <entry>Autenticação básica HTTP(S), certificados X.509,
+              LDAP, NTLM, ou quaisquer outros mecanismos disponíveis ao
+              Apache httpd</entry>
             <entry>CRAM-MD5</entry>
             <entry>SSH</entry>
           </row>
 
           <row>
-            <entry>User account options</entry>
-            <entry>private 'users' file</entry>
-            <entry>private 'users' file</entry>
-            <entry>system accounts</entry>
+            <entry>Opções para contas de usuários</entry>
+            <entry>arquivo 'users' privativo</entry>
+            <entry>arquivo 'users' privativo</entry>
+            <entry>contas no sistema</entry>
           </row>
 
           <row>
-            <entry>Authorization options</entry>
-            <entry>read/write access can be granted over whole
-              repository, or specified per-path.</entry>
-            <entry>read/write access can be granted over whole
-              repository, or specified per-path.</entry>
-            <entry>read/write access only grantable over whole
-              repository</entry>
+            <entry>Opções de authorização</entry>
+            <entry>acesso leitura/escrita pode ser dado para o
+              repositório como um todo, ou especificado por
+              caminho</entry>
+            <entry>acesso leitura/escrita pode ser dado para o
+              repositório como um todo, ou especificado por
+              caminho</entry>
+            <entry>acesso leitura/escrita passível de ser dado apenas ao
+              repositório como um todo</entry>
           </row>
 
           <row>
-            <entry>Encryption</entry>
-            <entry>via optional SSL</entry>
-            <entry>none</entry>
-            <entry>SSH tunneled</entry>
+            <entry>Criptografia</entry>
+            <entry>através de SSL opcional</entry>
+            <entry>nenhuma</entry>
+            <entry>túnel SSH</entry>
           </row>
 
           <row>
-            <entry>Logging</entry>
-            <entry>full Apache logs of each HTTP request, with
-            optional <quote>high-level</quote> logging of general
-            client operations</entry>
-            <entry>no logging</entry>
-            <entry>no logging</entry>
+            <entry>Registro de log</entry>
+            <entry>logs completos do Apache para cada requisição HTTP,
+            com opcional log <quote>alto nível</quote> para operações do
+            cliente em geral</entry>
+            <entry>sem log</entry>
+            <entry>sem log</entry>
           </row>
 
           <row>
-            <entry>Interoperability</entry>
-            <entry>partially usable by other WebDAV clients</entry>
-            <entry>only talks to svn clients</entry>
-            <entry>only talks to svn clients</entry>
+            <entry>Interoperabilidade</entry>
+            <entry>parcialmente usável por outros clientes WebDAV</entry>
+            <entry>se comunica apenas com clientes svn</entry>
+            <entry>se comunica apenas com clientes svn</entry>
           </row>
 
           <row>
-            <entry>Web viewing</entry>
-            <entry>limited built-in support, or via 3rd-party tools
-              such as ViewVC</entry>
-            <entry>only via 3rd-party tools such as ViewVC</entry>
-            <entry>only via 3rd-party tools such as ViewVC</entry>
+            <entry>Visualização pela web</entry>
+            <entry>suporte existente limitado, ou também por meio de
+              ferramentas de terceiros como o ViewVC</entry>
+            <entry>apenas por meio de ferramentas de terceiros como o
+              ViewVC</entry>
+            <entry>apenas por meio de ferramentas de terceiros como o
+              ViewVC</entry>
           </row>
 
           <row>
-            <entry>Speed</entry>
-            <entry>somewhat slower</entry>
-            <entry>somewhat faster</entry>
-            <entry>somewhat faster</entry>
+            <entry>Velocidade</entry>
+            <entry>um pouco mais lento</entry>
+            <entry>um pouco mais rápido</entry>
+            <entry>um pouco mais rápido</entry>
           </row>
 
           <row>
-            <entry>Initial setup</entry>
-            <entry>somewhat complex</entry>
-            <entry>extremely simple</entry>
-            <entry>moderately simple </entry>
+            <entry>Configuração inicial</entry>
+            <entry>um tanto complexa</entry>
+            <entry>extremamente simples</entry>
+            <entry>moderadamente simples</entry>
           </row>
 
         </tbody>
