@@ -172,62 +172,64 @@
 
   <sect1 id="svn.serverconfig.choosing">
 
-    <title>Choosing a Server Configuration</title>
+    <title>Escolhendo uma Configuração de Servidor</title>
 
-    <para>So, which server should you use?  Which is best?</para>
+    <para>Então, que servidor você deve usar?  Qual é melhor?</para>
 
-    <para>Obviously, there's no right answer to that question.  Every
-      team has different needs, and the different servers all
-      represent different sets of tradeoffs.  The Subversion project
-      itself doesn't endorse one server or another, or consider either
-      server more <quote>official</quote> than another.</para>
+    <para>Obviamente, não há uma resposta definitiva para esta pergunta.
+      Cada equipe tem diferentes necessidades e os diferentes servidores
+      todos representam diferentes conjuntos de características.  O
+      projeto Subversion em si não endossa um ou outro servidor, nem
+      mesmo considera um servidor mais <quote>oficial</quote> que
+      outro.</para>
 
-    <para>Here are some reasons why you might choose one deployment
-      over another, as well as reasons you
-      might <emphasis>not</emphasis> choose one.</para>
+    <para>Aqui estão algumas razões pelas quais você deveria escolher
+      uma configuração ao invés de outra, bem como as razões pelas quais
+      você <emphasis>não</emphasis> deveria escolher uma delas.</para>
 
     <sect2 id="svn.serverconfig.choosing.svnserve">
 
-      <title>The <command>svnserve</command> Server</title>
+      <title>O Servidor <command>svnserve</command></title>
 
       <variablelist>
         <varlistentry>
-          <term>Why you might want to use it:</term>
+          <term>Porque você pode querer usá-lo:</term>
           <listitem>
             <itemizedlist>
 
-            <listitem><para>Quick and easy to set
-                up.</para></listitem>
+            <listitem><para>Rápido e fácil de
+                configurar.</para></listitem>
 
-            <listitem><para>Network protocol is stateful and
-                noticeably faster than WebDAV.</para></listitem>
+            <listitem><para>Protocolo de rede orientado a estado e
+                notavelmente mais rápido que o
+                WebDAV.</para></listitem>
 
-            <listitem><para>No need to create system accounts on
-                server.</para></listitem>
+            <listitem><para>Dispensa necessidade da criação de contas
+               de usuário no sistema servidor.</para></listitem>
 
-            <listitem><para>Password is not passed over the
-                network.</para></listitem>
+            <listitem><para>Senhas não trafegam através da
+                rede.</para></listitem>
 
             </itemizedlist>
           </listitem>
         </varlistentry>
 
         <varlistentry>
-          <term>Why you might want to avoid it:</term>
+          <term>Porque você pode querer evitá-lo:</term>
           <listitem>
             <itemizedlist>
 
-            <listitem><para>Network protocol is not
-                encrypted.</para></listitem>
+            <listitem><para>Protocolo de rede não é
+                criptografado.</para></listitem>
 
-            <listitem><para>Only one choice of authentication
-                method.</para></listitem>
+            <listitem><para>Apenas um único método de autenticação
+                disponível.</para></listitem>
 
-            <listitem><para>Password is stored in the clear on the
-                server.</para></listitem>
+            <listitem><para>Senhas são armazenadas em texto puro no
+                servidor.</para></listitem>
 
-            <listitem><para>No logging of any kind, not even
-                errors.</para></listitem>
+            <listitem><para>Sem nenhum tipo de log, mesmo para
+                erros.</para></listitem>
 
             </itemizedlist>
           </listitem>
@@ -239,43 +241,46 @@
 
     <sect2 id="svn.serverconfig.choosing.svn-ssh">
 
-      <title><command>svnserve</command> over SSH</title>
+      <title><command>svnserve</command> sobre SSH</title>
 
       <variablelist>
         <varlistentry>
-          <term>Why you might want to use it:</term>
+          <term>Porque você pode querer usá-lo:</term>
           <listitem>
             <itemizedlist>
 
-            <listitem><para>Network protocol is stateful and
-                noticeably faster than WebDAV.</para></listitem>
+            <listitem><para>Protocolo de rede orientado a estado e
+                notavelmente mais rápido que o 
+                WebDAV.</para></listitem>
 
-            <listitem><para>You can take advantage of existing ssh
-                accounts and user infrastructure.</para></listitem>
+            <listitem><para>Você pode aproveitar a existência de contas
+                ssh e infraestrutura de usuários
+                existente.</para></listitem>
 
-            <listitem><para>All network traffic is
-                encrypted.</para></listitem>
+            <listitem><para>Todo o tráfego de rede é
+                criptografado.</para></listitem>
 
             </itemizedlist>
           </listitem>
         </varlistentry>
 
         <varlistentry>
-          <term>Why you might want to avoid it:</term>
+          <term>Porque você pode querer evitá-lo:</term>
           <listitem>
             <itemizedlist>
 
-            <listitem><para>Only one choice of authentication
-                method.</para></listitem>
+            <listitem><para>Apenas um único método de autenticação
+                disponível.</para></listitem>
 
-            <listitem><para>No logging of any kind, not even
-                errors.</para></listitem>
+            <listitem><para>Sem nenhum tipo de log, mesmo para
+                erros.</para></listitem>
 
-            <listitem><para>Requires users to be in same system group, or
-                use a shared ssh key.</para></listitem>
+            <listitem><para>Necessita que os usuários estejam num mesmo
+                grupo no sistema, ou que usem uma chave ssh
+                compartilhada.</para></listitem>
 
-            <listitem><para>If used improperly, can lead to file permissions
-                problems.</para></listitem>
+            <listitem><para>Seu uso inadequado pode resultar em
+                problemas com permissões de arquivos.</para></listitem>
 
             </itemizedlist>
           </listitem>
@@ -287,34 +292,34 @@
 
     <sect2 id="svn.serverconfig.choosing.apache">
 
-      <title>The Apache HTTP Server</title>
+      <title>O Servidor Apache HTTP</title>
 
       <variablelist>
         <varlistentry>
-          <term>Why you might want to use it:</term>
+          <term>Porque você pode querer usá-lo:</term>
           <listitem>
             <itemizedlist>
 
-              <listitem><para>Allows Subversion to use any of the
-                  numerous authentication systems already integrated
-                  with Apache.</para></listitem>
+              <listitem><para>Permite que o Subversion use quaisquer dos
+                  inúmeros sistemas de autenticação já disponíveis e
+                  integrados com o Apache.</para></listitem>
 
-              <listitem><para>No need to create system accounts on
-                  server.</para></listitem>
+              <listitem><para>Dispensa necessidade de criação de contas
+                  de usuário no sistema servidor.</para></listitem>
 
-              <listitem><para>Full Apache logging.</para></listitem>
+              <listitem><para>Logs completos do Apache.</para></listitem>
 
-              <listitem><para>Network traffic can be encrypted via
+              <listitem><para>Tráfego de rede pode ser criptografado com
                   SSL.</para></listitem>
 
-              <listitem><para>HTTP(S) can usually go through corporate
-                  firewalls.</para></listitem>
+              <listitem><para>HTTP(S) quase sempre não tem problemas
+                  para passar por firewalls.</para></listitem>
 
-              <listitem><para>Built-in repository browsing via web
-                  browser.</para></listitem>
+              <listitem><para>Navegação no repositório através de um
+                  navegador web.</para></listitem>
 
-              <listitem><para>Repository can be mounted as a network
-                  drive for transparent version control. (See
+              <listitem><para>Repositório pode ser montado como um drive
+                  de rede para controle de versão transparente. (Veja
                   <xref
                   linkend="svn.webdav.autoversioning"/>.)</para></listitem>
 
@@ -323,15 +328,16 @@
         </varlistentry>
 
         <varlistentry>
-          <term>Why you might want to avoid it:</term>
+          <term>Porque você pode querer evitá-lo:</term>
           <listitem>
             <itemizedlist>
 
-            <listitem><para>Noticeably slower than svnserve, because
-                HTTP is a stateless protocol and requires more
-                turnarounds.</para></listitem>
+            <listitem><para>Notavelmente mais lento que o svnserve, pelo
+                fato do HTTP ser um protocolo sem informação de estado e
+                acabar demandando mais requisições.</para></listitem>
 
-            <listitem><para>Initial setup can be complex.</para></listitem>
+            <listitem><para>Configuração inicial pode ser
+                complexa.</para></listitem>
 
             </itemizedlist>
           </listitem>
@@ -343,86 +349,88 @@
 
     <sect2 id="svn.serverconfig.choosing.recommendations">
 
-      <title>Recommendations</title>
+      <title>Recomendações</title>
 
-      <para>In general, the authors of this book recommend a vanilla
-        <command>svnserve</command> installation for small teams just
-        trying to get started with a Subversion server; it's the
-        simplest to set up, and has the fewest maintenance issues.
-        You can always switch to a more complex server
-        deployment as your needs change.</para>
+      <para>No geral, os autores deste livro recomendam uma instalação
+        tradicional do <command>svnserve</command> para pequenas equipes
+        que ainda estão tentando familiarizar-se com o servidor
+        Subversion; é a forma mais simples de utilização, e a que
+        demanda menos esforço de manutenção.  Você sempre pode trocar
+        para uma implantação de servidor mais complexa conforme suas
+        necessidades mudem.</para>
 
-      <para>Here are some general recommendations and tips, based on
-        years of supporting users:</para>
+      <para>Aqui seguem algumas recomendações e dicas em geral, baseadas
+        na experiência de vários anos de suporte a usuários:</para>
 
       <itemizedlist>
         <listitem>
-          <para>If you're trying to set up the simplest possible
-            server for your group, then a
-            vanilla <command>svnserve</command> installation is the
-            easiest, fastest route.  Note, however, that your
-            repository data will be transmitted in the clear over the
-            network.  If your deployment is entirely within your
-            company's LAN or VPN, this isn't an issue.  If the
-            repository is exposed to the wide-open internet, then you
-            might want to make sure the repository's contents aren't
-            sensitive (e.g. it contains only open-source code.)</para>
-        </listitem>
+          <para>Se você está tentando configurar o servidor mais simples
+            possível para seu grupo, então uma instalação tradicional do
+            <command>svnserve</command> é o caminho mais fácil e rápido.
+            Note, entretanto, que os dados de seu repositório vão ser
+            transmitidos às claras pela rede.  Se você estiver
+            fazendo uma implantação inteiramente dentro de sua rede LAN
+            ou VPN da sua empresa, isto não chega a ser nenhum problema.
+            Mas se o repositório tiver de ser acessível pela internet,
+            então você deveria se assegurar que o conteúdo do
+            repositório não contém dados sensíveis (p.ex. se é apenas
+            código-fonte.)</para>
 
         <listitem>
-          <para>If you need to integrate with existing identity
-            systems (LDAP, Active Directory, NTLM, X.509, etc.), then
-            an Apache-based server is your only real option.
-            Similarly, if you absolutely need server-side logs of
-            either server errors or client activities, then an
-            Apache-based server is required.</para>
-        </listitem>
+          <para>Se você precisar de integração com alguns sistemas de
+            identificação existentes (LDAP, Active Directory, NTLM,
+            X.509, etc.), então uma configuração baseada no Apache será
+            sua única opção.  Similarmente, se você indispensavelmente
+            precisar de log de servidor tanto para registro de erros de
+            servidor quanto para atividades dos clientes, então um
+            servidor com base no Apache será necessário.</para>
 
         <listitem>
-           <para>If you've decided to use either Apache or stock
-             <command>svnserve</command>, create a
-             single <literal>svn</literal> user on your system and run
-             the server process as that user.  Be sure to make the
-             repository directory wholly owned by
-             the <literal>svn</literal> user as well.  From a security
-             point of view, this keeps the repository data nicely
-             siloed and protected by operating system filesystem
-             permissions, changeable by only the Subversion server
-             process itself.</para>
-        </listitem>
+           <para>Se você optou por usar ou o Apache ou o
+             <command>svnserve</command>, crie uma única conta no
+             sistema para o usuário <literal>svn</literal> e faça com
+             que o processo do servidor seja executado por este usuário.
+             Certifique-se de fazer com que o diretório do repositório
+             pertença totalmente ao usuário <literal>svn</literal>
+             também.  Do ponto de vista da segurança, isto deixa os
+             dados do repositório adequadamente seguros e protegidos
+             pelas permissões do sistema de arquivos do sistema
+             operacional, alteráveis apenas pelo próprio processo do
+             servidor Subversion.</para>
 
         <listitem>
-          <para>If you have an existing infrastructure heavily based
-            on SSH accounts, and if your users already have system
-            accounts on your server machine, then it makes sense to
-            deploy an svnserve-over-ssh solution.  Otherwise, we don't
-            widely recommend this option to the public.  It's
-            generally considered safer to have your users access the
-            repository via (imaginary) accounts managed
-            by <command>svnserve</command> or Apache, rather than by
-            full-blown system accounts.  If your deep desire for
-            encrypted communication still draws you to this option, we
-            recommend using Apache with SSL instead.</para>
-        </listitem>
+          <para>Se você já tiver uma infraestrutura fortemente baseada
+            em contas SSH, e se seus usuários já possuirem contas no
+            servidor, então faz sentido implantar uma solução usando o
+            svnserve sobre SSH.  Caso contrário, não recomendamos esta
+            opção largamente ao público.  Ter seus usuários acessando o
+            repositório por meio de contas (imaginárias) gerenciadas
+            pelo <command>svnserve</command> ou pelo Apache é geralmente
+            considerado mais seguro do que ter acesso por meio de contas
+            reais no sistema.  Se o motivo para você fazer isso for
+            apenas obter uma comunicação criptografada, nós recomendamos
+            que você utilize Apache com SSL no lugar.</para>
 
         <listitem>
-          <para>Do <emphasis>not</emphasis> be seduced by the simple
-            idea of having all of your users access a repository
-            directly via <literal>file://</literal> URLs.  Even if
-            the repository is readily available to everyone via
-            network share, this is a bad idea.  It removes any layers
-            of protection between the users and the repository: users
-            can accidentally (or intentionally) corrupt the repository
-            database, it becomes hard to take the repository offline
-            for inspection or upgrade, and it can lead to a mess of
-            file-permissions problems (see
-            <xref linkend="svn.serverconfig.multimethod"/>.)  Note
-            that this is also one of the reasons we warn against
-            accessing repositories via <literal>svn+ssh://</literal>
-            URLs&mdash;from a security standpoint, it's effectively
-            the same as local users accessing
-            via <literal>file://</literal>, and can entail all the
-            same problems if the administrator isn't careful.</para>
+          <para><emphasis>Não</emphasis> e entusiasme simplesmente com a
+            idéia de ter todos os seus usuários acessando o repositório
+            diretamente através de URLs <literal>file://</literal>.
+            Mesmo se o repositório estiver disponível a todos para
+            leitura através de um compartilhamento de rede, isto é uma
+            má idéia.  Esta configuração remove quaisquer camadas de
+            proteção entre os usuários e o repositório: os usuários
+            podem acidentalmente (ou intencionalmente) corromper a base
+            de dados do repositório, dificulta deixar o repositório
+            offline para fins de inspeção ou atualização, e ainda podem
+            surgir problemas relacionados a permissões de arquivos (veja 
+            <xref linkend="svn.serverconfig.multimethod"/>.)  Perceba
+            que esta é uma das razões pelas quais nós alertamos acerca
+            do acesso aos repositórios através de URLs
+            <literal>svn+ssh://</literal>&mdash;o que sob a perspectiva
+            de segurança, é efetivamente o mesmo que ter usuários locais
+            acessando via <literal>file://<literal>, e pode resultar nos
+            mesmos problemas se o administrador não for
+            cuidadoso.</para>
         </listitem>
       </itemizedlist>
 
