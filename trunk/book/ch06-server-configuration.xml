@@ -443,79 +443,83 @@
   <!-- ================================================================= -->
   <sect1 id="svn.serverconfig.svnserve">
 
-    <title>svnserve, a custom server</title>
+    <title>svnserve, um servidor especializado</title>
 
-    <para>The <command>svnserve</command> program is a lightweight
-      server, capable of speaking to clients over TCP/IP using a
-      custom, stateful protocol.  Clients contact an
-      <command>svnserve</command> server by using URLs that begin with
-      the <literal>svn://</literal> or <literal>svn+ssh://</literal>
-      scheme.  This section will explain the different ways of running
-      <command>svnserve</command>, how clients authenticate themselves
-      to the server, and how to configure appropriate access control
-      to your repositories.</para>
+    <para>O programa <command>svnserve</command> é um servidor leve,
+      capaz de falar com clientes via TCP/IP usando um protocolo
+      específico e robusto.  Os clientes contactam um servidor
+      <command>svnserve</command> usando URLs que começam com o esquema
+      <literal>svn://</literal> ou <literal>svn+ssh://</literal>.  Esta
+      seção vai explicar as diversas formas de se executar o 
+      <command>svnserve</command>, como os clientes se autenticam para o
+      servidor, e como configurar o controle de acesso apropriado aos
+      seus repositórios.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.svnserve.invoking">
-      <title>Invoking the Server</title>
+      <title>Invocando o Servidor</title>
 
-      <para>There are a few different ways to run the
-        <command>svnserve</command> program:</para>
+      <para>Há poucas maneiras distintas de se invocar o programa
+        <command>svnserve</command>:</para>
 
       <itemizedlist>
-        <listitem><para>Run <command>svnserve</command> as a
-            standalone daemon, listening for
-            requests.</para></listitem>
-        <listitem><para>Have the Unix <command>inetd</command> daemon
-            temporarily spawn <command>svnserve</command> whenever a
-            request comes in on a certain port.</para></listitem>
-        <listitem><para>Have SSH invoke a
-            temporary <command>svnserve</command> over an encrypted
-            tunnel.</para></listitem>
-        <listitem><para>Run <command>svnserve</command> as a Windows
-            service.</para></listitem>
+        <listitem><para>Executar o <command>svnserve</command> como um
+            daemon independente, aguardando por
+            requisições.</para></listitem>
+        <listitem><para>Fazer com que o daemon <command>inetd</command>
+            do Unix dispare temporariamente o <command>svnserve</command>
+            a cada vez que uma requisição chegar numa dada
+            porta.</para></listitem>
+        <listitem><para>Fazer com que o SSH execute um
+            <command>svnserve</command> temporário sobre um túnel
+            criptografado.</para></listitem>
+        <listitem><para>Executar o <command>svnserve</command> como um
+            serviço do Windows.</para></listitem>
       </itemizedlist>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.invoking.daemon">
-        <title><command>svnserve</command> as Daemon</title>
+        <title><command>svnserve</command> como Daemon</title>
 
-        <para>The easiest option is to run <command>svnserve</command>
-          as a standalone <quote>daemon</quote> process.  Use the
-          <option>-d</option> option for this:</para>
+        <para>A opção mais fácil é executar o
+          <command>svnserve</command> como um <quote>daemon</quote>
+          independente.  Use a opção <option>-d</option> para
+          isto:</para>
 
         <screen>
 $ svnserve -d
-$               # svnserve is now running, listening on port 3690
+$               # o svnserve está rodando agora, ouvindo na porta 3690
 </screen>
 
-        <para>When running <command>svnserve</command> in daemon mode,
-          you can use the <option>--listen-port=</option> and
-          <option>--listen-host=</option> options to customize the
-          exact port and hostname to <quote>bind</quote> to.</para>
+        <para>Ao executar o <command>svnserve</command> no modo daemon,
+          você pode usar as opções <option>--listen-port=</option> e
+          <option>--listen-host=</option> para especificar a porta e o
+          hostname exatos aos quais o servidor estará
+          <quote>associado</quote>.</para>
 
-      <para>Once we successfully start <command>svnserve</command> as above,
-        it makes every repository on your system available to the
-        network.  A client needs to specify an
-        <emphasis>absolute</emphasis> path in the repository URL.  For
-        example, if a repository is located at
-        <filename>/usr/local/repositories/project1</filename>, then a
-        client would reach it via
+      <para>Uma vez que tenhamos iniciado o <command>svnserve</command>
+        como mostrado acima, isto torna todos os repositórios do sistema
+        disponíveis na rede.  Um cliente precisa especificar uma URL com
+        um caminho <emphasis>absoluto</emphasis> do repositório.  Por
+        exemplo, se um repositório estiver localizado em
+        <filename>/usr/local/repositories/project1</filename>, então um
+        cliente deveria acessá-lo com 
         <uri>svn://host.example.com/usr/local/repositories/project1</uri>.
-        To increase security, you can pass the <option>-r</option>
-        option to <command>svnserve</command>, which restricts it to
-        exporting only repositories below that path.  For example:</para>
+        Para aumentar a segurança, você pode passar a opção
+        <option>-r</option> para o <command>svnserve</command>, o que
+        limita a exportar apenas os repositórios sob o caminho
+        especificado.  Por exemplo:</para>
       
       <screen>
 $ svnserve -d -r /usr/local/repositories
 &hellip;
 </screen>
 
-      <para>Using the <option>-r</option> option effectively
-        modifies the location that the program treats as the root of
-        the remote filesystem space.  Clients then use URLs that
-        have that path portion removed from them, leaving much
-        shorter (and much less revealing) URLs:</para>
+      <para>O uso da opção <option>-r</option> efetivamente modifica o
+        local que o programa considera como a raiz do sistema de
+        arquivos remoto.  Os clientes então usam URLs com aquela parte
+        do caminho removida, tornando-as mais curtas (e bem menos
+        informativas):</para>
 
       <screen>
 $ svn checkout svn://host.example.com/project1
@@ -526,174 +530,177 @@ $ svn checkout svn://host.example.com/project1
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.invoking.inetd">
-        <title><command>svnserve</command> via <command>inetd</command></title>
+        <title><command>svnserve</command> através do <command>inetd</command></title>
 
-        <para>If you want <command>inetd</command> to launch the
-          process, then you need to pass the <option>-i</option>
-          (<option>--inetd</option>) option.  In the example, we've shown the
-          output from running <literal>svnserve -i</literal> at the
-          command line, but note that isn't how you actually start the
-          daemon; see the paragraphs following the example for how to
-          configure <command>inetd</command> to
-          start <command>svnserve</command>.</para>
+        <para>Se você quiser que o <command>inetd</command> execute o
+          processo, então você precisa passar a opção
+          <option>-i</option> (<option>--inetd</option>).  No exemplo,
+          mostramos a saída da execução do comando <literal>svnserve
+          -i</literal> na linha de comando, mas note que atualmente não
+          é assim que se inicia o daemon; leia os parágrafos depois do
+          exemplo para saber como configurar o <command>inetd</command>
+          para iniciar o <command>svnserve</command>.</para>
 
       <screen>
 $ svnserve -i
 ( success ( 1 2 ( ANONYMOUS ) ( edit-pipeline ) ) )
 </screen>
 
-      <para>When invoked with the <option>--inetd</option> option,
-        <command>svnserve</command> attempts to speak with a
-        Subversion client via <emphasis>stdin</emphasis> and
-        <emphasis>stdout</emphasis> using a custom protocol.  This is
-        the standard behavior for a program being run via
-        <command>inetd</command>.  The IANA has reserved port 3690
-        for the Subversion protocol, so on a Unix-like system you can
-        add lines to <filename>/etc/services</filename> like these (if
-        they don't already exist):</para>
+      <para>Quando invocado com a opção <option>--inetd</option>, o
+        <command>svnserve</command> tenta se comunicar com um cliente
+        Subversion por meio do <emphasis>stdin</emphasis> e
+        <emphasis>stdout</emphasis> usando um protocolo específico.
+        Este é o comportamento padrão para um programa sendo executado
+        através do <command>inetd</command>.  A IANA reservou a porta
+        3690 para o protocolo Subversion, assim, em um sistema Unix-like
+        você poderia adicionar linhas como estas ao arquivo
+        <filename>/etc/services</filename> (se elas já não
+        existirem):</para>
 
       <screen>
 svn           3690/tcp   # Subversion
 svn           3690/udp   # Subversion
 </screen>
 
-      <para>And if your system is using a classic Unix-like
-        <command>inetd</command> daemon, you can add this line to
-        <filename>/etc/inetd.conf</filename>:</para>
+      <para>E se seu sistema Unix-like estiver usando um daemon
+        <command>inetd</command> clássico, você pode adicionar esta
+        linha ao arquivo <filename>/etc/inetd.conf</filename>:</para>
 
       <screen>
 svn stream tcp nowait svnowner /usr/bin/svnserve svnserve -i
 </screen>
 
-      <para>Make sure <quote>svnowner</quote> is a user which has
-        appropriate permissions to access your repositories.  Now, when
-        a client connection comes into your server on port 3690,
-        <command>inetd</command> will spawn an
-        <command>svnserve</command> process to service it.  Of course,
-        you may also want to add <option>-r</option> to the
-        configuration line as well, to restrict which repositories are
-        exported.</para>
+      <para>Assegure-se de que <quote>svnowner</quote> seja um usuário
+        com permissões apropriadas para acesso aos seus repositórios.
+        Agora, quando uma conexão do cliente atingir seu servidor na
+        porta 3690, o <command>inetd</command> vai disparar um processo
+        <command>svnserve</command> para atendê-la.  Obviamente, você
+        também pode querer adicionar a opção <option>-r</option> para
+        restringir quais repositórios serão exportados.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.invoking.tunnel">
-        <title><command>svnserve</command> over a Tunnel</title>
+        <title><command>svnserve</command> sobre um Túnel</title>
 
-        <para>A third way to invoke <command>svnserve</command> is in
-          <quote>tunnel mode</quote>, with the <option>-t</option>
-          option.  This mode assumes that a remote-service program
-          such as <command>RSH</command> or <command>SSH</command> has
-          successfully authenticated a user and is now invoking a
-          private <command>svnserve</command> process <emphasis>as
-          that user</emphasis>.  (Note that you, the user, will
-          rarely, if ever, have reason to invoke
-          <command>svnserve</command> with the <option>-t</option> at
-          the command line; instead, the <command>SSH</command> daemon
-          does so for you.)  The <command>svnserve</command> program
-          behaves normally (communicating via
-          <emphasis>stdin</emphasis> and <emphasis>stdout</emphasis>),
-          and assumes that the traffic is being automatically
-          redirected over some sort of tunnel back to the client.
-          When <command>svnserve</command> is invoked by a tunnel
-          agent like this, be sure that the authenticated user has
-          full read and write access to the repository database files.
-          It's essentially the same as a local user accessing the
-          repository via <literal>file://</literal> URLs.</para>
+        <para>Uma terceira forma de se invocar o
+          <command>svnserve</command> é no <quote>modo túnel</quote>,
+          com a opção <option>-t</option>.  Este modo assume que um
+          programa de acesso remoto como o <command>RSH</command> ou o
+          <command>SSH</command> autenticou um usuário com sucesso e
+          está agora invocando um processo <command>svnserve</command>
+          privativo <emphasis>como aquele usuário</emphasis>.  (Note que
+          você, o usuário, vai raramente, ou talvez nunca, precisar
+          invocar o <command>svnserve</command> com a opção
+          <option>-t</option> na linha de comando; já que o próprio
+          daemon <command>SSH</command> faz isso para você.)  O programa
+          <command>svnserve</command> funciona normalmente (se
+          comunicando por meio do <emphasis>stdin</emphasis> e
+          <emphasis>stdout</emphasis>), e assume que o tráfego está
+          sendo automaticamente redirecionado por algum tipo de túnel de
+          volta para o cliente.  Quando o <command>svnserve</command> é
+          invocado por um túnel agente como este, assegure-se de que o
+          usuário autenticado tenha completo acesso de leitura e escrita
+          aos arquivos da base de dados do repositório.  É
+          essencialmente o mesmo que um usuário local acessando o
+          repositório por meio de URLs
+          <literal>file://</literal>.</para>
 
-        <para>This option is described in much more detail in
+        <para>Esta opção está descrita com mais detalhes em
           <xref linkend="svn.serverconfig.svnserve.sshauth"/>.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.invoking.winservice">
-        <title><command>svnserve</command> as Windows Service</title>
+        <title><command>svnserve</command> como um Serviço do Windows</title>
 
-        <para>If your Windows system is a descendant of Windows NT
-          (2000, 2003, XP, Vista), then you can
-          run <command>svnserve</command> as a standard Windows
-          service.  This is typically a much nicer experience than
-          running it as a standalone daemon with the <option>--daemon
-          (-d)</option> option.  Using daemon-mode requires launching
-          a console, typing a command, and then leaving the console
-          window running indefinitely.  A Windows service, however,
-          runs in the background, can start at boot time
-          automatically, and can be started and stopped using the same
-          consistent administration interface as other
-          Windows services. </para>
+        <para>Se seu sistema Windows é descendente dos Windows NT (2000,
+          2003, XP, Vista), então você pode executar o
+          <command>svnserve</command> como um serviço padrão do Windows.
+          Esta é tipicamente uma experiência mais proveitosa do que
+          executá-lo como um daemon independente com a opção
+          <option>--daemon (-d)</option>.  Usar o modo daemon implica em
+          executar um console, digitar um comando, e então deixar a
+          janela do console executando indefinidamente.  Um serviço do
+          Windows, no entanto, executa em segundo plano, pode ser
+          executado automaticamente na inicialização, e pode se iniciado
+          e parado através da mesma interface de administração como
+          os outros serviços do Windows.</para>
 
-        <para>You'll need to define the new service using the
-          command-line tool <command>SC.EXE</command>.  Much like
-          the <command>inetd</command> configuration line, you must
-          specify an exact invocation of <command>svnserve</command>
-          for Windows to run at start-up time:</para>
+        <para>Você vai precisar definir o novo serviço usando a
+          ferramenta de linha de comando <command>SC.EXE.</command>.
+          Semelhantemente à linha de configuração do
+          <command>inetd</command>, você deve especificar a forma exata
+          de invocação do <command>svnserve</command> para que o Windows
+          o execute na inicialização:</para>
 
         <screen>
 C:\&gt; sc create svn
         binpath= "C:\svn\bin\svnserve.exe --service -r C:\repos"
-        displayname= "Subversion Server"
+        displayname= "Servidor Subversion"
         depend= Tcpip
         start= auto
 </screen>
 
-        <para>This defines a new Windows service
-          named <quote>svn</quote>, and which executes a
-          particular <command>svnserve.exe</command> command when
-          started (in this case, rooted
-          at <filename>C:\repos</filename>.)  There are a number of
-          caveats in the prior example, however.</para>
+        <para>Isto define um novo serviço do Windows chamado
+          <quote>svn</quote>, o qual executa um comando
+          <command>svnserve.exe</command> particular quando iniciado
+          (neste caso, com raiz em <filename>C:\repos</filename>.)  No
+          entanto, há diversos pontos a considerar neste exemplo
+          anterior.</para>
 
-        <para>First, notice that the <command>svnserve.exe</command>
-          program must always be invoked with
-          the <option>--service</option> option.  Any other options to
-          <command>svnserve</command> must then be specified on the
-          same line, but you cannot add conflicting options such
-          as <option>--daemon
-          (-d)</option>, <option>--tunnel</option>, or <option>--inetd
-          (-i)</option>.  Options such as <option>-r</option>
-          or <option>--listen-port</option> are fine, though.  Second, be
-          careful about spaces when invoking
-          the <command>SC.EXE</command> command: the
-          <literal>key= value</literal> patterns must have no
-          spaces between <literal>key=</literal> and exactly one
-          space before the <literal>value</literal>.  Lastly, be
-          careful about spaces in your command-line to be invoked.  If
-          a directory name contains spaces (or other characters that
-          need escaping), place the entire inner value
-          of <literal>binpath</literal> in double-quotes, by escaping
-          them:</para>
+        <para>Primeiramente, note que o programa
+          <command>svnserve.exe</command> deve sempre ser chamado com a
+          opção <option>--service</option>.  Quaisquer outras opções
+          para o <command>svnserve</command> então devem ser
+          especificadas na mesma linha, mas você não pode adicionar
+          opções conflitantes tais como <option>--daemon (-d)</option>,
+          <option>--tunnel</option>, ou <option>--inetd (-i)</option>.
+          Já opções como <option>-r</option> ou
+          <option>--listen-port</option> não terão problemas.  Em
+          segundo lugar, tenha cuidado com relação a espaços ao invocar
+          o comando <command>SC.EXE</command>: padrões <literal>chave=
+          valor</literal> não devem conter espaços entre
+          <literal>chave=</literal> e devem ter exatamente um espaço
+          antes de <literal>valor</literal>.  Por último, tenha cuidado
+          também com espaços na sua linha de comando a ser executada.
+          Se um nome de diretório contiver espaços (ou outros caracteres
+          que precisem de escape), coloque todo o valor interno de
+          <literal>binpath</literal> entre aspas duplas,
+          escapando-as:</para>
 
         <screen>
 C:\&gt; sc create svn
-        binpath= "\"C:\program files\svn\bin\svnserve.exe\" --service -r C:\repos"
-        displayname= "Subversion Server"
+        binpath= "\"C:\arquivos de programas\svn\bin\svnserve.exe\" --service -r C:\repos"
+        displayname= "Servidor Subversion"
         depend= Tcpip
         start= auto
 </screen>
 
-        <para>Also note that the word <literal>binpath</literal> is
-          misleading&mdash;its value is a <emphasis>command
-          line</emphasis>, not the path to an executable.  That's why
-          you need to surround it with quote marks if it contains
-          embedded spaces.</para>
+        <para>Também observe que o termo <literal>binpath</literal> é
+          confuso&mdash;seu valor é a <emphasis>linha de
+          comando</emphasis>, não o caminho para um executável.  Por
+          isso que você precisa delimitá-lo com aspas se o valor
+          contiver espaços.</para>
 
-        <para>Once the service is defined, it can stopped, started, or
-          queried using standard GUI tools (the Services
-          administrative control panel), or at the command line as
-          well:</para>
+        <para>Uma vez que o serviço esteja definido, ele pode ser
+          parado, iniciado, ou consultado usando-se as ferramentas GUI
+          (o painel de controle administrativo Serviços), bem como
+          através da linha decomando:</para>
 
         <screen>
 C:\&gt; net stop svn
 C:\&gt; net start svn
 </screen>
 
-        <para>The service can also be uninstalled (i.e. undefined) by
-          deleting its definition:  <literal>sc delete svn</literal>.
-          Just be sure to stop the service first!
-          The <command>SC.EXE</command> program has many other
-          subcommands and options; run <literal>sc /?</literal> to
-          learn more about it.</para>
+        <para>O serviço também pode ser desinstalado (i.e. indefinido)
+          excluindo-se sua definição:  <literal>sc delete svn</literal>.
+          Apenas certifique-se de parar o serviço antes!  O programa 
+          <command>SC.EXE</command> tem diversos outros subcomandos e
+          opções; digite <literal>sc /?</literal> para saber mais sobre
+          ele.</para>
 
       </sect3>
 
