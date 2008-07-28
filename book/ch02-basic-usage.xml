@@ -318,17 +318,17 @@ Gerado cópia de trabalho para revisão 8810.
     </sect2>
 
     <sect2 id="svn.tour.initial.different-user">
-      <title>Authenticating as a Different User</title>
+      <title>Autenticando como um Usuário Diferente</title>
 
-      <para>Since Subversion caches auth credentials by default (both
-        username and password), it conveniently remembers who you were
-        acting as the last time you modified you working copy.  But
-        sometimes that's not helpful&mdash;particularly if you're
-        working in a shared working copy, like a system configuration
-        directory or a webserver document root.  In this case, just
-        pass the <option>--username</option> option on the
-        commandline and Subversion will attempt to authenticate as
-        that user, prompting you for a password if necessary.</para>
+      <para>Uma vez que por default o Subversion mantém um cache com as credenciais
+        de autenticação (tanto usuário quanto senha), ele convenientemente se lembra
+        que era você estava ali na última vez que você modificou sua cópia de trabalho.
+        Mas algumas vezes isto não é útil &mdash; particularmente se você estava
+        trabalhando numa cópia de trabalho compartilhada, como um diretório de
+        configuração do sistema ou o documento raiz de um servidor web. Neste caso,
+        apenas passe a opção <option>--username</option> na linha de comando e o
+        Subversion tentará autenticar como aquele usuário, pedindo uma senha se
+        necessário.</para>
 
     </sect2>
 
