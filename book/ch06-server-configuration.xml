@@ -375,6 +375,7 @@
             então você deveria se assegurar que o conteúdo do
             repositório não contém dados sensíveis (p.ex. se é apenas
             código-fonte.)</para>
+        </listitem>
 
         <listitem>
           <para>Se você precisar de integração com alguns sistemas de
@@ -384,6 +385,7 @@
             precisar de log de servidor tanto para registro de erros de
             servidor quanto para atividades dos clientes, então um
             servidor com base no Apache será necessário.</para>
+        </listitem>
 
         <listitem>
            <para>Se você optou por usar ou o Apache ou o
@@ -397,6 +399,7 @@
              pelas permissões do sistema de arquivos do sistema
              operacional, alteráveis apenas pelo próprio processo do
              servidor Subversion.</para>
+        </listitem>
 
         <listitem>
           <para>Se você já tiver uma infraestrutura fortemente baseada
@@ -410,6 +413,7 @@
             reais no sistema.  Se o motivo para você fazer isso for
             apenas obter uma comunicação criptografada, nós recomendamos
             que você utilize Apache com SSL no lugar.</para>
+        </listitem>
 
         <listitem>
           <para><emphasis>Não</emphasis> e entusiasme simplesmente com a
@@ -428,7 +432,7 @@
             do acesso aos repositórios através de URLs
             <literal>svn+ssh://</literal>&mdash;o que sob a perspectiva
             de segurança, é efetivamente o mesmo que ter usuários locais
-            acessando via <literal>file://<literal>, e pode resultar nos
+            acessando via <literal>file://</literal>, e pode resultar nos
             mesmos problemas se o administrador não for
             cuidadoso.</para>
         </listitem>
