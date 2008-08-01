@@ -24,7 +24,7 @@
 
     <title>Visão Geral</title>
 
-    <para>O Subversion was designed with an abstract network layer.
+    <para>O Subversion foi desenvolvido com uma camada de rede abstrata.
       Isso significa que um repositório pode ser acessado via
       programação por qualquer tipo de processo servidor, e a API de
       <quote>acesso ao repositório</quote> do cliente permite aos
@@ -65,7 +65,7 @@
       exclusivamente para autenticação, então são necessárias contas
       reais no sistema do host servidor (diferentemente do uso do
       <command>svnserve</command> tradicional, que possui suas próprias
-      contas de usuário privativas.)  Finalmente, pelo fato desta
+      contas de usuário particulares.)  Finalmente, pelo fato desta
       configuração precisar que cada usuário dispare um processo
       temporário <command>svnserve</command> particular, esta opção
       é equivalente  (do ponto de vista de permissões) a permitir total
@@ -594,7 +594,7 @@ svn stream tcp nowait svnowner /usr/bin/svnserve svnserve -i
           programa de acesso remoto como o <command>RSH</command> ou o
           <command>SSH</command> autenticou um usuário com sucesso e
           está agora invocando um processo <command>svnserve</command>
-          privativo <emphasis>como aquele usuário</emphasis>.  (Note que
+          particular <emphasis>como aquele usuário</emphasis>.  (Note que
           você, o usuário, vai raramente, ou talvez nunca, precisar
           invocar o <command>svnserve</command> com a opção
           <option>-t</option> na linha de comando; já que o próprio
@@ -712,95 +712,99 @@ C:\&gt; net start svn
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.svnserve.auth">
-      <title>Built-in authentication and authorization</title>
+      <title>Autenticação e autorização internos</title>
 
-      <para>When a client connects to an <command>svnserve</command>
-        process, the following things happen:</para>
+      <para>Quando um cliente se conecta a um processo
+        <command>svnserve</command>, as seguintes coisas
+        acontecem:</para>
 
       <itemizedlist>
-        <listitem><para>The client selects a specific
-        repository.</para></listitem>
+        <listitem><para>O cliente seleciona um repositório
+        específico.</para></listitem>
 
-        <listitem><para>The server processes the repository's
-        <filename>conf/svnserve.conf</filename> file, and begins to
-        enforce any authentication and authorization policies defined
-        therein.</para></listitem>
+        <listitem><para>O servidor processa o arquivo 
+        <filename>conf/svnserve.conf</filename> do repositório e começa
+        a tomar medidas para ratificar quaisquer políticas de
+        autenticação e autorização nele definidas.</para></listitem>
 
-        <listitem><para>Depending on the situation and authorization
-        policies,</para>
+        <listitem><para>Dependendo da situação e das políticas de
+        autorização,</para>
 
           <itemizedlist>
-            <listitem><para>the client may be allowed to make requests
-              anonymously, without ever receiving an authentication
-              challenge, OR</para></listitem>
+            <listitem><para>ao cliente pode ser permitido fazer
+              requisições de forma anônima, sem mesmo precisar receber
+              um desafio de autenticação, OU</para></listitem>
 
-            <listitem><para>the client may be challenged for
-              authentication at any time, OR</para></listitem>
+            <listitem><para>o cliente pode ser desafiado para se
+              autenticar a qualquer tempo, OU</para></listitem>
 
-            <listitem><para>if operating in <quote>tunnel
-              mode</quote>, the client will declare itself to be
-              already externally authenticated.</para></listitem>
+            <listitem><para>se operando em <quote>modo túnel</quote>, o
+              cliente irá declarar a si próprio como já tendo sido
+              externamente autenticado.</para></listitem>
           </itemizedlist>
         </listitem>
 
       </itemizedlist>
 
-      <para>At the time of writing, the server only knows how to send
-        a CRAM-MD5 <footnote><para>See RFC 2195.</para></footnote>
-        authentication challenge.  In essence, the server sends a
-        small amount of data to the client.  The client uses the MD5
-        hash algorithm to create a fingerprint of the data and
-        password combined, then sends the fingerprint as a response.
-        The server performs the same computation with the stored
-        password to verify that the result is identical.  <emphasis>At
-        no point does the actual password travel over the
-        network.</emphasis></para>
+      <para>Até o momento em que este livro estava sendo escrito, o
+        servidor sabia apenas como enviar desafios de autenticação do
+        tipo CRAM-MD5 <footnote><para>Consulte a RFC
+        2195.</para></footnote>  Essencialmente, o servidor envia uma
+        pequena quantidade de dados para o cliente.  O cliente usa o
+        algoritmo de hash MD5 para criar uma impressão digital dos dados
+        e da senha combinados, então envia esta impressão digital como
+        resposta.  O servidor realiza a mesma computação com a senha
+        armazenada para verificar se os resultados coincidem.
+        <emphasis>Em nenhum momento a senha atual é trafegada pela
+        rede.</emphasis></para>
 
-      <para>It's also possible, of course, for the client to be
-        externally authenticated via a tunnel agent, such as
-        <command>SSH</command>.  In that case, the server simply
-        examines the user it's running as, and uses it as the
-        authenticated username.  For more on this, see <xref
+      <para>E claro, também é possível para o cliente ser autenticado
+        externamente por meio de um túnel agente, tal como o
+        <command>SSH</command>.  Neste caso, o servidor simplesmente
+        examina o usuário com o qual está sendo executado, e o utiliza
+        como nome de usuário autenticado.  Para mais detalhes sobre
+        isto, veja <xref
         linkend="svn.serverconfig.svnserve.sshauth"/>.</para>
 
-      <para>As you've already guessed, a repository's
-        <filename>svnserve.conf</filename> file is the central
-        mechanism for controlling authentication and authorization
-        policies.  The file has the same format as other configuration
-        files (see <xref linkend="svn.advanced.confarea"/>): section names
-        are marked by square brackets (<literal>[</literal> and
-        <literal>]</literal>), comments begin with hashes
-        (<literal>#</literal>), and each section contains
-        specific variables that can be set (<literal>variable =
-        value</literal>).  Let's walk through these files and learn how
-        to use them.</para>
+      <para>Como você já deve ter percebido, o arquivo 
+        <filename>svnserve.conf</filename> do repositório é o mecanismo
+        central para controle das políticas de autenticação e
+        autorização.  O arquivo possui o mesmo formato que outros
+        arquivos de configuração (veja <xref
+        linkend="svn.advanced.confarea"/>): nomes de seção são marcados
+        por colchetes (<literal>[</literal> e <literal>[</literal>),
+        comentários iniciam por cerquilha (<literal>#<literal>), e cada
+        seção contém variáveis específicas que podem ser definidas
+        (<literal>variável = valor</literal>).  
+        value</literal>).  Vamos conferir estes arquivos e aprender como
+        usá-los.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.auth.users">
-        <title>Create a 'users' file and realm</title>
+        <title>Criar um arquivo 'users' e um domínio</title>
 
-        <para>For now, the <literal>[general]</literal> section of the
-          <filename>svnserve.conf</filename> has all the variables you
-          need.  Begin by changing the values of those variables:
-          choose a name for a file which will contain your usernames
-          and passwords, and choose an authentication realm:</para>
+        <para>Por hora, a seção <literal>[general]</literal> do
+          <filename>svnserve.conf</filename> tem todas as variáveis que
+          você precisa.  Comece alterando os valores dessas variáveis:
+          escolha um nome para um arquivo que irá conter seus nomes de
+          usuários e senha, e escolha um domínio de autenticação:</para>
 
         <screen>
 [general]
 password-db = userfile
-realm = example realm
+realm = example domain
 </screen>
 
-        <para>The <literal>realm</literal> is a name that you define.
-          It tells clients which sort of <quote>authentication
-          namespace</quote> they're connecting to; the Subversion
-          client displays it in the authentication prompt, and uses it
-          as a key (along with the server's hostname and port) for
-          caching credentials on disk (see <xref
-          linkend="svn.serverconfig.netmodel.credcache"/>).  The
-          <literal>password-db</literal> variable points to a separate
-          file that contains a list of usernames and passwords, using
-          the same familiar format.  For example:</para>
+        <para>O domínio (<literal>realm</literal>) é um nome que você
+          define.  Ele informa aos clientes a que tipo de <quote>espaço
+          de nomes de autenticação</quote> você está se conectando; o
+          cliente Subversion o exibe no prompt de autenticação, e o
+          utiliza como chave (junto com o hostname do servidor e a
+          porta) para fazer cache de credenciais no disco (veja <xref
+          linkend="svn.serverconfig.netmodel.credcache"/>).  A variável
+          <literal>password-db</literal> aponta para um arquivo em
+          separado que contém uma lista de nomes de usuários e senhas,
+          usando o mesmo formato familiar.  Por exemplo:</para>
 
         <screen>
 [users]
@@ -808,112 +812,117 @@ harry = foopassword
 sally = barpassword
 </screen>
 
-        <para>The value of <literal>password-db</literal> can be an
-          absolute or relative path to the users file.  For many
-          admins, it's easy to keep the file right in the
-          <filename>conf/</filename> area of the repository, alongside
-          <filename>svnserve.conf</filename>.  On the other hand, it's
-          possible you may want to have two or more repositories share
-          the same users file; in that case, the file should probably
-          live in a more public place.  The repositories sharing the
-          users file should also be configured to have the same realm,
-          since the list of users essentially defines an
-          authentication realm.  Wherever the file lives, be sure to
-          set the file's read and write permissions appropriately.  If
-          you know which user(s) <command>svnserve</command> will run
-          as, restrict read access to the user file as necessary.</para>
+        <para>O valor de <literal>password-db</literal> pode ser um
+          caminho absoluto ou relativo para o arquivo de usuários.  Para
+          muitos administradores, é fácil manter o arquivo logo dentro
+          da área <filename>conf/</filename> do repositório, juntamente
+          com o <filename>svnserve.conf</filename>.  Por outro lado, é
+          possível que você queira ter dois ou mais repositórios
+          compartilhando o mesmo arquivo de usuários; neste caso, o
+          arquivo provavelmente deve ficar em um local mais público.
+          Repositórios que compartilhem o arquivo de usuários também
+          devem ser configurados para ter um mesmo domínio, uma vez que
+          a lista de usuários essencialmente define um domínio de
+          autenticação.  Onde quer que este arquivo esteja,
+          certifique-se de definir as permissões de leitura e escrita
+          adequadamente.  Se você sabe com qual(is) usuário(s) o
+          <command>svnserve</command> irá rodar, restrinja o acesso de
+          leitura ao arquivo de usuários conforme necessário.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.auth.general">
-        <title>Set access controls</title>
+        <title>Definindo controles de acesso</title>
 
-        <para>There are two more variables to set in the
-          <filename>svnserve.conf</filename> file: they determine what
-          unauthenticated (anonymous) and authenticated users are
-          allowed to do.  The variables <literal>anon-access</literal>
-          and <literal>auth-access</literal> can be set to the values
-          <literal>none</literal>, <literal>read</literal>, or
-          <literal>write</literal>.  Setting the value to
-          <literal>none</literal> prohibits both reading and writing;
-          <literal>read</literal> allows read-only access to the
-          repository, and <literal>write</literal> allows complete
-          read/write access to the repository.  For example:</para>
+        <para>Há ainda mais duas variáveis para definir no arquivo
+          <filename>svnserve.conf</filename>: elas determinam o que os
+          usuários não autenticados (anônimos) e os usuários
+          autenticados têm permissão de fazer.  As variáveis
+          <literal>anon-access</literal> e
+          <literal>auth-access</literal> podem ser definidas para os
+          valores <literal>none</literal>, <literal>read</literal>, ou
+          <literal>write</literal>.  Atribuindo o valor
+          <literal>none</literal> você proíbe tanto a leitura quanto a
+          escrita; com <literal>read</literal> você permite acesso
+          somente leitura ao repositório, enquanto que
+          <literal>write</literal> permite acesso completo de
+          leitura/escrita ao repositório.  Por exemplo:</para>
 
         <screen>
 [general]
 password-db = userfile
-realm = example realm
+realm = example domain
 
-# anonymous users can only read the repository
+# usuários anônimos pode apenas ler o repositório
 anon-access = read
 
-# authenticated users can both read and write
+# usuários autenticados podem tanto ler quanto escrever
 auth-access = write
 </screen>
 
-        <para>The example settings are, in fact, the default values of
-          the variables, should you forget to define them.  If you
-          want to be even more conservative, you can block anonymous
-          access completely:</para>
+        <para>De fato, as configurações deste exemplo são os valores
+          default para as variáveis, você poderia esquecer de
+          definí-las.  Se você quer ser ainda mais conservador, você
+          pode bloquear o acesso anônimo completamente:</para>
 
         <screen>
 [general]
 password-db = userfile
 realm = example realm
 
-# anonymous users aren't allowed
+# usuários anônimos não são permitidos
 anon-access = none
 
-# authenticated users can both read and write
+# usuários autenticados podem tanto ler quanto escrever
 auth-access = write
 </screen>
 
-        <para>The server process not only understands
-        these <quote>blanket</quote> access controls to the
-        repository, but also finer-grained access restrictions placed
-        on specific files and directories within the repository.  To
-        make use of this feature, you need to define a file containing
-        more detailed rules, and then set
-        the <literal>authz-db</literal> variable to point to it:</para>
+        <para>O processo servidor não entende apenas esta
+        <quote>restrição</quote> no controle de acesso ao repositório,
+        mas também restrições de acesso mais granularizadas definidas
+        para arquivos ou diretórios específicos dentro do repositório.
+        Para usar este recurso, você precisa criar um arquivo contendo
+        regras mais detalhadas, e então definir o valor da variável
+        <literal>authz-db</literal> para o caminho que o aponte:</para>
 
         <screen>
 [general]
 password-db = userfile
 realm = example realm
 
-# Specific access rules for specific locations
+# Regras de acesso para locais específicos
 authz-db = authzfile
 </screen>
 
-        <para>The syntax of the <filename>authzfile</filename> file is
-          discussed in detail in
-          <xref linkend="svn.serverconfig.pathbasedauthz"/>.  Note
-          that the <literal>authz-db</literal> variable isn't mutually
-          exclusive with the <literal>anon-access</literal>
-          and <literal>auth-access</literal> variables;  if all the
-          variables are defined at once, then <emphasis>all</emphasis>
-          of the rules must be satisfied before access is allowed.</para>
+        <para>A sintaxe do arquivo <filename>authzfile</filename> é
+          discutida em mais detalhes em 
+          <xref linkend="svn.serverconfig.pathbasedauthz"/>.  Atente
+          que a variável <literal>authz-db</literal> não é mutuamente
+          exclusiva com as variáveis <literal>anon-access</literal> e
+          <literal>auth-access</literal>; se todas elas estiverem
+          definidas ao mesmo tempo, então <emphasis>todas</emphasis> as
+          regras devem ser satisfeitas antes que o acesso seja
+          permitido.</para>
 
       </sect3>
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.svnserve.sshauth">
-      <title>Tunneling over SSH</title>
+      <title>Tunelamento sobre SSH</title>
 
-      <para><command>svnserve</command>'s built-in authentication can
-        be very handy, because it avoids the need to create real
-        system accounts.  On the other hand, some administrators
-        already have well-established SSH authentication frameworks in
-        place.  In these situations, all of the project's users
-        already have system accounts and the ability to <quote>SSH
-        into</quote> the server machine.</para>
+      <para>A autenticação interna do <command>svnserve</command> pode
+        ser bastante útil, pois evita a necessidade de se criar contas
+        reais no sistema.  Por outro lado, alguns administradores já
+        possuem frameworks de autenticação com SSH bem estabelecidos em
+        funcionamento.  Nestas situações, todos os usuários do projeto
+        devem já ter contas no sistema e a possibilidade <quote>dar um
+        SSH</quote> para acessar a máquina servidora.</para>
 
-      <para>It's easy to use SSH in conjunction with
-        <command>svnserve</command>.  The client simply uses the
-        <literal>svn+ssh://</literal> URL scheme to connect:</para>
+      <para>É fácil usar o SSH juntamente com o 
+        <command>svnserve</command>.  O cliente simplesmente usa o
+        esquema <literal>svn+ssh://</literal> na URL para conectar:</para>
 
       <screen>
 $ whoami
@@ -928,121 +937,124 @@ baz
 &hellip;
 </screen>
 
-      <para>In this example, the Subversion client is invoking a local
-        <command>ssh</command> process, connecting to
-        <literal>host.example.com</literal>, authenticating as the
-        user <literal>harry</literal>, then spawning a private
-        <command>svnserve</command> process on the remote machine
-        running as the user <literal>harry</literal>.  The
-        <command>svnserve</command> command is being invoked in tunnel
-        mode (<option>-t</option>) and its network protocol is being
-        <quote>tunneled</quote> over the encrypted connection by
-        <command>ssh</command>, the tunnel-agent.
-        <command>svnserve</command> is aware that it's running as the
-        user <literal>harry</literal>, and if the client performs a
-        commit, the authenticated username will be used as the
-        author of the new revision.</para>
+      <para>Neste exemplo, o cliente Subversion está invocando um
+        processo <command>ssh</command> local, conectando-se a 
+        <literal>host.example.com</literal>, autenticando-se como
+        usuário <literal>harry</literal>, então disparando um processo
+        <command>svnserve</command> particular na máquina remota rodando
+        como o usuário <literal>harry</literal>  O comando
+        <command>svnserve</command> está sendo invocado através em modo
+        túnel (<option>-t</option>) e seu protocolo de rede está sendo
+        <quote>tunelado</quote> pela conexão criptografada pelo
+        <command>ssh</command>, o túnel agente.  O
+        <command>svnserve</command> sabe que está sendo executando pelo
+        usuário <literal>harry</literal>, e se o cliente executar um
+        commit, o nome do usuário autenticado será usado como autor da
+        nova revisão.</para>
 
-      <para>The important thing to understand here is that the
-        Subversion client is <emphasis>not</emphasis> connecting to a
-        running <command>svnserve</command> daemon.  This method of
-        access doesn't require a daemon, nor does it notice one if
-        present.  It relies wholly on the ability of
-        <command>ssh</command> to spawn a temporary
-        <command>svnserve</command> process, which then terminates
-        when the network connection is closed.</para>
+      <para>A coisa importante a compreender aqui é que o cliente
+        Subversion <emphasis>não</emphasis> está se conectando a um daemon
+        <command>svnserve</command> em execução.  Este método de acesso
+        não requer um daemon, nem tampouco percebe se há algum daemon
+        presente.  Este método se baseia totalmente na capacidade do
+        <command>ssh</command> de executar um processo
+        <command>svnserve</command> temporário, que então termina quando
+        a conexão de rede é fechada.</para>
 
-      <para>When using <literal>svn+ssh://</literal> URLs to access a
-        repository, remember that it's the <command>ssh</command>
-        program prompting for authentication, and
-        <emphasis>not</emphasis> the <command>svn</command> client
-        program.  That means there's no automatic password caching
-        going on (see <xref linkend="svn.serverconfig.netmodel.credcache"/>).  The
-        Subversion client often makes multiple connections to the
-        repository, though users don't normally notice this due to the
-        password caching feature.  When using
-        <literal>svn+ssh://</literal> URLs, however, users may be
-        annoyed by <command>ssh</command> repeatedly asking for a
-        password for every outbound connection.  The solution is to
-        use a separate SSH password-caching tool like
-        <command>ssh-agent</command> on a Unix-like system, or
-        <command>pageant</command> on Windows.</para>
+      <para>Ao usar URLs <literal>svn+ssh://</literal> para acessar um
+        repositório, lembre-se que é o programa <command>ssh</command>
+        que está solicitando autenticação, e <emphasis>não</emphasis> o
+        programa cliente <command>svn</command>.  Isto quer dizer que
+        aqui não há cache automático de senhas acontecendo (veja <xref
+        linkend="svn.serverconfig.netmodel.credcache"/>).  O cliente
+        Subversion quase sempre faz múltiplas conexões ao repositório,
+        apesar de que os usuários normalmente não percebem isto devido a
+        este recurso de cache de senhas.  Ao usar URLs 
+        <literal>svn+ssh://</literal>, entretanto, os usuários podem ser
+        incomodados repetidamente pelo <command>ssh</command>
+        solicitando senhas a cada conexão que inicie.  A solição é usar
+        uma ferramenta separada para cache de senhas do SSH como o
+        <command>ssh-agent</command> em um sistema Unix-like, ou o
+        <command>pageant</command> no Windows.</para>
 
-      <para>When running over a tunnel, authorization is primarily
-        controlled by operating system permissions to the repository's
-        database files; it's very much the same as if Harry were
-        accessing the repository directly via a
-        <literal>file://</literal> URL.  If multiple system users are
-        going to be accessing the repository directly, you may want to
-        place them into a common group, and you'll need to be careful
-        about umasks.  (Be sure to read <xref
-        linkend="svn.serverconfig.multimethod"/>.)  But even in the case of
-        tunneling, the <filename>svnserve.conf</filename> file can
-        still be used to block access, by simply setting
-        <literal>auth-access = read</literal> or <literal>auth-access
+      <para>Quando executada sobre um túnel, a autorização é
+        principalmente controlada pelas permissões do sistema
+        operacional para os arquivos da base dados do repositório; o que
+        é praticamente o mesmo como se Harry estivesse accesando o
+        repositório diretamente através de uma URL
+        <literal>file://</literal>.  Se múltiplos usuários no sistema
+        vão acessar o repositório diretamente, você pode querer
+        colocá-los num mesmo grupo, e você precisará ter cuidado com as
+        umasks.  (Não deixe de ler <xref 
+        linkend="svn.serverconfig.multimethod"/>.)  Mas mesmo no caso do
+        tunelamento, o arquivo <filename>svnserve.conf</filename> ainda
+        pode ser usado para bloquear acesso, simplesmente definindo
+        <literal>auth-access = read</literal> ou <literal>auth-access
         = none</literal>.
         <footnote>
-          <para>Note that using any sort
-            of <command>svnserve</command>-enforced access control at
-            all is a bit pointless;  the user already has direct access to
-            the repository database.</para>
+          <para>Perceba que usar qualquer tipo de controle de acesso
+            através do <command>svnserve</command> acaba não fazendo
+            muito sentido; o usuário sempre possui acesso direto à base
+            de dados do repositório.</para>
         </footnote>
       </para>
 
-      <para>You'd think that the story of SSH tunneling would end
-        here, but it doesn't.  Subversion allows you to create custom
-        tunnel behaviors in your run-time <filename>config</filename>
-        file (see <xref linkend="svn.advanced.confarea"/>).  For example,
-        suppose you want to use RSH instead of SSH<footnote><para>We
-        don't actually recommend this, since RSH is notably less
-        secure than SSH.</para></footnote>.  In the
-        <literal>[tunnels]</literal> section of your
-        <filename>config</filename> file, simply define it like
-        this:</para>
+      <para>Você pode ter pensado que essa história de tunelamento com
+        SSH acabou por aqui, mas não.  O Subversion permite que você
+        crie comportamentos específicos para o modo túnel em seu arquivo
+        <filename>config</filename> de execução (veja <xref 
+        linkend="svn.advanced.confarea"/>).  Por exemplo, suponha que
+        você queira usar o RSH ao invés do SSH<footnote><para>Atualmente
+        nós não recomendamos isto, uma vez que o RSH é sabidamente menos
+        seguro que o SSH.</para></footnote>.  Na seção
+        <literal>[tunnels]</literal> do seu arquivo
+        <filename>config</filename>, simplesmente defina algo parecido
+        com isto:</para>
 
       <screen>
 [tunnels]
 rsh = rsh
 </screen>
 
-      <para>And now, you can use this new tunnel definition by using a
-        URL scheme that matches the name of your new variable:
-        <literal>svn+rsh://host/path</literal>.  When using the new
-        URL scheme, the Subversion client will actually be running the
-        command <command>rsh host svnserve -t</command> behind the
-        scenes.  If you include a username in the URL (for example,
-        <literal>svn+rsh://username@host/path</literal>) the client
-        will also include that in its command (<command>rsh
-        username@host svnserve -t</command>).  But you can define new
-        tunneling schemes to be much more clever than that:</para>
+      <para>E agora, você pode usar este nova definição de túnel usando
+        um esquema de URL que casa com o nome de sua nova variável:
+        <literal>svn+rsh://host/path</literal>.  Ao usar o novo esquema
+        de URL, o cliente Subversion atualmente vai ser executado pelo
+        comando <command>rsh host svnserve -t</command> por trás dos
+        panos.  Se você incluir um nome de usuário na URL (por exemplo,
+        <literal>svn+rsh://username@host/path</literal>) o cliente
+        também vai incluí-lo em seu comando (<command>rsh
+        username@host svnserve -t</command>).  Mas você pode definir
+        novos esquemas de tunelamento que sejam muito mais inteligentes
+        que isto:</para>
 
       <screen>
 [tunnels]
 joessh = $JOESSH /opt/alternate/ssh -p 29934
 </screen>
 
-      <para>This example demonstrates a couple of things.  First, it
-        shows how to make the Subversion client launch a very specific
-        tunneling binary (the one located at
-        <filename>/opt/alternate/ssh</filename>) with specific
-        options.  In this case, accessing a
-        <literal>svn+joessh://</literal> URL would invoke the
-        particular SSH binary with <option>-p 29934</option> as
-        arguments&mdash;useful if you want the tunnel program to
-        connect to a non-standard port.</para>
+      <para>Este exemplo demonstra uma porção de coisas.  Primeiro, ele
+        mostra como fazer o cliente do Subversion executar um binário de
+        tunelamento bem específico (este que está localizado em 
+        <filename>/opt/alternate/ssh</filename>) com opções específicas.  
+        Neste caso, acessando uma URL <literal>svn+joessh://</literal>
+        deveria invocar o binário SSH em questão com <option>-p
+        29934</option como argumentos&mdash;útil se você quer que o
+        programa do túnel se conecte a uma porta não-padrão.</para>
 
-      <para>Second, it shows how to define a custom environment
-        variable that can override the name of the tunneling program.
-        Setting the <literal>SVN_SSH</literal> environment variable is
-        a convenient way to override the default SSH tunnel agent.
-        But if you need to have several different overrides for
-        different servers, each perhaps contacting a different port or
-        passing a different set of options to SSH, you can use the
-        mechanism demonstrated in this example.  Now if we were to set
-        the <literal>JOESSH</literal> environment variable, its value
-        would override the entire value of the tunnel
-        variable&mdash;<command>$JOESSH</command> would be executed
-        instead of <command>/opt/alternate/ssh -p
+      <para>Segundo, esse exemplo mostra como definir uma variável de
+        ambiente personalizada que pode sobrescrever o nome do programa
+        de tunelamento.  Definir a variável de ambiente
+        <literal>SVN_SSH</literal> é uma maneira conveniente de
+        sobrescrever o túnel agente SSH padrão.  Mas se você precisar
+        fazer sobrescrita diversas vezes para diferentes servidores,
+        cada um talvez contactando uma porta diferente ou passando
+        diferentes conjuntos de opções para o SSH, você pode usar o
+        mecanismo demonstrado neste exemplo.  Agora se formos definir a
+        variável de ambiente <literal>JOESSH</literal>, seu valor irá
+        sobrescrever o valor inteiro da variável
+        túnel&mdash;<command>$JOESSH</command> deverá ser executado ao
+        invés de <command>/opt/alternate/ssh -p
         29934</command>.</para>
 
     </sect2>
