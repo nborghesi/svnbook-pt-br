@@ -1038,7 +1038,7 @@ joessh = $JOESSH /opt/alternate/ssh -p 29934
         <filename>/opt/alternate/ssh</filename>) com opções específicas.  
         Neste caso, acessando uma URL <literal>svn+joessh://</literal>
         deveria invocar o binário SSH em questão com <option>-p
-        29934</option como argumentos&mdash;útil se você quer que o
+        29934</option> como argumentos&mdash;útil se você quer que o
         programa do túnel se conecte a uma porta não-padrão.</para>
 
       <para>Segundo, esse exemplo mostra como definir uma variável de
