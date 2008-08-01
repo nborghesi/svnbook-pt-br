@@ -773,11 +773,10 @@ C:\&gt; net start svn
         arquivos de configuração (veja <xref
         linkend="svn.advanced.confarea"/>): nomes de seção são marcados
         por colchetes (<literal>[</literal> e <literal>[</literal>),
-        comentários iniciam por cerquilha (<literal>#<literal>), e cada
+        comentários iniciam por cerquilha (<literal>#</literal>), e cada
         seção contém variáveis específicas que podem ser definidas
         (<literal>variável = valor</literal>).  
-        value</literal>).  Vamos conferir estes arquivos e aprender como
-        usá-los.</para>
+        Vamos conferir estes arquivos e aprender como usá-los.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.svnserve.auth.users">
