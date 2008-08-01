@@ -2194,7 +2194,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
             entretanto, se um usuário quiser que os arquivos do
             repositório sejam renderizados como algo com mais
             significado&mdash;por exemplo, seria ótimo que um arquivo
-            <filename>foo.html</literal> pudesse ser renderizado como
+            <filename>foo.html</filename> pudesse ser renderizado como
             HTML na navegação.</para>
 
           <para>Para fazer isto acontecer, você só precisa garantir que
