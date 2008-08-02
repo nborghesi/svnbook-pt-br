@@ -2390,33 +2390,34 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.serverconfig.httpd.extra.other">
-        <title>Other Features</title>
+        <title>Outros Recursos</title>
 
-        <para>Several of the features already provided by Apache in
-          its role as a robust Web server can be leveraged for
-          increased functionality or security in Subversion as well.
-          Subversion communicates with Apache using Neon, which is a
-          generic HTTP/WebDAV library with support for such mechanisms
-          as SSL (the Secure Socket Layer, discussed earlier).  If
-          your Subversion client is built to support SSL, then it can
-          access your Apache server
-          using <literal>https://</literal>.</para>
+        <para>Vários recursos já providos pelo Apache como um servidor
+          Web robusto que é também podem ser aproveitadas para aprimorar
+          as funcionaldades ou a segurança do Subversion.  O Subversion
+          se comunica com o Apache usando o Neon, que é uma biblioteca
+          HTTP/WebDAV genérica com suporte a alguns mecanismos como o SSL
+          (<foreignphrase>Secure Socket Layer</foreignphrase>, discutida
+          anteriormente).  Se seu cliente Subversion tiver sido compilado
+          com suporte a SSL, então ele pode acessar seu servidor Apache
+          usando <literal>https://</literal>.</para>
 
-        <para>Equally useful are other features of the Apache and
-          Subversion relationship, such as the ability to specify a
-          custom port (instead of the default HTTP port 80) or a
-          virtual domain name by which the Subversion repository
-          should be accessed, or the ability to access the repository
-          through an HTTP proxy.  These things are all supported by
-          Neon, so Subversion gets that support for free.</para>
+        <para>Igualmente útil são outros recursos da relação entre o
+          Apache e o Subversion, como a capacidade de se especificar uma
+          porta específica (ao invés da porta 80, padrão HTTP) ou um nome
+          de domínio virtual a partir do qual um repositório Subversion
+          pode ser acessado, ou a capacidade de se acessar o repositório
+          através de um proxy HTTP.  Tudo isto é suportado pelo Neon,
+          então, por tabela, o Subversion tem suporte a tudo isto
+          também.</para>.
 
-        <para>Finally, because <command>mod_dav_svn</command> is
-          speaking a subset of the WebDAV/DeltaV protocol, it's
-          possible to access the repository via third-party DAV
-          clients.  Most modern operating systems (Win32, OS X, and
-          Linux) have the built-in ability to mount a DAV server as a
-          standard network share.  This is a complicated topic; for
-          details, read <xref linkend="svn.webdav"/>.</para>
+        <para>Finalmente, como o <command>mod_dav_svn</command> está
+          falando um subconjunto do protocolo WebDAV/DeltaV, é possível
+          acessar o repositório por meio de clientes DAV de terceiros.  A
+          maioria dos sistemas operacionais modernos (Win32, OS X, e
+          Linux) têm a capacidade de montar um servidor DAV como um
+          compartilhamento de rede.  Este é um assunto complicado; para
+          mais detalhes, leia <xref linkend="svn.webdav"/>.</para>
 
       </sect3>
 
