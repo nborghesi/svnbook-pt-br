@@ -1,15 +1,15 @@
 #summary Estado geral da tradução
 
-Estimamos que cerca de *48%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
+Estimamos que cerca de *44%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
 
 || Foreword                                  || 85%    ||
 || Preface                                   || 49%    ||
 || *1. Fundamental Concepts*                 || *100%* ||
-|| 2. Basic Usage                            || 19%    ||
+|| 2. Basic Usage                            || 20%    ||
 || 3. Advanced Topics                        || 40%    ||
-|| 4. Branching and Merging                  || 37%    ||
+|| 4. Branching and Merging                  || 38%    ||
 || 5. Repository Administration              || 4%     ||
-|| 6. Server Configuration                   ||        ||
+|| 6. Server Configuration                   || 76%    ||
 || 7. Customizing Your Subversion Experience || 1%     ||
 || 8. Embedding Subversion                   || 49%    ||
 || 9. Subversion Complete Reference          || 5%     ||
