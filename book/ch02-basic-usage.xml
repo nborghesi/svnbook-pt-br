@@ -423,13 +423,14 @@ Gerado cópia de trabalho para revisão 8810.
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.cycle.update">
-      <title>Update Your Working Copy</title>
+      <title>Atualizar Sua Cópia de Trabalho</title>
 
-      <para>When working on a project with a team, you'll want to
-        update your working copy to receive any changes made since
-        your last update by other developers on the project.  Use
-        <command>svn update</command> to bring your working copy into
-        sync with the latest revision in the repository.</para>
+      <para>Ao trabalhar num projeto em equipe, você vai querer
+        atualizar sua cópia de trabalho para receber quaisquer
+        alterações feitas por outros desenvolvedores do projeto desde
+        sua última atualização.  Use <command>svn update</command> para
+        deixar sua cópia de trabalho em sincronia com a última revisão
+        no repositório.</para>
 
       <screen>
 $ svn update
@@ -438,17 +439,17 @@ U  bar.c
 Updated to revision 2.
 </screen>
 
-      <para>In this case, someone else checked in modifications to
-        both <filename>foo.c</filename> and <filename>bar.c</filename>
-        since the last time you updated, and Subversion has updated
-        your working copy to include those changes.</para>
+      <para>Neste caso, alguém registrou modificações em 
+        <filename>foo.c</filename> e <filename>bar.c</filename> desde a
+        última vez que você havia atualizado, e o Subversion atualizou
+        sua cópia de trabalho para incluir estas modificações.</para>
 
-      <para>When the server sends changes to your working copy via
-        <command>svn update</command>, a letter code is displayed next
-        to each item to let you know what actions Subversion performed
-        to bring your working copy up-to-date.  To find out what these
-        letters mean, see <xref linkend
-        ="svn.ref.svn.c.update"/>.</para>
+      <para>Quando o servidor envia as alterações para sua cópia de
+        trabalho por meio do <command>svn update</command>, uma letra é
+        exibida como código próximo de cada item para que você saiba que
+        ações o Subversion executou para deixar sua cópia de trabalho
+        atualizada.  Para conferir o que essas letras significam, veja
+        <xref linkend="svn.ref.svn.c.update"/>.</para>
 
     </sect2>
 
