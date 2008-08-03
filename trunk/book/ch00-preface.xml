@@ -1,5 +1,5 @@
 <preface id="svn.preface">
-  <title>Preface</title>
+  <title>Prefácio</title>
 
   <blockquote>
     <attribution>Greg Hudson</attribution>
@@ -15,35 +15,35 @@
       <primary>Concurrent Versions System (CVS)</primary>
     </indexterm>
 
-    In the world of open-source software, the Concurrent Versions
-    System (CVS) was the tool of choice for version control for many
-    years.  And rightly so.  CVS was open-source software itself, and
-    its non-restrictive modus operandi and support for networked
-    operation allowed dozens of geographically dispersed programmers
-    to share their work.  It fit the collaborative nature of the
-    open-source world very well.  CVS and its semi-chaotic development
-    model have since become cornerstones of open-source
-    culture.</para>
+    No mundo dos softwares open-source, o Concurrent Versions System
+    (CVS) foi a ferramenta escolhida para controle de versão por muitos
+    anos.  E com razão.  O próprio CVS é um software open-source também,
+    e seu modus operandi não-restritivo e o suporte a operações de rede
+    permitiram que diversos programadores distribuídos geograficamente
+    compartilhassem seus trabalhos.  Ele atende à natureza colaborativa
+    do mundo open-source como um todo.  O CVS e seu modelo de
+    desenvolvimento semi-caótico se tornou um marco da cultura
+    open-source.</para>
 
-  <para>But CVS was not without its flaws, and simply fixing those
-    flaws promised to be an enormous effort.  Enter Subversion.
-    Designed to be a successor to CVS, Subversion's originators set
-    out to win the hearts of CVS users in two ways&mdash;by creating
-    an open-source system with a design (and <quote>look and
-    feel</quote>) similar to CVS, and by attempting to avoid most of
-    CVS's noticeable flaws.  While the result isn't necessarily the
-    next great evolution in version control design, Subversion
-    <emphasis>is</emphasis> very powerful, very usable, and very
-    flexible.  And for the most part, almost all newly-started
-    open-source projects now choose Subversion instead of CVS.</para>
+  <para>Mas o CVS também tinha seus defeitos, e simplesmente corrigir
+    estes defeitos prometia ser um enorme esforço.  Chega o Subversion.
+    Desenvolvido para ser um sucessor do CVS, os criadores do Subversion
+    pretendiam ganhar a simpatia dos usuários CVS de duas
+    maneiras&mdash;criando um sistema open-source com o projeto (e a
+    <quote>aparência</quote>) semelhante ao do CVS, e tentando evitar
+    muitos de seus conhecidos defeitos.  Por mais que o resultado não
+    seja necessariamente a próxima grande evolução no projeto de controle
+    de versão, o Subversion <emphasis>é</emphasis> muito poderoso, muito
+    usável, e muito flexível.  E agora muitos projetos open-source, quase
+    todos recém-iniciados, preferem agora o Subversion ao CVS.</para>
 
-  <para>This book is written to document the 1.4 series of the
-    Subversion version control system.  We have made every attempt to
-    be thorough in our coverage.  However, Subversion has a thriving
-    and energetic development community, so there are already a number
-    of features and improvements planned for future versions of
-    Subversion that may change some of the commands and specific notes
-    in this book.</para>
+  <para>Este livro foi escrito para documentar a série 1.4 do sistema de
+    controle de versão Subversion.  Nós tentamos ser bem profundos em
+    nossa abordagem.  Entretanto, o Subversion possui uma comunidade
+    de desenvolvedores próspera e cheia de energia, então eles já têm um
+    conjunto de recursos e melhorias planejadas para futuras versões do
+    Subversion que podem mudar alguns dos comandos e notas específicas
+    deste livro.</para>
 
 
   <!-- ================================================================= -->
