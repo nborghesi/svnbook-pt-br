@@ -28,7 +28,8 @@ Herrera
   <para>Uma base ruim de Perguntas Freqüentes (FAQ), é aquela que é
     composta não de perguntas que as pessoas realmente fizeram, mas
     de perguntas que o autor da FAQ <emphasis>desejou</emphasis> que
-    as pessoas tivessem feito. Talvez você já tenha visto isto antes:</para>
+    as pessoas tivessem feito.  Talvez você já tenha visto isto
+    antes:</para>
 
   <blockquote>
     <para>P: De que forma posso utilizar o Glorbosoft XYZ para
@@ -90,12 +91,12 @@ Herrera
 
   <para>Para os três co-autores do novo livro então lhes foi dada uma
     oportunidade ímpar.  Oficialmente, sua tarefa era escrever um
-    livro top-down, starting from a table of contents and an initial draft.  But they also had access to a steady
-    stream&mdash;indeed, an uncontrollable geyser&mdash;of bottom-up
-    source material.  Subversion was already in the hands of
-    thousands of early adopters, and those users were giving tons of
-    feedback, not only about Subversion, but about its existing
-    documentation.</para>
+    livro numa abordagem top-down, começando pelo sumário e seu esboço
+    inicial.  Mas eles também tinham acesso a um fluxo constante&mdash;de
+    fato, um gêiser incontrolável&mdash; de conteúdo de origem bottom-up.
+    O Subversion já esteve nas mãos de centenas de usuários anteriores,
+    que geraram toneladas de feedback, não apenas sobre o Subversion, mas
+    também sobre sua documentação existente.</para>
 
   <para>Durante todo o tempo em que eles escreveram o livro, Ben,
     Mike, e Brian habitaram as listas de discussão e salas de
@@ -114,29 +115,29 @@ Herrera
     claro uma referência de comandos e um guia de resolução de
     problemas.  Somente quando você o ler novamente mais tarde,
     procurando a solução para um problema específico, é que sua
-    autenticidade reluzirá: the telling details that can only result from encounters
-    with the unexpected, the examples honed from genuine use cases,
-    and most of all the sensitivity to the user's needs and the
-    user's point of view.</para>
+    autenticidade reluzirá: os detalhes telling que só podem advir de um
+    encontro com o inusitado, os exemplos surgidos de casos de utilização
+    reais, e muito de toda a sensibilidade das necessidades e dos pontos
+    de vista do usuário.</para>
 
   <para>É claro, que ninguém pode prometer que este livro responderá
     todas as dúvidas que você tem sobre o Subversion.  Certas vezes,
     a precisão com que ele antecipa suas perguntas parecerá
-    assustadoramente telepática; ainda sim, ocasionalmente, você will stumble into a
-    hole no conhecimento da comunidade, e sairá de mãos-vazias.
-    Quando isto acontecer, a melhor coisa que você pode fazer é
-    enviar um email para <email>users@subversion.tigris.org</email> e
-    apresentar seu problema.  Os autores ainda estão lá, continuam
-    observando, e não somente os três listados na capa, mas muitos
-    outros que contribuíram com correções e materiais originais.
-    Do ponto de vista da comunidade, resolver o seu problema é
-    meramente um agradável efeito de um projeto muito maior&mdash;namely,
-    slowly adjusting this book, and ultimately Subversion itself, to
-    more closely match the way people actually use it.  They are
-    eager to hear from you not merely because they can help you, but
-    because you can help them.  Com o Subversion, assim como em todo
-    projeto ativo de software livre, <emphasis>você não está
-    sozinho</emphasis>.</para>
+    assustadoramente telepática; ainda sim, ocasionalmente, você vai
+    tropeçar em alguma falha no conhecimento da comunidade, e sairá de
+    mão vazias.  Quando isto acontecer, a melhor coisa que você pode
+    fazer é enviar um email para
+    <email>users@subversion.tigris.org</email> e apresentar seu problema.
+    Os autores ainda estão lá, continuam observando, e não somente os
+    três listados na capa, mas muitos outros que contribuíram com
+    correções e materiais originais.  Do ponto de vista da comunidade,
+    resolver o seu problema é meramente um agradável efeito de um projeto
+    muito maior&mdash;realmente, o ajuste paulatino deste livro, e em
+    último caso, do próprio Subversion, para ver mais de perto como as
+    pessoas o utilizam.  Eles estão ansiosos para ouvir você não apenas
+    porque eles querem ajudá-lo, mas porque você também os ajuda.  Com o
+    Subversion, assim como em todo projeto ativo de software livre,
+    <emphasis>você não está sozinho</emphasis>.</para>
 
   <para>Que este livro seja seu primeiro companheiro.</para>
 
