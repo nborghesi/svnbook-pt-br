@@ -2705,60 +2705,65 @@ everyone = @calc-developers, @paint-developers
   <!-- ================================================================= -->
   <sect1 id="svn.serverconfig.multimethod">
 
-    <title>Supporting Multiple Repository Access Methods</title>
+    <title>Dando Suporte a Múltiplos Métodos de Acesso ao
+      Repositório</title>
 
-    <para>You've seen how a repository can be accessed in many
-      different ways.  But is it possible&mdash;or safe&mdash;for your
-      repository to be accessed by multiple methods simultaneously?
-      The answer is yes, provided you use a bit of foresight.</para>
+    <para>Você viu como um repositório pode ser acessado de diferentes
+      maneiras.  Mas também é possível&mdash;ou seguro&mdash;que seu
+      repositório seja acessado por meio de diferentes métodos ao mesmo
+      tempo?  A resposta é sim, desde que você seja um pouco
+      previdente.</para>
 
-    <para>At any given time, these processes may require read and
-      write access to your repository:</para>
+    <para>A qualquer momento, estes processos podem demandar acesso de
+      leitura e escrita ao seu repositório:</para>
 
     <itemizedlist>
       <listitem>
-        <para>regular system users using a Subversion client (as
-          themselves) to access the repository directly via
-          <literal>file://</literal> URLs;</para>
+        <para>usuários regulares do sistema, usando um cliente
+          Subversion (como si próprios) para acessar o repositório
+          diretamente por meio de URLs 
+          <literal>file://</literal>;</para>
       </listitem>
       <listitem>
-        <para>regular system users connecting to SSH-spawned private
-          <command>svnserve</command> processes (running as
-          themselves) which access the repository;</para>
+        <para>usuários regulares do sistema se conectando a processos
+          <command>svnserve</command> particulares (executando como si
+          próprios) que acessam o repositório;</para>
       </listitem>
       <listitem>
-        <para>an <command>svnserve</command> process&mdash;either a
-          daemon or one launched by
-          <command>inetd</command>&mdash;running as a particular fixed
-          user;</para>
+        <para>um processo <command>svnserve</command>&mdash;seja um
+          daemon ou disparado pelo
+          <command>inetd</command>&mdash;executando como um determinado
+          usuário em particular;</para>
       </listitem>
       <listitem>
-        <para>an Apache <command>httpd</command> process, running as a
-          particular fixed user.</para>
+        <para>um processo Apache <command>httpd</command>, executando
+          como um usuário em particular.</para>
       </listitem>
     </itemizedlist>
 
-    <para>The most common problem administrators run into is repository
-      ownership and permissions.  Does every process (or user) in the
-      previous list have the rights to read and write the Berkeley DB
-      files?  Assuming you have a Unix-like operating system, a
-      straightforward approach might be to place every potential
-      repository user into a new <literal>svn</literal> group, and
-      make the repository wholly owned by that group.  But even that's
-      not enough, because a process may write to the database files
-      using an unfriendly umask&mdash;one that prevents access by
-      other users.</para>
+    <para>O problema mais comum que os administradores enfrentam diz
+      respeito a propriedade e a permissões do repositório.  Cada um dos
+      processos (ou usuários) da lista anterior tem direito de ler e
+      escrever nos arquivos Berkeley DB da base de dados?  Assumindo que
+      você esteja num sistema operacional Unix-like, uma abordagem
+      simples poderia ser colocar cada usuário do repositório em
+      potencial em um novo grupo <literal>svn</literal>, e fazer com que
+      o repositório inteiro pertença a este grupo.  Mas isso ainda não é
+      o suficiente, porque um processo pode escrever nos arquivos da base
+      de dados usando um valor de umask problemático&mdash;que
+      impossibilite o acesso de outros usuários.</para>
 
-    <para>So the next step beyond setting up a common group for
-      repository users is to force every repository-accessing process
-      to use a sane umask.  For users accessing the repository
-      directly, you can make the <command>svn</command> program into a
-      wrapper script that first sets <command>umask 002</command> and
-      then runs the real <command>svn</command> client program.  You
-      can write a similar wrapper script for the
-      <command>svnserve</command> program, and add a <command>umask
-      002</command> command to Apache's own startup script,
-      <filename>apachectl</filename>.  For example:</para>
+    <para>Então além de definir um grupo comum para os usuários do
+      repositório, o próximo passo é forçar que cada processo que acesse
+      o repositório use um valor adequado de umask.  Para usuários que
+      acessam o repositório diretamente, você pode transformar o
+      programa <command>svn</command> em um script que primeiro defina
+      <command>umask 002</command> e então execute o programa cliente
+      <command>svn</command> real.  Você pode escrever um script
+      semelhante para o programa <command>svnserve</command>, e adicionar
+      um comando <command>umask 002</command> ao próprio script de
+      script de inicialização do Apache, <filename>apachectl</filename>.
+      Por exemplo:</para>
 
     <screen>
 $ cat /usr/bin/svn
@@ -2770,70 +2775,74 @@ umask 002
 
 </screen>
 
-    <para>Another common problem is often encountered on Unix-like
-      systems.  As a repository is used, Berkeley DB occasionally
-      creates new log files to journal its actions.  Even if the
-      repository is wholly owned by the <command>svn</command> group,
-      these newly created files won't necessarily be owned by that
-      same group, which then creates more permissions problems for
-      your users.  A good workaround is to set the group SUID bit on
-      the repository's <filename>db</filename> directory. This causes
-      all newly-created log files to have the same group owner as the
-      parent directory.</para>
+    <para>Outro problema comum é frequentemente encontrado em sistemas
+      Unix-like.  Conforme um repositório é usado, o Berkeley DB
+      ocasionalmente cria novos arquivos de log para registrar suas
+      ações.  Mesmo num repositório que pertença inteiramente ao grupo
+      <command>svn</command>, estes novos arquivos criados não
+      pertencerão necessariamente a este grupo, o que então cria mais
+      problemas de permissão para seus usuários.  Uma boa forma de
+      contornar isto é definir o bit SUID dos diretórios
+      <filename>db</filename> do repositório.  Isto faz com que todos os
+      arquivos recém-criados pertençam ao mesmo grupo de seu diretório
+      pai.</para>
 
-    <para>Once you've jumped through these hoops, your repository
-      should be accessible by all the necessary processes.  It may
-      seem a bit messy and complicated, but the problems of having
-      multiple users sharing write-access to common files are classic
-      ones that are not often elegantly solved.</para>
+    <para>Uma vez realizados estes passos, seu repositório deve ser
+      acessível para todos os processos necessários.  Pode parecer um
+      pouco confuso e complicado, mas os problemas de ter múltiplos
+      usuários compartilhando acesso de escrita a arquivos comuns são
+      problemas clássicos e que muitas vezes não são resolvidos de
+      maneira muito elegante.</para>
 
-    <para>Fortunately, most repository administrators will never
-      <emphasis>need</emphasis> to have such a complex configuration.
-      Users who wish to access repositories that live on the same
-      machine are not limited to using <literal>file://</literal>
-      access URLs&mdash;they can typically contact the Apache HTTP
-      server or <command>svnserve</command> using
-      <literal>localhost</literal> for the server name in their
-      <literal>http://</literal> or <literal>svn://</literal> URLs.
-      And to maintain multiple server processes for your Subversion
-      repositories is likely to be more of a headache than necessary.
-      We recommend you choose the server that best meets your needs
-      and stick with it!</para>
+    <para>Felizmente, muitos administradores de repositórios nunca irão
+      <emphasis>precisar</emphasis> realizar tão complexa configuração.
+      Os usuários que querem acessar repositórios que estejam na mesma
+      máquina não estão limitados a usar URLs <literal>file://</literal>
+      para acesso&mdash;eles normalmente podem contactar um servidor
+      Apache HTTP ou <command>svnserve</command> usando
+      <literal>localhost</literal> como nome do servidor em suas URLs 
+      <literal>http://</literal> ou <literal>svn://</literal>.  E manter
+      múltiplos processos servidores para seus repositórios Subversion é
+      estar propenso a mais dor de cabeça que o necessário.  Nós
+      recomendamos que você escolha o servidor que melhor atenda às suas
+      necessidades e siga firme com ele!</para>
 
     <sidebar>
-      <title>The svn+ssh:// server checklist</title>
+      <title>Um checklist para o servidor svn+ssh://</title>
 
-      <para>It can be quite tricky to get a bunch of users with
-        existing SSH accounts to share a repository without
-        permissions problems.  If you're confused about all the things
-        that you (as an administrator) need to do on a Unix-like
-        system, here's a quick checklist that resummarizes some of
-        things discussed in this section:</para>
+      <para>Pode ser um pouco complicado fazer com que uma porção de
+        usuários com contas SSH existentes compartilhem um repositório
+        sem problemas de permissão.  Se você está confuso sobre todas as
+        coisas que você (como um administrador) precisa fazer em um
+        sistema Unix-like, aqui está um breve checklist que resume
+        algumas das coisas discutidas nesta seção:</para>
 
       <itemizedlist>
         <listitem>
-          <para>All of your SSH users need to be able to read and
-            write to the repository, so: put all the SSH users into a
-            single group. </para>
+          <para>Todos os seus usuários SSH precisam ser capazes de ler e
+            escrever no repositório, então: ponha todos os usuários SSH
+            em um mesmo grupo.</para>
         </listitem>
         <listitem>
-          <para>
-            Make the repository wholly owned by that group.
-            </para></listitem>
-        <listitem><para>Set the group permissions to read/write.</para></listitem>
+          <para>Faça com que o repositório inteiro pertença a esse
+            grupo.</para>
+        </listitem>
+        <listitem><para>Defina as permissões de grupo para
+            leitura/escrita.</para>
+        </listitem>
         <listitem>
-          <para>Your users need to use a sane umask when accessing the
-            repository, so:  make sure that <command>svnserve</command>
-            (<filename>/usr/bin/svnserve</filename>, or wherever
-            it lives in <literal>$PATH</literal>) is actually a
-            wrapper script which sets <command>umask 002</command> and
-            executes the real <command>svnserve</command>
-            binary.  </para></listitem>
+          <para>Seus usuários precisar usar um valor de umask adequado ao
+            acessar o repositório, então: confirme que o
+            <command>svnserve</command>
+            (<filename>/usr/bin/svnserve</filename>), ou onde quer que
+            ele esteja no <literal>$PATH</literal>) seja atualmente um
+            script que encapsule <command>umask 002</command> e execute o
+            binário <command>svnserve</command> real.</para></listitem>
                      
-        <listitem><para>Take similar measures when using
-            <command>svnlook</command> and
-            <command>svnadmin</command>.  Either run them with a sane
-            umask, or wrap them as described above.</para>
+        <listitem><para>Tome medidas similares ao usar
+            <command>svnlook</command> e 
+            <command>svnadmin</command>.  Ou execute-os com um umask
+            adequado, ou encapsule-os conforme descrito acima.</para>
         </listitem>
       </itemizedlist>
 
