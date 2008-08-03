@@ -2430,115 +2430,120 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
   <!-- ================================================================= -->
   <sect1 id="svn.serverconfig.pathbasedauthz">
 
-    <title>Path-Based Authorization</title>
+    <title>Autorização Baseada em Caminhos</title>
 
-    <para>Both Apache and <command>svnserve</command> are capable of
-      granting (or denying) permissions to users.  Typically this is
-      done over the entire repository: a user can read the repository
-      (or not), and she can write to the repository (or not).  It's
-      also possible, however, to define finer-grained access rules.
-      One set of users may have permission to write to a certain
-      directory in the repository, but not others; another directory
-      might not even be readable by all but a few special
-      people.</para>
+    <para>Tanto o Apache como o <command>svnserve</command> são capazes
+      garantir (ou negar) permisssões aos usuários.  Tipicamente isto é
+      feito considerando todo o repositório: um usuário pode ler o
+      repositório (ou não), e pode escrever no repositório (ou não).  No
+      entanto, também é possível definir regras de acesso mais
+      pormenorizadas.  Um conjunto de usuários podem ter permissão para
+      escrever em um certo diretório do repositório, mas não em outros;
+      outro diretório pode não ser legível por todos, exceto alguns
+      usuários em particular.</para>
 
-    <para>Both servers use a common file format to describe these
-      path-based access rules.  In the case of Apache, one needs to
-      load the <command>mod_authz_svn</command> module and then add
-      the <literal>AuthzSVNAccessFile</literal> directive (within
-      the <filename>httpd.conf</filename> file) pointing to your own
-      rules-file.  (For a full explanation, see
-      <xref linkend="svn.serverconfig.httpd.authz.perdir"/>.)  If
-      you're using <command>svnserve</command>, then you need to make
-      the <literal>authz-db</literal> variable
-      (within <filename>svnserve.conf</filename>) point to your
-      rules-file.</para>
+    <para>Ambos os servidores usam um formato de arquivo comum para
+      descrever estas regras de acesso baseadas em caminhos.  No caso do
+      Apache, precisa-se carregar o módulo
+      <command>mod_authz_svn</command> e então adicionar-se a diretiva 
+      <literal>AuthzSVNAccessFile</literal> (dentro do arquivo 
+      <filename>httpd.conf</filename>) para apontar para seu arquivo de
+      regras.  (Para uma descrição completa, veja
+      <xref linkend="svn.serverconfig.httpd.authz.perdir"/>.)  Se você
+      está usando o <command>svnserve</command>, então você precisa fazer
+      a variável <literal>authz-db</literal> (dentro do 
+      <filename>svnserve.conf</filename>) apontar para seu arquivo de
+      regras.</para>
 
     <sidebar>
-      <title>Do you really need path-based access control?</title>
+      <title>Você realmente precisa de controle de acesso baseado em
+        caminhos?</title>
 
-      <para>A lot of administrators setting up Subversion for the
-        first time tend to jump into path-based access control without
-        giving it a lot of thought.  The administrator usually knows
-        which teams of people are working on which projects, so it's
-        easy to jump in and grant certain teams access to certain
-        directories and not others.  It seems like a natural thing,
-        and it appeases the administrator's desire to maintain tight
-        control of the repository.</para>
+      <para>Muitos administradores que configuram o Subversion pela
+        primeira vez tendem a usar controle de acesso baseado em caminhos
+        mesmo sem pensar muito sobre ele.  O administrador comumente sabe
+        quais equipes de pessoas estão trabalhando em quais projetos,
+        então é fácil considerar isso e permitir que certas equipes
+        acessem determinados diretórios e não outros.  Parece uma coisa
+        natural, e isso até tranquiliza os desejos dos administradores de
+        manter um controle rígido do repositório.</para>
 
-      <para>Note, though, that there are often invisible (and
-        visible!) costs associated with this feature.  In the visible
-        category, the server needs to do a lot more work to ensure
-        that the user has the right to read or write each specific
-        path; in certain situations, there's very noticeable
-        performance loss.  In the invisible category, consider the
-        culture you're creating.  Most of the time, while certain
-        users <emphasis>shouldn't</emphasis> be committing changes to
-        certain parts of the repository, that social contract doesn't
-        need to be technologically enforced.  Teams can sometimes
-        spontaneously collaborate with each other; someone may want to
-        help someone else out by committing to an area she doesn't
-        normally work on.  By preventing this sort of thing at the
-        server level, you're setting up barriers to unexpected
-        collaboration.  You're also creating a bunch of rules that
-        need to be maintained as projects develop, new users are
-        added, and so on.  It's a bunch of extra work to
-        maintain.</para>
+      <para>Perceba, porém, que sempre há custos invisíveis (e visíveis!)
+        associados a este recurso.  Quanto aos custos visíveis, tem-se
+        que o servidor precisa de muito mas esforço para garantir que
+        cada usuário tenha o acesso correto de leitura ou escrita em cada
+        caminho específico; em certas circunstâncias, há uma sensível
+        perda de desempenho.  Quanto aos custos invisíveis, considere a
+        cultura que você está criando.  Na maior parte do tempo, ainda
+        que certos usuários <emphasis>não devessem</emphasis> estar
+        registrando alterações em certas partes do repositório, este
+        contrato social não precisa ser reforçado tecnologicamente.
+        Algumas vezes as equipes podem colaborar umas com as outras
+        espontaneamente; alguém pode querer ajudar a algum outro fazendo
+        alterações em alguma parte na qual não trabalha normalmente.
+        Ao prevenir este tipo de coisa a nível de servidor, você está
+        criando inesperadas barreiras à colaboração.  Você também está
+        criando um monte de regras que deverão ser mantidas conforme os
+        projetos são desenvolvidos, novos usuários são adicionados, e por
+        aí vai.  É muito trabalho extra para manter.</para>
 
-        <para>Remember that this is a version control system!  Even if
-        somebody accidentally commits a change to something they
-        shouldn't, it's easy to undo the change.  And if a user
-        commits to the wrong place with deliberate malice, then it's a
-        social problem anyway, and that the problem needs to be dealt
-        with outside of Subversion.</para>
+      <para>Lembre-se de que isto é um sistema de controle de versão!
+        Mesmo que alguém acidentalmente faça alguma alteração em algo que
+        não deveria, é fácil desfazer a alteração.  E se um usuário
+        registrar uma modificação intencionalmente no lugar errado, isto
+        é um problema social de qualquer maneira, e este é um problema
+        que precisará ser tratado fora do Subversion.</para>
 
-      <para>So before you begin restricting users' access rights, ask
-        yourself if there's a real, honest need for this, or if it's
-        just something that <quote>sounds good</quote> to an
-        administrator.  Decide whether it's worth sacrificing some
-        server speed for, and remember that there's very little risk
-        involved; it's bad to become dependent on technology as a
-        crutch for social problems.<footnote><para>A common theme in
-        this book!</para></footnote>.</para>
+      <para>Então antes de começar a restringir os direitos de acesso dos
+        usuários, pergunte a si mesmo se há uma razão real e legítima
+        para isto, ou se não é algo que apenas <quote>parece uma boa
+        idéia</quote> para um administrador.  Decida ainda se vale a pena
+        sacrificar um pouco da velocidade do servidor, e lembre-se que há
+        muito pouco risco envolvido; é ruim se tornar dependente da
+        tecnologia como uma muleta para problemas
+        sociais<footnote><para>Um tema recorrente neste
+        livro!</para></footnote>.</para>
 
-      <para>As an example to ponder, consider that the Subversion
-        project itself has always had a notion of who is allowed to
-        commit where, but it's always been enforced socially.  This is
-        a good model of community trust, especially for open-source
-        projects.  Of course, sometimes there <emphasis>are</emphasis>
-        truly legitimate needs for path-based access control; within
-        corporations, for example, certain types of data really can be
-        sensitive, and access needs to be genuinely restricted to
-        small groups of people.</para>
+      <para>Como um exemplo a considerar, veja que o próprio projeto
+        Subverion sempre teve a noção de quem tem permissão para realizar
+        alterações em que lugares, mas isto já é o que acaba ocorrendo na 
+        prática.  Este é um bom modelo de confiança da comunidade,
+        especialmente para projetos
+        <foreignphrase>open-source</foreignphrase>.  De fato, algumas
+        vezes <emphasis>há</emphasis> razões verdadeiramente legítimas
+        para se ter controle de acesso baseado em caminhos; em empresas,
+        por exemplo, certos tipos de dados realmente podem ser sensíveis,
+        aos quais os acessos precisam ser verdadeiramente restritos a
+        pequenos grupos de pessoas.</para>
 
     </sidebar>
 
-    <para>Once your server knows where to find your rules-file, it's
-      time to define the rules.</para>
+    <para>Uma vez que o servidor saiba onde encontrar seu arquivo de
+      regras, é hora de definí-las.</para>
 
-    <para>The syntax of the file is the same familiar one used
-      by <command>svnserve.conf</command> and the runtime
-      configuration files.  Lines that start with a hash
-      (<literal>#</literal>) are ignored.  In its simplest form, each
-      section names a repository and path within it, and the
-      authenticated usernames are the option names within each
-      section.  The value of each option describes the user's level of
-      access to the repository path: either
-      <literal>r</literal> (read-only) or <literal>rw</literal>
-      (read-write).  If the user is not mentioned at all, no access is
-      allowed.</para>
+    <para>A sintaxe do arquivo é aquela mesma sintaxe familiar usada no
+      <command>svnserve.conf</command> e nos arquivos de configuração em
+      tempo de execução.  Linhas que comecem com cerquilha
+      (<literal>#</literal>) são ignoradas.  Em sua forma mais simples,
+      cada seção nomeia um repositório e um caminho dentro dele, e os
+      nomes de usuários autenticados são os nomes das opções dentro de
+      cada seção.  O valor de cada opção descreve o nível de acesso dos
+      usuários naquele caminho do repositório: seja
+      <literal>r</literal> (somente leitura) ou <literal>rw</literal>
+      (leitura/escrita).  Se o usuário não for mencionado de forma
+      nenhuma, nenhum acesso será permitido.</para>
 
-    <para>To be more specific: the value of the section-names are
-      either of the form <literal>[repos-name:path]</literal> or the
-      form <literal>[path]</literal>.  If you're using the
-      <literal>SVNParentPath</literal> directive, then it's important
-      to specify the repository names in your sections.  If you omit
-      them, then a section like
-      <literal>[/some/dir]</literal> will match the path
-      <filename>/some/dir</filename> in <emphasis>every</emphasis>
-      repository.  If you're using the <literal>SVNPath</literal>
-      directive, however, then it's fine to only define paths in your
-      sections&mdash;after all, there's only one repository.</para>
+    <para>Para ser mais específico: o valor dos nomes das seções ou são
+      da forma <literal>[repos-name:path]</literal> ou da forma
+      <literal>[path]</literal>.  Se você está usando a diretiva 
+      <literal>SVNParentPath</literal>, então é importante especificar os
+      nomes dos repositórios em suas seções.  Se você omití-los, então
+      uma seção como <literal>[/algum/dir]</literal> irá corresponder ao
+      caminho <filename>/algum/dir</literal> em <emphasis>cada</emphasis>
+      repositório.  Se você está usando a diretiva
+      <literal>SVNPath</literal>, porém, então não há problema em definir
+      apenas os caminhos em suas seções&mdash;afinal de contas, há apenas
+      um repositório.</para>
 
     <screen>
 [calc:/branches/calc/bug-142]
@@ -2546,35 +2551,36 @@ harry = rw
 sally = r
 </screen>
 
-    <para>In this first example, the user <literal>harry</literal> has
-      full read and write access on the
-      <filename>/branches/calc/bug-142</filename> directory in the
-      <literal>calc</literal> repository, but the user
-      <literal>sally</literal> has read-only access.  Any other users
-      are blocked from accessing this directory.</para>
+    <para>Neste primeiro, o usuário <literal>harry</literal> tem completo
+      acesso de leitura e escrita ao diretório 
+      <filename>/branches/calc/bug-142</filename> no repositório 
+      <literal>calc</literal>, mas o usuário
+      <literal>sally</literal> tem acesso somente leitura.  Quaisquer
+      outros usuários têm seu acesso a este repositório bloqueado.</para>
 
-    <para>Of course, permissions are inherited from parent to child
-      directory.  That means that we can specify a subdirectory with a
-      different access policy for Sally:</para>
+    <para>É claro que as permissões são herdadas de um diretório para
+      um filho.  Isto quer dizer que podemos especificar um subdiretório
+      com uma política de acesso diferente para Sally:</para>
 
     <screen>
 [calc:/branches/calc/bug-142]
 harry = rw
 sally = r
 
-# give sally write access only to the 'testing' subdir
+# dá à sally acesso de escrita apenas no subdiretório 'testing'
 [calc:/branches/calc/bug-142/testing]
 sally = rw
 </screen>
 
-    <para>Now Sally can write to the <filename>testing</filename>
-      subdirectory of the branch, but can still only read other parts.
-      Harry, meanwhile, continues to have complete read-write access
-      to the whole branch.</para>
+    <para>Agora Sally pode escrever no subdiretório
+      <filename>testing</filename> do ramo, mas ainda continua tendo
+      acesso somente leitura a outras partes.  Harry, no entanto,
+      continua a ter acesso completo de leitura/escrita ao ramo
+      inteiro.</para>
 
-    <para>It's also possible to explicitly deny permission to someone
-      via inheritance rules, by setting the username variable to
-      nothing:</para>
+    <para>Também é possível negar permissão a alguns usuários através das
+      regras de herança, removendo o valor da variável do nome do
+      usuário:</para>
 
     <screen>
 [calc:/branches/calc/bug-142]
@@ -2585,50 +2591,50 @@ sally = r
 harry =
 </screen>
 
-    <para>In this example, Harry has read-write access to the
-      entire <filename>bug-142</filename> tree, but has absolutely no
-      access at all to the <filename>secret</filename> subdirectory
-      within it.</para>
+    <para>Neste exemplo, Harry tem acesso completo leitura/escrita à toda
+      a árvore <filename>bug-142</filename>, mas não tem absolutamente
+      nenhum acesso em todo o subdiretório <filename>secret</filename>
+      dentro dela.</para>
 
-    <para>The thing to remember is that the most specific path always
-      matches first.  The server tries to match the path itself, and
-      then the parent of the path, then the parent of that, and so on.
-      The net effect is that mentioning a specific path in the
-      accessfile will always override any permissions inherited from
-      parent directories.</para>
+    <para>O que você deve lembrar é que a correspondência sempre é feita
+      com os caminhos mais específicos primeiro.  O servidor tenta achar
+      uma ocorrência com o próprio caminho, então depois com o caminho do
+      diretório pai, e depois com o pai deste, e assim por diante.  O
+      efeito em rede é que mencionando um caminho específico no arquivo
+      de acesso sempre irá sobrescrever qualquer permissão herdada dos
+      diretórios pais.</para>
 
-    <para>By default, nobody has any access to the repository at all.
-      That means that if you're starting with an empty file, you'll
-      probably want to give at least read permission to all users at
-      the root of the repository.  You can do this by using the
-      asterisk variable (<literal>*</literal>), which means <quote>all
-      users</quote>:</para>
+    <para>Por padrão, ninguém tem acesso ao repositório como um todo.
+      Isto significa que se você está iniciando com um arquivo vazio,
+      você provavelmente quer pelo menos dar permissão de leitura a todos
+      os usuários na raiz do repositório.  Você pode fazer isso usando a
+      variável asterisco (<literal>*</literal>), o que quer dizer
+      <quote>todos os usuários</quote>:</para>
 
     <screen>
 [/]
 * = r
 </screen>
 
-    <para>This is a common setup; notice that there's no repository
-      name mentioned in the section name.  This makes all repositories
-      world readable to all users. Once all users have read-access to
-      the repositories, you can give explicit
-      <literal>rw</literal> permission to certain users on specific
-      subdirectories within specific repositories.</para>
+    <para>Esta é uma configuração comum; note que não aparece o nome de
+      nenhum repositório no nome da seção.  Isto torna todos os
+      repositórios legíveis para todos os usuários.  Uma vez ue todos os
+      usuários tem acesso de leitura aos repositórios, você pode dar
+      permissões <literal>rw</literal> explícitas a certos usuários em
+      subdiretórios dentro de repositórios específicos.</para>
 
-    <para>The asterisk variable (<literal>*</literal>) is also worth
-      special mention here: it's the
-      <emphasis>only</emphasis> pattern which matches an anonymous
-      user.  If you've configured your server block to allow a mixture
-      of anonymous and authenticated access, all users start out
-      accessing anonymously.  The server looks for a
-      <literal>*</literal> value defined for the path being accessed;
-      if it can't find one, then it demands real authentication from
-      the client.</para>
+    <para>A variável asterisco (<literal>*</literal>) merece também um
+      destaque especial aqui: é o <emphasis>único</emphasis> padrão que
+      corresponde com o usuário anônimo.  Se você configurou seu bloco
+      servidor para permitir um misto de acesso anônimo e autenticado,
+      todos os usuários iniciam acessando anonimamente.  O servidor
+      procura por um valor <literal>*</literal> definido para o caminho
+      sendo acessado; se encontrar, então requisita autenticação efetiva
+      do cliente.</para>
 
-    <para>The access file also allows you to define whole groups of
-      users, much like the Unix <filename>/etc/group</filename>
-      file:</para>
+    <para>O arquivo de acesso também lhe possibilita definir grupos
+      inteiros de usuários, tal como o arquivo 
+      <filename>/etc/group</filename> do Unix:</para>
 
     <screen>
 [groups]
@@ -2637,9 +2643,10 @@ paint-developers = frank, sally, jane
 everyone = harry, sally, joe, frank, sally, jane
 </screen>
 
-    <para>Groups can be granted access control just like users.
-      Distinguish them with an <quote>at</quote>
-      (<literal>@</literal>) prefix:</para>
+    <para>Controle de acesso pode ser definido para grupos da mesma forma
+      como para usuários.  Sendo que os grupos se distinguem por tem um
+      sinal de <quote>arroba</quote> (<literal>@</literal>) na
+      frente:</para>
 
     <screen>
 [calc:/projects/calc]
@@ -2650,7 +2657,8 @@ everyone = harry, sally, joe, frank, sally, jane
 jane = r
 </screen>
 
-    <para>Groups can also be defined to contain other groups:</para>
+    <para>Grupos também podem ser definidos de forma a conter outros
+      grupos:</para>
 
     <screen>
 [groups]
@@ -2659,35 +2667,35 @@ paint-developers = frank, sally, jane
 everyone = @calc-developers, @paint-developers
 </screen>
 
-  <!-- TODO(sussman):  this sidebar needs to be changed for svn 1.5,
-  making it clear that it's a neon behavior, and ??probably?? not the
+  <!-- TODO(sussman):  this sidebar needs to be changed for svn 1.5
+  making it clear that it's a nenon behavior, and ??probably?? not the
   case when using serf... -->
   <sidebar>
-    <title>Partial Readability and Checkouts</title>
+    <title>Legibilidade Parcial e Checkouts</title>
 
-    <para>If you're using Apache as your Subversion server and have
-      made certain subdirectories of your repository unreadable to
-      certain users, then you need to be aware of a possible
-      non-optimal behavior with <command>svn
+    <para>Se você está usando o Apache como seu servidor Subversion e
+      deixou determinados subdiretórios de seu repositório ilegíveis para
+      certos usuários, então você precisa ter cuidado com um
+      possível comportamento não-otimizado do comando <command>svn
       checkout</command>.</para>
 
-    <para>When the client requests a checkout or update over HTTP, it
-      makes a single server request, and receives a single (often
-      large) server response.  When the server receives the request,
-      that is the <emphasis>only</emphasis> opportunity Apache has to
-      demand user authentication.  This has some odd side-effects.
-      For example, if a certain subdirectory of the repository is only
-      readable by user Sally, and user Harry checks out a parent
-      directory, his client will respond to the initial authentication
-      challenge as Harry.  As the server generates the large response,
-      there's no way it can re-send an authentication challenge when
-      it reaches the special subdirectory;  thus the subdirectory is
-      skipped altogether, rather than asking the user to
-      re-authenticate as Sally at the right moment.  In a similar way,
-      if the root of the repository is anonymously world-readable,
-      then the entire checkout will be done without
-      authentication&mdash;again, skipping the unreadable directory,
-      rather than asking for authentication partway through.</para>
+    <para>Quando o cliente realiza um checkout ou update sobre HTTP, ele
+      faz uma única requisição ao servidor, e recebe uma única resposta
+      (quase sempre bem grande).  Quando o servidor recebe a requisição,
+      que é a <emphasis>única</emphasis> oportunidade que o Apache tem de
+      solicitar autenticação do usuário.  Isto tem alguns efeitos
+      colaterais.  Por exemplo, se um certo determinado subdiretório do
+      repositório é legível apenas pelo usuário Sally, e o usuário Harry
+      dá um checkout num diretório pai, seu cliente vai atender ao
+      desafio de autenticação inicial como Harry.  Como o servidor gera
+      uma resposta grande, não há uma forma de re-enviar um desafio de
+      autenticação quando encontrar um subdiretório especial; pulando
+      assim este subdiretório como um todo, em vez de solicitar que o
+      usuário se re-autentique como Sally no momento certo.  De maneira
+      similar, se a raiz do repositório é legível anonimamente por todos,
+      então todo checkout será feito sem autenticação&mdash;novamente,
+      pulando o diretório legível em vez de solicitar autenticação para
+      ter acesso a essas partes do repositório.</para>
   </sidebar>
 
   </sect1>
