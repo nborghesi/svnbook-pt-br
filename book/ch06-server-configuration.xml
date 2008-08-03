@@ -2433,8 +2433,8 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
     <title>Autorização Baseada em Caminhos</title>
 
     <para>Tanto o Apache como o <command>svnserve</command> são capazes
-      garantir (ou negar) permisssões aos usuários.  Tipicamente isto é
-      feito considerando todo o repositório: um usuário pode ler o
+      de garantir (ou negar) permisssões aos usuários.  Tipicamente isto
+      é feito considerando todo o repositório: um usuário pode ler o
       repositório (ou não), e pode escrever no repositório (ou não).  No
       entanto, também é possível definir regras de acesso mais
       pormenorizadas.  Um conjunto de usuários podem ter permissão para
