@@ -2330,7 +2330,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
           idênticas, então é ainda mais difíci diferenciá-las.</para>
 
         <para>O <literal>mod_dav_svn</literal>, entretanto, pode ajudar.
-          Ativando um recurso de <quot>log operacional</quote>, você pode
+          Ativando um recurso de <quote>log operacional</quote>, você pode
           pode instruir o <literal>mod_dav_svn</literal> a criar arquivos
           de log separados os tipos de operações em alto nível que os
           clientes estão executando.</para>
@@ -2409,7 +2409,7 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
           pode ser acessado, ou a capacidade de se acessar o repositório
           através de um proxy HTTP.  Tudo isto é suportado pelo Neon,
           então, por tabela, o Subversion tem suporte a tudo isto
-          também.</para>.
+          também.</para>
 
         <para>Finalmente, como o <command>mod_dav_svn</command> está
           falando um subconjunto do protocolo WebDAV/DeltaV, é possível
@@ -2539,7 +2539,7 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
       <literal>SVNParentPath</literal>, então é importante especificar os
       nomes dos repositórios em suas seções.  Se você omití-los, então
       uma seção como <literal>[/algum/dir]</literal> irá corresponder ao
-      caminho <filename>/algum/dir</literal> em <emphasis>cada</emphasis>
+      caminho <filename>/algum/dir</filename> em <emphasis>cada</emphasis>
       repositório.  Se você está usando a diretiva
       <literal>SVNPath</literal>, porém, então não há problema em definir
       apenas os caminhos em suas seções&mdash;afinal de contas, há apenas
