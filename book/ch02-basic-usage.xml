@@ -350,7 +350,7 @@ Gerado cópia de trabalho para revisão 8810.
 
     <itemizedlist>
       <listitem>
-        <para>Atualizar sua cópia de trabalho<para>
+        <para>Atualizar sua cópia de trabalho</para>
         <itemizedlist>
           <listitem>
             <para><command>svn update</command></para>
