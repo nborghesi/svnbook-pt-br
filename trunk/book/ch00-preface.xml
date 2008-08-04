@@ -596,111 +596,122 @@
   <!-- ================================================================= -->
   <sect1 id="svn.intro.whatis">
 
-    <title>What is Subversion?</title>
+    <title>O Que é o Subversion?</title>
       
-    <para>Subversion is a free/open-source version control system.
-      That is, Subversion manages files and directories, and the
-      changes made to them, over time.  This allows you to recover
-      older versions of your data, or examine the history of how your
-      data changed.  In this regard, many people think of a version
-      control system as a sort of <quote>time machine</quote>.</para>
+    <para>Subversion é um sistema de controle de versão
+      livre/open-source.  Isto é, o Subversion gerencia arquivos e
+      diretórios, e as modificações feitas neles ao longo do tempo.
+      Isto permite que você recupere versões antigas de seus dados, ou
+      que examine o histórico de suas alterações.  Devido a isso, muitas
+      pessoas tratam um sistema de controle de versão como uma espécie
+      de <quote>máquina do tempo</quote>.</para>
     
-    <para>Subversion can operate across networks, which allows it to
-      be used by people on different computers.  At some level, the
-      ability for various people to modify and manage the same set of
-      data from their respective locations fosters collaboration.
-      Progress can occur more quickly without a single conduit through
-      which all modifications must occur.  And because the work is
-      versioned, you need not fear that quality is the trade-off for
-      losing that conduit&mdash;if some incorrect change is made to
-      the data, just undo that change.</para>
+    <para>O Subversion pode funcionar em rede, o que lhe possibilita ser
+      usado por pessoas em diferentes computadores.  Em certo nível, a
+      capacidade de várias pessoas modificarem e gerenciarem o mesmo
+      conjunto de dados de seus próprios locais é o que fomenta a
+      colaboração.  Progressos podem ocorrer muito mais rapidamente
+      quando não há um gargalo único por onde todas as modificações
+      devam acontecer.  E como o trabalho está versionado, você não
+      precisa ter medo de que seu trabalho perca qualidade por não ter
+      essa via única para modificações&mdash;se os dados sofrerem alguma
+      modificação indevida, apenas desfaça tal modificação.</para>
 
-    <para>Some version control systems are also software configuration
-      management (SCM) systems.  These systems are specifically
-      tailored to manage trees of source code, and have many features
-      that are specific to software development&mdash;such as natively
-      understanding programming languages, or supplying tools for
-      building software.  Subversion, however, is not one of these
-      systems.  It is a general system that can be used to manage
-      <emphasis>any</emphasis> collection of files.  For you, those
-      files might be source code&mdash;for others, anything from
-      grocery shopping lists to digital video mixdowns and
-      beyond.</para>
+    <para>Alguns sistemas de controle de versão também são sistema de
+      gerenciamento de configuração (GC).  Estes sistemas são
+      especificamente desenvolvimento para gerenciar árvores de
+      código-fonte, e possuem muitos recursos específicos para o
+      desenvolvimento de software&mdash;como identificação nativa de
+      linguagens de programação, ou ferramentas de apoio para compilação
+      de software.  O Subversion, no entanto, não é um sistema desse
+      tipo.  É um sistema de caráter geral que pode ser usado para
+      gerenciar <emphasis>quaisquer</emphasis> conjuntos de arquivos.
+      Para você, estes arquivos podem ser código-fonte&mdash;para
+      outros, podem ser qualquer coisa desde listas de compras de
+      supermercado a arquivos de edição de vídeo, e muito mais.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.intro.history">
   
-      <title>Subversion's History</title>
+      <title>Histórico do Subversion</title>
   
       <para>
         <indexterm>
           <primary>Subversion</primary>
-          <secondary>history of</secondary>
+          <secondary>histórico do</secondary>
         </indexterm>
 
-        In early 2000, CollabNet, Inc. (<ulink
-        url="http://www.collab.net"/>) began seeking developers to
-        write a replacement for CVS.  CollabNet offers a collaboration
-        software suite called CollabNet Enterprise Edition (CEE) of
-        which one component is version control.  Although CEE used CVS
-        as its initial version control system, CVS's limitations were
-        obvious from the beginning, and CollabNet knew it would
-        eventually have to find something better.  Unfortunately, CVS
-        had become the de facto standard in the open source world
-        largely because there <emphasis>wasn't</emphasis> anything
-        better, at least not under a free license.  So CollabNet
-        determined to write a new version control system from scratch,
-        retaining the basic ideas of CVS, but without the bugs and
-        misfeatures.</para>
+        No começo do ano 2000, a CollabNet, Inc. (<ulink
+        url="http://www.collab.net"/>) começou a procurar
+        desenvolvedores para desenvolver um substituto para o CVS.  A
+        CollabNet já tinha uma suite colaborativa chamada CollabNet
+        Enterprise Edition (CEE) cujo um de seus componentes era o
+        controle de versão.  Apesar de o CEE usar o CVS como seu sistema
+        de controle de versão inicial, as limitações do CVS ficaram
+        evidentes desde o princípio, e a CollabNet sabia que
+        eventualmente teria que procurar por algo melhor.  Infelizmente,
+        o CVS havia se firmado como um padrão de fact no mundo open
+        source principalmente porque <emphasis>não havia</emphasis> nada
+        melhor, pelo menos sob licença livre.  Então a CollabNet decidiu
+        desenvolver um novo sistema de controle de versão a partir do
+        zero, mantendo as idéias básicas do CVS, mas sem os bugs e seus
+        inconvenientes.</para>
   
-      <para>In February 2000, they contacted Karl Fogel, the author of
-        <citetitle>Open Source Development with CVS</citetitle>
-        (Coriolis, 1999), and asked if he'd like to work on this new
-        project.  Coincidentally, at the time Karl was already
-        discussing a design for a new version control system with his
-        friend Jim Blandy.  In 1995, the two had started Cyclic
-        Software, a company providing CVS support contracts, and
-        although they later sold the business, they still used CVS every
-        day at their jobs.  Their frustration with CVS had led Jim to
-        think carefully about better ways to manage versioned data, and
-        he'd already come up with not only the name
-        <quote>Subversion</quote>, but also with the basic design of the
-        Subversion data store.  When CollabNet called, Karl immediately
-        agreed to work on the project, and Jim got his employer, Red Hat
-        Software, to essentially donate him to the project for an
-        indefinite period of time.  CollabNet hired Karl and Ben
-        Collins-Sussman, and detailed design work began in May.  With
-        the help of some well-placed prods from Brian Behlendorf and
-        Jason Robbins of CollabNet, and Greg Stein (at the time an
-        independent developer active in the WebDAV/DeltaV specification
-        process), Subversion quickly attracted a community of active
-        developers.  It turned out that many people had had the same
-        frustrating experiences with CVS, and welcomed the chance to
-        finally do something about it.</para>
+      <para>Em Fevereiro de 2000, eles contactaram Karl Fogel, o autor
+        de <citetitle>Open Source Development with CVS</citetitle>
+        (Coriolis, 1999), e perguntaram se ele gostaria de trabalhar
+        neste novo projeto.  Coincidentemente, no momento Karl já estava
+        discutindo o projeto para um novo sistema de controle de versão
+        com seu amigo Jim Blandy.  Em 1995, os dois iniciaram a Cyclic
+        Software, uma empresa que mantinha contratos de suporte para o
+        CVS, e apesar de terem vendido a empresa posteriormente, eles
+        ainda usavam o CVS todos os dias em seus trabalhos.  Suas
+        frustrações com o CVS levou Jim a pensar cuidadosamente sobre
+        melhores maneiras para gerenciar dados versionados, no que ele
+        não apenas já tinha pensado no nome <quote>Subversion</quote>,
+        mas também com o projeto básico para armazenamento de dados do
+        Subversion.  Quando a CollabNet chamou, Karl concordou
+        imediatamente em trabalhar no projeto, e Jim sugeriu à empresa
+        em que trabalhava, Red Hat Software, essencialmente a cedê-lo
+        para o projeto por um período de tempo indefinido.  A CollabNet
+        contratou Karl e Ben Collins-Sussman, e um projeto detalhado de
+        trabalho começou em Maio.  Com a ajuda e o bem-vindo incentivo
+        de Brian Behlendorf e Jason Robbins da CollabNet, e de Greg
+        Stein (à época, um desenvolvedor independente trabalhando no
+        processo de especificação do WebDAV/DeltaV), o Subversion
+        rapidamente atraiu uma comunidade ativa de desenvolvedores.
+        Detectou-se que muitas pessoas também tinham as mesmas
+        experiências frustrantes com o CVS, agora satisfeitas com a
+        oportunidade de finalmente fazer algo sobre isso.</para>
   
-      <para>The original design team settled on some simple goals.  They
-        didn't want to break new ground in version control methodology,
-        they just wanted to fix CVS.  They decided that Subversion would
-        match CVS's features, and preserve the same development model,
-        but not duplicate CVS's most obvious flaws.  And although it did
-        not need to be a drop-in replacement for CVS, it should be
-        similar enough that any CVS user could make the switch with
-        little effort.</para>
+      <para>A equipe do projeto original determinou alguns objetivos
+        simples.  Eles não queriam romper com a metodologia existente
+        para controle de versão, eles apenas queriam corrigir o CVS.
+        Eles decidiram que o Subversion deveria ser compatível com as
+        características do CVS, e manter o mesmo modelo de
+        desenvolvimento, mas não reproduzir as falhas mais óbvias do
+        CVS.  E mesmo que o novo sistema não fosse um substituto
+        definitivo para o CVS, ele deveria ser suficientemente
+        semelhante a este para que qualquer usuário do CVS pudesse
+        migrar de sistema com pouco esforço.</para>
   
-      <para>After fourteen months of coding, Subversion became
-        <quote>self-hosting</quote> on August 31, 2001.  That is,
-        Subversion developers stopped using CVS to manage Subversion's
-        own source code, and started using Subversion instead.</para>
+      <para>Depois de quatorze meses de desenvolvimento, o Subversion
+        tornou-se <quote>auto-gerenciável</quote> em 31 de Agosto de
+        2001.  Ou seja, os desenvolvedores do Subversion pararam de usar
+        o CVS para gerir seu próprio código-fonte, e começaram a usar o
+        próprio Subversion no lugar.</para>
   
-      <para>While CollabNet started the project, and still funds a large
-        chunk of the work (it pays the salaries of a few full-time
-        Subversion developers), Subversion is run like most open-source
-        projects, governed by a loose, transparent set of rules that
-        encourage meritocracy.  CollabNet's copyright license is fully
-        compliant with the Debian Free Software Guidelines.  In other
-        words, anyone is free to download, modify, and redistribute
-        Subversion as he pleases; no permission from CollabNet or anyone
-        else is required.</para>
+      <para>Embora a CollabNet tenha iniciado o projeto, e ainda
+        patrocine uma grande parte dos trabalhos (ela paga os salários
+        de alguns poucos desenvolvedores do Subversion em tempo
+        integral), o Subversion é mantido como a maioria dos projetos
+        open source, gerenciado por um conjunto de regras transparentes
+        e de senso-comum, fundamentadas na meritocracia.  A licença
+        adotada pela CollabNet é perfeitamente compatível com Definição
+        Debian de Software Livre (DFSG).  Em outras palavras, qualquer
+        pessoa é livre para baixar o código do Subversion, modificá-lo,
+        e redistribuí-lo conforme lhe convier; não é necessário pedir
+        permissão à CollabNet ou a quem quer que seja.</para>
   
     </sect2>
   
