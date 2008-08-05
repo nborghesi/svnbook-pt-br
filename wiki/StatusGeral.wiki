@@ -1,12 +1,12 @@
 #summary Estado geral da tradução
 
-Estimamos que cerca de *47%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
+Estimamos que cerca de *52%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
 
 || *Foreword*                                || *100%* ||
 || *Preface*                                 || *100%* ||
 || *1. Fundamental Concepts*                 || *100%* ||
-|| 2. Basic Usage                            || 34%    ||
-|| 3. Advanced Topics                        || 40%    ||
+|| 2. Basic Usage                            || 40%    ||
+|| 3. Advanced Topics                        || 43%    ||
 || 4. Branching and Merging                  || 38%    ||
 || 5. Repository Administration              || 4%     ||
 || *6. Server Configuration*                 || *100%* ||
