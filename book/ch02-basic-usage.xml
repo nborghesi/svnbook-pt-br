@@ -847,14 +847,14 @@ Status against revision:   46
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.cycle.examine.diff">
-        <title>Examine the details of your local modifications</title>
+        <title>Examinar os detalhes de suas alterações locais</title>
 
-        <para>Another way to examine your changes is with the
-          <command>svn diff</command> command.  You can find out
-          <emphasis>exactly</emphasis> how you've modified things by
-          running <command>svn diff</command> with no arguments, which
-          prints out file changes in <firstterm>unified diff
-          format</firstterm>:</para>
+        <para>Outra forma de examinar suas alterações é com o comando 
+          <command>svn diff</command>.  Você pode verificar
+          <emphasis>exatamente</emphasis> como você modificou as coisas
+          executando <command>svn diff</command> sem argumentos, o que
+          exibe as modificações de arquivo no <firstterm>formato diff
+          unificado</firstterm>:</para>
 
         <screen>
 $ svn diff
@@ -897,40 +897,43 @@ Index: stuff/things/bloo.h
 +things about bloo.
 </screen>
 
-        <para>The <command>svn diff</command> command produces this
-          output by comparing your working files against the cached
-          <quote>pristine</quote> copies within the
-          <filename>.svn</filename> area.  Files scheduled for
-          addition are displayed as all added-text, and files
-          scheduled for deletion are displayed as all deleted
-          text.</para>
+        <para>O comando <command>svn diff</command> produz esta saída
+          comparando seus arquivos de trabalho com a cópia 
+          <quote>intacta</quote> em cache que fica dentro da área 
+          <filename>.svn</filename>.  Os arquivos marcados para adição
+          são exibidos com todo o texto adicionado, e os arquivos
+          marcados para exclusão são exibidos com todo o texto
+          excluído.</para>
 
-        <para>Output is displayed in unified diff format.  That is,
-          removed lines are prefaced with <literal>-</literal> and
-          added lines are prefaced with
-          <literal>+</literal>.  <command>svn diff</command> also
-          prints filename and offset information useful to the
-          <command>patch</command> program, so you can generate
-          <quote>patches</quote> by redirecting the diff output to a
-          file:</para>
+        <para>A saída é exibida no formato diff unificado.  Isto é,
+          linhas removidas são iniciadas com <literal>-</literal> e
+          linhas adicionadas são iniciadas com <literal>+</literal>.  O
+          <command>svn diff</command> também exibe o nome do arquivo e
+          uma informação de deslocamento
+          (<foreignphrase>offset</foreignphrase>) que é útil para o
+          programa <command>patch</command>, de forma que você pode
+          gerar <quote>atualizações</quote>
+          (<foreignphrase>patches</foreignphrase>) redirecionando a
+          saída do diff para um arquivo:</para>
 
         <screen>
 $ svn diff &gt; patchfile
 </screen>
 
-        <para>You could, for example, email the patch file to another
-          developer for review or testing prior to commit.</para>
+        <para>Você pode, por exemplo, enviar um arquivo de atualização
+          por e-mail para outro desenvolvedor para revisão ou teste
+          prévio antes de submeter.</para>
 
-        <para>Subversion uses its internal diff engine, which produces
-          unified diff format, by default.  If you want diff output in
-          a different format, specify an external diff program using
-          <option>--diff-cmd</option> and pass any flags you'd like to
-          it using the <option>--extensions (-x)</option> option.  For
-          example, to see local differences in file
-          <filename>foo.c</filename> in context output format while
-          ignoring case differences, you might run <command>svn diff
-          --diff-cmd /usr/bin/diff --extensions '-i'
-          foo.c</command>.</para>
+        <para>O Subversion usa seu mecanismo interno de diff, o qual
+          gera o formato diff unificado, por padrão.  Se você quiser
+          esta saída em um formato diferente, especifique um programa
+          diff externo usando <option>--diff-cmd</option> e passe as
+          opções de sua preferência para ele com <option>--extensions
+          (-x)</option>.  Por exemplo, para ver as diferenças locais no
+          arquivo <filename>foo.c</filename> no formato de saída de
+          contexto ao mesmo tempo ignorando diferenças de maiúsculas e
+          minúsculas, você poderia executar <command>svn diff --diff-cmd
+          /usr/bin/diff --extensions '-i' foo.c</command>.</para>
 
       </sect3>
 
