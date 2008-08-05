@@ -1963,13 +1963,13 @@ $
 
       </sidebar>
 
-      <para>Now that Harry has locked <filename>banana.jpg</filename>,
-        Sally is unable to change or delete that file:</para>
+      <para>Agora que Harry tem o arquivo <filename>banana.jpg</filename> travado,
+        Sally não poderá modificar ou excluir esse arquivo:</para>
 
       <screen>
 $ svn delete banana.jpg
 D         banana.jpg
-$ svn commit -m "Delete useless file."
+$ svn commit -m "Excluir arquivo sem uso."
 Deleting       banana.jpg
 svn: Commit failed (details follow):
 svn: DELETE of
@@ -1978,15 +1978,15 @@ svn: DELETE of
 $
 </screen>
 
-      <para>But Harry, after touching up the banana's shade of yellow,
-        is able to commit his changes to the file.  That's because he
-        authenticates as the lock owner, and also because his working
-        copy holds the correct lock token:</para>
+      <para>Porém Harry, após retocar a tonalidade amarela da banana,
+        é capaz de submeter suas mudanças no arquivo.  Isso porque ele
+        se autenticou como o proprietário da trava, e também porque sua cópia de
+        trabalho possui o sinal de trava correto:</para>
 
       <screen>
 $ svn status
 M    K banana.jpg
-$ svn commit -m "Make banana more yellow"
+$ svn commit -m "Torna a banana mais amarela"
 Sending        banana.jpg
 Transmitting file data .
 Committed revision 2201.
