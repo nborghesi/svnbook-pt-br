@@ -423,7 +423,7 @@ Gerado cópia de trabalho para revisão 8810.
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.cycle.update">
-      <title>Atualizar Sua Cópia de Trabalho</title>
+      <title>Atualizando Sua Cópia de Trabalho</title>
 
       <para>Ao trabalhar num projeto em equipe, você vai querer
         atualizar sua cópia de trabalho para receber quaisquer
@@ -455,7 +455,7 @@ Updated to revision 2.
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.cycle.edit">
-      <title>Fazer Alterações em Sua Cópia de Trabalho</title>
+      <title>Fazendo Alterações em Sua Cópia de Trabalho</title>
 
       <para>Agora você já pode trabalhar e fazer alterações em sua cópia
         de trabalho.  É comumente mais conveniente optar por fazer uma
@@ -626,7 +626,7 @@ Updated to revision 2.
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.cycle.examine">
-      <title>Verificar Suas Alterações</title>
+      <title>Verificando Suas Alterações</title>
 
       <para>Tendo terminado de fazer suas alterações, você precisa
         registrá-las no repositório, mas antes de fazer isso, é quase
@@ -684,7 +684,7 @@ Updated to revision 2.
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.cycle.examine.status">
-        <title>Ter uma visão geral de suas alterações</title>
+        <title>Obtendo uma visão geral de suas alterações</title>
 
         <para>Para ter uma visão geral de suas modificações, você vai
           usar o comando <command>svn status</command>.  Você
@@ -721,9 +721,9 @@ Updated to revision 2.
           <command>svn status</command>.)</para>
 
         <screen>
-A       stuff/loot/bloo.h   # arquivo marcado para adição
+A       stuff/loot/bloo.h   # arquivo agendado para adição
 C       stuff/loot/lump.c   # arquivo em conflito a partir de um update
-D       stuff/fish.c        # arquivo marcado para exclusão
+D       stuff/fish.c        # arquivo agendado para exclusão
 M       bar.c               # conteúdo em bar.c tem alterações locais 
 </screen>
 
@@ -847,7 +847,7 @@ Status against revision:   46
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.cycle.examine.diff">
-        <title>Examinar os detalhes de suas alterações locais</title>
+        <title>Examinando os detalhes de suas alterações locais</title>
 
         <para>Outra forma de examinar suas alterações é com o comando 
           <command>svn diff</command>.  Você pode verificar
@@ -942,30 +942,31 @@ $ svn diff &gt; patchfile
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.cycle.revert">
-      <title>Undoing Working Changes</title>
+      <title>Desfazendo Modificações de Trabalho</title>
 
 
-      <para>Suppose while viewing the output of <command>svn
-        diff</command> you determine that all the changes you made to
-        a particular file are mistakes.  Maybe you shouldn't have
-        changed the file at all, or perhaps it would be easier to make
-        different changes starting from scratch.</para>
+      <para>Suponha que ao ver a saída do <command>svn diff</command>
+        você decida que todas as modificações que você fez em um certo
+        arquivo foram equivocadas.  Talvez você não tivesse que ter
+        modificado o arquivo como um todo, ou talvez você veja que
+        acabará sendo mais fácil fazer outras modificações começando
+        tudo de novo.</para>
  
-      <para>This is a perfect opportunity to use <command>svn
-        revert</command>:</para>
+      <para>Esta é uma oportunidade perfeita para usar o comando
+        <command>svn revert</command>:</para>
 
       <screen>
 $ svn revert README
 Reverted 'README'
 </screen>
 
-      <para>Subversion reverts the file to its pre-modified state by
-        overwriting it with the cached <quote>pristine</quote> copy
-        from the <filename>.svn</filename> area.  But also note that
-        <command>svn revert</command> can undo
-        <emphasis>any</emphasis> scheduled operations&mdash;for
-        example, you might decide that you don't want to add a new
-        file after all:</para>
+      <para>O Subversion reverte o arquivo para seu estado antes da
+        alteração sobrescrevendo-o com a cópia <quote>intacta</quote>
+        que está na área <filename>.svn</filename>.  Mas atente também
+        que <command>svn revert</command> pode desfazer
+        <emphasis>quaisquer</emphasis> operações agendadas&mdash;por
+        exemplo, você pode decidir que você não quer mais adicionar um
+        novo arquivo:</para>
 
       <screen>
 $ svn status foo
@@ -983,18 +984,18 @@ $ svn status foo
 
       <note>
         <para><command>svn revert</command>
-          <replaceable>ITEM</replaceable> has exactly the same
-          effect as deleting <replaceable>ITEM</replaceable> from
-          your working copy and then running <command>svn update -r
-          BASE</command> <replaceable>ITEM</replaceable>.  However,
-          if you're reverting a file, <command>svn revert</command>
-          has one very noticeable difference&mdash;it doesn't have
-          to communicate with the repository to restore your
-          file.</para>
+          <replaceable>ITEM</replaceable> tem exatamente o mesmo efeito
+          de se excluir o <replaceable>ITEM</replaceable> de sua cópia
+          de trabalho e então executar <command>svn update -r
+          BASE</command> <replaceable>ITEM</replaceable>.  Porém, se
+          você estiver revertendo um arquivo, o <command>svn
+          revert</command> tem uma notável diferença&mdash;ele não
+          precisa se comunicar com o repositório para restaurar o seu
+          arquivo.</para>
       </note>
 
-      <para>Or perhaps you mistakenly removed a file from version
-        control:</para>
+      <para>Ou talvez você tenha removido um arquivo do controle de
+        versão por engano:</para>
 
       <screen>
 $ svn status README
