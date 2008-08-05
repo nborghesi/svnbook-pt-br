@@ -1994,36 +1994,36 @@ $ svn status
 $
 </screen>
 
-      <para>Notice that after the commit is finished, <command>svn
-        status</command> shows that the lock token is no longer
-        present in working copy.  This is the standard behavior of
-        <command>svn commit</command>&mdash;it searches the working
-        copy (or list of targets, if you provide such a list) for
-        local modifications, and sends all the lock tokens it
-        encounters during this walk to the server as part of the
-        commit transaction.  After the commit completes successfully,
-        all of the repository locks that were mentioned are
-        released&mdash;<emphasis>even on files that weren't
-        committed</emphasis>.  This is meant to discourage users from
-        being sloppy about locking, or from holding locks for too
-        long.  If Harry haphazardly locks thirty files in a directory
-        named <filename>images</filename> because he's unsure of which
-        files he needs to change, yet only only changes four of those
-        files, when he runs <command>svn commit images</command>, the
-        process will still release all thirty locks.</para>
+      <para>Note que após a submissão ser concluída, <command>svn
+        status</command> mostra que o sinal de trava não está mais
+        presente na cópia de trabalho.  Este é o comportamento padrão de
+        <command>svn commit</command>&mdash;ele procura na cópia de
+        trabalho (ou lista de alvos, se você fornecer uma lista desse tipo) por
+        modificações locais, e envia todos os sinalizadores de trava
+        encontrados durante esta caminhada para o servidor como parte da
+        transação de submissão.  Após a submissão concluir com successo,
+        todas as travas do repositório que forem mencionadas são
+        liberadas&mdash;<emphasis>até mesmo em arquivos que não foram
+        submetidos</emphasis>.  Isto é utilizado para que os usuários não
+        sejam desleixados com os travamentos, ou segurem travas por muito
+        tempo.  Se Harry trava de forma desorganizada trinta arquivos em um diretório
+        nomeado <filename>images</filename> porque não tem certeza de quais
+        arquivos ele precisa modificar, por ora apenas modifica quatro destes
+        arquivos, quando ele executar <command>svn commit images</command>, o
+        processo mesmo assim liberará todas as trinta travas.</para>
 
-      <para>This behavior of automatically releasing locks can be
-        overridden with the <option>--no-unlock</option> option to
-        <command>svn commit</command>.  This is best used for those
-        times when you want to commit changes, but still plan to make
-        more changes and thus need to retain existing locks.  You can
-        also make this your default behavior by setting the
-        <literal>no-unlock</literal> runtime configuration option (see
+      <para>Este comportamento de liberar as travas automaticamente pode ser
+        evitado com a passagem da opção <option>--no-unlock</option> ao
+        comando <command>svn commit</command>.  Isso tem melhor uso para aqueles
+        casos quando você quer submeter mudanças, mas ainda planeja fazer
+        mais mudanças e, portanto, precisa conservar as travas existentes.  Você
+        também pode fazer este seu comportamento padrão configurando a opção
+        <literal>no-unlock</literal> do seu ambiente de execução (veja
         <xref linkend="svn.advanced.confarea" />).</para>
 
-      <para>Of course, locking a file doesn't oblige one to commit a
-        change to it.  The lock can be released at any time with a
-        simple <command>svn unlock</command> command:</para>
+      <para>Evidentemente, travar um arquivo não o obriga a submeter uma
+        mudança para ele.  A trava pode ser liberada a qualquer tempo com um
+        simples comando <command>svn unlock</command>:</para>
 
       <screen>
 $ svn unlock banana.c
