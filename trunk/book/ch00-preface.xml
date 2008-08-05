@@ -97,7 +97,7 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.preface.howread">
-    <title>Como ler este livro</title>
+    <title>Como Ler Este Livro</title>
 
     <para>Livros técnicos sempre enfrentam um certo dilema: se os leitores devem
       fazer uma leitura <firstterm>top-down</firstterm> (do início ao fim)
@@ -411,7 +411,7 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.preface.free">
-    <title>This Book is Free</title>
+    <title>Este Livro é Livre</title>
 
     <para>Este livro teve início com a documentação escrita pelos desenvolvedores
       do projeto Subversion, o qual foi reunido em um único trabalho e 
