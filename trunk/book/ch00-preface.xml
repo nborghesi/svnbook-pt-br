@@ -718,120 +718,131 @@
     <!-- =============================================================== -->
     <sect2 id="svn.intro.features">
   
-      <title>Subversion's Features</title>
+      <title>Características do Subversion</title>
   
-      <para>When discussing the features that Subversion brings to the
-        version control table, it is often helpful to speak of them in
-        terms of how they improve upon CVS's design.  If you're not
-        familiar with CVS, you may not understand all of these features.
-        And if you're not familiar with version control at all, your
-        eyes may glaze over unless you first read <xref
-        linkend="svn.basic"/>, in which we provide a gentle introduction
-        to version control.</para>
+      <para>Ao discutir sobre que recursos o Subversion traz para o
+        âmbito do controle de versão, frequentemente é útil falar deles
+        em termos de que avanços eles representam aos recursos do CVS.
+        Se você não está familiarizado com o CVS, você pode não
+        compreender todas essas características.  E se você não estiver
+        familiarizado com controle de versão como um todo, você pode
+        ficar bem confuso a menos que você leia antes <xref 
+        linkend="svn.basic"/>, onde apresentamos uma suave introdução ao
+        controle de versão.</para>
   
-      <para>Subversion provides:</para>
+      <para>O Subversion proporciona:</para>
   
       <variablelist>
         <varlistentry>
-          <term>Directory versioning</term>
+          <term>Versionamento de diretórios</term>
           <listitem>
-            <para>CVS only tracks the history of individual files, but
-              Subversion implements a <quote>virtual</quote> versioned
-              filesystem that tracks changes to whole directory trees
-              over time.  Files <emphasis>and</emphasis> directories are
-              versioned.</para>
+            <para>O CVS apenas rastreia o histórico de arquivos
+              individuais, já o Subversion implementa um sistema de
+              arquivos <quote>virtual</quote> sob controle de versão que
+              rastreia modificações a toda a árvore de diretório ao
+              longo do tempo.  Os arquivos <emphasis>e</emphasis> os
+              diretórios são versionados.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>True version history</term>
+          <term>Histórico de versões efetivo</term>
           <listitem>
-            <para>Since CVS is limited to file versioning, operations
-              such as copies and renames&mdash;which might happen to
-              files, but which are really changes to the contents of
-              some containing directory&mdash;aren't supported in CVS.
-              Additionally, in CVS you cannot replace a versioned file
-              with some new thing of the same name without the new item
-              inheriting the history of the old&mdash;perhaps completely
-              unrelated&mdash;file.  With Subversion, you can add,
-              delete, copy, and rename both files and directories.  And
-              every newly added file begins with a fresh, clean
-              history all its own.</para>
+            <para>Como o CVS é limitado apenas ao versionamento de
+              arquivos, operações como cópia e renomeação&mdash;que
+              podem ocorrer com arquivos também, mas que são realmente
+              alterações no conteúdo de algum diretório
+              continente&mdash;não são suportadas no CVS.
+              Adicionalmente, no CVS você não pode substituir um arquivo
+              versionado por alguma outra coisa com o mesmo nome sem que
+              o novo item deixe de herdar o histório do arquivo
+              antigo&mdash;que talvez seja até algo com o qual não
+              mantenha nenhuma correlação.  Com o Subversion, você pode
+              adicionar, excluir, copiar, e renomear ambos os arquivos
+              ou diretórios.  E cada novo arquivo adicionado começa com
+              um histórico próprio e completamente novo.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>Atomic commits</term>
+          <term>Commits atômicos</term>
           <listitem>
-            <para>A collection of modifications either goes into the
-              repository completely, or not at all.  This allows
-              developers to construct and commit changes as logical
-              chunks, and prevents problems that can occur when only a
-              portion of a set of changes is successfully sent to the
-              repository.</para>
+            <para>Um conjunto de modificações ou é inteiramente
+              registrado no repositório, ou não é registrado de forma
+              nenhuma.  Isto possibilita aos desenvolvedores criarem e
+              registrarem alterações como blocos lógicos, e também evita
+              problemas que possam ocorrer quando apenas uma parte de um
+              conjunto de alterações seja enviada com sucesso ao
+              repositório.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>Versioned metadata</term>
+          <term>Versionamento de metadados</term>
           <listitem>
-            <para>Each file and directory has a set of
-              properties&mdash;keys and their values&mdash;associated
-              with it.  You can create and store any arbitrary key/value
-              pairs you wish.  Properties are versioned over time, just
-              like file contents.</para>
+            <para>Cada arquivo e diretório tem um conjunto de
+              propriedades&mdash;chaves e seus valores&mdash;associados
+              consigo.  Você pode criar e armazenar quaisquer pares
+              chave/valor que quiser.  As propriedades são versionadas
+              ao longo do tempo, tal como os conteúdos de
+              arquivo.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>Choice of network layers</term>
+          <term>Escolha das camadas de rede</term>
           <listitem>
-            <para>Subversion has an abstracted notion of repository
-              access, making it easy for people to implement new network
-              mechanisms.  Subversion can plug into the Apache HTTP
-              Server as an extension module.  This gives Subversion a
-              big advantage in stability and interoperability, and
-              instant access to existing features provided by that
-              server&mdash;authentication, authorization, wire
-              compression, and so on.  A more lightweight, standalone
-              Subversion server process is also available.  This server
-              speaks a custom protocol which can be easily tunneled over
-              SSH.</para>
+            <para>O Subversion tem uma noção abstrata do acesso ao
+              repositório, tornando-o mais fácil para as pessoas
+              implementarem novos mecanismos de rede.  O Subversion pode
+              se associar ao servidor Apache HTTP como um módulo de
+              extensão.  Isto dá ao Subversion uma grande vantagem em
+              estabilidade e interoperabilidade, além de acesso
+              instantâneo aos recursos existentes oferecidos por este
+              servidor&mdash;autenticação, autorização, compactação
+              online, dentre outros.  Um servidor Subversion mais leve e 
+              independente também está disponível.  Este servidor
+              utiliza um protocolo específico o qual pode ser facilmente
+              ser tunelado sobre SSH.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>Consistent data handling</term>
+          <term>Manipulação consistente de dados</term>
           <listitem>
-            <para>Subversion expresses file differences using a binary
-              differencing algorithm, which works identically on both
-              text (human-readable) and binary (human-unreadable) files.
-              Both types of files are stored equally compressed in the
-              repository, and differences are transmitted in both
-              directions across the network.</para>
+            <para>O Subversion exprime as diferenças de arquivo usando
+              um algoritmo diferenciado, o qual funciona de maneira
+              idêntica tanto em arquivos texto (compreensível para
+              humanos) quanto em arquivos binários (incompreensível para
+              humanos).  Ambos os tipos de arquivos são igualmente
+              armazenados de forma compactada no repositório, e as
+              diferenças são enviadas em ambas as direções pela
+              rede.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
-          <term>Efficient branching and tagging</term>
+          <term>Ramificações e rotulagem eficiente</term>
           <listitem>
-            <para>The cost of branching and tagging need not be
-              proportional to the project size.  Subversion creates
-              branches and tags by simply copying the project, using a
-              mechanism similar to a hard-link.  Thus these operations
-              take only a very small, constant amount of time.
-            </para>
+            <para>O custo de se fazer ramificações
+              (<foreignphrase>branching</foreignphrase>) e de rotulagem
+              (<foreignphrase>tagging</foreignphrase>) não precisa ser
+              proporcional ao tamanho do projeto.  O Subversion cria
+              ramos e rótulos simplesmente copiando o projeto, usando um
+              mecanismo semelhante a um hard-link.  Assim essas
+              operações levam apenas uma pequena e constante quantidade
+              de tempo.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term>Hackability</term>
           <listitem>
-            <para>Subversion has no historical baggage; it is
-              implemented as a collection of shared C libraries with
-              well-defined APIs.  This makes Subversion extremely
-              maintainable and usable by other applications and
-              languages.</para>
+            <para>O Subversion não tem qualquer bagagem histórica; ele é
+              implementado como um conjunto de bibliotecas C
+              compartilhadas com APIs bem definidas.  Isto torna o
+              Subversion extremamente manutenível e usável por outras
+              aplicações e linguagens.</para>
           </listitem>
         </varlistentry>
   
