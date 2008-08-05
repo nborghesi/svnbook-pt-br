@@ -922,7 +922,7 @@ $ svn status
 		  pode pedir ao servidor para comparar 
 		  <emphasis>qualquer</emphasis> árvore, até mesmo árvores que
 		  não tenham relação com a sua cópia de trabalho! Isso significa
-		  que existem uma grande marger para erro humano. Usuário vão
+		  que existem uma grande margem para erro humano. Usuário vão
 		  acabar por compara duas árvores erradas, criando um delta que
 		  não se aplica sem conflitos. O comando <command>svn 
 		  merge</command> vai fazer o melhor possivel para aplicar
@@ -943,47 +943,48 @@ C  glorb.h
 $
 </screen>
 
-        <para>In the previous example it might be the case that
-          <filename>baz.c</filename> exists in both snapshots of the
-          branch being compared, and the resulting delta wants to
-          change the file's contents, but the file doesn't exist in
-          the working copy.  Whatever the case, the
-          <quote>skipped</quote> message means that the user is most
-          likely comparing the wrong two trees; they're the classic
-          sign of user error.  When this happens, it's easy to
-          recursively revert all the changes created by the merge
-          (<command>svn revert --recursive</command>), delete any
-          unversioned files or directories left behind after the
-          revert, and re-run <command>svn merge</command> with
-          different arguments.</para>
+        <para>O exemplo anterior pode ser um caso no qual o arquivo
+		  <filename>baz.c</filename> existe nas duas imagens dos 
+		  ramos que estão sendo comparados, e o delta resultante 
+		  quer modificar o conteudo do arquivo, mas o arquivo não 
+		  existe na cópia de trabalho. Independete do caso, a 
+		  mensagem de <quote>skipped</quote> significa que o usuário
+		  está, muito provavelmente, comparando árvores incorretas;
+		  esse é o sinal classico de erro do usuário. Quando isso 
+		  acontece, é facil reverter recursivamente as modificações
+		  criadas pela fusão 
+		  (<command>svn revert --recursive</command>), delete qualquer
+		  arquivo não versionado deixado pelo revert, e rode novamente
+		  o comando <command>svn merge</command> usando outros
+		  argumentos.>/para>
 
-        <para>Also notice that the previous example shows a conflict
-          happening on <filename>glorb.h</filename>.  We already
-          stated that the working copy has no local edits: how can a
-          conflict possibly happen?  Again, because the user can use
-          <command>svn merge</command> to define and apply any old
-          delta to the working copy, that delta may contain textual
-          changes that don't cleanly apply to a working file, even if
-          the file has no local modifications.</para>
+        <para>Note também que o exemplo anterior mostra um conflito
+		  no arquivo <filename>glorb.h</filename>. Nos ja mostramos
+		  que a cópia local não possui modificações:como um conflito
+		  pôde acontecer? Novamente, uma vez que o usuário pode usar
+		  o comando <command>svn merge</command> para definir e 
+		  aplicar qualquer delta antigo para a cópia de trabalho, o
+		  delta pode conter alterações que não se aplicam sem erros
+		  ao arquivo local, mesmo que o arquivo não tenha modificações
+		  locais.</para>
 
-        <para>Another small difference between <command>svn
-          update</command> and <command>svn merge</command> are the
-          names of the full-text files created when a conflict
-          happens.  In <xref linkend="svn.tour.cycle.resolve"/>, we saw
-          that an update produces files named
-          <filename>filename.mine</filename>,
-          <filename>filename.rOLDREV</filename>, and
-          <filename>filename.rNEWREV</filename>.  When <command>svn
-          merge</command> produces a conflict, though, it creates
-          three files named <filename>filename.working</filename>,
-          <filename>filename.left</filename>, and
-          <filename>filename.right</filename>.  In this case, the
-          terms <quote>left</quote> and <quote>right</quote> are
-          describing which side of the double-tree comparison the file
-          came from.  In any case, these differing names will help you
-          distinguish between conflicts that happened as a result of an
-          update versus ones that happened as a result of a
-          merge.</para>
+        <para>Outra pequena diferença entre os comandos <command>svn 
+		  update</command> e <command>svn merge</command> é o nome
+		  dos arquivos de texto criados quando ocorre um conflito.
+		  Em <xref linkend="svn.tour.cycle.resolve"/>, vimos que um 
+		  update produz arquivos nomeados de
+		  <filename>filename.mine</filename>,
+          <filename>filename.rOLDREV</filename>, e
+          <filename>filename.rNEWREV</filename>. Entretanto, quando
+		  o comando <command>svn merge</command> produz um conflito,
+		  ele cria três arquivos nomeados como
+		  <filename>filename.working</filename>,
+          <filename>filename.left</filename>, e
+          <filename>filename.right</filename>. Neste caso, os termos
+		  <quote>left</quote> e <quote>right</quote> estão indicando
+		  de que lado da comparação vieram os arquivos. Em todo caso, 
+	  	  esses nomes vão ajuda-lo a diferenciar conflitos que são 
+		  resultado de um update ou de uma fusão.</para>
 
       </sect3>
 
