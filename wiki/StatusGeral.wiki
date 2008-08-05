@@ -5,7 +5,7 @@ Estimamos que cerca de *47%* do livro já tenha sido traduzido. Esse número nã
 || *Foreword*                                || *100%* ||
 || *Preface*                                 || *100%* ||
 || *1. Fundamental Concepts*                 || *100%* ||
-|| 2. Basic Usage                            || 34%    ||
+|| *2. Basic Usage*                          || *100%* ||
 || 3. Advanced Topics                        || 40%    ||
 || 4. Branching and Merging                  || 38%    ||
 || 5. Repository Administration              || 4%     ||
