@@ -1937,29 +1937,29 @@ $
         indicando que o sinal de trava está presente.</para>
 
       <sidebar>
-        <title>Regarding lock tokens</title>
+        <title>Em relação aos sinais de trava</title>
 
-        <para>A lock token isn't an authentication token, so much as
-          an <emphasis>authorization</emphasis> token.  The token
-          isn't a protected secret.  In fact, a lock's unique token is
-          discoverable by anyone who runs <command>svn info
-          URL</command>.  A lock token is special only when it lives
-          inside a working copy.  It's proof that the lock was created
-          in that particular working copy, and not somewhere else by
-          some other client.  Merely authenticating as the lock owner
-          isn't enough to prevent accidents.</para>
+        <para>Um sinal de trava não é um sinal de autenticação, tanto como
+          um sinal de <emphasis>autorização</emphasis>.  O sinal
+          não é um segredo protegido.  De fato, um sinal de trava exclusivo é
+          descoberto por qualquer pessoa que execute <command>svn info
+          URL</command>.  Um sinal de trava é especial somente quando reside
+          dentro de uma cópia de trabalho.  Ele é prova de que a trava foi criada
+          em uma cópia de trabalho específica, e não noutra qualquer por algum
+          outro cliente.  Apenas se autenticando como o proprietário da trava
+          não é suficiente para previnir acidentes.</para>
 
-        <para>For example, suppose you lock a file using a computer at
-          your office, but leave work for the day before you finish
-          your changes to that file.  It should not be possible to
-          accidentally commit changes to that same file from your home
-          computer later that evening simply because you've
-          authenticated as the lock's owner.  In other words, the lock
-          token prevents one piece of Subversion-related software from
-          undermining the work of another.  (In our example, if you
-          really need to change the file from an alternate working
-          copy, you would need to <firstterm>break</firstterm> the lock and re-lock the
-          file.)</para>
+        <para>Por exemplo, suponha que você travou um arquivo usando um computador em
+          seu escriório, mas deixou o trabalho antes de concluir
+          suas modificações para esse arquivo.  Não deveria ser possível
+          acidentalmente submeter mudanças para esse mesmo arquivo do seu
+          computador de casa mais tarde da noite, simplesmente porque você está
+          autenticado como o proprietário da trava.  Em outras palavras, o sinal de
+          trava previne uma parte do software relacionado ao Subversion de
+          invadir o trabalho do outro.  (Em nosso exemplo, se você
+          realmente procisa modificar o arquivo de uma cópia de trabalho alternativa,
+          você precisaria <firstterm>parar</firstterm> a trava e re-travar o
+          arquivo.)</para>
 
       </sidebar>
 
