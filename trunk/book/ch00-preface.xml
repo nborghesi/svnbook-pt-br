@@ -880,85 +880,88 @@
     <!-- =============================================================== -->
     <sect2 id="svn.intro.components">
   
-      <title>Subversion's Components</title>
+      <title>Componentes do Subversion<title>
       
-      <para>Subversion, once installed, has a number of different
-        pieces.  The following is a quick overview of what you get.
-        Don't be alarmed if the brief descriptions leave you scratching
-        your head&mdash;there are <emphasis>plenty</emphasis> more pages
-        in this book devoted to alleviating that confusion.</para>
+      <para>Uma vez instalado, o Subversion consiste num conjunto de
+        diversas partes.  Uma breve visão geral sobre tudo o que você
+        dispõe é mostrada a seguir.  Não se preocupe se as breves
+        descrições acabarem fundindo a sua cuca&mdash;há
+        <emphasis>muito</emphasis> mais páginas neste livro para acabar
+        com essa confusão.</para>
   
       <variablelist>
         <varlistentry>
           <term>svn</term>
           <listitem>
-            <para>The command-line client program.</para>
+            <para>O programa cliente de linha de comando.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>svnversion</term>
           <listitem>
-            <para>A program for reporting the state (in terms of
-              revisions of the items present) of a working copy.</para>
+            <para>Um programa para informar o estado (em termos das
+              revisões dos itens presentes) da cópia de trabalho.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>svnlook</term>
           <listitem>
-            <para>A tool for directly inspecting a Subversion repository.</para>
+            <para>Uma ferramenta para inspecionar um repositório
+              Subversion diretamente.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>svnadmin</term>
           <listitem>
-            <para>A tool for creating, tweaking or repairing a Subversion
-              repository.</para>
+            <para>Uma ferramenta para criação, ajuste e manutenção de um
+              repositório Subversion.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>svndumpfilter</term>
           <listitem>
-            <para>A program for filtering Subversion repository dump
-              streams.</para>
+            <para>Um programa para filtragem de fluxos de um repositório
+              Subversion.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>mod_dav_svn</term>
           <listitem>
-            <para>A plug-in module for the Apache HTTP Server, used to
-              make your repository available to others over a
-              network.</para>
+            <para>Um módulo plugin para o servidor Apache HTTP, usado
+              para disponibilizar seu repositório a outros através da
+              rede.</para>
           </listitem>
         </varlistentry>
   
         <varlistentry>
           <term>svnserve</term>
           <listitem>
-            <para>A custom standalone server program, runnable as a
-              daemon process or invokable by SSH; another way to make
-              your repository available to others over a network.</para>
+            <para>Um específico programa servidor independente,
+              executável como um processo daemon ou invocável via SSH;
+              uma outra forma de disponibilizar seu repositório a outros
+              através da rede.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term>svnsync</term>
           <listitem>
-            <para>A program for incrementally mirroring one
-            repository to another over a network.</para>
+            <para>Um programa para fazer espelhamento incremental de um 
+              repositório para outro através da rede.</para>
           </listitem>
         </varlistentry>
 
       </variablelist>
   
-      <para>Assuming you have Subversion installed correctly, you should
-        be ready to start.  The next two chapters will walk you through
-        the use of <command>svn</command>, Subversion's command-line client 
-        program.</para>
+      <para>Uma vez que você tenha instalado o Subversion corretamente,
+        você já deve estar pronto para iniciar.  Os próximos dois
+        capítulos vão guiá-lo pela uso do <command>svn</command>, o
+        programa clente de linha de comando do Subversion.</para>
   
     </sect2>
 
