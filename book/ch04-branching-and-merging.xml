@@ -956,7 +956,7 @@ $
 		  (<command>svn revert --recursive</command>), delete qualquer
 		  arquivo não versionado deixado pelo revert, e rode novamente
 		  o comando <command>svn merge</command> usando outros
-		  argumentos.>/para>
+		  argumentos.</para>
 
         <para>Note também que o exemplo anterior mostra um conflito
 		  no arquivo <filename>glorb.h</filename>. Nos ja mostramos
