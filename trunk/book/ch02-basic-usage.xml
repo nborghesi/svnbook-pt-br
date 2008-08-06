@@ -1160,8 +1160,8 @@ svn: Aborting commit: '/home/sally/svn-work/sandwich.txt' remains in conflict
         <itemizedlist>
 
           <listitem>
-            <para>Combinar o texto conflituoso
-              <quote>manualmente</quote> (examinando e editando as
+            <para>Mesclar o texto conflituoso
+              <quote>na mão</quote> (examinando e editando as
               marcações de conflito dentro do arquivo).</para>
           </listitem>
 
@@ -1194,19 +1194,19 @@ Resolved conflicted state of 'sandwich.txt'
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.cycle.resolve.byhand">
-        <title>Merging Conflicts by Hand</title>
+        <title>Mesclando Conflitos na Mão</title>
 
-        <para>Merging conflicts by hand can be quite intimidating the
-          first time you attempt it, but with a little practice, it
-          can become as easy as falling off a bike.</para>
+        <para>Mesclar conflitos na mão pode ser algo bem intimidante na
+          na primeira vez que você tentar, mas com um pouco de prática,
+          pode ser tornar tão fácil quanto andar de bicicleta.</para>
 
-        <para>Here's an example.  Due to a miscommunication, you and
-          Sally, your collaborator, both edit the file
-          <filename>sandwich.txt</filename> at the same time.  Sally
-          commits her changes, and when you go to update your working
-          copy, you get a conflict and you're going to have to edit
-          <filename>sandwich.txt</filename> to resolve the conflicts.
-          First, let's take a look at the file:</para>
+        <para>Veja um exemplo.  Por um problema de comunicação, você e
+          Sally, sua colaboradora, ambos editam o arquivo 
+          <filename>sandwich.txt</filename> ao mesmo tempo.  Sally
+          submete suas alterações, e quando você atualzar sua cópia de
+          trabalho, você terá um conflito e precisará editar o arquivo 
+          <filename>sandwich.txt</filename> para resolvê-los.
+          Primeiro, vamos dar uma olhada no arquivo:</para>
 
         <screen>
 $ cat sandwich.txt
@@ -1227,13 +1227,13 @@ Creole Mustard
 Bottom piece of bread
 </screen>
 
-        <para>The strings of less-than signs, equal signs, and
-          greater-than signs are conflict markers, and are not part of
-          the actual data in conflict.  You generally want to ensure
-          that those are removed from the file before your next
-          commit.  The text between the first two sets of markers is
-          composed of the changes you made in the conflicting
-          area:</para>
+        <para>As strings de sinais de menor, sinais de igual, e sinais
+          de maior são marcações de conflito, e não fazem parte
+          atualmente dos dados em conflito.  Você geralmente quer
+          garantir que estes sinais tipos de sinais sejam removidos
+          do arquivo antes de seu próximo commit.  O texto entre os dois
+          primeiros conjuntos de marcações é composto pelas alterações
+          que você fez na área do conflito:</para>
 
         <screen>
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
@@ -1243,8 +1243,9 @@ Prosciutto
 =======
 </screen>
 
-        <para>The text between the second and third sets of conflict
-          markers is the text from Sally's commit:</para>
+        <para>O texto entre o segundo e terceiro conjuntos de marcações
+          de conflito é o texto das alterações submetidas por
+          Sally:</para>
 
         <screen>
 =======
@@ -1253,16 +1254,17 @@ Grilled Chicken
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
 </screen>
 
-        <para>Usually you won't want to just delete the conflict
-          markers and Sally's changes&mdash;she's going to be awfully
-          surprised when the sandwich arrives and it's not what she
-          wanted.  So this is where you pick up the phone or walk
-          across the office and explain to Sally that you can't get
-          sauerkraut from an Italian deli.<footnote><para>And if you
-          ask them for it, they may very well ride you out of town on
-          a rail.</para></footnote> Once you've agreed on the changes
-          you will check in, edit your file and remove the conflict
-          markers.</para>
+        <para>Normalmente você não vai querer apenas remover as
+          marcações e as alterações de Sally&mdash;ela ficaria
+          terrivelmente surpresa quando o sanduíche chegar e não for o
+          que ela queria.  Então este é o momento em que você pega o
+          telefone ou atravessa o escritório e explica para Sally o que
+          você não gosta de sauerkraut como iguaria
+          italiana.<footnote><para>E se você lhes disser isso, eles
+          podem muito bem expulsar você para fora da cidade num
+          minuto.</para></footnote>  Uma vez que vocês tenham chegado a
+          um acordo sobre as alterações que serão mantidas, edite seu
+          arquivo e remova as marcações de conflito.</para>
 
         <screen>
 Top piece of bread
@@ -1277,28 +1279,29 @@ Creole Mustard
 Bottom piece of bread
 </screen>
 
-        <para>Now run <command>svn resolved</command>, and you're
-          ready to commit your changes:</para>
+        <para>Agora execute <command>svn resolved</command>, e você
+          estará pronto para submeter suas alterações:</para>
 
         <screen>
 $ svn resolved sandwich.txt
 $ svn commit -m "Go ahead and use my sandwich, discarding Sally's edits."
 </screen>
 
-        <para>Note that <command>svn resolved</command>, unlike most
-          of the other commands we deal with in this chapter, requires
-          an argument.  In any case, you want to be careful and only
-          run <command>svn resolved</command> when you're certain that
-          you've fixed the conflict in your file&mdash;once the
-          temporary files are removed, Subversion will let you commit
-          the file even if it still contains conflict markers.</para>
+        <para>Veja que o <command>svn resolved</command>, ao contrário
+          muitos dos outros comandos que abordamos neste capítulo,
+          precisa de um argumento.  Em todo caso, você vai querer ter
+          cuidado e só executar <command>svn resolved</command> quando
+          tiver certeza de ter resolvido o conflito em seu
+          arquivo&mdash;quando os arquivos temporários forem removidos,
+          o Subversion vai deixar que você submeta o arquivo ainda que
+          ainda permaneça com marcações de conflito.</para>
 
-        <para>If you ever get confused while editing the conflicted
-          file, you can always consult the three files that Subversion
-          creates for you in your working copy&mdash;including your
-          file as it was before you updated.  You can even use a
-          third-party interactive merging tool to examine those three
-          files.</para>
+        <para>Se você se confundiu ao editar o arquivo conflituoso, você
+          sempre pode consultar os três arquivos que o Subversion cria
+          para você em sua cópia de trabalho&mdash;inclusive o seu
+          arquivo como era antes de você atualizar.  Você ainda pode
+          usar uma ferramenta interativa de mesclagem de terceiros para
+          examinar esses três arquivos.</para>
 
       </sect3>
 
