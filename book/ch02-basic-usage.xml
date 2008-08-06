@@ -1063,7 +1063,7 @@ Updated to revision 46.
 
         <listitem>
           <para>Se o Subversion considerar que o arquivo é mesclável,
-            ele põe <firstterm>marcadores de
+            ele põe <firstterm>marcações de
             conflito</firstterm>&mdash;strings de texto especiais que
             delimitam os <quote>lados</quote> do conflito&mdash;dentro
             do arquivo para mostrar visivelmente as áreas de
@@ -1075,61 +1075,62 @@ Updated to revision 46.
         </listitem>
 
         <listitem>
-          <para>For every conflicted file, Subversion places three
-            extra unversioned files in your working copy:</para>
+          <para>Para cada arquivo em conflito, o Subversion mantém três
+            arquivos extras não-versionados em sua cópia de
+            trabalho:</para>
 
           <variablelist>
 
             <varlistentry>
               <term><filename>filename.mine</filename></term>
               <listitem>
-                <para>This is your file as it existed in your working
-                  copy before you updated your working copy&mdash;that
-                  is, without conflict markers.  This file has only
-                  your latest changes in it.  (If Subversion considers
-                  the file to be unmergeable, then the
-                  <filename>.mine</filename> file isn't created, since
-                  it would be identical to the working file.)</para>
+                <para>Este é o seu arquivo como o que existia em sua
+                  cópia de trabalho antes de você atualizá-la&mdash;isto
+                  é, sem as marcações de conflito.  Este arquivo tem
+                  apenas as suas últimas alterações feitas nele.  (Se o
+                  Subversion considerar que o arquivo não é mesclável,
+                  então o arquivo <filename>.mine</filename> não é
+                  criado, uma vez que seria idêntico ao arquivo de
+                  trabalho.)</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term><filename>filename.rOLDREV</filename></term>
               <listitem>
-                <para>This is the file that was the
-                  <literal>BASE</literal> revision before you updated
-                  your working copy.  That is, the file that you
-                  checked out before you made your latest
-                  edits.</para>
+                <para>Este é o arquivo que estava na revisão 
+                  <literal>BASE</literal> antes de você atualizar sua
+                  cópia de trabalho.  Isto é, o arquivo em que você
+                  pegou do repositório antes de fazer suas últimas
+                  alterações.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term><filename>filename.rNEWREV</filename></term>
               <listitem>
-                <para>This is the file that your Subversion client
-                  just received from the server when you updated your
-                  working copy.  This file corresponds to the
-                  <literal>HEAD</literal> revision of the
-                  repository.</para>
+                <para>Este é o arquivo que seu cliente Subversion acabou
+                  de receber do servidor quando você atualizou sua cópia
+                  de trabalho.  Este arquivo corresponde à revisão
+                  <literal>HEAD</literal> do repositório.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>Here <literal>OLDREV</literal> is the revision number
-            of the file in your <filename>.svn</filename> directory
-            and <literal>NEWREV</literal> is the revision number of
-            the repository <literal>HEAD</literal>.</para>
+          <para>Aqui, <literal>OLDREV</literal> é o número de revisão do
+            arquivo em seu diretório <filename>.svn</filename> e 
+            <literal>NEWREV</literal> é o número de revisão do
+            repositório <literal>HEAD</literal>.</para>
         </listitem>
 
       </itemizedlist>
 
-      <para>For example, Sally makes changes to the file
-        <filename>sandwich.txt</filename> in the repository.  Harry has
-        just changed the file in his working copy and checked it in.
-        Sally updates her working copy before checking in and she gets
-        a conflict:</para>
+      <para>Como exemplo, Sally faz modificações no arquivo
+        <filename>sandwich.txt</filename> no repositório.  Harry acabou
+        de alterar o arquivo em sua cópia de trabalho e o submeteu.
+        Sally atualiza sua cópia de trabalho antes de executar um commit
+        o que resulta em um conflito:</para>
 
       <screen>
 $ svn update
@@ -1142,9 +1143,10 @@ sandwich.txt.r1
 sandwich.txt.r2
 </screen>
 
-      <para>At this point, Subversion will <emphasis>not</emphasis>
-        allow you to commit the file <filename>sandwich.txt</filename>
-        until the three temporary files are removed.</para>
+      <para>Neste ponto, o Subversion <emphasis>não</emphasis> vai
+        deixar que você submeta o arquivo
+        <filename>sandwich.txt</filename> até que os três arquivos
+        temporários sejam removidos.</para>
 
       <screen>
 $ svn commit -m "Add a few more things"
@@ -1152,37 +1154,38 @@ svn: Commit failed (details follow):
 svn: Aborting commit: '/home/sally/svn-work/sandwich.txt' remains in conflict
 </screen>
 
-      <para>If you get a conflict, you need to do one of three
-        things:</para>
+      <para>Se você tiver um conflito, você precisa fazer uma dessas
+        três coisas:</para>
 
         <itemizedlist>
 
           <listitem>
-            <para>Merge the conflicted text <quote>by hand</quote> (by
-              examining and editing the conflict markers within the
-              file).</para>
+            <para>Combinar o texto conflituoso
+              <quote>manualmente</quote> (examinando e editando as
+              marcações de conflito dentro do arquivo).</para>
           </listitem>
 
           <listitem>
-            <para>Copy one of the temporary files on top of your
-              working file.</para>
+            <para>Fazer uma cópia de um dos arquivos temporários em cima
+              de seu arquivo de trabalho.</para>
           </listitem>
 
           <listitem>
-            <para>Run <command>svn revert &lt;filename&gt;</command>
-              to throw away all of your local changes.</para>
+            <para>Executar <command>svn revert
+              &lt;filename&gt;</command> para se desfazer de todas as
+              suas modificações locais.</para>
           </listitem>
 
         </itemizedlist>
 
-      <para>Once you've resolved the conflict, you need to let
-        Subversion know by running <command>svn resolved</command>.
-        This removes the three temporary files and Subversion no
-        longer considers the file to be in a state of
-        conflict.<footnote><para>You can always remove the temporary
-        files yourself, but would you really want to do that when
-        Subversion can do it for you?  We didn't think so.</para>
-        </footnote></para>
+      <para>Uma vez que você tenha resolvido o conflito, você precisa
+        informar isto ao Subversion executando <command>svn 
+        resolved</command>.  Isso remove os três arquivos temporários e
+        o Subversion não mais considera o arquivo como estando em
+        conflito.<footnote><para>Você sempre pode remover os arquivos
+        temporários você mesmo, mas você vai realmente querer fazer isso
+        quando o Subversion pode fazer por você?  Nós achamos que
+        não.</para> </footnote></para>
 
       <screen>
 $ svn resolved sandwich.txt
