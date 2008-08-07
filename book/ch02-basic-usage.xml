@@ -1850,42 +1850,43 @@ $ svn list -v http://svn.collab.net/repos/svn
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.history.snapshots">
-      <title>Fetching older repository snapshots</title>
+      <title>Retornando o repositório a momentos antigos</title>
 
-      <para>In addition to all of the above commands, you can use
-        <command>svn update</command> and <command>svn
-        checkout</command> with the <option>--revision</option> option
-        to take an entire working copy <quote>back in time</quote>
-        <footnote><para>See?  We told you that Subversion was a time
-        machine.</para></footnote>:</para>
+      <para>Além de todos os comandos acima, você pode usar o
+        <command>svn update</command> e o <command>svn
+        checkout</command> com a opção <option>--revision</option> para
+        fazer com que toda a sua cópia de trabalho <quote>volte no
+        tempo</quote> <footnote><para>Viu?  Nós dissemos que o
+        Subversion era uma máquina do tempo.</para></footnote>:</para>
 
       <screen>
-$ svn checkout -r 1729 # Checks out a new working copy at r1729
+$ svn checkout -r 1729 # Obtém uma nova cópia de trabalho em r1729
 &hellip;
-$ svn update -r 1729 # Updates an existing working copy to r1729
+$ svn update -r 1729 # Atualiza a cópia de trabalho existente para r1729
 &hellip;
 </screen>
 
       <tip>
-        <para>Many Subversion newcomers attempt to use the above
-          <command>svn update</command> example to <quote>undo</quote>
-          committed changes, but this won't work as you can't commit
-          changes that you obtain from backdating a working copy if
-          the changed files have newer revisions.  See <xref
-          linkend="svn.branchmerge.commonuses.resurrect"/> for a
-          description of how to <quote>undo</quote> a commit.</para>
+        <para>Muitos novatos no Subversion tentam usar o <command>svn
+          update</command> deste exemplo para <quote>desfazer</quote>
+          modificações submetidas, mas isso não funciona já que você não
+          pode não pode submeter alterações que você obteve voltando uma
+          cópia de trabalho se seus arquivos modificados tiverem novas
+          revisões.  Veja <xref
+          linkend="svn.branchmerge.commonuses.resurrect"/> para uma
+          descrição de como <quote>desfazer</quote> um commit.</para>
       </tip>
 
-      <para>Lastly, if you're building a release and wish to bundle up
-        your files from Subversion but don't want those
-        pesky <filename>.svn</filename> directories in the way, then
-        you can use <command>svn export</command> to create a local
-        copy of all or part of your repository
-        sans <filename>.svn</filename> directories.  As
-        with <command>svn update</command> and
-        <command>svn checkout</command>, you can also pass the
-        <option>--revision</option> option to <command>svn
-        export</command>:</para>
+      <para>Finalmente, se você estiver criando uma versão final e
+        quiser empacotar seus arquivos do Subversion mas não gostaria
+        de incluir os incômodos diretórios <filename>.svn</filename> de
+        forma nenhuma, então você pode user o comando <command>svn 
+        export</command> para criar uma cópia local de todo o conteúdo
+        de seu repositório mas sem os diretórios
+        <filename>.svn</filename>.  Da mesma forma que com o
+        <command>svn update</command> e <command>svn checkout</command>,
+        você também pode incluir a opção <option>--revision</option> ao
+        <command>svn export</command>:</para>
 
       <screen>
 $ svn export http://svn.example.com/svn/repos1 # Exports latest revision
