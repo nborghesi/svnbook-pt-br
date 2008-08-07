@@ -1440,8 +1440,8 @@ svn: Your file or directory 'sandwich.txt' is probably out-of-date
         pode usar para gerenciar seu repositório e sua cópia de
         trabalho, mas muito de seu uso cotidiano do Subversion vai
         envolver apenas os comandos que discutimos neste capítulo.
-        Vamos, entretanto, aborar mais uns poucos comandos que você pode
-        vir a usar bastante.</para>
+        Vamos, entretanto, aborar mais uns poucos comandos que você
+        também pode usar bastante.</para>
 
     </sect2>
 
@@ -1451,52 +1451,54 @@ svn: Your file or directory 'sandwich.txt' is probably out-of-date
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.tour.history">
-    <title>Examining History</title>
+    <title>Examinando o Histórico</title>
 
-    <para>Your Subversion repository is like a time machine.  It keeps
-      a record of every change ever committed, and allows you to
-      explore this history by examining previous versions of files and
-      directories as well as the metadata that accompanies them.  With
-      a single Subversion command, you can check out the repository
-      (or restore an existing working copy) exactly as it was at any
-      date or revision number in the past.  However, sometimes you
-      just want to <emphasis>peer into</emphasis> the past instead of
-      <emphasis>going into</emphasis> the past.</para>
+    <para>O seu repositório Subversion é como uma máquina do tempo.  Ele
+      mantém um registro de cada modificação submetida, e permite a você
+      explorar este histórico examinando versões anteriores de seus
+      arquivos e diretórios bem como os metadados a eles relacionados.
+      Com apenas um comando do Subversion, você pode deixar o
+      repositório (ou restaurar uma cópia de trabalho existente)
+      exatamente como ele era em uma certa data ou em um número de
+      revisão no passado.  Porém, algumas vezes você só quer
+      <emphasis>revisitar</emphasis> o passado ao invés de
+      <emphasis>retornar</emphasis> ao passado.</para>
 
-    <para>There are several commands that can provide you with
-      historical data from the repository:</para>
+    <para>Há uma série de comandos que podem lhe mostrar dados
+      históricos do repositório:</para>
 
       <variablelist>
 
         <varlistentry>
           <term><command>svn log</command></term>
           <listitem>
-            <para>Shows you broad information: log messages with date
-              and author information attached to revisions, and which
-              paths changed in each revision.</para>
+            <para>Exibe bastante informação: mensagens de log com
+              informações de data e autor anexadas às revisões, e quais
+              caminhos mudaram em cada revisão.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><command>svn diff</command></term>
           <listitem>
-            <para>Shows line-level details of a particular change.</para>
+            <para>Exibe detalhes a nível das linhas de uma alteração em
+              particular.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><command>svn cat</command></term>
           <listitem>
-            <para>Retrieves a file as it existed in a particular
-              revision number and display it on your screen.</para>
+            <para>Recupera um arquivo como ele era em uma dada revisão e
+              exibe seu conteúdo na tela.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><command>svn list</command></term>
           <listitem>
-            <para>Displays the files in a directory for any given
-              revision.</para>
+            <para>Exibe os arquivo em um diretório para uma dada
+              revisão.</para>
           </listitem>
         </varlistentry>
 
