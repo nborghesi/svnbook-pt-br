@@ -1905,31 +1905,34 @@ $ svn export http://svn.example.com/svn/repos1 -r 1729
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.tour.cleanup">
-    <title>Sometimes You Just Need to Clean Up</title>
+    <title>Às Vezes Você Só Precisa Limpar</title>
 
-    <para>When Subversion modifies your working copy (or any
-      information within <filename>.svn</filename>), it tries to do
-      so as safely as possible.  Before changing the working copy,
-      Subversion writes its intentions to a log file.  Next it
-      executes the commands in the log file to apply the requested
-      change, holding a lock on the relevant part of the working
-      copy while it works&mdash;to prevent other Subversion clients
-      from accessing the working copy in mid-change.  Finally,
-      Subversion removes the log file.  Architecturally, this is
-      similar to a journaled filesystem.  If a Subversion operation
-      is interrupted (if the process is killed, or if the machine
-      crashes, for example), the log files remain on disk.  By
-      re-executing the log files, Subversion can complete the
-      previously started operation, and your working copy can get
-      itself back into a consistent state.</para>
+    <para>Quando o Subversion modifica sua cópia de trabalho (ou
+      qualquer informação dentro de <filename>.svn</filename>), ele
+      tenta fazer isso da forma mais segura possível.  Antes de
+      modificar a cópa de trabalho, o Subversion escreve suas pretenções
+      em um arquivo de log.  Depois ele executa os comandos no arquivo
+      de log para aplicar a alteração requisitada, mantendo uma trava na
+      parte relevante da cópia de trabalho enquanto trabalha&mdash;para
+      evitar que outros clientes Subversion acessem a cópia de trabalho
+      nesse meio-tempo.  Por fim, o Subversion remove o arquivo de log.
+      Arquiteturalmente, isto é similar a um sistema de arquivos com
+      journaling.  Se uma operação do Subversion é interrompida (se o
+      processo for morto, ou se a máquina travar, por exemplo), o
+      arquivo de log permanece no disco.  Executando novamente os
+      arquivos de log, o Subversion pode completar a operação
+      previamente iniciadas, e sua cópia de trabalho pode manter-se de
+      novo em um estado consistente.</para>
 
-    <para>And this is exactly what <command>svn cleanup</command>
-      does: it searches your working copy and runs any leftover
-      logs, removing working copy locks in the process.
-      If Subversion ever tells you that some part of your working copy
-      is <quote>locked</quote>, then this is the command that you
-      should run.  Also, <command>svn status</command> will display
-      an <literal>L</literal> next to locked items:</para>
+    <para>E isto é exatamente o que o <command>svn cleanup</command>
+      faz: varre sua cópia de trabalho e executa quaisquer arquivos de
+      log que tenham ficado, removendo as travas da cópia de trabalho
+      durante o processo.  Se acaso o Subversion lhe disser que alguma
+      parte de sua cópia de trabalho está <quote>travada</quote>
+      (<foreignphrase>locked</foreignphrase>), então este é o comando
+      que você deverá rodar.  E ainda, o <command>svn status</command>
+      mostrará um <literal>L</literal> próximo dos itens que estiverem
+      travados:</para>
 
     <screen>
 $ svn status
@@ -1941,12 +1944,11 @@ $ svn status
 M      somedir/foo.c
 </screen>
 
-    <para>Don't confuse these working copy locks with the ordinary
-      locks that Subversion users create when using
-      the <quote>lock-modify-unlock</quote> model of concurrent
-      version control; see
-      <xref linkend="svn.advanced.locking.meanings"/> for
-      clarification.</para>
+    <para>Não confunda estas travas da cópia de trabalho com as travas
+      ordinárias que os usuários do Subversion criam ao usar o modelo de
+      controle de versão <quote>travar-modificar-destravar</quote>; veja
+      <xref linkend="svn.advanced.locking.meanings"/> para mais
+      esclarecimentos.</para>
 
   </sect1>
 
@@ -1954,16 +1956,17 @@ M      somedir/foo.c
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.tour.summary">
-    <title>Summary</title>
+    <title>Sumário</title>
 
-      <para>Now we've covered most of the Subversion client commands.
-        Notable exceptions are those dealing with branching and
-        merging (see <xref linkend="svn.branchmerge"/>) and properties (see
-        <xref linkend="svn.advanced.props"/>).  However, you may want to
-        take a moment to skim through <xref linkend="svn.ref"/> to
-        get an idea of all the many different commands that Subversion
-        has&mdash;and how you can use them to make your work
-        easier.</para>
+      <para>Agora nós cobrimos a maioria dos comandos do cliente
+        Subversion.  As exceções notáveis são os comandos relacionados
+        com ramificação e mesclagem (veja <xref
+        linkend="svn.branchmerge"/>) e propriedades (veja <xref
+        linkend="svn.advanced.props"/>).  Entretanto, você pode querer
+        tirar um momento para folhear <xref linkend="svn.ref"/> para ter
+        uma idéia de todos os muitos comandos diferentes que o
+        Subversion possui&mdash;e como você pode usá-los para tornar seu
+        trabalho mais fácil.</para>
 
   </sect1>
 
