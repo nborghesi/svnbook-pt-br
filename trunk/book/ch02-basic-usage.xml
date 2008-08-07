@@ -1507,15 +1507,14 @@ svn: Your file or directory 'sandwich.txt' is probably out-of-date
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.history.log">
-      <title>Generating a list of historical changes</title>
+      <title>Gerando uma lista de alterações históricas</title>
 
-      <para>To find information about the history of a file or
-        directory, use the <command>svn log</command>
-        command. <command>svn log</command> will provide you with a
-        record of who made changes to a file or directory, at what
-        revision it changed, the time and date of that revision, and,
-        if it was provided, the log message that accompanied the
-        commit.</para>
+      <para>Para encontrar informação acerca do histórico de um arquivo
+        ou diretório, use o comando <command>svn log</command>.  O
+        <command>svn log</command> vai lhe dar um registro de quem fez
+        alterações em um arquivo ou diretório, em qual revisão houve a
+        mudança, a data e hora daquela revisão, e, se for informada, a
+        mensagem de log associada a esse registro.</para>
 
       <screen>
 $ svn log
@@ -1534,22 +1533,22 @@ Initial import
 ------------------------------------------------------------------------
 </screen>
 
-      <para>Note that the log messages are printed in
-        <emphasis>reverse chronological order</emphasis> by default.
-        If you wish to see a different range of revisions in a
-        particular order, or just a single revision, pass the
-        <option>--revision (-r)</option> option:</para>
+      <para>Veja que as mensagens de log são exibidas em <emphasis>ordem
+        cronológica inversa</emphasis> por padrão.  Se você quiser ver
+        um intervalo de revisões em uma ordem específica, ou apenas uma
+        única revisão, utilize a opção <option>--revision
+        (-r)</option>:</para>
 
       <screen>
-$ svn log -r 5:19    # shows logs 5 through 19 in chronological order
+$ svn log -r 5:19    # exibe os logs de 5 a 19 em ordem cronológica
 
-$ svn log -r 19:5    # shows logs 5 through 19 in reverse order
+$ svn log -r 19:5    # exibe os logs de 5 a 19 na order inversa
 
-$ svn log -r 8       # shows log for revision 8
+$ svn log -r 8       # mostra o log para a revisão 8
 </screen>
 
-      <para>You can also examine the log history of a single file or
-        directory.  For example:</para>
+      <para>Você também pode examinar o histórico de logs de um único
+        arquivo ou diretório.  Por exemplo:</para>
 
       <screen>
 $ svn log foo.c
@@ -1558,17 +1557,17 @@ $ svn log http://foo.com/svn/trunk/code/foo.c
 &hellip;
 </screen>
 
-      <para>These will display log messages <emphasis>only</emphasis>
-        for those revisions in which the working file (or URL)
-        changed.</para>
+      <para>Isto vai exibir as mensagens de log
+        <emphasis>apenas</emphasis> para aquelas revisões nas quais o
+        arquivo de trabalho (ou a URL) mudaram.</para>
 
-      <para>If you want even more information about a file or
-        directory, <command>svn log</command> also takes a
-        <option>--verbose (-v)</option> option.  Because Subversion
-        allows you to move and copy files and directories, it is
-        important to be able to track path changes in the filesystem,
-        so in verbose mode, <command>svn log</command> will include a
-        list of changed paths in a revision in its output:</para>
+      <para>Se você quiser ainda mais informação sobre um arquivo ou
+        diretório, o <command>svn log</command> também aceita uma opção 
+        <option>--verbose (-v)</option>.  Como o Subversion lhe permite
+        mover e copiar arquivos e diretórios, é importante ser capaz de
+        rastrear alterações de caminhos no sistema de arquivos, então no
+        modo verboso, o <command>svn log</command> vai incluir na sua
+        saída uma lista dos caminhos alterados em uma revisão:</para>
 
       <screen>
 $ svn log -r 8 -v
@@ -1584,18 +1583,18 @@ Frozzled the sub-space winch.
 ------------------------------------------------------------------------
 </screen>
 
-      <para>
-        <command>svn log</command> also takes a <option>--quiet</option>
-        (<option>-q</option>) option, which suppresses the body of the
-        log message.  When combined with <option>--verbose</option>, it
-        gives just the names of the changed files.</para>
+      <para>O <command>svn log</command> também aceita uma opção
+        <option>--quiet</option> (<option>-q</option>), que suprime o
+        corpo da mensagem de log.  Quando combinada com a opção
+        <option>--verbose</option>, ela apresentará apenas os nomes dos
+        arquivos mudados.</para>
 
       <sidebar>
-        <title>Why Does <command>svn log</command> Give Me an Empty
-          Response?</title>
+        <title>Por Que o <command>svn log</command> Me Deu Uma Resposta
+          em Branco?</title>
 
-        <para>After working with Subversion for a bit, most users will
-          come across something like this:</para>
+        <para>Após trabalhar um pouco com o Subversion, muitos usuários
+          vão se deparar com algo como:</para>
 
         <screen>
 $ svn log -r 2
@@ -1603,17 +1602,18 @@ $ svn log -r 2
 $
 </screen>
 
-        <para>At first glance, this seems like an error.  But recall
-          that while revisions are repository-wide, <command>svn
-          log</command> operates on a path in the repository.  If you
-          supply no path, Subversion uses the current working
-          directory as the default target.  As a result, if you're
-          operating in a subdirectory of your working copy and attempt
-          to see the log of a revision in which neither that directory
-          nor any of its children was changed, Subversion will show you
-          an empty log.  If you want to see what changed in that
-          revision, try pointing <command>svn log</command> directly at
-          the top-most URL of your repository, as in <command>svn log -r 2
+        <para>À primeira vista, isto parece ser um erro.  Mas lembre-se
+          de que as revisões se aplicam a todo o repositório, ao passo
+          que o <command>svn log</command> atua em um caminho no
+          repositório.  Se você não informar um caminho, o Subversion
+          usa o diretório atual como argumento default.  Como resultado,
+          se você estiver em um subdiretório de sua cópia de trabalho e
+          tentar ver o log de uma revisão em que nem o diretório nem
+          qualquer item nele contido mudou, o Subversion vai lhe mostrar
+          um log vazio.  Se você quiser ver o que mudou naquela revisão,
+          experimente chamar o <command>svn log</command> diretamente na
+          URL de mais alto nível de seu repositório, como em
+          <command>svn log -r 2
           http://svn.collab.net/repos/svn</command>.</para>
 
       </sidebar>
