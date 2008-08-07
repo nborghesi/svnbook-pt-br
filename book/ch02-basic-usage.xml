@@ -1622,41 +1622,41 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.tour.history.diff">
-      <title>Examining the details of historical changes</title>
+      <title>Examinando os detalhes das alterações históricas</title>
 
-      <para>We've already seen <command>svn diff</command>
-        before&mdash;it displays file differences in unified diff
-        format; it was used to show the local modifications made to
-        our working copy before committing to the repository.</para>
+      <para>Nós já vimos o <command>svn diff</command> antes&mdash;ele
+        exibe as diferenças de arquivo no formato diff unificado; ele
+        foi usado para mostrar as modificações locais feitas em nossa
+        cópia de trabalho antes de serem registradas no
+        repositório.</para>
 
-      <para>In fact, it turns out that there are
-        <emphasis>three</emphasis> distinct uses of <command>svn
-        diff</command>:</para>
+      <para>Na realidade, tem-se que existem <emphasis>três</emphasis>
+        usos distintos para o <command>svn diff</command>:</para>
 
       <itemizedlist>
 
         <listitem>
-          <para>Examining local changes</para>
+          <para>Examinar alterações locais</para>
         </listitem>
 
         <listitem>
-          <para>Comparing your working copy to the repository</para>
+          <para>Comparar sua cópia de trabalho com o repositório</para>
         </listitem>
 
         <listitem>
-          <para>Comparing repository to repository</para>
+          <para>Comparar o repositório com o repositório</para>
         </listitem>
 
       </itemizedlist>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.history.diff.local">
-        <title>Examining Local Changes</title>
+        <title>Examinando Alterações Locais</title>
 
-        <para>As we've seen, invoking <command>svn diff</command> with
-          no options will compare your working files to the cached
-          <quote>pristine</quote> copies in
-          the <filename>.svn</filename> area:</para>
+        <para>Como já vimos, executar <command>svn diff</command> sem
+          opções vai resultar numa comparação de seus arquivos de
+          trabalho com as cópias <quote>intactas</quote> na área 
+          <filename>.svn</filename>:</para>
 
         <screen>
 $ svn diff
@@ -1678,12 +1678,12 @@ $
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.history.diff.wcrepos">
-        <title>Comparing Working Copy to Repository</title>
+        <title>Comparando a Cópia de Trabalho com o Repositório</title>
 
-        <para>If a single <option>--revision</option>
-          (<option>-r</option>) number is passed, then your
-          working copy is compared to the specified revision in the
-          repository.</para>
+        <para>Se um único número de revisão for passado para a opção
+          <option>--revision</option> (<option>-r</option>), então sua
+          cópia de trabalho será comparada com a revisão especificada no
+          repositório.</para>
 
         <screen>
 $ svn diff -r 3 rules.txt
@@ -1705,11 +1705,11 @@ $
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.tour.history.diff.reposrepos">
-        <title>Comparing Repository to Repository</title>
+        <title>Comparando o Repositório com o Repositório</title>
 
-        <para>If two revision numbers, separated by a colon, are
-          passed via <option>--revision (-r)</option>, then the two
-          revisions are directly compared.</para>
+        <para>Se dois números de revisão, separados por dois-pontos,
+          forem informados em <option>--revision (-r)</option>, então as
+          duas revisões serão comparadas diretamente.</para>
 
         <screen>
 $ svn diff -r 2:3 rules.txt
@@ -1726,8 +1726,8 @@ Index: rules.txt
 $
 </screen>
 
-        <para>A more convenient way of comparing a revision to the
-          previous revision is to use the <option>--change (-c)</option>:
+        <para>Uma forma mais conveniente de se comparar uma revisão com
+          sua anterior é usando <option>--change (-c)</option>:
           </para>
 
         <screen>
@@ -1745,9 +1745,10 @@ Index: rules.txt
 $
 </screen>
 
-        <para>Lastly, you can compare repository revisions even when
-          you don't have a working copy on your local machine, just by
-          including the appropriate URL on the command line:</para>
+        <para>Por último, você pode comparar revisões no repositório
+          até quando você não tem uma cópia de trabalho em sua máquina
+          local, apenas incluindo a URL apropriada na linha de
+          comando:</para>
 
         <screen>
 $ svn diff -c 5 http://svn.example.com/repos/example/trunk/text/rules.txt
