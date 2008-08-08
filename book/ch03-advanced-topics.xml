@@ -2034,11 +2034,11 @@ $ svn unlock banana.c
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.locking.discovery">
-      <title>Discovering locks</title>
+      <title>Descobrindo as travas</title>
 
-      <para>When a commit fails due to someone else's locks, it's
-        fairly easy to learn about them.  The easiest of
-        these is <command>svn status --show-updates</command>:</para>
+      <para>Quando uma submissão falha devido a um trava que outra pessoa criou, é
+        bastante fácil ver os detalhes sobre ela.  A forma mais fácil delas
+        é <command>svn status --show-updates</command>:</para>
 
       <screen>
 $ svn status -u
@@ -2049,16 +2049,16 @@ Status against revision:     105
 $
 </screen>
 
-      <para>In this example, Sally can see not only that her copy of
-        <filename>foo.h</filename> is out-of-date, but that one of the
-        two modified files she plans to commit is locked in the
-        repository.  The <literal>O</literal> symbol stands for
-        <quote>Other</quote>, meaning that a lock exists on the file,
-        and was created by somebody else.  If she were to attempt a
-        commit, the lock on <filename>raisin.jpg</filename> would
-        prevent it.  Sally is left wondering who made the lock, when,
-        and why.  Once again, <command>svn info</command> has the
-        answers:</para>
+      <para>Neste exemplo, Sally pode ver não somente que sua cópia de
+        <filename>foo.h</filename> está desatualizada, mas que um dos
+        dois arquivos modificados que ela planeja submeter está travado no
+        repositório.  O símbolo <literal>O</literal> corresponde a
+        <quote>Other</quote>, significando que existe uma trava sobre o arquivo,
+        e foi criada por outra pessoa.  Se ela vier a tentar uma
+        submissão, a trava sobre <filename>raisin.jpg</filename> a
+        impediria.  Sally deve estar imaginando quem fez a trava, quando,
+        e porquê.  Mais uma vez, <command>svn info</command> tem as
+        respostas:</para>
 
       <screen>
 $ svn info http://svn.example.com/repos/project/raisin.jpg
@@ -2075,31 +2075,31 @@ Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
 Lock Owner: harry
 Lock Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
 Lock Comment (1 line):
-Need to make a quick tweak to this image.
+Necessidade de fazer um ajuste rápido nesta imagem.
 $
 </screen>
 
-      <para>Just as <command>svn info</command> can be used to examine
-        objects in the working copy, it can also be used to examine
-        objects in the repository.  If the main argument to
-        <command>svn info</command> is a working copy path, then all
-        of the working copy's cached information is displayed; any
-        mention of a lock means that the working copy is holding a
-        lock token (if a file is locked by another user or in another
-        working copy, <command>svn info</command> on a working copy
-        path will show no lock information at all).  If the main
-        argument to <command>svn info</command> is a URL, then the
-        information reflects the latest version of an object in the
-        repository, and any mention of a lock describes the current
-        lock on the object.</para>
+      <para>Assim como <command>svn info</command> pode ser usado para examinar
+        objetos na cópia de trabalho, ele também pode ser usado para examinar
+        objetos no repositório.  Se o argumento principal para
+        <command>svn info</command> é um caminho de uma cópia de trabalho, então todas
+        informações em cache da cópia de trabalho são exibidas; qualquer
+        menção a uma trava significa que a cópia de trabalho está mantendo um
+        sinal de trava (se um arquivo é travado por outro usuário ou em outra
+        cópia de trabalho, <command>svn info</command> em um caminho de cópia de
+        trabalho não mostrará qualquer informação da trava).  Se o arqgumento
+        principal para <command>svn info</command> é uma URL, então as
+        informações refletem a mais recente versão de um objeto no
+        repositório, e qualquer menção a uma trava descreve a atual
+        trava sobre o objeto.</para>
 
-      <para>So in this particular example, Sally can see that Harry
-        locked the file on February 16th to <quote>make a quick
-        tweak</quote>.  It being June, she suspects that he probably
-        forgot all about the lock.  She might phone Harry to complain
-        and ask him to release the lock.  If he's unavailable, she
-        might try to forcibly break the lock herself or ask an
-        administrator to do so.</para>
+      <para>Portanto, neste exemplo particular, Sally pode ver que Harry
+        travou o arquivo em 16 de Fevereiro para <quote>fazer um ajuste
+        rápido</quote>.  Já estando em Junho, ela suspeita que ele provavelmente
+        se esqueceu totalmente da trava.  Ela poderia ligar para Harry para reclamar
+        e lhe pedir que libere a trava.  Se ele estiver indisponível, ela
+        poderá tentar quebrar a trava a força ou solicitar um
+        administrador para o fazer.</para>
 
     </sect2>
 
