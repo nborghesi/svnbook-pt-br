@@ -2105,20 +2105,20 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.locking.break-steal">
-      <title>Breaking and stealing locks</title>
+      <title>Quebrando e roubando travas</title>
 
-      <para>A repository lock isn't sacred&mdash;in Subversion's
-        default configuration state, locks can be released not only by
-        the person who created them, but by anyone at all.  When
-        somebody other than the original lock creator destroys a lock,
-        we refer to this as <firstterm>breaking</firstterm> the
-        lock.</para>
+      <para>Uma trava no repositório não é algo sagrado&mdash;na configuração
+        padrão do Subversion, as travas podem ser liberadas não somente pela
+        pessoa que a criou, mas por qualquer outra também.  Quando
+        alguém que são seja o criador original da trava a destrói,
+        referimos a isto como <firstterm>quebrar</firstterm> a
+        trava.</para>
 
-      <para>From the administrator's chair, it's simple to break
-        locks.  The <command>svnlook</command>
-        and <command>svnadmin</command> programs have the ability to
-        display and remove locks directly from the repository.  (For
-        more information about these tools, see
+      <para>Para o administrador é simples quebrar
+        travas.  Os programas <command>svnlook</command>
+        e <command>svnadmin</command> possuem a habilidade de
+        mostrar e remover travas diretamente do repositório.  (Para
+        mais informações sobre estas ferramentas, veja
         <xref linkend="svn.reposadmin.maint.tk"/>.)</para>
 
       <screen>
@@ -2129,7 +2129,7 @@ Owner: frank
 Created: 2006-06-15 13:29:18 -0500 (Thu, 15 Jun 2006)
 Expires: 
 Comment (1 line):
-Still improving the yellow color.
+Ainda melhorando a cor amarela.
 
 Path: /project/raisin.jpg
 UUID Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
@@ -2137,17 +2137,17 @@ Owner: harry
 Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
 Expires: 
 Comment (1 line):
-Need to make a quick tweak to this image.
+Necessidade de fazer um ajuste rápido nesta imagem.
 
 $ svnadmin rmlocks /usr/local/svn/repos /project/raisin.jpg
 Removed lock on '/project/raisin.jpg'.
 $
 </screen>
 
-      <para>The more interesting option is allowing users to break
-        each other's locks over the network.  To do this, Sally simply
-        needs to pass the <option>--force</option> to the unlock
-        command:</para>
+      <para>Uma opção mais interessante é permitir que usuários quebrem
+        as travas de outros através da rede.  Para fazer isto, Sally simplesmente
+        precisa passar a opção <option>--force</option> para o comando de
+        destravamento:</para>
 
       <screen>
 $ svn status -u
@@ -2166,28 +2166,28 @@ $ svn unlock --force http://svn.example.com/repos/project/raisin.jpg
 $
 </screen>
 
-      <para>Now, Sally's initial attempt to unlock failed because she
-        ran <command>svn unlock</command> directly on her working copy
-        of the file, and no lock token was present.  To remove the
-        lock directly from the repository, she needs to pass a URL
-        to <command>svn unlock</command>.  Her first attempt to unlock
-        the URL fails, because she can't authenticate as the lock
-        owner (nor does she have the lock token).  But when she
-        passes <option>--force</option>, the authentication and
-        authorization requirements are ignored, and the remote lock is
-        broken.</para>
+      <para>Agora, a tentativa inicial de Sally para destravar falhou porque ela
+        executou <command>svn unlock</command> diretamente em sua cópia de trabalho
+        do arquivo, e nenhum sinal de trava estava presente.  Para removee a
+        trava diretamente do repositório, ela precisa passar uma URL
+        para <command>svn unlock</command>.  Sua primeira tentativa para destravar
+        a URL falhou, porque ela não pode autenticar como a proprietária
+        da trava (nem ela possui o sinal de trava).  Mas quando ela
+        passa <option>--force</option>, os requisitos de autenticação e
+        autorização são ignorados, e a trava remota agora está
+        quebrada.</para>
         
-      <para>Simply breaking a lock may not be enough.  In
-        the running example, Sally may not only want to break Harry's
-        long-forgotten lock, but re-lock the file for her own use.
-        She can accomplish this by running <command>svn unlock
-        --force</command> and then <command>svn lock</command>
-        back-to-back, but there's a small chance that somebody else
-        might lock the file between the two commands.  The simpler thing
-        to is <firstterm>steal</firstterm> the lock, which involves
-        breaking and re-locking the file all in one atomic step.  To
-        do this, Sally passes the <option>--force</option> option
-        to <command>svn lock</command>:</para>
+      <para>Simplesmente quebrar uma trava pode não ser suficiente.  No
+        exemplo atual, Sally pode não somente querer quebrar a trava esquecida
+        a longo prazo por Harry, mas também re-travar o arquivo para seu próprio uso.
+        Ela pode realizar isto executando <command>svn unlock
+        --force</command> e então <command>svn lock</command>
+        logo em seguida, mas existe uma pequena chance de que outra pessoa
+        possa travar o arquivo entre os dois comandos.  Uma coisa mais simples
+        é <firstterm>roubar</firstterm> a trava, que envolve
+        quebrar e re-travar o arquivo em um passo atômico.  Para
+        fazer isto, Sally passa a opção <option>--force</option>
+        para <command>svn lock</command>:</para>
 
       <screen>
 $ svn lock raisin.jpg
@@ -2197,15 +2197,15 @@ $ svn lock --force raisin.jpg
 $
 </screen>
 
-      <para>In any case, whether the lock is broken or stolen, Harry
-        may be in for a surprise.  Harry's working copy still contains
-        the original lock token, but that lock no longer exists.  The
-        lock token is said to be <firstterm>defunct</firstterm>.  The
-        lock represented by the lock token has either been broken (no
-        longer in the repository), or stolen (replaced with a
-        different lock).  Either way, Harry can see this by asking
-        <command>svn status</command> to contact the
-        repository:</para>
+      <para>Em qualquer caso, se a trava é quebrada ou roubada, Harry
+        terá uma surpresa.  A cópia de trabalho de Harry ainda contém
+        o sinal original da trava, mas esta trava não existe mais.  O
+        sinal da trava está agora <firstterm>extinto</firstterm>.  A
+        trava representada pelo sinal de trava, ou terá sido quebrada (não
+        está mais no repositório), ou roubada (substituída por uma
+        trava diferente).  De qualquer forma, Harry pode ver isto pedindo para
+        <command>svn status</command> verificar o
+        repositório:</para>
 
       <screen>
 $ svn status
@@ -2218,41 +2218,41 @@ $ svn status
 $
 </screen>
 
-      <para>If the repository lock was broken, then <command>svn
-        status --show-updates</command> displays a
-        <literal>B</literal> (Broken) symbol next to the file.  If a
-        new lock exists in place of the old one, then a
-        <literal>T</literal> (sTolen) symbol is shown.  Finally,
-        <command>svn update</command> notices any defunct lock tokens
-        and removes them from the working copy.</para>
+      <para>Se a trava foi quebrada no repositório, então <command>svn
+        status --show-updates</command> exibe um símbolo
+        <literal>B</literal> (<foreignphrase>Broken</foreignphrase>) próximo ao arquivo.  Se uma
+        nova trava existe no lugar da anterior, então um símbolo
+        <literal>T</literal> (<foreignphrase>sTolen</foreignphrase>) é mostrado.  Finalmente,
+        <command>svn update</command> relata os sinais de trava existos
+        e os remove da cópia de trabalho.</para>
 
       <sidebar>
-        <title>Locking Policies</title>
+        <title>Políticas de Travamento</title>
         
-        <para>Different systems have different notions of how strict a
-          lock should be.  Some folks argue that locks must be
-          strictly enforced at all costs, releasable only by the
-          original creator or administrator.  They argue that if
-          anyone can break a lock, then chaos runs rampant and the
-          whole point of locking is defeated.  The other side argues
-          that locks are first and foremost a communication tool.  If
-          users are constantly breaking each others' locks, then it
-          represents a cultural failure within the team and the
-          problem falls outside the scope of software enforcement.</para>
+        <para>Diferentes sistemas possuem diferentes noções de como rigorosa uma
+          trava deve ser.  Algumas pessoas afirmam que travas devem ser
+          estritamente aplicadas a todo custo, liberáveis somente pelo
+          criador original ou administrador.  Eles argumentam que se
+          qualquer um pode quebrar uma trava, então o caos corre galopante e
+          toda circunstância de travamento é derrotada.  O outro lado afirma
+          que travas são, antes de mais nada, uma ferramenta de comunicação.  Se
+          usuários estão constantemente quebrando as travas de outros, então ele
+          representa um fracasso cultural dentro da equipe e o
+          problema sai fora do escopo da aplicação de software.</para>
 
-        <para>Subversion defaults to the <quote>softer</quote>
-          approach, but still allows administrators to create stricter
-          enforcement policies through the use of hook scripts.  In
-          particular, the <filename>pre-lock</filename> and
-          <filename>pre-unlock</filename> hooks allow administrators
-          to decide when lock creation and lock releases are allowed
-          to happen.  Depending on whether or not a lock already
-          exists, these two hooks can decide whether or not to allow a
-          certain user to break or steal a lock.  The
-          <filename>post-lock</filename> and
-          <filename>post-unlock</filename> hooks are also available,
-          and can be used to send email after locking actions.  To
-          learn more about repository hooks, see <xref
+        <para>Por padrão o Subversion possui uma abordagem <quote>branda</quote>,
+          mas ainda permite que administradores criem políticas de aplicação
+          mais rigorosas através da utilização de scripts de gancho.  Em
+          particular, os ganchos <filename>pre-lock</filename> e
+          <filename>pre-unlock</filename> permitem aos administradores
+          decidir quando a criação e liberação de travas são autorizadas
+          a acontecer.  Dependendo se uma trava já existe ou não,
+          estes dois ganchos podem decidir se permitem ou não que um
+          certo usuário pode quebrar ou roubar uma trava.  Os ganchos
+          <filename>post-lock</filename> e
+          <filename>post-unlock</filename> também estão disponíveis,
+          e podem ser usados para enviar email após ações de travamento.  Para
+          aprender mais sobre ganhos de repositório, veja <xref
           linkend="svn.reposadmin.create.hooks" />.</para>
 
       </sidebar>
