@@ -2087,7 +2087,7 @@ $
         menção a uma trava significa que a cópia de trabalho está mantendo um
         sinal de trava (se um arquivo é travado por outro usuário ou em outra
         cópia de trabalho, <command>svn info</command> em um caminho de cópia de
-        trabalho não mostrará qualquer informação da trava).  Se o arqgumento
+        trabalho não mostrará qualquer informação da trava).  Se o argumento
         principal para <command>svn info</command> é uma URL, então as
         informações refletem a mais recente versão de um objeto no
         repositório, e qualquer menção a uma trava descreve a atual
