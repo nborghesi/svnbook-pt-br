@@ -2261,46 +2261,46 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.locking.lock-communication">
-      <title>Lock Communication</title>
+      <title>Comunicação de Travas</title>
 
-      <para>We've seen how <command>svn lock</command>
-        and <command>svn unlock</command> can be used to create,
-        release, break, and steal locks.  This satisfies the goal of
-        serializing commit access to a file.  But what about the
-        larger problem of preventing wasted time?</para>
+      <para>Vimos como <command>svn lock</command>
+        e <command>svn unlock</command> podem ser usados para criar,
+        liberar, quebrar, e roubar travas.  Isso satisfaz o objetivo de
+        serializar o accesso a submissões de um arquivo.  Mas o que aconteceu
+        com o maior problema da prevenção de perda de tempo?</para>
 
-      <para>For example, suppose Harry locks an image file and then
-        begins editing it.  Meanwhile, miles away, Sally wants to do
-        the same thing.  She doesn't think to run <command>svn status
-        --show-updates</command>, so she has no idea that Harry has
-        already locked the file.  She spends hours editing the file,
-        and when she tries to commit her change, she discovers that
-        either the file is locked or that she's out-of-date.
-        Regardless, her changes aren't mergeable with Harry's.  One of
-        these two people has to throw away their work, and a lot of
-        time has been wasted.</para>
+      <para>Por exemplo, suponha que Harry trave um arquivo de imagem e, em seguida,
+        inicie sua edição.  Entretanto, a milhas de distância, Sally deseja fazer
+        a mesma coisa.  Ela não pensa em executar <command>svn status
+        --show-updates</command>, portanto ele não tem idéia de que Harry já
+        tenha travado o arquivo.  Ela gasta horas editando o arquivo,
+        e quando ela tenta submeter sua mudança, ela descobre que
+        ou o arquivo está travado ou que ela está desatualizada.
+        Indiferente disso, suas alterações não são mescláveis com as de Harry.  Uma
+        destas duas pessoas tem que jogar fora seu trabalho, e um monte de
+        tempo foi perdido.</para>
       
-      <para>Subversion's solution to this problem is to provide a
-        mechanism to remind users that a file ought to be locked
-        <emphasis>before</emphasis> the editing begins.  The mechanism
-        is a special property, <literal>svn:needs-lock</literal>.  If
-        that property is attached to a file (regardless of its value,
-        which is irrelevant), then Subversion will try to use
-        filesystem-level permissions to make the file read-only&mdash;unless,
-        of course, the user has explicitly locked the file.
-        When a lock token is present (as a result of running
-        <command>svn lock</command>), the file becomes read-write.
-        When the lock is released, the file becomes read-only
-        again.</para>
+      <para>A solução do Subversion para este problema é oferecer um
+        mecanismo para avisar aos usuários que um arquivo deve ser travado
+        <emphasis>antes</emphasis> de iniciar sua edição.  O mecanismo
+        é uma propriedade especial, <literal>svn:needs-lock</literal>.  Se
+        esta propriedade está anexada a um arquivo (indiferente de seu valor,
+        o qual é irrelevante), então o Subversion tentará utilizar
+        permissões a nível de sistema de arquivo para tornar o arquivo somente leitura&mdash;exceto,
+        claro, o usuário tiver explicitamente travado o arquivo.
+        Quando um sinal de trava está presente (como resultado de executar
+        <command>svn lock</command>), o arquivo fica como leitura e escrita.
+        Quando a trava é liberada, o arquivo fica como somente leitura
+        novamente.</para>
 
-      <para>The theory, then, is that if the image file has this
-        property attached, then Sally would immediately notice
-        something is strange when she opens the file for editing:
-        many applications alert users immediately when a read-only
-        file is opened for editing, and nearly all would
-        prevent her from saving changes to the file.  This
-        reminds her to lock the file before editing, whereby she
-        discovers the pre-existing lock:</para>
+      <para>A teoria, então, é que se o arquivo de imagem tem esta
+        propriedade anexada, então Sally iria verificar imediatamente que
+        alguma coisa está estranho quando ela abrir o arquivo para edição:
+        muitas aplicações avisam os usuários imediatamente quando um arquivo somente
+        leitura é aberto para edição, e quase todos impedem
+        que alterações sejam salvas no arquivo.  Isto
+        lembra ela para travar o arquivo antes de editá-lo, e então ela
+        descobre a trava já existente:</para>
 
       <screen>
 $ /usr/local/bin/gimp raisin.jpg
@@ -2314,35 +2314,35 @@ Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
 Lock Owner: harry
 Lock Created: 2006-06-08 07:29:18 -0500 (Thu, 08 June 2006)
 Lock Comment (1 line):
-Making some tweaks.  Locking for the next two hours.
+Fazendo alguns ajustes.  Travando para as próximas duas horas.
 $
 </screen>
 
       <tip>
-        <para>Users and administrators alike are encouraged to attach
-          the <literal>svn:needs-lock</literal> property to any file
-          which cannot be contextually merged.  This is the primary
-          technique for encouraging good locking habits and preventing
-          wasted effort.</para>
+        <para>Tanto usuários e administradores são encorajados a anexar
+          a propriedade <literal>svn:needs-lock</literal> em qualquer arquivo
+          que não possa ser contextualmente mesclado.  Esta é a principal
+          técnica para incentivar bons hábitos de travamento e evitar
+          desperdício de esforços.</para>
       </tip>
 
-      <para>Note that this property is a communication tool which
-        works independently from the locking system.  In other words,
-        any file can be locked, whether or not this property is
-        present.  And conversely, the presence of this property
-        doesn't make the repository require a lock when
-        committing.</para>
+      <para>Note que esta propriedade é um instrumento de comunicação que
+        trabalha independentemente do sistema de travamento.  Em outras palavras,
+        qualquer arquivo pode ser travado, estando esta propriedade presente
+        ou não.  E reciprocamente, a presença desta propriedade
+        não faz com que o repositório requeira uma trava quando for
+        submeter as mudanças.</para>
 
-      <para>Unfortunately, the system isn't flawless.  It's possible
-        that even when a file has the property, the read-only reminder
-        won't always work.  Sometimes applications misbehave and
-        <quote>hijack</quote> the read-only file, silently allowing
-        users to edit and save the file anyway.  There's not much that
-        Subversion can do in this situation&mdash;at the end of the
-        day, there's simply no substitution for good interpersonal
-        communication.
+      <para>Infelismente, o sistema não é perfeito.  É possível
+        que mesmo quando um arquivo possua a propriedade, a advertência de somente leitura
+        nem sempre funcione.  Algumas vezes as aplicações comportam-se mal e
+        <quote>adulteram</quote> o arquivo somente leitura, silenciosamente permitindo aos
+        usuários editar e salvar o arquivo de qualquer forma.  Não há muito que o
+        Subversion possa fazer nesta situação&mdash;de qualquer maneira,
+        simplesmente não há substituição para uma boa comunicação
+        entre as pessoas.
         <footnote>
-          <para>Except, perhaps, a classic Vulcan mind-meld.</para>
+          <para>Exceto, talvez, uma mente-lógica do clássico Vulcaniano.</para>
         </footnote>
       </para>
 
