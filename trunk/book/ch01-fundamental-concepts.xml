@@ -68,20 +68,20 @@
 
     <para>A missão principal de um sistema de controle de versão é permitir
       a edição colaborativa e o compartilhamento de dados. Mas diferentes
-      sistemas usam diferentes estratégias para atingir este objetivo. É
+      sistemas usam diferentes estratégias para atingir esse objetivo. É
       importante compreender essas diferentes estratégias por várias razões.
       Primeiro, irá ajudá-lo a comparar os sistemas de controle de versão
       existentes, no caso de você encontrar outros sistemas similares ao
       Subversion. Além disso, irá ajudá-lo ainda a tornar o uso do Subversion
-      mais eficaz, visto que o Subversion por si só permite diversas formas
-      diferentes de se trabalhar.</para>
+      mais eficaz, visto que o Subversion por si só permite trabalhar de
+      diferentes formas.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.basic.vsn-models.problem-sharing">
       <title>O Problema do Compartilhamento de Arquivos</title>
       
-      <para>Todos so sistemas de controle de versão têm de resolver
-        o mesmo problema fundamental: como os sistema irá permitir que
+      <para>Todos os sistemas de controle de versão têm de resolver
+        o mesmo problema fundamental: como o sistema irá permitir que
         os usuários compartilhem informação, e como ele irá prevenir
         que eles acidentalmente tropecem uns nos pés dos outros? É muito
         fácil para os usuários acidentalmente sobrescrever as mudanças
@@ -89,7 +89,7 @@
 
       <para>Considere o cenário mostrado em <xref
         linkend="svn.basic.vsn-models.problem-sharing.dia-1"/>.
-        Suponhamos que nós temos dois colegas de trabalho, Harry and
+        Vamos supor que nós temos dois colegas de trabalho, Harry and
         Sally. Cada um deles decide editar o mesmo arquivo no repositório
         ao mesmo tempo. Se Harry salvar suas alterações no repositório
         primeiro, então é possível que (poucos momentos depois) Sally
@@ -118,7 +118,7 @@
         <firstterm>lock-modify-unlock</firstterm> (travar-modificar-destravar)
         para resolver o problema de vários autores destruirem o trabalho uns
         dos outros. Neste modelo, o repositório permite que apenas uma
-        pessoa de cada vez altere o arquivo. Esta política de exclusividade
+        pessoa de cada vez altere o arquivo. Essa política de exclusividade
         é gerenciada usando locks (travas). Harry precisa <quote>travar
         </quote> (lock) um arquivo antes que possa fazer alterações nele.
         Se Harry tiver travado o arquivo, então Sally não poderá travá-lo
@@ -160,7 +160,7 @@
             Essas mudanças não vão se sobrepor afinal. Eles podem
             facilmente editar o arquivo simultaneamente, sem grandes
             danos, assumindo que as alterações serão apropriadamente
-            combinadas depois. Não há necessidade de se trabalhar em
+            fundidas depois. Não há necessidade de se trabalhar em
             turnos nessa situação.</para>
         </listitem>
     
@@ -188,30 +188,30 @@
     <sect2 id="svn.basic.vsn-models.copy-merge">
       <title>A Solução Copy-Modify-Merge</title>
       
-      <para>O Subversion, CVS, e muitos outros sistemas de controle de vesão
+      <para>O Subversion, CVS, e muitos outros sistemas de controle de versão
         usam um modelo de <firstterm>copy-modify-merge</firstterm>
-        (copiar-modificar-combinar) como uma alternativa ao locking. Neste modelo,
+        (copiar-modificar-fundir) como uma alternativa ao locking. Nesse modelo,
         cada usuário se conecta ao repositório do projeto e cria uma <firstterm>
         cópia de trabalho</firstterm> pessoal (personal working copy, ou cópia
-        local) - um espelho local dos arquivos e diretórios no repositório. Os
+        local) - um espelho local dos arquivos e diretórios do repositório. Os
         usuários então trabalham simultaneamente e independentemente, modificando
-        suas cópias privadas. Finalmente as cópias privadas são combinadas (merged)
-        numa nova versão final. O sistema de controle de versão, frequentemente
-        ajuda com a combinação, mas no final, a intervenção humana é a única capaz
+        suas cópias privadas. Finalmente, as cópias privadas são fundidas (merged)
+        numa nova versão final. O sistema de controle de versão freqüentemente
+        ajuda com a fusão, mas, no final, a intervenção humana é a única capaz
         de garantir que as mudanças foram realizadas de forma correta.</para>
       
-      <para>Aqui vai um exemplo. Digamos que Harry and Sally cada, criaram
-        cópias de trabalho do mesmo projeto, copiadas do repositório. Eles
-        trabalharam concorrentemente, e fizeram alterações no mesmo arquivo A em
+      <para>Aqui vai um exemplo. Digamos que Harry e Sally criaram cada um a sua
+        cópia de trabalho de um mesmo projeto, copiadas do repositório. Eles
+        trabalharam simultaneamente fazendo alterações no arquivo A nas
         suas próprias cópias. Sally salva suas alteações no repositório primeiro.
         Quando Harry tentar salvar suas alterações mais tarde, o repositório vai
         informá-lo que seu arquivo A está <firstterm>desatualizado</firstterm>
-        (out-of-date). Em outras palavras, este arquivo A no repositório foi de
+        (out-of-date). Em outras palavras, o arquivo A do repositório foi de
         alguma forma alterado desde a última vez que ele foi copiado. Então Harry
-        pede a seu programa cliente para ajudá-lo a <firstterm>combinar</firstterm>
-        (merge) todas as alterações no repositório da sua cópia de trabalho de A.
-        Provavelmente as mudanças de Sally não se sobrepõem com as suas próprias;
-        então, uma vez que ele tiver ambos os conjuntos de alterações integradas,
+        pede a seu programa cliente para ajudá-lo a <firstterm>fundir</firstterm>
+        (merge) todas as alterações do repositório na sua cópia de trabalho do arquivo
+        A. Provavelmente, as mudanças de Sally não se sobrepõem com as suas próprias;
+        então, uma vez que ele tiver ambos os conjuntos de alterações integrados,
         ele salva sua cópia de trabalho de volta no repositório. As figuras <xref
         linkend="svn.basic.vsn-models.copy-merge.dia-1"/> e <xref
         linkend="svn.basic.vsn-models.copy-merge.dia-2"/> mostram este
@@ -228,33 +228,33 @@
       </figure>
 
       <para>Mas e se as alterações de Sally <emphasis>sobrescreverem</emphasis>
-        as de Harry? E então? Esta situação é chamada de <firstterm>conflito
-        </firstterm>, e usualmente não é um problema. Quando Harry pedir a seu
-        cliente para combinar as últimas alterações do repositório em sua cópia
-        de local, sua cópia do arquivo A estará de alguma forma sinalizada
+        as de Harry? E então? Essa situação é chamada de <firstterm>conflito
+        </firstterm>, e normalmente não é um problema. Quando Harry pedir a seu
+        cliente para fundir as últimas alterações do repositório em sua cópia de
+        trabalho local, sua cópia do arquivo A estará de alguma forma sinalizada
         como estando numa situação de conflito: ele será capaz de ver ambos os
-        conjuntos de alterações conflitantes, e manualmente escolher entre elas.
+        conjuntos de alterações conflitantes e manualmente escolher entre elas.
         Note que o software não tem como resolver os conflitos automaticamente;
         apenas pessoas são capazes de compreender e fazer as escolhas
         inteligentes. Uma vez que Harry tenha resolvido manualmente as
         alterações conflitantes - talvez depois de uma conversa com Sally -
-        ele poderá tranquilamente salvar o arquivo combinado de volta no
+        ele poderá tranquilamente salvar o arquivo fundido no
         repositório.</para>
 
-      <para>O modelo copy-modify-merge pode soar um pouco caótico, mas
+      <para>O modelo copy-modify-merge pode soar um pouco caótico, mas,
         na prática, ele funciona de forma bastante suave. Os usuários
         podem trabalhar em paralelo, nunca esperando uns pelos outros.
         Quando eles trabalham nos mesmos arquivos, verifica-se que a
-        maioria de suas alterações concorrentes não se sobrepõe afinal;
-        conflitos não são muito frequentes. E a quantidade de tempo que
-        eles levam para resolver os conflitos é usualmente muito menor
-        que o tempo perdido no sistema de locks.</para>
+        maioria de suas alterações simultâneas não se sobrepõe afinal;
+        conflitos não são muito freqüentes. E a quantidade de tempo que
+        eles levam para resolver os conflitos é geralmente muito menor
+        que o tempo perdido no sistema de locking.</para>
 
       <para>No fim, tudo se reduz a um fator crítico: a comunicação entre os
         usuários. Quando os usuários se comunicam mal, tanto conflitos sintáticos
-        quanto semânticos aumentam. Nenhum sistema pode forçar os usuários a se
-        comunicarem perfeitamente, a nenhum sistema pode detectar conflitos
-        semânticos. Portanto, não tem como confiar nesta falsa sensação de segurança
+        como semânticos aumentam. Nenhum sistema pode forçar os usuários a se
+        comunicarem perfeitamente, e nenhum sistema pode detectar conflitos
+        semânticos. Portanto, não há como confiar nessa falsa sensação de segurança
         de que o sistema de locking vai prevenir conflitos; na prática, o lock parece
         inibir a produtividade mais do que qualquer outra coisa.</para>
       
@@ -266,18 +266,18 @@
           em que ele é apropriado.</para>
 
         <para>O modelo copy-modify-merge é baseado no pressuposto
-          de que os arquivos são contextualmente combináveis: isto
+          de que os arquivos são contextualmente fundíveis: isto
           é, que os arquivos no repositório sejam majoritariamente
-          texto plano (como código fonte). Mas para arquivos com
-          formatos binários, como os imagens ou som, frequentemente
-          é impossível combinar as mudanças conflitantes. Nessas
+          texto plano (como código-fonte). Mas para arquivos com
+          formatos binários, como os de imagens ou som, freqüentemente
+          é impossível fundir as mudanças conflitantes. Nessas
           situações, é realmente necessário que o arquivo seja
           alterado por um usuário de cada vez. Sem um acesso
           serializado, alguém acabará perdendo tempo em
           mudanças que no final serão descartadas.</para>
 
         <para>Enquanto o Subversion é primariamente um sistema copy-modify-merge,
-          ele ainda reconhece a necessidade ocasional de lock em algum arquivo e
+          ele ainda reconhece a necessidade ocasional de locking em algum arquivo e
           assim fornece mecanismos para isso. Este recurso será discutido mais
           tarde neste livro, em <xref linkend="svn.advanced.locking"/>.</para>
 
@@ -296,8 +296,8 @@
     <title>Subversion em Ação</title>
     
     <para>Chegou a hora de passar do abstrato para o concreto.
-    Nesta seção, nós mostraremos exemplos reais do Subversion
-    sendo usado.</para>
+    Nesta seção, nós mostraremos exemplos reais de utilização
+    do Subversion</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.reposurls">
@@ -305,8 +305,8 @@
   
       <para>Ao longo de todo este livro, o Subversion utiliza URLs para
         identificar arquivos e diretórios versionados nos repositórios.
-        Na maior parte, esses URLs usam a sintaxe padrão, permitindo
-        nomes do servidores e números de portas serem especificados como
+        Na maior parte, essas URLs usam a sintaxe padrão, permitindo
+        nomes de servidor e números de porta serem especificados como
         parte da URL:</para>
   
       <screen>
@@ -407,8 +407,8 @@ $ svn checkout http://host/path%20with%20space/project/espa%C3%B1a
         o Subversion lhe disponibiliza comandos para <quote>publicar</quote>
         (commit) suas alterações para as outras pessoas que estão trabalhando
         com você no mesmo projeto (gravando no repositório). Se outras pessoas
-        publicarem alterações, o Subversion lhe disponibiliza comandos para
-        combinar (merge) essas alterações em sua cópia de trabalho (lendo do
+        publicarem alterações, o Subversion disponibiliza comandos para
+        fundir (merge) essas alterações em sua cópia de trabalho (lendo do
         repositório).</para>
 
       <para>Uma cópia de trabalho também contém alguns arquivos extras,
@@ -769,9 +769,9 @@ calc/Makefile:6
               no repositório. O comando <command>svn commit</command>
               no arquivo irá falhar com o erro <quote>out-of-date</quote>
               (desatualizado). O arquivo deve ser atualizado primeiro; o
-              comando <command>svn update</command> vai tentar combinar
+              comando <command>svn update</command> vai tentar fundir
               as alterações do repositório com as locais. Se o Subversion
-              não conseguir completar a combinação de uma forma plausível
+              não conseguir completar a fusão de uma forma plausível
               automaticamente, ele deixará para o usuário resolver o
               conflito.</para>
           </listitem>
@@ -797,7 +797,7 @@ calc/Makefile:6
         mistura de diferentes revisões. Infelizmente esta flexibilidade
         tende a confundir inúmeros novos usuários. Se o exemplo anterior
         mostrando revisões mistas deixou você perplexo, aqui está um
-        exemplo mostrando tanto a razão pela qual o fucncionalidade
+        exemplo mostrando tanto a razão pela qual o funcionalidade
         existe, quanto como fazer para usá-la.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -811,7 +811,7 @@ calc/Makefile:6
           significa que você está pronto para receber as alterações
           de outras pessoas. E se você tiver novas alterações em curso,
           então o comando <command>svn update</command> deveria
-          graciosamente combinar as alterações no repositório com as
+          graciosamente fundir as alterações no repositório com as
           suas próprias, ao invés de forçar você a publicá-las.</para>
 
         <para>O principal efeito colateral dessa regra significa que
