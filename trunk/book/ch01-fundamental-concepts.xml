@@ -52,7 +52,7 @@
       </emphasis> do sistema de arquivos. Por exemplo, um cliente pode
       perguntar questões de histórico como, <quote>O que este
       diretório continha na última quarta-feira?</quote> ou <quote>Quem
-      foi a última pessoa que alterou este aquivo, e que alterações ela
+      foi a última pessoa que alterou este arquivo, e que alterações ela
       fez?</quote> Estes são os tipos de questões que estão no coração
       de qualquer <firstterm>sistema de controle de versão</firstterm>:
       sistemas que são projetados para monitorar alterações nos dados ao
@@ -89,7 +89,7 @@
 
       <para>Considere o cenário mostrado em <xref
         linkend="svn.basic.vsn-models.problem-sharing.dia-1"/>.
-        Vamos supor que nós temos dois colegas de trabalho, Harry and
+        Vamos supor que nós temos dois colegas de trabalho, Harry e
         Sally. Cada um deles decide editar o mesmo arquivo no repositório
         ao mesmo tempo. Se Harry salvar suas alterações no repositório
         primeiro, então é possível que (poucos momentos depois) Sally
@@ -177,7 +177,7 @@
             uma falsa sensação de segurança. É fácil para Harry e Sally imaginar
             que travando os arquivos, cada um está começando uma tarefa isolada
             segura, e assim não se preocupar em discutir as incompatibilidades
-            que virão com suas mudanças. Locking frequentemente se torna um
+            que virão com suas mudanças. Locking freqüentemente se torna um
             substituto para a comunicação real.</para>
         </listitem>
       </itemizedlist>
@@ -203,7 +203,7 @@
       <para>Aqui vai um exemplo. Digamos que Harry e Sally criaram cada um a sua
         cópia de trabalho de um mesmo projeto, copiadas do repositório. Eles
         trabalharam simultaneamente fazendo alterações no arquivo A nas
-        suas próprias cópias. Sally salva suas alteações no repositório primeiro.
+        suas próprias cópias. Sally salva suas alterações no repositório primeiro.
         Quando Harry tentar salvar suas alterações mais tarde, o repositório vai
         informá-lo que seu arquivo A está <firstterm>desatualizado</firstterm>
         (out-of-date). Em outras palavras, o arquivo A do repositório foi de
@@ -238,7 +238,7 @@
         apenas pessoas são capazes de compreender e fazer as escolhas
         inteligentes. Uma vez que Harry tenha resolvido manualmente as
         alterações conflitantes - talvez depois de uma conversa com Sally -
-        ele poderá tranquilamente salvar o arquivo fundido no
+        ele poderá tranqüilamente salvar o arquivo fundido no
         repositório.</para>
 
       <para>O modelo copy-modify-merge pode soar um pouco caótico, mas,
@@ -347,14 +347,14 @@ C:\&gt; svn checkout "file:///X|/path/to/repos"
       <para>Na segunda sintaxe, você precisa colocar a URL entre aspas
         de modo que o caracter de barra vertical não seja interpretado
         como um pipe. Além disso, note que a URL utiliza barras normais,
-        enquanto no Windows os paths (não URLs) utilizam contrabarras.</para>
+        enquanto no Windows os paths (não URLs) utilizam barra invertida.</para>
 
       <note>
         <para>URLs <literal>file://</literal> do Subversion não podem
           ser utilizadas em um browser comum da mesma forma que URLs
           <literal>file://</literal> típicas podem. Quando você tenta
           ver uma URL <literal>file://</literal> num web browser comum,
-          ele lê e mostra o conteúdo do local examinando o sitema de
+          ele lê e mostra o conteúdo do local examinando o sistema de
           arquivos diretamente. Entretanto, os recursos do Subversion
           existem em um sistema de arquivos virtual (veja <xref
           linkend="svn.developer.layerlib.repos" />), e o seu
@@ -362,7 +362,7 @@ C:\&gt; svn checkout "file:///X|/path/to/repos"
           arquivos.</para>
       </note>
       
-      <para>Por último, comvém notar que o cliente Subversion vai
+      <para>Por último, convém notar que o cliente Subversion vai
         automaticamente codificar as URLs conforme necessário, de
         forma semelhante a um browser. Por exemplo, se a URL contiver
         espaços ou algum caracter não ASCII:</para>
@@ -417,11 +417,11 @@ $ svn checkout http://host/path%20with%20space/project/espa%C3%B1a
         contém um subdiretório chamado <filename>.svn</filename>, também
         conhecido como o <firstterm>diretório administrativo</firstterm>
         da cópia de local. Os arquivos em cada diretório administrativo
-        ajudam o Subversion a reconhecer quais arquivos possuem alterções
+        ajudam o Subversion a reconhecer quais arquivos possuem alterações
         não-publicadas, e quais estão desatualizados em relação ao trabalho
         dos outros.</para>
       
-      <para>Um típico repositório Subversion frequentemente detém os arquivos
+      <para>Um típico repositório Subversion freqüentemente detém os arquivos
         (ou código fonte) para vários projetos, geralmente, cada projeto é um
         subdiretório na árvore de arquivos do repositório. Desse modo, uma
         cópia de trabalho de um normalmente corresponderá a uma sub-árvore
@@ -458,7 +458,7 @@ Makefile  integer.c  button.c  .svn/
 </screen>
 
       <para>A lista de letras A na margem esquerda indica que o
-        Subversion está adicionando um certo número de itens à
+        Subversion está adicionando um certo número de ítens à
         sua cópia de trabalho. Você tem agora uma cópia pessoal
         do diretório <filename>/calc</filename> do repositório,
         com uma entrada adicional - <filename>.svn</filename> -
@@ -493,7 +493,7 @@ Committed revision 57.
 
       <para>Suponha que você tenha um colaborador, Sally, que tenha
       	feito check out de <filename>/calc</filename> ao mesmo tempo
-      	que você. Quando você publicar suas alterções em <filename>
+      	que você. Quando você publicar suas alterações em <filename>
       	button.c</filename>, a cópia de trabalho de Sally será deixada
       	intacta; o Subversion somente modifica as cópias locais quando
       	o usuário requisita.</para>
@@ -531,7 +531,7 @@ Updated to revision 57.
         <para>Os repositórios do Subversion podem ser acessados
           através de diversos métodos - em um disco local, através
           de vários protocolos de rede, dependendo de como o
-          adminstrador configurou as coisas para você. Qualquer
+          administrador configurou as coisas para você. Qualquer
           local no repositório, entretanto, é sempre uma URL. A
           Tabela <xref linkend="svn.basic.in-action.wc.tbl-1"/>
           descreve como diferentes esquemas de URLs mapeiam para
@@ -670,7 +670,7 @@ calc/Makefile:4
 </screen>
 
       <para>Suponha que neste ponto, Sally publique uma alteração no arquivo
-        <filename>integer.c</filename>, crianado a revisão 6. Se você usar o
+        <filename>integer.c</filename>, criando a revisão 6. Se você usar o
         comando <command>svn update</command> para atualizar a sua cópia de
         trabalho, então ela irá parecer com isto:</para>
 
@@ -715,7 +715,7 @@ calc/Makefile:6
         </listitem>
       </itemizedlist>
 
-      <para>Dadas estas inmformações, conversando com o repositório,
+      <para>Dadas estas informações, conversando com o repositório,
         o Subversion pode dizer em qual dos seguintes quatro estados
         um arquivo local está:</para>
 
@@ -781,7 +781,7 @@ calc/Makefile:6
 
       <para>Isto pode soar como muito para acompanhar, mas o comando
         <command>svn status</command> mostrará para você o estado de
-        qualquer item em seu diretório local. Para maiores informações
+        qualquer ítem em seu diretório local. Para maiores informações
         sobre este comando, veja
         <xref linkend="svn.tour.cycle.examine.status" />.</para>
 
@@ -791,7 +791,7 @@ calc/Makefile:6
     <sect2 id="svn.basic.in-action.mixedrevs">
       <title>Revisões Locais Mistas</title>
 
-      <para>Como um princípio geral, o subversion tenta ser tão flexível
+      <para>Como um princípio geral, o Subversion tenta ser tão flexível
         quanto possível. Um tipo especial de flexibilidade é a capacidade
         de ter uma cópia local contendo arquivos e diretórios com uma
         mistura de diferentes revisões. Infelizmente esta flexibilidade
@@ -863,7 +863,7 @@ calc/Makefile:6
           linkend="svn.tour.cycle.examine.status"/> para maiores
           informações.)</para>
 
-        <para>Frequentemente, os novos usuários nem tomam consciência
+        <para>Freqüentemente, os novos usuários nem tomam consciência
           de que suas cópias locais contêm revisões mistas. Isso pode
           ser confuso, pois muitos comandos no cliente são sensíveis
           às revisões que eles estão examinando. Por exemplo, o comando
@@ -887,12 +887,12 @@ calc/Makefile:6
           descobrir que algumas vezes é interessante forçar um <firstterm>
           backdate</firstterm> (ou, atualizar para uma revisão mais antiga
           que a que você tem) de partes de sua cópia local para revisões
-          anteriores; vocÇe irá aprender como fazer isso em <xref
+          anteriores; você irá aprender como fazer isso em <xref
           linkend="svn.tour"/>. Talvez você queira testar uma versão anterior
           de um sub-módulo contido em um subdiretório, ou talvez queira
           descobrir quando um bug apareceu pela primeira vez eu arquivo
           específico. Este é o aspecto de <quote>máquina do tempo</quote>
-          de um sitema de controle de versão - a funcionalidade que te permite
+          de um sistema de controle de versão - a funcionalidade que te permite
           mover qualquer parte de sua cópia local para frente ou para trás
           na história.</para>
 
@@ -902,22 +902,22 @@ calc/Makefile:6
       <sect3 id="svn.basic.in-action.mixedrevs.limits">
         <title>Revisões mistas têm limitações</title>
 
-        <para>Apesar de você poder fazer uso de revisõesmistas em seu
+        <para>Apesar de você poder fazer uso de revisões mistas em seu
           ambiente local, esta flexibilidade tem limitações.</para>
           
         <para>Primeiramente, você não pode publicar a deleção de um arquivo
           ou diretório que não esteja completamente atualizado. Se uma
-          versão mais nova do item existe no repositório, sua tentativa de
+          versão mais nova do ítem existe no repositório, sua tentativa de
           deleção será rejeitada, para prevenir que você acidentalmente
           destrua alterações que você ainda não viu.</para>
 
         <para>Em segundo lugar, você não pode publicar alterações em meta-dados
           de diretórios a menos que ele esteja completamente atualizado.
-          Você irá aprender a anexar <quote>propriedades</quote> aos itens
-          em <xref linkend="svn.advanced"/>. Uma revisão em um dretório local
+          Você irá aprender a anexar <quote>propriedades</quote> aos ítens
+          em <xref linkend="svn.advanced"/>. Uma revisão em um diretório local
           define um conjunto específico de entradas e propriedades, e assim,
           publicar alterações em propriedades de um diretório desatualizado
-          pode destruie propriedades que você ainda não viu.</para>
+          pode destruir propriedades que você ainda não viu.</para>
 
       </sect3>
 
