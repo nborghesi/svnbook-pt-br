@@ -4,77 +4,82 @@
   <para>Se você está lendo este livro capítulo por capítulo, do
     inicio ao fim, você deve agora ter adquirido conhecimentos
     suficientes para usar o cliente Subversion para executar a operações
-    de controle de verão mais comuns.  Você entendeu como
-    obter uma cópia de trabalho de um repositório Subversion.  Você sente-se
+    de controle de verão mais comuns.  Você entendeu como obter uma
+    cópia de trabalho de um repositório Subversion.  Você sente-se
     confortável para submeter e receber mudanças usando as funções
-    <command>svn commit</command> e <command>svn update</command>
-    .  Você provavelmente desenvolveu um reflexo que lhe impele
-    a executar o comando <command>svn status</command> quase
-    inconsientemente.  Para todos os intentos e propósitos, você está pronto para
-    usar o Subversion em um ambiente típico.</para>
+    <command>svn commit</command> e <command>svn update</command>.  Você
+    provavelmente desenvolveu um reflexo que lhe impele a executar o
+    comando <command>svn status</command> quase inconsientemente.  Para
+    todos os intentos e propósitos, você está pronto para usar o
+    Subversion em um ambiente típico.</para>
 
-  <para>Mas o conjunto de recursos do Subversion não para nas <quote>operações
-    de controle de versão comuns</quote>.  Ele tem outras pequenas
-    funcionalidades além de cumunicar mudanças de arquivos e
-    diretórios para e a partir de um repositório central.</para>
+  <para>Mas o conjunto de recursos do Subversion não para nas
+    <quote>operações de controle de versão comuns</quote>.  Ele tem
+    outras pequenas funcionalidades além de comunicar mudanças de
+    arquivos e diretórios para e a partir de um repositório
+    central.</para>
 
   <para>Este capítulo destaca alguns dos recursos do Subversion que,
-    apesar de importantes, não fazem pare da rotina diária de um usuário típico.
-    Ele assume que você está familiarizado com capacidades básicas de controle
-    de versão sobre arquivos e diretórios.  Se não está, você vai querer 
-    ler primeiro o <xref linkend="svn.basic" /> e <xref
-    linkend="svn.tour" />.  Uma vez tenha dominado estes fundamentos e
-    terminado este capítulo, você será um usuário avançado do Subversion!</para>
+    apesar de importantes, não fazem pare da rotina diária de um
+    usuário típico.  Ele assume que você está familiarizado com
+    capacidades básicas de controle de versão sobre arquivos e
+    diretórios.  Se não está, você vai querer ler primeiro o <xref
+    linkend="svn.basic" /> e <xref linkend="svn.tour" />.  Uma vez que
+    você tenha dominado estes fundamentos e terminado este capítulo,
+    você será um usuário avançado do Subversion!</para>
 
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.tour.revs.specifiers">
-    <title>Revision Specifiers</title>
+    <title>Especificadores de Revisão</title>
 
-    <para>As you saw in <xref linkend="svn.basic.in-action.revs" />, revision
-      numbers in Subversion are pretty straightforward&mdash;integers
-      that keep getting larger as you commit more changes to your
-      versioned data.  Still, it doesn't take long before you can no
-      longer remember exactly what happened in each and every
-      revision.  Fortunately, the typical Subversion workflow doesn't
-      often demand that you supply arbitrary revisions to the
-      Subversion operations you perform.  For operations that
-      <emphasis>do</emphasis> require a revision specifier, you
-      generally supply a revision number that you saw in a commit
-      email, in the output of some other Subversion operation, or in
-      some other context that would give meaning to that particular
-      number.</para>
+    <para>Como você viu em <xref linkend="svn.basic.in-action.revs" />,
+      números re revisão no Subversion são bastante
+      simples&mdash;números inteiros que aumentam conforme você submete
+      mais alterações em seus dados versionados.  Assim, não demora
+      muito para que você não se lembre mais do que aconteceu exatamente
+      em toda uma dada revisão.  Felizmente, o típico ciclo de trabalho
+      no Subversion frequentemente não precisa que você informe números
+      de revisão arbitrários para as operações que você executa no
+      Subversion.  Para aquelas operações que
+      <emphasis>precisam</emphasis> de um especificador de revisão, você
+      geralmente informa um número de revisão que você viu em um e-mail
+      da submissão (e-mail de <foreignphrase>commit</foreignphrase>), na
+      saída de alguma outra operação do Subversion, ou em algum outro
+      contexto que poderia fazer sentido para aquele número em
+      particular.</para>
 
-    <para>But occasionally, you need to pinpoint a moment in time for
-      which you don't already have a revision number memorized or
-      handy.  So besides the integer revision numbers,
-      <command>svn</command> allows as input some additional forms of
-      revision specifiers&mdash;<firstterm>revision keywords</firstterm>, and revision
-      dates.</para>
+    <para>Mas ocasionalmente, você precisa de um marco de um momento no
+      tempo para o qual você não tem ainda um número de revisão
+      memorizado ou em mãos.  Neste caso, além de números inteiros de
+      revisão, o <command>svn</command> permite como entrada algumas
+      formas de especificadores de revisão&mdash;<firstterm>termos de
+      revisão</firstterm>, e datas de revisão.</para>
 
     <note>
-      <para>The various forms of Subversion revision specifiers can be
-        mixed and matched when used to specify revision ranges.  For
-        example, you can use <option>-r
+      <para>As várias formas de especificadores de revisão do Subversion
+        podem ser misturadas e correspondidas quando usadas para
+        especificar intervalos de revisão.  Por exemplo, você pode usar 
+        <option>-r
         <replaceable>REV1</replaceable>:<replaceable>REV2</replaceable></option>
-        where <replaceable>REV1</replaceable> is a revision keyword
-        and <replaceable>REV2</replaceable> is a revision number, or
-        where <replaceable>REV1</replaceable> is a date and
-        <replaceable>REV2</replaceable> is a revision keyword, and so
-        on.  The individual revision specifiers are independently
-        evaluated, so you can put whatever you want on the opposite
-        sides of that colon.</para>
+        onde <replaceable>REV1</replaceable> seja um termo de revisão e 
+        <replaceable>REV2</replaceable> seja um número de revisão, onde 
+        <replaceable>REV1</replaceable> seja uma data e
+        <replaceable>REV2</replaceable>, um termo de revisão, e por aí
+        vai.  Especificadores de revisão individuais são avaliados
+        independentemente, então você pode pôr o que bem quiser junto
+        dos dois-pontos.</para>
     </note>
     
     <!-- =============================================================== -->
     <sect2 id="svn.tour.revs.keywords">
-      <title>Revision Keywords</title>
+      <title>Termos de Revisão</title>
       
       <indexterm>
-        <primary>revisions</primary>
-        <secondary>revision keywords</secondary>
+        <primary>revisões</primary>
+        <secondary>termos de revisão</secondary>
       </indexterm>
       <indexterm>
         <primary>HEAD</primary>
@@ -89,88 +94,89 @@
         <primary>PREV</primary>
       </indexterm>
 
-      <para>The Subversion client understands a number of
-        revision keywords.  These keywords can
-        be used instead of integer arguments to the
-        <option>--revision (-r)</option> switch, and are resolved into
-        specific revision numbers by Subversion:</para>
+      <para>O cliente Subversion entende um conjunto de termos de
+        revisão.  Estes termos podem ser usados no lugar dos argumentos
+        inteiros para a opção <option>--revision (-r)</option>, e são
+        resolvidos para números de revisão específicos pelo
+        Subversion:</para>
 
       <variablelist>
         
         <varlistentry>
           <term>HEAD</term>
           <listitem>
-            <para>The latest (or <quote>youngest</quote>) revision in
-              the repository.</para>
+            <para>A última (ou <quote>mais recente</quote>) revisão no
+              repositório.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term>BASE</term>
           <listitem>
-            <para>The revision number of an item in a working copy.
-              If the item has been locally modified, the <quote>BASE
-              version</quote> refers to the way the item appears
-              without those local modifications.</para>
+            <para>O número de revisão de um item em uma cópia de
+              trabalho.  Se o item tiver sido modificado localmente, a
+              <quote>versão BASE</quote> refere-se à forma como o item
+              estaria sem estas modificações locais.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term>COMMITTED</term>
           <listitem>
-            <para>The most recent revision prior to, or equal to,
-              <literal>BASE</literal>, in which an item changed.</para>
+            <para>A revisão mais recente anterior, ou igual a,
+              <literal>BASE</literal>, na qual o item foi modificado.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term>PREV</term>
           <listitem>
-            <para>The revision immediately <emphasis>before</emphasis>
-              the last revision in which an item changed.
-              Technically, this boils down to
+            <para>A revisão imediatamente <emphasis>anterior</emphasis>
+              à última revisão na qual o item foi modificado.
+              Tecnicamente, isto se resume a
               <literal>COMMITTED</literal>-1.</para>
           </listitem>
         </varlistentry>
         
       </variablelist>
 
-      <para>As can be derived from their descriptions, the
-        <literal>PREV</literal>, <literal>BASE</literal>, and
-        <literal>COMMITTED</literal> revision keywords are used only
-        when referring to a working copy path&mdash;they don't apply
-        to repository URLs.  <literal>HEAD</literal>, on the other
-        hand, can be used in conjunction with both of these path
-        types.</para>
+      <para>Como pode ser deduzido de suas descrições, os termos de
+        revisão <literal>PREV</literal>, <literal>BASE</literal>, e
+        <literal>COMMITTED</literal> são usados apenas quando se
+        referirem a um caminho numa cópia de trabalho&mdash;eles não se
+        aplicam a URLs do repositório.  <literal>HEAD</literal>, por
+        outro lado, pode ser usado em conjunto para qualquer um desses
+        tipos de caminho.</para>
       
-      <para>Here are some examples of revision keywords in
-        action:</para>
+      <para>Aqui estão alguns exemplos da utilização de termos de
+        revisão:</para>
       
       <screen>
 $ svn diff -r PREV:COMMITTED foo.c
-# shows the last change committed to foo.c
+# exibe a última alteração submetida em foo.c
 
 $ svn log -r HEAD
-# shows log message for the latest repository commit
+# mostra a mensagem de log do último registro no repositório
 
 $ svn diff -r HEAD
-# compares your working copy (with all of its local changes) to the
-# latest version of that tree in the repository
+# compara sua cópia de trabalho (com todas suas alterações locais) com a 
+# última versão na árvore do diretório
 
 $ svn diff -r BASE:HEAD foo.c
-# compares the unmodified version of foo.c with the latest version of
-# foo.c in the repository
+# compara a versão inalterada de foo.c com a última versão de
+# foo.c no repositório
 
 $ svn log -r BASE:HEAD
-# shows all commit logs for the current versioned directory since you
-# last updated
+# mostra todos os logs das submissões para o diretório atual versionado
+# desde a última atualização que você fez em sua cópia de trabalho
 
 $ svn update -r PREV foo.c
-# rewinds the last change on foo.c, decreasing foo.c's working revision
+# retorna à última alteração feita em foo.c, reduzindo o número de
+# revisão de foo.c
 
 $ svn diff -r BASE:14 foo.c
-# compares the unmodified version of foo.c with the way foo.c looked
-# in revision 14
+# compara a versão inalterada de foo.c com o conteúdo que foo.c tinha na
+# revisão 14
 </screen>
       
     </sect2>
