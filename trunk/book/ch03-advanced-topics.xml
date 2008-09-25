@@ -373,106 +373,112 @@ $ svn log -r {2006-11-20}:{2006-11-29}
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.why">
-      <title>Why Properties?</title>
+      <title>Por que Propriedades?</title>
 
-      <para>Just as Subversion uses properties to store extra
-        information about the files, directories, and revisions that
-        it contains, you might also find properties to be of similar
-        use.  You might find it useful to have a place
-        close to your versioned data to hang custom metadata about
-        that data.</para>
+      <para>Como o Subversion usa propriedades para armazenar
+        informações extras sobre arquivos, diretórios, e revisões que as
+        contém, você também pode usar propriedades de forma semelhante.
+        Você poderia achar útil ter um lugar próximo de seus dados
+        versionados para pendurar metadados personalidados sobre estes
+        dados.</para>
 
-      <para>Say you wish to design a website that houses many digital
-        photos, and displays them with captions and a datestamp.  Now,
-        your set of photos is constantly changing, so you'd like to
-        have as much of this site automated as possible.  These photos
-        can be quite large, so as is common with sites of this nature,
-        you want to provide smaller thumbnail images to your site
-        visitors.</para>
+      <para>Digamos que você quer elaborar um website que armazene
+        muitas fotos digitais, e as exiba com legendas e a data e hora
+        em que foram tiradas.  Só que seu conjunto de fotos está mudando
+        constantemente, e você gostaria de automatizar este site tanto
+        quanto possível.  Estas fotos podem ser um pouco grandes, então,
+        como muito comum em sites desse tipo, você quer disponibilizar
+        prévias em miniatura de suas fotos para os visitantes de seu
+        site.</para>
 
-      <para>Now, you can get this functionality using traditional
-        files.  That is, you can have your
-        <filename>image123.jpg</filename> and an
-        <filename>image123-thumbnail.jpg</filename> side-by-side in a
-        directory.  Or if you want to keep the filenames the same, you
-        might have your thumbnails in a different directory, like
-        <filename>thumbnails/image123.jpg</filename>.  You can also
-        store your captions and datestamps in a similar fashion, again
-        separated from the original image file.  But the problem here
-        is that your collection of files grows in multiples with each
-        new photo added to the site.</para>
+      <para>Agora, você pode ter esta funcionalidade usando arquivos
+        tradicionais.  Isto é, você pode ter seus arquivos 
+        <filename>image123.jpg</filename> e 
+        <filename>image123-thumbnail.jpg</filename> lado a lado em um
+        diretório.  Ou se você quiser manter os mesmos nomes de
+        arquivos, você poderia ter suas miniaturas em um diretório
+        diferente, como <filename>thumbnails/image123.jpg</filename>.
+        Você também pode armazenar suas legendas e datas e horários de
+        forma parecida, também separadas do arquivo da foto original.
+        Mas o problema aqui é que o conjunto de arquivos aumenta aos
+        múltiplos para cada nova foto adicionada ao site.</para>
 
-      <para>Now consider the same website deployed in a way that makes
-        use of Subversion's file properties.  Imagine having a single
-        image file, <filename>image123.jpg</filename>, and then
-        properties set on that file named <literal>caption</literal>,
-        <literal>datestamp</literal>, and even
-        <literal>thumbnail</literal>.  Now your working copy directory
-        looks much more manageable&mdash;in fact, it looks to the
-        casual browser like there are nothing but image files in it.
-        But your automation scripts know better.  They know that they
-        can use <command>svn</command> (or better yet, they can use
-        the Subversion language bindings&mdash;see <xref
-        linkend="svn.developer.usingapi" />) to dig out the
-        extra information that your site needs to display without
-        having to read an index file or play path manipulation
-        games.</para>
+      <para>Agora considere o mesmo website desenvolvido de forma a
+        fazer uso das propriedades de arquivo do Subversion.  Imagine
+        ter um único arquivo de imagem,
+        <filename>image123.jpg</filename>, e então propriedades
+        definidas neste arquivo chamadas <literal>caption</literal>,
+        <literal>datestamp</literal>, ou mesmo
+        <literal>thumbnail</literal> (respectivamente para a legenda,
+        data e hora, e miniatura da imagem).  Agora sua cópia de
+        trabalho parece muito mais gerenciável&mdash;de fato, numa
+        primeira visualização, não parece haver nada mais além dos
+        arquivos de imagem lá dentro.  Mas seus scripts de automação
+        sabem mais.  Eles sabes que podem usar o <command>svn</command>
+        (ou melhor ainda, eles podem usar a linguagem incorporada ao
+        Subversion&mdash;veja <xref linkend="svn.developer.usingapi" />)
+        para para extrair as informações extras que seu site precisa
+        exibir sem ter que lê-las de um arquivo de índices nem precisar
+        de preocupar em estar manipulando caminhos dos arquivos.</para>
 
-      <para>Custom revision properties are also frequently used.  One
-        common such use is a property whose value contains an issue
-        tracker ID with which the revision is associated, perhaps
-        because the change made in that revision fixes a bug filed in
-        the tracker issue with that ID.  Other uses include hanging
-        more friendly names on the revision&mdash;it might be hard to
-        remember that revision 1935 was a fully tested revision.  But
-        if there's, say, a <literal>test-results</literal> property on
-        that revision with a value <literal>all passing</literal>,
-        that's meaningful information to have.</para>
+      <para>As propriedades personalizadas de revisões também são
+        frequentemente usadas.  Um de seus usos comuns é uma
+        propriedades cujo valor contém um recurso de ID de rastreamento
+        ao qual a revisão está associada, talvez pelo fato de a
+        alteração feita nesta revisão corrigir um bug relatado
+        externamente com aquele ID.  Outros usos incluem a inserção de
+        nomes mais amigáveis à revisão&mdash;pode ser difícil lembrar
+        que a revisão 1935 foi uma revisão testada completamente.  Mas
+        se houver, digamos, uma propriedade
+        <literal>resultado-dos-testes</literal> nesta revisão com o
+        valor <literal>todos passaram</literal>, esta á uma informação
+        bem mais significativa de se ter.</para>
 
       <sidebar>
-        <title>Searchability (or, Why <emphasis>Not</emphasis>
-          Properties)</title>
+        <title>Procurabilidade (ou, Porque <emphasis>Não</emphasis>
+          Usar Propriedades)</title>
 
-        <para>For all their utility, Subversion properties&mdash;or,
-          more accurately, the available interfaces to them&mdash;have
-          a major shortcoming:
-          while it is a simple matter to <emphasis>set</emphasis> a custom property,
-          <emphasis>finding</emphasis> that property later is whole
-          different ball of wax.</para>
+        <para>Para algo com tamanha , as propriedades do
+          Subversion&mdash;ou, mais precisamente, as interfaces
+          disponíveis para elas&mdash;têm uma grande falha:
+          apesar de ser simples <emphasis>criar</emphasis> uma
+          propriedade específica, <emphasis>procurar</emphasis> esta
+          propriedade posteriormente são outros quinhentos.</para>
 
-        <para>Trying to locate a custom revision property generally
-          involves performing a linear walk across all the revisions
-          of the repository, asking of each revision, "Do you have the
-          property I'm looking for?"  Trying to find a custom
-          versioned property is painful, too, and often involves a
-          recursive <command>svn propget</command> across an entire
-          working copy.  In your situation, that might not be as bad
-          as a linear walk across all revisions.  But it certainly
-          leaves much to be desired in terms of both performance and
-          likelihood of success, especially if the scope of your
-          search would require a working copy from the root of your
-          repository.</para>
+        <para>Tentar localizar uma propriedade específica de uma revisão
+          geralmente envolve executar uma busca linear ao longo de todas
+          as revisões do repositório, perguntando para cada revisão,
+          "Você tem a propriedade que eu estou procurando?"  Tentar
+          encontrar uma propriedade versionada é complicado, também, e
+          quase sempre envolve um recursivo <command>svn
+          propget</command> ao longo de toda a cópia de trabalho.  Esta
+          situação pode até não ser tão ruim quando uma busca linear
+          por todas as revisões.  Mas certamente deixa muito a desejar
+          tanto em termos de performance quanto mesmo da probabilidade
+          de sucesso, especialmente se o escopo de sua busca envolver
+          uma cópia de trabalho da raiz de seu repositório.</para>
 
-        <para>For this reason, you might choose&mdash;especially in
-          the revision property use-case&mdash;to simply add your
-          metadata to the revision's log message, using some
-          policy-driven (and perhaps programmatically-enforced)
-          formatting that is designed to be quickly parsed from the
-          output of <command>svn log</command>.  It is quite common to
-          see in Subversion log messages the likes of:</para>
+        <para>Por este motivo, você deve escolher&mdash;especialmente no
+          caso de propriedades de revisões&mdash;entre simplesmente
+          adicionar seus metadados na mensagem de log da revisão, usando
+          algum padrão de formatação (talvez até a partir de ferramentas
+          de programação) que permita uma filtragem rápida a partir da
+          saída do comando <command>svn log</command>.  É bastante comum
+          de se ver mensagens de log do Subversion parecidas com:</para>
 
         <programlisting>
 Issue(s): IZ2376, IZ1919
 Reviewed by:  sally
 
-This fixes a nasty segfault in the wort frabbing process
+Isto corrige um erro de falha de segmentação no gerenciador de processos
 &hellip;
 </programlisting>
 
-        <para>But here again lies some misfortune.  Subversion doesn't
-          yet provide a log message templating mechanism, which would
-          go a long way toward helping users be consistent with the
-          formatting of their log-embedded revision metadata.</para>
+        <para>Mas isto resulta em outra dificuldade.  O Subversion não
+          provê ainda uma mecanismo de modelos para mensagens de log,
+          que poderia ajudar bastante os usuários a manter
+          consistentemente o formato de seus metadados incluídos em
+          suas mensagens de log.</para>
 
       </sidebar>
 
