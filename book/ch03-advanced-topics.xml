@@ -183,23 +183,24 @@ $ svn diff -r BASE:14 foo.c
     
     <!-- =============================================================== -->
     <sect2 id="svn.tour.revs.dates">
-      <title>Revision Dates</title>
+      <title>Datas de Revisão</title>
       
       <indexterm>
-        <primary>revisions</primary>
-        <secondary>specified as dates</secondary>
+        <primary>revisões</primary>
+        <secondary>especificadas como datas</secondary>
       </indexterm>
 
-      <para>Revision numbers reveal nothing about the world outside
-        the version control system, but sometimes you need to
-        correlate a moment in real time with a moment in version
-        history.  To facilitate this, the <option>--revision (-r)</option>
-        option can also accept as input date specifiers wrapped in
-        curly braces (<literal>{</literal> and <literal>}</literal>).
-        Subversion accepts the standard ISO-8601 date and time
-        formats, plus a few others.  Here are some examples.
-        (Remember to use quotes around any date that contains
-        spaces.)</para>
+      <para>Números de revisão não revelam nada sobre o mundo fora do
+        sistema de controle de versão, mas algumas vezes você precisa
+        correlacionar um momento em tempo real com um momento no
+        histórico de revisões.  Para facilitar isto, a opção
+        <option>--revision (-r)</option> também pode aceitar
+        especificadores de data delimitados por chaves
+        (<literal>{</literal> e <literal>}</literal>) como entrada.  O
+        Subversion aceita datas e horas no padrão ISO-8601, além de
+        alguns poucos outros.  Aqui estão alguns exemplos.  (Lembre-se
+        de usar aspas para delimitar quaisquer datas que contenham
+        espaços.)</para>
 
       <screen>
 $ svn checkout -r {2006-02-17}
@@ -216,10 +217,10 @@ $ svn checkout -r {20060217T1530-0500}
 &hellip;
 </screen>
       
-      <para>When you specify a date, Subversion resolves that date to
-        the most recent revision of the repository as of that date,
-        and then continues to operate against that resolved revision
-        number:</para>
+      <para>Quando você especifica uma data, o Subversion resolve aquela
+        data para a revisão mais recente do repositório com aquela data,
+        e então continua a operação usando o número de revisão
+        obtido:</para>
         
       <screen>
 $ svn log -r {2006-11-28}
@@ -229,30 +230,31 @@ r12 | ira | 2006-11-27 12:31:51 -0600 (Mon, 27 Nov 2006) | 6 lines
 </screen>
         
       <sidebar>
-        <title>Is Subversion a Day Early?</title>
+        <title>O Subversion está um dia adiantado?</title>
         
-        <para>If you specify a single date as a revision without
-          specifying a time of day (for example
-          <literal>2006-11-27</literal>), you may think that Subversion
-          should give you the last revision that took place on the
-          27th of November.  Instead, you'll get back a revision from
-          the 26th, or even earlier.  Remember that Subversion will
-          find the <emphasis>most recent revision of the
-          repository</emphasis> as of the date you give.  If you give
-          a date without a timestamp, like
-          <literal>2006-11-27</literal>, Subversion assumes a time of
-          00:00:00, so looking for the most recent revision won't
-          return anything on the day of the 27th.</para>
+        <para>Se você especificar uma única data como uma revisão sem
+          especificar uma hora do dia (por exemplo
+          <literal>2006-11-27</literal>), você pode pensar que o
+          Subversion deveria dar a você a última revisão que tivesse
+          ocorrido em 27 de novembro.  Entretanto, você vai obter uma
+          revisão do dia 26, ou mesmo anterior a isso.  Lembre-se de que
+          o Subversion vai procurar a <emphasis>revisão do repositório
+          mais recente</emphasis> que a da data que você informou.  Se
+          você informar uma data sem a parte de horário, como
+          <literal>2006-11-27</literal>, o Subversion assume um horário
+          de 00:00:00, então procurar pela revisão mais recente não vai
+          retornar nada do dia 27.</para>
 
-        <para>If you want to include the 27th in your search, you can
-          either specify the 27th with the time (<literal>{"2006-11-27
-          23:59"}</literal>), or just specify the next day
+        <para>Se você quiser incluir o dia 27 em sua busca, você pode
+          tanto especificar o dia 27 com o horário
+          (<literal>{"2006-11-27 23:59"}</literal>), ou apenas
+          espeficiar o próximo dia
           (<literal>{2006-11-28}</literal>).</para>
         
       </sidebar>
       
-      <para>You can also use a range of dates.  Subversion will find
-        all revisions between both dates, inclusive:</para>
+      <para>Você também pode usar intervalos de datas.  O Subversion vai
+        encontrar todas as revisões entre as datas, inclusive:</para>
       
       <screen>
 $ svn log -r {2006-11-20}:{2006-11-29}
@@ -260,18 +262,21 @@ $ svn log -r {2006-11-20}:{2006-11-29}
 </screen>
         
       <warning>
-        <para>Since the timestamp of a revision is stored as an
-          unversioned, modifiable property of the revision (see <xref
-          linkend="svn.advanced.props" />, revision timestamps can be
-          changed to represent complete falsifications of true
-          chronology, or even removed altogether.  Subversion's
-          ability to correctly convert revision dates into real
-          revision numbers depends on revision datestamps maintaining
-          a sequential ordering&mdash;the younger the revision, the
-          younger its timestamp.  If this ordering isn't maintained,
-          you will likely find that trying to use dates to specify
-          revision ranges in your repository doesn't always return the
-          data you might have expected.</para>
+        <para>Uma vez que a data e horário
+          (<foreignphrase>timestamp</foreignphrase>) de uma revisão é
+          armazenada como uma propriedade da revisão não-versionada e
+          passível de alteração (veja <xref
+          linkend="svn.advanced.props" />, essas informações de data e
+          horário podem ser modificadas para representar falsificações
+          completas da cronologia real, ou mesmo podem ser removidas
+          inteiramente.  A capacidade do Subversion de converter
+          corretamente datas de revisão em números de revisão depende da
+          manutenção da ordem sequencial desta informação
+          temporal&mdash;quanto mais recente uma revisão, mais recente é
+          sua informação de data e horário.  Se esta ordenação não for
+          mantida, você perceberá que tentar usar datas para especificar
+          intervalos de revisão em seu repositório nem sempre retornará
+          os dados que você espera.</para>
       </warning>
         
     </sect2>
