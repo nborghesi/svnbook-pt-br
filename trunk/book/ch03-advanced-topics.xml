@@ -2927,37 +2927,37 @@ Index: frabnaggilywort/IDEA
   <!-- ================================================================= -->
   <sect1 id="svn.serverconfig.netmodel">
 
-    <title>Network Model</title>
+    <title>Modelo de Rede</title>
 
-    <para>At some point, you're going to need to understand how your
-      Subversion client communicates with its server.  Subversion's
-      networking layer is abstracted, meaning that Subversion clients
-      exhibit the same general behaviors no matter what sort of server
-      they are operating against.  Whether speaking the HTTP protocol
-      (<literal>http://</literal>) with the Apache HTTP Server or
-      speaking the custom Subversion protocol
-      (<literal>svn://</literal>) with <command>svnserve</command>,
-      the basic network model is the same.  In this section, we'll
-      explain the basics of that network model, including how
-      Subversion manages authentication and authorization
-      matters.</para>
+    <para>Em algum momento, será necessário compreender como seu
+      cliente Subversion comunica com seu servidor.  A camada de rede
+      do Subversion é abstrata, significando que os clientes Subversion
+      apresentam o mesmo comportamento geral não importando com que tipo de
+      servidor eles estão operando.  Seja comunicando no protocolo HTTP
+      (<literal>http://</literal>) com o Servidor HTTP Apache ou
+      comunicando no protocolo personalizado do Subversion
+      (<literal>svn://</literal>) com <command>svnserve</command>,
+      o modelo de rede básico é o mesmo.  Nesta seção, vamos
+      explicar os princípios básicos deste modelo de rede, incluindo como
+      o Subversion gerencia as questões de autenticação e
+      autorização.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.netmodel.reqresp">
-      <title>Requests and Responses</title>
+      <title>Solicitações e Respostas</title>
 
-      <para>The Subversion client spends most of its time managing
-        working copies.  When it needs information from a remote
-        repository, however, it makes a network request, and the
-        server responds with an appropriate answer.  The details of
-        the network protocol are hidden from the user&mdash;the client
-        attempts to access a URL, and depending on the URL scheme, a
-        particular protocol is used to contact the server (see <xref
+      <para>O cliente Subversion passa a maior parte de seu tempo gerenciando
+        cópias de trabalho.  Quando ele precisa de informações de um repositório
+        remoto, entretanto, ele efetua uma solicitação de rede, e o
+        servidor responde com uma resposta apropriada.  Os detalhes do
+        protocolo de rede estão escondidos do usuário&mdash;o cliente
+        tenta acessar uma URL, e dependendo do esquema na URL, um
+        protocolo específico é usado para comunicar com o servidor (veja <xref
         linkend="svn.basic.in-action.wc.sb-1"/>).</para>
 
-      <tip><para>Run <command>svn --version</command> to see
-        which URL schemes and protocols the client knows how to
-        use.</para>
+      <tip><para>Execute <command>svn --version</command> para ver
+        quais esquemas de URL e protocolos que o cliente sabe como
+        usar.</para>
       </tip>
 
       <para>When the server process receives a client request, it
