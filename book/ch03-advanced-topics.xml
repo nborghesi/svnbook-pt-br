@@ -287,79 +287,89 @@ $ svn log -r {2006-11-20}:{2006-11-29}
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.props">
-    <title>Properties</title>
+    <title>Propriedades</title>
     <indexterm>
-      <primary>properties</primary>
+      <primary>propriedades</primary>
     </indexterm>
 
-    <para>We've already covered in detail how Subversion stores and
-      retrieves various versions of files and directories in its
-      repository.  Whole chapters have been devoted to this most
-      fundamental piece of functionality provided by the tool.  And
-      if the versioning support stopped there, Subversion would still
-      be complete from a version control perspective.</para>
+    <para>Nós já abordamos em detalhes como o Subversion armazena e
+      recupera várias versões de arquivos e diretórios em seu
+      repositório.  Capítulos inteiros têm sido focados nesta parte mais
+      fundamental das funcionalidades providas pela ferramenta.  E se o
+      suporte a versionamento parar por aí, o Subversion ainda seria
+      completo do ponto de vista do controle de versão.</para>
 
-    <para>But it doesn't stop there.</para>
+    <para>Mas não pára por aí.</para>
 
-    <para>In addition to versioning your directories and files,
-      Subversion provides interfaces for adding, modifying, and
-      removing versioned metadata on each of your versioned
-      directories and files.  We refer to this metadata as
-      <firstterm>properties</firstterm>, and they can be thought of as
-      two-column tables that map property names to arbitrary values
-      attached to each item in your working copy.  Generally speaking,
-      the names and values of the properties can be whatever you want
-      them to be, with the constraint that the names must be
-      human-readable text.  And the best part about these properties
-      is that they, too, are versioned, just like the textual contents
-      of your files.  You can modify, commit, and revert property
-      changes as easily as you can file content changes.  And the
-      sending and receiving of property changes occurs as part of your
-      typical commit and update operations&mdash;you don't have to
-      change your basic processes to accommodate them.</para>
+    <para>Adicionalmente ao versionamento de seus arquivos e diretórios,
+      o Subversion permite interfaces para adição, modificação e remoção
+      de metadados versionados em cada um de seus arquivos e diretórios
+      sob controle de versão.  Chamamos estes metadados de
+      <firstterm>propriedades</firstterm>, e eles podem ser entendidos
+      como tabelas de duas colunas que mapeiam nomes de propriedades a
+      valores arbitrários anexados a cada item em sua cópia de trabalho.
+      Falando de uma forma geral, os nomes e valores das propriedades
+      podem ser quaisquer coisas que você queira, com a restrição de que
+      os nomes devem ser texto legível por humanos.  E a melhor parte
+      sobre estas propriedades é que elas, também, são versionadas, tal
+      como o conteúdo textual de seus arquivos.  Você pode modificar,
+      submeter, e reverter alterações em propriedades tão facilmente
+      como em qualquer alteração no conteúdo de arquivos.  E o envio e
+      recebimento das modificações em propriedades ocorrem como parte de
+      suas operações de submissão
+      (<foreignphrase>commit</foreignphrase>) e atualização
+      (<foreignphrase>update</foreignphrase>)&mdash;você não tem que
+      mudar seus procedimentos básicos para utilizá-los.</para>
 
     <note>
-      <para>Subversion has reserved the set of properties whose names
-        begin with <literal>svn:</literal> as its own.  While there
-        are only a handful of such properties in use today, you should
-        avoid creating custom properties for your own needs whose names
-        begin with this prefix.  Otherwise, you run the risk that a
-        future release of Subversion will grow support for a feature
-        or behavior driven by a property of the same name but with
-        perhaps an entirely different interpretation.</para>
+      <para>O Subversion reservou um conjunto de propriedades cujos
+        nomes começam com <literal>svn:</literal> para si próprio.
+        Ainda que haja apenas um conjunto útil de tais propriedades em
+        uso hoje em dia, você deve evitar criar suas propriedades
+        específicas com nomes que comecem com este prefixo.  Do
+        contrário, você corre o risco de que uma versão futura do
+        Subversion aumente seu suporte a recursos ou comportamentos a
+        partir de uma propriedade de mesmo nome, mas talvez com um
+        significado completamente diferente.</para>
     </note>
 
-    <para>Properties show up elsewhere in Subversion, too.  Just as
-      files and directories may have arbitrary property names and
-      values attached to them, each revision as a whole may have
-      arbitrary properties attached to it.  The same constraints
-      apply&mdash;human-readable names and anything-you-want binary
-      values.  The main difference is that revision properties are not
-      versioned.  In other words, if you change the value of, or
-      delete, a revision property, there's no way within the scope of
-      Subversion's functionality to recover the previous value.</para>
+    <para>Propriedades aparecem em qualquer parte no Subversion, também.
+      Da mesma maneira que arquivos e diretórios podem ter nomes de
+      propriedades arbitrários e valores anexados a eles, cada revisão
+      como um todo pode ter propriedades arbitrárias anexadas a si
+      própria.  As mesmas restrições se aplicam;mdash;nomes que sejam
+      legíveis por humanos e valores com qualquer coisa que você queira,
+      inclusive dados binários.  A principal diferença é que as
+      propriedades de uma revisão não são versionadas.  Em outras
+      palavras, se você modificar o valor de, ou excluir uma propriedade
+      de uma revisão, não há uma forma de recuperar seu valor anterior
+      no Subversion.</para>
 
-    <para>Subversion has no particular policy regarding the use of
-      properties.  It asks only that you not use property names that
-      begin with the prefix <literal>svn:</literal>.  That's the
-      namespace that it sets aside for its own use.  And Subversion
-      does, in fact, use properties, both the versioned and
-      unversioned variety.  Certain versioned properties have special
-      meaning or effects when found on files and directories, or house
-      a particular bit of information about the revisions on which
-      they are found.  Certain revision properties are automatically
-      attached to revisions by Subversion's commit process, and carry
-      information about the revision.  Most of these properties are
-      mentioned elsewhere in this or other chapters as part of the
-      more general topics to which they are related.  For an
-      exhaustive list of Subversion's pre-defined properties, see
-      <xref linkend="svn.ref.properties"/>.</para>
+    <para>O Subversion não tem nenhuma política em particular em relação
+      ao uso de propriedades.  Ele apenas solicita que você não use
+      nomes de propriedades que comecem com o prefixo
+      <literal>svn:</literal>.  Este é o espaço de nomes
+      (<foreignphrase>namespace</foreignphrase>) que ele reserva para
+      uso próprio.  E o Subversion, de fato, faz uso de propriedades,
+      tanto do tipo versionadas quando das não-versionadas.  Certas
+      propriedades versionadas têm um significado especial ou certos
+      efeitos quando encontradas em arquivos e diretórios, ou carregam
+      alguma pequena informação sobre a revisão na qual estes se
+      encontram.  Certas propriedades de revisão são automaticamente
+      anexadas às revisões pelo processo de submissão de alterações do
+      Subversion, e obtém informação sobre a revisão.  Muitas dessas
+      propriedades são mencionadas em algum lugar neste ou em outros
+      capítulos como parte de tópicos mais gerais aos quais estão
+      relacionadas.  Para uma lista exaustiva das propriedades
+      pré-definidas do Subversion, veja <xref 
+      linkend="svn.ref.properties"/>.</para>
 
-    <para>In this section, we will examine the utility&mdash;both to
-      users of Subversion, and to Subversion itself&mdash;of property
-      support.  You'll learn about the property-related
-      <command>svn</command> subcommands, and how property
-      modifications affect your normal Subversion workflow.</para>
+    <para>Nesta seção, vamos examinar a utilidade&mdash;tanto para os
+      usuários quanto para o próprio Subversion&mdash;do suporte a
+      propriedades.  Você vai aprender sobre os subcomandos de
+      <command>svn</command> que lidam com propriedaes, e como
+      alterações nas propriedades afetam seu fluxo de trabalho normal no
+      Subversion.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.why">
