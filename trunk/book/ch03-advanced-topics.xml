@@ -486,14 +486,15 @@ Isto corrige um erro de falha de segmentação no gerenciador de processos
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.manip">
-      <title>Manipulating Properties</title>
+      <title>Manipulando Propriedades</title>
 
-      <para>The <command>svn</command> command affords a few ways to
-        add or modify file and directory properties.  For properties
-        with short, human-readable values, perhaps the simplest way to
-        add a new property is to specify the property name and value
-        on the command line of the <command>propset</command>
-        subcommand.</para>
+      <para>O comando <command>svn</command> oferece algumas poucas
+        maneiras de se adicionar ou modificar propriedades de arquivos e
+        diretórios.  Para propriedades com valores pequenos, legíveis
+        por humanos, talvez a forma mais simplesde se adicionar uma nova
+        propriedade é espeficificar o nome e o valor da propriedade na
+        linha de comando com o subcomando
+        <command>propset</command>.</para>
 
       <screen>
 $ svn propset copyright '(c) 2006 Red-Bean Software' calc/button.c
@@ -501,13 +502,14 @@ property 'copyright' set on 'calc/button.c'
 $
 </screen>
        
-      <para>But we've been touting the flexibility that Subversion
-        offers for your property values.  And if you are planning to
-        have a multi-line textual, or even binary, property value, you
-        probably do not want to supply that value on the command line.
-        So the <command>propset</command> subcommand takes a
-        <option>--file (-F)</option> option for specifying the name of
-        a file which contains the new property value.</para>
+      <para>Mas sempre podemos contar com a flexibilidade que o
+        Subversion oferece para seus valores de propriedades.  E se você
+        está planejanto ter texto com múltiplas linhas, ou mesmo valores
+        binários para o valor da propriedade, você provavelmente não vai
+        informar este valor pela linha de comando.  Então, o subcomando
+        <command>propset</command> leva uma opção <option>--file
+        (-F)</option> para especificar o nome de um arquivo que contém o
+        valor para a nova propriedade.</para>
 
       <screen>
 $ svn propset license -F /path/to/LICENSE calc/button.c
