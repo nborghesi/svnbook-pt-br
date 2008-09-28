@@ -2995,34 +2995,34 @@ Index: frabnaggilywort/IDEA
         usar.</para>
       </tip>
 
-      <para>When the server process receives a client request, it
-        often demands that the client identify itself.  It issues
-        an authentication challenge to the client, and the client
-        responds by providing <firstterm>credentials</firstterm> back
-        to the server.  Once authentication is complete, the server
-        responds with the original information the client asked for.
-        Notice that this system is different from systems like CVS,
-        where the client pre-emptively offers credentials (<quote>logs
-        in</quote>) to the server before ever making a request.  In
-        Subversion, the server <quote>pulls</quote> credentials by
-        challenging the client at the appropriate moment, rather than
-        the client <quote>pushing</quote> them.  This makes certain
-        operations more elegant.  For example, if a server is
-        configured to allow anyone in the world to read a repository,
-        then the server will never issue an authentication challenge
-        when a client attempts to <command>svn checkout</command>.</para>
+      <para>Quando o processo servidor recebe uma requisição do cliente,
+        ele quase sempre solicita que o cliente se identifique.  Ele
+        lança um desafio de autenticação para o cliente, e o cliente
+        responde enviando de volta suas
+        <firstterm>credenciais</firstterm> ao servidor.  Quando a
+        autenticação for concluída, o servidor responde com a informação
+        original a qual o cliente requisitou.  Perceba que este sistema
+        é diferente de sistemas como o CVS em que o cliente oferece
+        credenciais pre-emptivamente (<quote>efetua um login</quote>) ao
+        servidor antes de fazer uma requisição.  No Subversion, o
+        servidor é que <quote>pega</quote> as credenciais desafiando o
+        cliente no momento adequado, ao invés de o cliente ter de
+        <quote>inserí-las</quote>.  Isto torna certas operações mais
+        elegantes.  Por exemplo, se um servidor estiver configurado para
+        permitir globalmente que qualquer um leia o repositório, então
+        o servidor nunca vai emitir um desafio de autenticação quando o
+        cliente executar um <command>svn checkout</command>.</para>
 
-      <para>If the particular network requests issued by the client
-        result in a new revision being created in the repository,
-        (e.g. <command>svn commit</command>), then Subversion uses the
-        authenticated username associated with those requests as the
-        author of the revision.  That is, the authenticated user's
-        name is stored as the value of the
-        <literal>svn:author</literal> property on the new revision
-        (see <xref linkend="svn.ref.properties"/>).  If
-        the client was not authenticated (in other words, the server
-        never issued an authentication challenge), then the revision's
-        <literal>svn:author</literal> property is empty.
+      <para>Se uma dada requisição de rede feita pelo cliente resultar
+        em uma nova revisão sendo criada no repositório (p.ex.
+        <command>svn commit</command>), então o Subversion usa o nome de
+        usuário autenticado associado a essas requisições como autor da
+        revisão.  Isto é, o nome do usuário autenticado é armazenado
+        como o valor da propriedade <literal>svn:author</literal> na
+        nova revisão (veja <xref linkend="svn.ref.properties"/>).  Se o
+        cliente não estava autenticado (em outras palavras, se o
+        servidor nunca lançara um desafio de autenticação other words),
+        então a propriedade <literal>svn:author</literal> será vazia.
       </para>
 
     </sect2>
