@@ -517,46 +517,47 @@ property 'license' set on 'calc/button.c'
 $
 </screen>
 
-      <para>There are some restrictions on the names you can use for
-        properties.  A property name must start with a letter, a colon
-        (<literal>:</literal>), or an underscore
-        (<literal>_</literal>); after that, you can also use digits,
-        hyphens (<literal>-</literal>), and periods
+      <para>Há algumas restrições sobre os nomes que você pode usar para
+        propriedades.  Um nome de propriedade deve começar com uma
+        letra, dois-pontos (<literal>:</literal>), ou um caracter
+        sublinha (<literal>_</literal>); e depois disso, você também
+        pode usar dígitos, hífens (<literal>-</literal>), e pontos
         (<literal>.</literal>).
           <footnote>
-            <para>If you're familiar with XML, this is pretty much the
-            ASCII subset of the syntax for XML "Name".</para>
+            <para>Se você é familiarizado com XML, este é exatamente o
+            subconjunto ASCII da sintaxe de um "Nome" XML.</para>
           </footnote>
       </para>
 
-      <para>In addition to the <command>propset</command> command, the
-        <command>svn</command> program supplies the
-        <command>propedit</command> command.  This command uses the
-        configured editor program (see <xref
-        linkend="svn.advanced.confarea.opts.config" />) to add or
-        modify properties.  When you run the command,
-        <command>svn</command> invokes your editor program on a
-        temporary file that contains the current value of the property
-        (or which is empty, if you are adding a new property).  Then,
-        you just modify that value in your editor program until it
-        represents the new value you wish to store for the property,
-        save the temporary file, and then exit the editor program.  If
-        Subversion detects that you've actually changed the existing
-        value of the property, it will accept that as the new property
-        value.  If you exit your editor without making any changes, no
-        property modification will occur:</para>
+      <para>Além do <command>propset</command>, o programa
+        <command>svn</command> também oferece comando
+        <command>propedit</command>.  Este comando usa o editor de texto
+        configurado (veja <xref
+        linkend="svn.advanced.confarea.opts.config" />) para adicionar
+        ou modificar propriedades.  Quando você executa este comando, o
+        <command>svn</command> chama seu programa editor em um arquivo
+        temporário que contém o valor atual da propriedade (ou o qual é
+        vazio, se você estiver adicionando uma nova propriedade).
+        Então, você apenas modifica esse valor em seu editor até que ele
+        represente o novo valor que você quer armazenar para a
+        propriedade.  Se o Subversion identificar que no momento você
+        está modificando o valor da propriedade existente, ele irá
+        aceitá-lo como novo valor da propriedade.  Se você sair de seu
+        editor sem fazer qualquer alteração, nenhuma modificação irá
+        ocorrer:</para>
 
       <screen>
-$ svn propedit copyright calc/button.c  ### exit the editor without changes
+$ svn propedit copyright calc/button.c  ### sai do editor sem fazer nada
 No changes to property 'copyright' on 'calc/button.c'
 $
 </screen>
 
-      <para>We should note that, as with other <command>svn</command>
-        subcommands, those related to properties can act on multiple
-        paths at once.  This enables you to modify properties on whole
-        sets of files with a single command.  For example, we could
-        have done:</para>
+      <para>Devemos notar que, como qualquer outro subcomando do
+        <command>svn</command>, estes que são relacionados a
+        propriedades podem agir em diversos caminhos de uma só vez.
+        Isto lhe permite modificar propriedades em todo um conjunto de
+        arquivos com um único comando.  Por exemplo, nós poderíamos ter
+        feito:</para>
 
       <screen>
 $ svn propset copyright '(c) 2006 Red-Bean Software' calc/*
@@ -567,17 +568,18 @@ property 'copyright' set on 'calc/integer.c'
 $
 </screen>
 
-      <para>All of this property adding and editing isn't really very
-        useful if you can't easily get the stored property value.  So
-        the <command>svn</command> program supplies two subcommands
-        for displaying the names and values of properties stored on
-        files and directories.  The <command>svn proplist</command>
-        command will list the names of properties that exist on a
-        path.  Once you know the names of the properties on the node,
-        you can request their values individually using <command>svn
-        propget</command>.  This command will, given a property name and a path (or set of
-        paths), print the value of the property to
-        the standard output stream.</para>
+      <para>Toda esta adição e alteração de propriedades não é realmente
+        muito útil se você não puder obter facilmente o valor armazenado
+        da propriedade.  Então o programa <command>svn</command> dispõe
+        de dois subcomando para exibição dos nomes e valores das
+        propriedades armazenadas nos arquivos e diretórios.  O comando
+        <command>svn proplist</command> vai listar os nomes das
+        propriedades que existem naquele caminho.  Uma vez que você
+        saiba os nomes das propriedades do nó, você pode verificar seus
+        valores individualmente usando <command>svn propget</command>.
+        Este comando mostrará, dado um nome de propriedade e um caminho
+        (ou conjunto de caminhos), o valor da propriedade para a saída
+        padrão.</para>
 
       <screen>
 $ svn proplist calc/button.c
@@ -588,10 +590,10 @@ $ svn propget copyright calc/button.c
 (c) 2006 Red-Bean Software
 </screen>
 
-      <para>There's even a variation of the
-        <command>proplist</command> command that will list both the
-        name and value of all of the properties.  Simply supply the
-        <option>--verbose</option> (<option>-v</option>) option.</para>
+      <para>Há ainda uma variação do comando <command>proplist</command>
+        que lista tanto o nome quanto o valor de todas as propriedades.
+        Apenas informe a opção <option>--verbose</option>
+        (<option>-v</option>).</para>
 
       <screen>
 $ svn proplist -v calc/button.c
@@ -610,12 +612,12 @@ red-beans-and-rice.
 &hellip;
 </screen>
 
-      <para>The last property-related subcommand is
-        <command>propdel</command>.  Since Subversion allows you to
-        store properties with empty values, you can't remove a
-        property altogether using <command>propedit</command> or
-        <command>propset</command>.  For example, this command will
-        <emphasis>not</emphasis> yield the desired effect:</para>
+      <para>O último subcomando relacionado a propriedades é o 
+        <command>propdel</command>.  Como o Subversion permite armazenar
+        propriedades com valores vazios, você não pode remover
+        uma propriedade usando <command>propedit</command> ou
+        <command>propset</command>.  Por exemplo, este comando
+        <emphasis>não</emphasis> vai surtir o efeito desejado:</para>
 
       <screen>
 $ svn propset license '' calc/button.c
@@ -627,9 +629,9 @@ Properties on 'calc/button.c':
 $
 </screen>
 
-      <para>You need to use the <command>propdel</command> subcommand
-        to delete properties altogether.  The syntax is similar to the
-        other property commands:</para>
+      <para>Você precisa usar o subcomando <command>propdel</command>
+        para remover propriedades completamente.  A sintaxe é semelhante
+        a dos outros comandos de propriedades:</para>
 
       <screen>
 $ svn propdel license calc/button.c
@@ -640,28 +642,29 @@ Properties on 'calc/button.c':
 $
 </screen>
 
-      <para>Remember those unversioned revision properties?  You can
-        modify those, too, using the same <command>svn</command>
-        subcommands that we just described.  Simply add the
-        <option>--revprop</option> command-line parameter, and specify
-        the revision whose property you wish to modify.  Since
-        revisions are global, you don't need to specify a target path
-        to these property-related commands so long as you are
-        positioned in a working copy of the repository whose
-        revision property you wish to modify.  Otherwise, you can
-        simply provide the URL of any path in the repository of
-        interest (including the repository's root URL).  For example,
-        you might want to replace the commit log message of an
-        existing revision.
+      <para>Lembra das propriedades não-versionadas de revisões?  Você
+        pode modificá-las, também, usando os mesmo subcomandos do
+        <command>svn</command> qua acabamos de descrever.  Apenas
+        adicione o parâmetro <option>--revprop</option> na linha de
+        comando, e especifique a revisão cujas propriedades você quer
+        modificar.  Como as revisões são globais, você não precisa
+        especificar um caminho para para estes comandos relacionados a
+        propriedades enquanto estiver em uma cópia de trabalho do
+        repositório cuja propriedade de revisão você queira alterar.
+        Por outro lado, você pode apenas especificar a URL de qualquer
+        caminho de seu interesse no repositório (incluindo a URL raíz
+        do repositório).  Por exemplo, você pode querer trocar a
+        mensagem de log de um registro de alteração de uma revisão
+        existente.
         <footnote>
-          <para>Fixing spelling errors, grammatical gotchas, and
-            <quote>just-plain-wrongness</quote> in commit log
-            messages is perhaps the most common use case for the
+          <para>Correção de erros de ortografia, gramaticais
+            <quote>outros ajustes simples de texto</quote> nas mensagens
+            de log de uma registro talvez seja o uso mais comum da opção
             <option>--revprop</option> option.</para>
         </footnote>
-        If your current working directory is part of a working copy of
-        your repository, you can simply run the
-        <command>svn propset</command> command with no target path:</para>
+        Se seu diretório atual for parte da cópia de trabalho de seu
+        repositório, você pode simplesmente executar o comando 
+        <command>svn propset</command> sem nenhum caminho:</para>
 
       <screen>
 $ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop
@@ -669,9 +672,10 @@ property 'svn:log' set on repository revision '11'
 $
 </screen>
 
-      <para>But even if you haven't checked out a working copy from
-        that repository, you can still affect the property change by
-        providing the repository's root URL:</para>
+      <para>Mas mesmo que você não tenha criado uma cópia de trabalho a
+        partir do repositório, você ainda assim pode proceder com
+        modificação de propriedades informando a URL raiz do
+        repositório:</para>
 
       <screen>
 $ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop \
@@ -680,26 +684,28 @@ property 'svn:log' set on repository revision '11'
 $
 </screen>
 
-      <para>Note that the ability to modify these unversioned
-        properties must be explicitly added by the repository
-        administrator (see <xref linkend="svn.reposadmin.maint.setlog" />).
-        That's because the properties aren't versioned, so you run the risk of
-        losing information if you aren't careful with your edits.
-        The repository administrator can set up methods to protect
-        against this loss, and by default, modification of
-        unversioned properties is disabled.</para>
+      <para>Perceba que a permissão para se alterar estas propriedades
+        não-versionadas deve ser explicitamente concedida pelo
+        administrador do repositório (veja <xref
+        linkend="svn.reposadmin.maint.setlog" />).  Isto é porque as
+        propriedades não são versionadas, então você corre o risco de
+        perder informação se não for cuidadoso com suas alterações.  O
+        administrador do repositório pode definir formas de proteção
+        contra perda de dados, e por padrão, além de que as modificações
+        de propriedades não-versionadas são desabilitadas por padrão.</para>
 
       <tip>
-        <para>Users should, where possible, use <command>svn
-          propedit</command> instead of <command>svn
-          propset</command>.  While the end result of the commands is
-          identical, the former will allow them to see the current
-          value of the property they are about to change, which helps
-          them to verify that they are, in fact, making the change
-          they think they are making.  This is especially true when
-          modifying unversioned revision properties.  Also, it is
-          significantly easier to modify multiline property values in
-          a text editor than at the command line.</para>
+        <para>Usuários poderia, quando possível, usar <command>svn
+          propedit</command> ao invés de <command>svn
+          propset</command>.  Ainda que o resultado da execução dos
+          comandos seja o mesmo, o primeiro vai lhes permitir visualizar
+          o valor atual da propriedade que querem modificar, o que ajuda
+          a conferir que estão, de fato, fazer a alteração que acham que
+          estão fazendo.  Isto é especialmente verdadeiro ao modificar
+          as propriedades não-versionadas de revisão.  E ainda, é
+          significativamente modificar valores de propriedades em
+          múltiplas linhas em um editor de texto do que pela linha de
+          comando.</para>
       </tip>
 
     </sect2>
