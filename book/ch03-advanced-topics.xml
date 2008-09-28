@@ -817,65 +817,72 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.props.auto">
-      <title>Automatic Property Setting</title>
+      <title>Definição Automática de Propriedades</title>
 
-      <para>Properties are a powerful feature of Subversion, acting as
-        key components of many Subversion features discussed elsewhere
-        in this and other chapters&mdash;textual diff and merge
-        support, keyword substitution, newline translation, etc.  But
-        to get the full benefit of properties, they must be set on the
-        right files and directories.  Unfortunately, that
-        step can be easily forgotten in the routine of things, especially
-        since failing to set a property doesn't usually result in an
-        obvious error (at least compared to, say, failing to
-        add a file to version control).  To help your properties get
-        applied to the places that need them, Subversion provides a
-        couple of simple but useful features.</para>
+      <para>Propriedades são um poderoso recurso do Subversion, agindo
+        como componentes chave em muitos outros recursos apresentados
+        neste e em outros capítulos&mdash;suporte a diferenciação e
+        mesclagem textual, substituição de palavras-chave, conversão de
+        delimitadores de linha, etc.  Mas para aproveitar plenamente as
+        propriedades, elas devem ser definidas nos arquivos e diretórios
+        certos.  Infelizmente, este passo é facilmente esquecido na
+        rotina de ações de usuário, especialmente pelo fato de que a não
+        atribuição de uma propriedade normalmente não resulta em nenhum
+        erro óbvio (ao menos quando comparado a, digamos, esquecer de
+        adicionar um arquivo ao controle de versão).  Para ajudar que
+        suas propriedades sejam aplicadas em seus devidos locais, o
+        Subversion dispõem de uma porção de recursos simples e
+        poderosos.</para>
 
-      <para>Whenever you introduce a file to version control using the
-        <command>svn add</command> or <command>svn import</command>
-        commands, Subversion tries to assist by setting some common
-        file properties automatically.  First, on operating systems
-        whose filesystems support an execute permission bit,
-        Subversion will automatically set the
-        <literal>svn:executable</literal> property on newly added or
-        imported files whose execute bit is enabled.  (See <xref
-        linkend="svn.advanced.props.special.executable" /> for more
-        about this property.)  Secondly, it runs a very basic
-        heuristic to determine if that file contains human-readable
-        content.  If not, Subversion will automatically set the
-        <literal>svn:mime-type</literal> property on that file to
-        <literal>application/octet-stream</literal> (the generic
-        <quote>this is a collection of bytes</quote> MIME type).  Of
-        course, if Subversion guesses incorrectly, or if you wish to
-        set the <literal>svn:mime-type</literal> property to something
-        more precise&mdash;perhaps <literal>image/png</literal> or
-        <literal>application/x-shockwave-flash</literal>&mdash;you can
-        always remove or edit that property.  (For more on
-        Subversion's use of MIME types, see <xref
+      <para>Sempre que você inclui um arquivo ao controle de versão
+        usando os comando <command>svn add</command> ou <command>svn
+        import</command>, o Subversion tenta ajudar criando algumas
+        propriedades de arquivo automaticamente.  Primeiramente, em
+        sistema operacionais cujos sistemas de arquivo suportem bits de
+        permissão de execução, o Subversion automaticamente vai definir
+        a propriedade <literal>svn:executable</literal> nos arquivos
+        recém adicionados ou importados nos quais o bit de execução
+        esteja ativo.  (Veja <xref
+        linkend="svn.advanced.props.special.executable" /> para mais
+        sobre esta propriedade.)  Em segundo lugar, ele executa uma
+        heurística bem básica para identificar se o arquivo contém
+        algum conteúdo que seja legível por humanos.  Se não, o
+        Subversion automaticamente vai definir a propriedade
+        <literal>svn:mime-type</literal> naquele arquivo para
+        <literal>application/octet-stream</literal> (o tipo MIME
+        genérico para <quote>isto é um conjunto de bytes</quote>).
+        Claro que se o Subversion identificou corretamente, ou se você
+        quiser definir a propriedade <literal>svn:mime-type</literal>
+        para algo mais preciso&mdash;talvez <literal>image/png</literal>
+        ou <literal>application/x-shockwave-flash</literal>&mdash;você
+        sempre pode remover ou editar esta propriedade.  (Para mais
+        sobre como o Subversion faz uso dos tipos MIME, veja <xref
         linkend="svn.advanced.props.special.mime-type" />.)</para>
 
-      <para>Subversion also provides, via its runtime configuration
-        system (see <xref linkend="svn.advanced.confarea" />), a more
-        flexible automatic property setting feature which allows you
-        to create mappings of filename patterns to property names and
-        values.  Once again, these mappings affect adds and imports,
-        and can not only override the default MIME type decision made
-        by Subversion during those operations, but can also set
-        additional Subversion or custom properties, too.  For example,
-        you might create a mapping that says that any time you add
-        JPEG files&mdash;ones whose names match the pattern
-        <literal>*.jpg</literal>&mdash;Subversion should automatically
-        set the <literal>svn:mime-type</literal> property on those
-        files to <literal>image/jpeg</literal>.  Or perhaps any files
-        that match <literal>*.cpp</literal> should have
-        <literal>svn:eol-style</literal> set to
-        <literal>native</literal>, and <literal>svn:keywords</literal>
-        set to <literal>Id</literal>.  Automatic property support is
-        perhaps the handiest property-related tool in the Subversion
-        toolbox.  See <xref
-        linkend="svn.advanced.confarea.opts.config"/> for more about
-        configuring that support.</para>
+      <para>O Subversion também oferece, através de seu sistema de
+        configuração em tempo de execução (veja <xref
+        linkend="svn.advanced.confarea" />), um mecanismo mais flexível
+        de definição automática de propriedades que permite a você criar
+        mapeamentos de padrões de nome de arquivos para nomes de
+        propriedades e valores.  Novamente, estes mapeamentos afetam
+        adições e importações e não apenas podem sobrescrever a
+        identificação sobre o tipo MIME padrão feita pelo Subversion
+        durante suas operações, como pode definir propriedades do
+        Subversion adicionais e personalidadas também.  Por exemplo,
+        você poderia criar um mapeamento que dissesse que sempre que
+        você adicionar arquivos JPEG&mdash;aqueles cujos nomes casem com
+        o padrão <literal>*.jpg</literal>&mdash;o Subversion deveria
+        automaticamente definir a propriedade
+        <literal>svn:mime-type</literal> destes arquivos para
+        <literal>image/jpeg</literal>.  Ou talvez quaisquer arquivos que
+        correspondam ao padrão <literal>*.cpp</literal> deveriam ter a
+        propriedade <literal>svn:eol-style</literal> definida para
+        <literal>native</literal>, e <literal>svn:keywords</literal>
+        atribuída para <literal>Id</literal>.  Suporte a propriedades
+        automáticas talvez seja a ferramenta mais prática no conjunto de
+        ferramentas do Subversion.  Veja <xref
+        linkend="svn.advanced.confarea.opts.config"/> para mais sobre a
+        configuração deste recurso.</para>
 
     </sect2>     
   </sect1>
