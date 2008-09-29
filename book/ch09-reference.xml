@@ -11,48 +11,49 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.ref.svn">
-    <title>The Subversion Command Line Client: <command>svn</command></title>
+    <title>O Cliente de Linha de Comando do Subevrsion: <command>svn</command></title>
     
-    <para>To use the command line client, you type
-      <command>svn</command>, the subcommand you wish to use
-      <footnote><para>Yes, yes, you don't need a subcommand to use the
-      <option>--version</option> option, but we'll get to that in just
-      a minute.</para></footnote>, and any options or targets that
-      you wish to operate on&mdash;there is no specific order that the
-      subcommand and the options must appear in.  For example, all of
-      the following are valid ways to use <command>svn
-      status</command>:</para>
+    <para>para usar o cliente de linha de comando, você digita 
+      <command>svn</command>, o subcomando que você quer usar 
+      <footnote><para>Sim, sim, você não precisa de um subcomando para
+      usar a opção <option>--version</option>, mas vamos falar disso num
+      instante.</para></footnote>, e quaisquer opções ou argumentos de
+      destino sobre os quais você quer realizar a operação&mdash;não há
+      uma ordem específica na qual o subcomando e as opções devam
+      aparecer.  Por exemplo, todos os comandos a seguir são formas
+      válidas de se usar um <command>svn status</command>:</para>
 
     <screen>
 $ svn -v status
 $ svn status -v 
-$ svn status -v myfile
+$ svn status -v meuarquivo
 </screen>
 
-    <para>You can find many more examples of how to use most client
-      commands in <xref linkend="svn.tour"/> and commands for managing
-      properties in <xref linkend="svn.advanced.props"/>.</para>
+    <para>Você pode encontrar muitos exemplos de como usar a maioria dos 
+      comandos do cliente Subversion <xref linkend="svn.tour"/> e dos
+      comandos para gerenciamento de propriedades em <xref
+      linkend="svn.advanced.props"/>.</para>
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svn.sw">
-      <title><command>svn</command> Options</title> 
+      <title>Opções do <command>svn</command></title> 
       
-      <para>While Subversion has different options for its
-        subcommands, all options are global&mdash;that is, each
-        option is guaranteed to mean the same thing regardless of
-        the subcommand you use it with.  For example,
-        <option>--verbose</option> (<option>-v</option>) always
-        means <quote>verbose output</quote>, regardless of the
-        subcommand you use it with.</para>
+      <para>Ainda que o Subversion tenha diferentes opções para seus
+        subcomandos, todas as opções são globais&mdash;isto é,
+        garante-se que cada opção signifique a mesma coisa
+        independentemente do subcomando que você use com ela.  Por
+        exemplo, <option>--verbose</option> (<option>-v</option>) sempre
+        significa <quote>saída verbosa</quote>, qualquer que seja o
+        subcomando que você utilizar com ela.</para>
 
       <variablelist>
         
         <varlistentry>
           <term><option>--auto-props</option></term>
           <listitem>
-            <para>Enables auto-props, overriding the
-              <literal>enable-auto-props</literal> directive in the
-              <filename>config</filename> file.</para>
+            <para>Habilita auto-props, sobrescrevendo a diretiva 
+              <literal>enable-auto-props</literal> no arquivo 
+              <filename>config</filename>.</para>
           </listitem>
         </varlistentry>
         
@@ -60,9 +61,10 @@ $ svn status -v myfile
           <term><option>--change</option> (<option>-c</option>)
             <replaceable>ARG</replaceable></term>
           <listitem>
-            <para>Used as a means to refer to a specific
-              <quote>change</quote> (aka a revision), this option is
-              syntactic sugar for <quote>-r ARG-1:ARG</quote>.</para>
+            <para>Usado como uma forma de se referir a uma
+              <quote>mudança</quote> (leia-se uma revisão), esta opção é
+              sintaticamente equivalente a <quote>-r
+              ARG-1:ARG</quote>.</para>
           </listitem>
         </varlistentry>
 
@@ -70,10 +72,10 @@ $ svn status -v myfile
           <term><option>--config-dir</option>
             <replaceable>DIR</replaceable></term>
           <listitem>
-            <para>Instructs Subversion to read configuration
-              information from the specified directory instead of the
-              default location (<filename>.subversion</filename> in
-              the user's home directory).</para>
+            <para>Diz para o Subversion ler a informação de configuração
+              a partir do diretório especificado ao invés de seu local
+              padrão (<filename>.subversion</filename> no diretório home
+              do usuário).</para>
           </listitem>
         </varlistentry>
 
@@ -81,15 +83,15 @@ $ svn status -v myfile
           <term><option>--diff-cmd</option>
             <replaceable>CMD</replaceable></term>
           <listitem>
-            <para>Specifies an external program to use to show
-              differences between files.  When <command>svn
-              diff</command> is invoked without this option, it uses
-              Subversion's internal diff engine, which provides
-              unified diffs by default.  If you want to use an
-              external diff program, use <option>--diff-cmd</option>.
-              You can pass options to the diff program with the
-              <option>--extensions</option> option (more on that later
-              in this section).</para>
+            <para>Especifica um programa externo a ser usado para exibir
+              diferenças entre arquivos.  Quando <command>svn
+              diff</command> é invocado sem esta opção, ele usa o
+              mecanismo de diff interno do Subversion, que exib diffs
+              unificados por padrão.  Se você quiser usar um programa
+              diff externo, use <option>--diff-cmd</option>.  Você pode
+              passar opções para o programa diff com a opção 
+              <option>--extensions</option> (mais detalhes sobre isso
+              mais adiante nesta seção).</para>
 
             <!-- TODO(fitz): Document -u -b -w and - -ignore-eol-style -->
 
@@ -100,16 +102,17 @@ $ svn status -v myfile
           <term><option>--diff3-cmd</option>
             <replaceable>CMD</replaceable></term>
           <listitem>
-            <para>Specifies an external program to use to merge files.</para>
+            <para>Especifica um programa externo a ser usado para
+              mesclar arquivos.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--dry-run</option></term>
           <listitem>
-            <para>Goes through all the motions of running a command,
-              but makes no actual changes&mdash;either on disk or in
-              the repository.</para>
+            <para>Faz menção de todos os passos de execução de um
+              comando, mas sem efetuar qualquer alteração&mdash;tanto no
+              disco quanto no repositório.</para>
           </listitem>
         </varlistentry>
       
@@ -117,21 +120,22 @@ $ svn status -v myfile
           <term><option>--editor-cmd</option>
             <replaceable>CMD</replaceable></term>
           <listitem>
-            <para>Specifies an external program to use to edit a log message
-              or a property value.  See the <literal>editor-cmd</literal>
-              section in <xref linkend="svn.advanced.confarea.opts.config"/>
-              for ways to specify a default editor.</para>
+            <para>Especifica um programa externo a ser usado para editar
+              mensagens de log ou valores de propriedades.  Consulte a
+              seção <literal>editor-cmd</literal> em <xref
+              linkend="svn.advanced.confarea.opts.config"/> para ver as
+              formas de especificar um editor padrão.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--encoding</option> <replaceable>ENC</replaceable></term>
           <listitem>
-            <para>Tells Subversion that your commit message is encoded
-              in the charset provided.  The default is your operating
-              system's native locale, and you should specify the
-              encoding if your commit message is in any other
-              encoding.</para>
+            <para>Informa ao Subversion que sua mensagem de submissão
+              está codificada com o charset dado.  O padrão é o locale
+              nativo de seu sistema operacional, e você deve especificar
+              a codificação se sua mensagem de commit estiver em alguma
+              codificação diferente.</para>
           </listitem>
         </varlistentry>
 
@@ -139,16 +143,14 @@ $ svn status -v myfile
           <term><option>--extensions</option> (<option>-x</option>)
           <replaceable>ARGS</replaceable></term>
           <listitem>
-            <para>Specifies an argument or arguments that Subversion
-              should pass to an external diff command.  This option is
-              valid only when used with the <command>svn
-              diff</command> or <command>svn merge</command> commands,
-              with the
-              <option>--diff-cmd</option> option.
-              If you wish to pass multiple
-              arguments, you must enclose all of them in quotes (for
-              example, <command>svn diff --diff-cmd /usr/bin/diff -x
-              "-b -E"</command>).</para>
+            <para>Especifica um argumento ou argumentos que o Subversion
+              deve passar para um comando diff externo.  Esta opção é
+              valida apenas quando usada com os comando <command>svn
+              diff</command> or <command>svn merge</command>, com a
+              opção <option>--diff-cmd</option>.  Se você quiser passar
+              argumentos múltiplos, você deve delimitá-los todos entre
+              aspas duplas (por exemplo, <command>svn diff --diff-cmd
+              /usr/bin/diff -x "-b -E"</command>).</para>
           </listitem>
         </varlistentry>
       
@@ -157,48 +159,51 @@ $ svn status -v myfile
             <replaceable>FILENAME</replaceable>
           </term>
           <listitem>
-            <para>Uses the contents of the named file for the
-              specified subcommand, though different subcommands do
-              different things with this content.  For example,
-              <command>svn commit</command> uses the content as a
-              commit log, whereas <command>svn propset</command> uses
-              it as a property value.</para>
+            <para>Usa o conteúdo do arquivo especificado para o
+              subcomando em questão, sendo que subcomandos diferentes
+              fazem coisas diferentes com este conteúdo.  Por exemplo, o
+              <command>svn commit</command> usa o conteúdo como uma
+              mensagem de log do commit, ao passo que o <command>svn
+              propset</command> o utiliza como um valor de
+              propriedade.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--force</option></term>
           <listitem>
-            <para>Forces a particular command or operation to run.
-              There are some operations that Subversion will prevent
-              you from doing in normal usage, but you can pass the
-              force option to tell Subversion <quote>I know what I'm
-              doing as well as the possible repercussions of doing it,
-              so let me at 'em</quote>.  This option is the
-              programmatic equivalent of doing your own electrical
-              work with the power on&mdash;if you don't know what
-              you're doing, you're likely to get a nasty shock.</para>
+            <para>Força a execução de um comando ou operação
+              específicos.  Há algumas operações em que o Subversion irá
+              impedí-lo de prosseguir, em sua utilização normal, mas você
+              pode passar a opção force para dizer ao Subversion
+              <quote>Eu sei o que estou fazendo, bem como as possíveis
+              consequências disto, então deixe-me fazê-lo</quote>.  Esta
+              opção seria o equivalente a fazer você mesmo um reparo
+              elétrico com a energia ligada&mdash;se você não souber o
+              que está fazendo, é provável que tome um choque
+              desagradável.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--force-log</option></term>
           <listitem>
-            <para>Forces a suspicious parameter passed to the
-              <option>--message</option> (<option>-m</option>) or
-              <option>--file</option> (<option>-F</option>) options to
-              be accepted as valid.  By default, Subversion will
-              produce an error if parameters to these options look
-              like they might instead be targets of the subcommand.
-              For example, if you pass a versioned file's path to the
-              <option>--file</option> (<option>-F</option>) option,
-              Subversion will assume you've made a mistake, that the
-              path was instead intended as the target of the
-              operation, and that you simply failed to provide some
-              other&mdash;unversioned&mdash;file as the source of your log
-              message.  To assert your intent and override these types
-              of errors, pass the <option>--force-log</option> option 
-              to subcommands that accept log messages.</para>
+            <para>Força que um parâmetro suspeito passado para às opções
+              <option>--message</option> (<option>-m</option>) ou
+              <option>--file</option> (<option>-F</option>) seja aceito
+              como válido.  Por padrão, o Subversion irá produzir um
+              erro se os parâmetros destas opções parecerem com
+              argumentos de destino do subcomando.  Por exemplo, se você
+              passar um caminho de um arquivo versionado para a opção 
+              <option>--file</option> (<option>-F</option>), o
+              Subversion irá assumir que você cometeu um engano, que
+              caminho informado pretendia ser o objeto alvo da operação,
+              e que você simplesmente esqueceu de informar algum
+              outro arquivo&mdash;não-versionado&mdash;contendo sua
+              mensagem de log.  Para confirmar sua intenção e
+              sobrescrever esse tipo de erro, passe a opção
+              <option>--force-log</option> para os subcomandos que
+              aceitam mensagens de log.</para>
           </listitem>
         </varlistentry>
         
@@ -207,33 +212,35 @@ $ svn status -v myfile
                 <option>-?</option>)
           </term>
           <listitem>
-            <para>If used with one or more subcommands, shows the
-              built-in help text for each subcommand.  If used alone,
-              it displays the general client help text.</para>
+            <para>Se usado com um ou mais subcomandos, mostra o texto de
+              ajuda pré-existente para cada subcomando.  Se usado
+              sozinho, exibe o texto de ajuda geral para o cliente
+              Subversion.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--ignore-ancestry</option></term>
           <listitem>
-            <para>Tells Subversion to ignore ancestry when calculating
-              differences (rely on path contents alone).</para>
+            <para>Diz para o Subversion ignorar ancestrais (diretórios
+              acima) ao determinar diferenças (baseia-se apenas em
+              conteúdos dos caminhos).</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--ignore-externals</option></term>
           <listitem>
-            <para>Tells Subversion to ignore external definitions and
-              the external working copies managed by them.</para>
+            <para>Diz para o Subversion ignorar definições externas e
+              cópias de trabalho externas gerenciadas por elas.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--incremental</option></term>
           <listitem>
-            <para>Prints output in a format suitable for
-              concatenation.</para>
+            <para>Exibe saída em um formado adequado para
+              concatenação.</para>
           </listitem>
         </varlistentry>
       
@@ -241,8 +248,8 @@ $ svn status -v myfile
           <term><option>--limit</option>
             <replaceable>NUM</replaceable></term>
           <listitem>
-            <para>Show only the first <replaceable>NUM</replaceable>
-              log messages.</para>
+            <para>Exibe apenas as primeiras
+              <replaceable>NUM</replaceable> mensagens de log.</para>
           </listitem>
         </varlistentry>
         
@@ -251,12 +258,12 @@ $ svn status -v myfile
             <replaceable>MESSAGE</replaceable>
           </term>
           <listitem>
-            <para>Indicates that you will specify a either a log
-              message or a lock comment on the command line, following
-              this option.  For example:</para>
+            <para>Indica que você irá especificar seja uma mensagem de
+              log ou seja um comentário de uma trava na linha de
+              comando, depois desta opção.  Por exemplo:</para>
             
             <screen>
-$ svn commit -m "They don't make Sunday."
+$ svn commit -m "Eles não fazem isso no domingo."
 </screen>
           </listitem>
         </varlistentry>
@@ -264,110 +271,114 @@ $ svn commit -m "They don't make Sunday."
         <varlistentry>
           <term><option>--new</option> <replaceable>ARG</replaceable></term>
           <listitem>
-            <para>Uses <replaceable>ARG</replaceable> as the newer
-              target (for use with <command>svn diff</command>).</para>
+            <para>Utiliza <replaceable>ARG</replaceable> como objeto
+              alvo novo (para uso com <command>svn
+              diff</command>).</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--no-auth-cache</option></term>
           <listitem>
-            <para>Prevents caching of authentication information
-              (e.g. username and password) in the Subversion
-              administrative directories.</para>
+            <para>Evita cache de informação de autenticação (p.ex. nome
+              de usuário e senha) nos diretórios administrativos do
+              Subversion.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--no-auto-props</option></term>
           <listitem>
-            <para>Disables auto-props, overriding the
-              <literal>enable-auto-props</literal> directive in the
-              <filename>config</filename> file.</para>
+            <para>Desabilita auto-props, sobrescrevendo a diretiva
+              <literal>enable-auto-props</literal> no arquivo
+              <filename>config</filename>.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--no-diff-added</option></term>
         <listitem>
-          <para>Prevents Subversion from printing differences for
-            added files.  The default behavior when you add a file is
-            for <command>svn diff</command> to print the same
-            differences that you would see if you had added the entire
-            contents of an existing (empty) file.</para>
+          <para>Evita que o Subversion exiba diferenças para arquivos
+            adicionados.  O comportamento padrão ao adicionar um arquivo
+            é que o <command>svn diff</command> exiba as mesmas
+            diferenças que você veria se tivesse adicionado todo o
+            conteúdo a um arquivo (vazio) existente.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--no-diff-deleted</option></term>
         <listitem>
-            <para>Prevents Subversion from printing differences for
-              deleted files.  The default behavior when you remove a
-              file is for <command>svn diff</command> to print the
-              same differences that you would see if you had left
-              the file but removed all the content.</para>
+            <para>Evita que o Subversion exiba diferenças para arquivos
+              excluídos.  O comportamento padrão ao remover um arquivo é
+              que o <command>svn diff</command> exiba as mesmas
+              diferenças que você veria se tivesse mantido o arquivo mas
+              removido todo o seu conteúdo.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--no-ignore</option></term>
           <listitem>
-            <para>Shows files in the status listing that would
-              normally be omitted since they match a pattern in the
-              <literal>global-ignores</literal> configuration option
-              or the <literal>svn:ignore</literal> property.  See <xref
-              linkend="svn.advanced.confarea.opts.config"/> and <xref
-              linkend="svn.advanced.props.special.ignore"/> for more
-              information.</para>
+            <para>Mostra arquivos na listagem de status que normalmente
+              seriam omitidos por corresponderem a um padrão na opção de
+              configuração <literal>global-ignores</literal> ou na
+              propriedade <literal>svn:ignore</literal>.  Veja <xref
+              linkend="svn.advanced.confarea.opts.config"/> e <xref
+              linkend="svn.advanced.props.special.ignore"/> para mais
+              informações.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--no-unlock</option></term>
           <listitem>
-            <para>Don't automatically unlock files (the default commit
-              behavior is to unlock all files listed as part of the
-              commit).  See <xref linkend="svn.advanced.locking"/> for
-              more information.</para>
+            <para>Não destava arquivos automaticamente (o comportamento
+              padrão é destravar todos os arquivos listados como parte
+              de um commit).  Veja <xref
+              linkend="svn.advanced.locking"/> para mais
+              informações.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--non-interactive</option></term>
           <listitem>
-            <para>In the case of an authentication failure, or
-              insufficient credentials, prevents prompting for
-              credentials (e.g. username or password).  This is useful
-              if you're running Subversion inside of an automated
-              script and it's more appropriate to have Subversion fail
-              than to prompt for more information.</para>
+            <para>No caso de uma falha de autenticação, ou credenciais
+              insuficientes, evita a outra solicitação de credenciais
+              (p.ex. nome de usuário ou senha).  É útil se você estiver
+              executando o Subversion dentro de um script automatizado e
+              for mais adequado ter uma falha de autenticação do
+              Subversion do que um prompt solicitando mais
+              informação.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--non-recursive</option> (<option>-N</option>)</term>
           <listitem>
-            <para>Stops a subcommand from recursing into
-              subdirectories.  Most subcommands recurse by default,
-              but some subcommands&mdash;usually those that have the
-              potential to remove or undo your local
-              modifications&mdash;do not.</para>
+            <para>Evita a recursão de um subcomando dentro de
+              subdiretórios.  Muitos subcomandos fazem recursão por
+              padrão, mas alguns subcomandos&mdash;usualmente aqueles
+              com potencial de remover ou desfazer suas alterações
+              locais&mdash;não.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--notice-ancestry</option></term>
           <listitem>
-            <para>Pay attention to ancestry when calculating 
-              differences.</para>
+            <para>Leva os ancestrais (diretórios acima) em consideração
+              ao determinar diferenças.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--old</option> <replaceable>ARG</replaceable></term>
           <listitem>
-            <para>Uses <replaceable>ARG</replaceable> as the older
-              target (for use with <command>svn diff</command>).</para>
+            <para>Utiliza <replaceable>ARG</replaceable> como objeto
+              alvo antigo (para uso com <command>svn
+              diff</command>).</para>
           </listitem>
         </varlistentry>
       
@@ -375,18 +386,18 @@ $ svn commit -m "They don't make Sunday."
           <term><option>--password</option>
             <replaceable>PASS</replaceable></term>
           <listitem>
-            <para>Indicates that you are providing your password for
-              authentication on the command line&mdash;otherwise, if
-              it is needed, Subversion will prompt you for
-              it.</para>
+            <para>Indica que você está informando sua senha para
+              autenticação na linha de comando&mdash;do contrário, se
+              for preciso, o Subversion irá solicitá-la
+              interativamente.</para>
           </listitem>
         </varlistentry>
       
         <varlistentry>
           <term><option>--quiet</option> (<option>-q</option>)</term>
           <listitem>
-            <para>Requests that the client print only essential
-              information while performing an operation.</para>
+            <para>Solicita que o cliente exiba apenas as informações
+              mais essenciais ao executar uma dada operação.</para>
           </listitem>
         </varlistentry>
         
