@@ -404,8 +404,9 @@ $ svn commit -m "Eles não fazem isso no domingo."
         <varlistentry>
           <term><option>--recursive</option> (<option>-R</option>)</term>
           <listitem>
-            <para>Makes a subcommand recurse into subdirectories.
-              Most subcommands recurse by default.</para>
+            <para>Faz um subcomando executar recursivamente dentro dos
+              subdiretórios.  A maioria dos subcomandos já executam
+              recursivamente por padrão.</para>
           </listitem>
         </varlistentry>
         
@@ -413,13 +414,12 @@ $ svn commit -m "Eles não fazem isso no domingo."
           <term><option>--relocate</option> <replaceable>FROM TO
           [PATH...]</replaceable></term>
           <listitem>
-            <para>Used with the <command>svn switch</command>
-              subcommand, changes the location of the repository that
-              your working copy references.  This is useful if the
-              location of your repository changes and you have an
-              existing working copy that you'd like to continue to
-              use.  See <command>svn switch</command> for an
-              example.</para>
+            <para>Usado com o subcomando <command>svn switch</command>,
+              troca o local do repositório ao qual sua cópia de trabalho
+              se refere.  Isto é útil se o local de seu repositório muda
+              e você tem uma cópia de trabalho existente que gostaria de
+              continuar a usar.  Consulte <command>svn switch</command>
+              para conferir um exemplo.</para>
           </listitem>
         </varlistentry>
         
@@ -428,13 +428,13 @@ $ svn commit -m "Eles não fazem isso no domingo."
             <replaceable>REV</replaceable>
           </term>
           <listitem>
-            <para>Indicates that you're going to supply a revision (or
-              range of revisions) for a particular operation.  You can
-              provide revision numbers, revision keywords or dates (in
-              curly braces), as arguments to the revision option.  If
-              you wish to provide a range of revisions, you can
-              provide two revisions separated by a colon.  For
-              example:</para>
+            <para>Indica que você estará informando uma revisão (ou
+              intervalo de revisões) para uma dada operação.  Você pode
+              informar números de revisão, termos de revisão ou datas
+              (entre chaves) como argumentos para a opção de revisão.
+              Se você quiser fornecer um intervalo de revisões, você
+              pode informar duas revisões separadas por dois-pontos.
+              Por exemplo:</para>
 
             <screen>
 $ svn log -r 1729
@@ -444,30 +444,30 @@ $ svn log -r {2001-12-04}:{2002-02-17}
 $ svn log -r 1729:{2002-02-17}
 </screen>
 
-            <para>See <xref linkend="svn.tour.revs.keywords"/> for more
-              information.</para>
+            <para>Veja <xref linkend="svn.tour.revs.keywords"/> para
+              informações.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--revprop</option></term>
           <listitem>
-            <para>Operates on a revision property instead of a
-              property specific to a file or directory.  This option
-              requires that you also pass a revision with the
-              <option>--revision</option> (<option>-r</option>)
-              option.</para>
+            <para>Opera em uma propriedade de revisão ao invés de uma
+              propriedade específica de um arquivo ou diretório.  Esta
+              opção requer que você também informe uma revisão com a
+              opção <option>--revision</option>
+              (<option>-r</option>).</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--show-updates</option> (<option>-u</option>)</term>
           <listitem>
-            <para>Causes the client to display information about
-              which files in your working copy are out-of-date.
-              This doesn't actually update any of your
-              files&mdash;it just shows you which files will be
-              updated if you run <command>svn update</command>.
+            <para>Faz com que o cliente exiba informação sobre quais
+              arquivos em sua cópia de trabalho estão desatualizados.
+              Isto não atualiza nenhum de seus arquivos&mdash;apenas
+              mostra a você quais arquivos serão atualizados se você
+              executar um <command>svn update</command>.
             </para>
           </listitem>
         </varlistentry>
@@ -475,21 +475,22 @@ $ svn log -r 1729:{2002-02-17}
         <varlistentry>
           <term><option>--stop-on-copy</option></term>
           <listitem>
-            <para>Causes a Subversion subcommand which is traversing
-              the history of a versioned resource to stop harvesting
-              that historical information when a copy&mdash;that is, a
-              location in history where that resource was copied from
-              another location in the repository&mdash;is
-              encountered.</para>
+            <para>Faz com que um subcomando do Subversion que está
+              varrendo o histórico de um recurso versionado pare de
+              vasculhar essas informações históricas quando uma
+              cópia&mdash;isto é, um local no histórico em que o recurso
+              foi copiado de outro local no repositório&mdash;seja
+              encontrada.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--strict</option></term>
           <listitem>
-            <para>Causes Subversion to use strict semantics, a notion
-              which is rather vague unless talking about specific
-              subcommands (namely, <command>svn propget</command>).</para>
+            <para>Faz com que o Subversion use semântica estrita, um
+              conceito que é um pouco vago a não ser quando aplicado a
+              subcomandos específicos (especificamente ao <command>svn
+              propget</command>).</para>
           </listitem>
         </varlistentry>
         
@@ -497,9 +498,10 @@ $ svn log -r 1729:{2002-02-17}
           <term><option>--targets</option>
             <replaceable>FILENAME</replaceable></term>
           <listitem>
-            <para>Tells Subversion to get the list of files that you
-              wish to operate on from the filename you provide
-              instead of listing all the files on the command line.
+            <para>Diz para o Subversion obter a lista de arquivos em que
+              você quer executar uma operação a partir de um nome de
+              arquivo informado ao invés de ter de listar todos os
+              arquivos na linha de comando.
             </para>
           </listitem>
         </varlistentry>
@@ -508,41 +510,41 @@ $ svn log -r 1729:{2002-02-17}
           <term><option>--username</option>
             <replaceable>NAME</replaceable></term>
           <listitem>
-            <para>Indicates that you are providing your username for
-              authentication on the command line&mdash;otherwise, if
-              it is needed, Subversion will prompt you for
-              it.</para>
+            <para>Indica que você está informando seu nome de usuário
+              para autenticação na linha de comando&mdash;de outra
+              forma, se for necessário, o Subversion irá solicitá-lo a
+              você interativamente.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--verbose</option> (<option>-v</option>)</term>
           <listitem>
-            <para>Requests that the client print out as much
-              information as it can while running any subcommand.
-              This may result in Subversion printing out additional
-              fields, detailed information about every file, or
-              additional information regarding its actions.</para>
+            <para>Solicita que o cliente exibe o máximo de informação
+              que puder ao executar qualquer subcomando.  Isto pode
+              fazer com que o Subversion exiba campos adicionais,
+              informações detalhadas sobre cada arquivo, ou informações
+              extras sobre suas ações em execução.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--version</option></term>
           <listitem>
-            <para>Prints the client version info.  This information
-              not only includes the version number of the client,
-              but also a listing of all repository access modules
-              that the client can use to access a Subversion
-              repository.  With <option>--quiet</option>
-              (<option>-q</option>) it prints only the version number
-              in a compact form.</para>
+            <para>Exibe informação da versão do cliente.  Esta
+              informação não apenas inclui o número de versão do
+              cliente, mas também uma listagem de todos os módulos de
+              acesso ao repositório que o cliente pode usar para acessar
+              um repositório Subversion.  Com <option>--quiet</option>
+              (<option>-q</option>) ele exibe apenas o número de versão
+              de forma compacta.</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--xml</option></term>
           <listitem>
-            <para>Prints output in XML format.</para>
+            <para>Exibe a saída em um formato XML.</para>
           </listitem>
         </varlistentry>
         
@@ -552,56 +554,56 @@ $ svn log -r 1729:{2002-02-17}
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svn.c">
-      <title><command>svn</command> Subcommands</title>
+      <title>Subcomandos <command>svn</command></title>
 
-      <para>Here are the various subcommands:</para>
+      <para>Aqui temos vários subcomandos:</para>
 
       <refentry id="svn.ref.svn.c.add">
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomandos</secondary>
           <tertiary>add</tertiary>
         </indexterm>
 
         <refnamediv>
           <refname>svn add</refname>
-          <refpurpose>Add files, directories, or symbolic links.</refpurpose>
+          <refpurpose>Adiciona arquivos, diretórios ou links simbólicos.</refpurpose>
         </refnamediv>
 
         <refsect1>
-          <title>Synopsis</title> 
+          <title>Sinopse</title> 
           <programlisting>svn add PATH...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           
-          <para>Schedule files, directories, or symbolic links in your
-            working copy for addition to the repository.  They will be
-            uploaded and added to the repository on your next commit.
-            If you add something and change your mind before
-            committing, you can unschedule the addition using
-            <command>svn revert</command>.
+          <para>Agenda arquivos, diretórios ou links simbólicos em sua
+            cópia de trabalho para adição no repositório.  Eles serão
+            carregados e adicionados efetivamente ao repositório em sua
+            próxima submissão.  Se você adicionar alguma coisa e mudar
+            de idéia antes de realizar o commit, você pode cancelar o
+            agendamento usando <command>svn revert</command>.
           </para>
         </refsect1>
         
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
         
         <refsect1>
-          <title>Changes</title>
-          <para>Working Copy</para>
+          <title>Altera</title>
+          <para>Cópia de trabalho</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>No</para>
+          <title>Acessa o Repositório</title>
+          <para>Não</para>
         </refsect1>
         
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --targets FILENAME
@@ -616,17 +618,17 @@ $ svn log -r 1729:{2002-02-17}
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
-          <para>To add a file to your working copy:</para>
+          <para>Para adicionar um arquivo para sua cópia de trabalho:</para>
 
           <screen>
 $ svn add foo.c 
 A         foo.c
 </screen>
 
-          <para>When adding a directory, the default behavior of
-            <command>svn add</command> is to recurse:</para>
+          <para>Ao adicionar um diretório, o comportamento padrão do 
+            <command>svn add</command> é ser recursivo:</para>
           
           <screen>
 $ svn add testdir
@@ -637,21 +639,23 @@ A         testdir/c
 A         testdir/d
 </screen>
 
-          <para>You can add a directory without adding its
-            contents:</para>
+          <para>Você também pode adicionar um diretório sem adicionar
+            seu conteúdo:</para>
           
           <screen>
 $ svn add --non-recursive otherdir
 A         otherdir
 </screen>
 
-          <para>Normally, the command <command>svn add *</command>
-            will skip over any directories that are already under
-            version control.  Sometimes, however, you may want to add
-            every unversioned object in your working copy, including
-            those hiding deeper down.  Passing the
-            <option>--force</option> option makes <command>svn
-            add</command> recurse into versioned directories:
+          <para>Normalmente, o comando <command>svn add *</command> vai
+            desconsiderar quaisquer diretórios que já estiverem sob
+            controle de versão.  Algumas vezes, no entanto, você pode
+            querer adicionar quaisquer objetos não-versionados em sua
+            cópia de trabalho, incluindo os que estiverem escondidos
+            mais produndamente na árvore de diretórios.  Passar a opção 
+            <option>--force</option> faz com que o <command>svn
+            add</command> aja recursivamente também nos diretórios
+            versionados:
           </para>
 
           <screen>
@@ -675,39 +679,39 @@ A         otherdir/docs/baz.doc
 
         <refnamediv>
           <refname>svn blame</refname>
-          <refpurpose>Show author and revision information in-line
-            for the specified files or URLs.</refpurpose>
+          <refpurpose>Mostra informação de autor e revisão por linha
+            para os arquivos ou URLs especificados.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn blame TARGET[@REV]...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           
-          <para>Show author and revision information in-line for the
-            specified files or URLs.  Each line of text is annotated
-            at the beginning with the author (username) and the
-            revision number for the last change to that line.</para>
+          <para>Mostra informação de autor e revisão por linha para os
+            arquivos ou URLs especificados.  Cada linha de texto é
+            prefixada com o nome do autor (nome de usuário) e o número
+            de revisão da última alteração naquela linha.</para>
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>praise, annotate, ann</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) ARG
@@ -753,22 +757,23 @@ TODO(fitz): doc this:
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>If you want to see blame annotated source for
-            <filename>readme.txt</filename> in your test
-            repository:</para>
+          <para>Se você quiser ver informação dos responsáveis pelos
+            fontes para <filename>readme.txt</filename> em seu
+            repositório:</para>
           <screen>
 $ svn blame http://svn.red-bean.com/repos/test/readme.txt
      3      sally This is a README file.
      5      harry You should read this.
 </screen>
 
-          <para>Even if <command>svn blame</command> says that Harry
-            last modified readme.txt in revision 5, you'll have to
-            examine exactly what the revision changed to be sure that
-            Harry changed the <emphasis>context</emphasis> of the
-            line&mdash;he may have just adjusted the whitespace.
+          <para>Ainda que o <command>svn blame</command> informe que
+            Harry modificou o arquivo readme.txt por último na revisão
+            5, você terá de verificar exatamente o que a revisão mudou
+            para ter certeza de que Harry tenha mudado o
+            <emphasis>context</emphasis> da linha&mdash;ele pode ter
+            apenas ajustad espaços em branco, p.ex.
           </para>
         </refsect1>
       </refentry>
@@ -783,38 +788,38 @@ $ svn blame http://svn.red-bean.com/repos/test/readme.txt
 
         <refnamediv>
           <refname>svn cat</refname>
-          <refpurpose>Output the contents of the specified files or
-            URLs.</refpurpose>
+          <refpurpose>Exibe o conteúdo de arquivos ou URLs
+            especificadas.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn cat TARGET[@REV]...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           
-          <para>Output the contents of the specified files or URLs.
-            For listing the contents of directories, see <command>svn
+          <para>Exibe o conteúdo de arquivos ou URLs especificadas.
+            Para listar o conteúdo de diretórios, veja <command>svn
             list</command>.</para>
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -827,10 +832,11 @@ $ svn blame http://svn.red-bean.com/repos/test/readme.txt
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>If you want to view readme.txt in your repository
-            without checking it out:</para>
+          <para>Se você quiser ver o arquivo readme.txt em seu
+            repositório sem carregá-lo para sua cópia de trabalho (check
+            out):</para>
           <screen>
 $ svn cat http://svn.red-bean.com/repos/test/readme.txt
 This is a README file.
@@ -838,12 +844,12 @@ You should read this.
 </screen>
 
           <tip>
-            <para>If your working copy is out of date (or you have
-              local modifications) and you want to see the
-              <literal>HEAD</literal> revision of a file in your
-              working copy, <command>svn cat</command> will
-              automatically fetch the <literal>HEAD</literal> revision
-              when you give it a path:</para>
+            <para>Se sua cópia de trabalho estiver desatualizada (ou se
+              você tiver alterações locais) e você quiser ver a revisão 
+              <literal>HEAD</literal> de um arquivo em sua cópia de
+              trabalho, o <command>svn cat</command> vai obter
+              automaticamente a revisão <literal>HEAD</literal> quando
+              você lhe passar um caminho:</para>
           </tip>
 
           <screen>
@@ -862,48 +868,48 @@ Latest revision fresh from the repository!
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>checkout</tertiary>
         </indexterm>
 
         <refnamediv>
           <refname>svn checkout</refname>
-          <refpurpose>Check out a working copy from a repository.</refpurpose>
+          <refpurpose>Carrega uma cópia de trabalho a partir do
+            repositório.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn checkout URL[@REV]... [PATH]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           
-          <para>Check out a working copy from a repository.  If
-            <replaceable>PATH</replaceable> is omitted, the
-            basename of the URL will be used as the destination.
-            If multiple URLs are given each will be checked out into a
-            subdirectory of <replaceable>PATH</replaceable>, with the
-            name of the subdirectory being the basename of the
-            URL.</para>
+          <para>Carrega uma cópia de trabalho a partir do repositório.
+            Se <replaceable>PATH</replaceable> for omitido, a base da
+            URL será usada como destino.  Se múltiplas URLs forem
+            informadas, cada uma será carregada dentro de um
+            subdiretório de <replaceable>PATH</replaceable>, com o nome
+            do subdiretório sendo a base da URL.</para>
 
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>co</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Creates a working copy.</para>
+          <title>Altera</title>
+          <para>Cria uma cópia de trabalho.</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -919,10 +925,10 @@ Latest revision fresh from the repository!
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
-          <para>Check out a working copy into a directory called
-            <filename>mine</filename>:</para>
+          <para>Carrega um acópia de trabalho dentro de subdiretório
+            chamado <filename>mine</filename>:</para>
 
           <screen>
 $ svn checkout file:///tmp/repos/test mine
@@ -933,8 +939,8 @@ $ ls
 mine
 </screen>
 
-          <para>Check out two different directories into two separate
-            working copies:</para>
+          <para>Carrega dois diretórios diferentes para duas cópias de
+            trabalho separadas:</para>
 
           <screen>
 $ svn checkout file:///tmp/repos/test  file:///tmp/repos/quiz
@@ -948,9 +954,9 @@ $ ls
 quiz  test
 </screen>
 
-          <para>Check out two different directories into two separate
-            working copies, but place both into a directory called
-            <filename>working-copies</filename>:</para>
+          <para>Carrega dois diretórios diferentes para duas cópias de
+            trabalho separadas, mas pôe ambas dentro de um diretório
+            chamado <filename>working-copies</filename>:</para>
 
           <screen>
 $ svn checkout file:///tmp/repos/test  file:///tmp/repos/quiz working-copies
@@ -964,11 +970,11 @@ $ ls
 working-copies
 </screen>
 
-          <para>If you interrupt a checkout (or something else
-            interrupts your checkout, like loss of connectivity, etc.),
-            you can restart it either by issuing the
-            identical checkout command again, or by updating the
-            incomplete working copy:</para>
+          <para>Se você interromper um checkout (ou houver qualquer
+            coisa que o interrompa, como perda da conexão de rede,
+            etc.), você pode reiniciá-lo tanto executando um comando
+            checkout idêntico outra vez, como atualizando sua cópia de
+            trabalho incompleta:</para>
 
           <screen>
 $ svn checkout file:///tmp/repos/test test
@@ -999,7 +1005,7 @@ Updated to revision 3.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>cleanup</tertiary>
         </indexterm>
 
@@ -1008,11 +1014,11 @@ Updated to revision 3.
           <refpurpose>Recursively clean up the working copy.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn cleanup [PATH...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Recursively clean up the working copy, removing
             working copy locks and resuming unfinished operations.
@@ -1032,22 +1038,22 @@ Updated to revision 3.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>No</para>
+          <title>Acessa o Repositório</title>
+          <para>Não</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --diff3-cmd CMD
@@ -1057,7 +1063,7 @@ Updated to revision 3.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Well, there's not much to the examples here as
             <command>svn cleanup</command> generates no output.  If
@@ -1077,7 +1083,7 @@ $ svn cleanup /path/to/working-copy
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>commit</tertiary>
         </indexterm>
 
@@ -1086,11 +1092,11 @@ $ svn cleanup /path/to/working-copy
           <refpurpose>Send changes from your working copy to the repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn commit [PATH...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Send changes from your working copy to the
             repository.  If you do not supply a log message with your
@@ -1121,24 +1127,24 @@ $ svn cleanup /path/to/working-copy
 
         
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>ci (short for <quote>check in</quote>; not 
             <quote>co</quote>, which is short for 
             <quote>checkout</quote>)</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --message (-m) TEXT
@@ -1158,7 +1164,7 @@ $ svn cleanup /path/to/working-copy
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Commit a simple modification to a file with the
             commit message on the command line and an implicit
@@ -1216,7 +1222,7 @@ Committed revision 7.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>copy</tertiary>
         </indexterm>
 
@@ -1227,12 +1233,12 @@ Committed revision 7.
         </refnamediv>
 
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn copy SRC DST</programlisting>
         </refsect1>
 
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           
           <para>Copy a file in a working copy or in the repository.
             <replaceable>SRC</replaceable> and
@@ -1282,24 +1288,24 @@ Committed revision 7.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>cp</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Repository if destination is a URL.</para>
           <para>Working copy if destination is a WC path.</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>If source or destination is in the repository, or if needed
             to look up the source revision number.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --message (-m) TEXT
@@ -1318,7 +1324,7 @@ Committed revision 7.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Copy an item within your working copy (just
             schedules the copy&mdash;nothing goes into the repository
@@ -1391,7 +1397,7 @@ Committed revision 13.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>delete</tertiary>
         </indexterm>
 
@@ -1401,12 +1407,12 @@ Committed revision 13.
             or the repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn delete PATH...</programlisting>
           <programlisting>svn delete URL...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Items specified by <replaceable>PATH</replaceable> are scheduled
             for deletion upon the next commit.  Files (and
@@ -1422,23 +1428,23 @@ Committed revision 13.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>del, remove, rm</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy if operating on files, repository if
             operating on URLs</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on URLs</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --force
@@ -1458,7 +1464,7 @@ Committed revision 13.
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Using <command>svn</command> to delete a file from
             your working copy deletes your local copy of the file, but
@@ -1505,7 +1511,7 @@ D         over-there
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>diff</tertiary>
         </indexterm>
 
@@ -1514,14 +1520,14 @@ D         over-there
           <refpurpose>Display the differences between two revisions or paths.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>diff [-c M | -r N[:M]] [TARGET[@REV]...]</programlisting>
           <programlisting>diff [-r N[:M]] --old=OLD-TGT[@OLDREV] [--new=NEW-TGT[@NEWREV]] [PATH...]</programlisting>
           <programlisting>diff OLD-URL[@OLDREV] NEW-URL[@NEWREV]</programlisting>
 
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
 
           <para>Display the differences between two paths.  The ways
@@ -1639,23 +1645,23 @@ D         over-there
 
         </refsect1>
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>di</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>For obtaining differences against anything but
             <literal>BASE</literal> revision in your working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) ARG
@@ -1679,7 +1685,7 @@ D         over-there
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Compare <literal>BASE</literal> and your working copy
             (one of the most popular uses of <command>svn
@@ -1789,7 +1795,7 @@ Index: COMMITTERS
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>export</tertiary>
         </indexterm>
 
@@ -1798,12 +1804,12 @@ Index: COMMITTERS
           <refpurpose>Export a clean directory tree.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn export [-r REV] URL[@PEGREV] [PATH]</programlisting>
           <programlisting>svn export [-r REV] PATH1[@PEGREV] [PATH2]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>The first form exports a clean directory tree from the
             repository specified by URL, at revision
@@ -1823,22 +1829,22 @@ Index: COMMITTERS
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Local disk</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if exporting from a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -1856,7 +1862,7 @@ Index: COMMITTERS
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Export from your working copy (doesn't print every
             file and directory):</para>
@@ -1908,7 +1914,7 @@ Exported revision 15.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>help</tertiary>
         </indexterm>
 
@@ -1917,18 +1923,18 @@ Exported revision 15.
           <refpurpose>Help!</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn help [SUBCOMMAND...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>This is your best friend when you're using
             Subversion and this book isn't within reach!</para>
         </refsect1>
         
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>?, h</para>
           <para>The options <option>-?</option>, <option>-h</option>
             and <option>--help</option> have the same effect as using the
@@ -1936,17 +1942,17 @@ Exported revision 15.
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>No</para>
+          <title>Acessa o Repositório</title>
+          <para>Não</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --config-dir DIR
@@ -1958,7 +1964,7 @@ Exported revision 15.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>import</tertiary>
         </indexterm>
 
@@ -1968,11 +1974,11 @@ Exported revision 15.
             repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn import [PATH] URL</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Recursively commit a copy of
             <replaceable>PATH</replaceable> to
@@ -1984,22 +1990,22 @@ Exported revision 15.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Repository</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --message (-m) TEXT
@@ -2021,7 +2027,7 @@ Exported revision 15.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>This imports the local directory
             <filename>myproj</filename> into
@@ -2064,7 +2070,7 @@ Committed revision 16.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>info</tertiary>
         </indexterm>
 
@@ -2074,11 +2080,11 @@ Committed revision 16.
             item.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn info [TARGET[@REV]...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print information about the working copy paths or
            URLs specified.  The information shown for both may
@@ -2119,22 +2125,22 @@ Committed revision 16.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on URLs</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -2151,7 +2157,7 @@ Committed revision 16.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para><command>svn info</command> will show you all the
             useful information that it has for items in your working
@@ -2225,7 +2231,7 @@ My test lock comment
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>list</tertiary>
         </indexterm>
 
@@ -2234,11 +2240,11 @@ My test lock comment
           <refpurpose>List directory entries in the repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn list [TARGET[@REV]...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>List each <replaceable>TARGET</replaceable> file and
             the contents of each <replaceable>TARGET</replaceable>
@@ -2278,22 +2284,22 @@ My test lock comment
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>ls</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -2310,7 +2316,7 @@ My test lock comment
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para><command>svn list</command> is most useful if you
             want to see what files a repository has without
@@ -2346,7 +2352,7 @@ $ svn list --verbose file:///tmp/repos
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>lock</tertiary>
         </indexterm>
 
@@ -2357,11 +2363,11 @@ $ svn list --verbose file:///tmp/repos
               them.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn lock TARGET...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Lock each <replaceable>TARGET</replaceable>.  If any
             <replaceable>TARGET</replaceable> is already locked by
@@ -2373,22 +2379,22 @@ $ svn list --verbose file:///tmp/repos
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working Copy, Repository</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --targets FILENAME
@@ -2406,7 +2412,7 @@ $ svn list --verbose file:///tmp/repos
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Lock two files in your working copy:</para>
 
@@ -2447,7 +2453,7 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>log</tertiary>
         </indexterm>
 
@@ -2456,13 +2462,13 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
           <refpurpose>Display commit log messages.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn log [PATH]</programlisting>
           <programlisting>svn log URL [PATH...]</programlisting>
           <programlisting>svn log URL[@REV] [PATH...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Shows log messages from the repository.
             If no arguments are supplied, <command>svn
@@ -2494,22 +2500,22 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
 
         </refsect1>
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -2529,7 +2535,7 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>You can see the log messages for all the paths that
             changed in your working copy by running <command>svn
@@ -2692,7 +2698,7 @@ Made a change.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>merge</tertiary>
         </indexterm>
 
@@ -2702,13 +2708,13 @@ Made a change.
           working copy path.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn merge [-c M | -r N:M] SOURCE[@REV] [WCPATH]</programlisting>
           <programlisting>svn merge sourceURL1[@N] sourceURL2[@M] [WCPATH]</programlisting>
           <programlisting>svn merge sourceWCPATH1@N sourceWCPATH2@M [WCPATH]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>In the first and second forms, the source paths (URLs
             in the first form, working copy paths in the second) are
@@ -2746,22 +2752,22 @@ Made a change.
 
         </refsect1>
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if working with URLs</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -2782,7 +2788,7 @@ Made a change.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Merge a branch back into the trunk (assuming that
             you have a working copy of the trunk, and that the branch
@@ -2821,7 +2827,7 @@ U  thhgttg.txt
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>mkdir</tertiary>
         </indexterm>
 
@@ -2830,12 +2836,12 @@ U  thhgttg.txt
           <refpurpose>Create a new directory under version control.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn mkdir PATH...</programlisting>
           <programlisting>svn mkdir URL...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Create a directory with a name given by the final
             component of the <replaceable>PATH</replaceable> or URL.
@@ -2849,22 +2855,22 @@ U  thhgttg.txt
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --message (-m) TEXT
@@ -2882,7 +2888,7 @@ U  thhgttg.txt
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Create a directory in your working copy:</para>
 
@@ -2907,7 +2913,7 @@ Committed revision 26.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>move</tertiary>
         </indexterm>
 
@@ -2916,11 +2922,11 @@ Committed revision 26.
           <refpurpose>Move a file or directory.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn move SRC DST</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>This command moves a file or directory in your
             working copy or in the repository.</para>
@@ -2959,22 +2965,22 @@ Committed revision 26.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>mv, rename, ren</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --message (-m) TEXT
@@ -2994,7 +3000,7 @@ Committed revision 26.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Move a file in your working copy:</para>
 
@@ -3021,7 +3027,7 @@ Committed revision 27.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>propdel</tertiary>
         </indexterm>
 
@@ -3030,12 +3036,12 @@ Committed revision 27.
           <refpurpose>Remove a property from an item.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn propdel PROPNAME [PATH...]</programlisting>
           <programlisting>svn propdel PROPNAME --revprop -r REV [TARGET]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>This removes properties from files, directories, or
             revisions.  The first form removes versioned properties in
@@ -3046,22 +3052,22 @@ Committed revision 27.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pdel, pd</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --quiet (-q)
@@ -3077,7 +3083,7 @@ Committed revision 27.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Delete a property from a file in your working
             copy</para>
@@ -3101,7 +3107,7 @@ property 'release-date' deleted from repository revision '26'
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>propedit</tertiary>
         </indexterm>
 
@@ -3111,12 +3117,12 @@ property 'release-date' deleted from repository revision '26'
             version control.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn propedit PROPNAME PATH...</programlisting>
           <programlisting>svn propedit PROPNAME --revprop -r REV [TARGET]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Edit one or more properties using your favorite
             editor.  The first form edits versioned properties in
@@ -3127,22 +3133,22 @@ property 'release-date' deleted from repository revision '26'
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pedit, pe</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -3158,7 +3164,7 @@ property 'release-date' deleted from repository revision '26'
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para><command>svn propedit</command> makes it easy to
             modify properties that have multiple values:</para>
@@ -3179,7 +3185,7 @@ Set new value for property 'svn:keywords' on 'foo.c'
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>propget</tertiary>
         </indexterm>
 
@@ -3188,12 +3194,12 @@ Set new value for property 'svn:keywords' on 'foo.c'
           <refpurpose>Print the value of a property.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn propget PROPNAME [TARGET[@REV]...]</programlisting>
           <programlisting>svn propget PROPNAME --revprop -r REV [URL]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print the value of a property on files,
             directories, or revisions.  The first form prints the
@@ -3205,22 +3211,22 @@ Set new value for property 'svn:keywords' on 'foo.c'
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pget, pg</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --recursive (-R)
@@ -3236,7 +3242,7 @@ Set new value for property 'svn:keywords' on 'foo.c'
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Examine a property of a file in your working
             copy:</para>
@@ -3262,7 +3268,7 @@ Began journal.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>proplist</tertiary>
         </indexterm>
 
@@ -3271,12 +3277,12 @@ Began journal.
           <refpurpose>List all properties.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn proplist [TARGET[@REV]...]</programlisting>
           <programlisting>svn proplist --revprop -r REV [TARGET]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>List all properties on files, directories, or
             revisions.  The first form lists versioned properties in
@@ -3287,22 +3293,22 @@ Began journal.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>plist, pl</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --verbose (-v)
@@ -3319,7 +3325,7 @@ Began journal.
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>You can use proplist to see the properties on an
             item in your working copy:</para>
@@ -3351,7 +3357,7 @@ Properties on 'foo.c':
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>propset</tertiary>
         </indexterm>
 
@@ -3360,13 +3366,13 @@ Properties on 'foo.c':
           <refpurpose>Set PROPNAME to PROPVAL on files, directories, or revisions.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn propset PROPNAME [PROPVAL | -F VALFILE] PATH...</programlisting>
           <programlisting>svn propset PROPNAME --revprop -r REV [PROPVAL | -F VALFILE] [TARGET]</programlisting>
         </refsect1>
 
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Set <replaceable>PROPNAME</replaceable> to
             <replaceable>PROPVAL</replaceable> on files, directories,
@@ -3386,22 +3392,22 @@ Properties on 'foo.c':
 
         </refsect1>
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pset, ps</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy, repository only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if operating on a URL</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --file (-F) FILE
@@ -3421,7 +3427,7 @@ Properties on 'foo.c':
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Set the mime type on a file:</para>
 
@@ -3490,7 +3496,7 @@ property 'owner-pic' set on 'moo.c'
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>resolved</tertiary>
         </indexterm>
 
@@ -3500,11 +3506,11 @@ property 'owner-pic' set on 'moo.c'
             working copy files or directories.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn resolved PATH...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Remove <quote>conflicted</quote> state on working copy
             files or directories.  This routine does not semantically
@@ -3517,22 +3523,22 @@ property 'owner-pic' set on 'moo.c'
             resolving conflicts.</para> </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>No</para>
+          <title>Acessa o Repositório</title>
+          <para>Não</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --targets FILENAME
@@ -3543,7 +3549,7 @@ property 'owner-pic' set on 'moo.c'
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
           <para>If you get a conflict on an update, your working
             copy will sprout three new files:</para>
@@ -3580,7 +3586,7 @@ foo.c.r31
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>revert</tertiary>
         </indexterm>
 
@@ -3589,11 +3595,11 @@ foo.c.r31
           <refpurpose>Undo all local edits.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn revert PATH...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Reverts any local changes to a file or directory and
             resolves any conflicted states.  <command>svn
@@ -3606,22 +3612,22 @@ foo.c.r31
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>No</para>
+          <title>Acessa o Repositório</title>
+          <para>Não</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --targets FILENAME
@@ -3632,7 +3638,7 @@ foo.c.r31
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Discard changes to a file:</para>
 
@@ -3691,7 +3697,7 @@ $ svn status
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>status</tertiary>
         </indexterm>
 
@@ -3700,11 +3706,11 @@ $ svn status
           <refpurpose>Print the status of working copy files and directories.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn status [PATH...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print the status of working copy files and
             directories.  With no arguments, it prints only locally
@@ -4004,22 +4010,22 @@ $ svn status
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>stat, st</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
-          <para>Nothing</para>
+          <title>Altera</title>
+          <para>Nada</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
+          <title>Acessa o Repositório</title>
           <para>Only if using <option>--show-updates</option></para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --show-updates (-u)
@@ -4037,7 +4043,7 @@ $ svn status
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>This is the easiest way to find out what changes you
             have made to your working copy:</para>
@@ -4099,7 +4105,7 @@ Head revision:   981
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>switch</tertiary>
         </indexterm>
 
@@ -4108,7 +4114,7 @@ Head revision:   981
           <refpurpose>Update working copy to a different URL.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn switch URL [PATH]</programlisting>
 
           <programlisting>switch --relocate FROM TO [PATH...]</programlisting>
@@ -4116,7 +4122,7 @@ Head revision:   981
 
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>The first variant of this subcommand (without the
             <option>--relocate</option> option) updates your working
@@ -4139,22 +4145,22 @@ Head revision:   981
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>sw</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -4171,7 +4177,7 @@ Head revision:   981
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>If you're currently inside the directory
             <filename>vendors</filename>, which was branched to
@@ -4271,7 +4277,7 @@ At revision 3.
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>unlock</tertiary>
         </indexterm>
 
@@ -4280,11 +4286,11 @@ At revision 3.
             <refpurpose>Unlock working copy paths or URLs.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn unlock TARGET...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Unlock each <replaceable>TARGET</replaceable>.  If any
             <replaceable>TARGET</replaceable> is either locked by
@@ -4297,22 +4303,22 @@ At revision 3.
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working Copy, Repository</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --targets FILENAME
@@ -4326,7 +4332,7 @@ At revision 3.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Unlock two files in your working copy:</para>
 
@@ -4365,7 +4371,7 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
 
         <indexterm>
           <primary>svn</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>update</tertiary>
         </indexterm>
 
@@ -4374,11 +4380,11 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
           <refpurpose>Update your working copy.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svn update [PATH...]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para><command>svn update</command> brings changes from the
             repository into your working copy.  If no revision is given,
@@ -4440,22 +4446,22 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>up</para>
         </refsect1>
 
         <refsect1>
-          <title>Changes</title>
+          <title>Altera</title>
           <para>Working copy</para>
         </refsect1>
 
         <refsect1>
-          <title>Accesses Repository</title>
-          <para>Yes</para>
+          <title>Acessa o Repositório</title>
+          <para>Sim</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -4474,7 +4480,7 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Pick up repository changes that have happened since
             your last update:</para>
@@ -4664,7 +4670,7 @@ Updated to revision 30.
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>create</tertiary>
         </indexterm>
 
@@ -4673,11 +4679,11 @@ Updated to revision 30.
           <refpurpose>Create a new, empty repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin create REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
             <para>Create a new, empty repository at the path provided.
               If the provided directory does not exist, it will be
@@ -4691,7 +4697,7 @@ Updated to revision 30.
           </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --bdb-txn-nosync
@@ -4702,7 +4708,7 @@ Updated to revision 30.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Creating a new repository is just this easy:</para>
 
@@ -4727,7 +4733,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>deltify</tertiary>
         </indexterm>
 
@@ -4736,11 +4742,11 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
           <refpurpose>Deltify changed paths in a revision range.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin deltify [-r LOWER[:UPPER]] REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para><command>svnadmin deltify</command> exists in
             current versions of Subversion only for historical reasons.
@@ -4754,7 +4760,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
 
             </refsect1>
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -4767,7 +4773,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>dump</tertiary>
         </indexterm>
 
@@ -4776,11 +4782,11 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
           <refpurpose>Dump the contents of filesystem to stdout.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin dump REPOS_PATH [-r LOWER[:UPPER]] [--incremental]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Dump the contents of filesystem to stdout in a
             <quote>dumpfile</quote> portable format, sending feedback
@@ -4831,7 +4837,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
             and <command>bzip2</command>.</para>
         </refsect1>
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --revision (-r) REV
@@ -4842,7 +4848,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
         </refsect1>
         
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Dump your whole repository:</para>
 
@@ -4876,7 +4882,7 @@ Content-length: 101
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>help</tertiary>
         </indexterm>
 
@@ -4884,12 +4890,12 @@ Content-length: 101
           <refname>svnadmin help</refname> <refpurpose>Help!</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin help [SUBCOMMAND...]</programlisting>
         </refsect1>
 
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>This subcommand is useful when you're trapped on a
             desert island with neither a net connection nor a copy of
@@ -4899,7 +4905,7 @@ Content-length: 101
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>?, h</para>
         </refsect1>
 
@@ -4909,7 +4915,7 @@ Content-length: 101
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>hotcopy</tertiary>
         </indexterm>
 
@@ -4918,12 +4924,12 @@ Content-length: 101
           <refpurpose>Make a hot copy of a repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin hotcopy REPOS_PATH NEW_REPOS_PATH</programlisting>
         </refsect1>
 
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>This subcommand makes a full <quote>hot</quote> backup
             of your repository, including all hooks, configuration
@@ -4938,7 +4944,7 @@ Content-length: 101
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --clean-logs
@@ -4961,7 +4967,7 @@ Content-length: 101
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>list-dblogs</tertiary>
         </indexterm>
 
@@ -4972,11 +4978,11 @@ Content-length: 101
           <literal>bdb</literal> backend).</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin list-dblogs REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Berkeley DB creates logs of all changes to the
             repository, which allow it to recover in the face of
@@ -4994,7 +5000,7 @@ Content-length: 101
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>list-unused-dblogs</tertiary>
         </indexterm>
 
@@ -5005,11 +5011,11 @@ Content-length: 101
           <literal>bdb</literal> backend).</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin list-unused-dblogs REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Berkeley DB creates logs of all changes to the
             repository, which allow it to recover in the face of
@@ -5022,7 +5028,7 @@ Content-length: 101
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
           <para>Remove all unused log files from a repository:</para>
 
@@ -5043,7 +5049,7 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>load</tertiary>
         </indexterm>
 
@@ -5053,11 +5059,11 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
             stdin.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin load REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Read a <quote>dumpfile</quote>-formatted stream from
             stdin, committing new revisions into the repository's
@@ -5065,7 +5071,7 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --quiet (-q)
@@ -5109,7 +5115,7 @@ $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt;
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>lslocks</tertiary>
         </indexterm>
 
@@ -5118,19 +5124,19 @@ $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt;
           <refpurpose>Print descriptions of all locks.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin lslocks REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print descriptions of all locks in a repository.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
-          <para>None</para>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
@@ -5157,7 +5163,7 @@ Rework the uppermost branches on the bald cypress in the foreground.
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>lstxns</tertiary>
         </indexterm>
 
@@ -5166,11 +5172,11 @@ Rework the uppermost branches on the bald cypress in the foreground.
           <refpurpose>Print the names of all uncommitted transactions.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin lstxns REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print the names of all uncommitted transactions.  See
             <xref linkend="svn.reposadmin.maint.diskspace.deadtxns" />
@@ -5179,7 +5185,7 @@ Rework the uppermost branches on the bald cypress in the foreground.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>List all outstanding transactions in a
             repository.</para>
@@ -5197,7 +5203,7 @@ $ svnadmin lstxns /usr/local/svn/repos/
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>recover</tertiary>
         </indexterm>
 
@@ -5212,23 +5218,23 @@ $ svnadmin lstxns /usr/local/svn/repos/
 
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin recover REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Run this command if you get an error indicating that
             your repository needs to be recovered.</para>
         </refsect1>
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           <screen>
 --wait
 </screen>
         </refsect1>
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
           <para>Recover a hung repository:</para>
 
@@ -5279,7 +5285,7 @@ The latest repos revision is 34.
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>rmlocks</tertiary>
         </indexterm>
 
@@ -5289,19 +5295,19 @@ The latest repos revision is 34.
           repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin rmlocks REPOS_PATH LOCKED_PATH...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Remove lock from each <replaceable>LOCKED_PATH</replaceable>.</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
-          <para>None</para>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
@@ -5325,7 +5331,7 @@ Removed lock on '/house.jpg.
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>rmtxns</tertiary>
         </indexterm>
 
@@ -5334,11 +5340,11 @@ Removed lock on '/house.jpg.
           <refpurpose>Delete transactions from a repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin rmtxns REPOS_PATH TXN_NAME...</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Delete outstanding transactions from a repository.
             This is covered in detail in <xref
@@ -5346,7 +5352,7 @@ Removed lock on '/house.jpg.
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
           
           <screen>
 --quiet (-q)
@@ -5354,7 +5360,7 @@ Removed lock on '/house.jpg.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Remove named transactions:</para>
 
@@ -5380,7 +5386,7 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>setlog</tertiary>
         </indexterm>
 
@@ -5389,11 +5395,11 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
           <refpurpose>Set the log-message on a revision.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin setlog REPOS_PATH -r REVISION FILE</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Set the log-message on revision REVISION to the
             contents of FILE.</para>
@@ -5415,7 +5421,7 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -5424,7 +5430,7 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Set the log message for revision 19 to the contents of
             the file <filename>msg</filename>:</para>
@@ -5442,7 +5448,7 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
 
         <indexterm>
           <primary>svnadmin</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>verify</tertiary>
         </indexterm>
 
@@ -5451,11 +5457,11 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
           <refpurpose>Verify the data stored in the repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnadmin verify REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Run this command if you wish to verify the integrity
             of your repository.  This basically iterates through all
@@ -5472,7 +5478,7 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
           <para>Verify a hung repository:</para>
 
@@ -5637,7 +5643,7 @@ sally
           <refpurpose>Mostra o conteudo de um arquivo.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook cat REPOS_PATH PATH_IN_REPOS</programlisting>
         </refsect1>
         <refsect1>
@@ -5686,7 +5692,7 @@ Contents:
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>changed</tertiary>
         </indexterm>
 
@@ -5695,7 +5701,7 @@ Contents:
           <refpurpose>Mostra os caminhos que foram mudados.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook changed REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -5787,7 +5793,7 @@ D   trunk/vendors/baker/baguette.txt
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>date</tertiary>
         </indexterm>
 
@@ -5796,7 +5802,7 @@ D   trunk/vendors/baker/baguette.txt
           <refpurpose>Mostrar data-hora.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook date REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -5833,7 +5839,7 @@ $ svnlook date -r 40 /tmp/repos/
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>diff</tertiary>
         </indexterm>
 
@@ -5904,7 +5910,7 @@ Deleted: trunk/vendors/deli/pickle.txt
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>dirs-changed</tertiary>
         </indexterm>
 
@@ -5913,7 +5919,7 @@ Deleted: trunk/vendors/deli/pickle.txt
           <refpurpose>Mostra os diretórios que foram mudados.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook dirs-changed REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -5950,7 +5956,7 @@ trunk/vendors/deli/
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>help</tertiary>
         </indexterm>
 
@@ -5981,7 +5987,7 @@ trunk/vendors/deli/
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>history</tertiary>
         </indexterm>
 
@@ -5992,7 +5998,7 @@ trunk/vendors/deli/
             for informado).</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook history REPOS_PATH [PATH_IN_REPOS]</programlisting>
         </refsect1>
         <refsect1>
@@ -6046,7 +6052,7 @@ REVISION   PATH &lt;ID&gt;
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>info</tertiary>
         </indexterm>
 
@@ -6056,7 +6062,7 @@ REVISION   PATH &lt;ID&gt;
             e a mensagem de log.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook info REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -6097,7 +6103,7 @@ Rearrange lunch.
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>lock</tertiary>
         </indexterm>
 
@@ -6107,7 +6113,7 @@ Rearrange lunch.
             o descreve.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook lock REPOS_PATH PATH_IN_REPOS</programlisting>
         </refsect1>
         <refsect1>
@@ -6149,7 +6155,7 @@ Rework the uppermost branches on the bald cypress in the foreground.
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>log</tertiary>
         </indexterm>
 
@@ -6158,7 +6164,7 @@ Rework the uppermost branches on the bald cypress in the foreground.
           <refpurpose>Mostra a mensagem de log.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook log REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -6194,7 +6200,7 @@ Rearrange lunch.
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>propget</tertiary>
         </indexterm>
 
@@ -6204,11 +6210,11 @@ Rearrange lunch.
             the repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook propget REPOS_PATH PROPNAME [PATH_IN_REPOS]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>List the value of a property on a path in the
             repository.</para>
@@ -6216,12 +6222,12 @@ Rearrange lunch.
           </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pg, pget</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -6231,7 +6237,7 @@ Rearrange lunch.
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>This shows the value of the <quote>seasonings</quote> property
             on the file <filename>/trunk/sandwich</filename> in the
@@ -6249,7 +6255,7 @@ mustard
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>proplist</tertiary>
         </indexterm>
 
@@ -6259,11 +6265,11 @@ mustard
             directory properties.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook proplist REPOS_PATH [PATH_IN_REPOS]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>List the properties of a path in the repository.  With
             <option>--verbose</option>, show the property values too.</para>
@@ -6271,12 +6277,12 @@ mustard
           </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>pl, plist</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -6287,7 +6293,7 @@ mustard
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>This shows the names of properties set on the file
             <filename>/trunk/README</filename> in the
@@ -6314,7 +6320,7 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
       <refentry id="svn.ref.svnlook.c.tree">
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>tree</tertiary>
         </indexterm>
 
@@ -6323,11 +6329,11 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
           <refpurpose>Print the tree.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook tree REPOS_PATH [PATH_IN_REPOS]</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
           <para>Print the tree, starting at
             <replaceable>PATH_IN_REPOS</replaceable> (if supplied, at
             the root of the tree otherwise), optionally showing node
@@ -6335,7 +6341,7 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --revision (-r) REV
@@ -6345,7 +6351,7 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
           
           <para>This shows the tree output (with node-IDs) for revision
             40 in our sample repository:</para>
@@ -6368,7 +6374,7 @@ $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>uuid</tertiary>
         </indexterm>
 
@@ -6378,11 +6384,11 @@ $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
           <literal>UUID</literal>.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook uuid REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print the <literal>UUID</literal> for the repository.
             the UUID is the repository's
@@ -6393,7 +6399,7 @@ $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <screen>
 $ svnlook uuid /usr/local/svn/repos
@@ -6407,7 +6413,7 @@ e7fe1b91-8cd5-0310-98dd-2f12e793c5e8
 
         <indexterm>
           <primary>svnlook</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>youngest</tertiary>
         </indexterm>
 
@@ -6416,17 +6422,17 @@ e7fe1b91-8cd5-0310-98dd-2f12e793c5e8
           <refpurpose>Print the youngest revision number.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnlook youngest REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Print the youngest revision number of a repository.</para>
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
         <para>This shows the youngest revision of our sample
           repository:</para>
@@ -6548,7 +6554,7 @@ $ svnlook youngest /tmp/repos/
 
         <indexterm>
           <primary>svnsync</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>copy-revprops</tertiary>
         </indexterm>
 
@@ -6559,11 +6565,11 @@ $ svnlook youngest /tmp/repos/
             repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnsync copy-revprops DEST_URL REV</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>Because Subversion revision properties can be changed
             at any time, it's possible that the properties for some
@@ -6581,12 +6587,12 @@ $ svnlook youngest /tmp/repos/
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
-          <para>None</para>
+          <title>Nomes Alternativos</title>
+          <para>Nenhum</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --non-interactive
@@ -6598,7 +6604,7 @@ $ svnlook youngest /tmp/repos/
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Re-synchronize revision properties for a single revision:</para>
 
@@ -6615,7 +6621,7 @@ $
 
         <indexterm>
           <primary>svnsync</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>initialize</tertiary>
         </indexterm>
 
@@ -6625,11 +6631,11 @@ $
             synchronization from another repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnsync initialize DEST_URL SOURCE_URL</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para><command>svnsync initialize</command> verifies that a
             repository meets the requirements of a new mirror
@@ -6643,12 +6649,12 @@ $
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>init</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --non-interactive
@@ -6660,7 +6666,7 @@ $
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Fail to initialize a mirror repository due to
             inability to modify revision properties:</para>
@@ -6689,7 +6695,7 @@ $
 
         <indexterm>
           <primary>svnsync</primary>
-          <secondary>subcommands</secondary>
+          <secondary>subcomando</secondary>
           <tertiary>synchronize</tertiary>
         </indexterm>
 
@@ -6699,11 +6705,11 @@ $
             repository to the mirror repository.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Synopsis</title>
+          <title>Sinopse</title>
           <programlisting>svnsync synchronize DEST_URL</programlisting>
         </refsect1>
         <refsect1>
-          <title>Description</title>
+          <title>Descrição</title>
 
           <para>The <command>svnsync synchronize</command> command
             does all the heavy lifting of a repository mirroring
@@ -6717,12 +6723,12 @@ $
         </refsect1>
 
         <refsect1>
-          <title>Alternate Names</title>
+          <title>Nomes Alternativos</title>
           <para>sync</para>
         </refsect1>
 
         <refsect1>
-          <title>Options</title>
+          <title>Opções</title>
 
           <screen>
 --non-interactive
@@ -6734,7 +6740,7 @@ $
         </refsect1>
 
         <refsect1>
-          <title>Examples</title>
+          <title>Exemplos</title>
 
           <para>Copy unsynchronized revisions from the source
             repository to the mirror repository:</para>
@@ -6958,12 +6964,12 @@ $
       </refnamediv>
 
       <refsect1 id="svn.ref.svnversion.re.syn">
-        <title>Synopsis</title>
+        <title>Sinopse</title>
         <programlisting>svnversion [OPTIONS] [WC_PATH [TRAIL_URL]]</programlisting>
       </refsect1>
 
       <refsect1 id="svn.ref.svnversion.re.desc">
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para><command>svnversion</command> is a program for
           summarizing the revision mixture of a working copy.  The
@@ -6989,7 +6995,7 @@ $
       </refsect1>
 
       <refsect1 id="svn.ref.svnversion.re.sw">
-        <title>Options</title>
+        <title>Opções</title>
 
         <para>Like <command>svnserve</command>,
           <command>svnversion</command> has no subcommands, it only
@@ -7031,7 +7037,7 @@ $
       </refsect1>
 
       <refsect1 id="svn.ref.svnversion.re.examples">
-        <title>Examples</title>
+        <title>Exemplos</title>
 
         <para>If the working copy is all at the same revision (for
           example, immediately after an update), then that revision is
@@ -7116,7 +7122,7 @@ exported
       </refnamediv>
 
       <refsect1 id="svn.ref.mod_dav_svn.conf.desc">
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>This section briefly describes each of the Subversion
           Apache configuration directives.  For an in-depth
@@ -7454,7 +7460,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
         
         <para>The start-commit hook is run before the commit
           transaction is even created.  It is typically used to
@@ -7509,7 +7515,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The pre-commit hook is run just before a commit
           transaction is promoted to a new revision.  Typically,
@@ -7564,7 +7570,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The post-commit hook is run after the transaction is
           committed, and a new revision created.  Most people use
@@ -7617,7 +7623,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The pre-revprop-change hook is run immediately prior to
           the modification of a revision property when performed
@@ -7688,7 +7694,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The post-revprop-change hook is run immediately after to
           the modification of a revision property when performed
@@ -7757,7 +7763,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The pre-lock hook runs whenever someone attempts to lock
           a path.  It can be used to prevent locks altogether, or to
@@ -7814,7 +7820,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The post-lock hook runs after one or more paths has been
           locked.  It is typically used to send email notification of
@@ -7868,7 +7874,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The pre-unlock hook runs whenever someone attempts to
           remove a lock on a file.  It can be used to create policies
@@ -7927,7 +7933,7 @@ exported
       </refnamediv>
 
       <refsect1>
-        <title>Description</title>
+        <title>Descrição</title>
 
         <para>The post-unlock hook runs after one or more paths has
           been unlocked.  It is typically used to send email
