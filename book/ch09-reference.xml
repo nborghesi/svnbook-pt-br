@@ -1011,7 +1011,8 @@ Updated to revision 3.
 
         <refnamediv>
           <refname>svn cleanup</refname>
-          <refpurpose>Recursively clean up the working copy.</refpurpose>
+          <refpurpose>Faz recursivamente uma limpeza na área de
+            trabalho.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1020,20 +1021,22 @@ Updated to revision 3.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Recursively clean up the working copy, removing
-            working copy locks and resuming unfinished operations.
-            If you ever get a <quote>working copy locked</quote> error,
-            run this command to remove stale locks and get your working copy
-            into a usable state again.</para>
+          <para>Faz recursivamente uma limpeza na área de trabalho,
+            removendo travas da cópia de trabalho e concluindo operações
+            não finalizadas.  Sempre que você obtiver um erro de
+            <quote>cópia de trabalho travada</quote>, execute este
+            comando para remover travas perdidas e deixar sua cópia de
+            trabalho no estado usável novamente.</para>
 
-          <para>If, for some reason, an <command>svn update</command>
-            fails due to a problem running an external diff program
-            (e.g. user input or network failure), pass the
-            <option>--diff3-cmd</option> to allow cleanup to complete
-            any merging with your external diff program.  You can also
-            specify any configuration directory with the
-            <option>--config-dir</option> option, but you should need
-            these options extremely infrequently.</para>
+          <para>Se, por algum motivo, um <command>svn update</command>
+            falhar devido a um problema ao executar um programa diff
+            externo (p.ex. devido a entrada do usuário ou falha de
+            rede), passe a opção <option>--diff3-cmd</option> para
+            permitir que a limpeza complete qualquer mesclagem com seu
+            programa diff externo.  Você também pode especificar um
+            diretório de configuração com <option>--config-dir</option>,
+            mas você deve precisar destas opções em raríssimas
+            ocasições.</para>
 
         </refsect1>
 
@@ -1044,7 +1047,7 @@ Updated to revision 3.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy</para>
+          <para>Cópia de trabalho</para>
         </refsect1>
 
         <refsect1>
@@ -1065,10 +1068,11 @@ Updated to revision 3.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Well, there's not much to the examples here as
-            <command>svn cleanup</command> generates no output.  If
-            you pass no <replaceable>PATH</replaceable>,
-            <quote><filename>.</filename></quote> is used.</para>
+          <para>Bem, não há muito para esta parte de exemplo aqui pois o
+            <command>svn cleanup</command> não gera nenhuma saída.  Se
+            você não informar um caminho
+            (<replaceable>PATH</replaceable>), então
+            <quote><filename>.</filename></quote> é usado.</para>
 
           <screen>
 $ svn cleanup
@@ -1089,7 +1093,8 @@ $ svn cleanup /path/to/working-copy
 
         <refnamediv>
           <refname>svn commit</refname>
-          <refpurpose>Send changes from your working copy to the repository.</refpurpose>
+          <refpurpose>Envia as alterações de sua cópia de trabalho para
+            o repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1098,28 +1103,30 @@ $ svn cleanup /path/to/working-copy
         <refsect1>
           <title>Descrição</title>
 
-          <para>Send changes from your working copy to the
-            repository.  If you do not supply a log message with your
-            commit by using either the <option>--file</option> or
-            <option>--message</option> option,
-            <command>svn</command> will launch your editor for you
-            to compose a commit message.  See the
-            <literal>editor-cmd</literal> section in <xref
+          <para>Envia as alterações de sua cópia de trabalho para o
+            repositório.  Se você não informar uma mensagem de log de
+            registro usando seja a opção <option>--file</option> ou a
+            opção <option>--message</option>, o <command>svn</command>
+            vai executar seu editor de texto para que você escreva uma
+            mensagem de commit.  Veja a seção
+            <literal>editor-cmd</literal> em <xref
             linkend="svn.advanced.confarea.opts.config"/>.</para>
 
-          <para><command>svn commit</command> will send any lock
-            tokens that it finds and will release locks on all
-            <replaceable>PATHS</replaceable> committed (recursively),
-            unless <option>--no-unlock</option> is passed.</para>
+          <para><command>svn commit</command> vai enviar quaisquer
+            marcadores de trava que encontrar e irá liberar as travas em
+            todos os caminhos <replaceable>PATHS</replaceable>
+            submetidos (recursivamente), a menos que
+            <option>--no-unlock</option> seja passado.</para>
 
           <tip>
-            <para>If you begin a commit and Subversion launches your
-              editor to compose the commit message, you can still
-              abort without committing your changes.  If you want to
-              cancel your commit, just quit your editor without saving
-              your commit message and Subversion will prompt you to
-              either abort the commit, continue with no message, or
-              edit the message again.</para>
+            <para>Se você começar um commit e o Subversion executar seu
+              editor para que você componha a mensagem de registro, você
+              ainda pode abortar sem submeter suas alterações.  Se você
+              quiser cancelar a operação, apenas feche o editor sem
+              salvar sua mensagem de log e o Subversion irá lhe
+              perguntar se você quer cancelar a operação, prosseguir sem
+              uma mensagem de log, ou editar a mensagem
+              novamente.</para>
           </tip>
 
         </refsect1>
@@ -1128,14 +1135,14 @@ $ svn cleanup /path/to/working-copy
         
         <refsect1>
           <title>Nomes Alternativos</title>
-          <para>ci (short for <quote>check in</quote>; not 
-            <quote>co</quote>, which is short for 
+          <para>ci (abreviação para <quote>check in</quote>; e não 
+            <quote>co</quote>, que é a abreviação para 
             <quote>checkout</quote>)</para>
         </refsect1>
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository</para>
+          <para>Cópia de trabalho, repositório</para>
         </refsect1>
 
         <refsect1>
@@ -1166,9 +1173,9 @@ $ svn cleanup /path/to/working-copy
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Commit a simple modification to a file with the
-            commit message on the command line and an implicit
-            target of your current directory
+          <para>Submete uma modificação simples em um arquivo com a
+            mensagem de log na linha de comando e um alvo implícito de
+            seu diretório atual
             (<quote><filename>.</filename></quote>):</para>
           
           <screen>
@@ -1178,10 +1185,10 @@ Transmitting file data .
 Committed revision 3.
 </screen>
 
-          <para>Commit a modification to the file
-            <filename>foo.c</filename> (explicitly specified on the
-            command line) with the commit message in a file named
-            <literal>msg</literal>:</para>
+          <para>Submete uma modificação no arquivo
+            <filename>foo.c</filename> (explicitamente especificado na
+            linha de comando) com a mensagem de log contina em um
+            arquivo chamado <literal>msg</literal>:</para>
 
           <screen>
 $ svn commit -F msg foo.c
@@ -1190,10 +1197,10 @@ Transmitting file data .
 Committed revision 5.
 </screen>
 
-          <para>If you want to use a file that's under version
-            control for your commit message with
-            <option>--file</option>, you need to pass the
-            <option>--force-log</option> option:</para>
+          <para>Se você quiser usar um arquivo que está sob controle de
+            versão para sua mensagem de log com <option>--file</option>,
+            você precisa passar a opção
+            <option>--force-log</option>:</para>
 
           <screen>
 $ svn commit --file file_under_vc.txt foo.c
@@ -1206,7 +1213,8 @@ Transmitting file data .
 Committed revision 6.
 </screen>
 
-          <para>To commit a file scheduled for deletion:</para>
+          <para>Para efetivar a remoção de um arquivo agendado para
+            exclusão:</para>
 
           <screen>
 $ svn commit -m "removed file 'c'."
@@ -1228,8 +1236,8 @@ Committed revision 7.
 
         <refnamediv>
           <refname>svn copy</refname>
-          <refpurpose>Copy a file or directory in a working copy or
-            in the repository.</refpurpose>
+          <refpurpose>Copia um arquivo ou diretório em uma cópia de
+            trabalho ou no repositório.</refpurpose>
         </refnamediv>
 
         <refsect1>
@@ -1240,49 +1248,55 @@ Committed revision 7.
         <refsect1>
           <title>Descrição</title>
           
-          <para>Copy a file in a working copy or in the repository.
-            <replaceable>SRC</replaceable> and
-            <replaceable>DST</replaceable> can each be either a
-            working copy (WC) path or URL:</para>
+          <para>Copia um arquivo em uma cópia de trabalho ou no
+            repositório.  <replaceable>SRC</replaceable> e
+            <replaceable>DST</replaceable> podem ser tanto um caminho em
+              uma cópia de trabalho (WC) ou uma URL:</para>
             
             <variablelist>
 
               <varlistentry>
                 <term>WC  -&gt; WC</term>
                 <listitem>
-                  <para>Copy and schedule an item for
-                    addition (with history).</para>
+                  <para>Copia e agenda um item para adição (com o
+                    histórico).</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term>WC  -&gt; URL</term>
                 <listitem>
-                  <para>Immediately commit a copy of WC to URL.</para>
+                  <para>Imediatamente submete uma cópia de WC para a
+                    URL.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term>URL -&gt; WC</term>
                 <listitem>
-                  <para>Check out URL into WC, and schedule it for
-                    addition.</para>
+                  <para>Obtém (<foreignphrase>check out</foreignphrase>)
+                    a URL para dentro da WC, agendando-a para
+                    adição.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term>URL -&gt; URL</term>
                 <listitem>
-                  <para>Complete server-side copy.  This is
-                    usually used to branch and tag.</para>
+                  <para>Execução de uma cópia inteiramente do lado do
+                    servidor.  Isto é frequentemente usado para criação
+                    de ramos (<foreignphrase>branch</foreignphrase>) e
+                    de rótulos
+                    (<foreignphrase>tag</foreignphrase>).</para>
                 </listitem>
               </varlistentry>
 
             </variablelist>
 
           <note>
-            <para>You can only copy files within a single repository.
-              Subversion does not support cross-repository copying.</para>
+            <para>Você só pode copiar arquivos para dentro de um único
+              repositório.  O Subversion não dá suporte a cópias entre
+              repositórios distintos.</para>
           </note>
 
         </refsect1>
@@ -1294,14 +1308,16 @@ Committed revision 7.
 
         <refsect1>
           <title>Altera</title>
-          <para>Repository if destination is a URL.</para>
-          <para>Working copy if destination is a WC path.</para>
+          <para>O repositório, se o destino for uma URL.</para>
+          <para>A cópia de trabalho, se o destino for um caminho em uma
+            WC.</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>If source or destination is in the repository, or if needed
-            to look up the source revision number.</para>
+          <para>Se a origem ou destino da cópia for o repositório, ou se
+            for preciso buscar um dado número de revisão da
+            origem.</para>
         </refsect1>
 
         <refsect1>
@@ -1326,9 +1342,9 @@ Committed revision 7.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Copy an item within your working copy (just
-            schedules the copy&mdash;nothing goes into the repository
-            until you commit):</para>
+          <para>Copia um item para dentro de sua cópia de trabalho (
+            apenas agenda a cópia&mdash;nada ocorre com o repositório
+            até que você submeta a alteração):</para>
 
           <screen>
 $ svn copy foo.txt bar.txt
@@ -1337,9 +1353,9 @@ $ svn status
 A  +   bar.txt
 </screen>
 
-          <para>Copy an item in your working copy to a URL in the
-            repository (an immediate commit, so you must supply a
-            commit message):</para>
+          <para>Copia um item de sua cópia de trabalho para uma URL no
+            repositório (com submissão imediata, então você deve
+            informar também uma mensagem de log):</para>
 
           <screen>
 $ svn copy near.txt file:///tmp/repos/test/far-away.txt -m "Remote copy."
@@ -1347,13 +1363,13 @@ $ svn copy near.txt file:///tmp/repos/test/far-away.txt -m "Remote copy."
 Committed revision 8.
 </screen>
 
-          <para>Copy an item from the repository to your working
-            copy (just schedules the copy&mdash;nothing goes into the
-            repository until you commit):</para>
+          <para>Copia um item do repositório para sua cópia de trabalho
+            (apenas agenda a cópia&mdash;nada ocorre com o repositório
+            até que você submeta a alteração):</para>
 
           <tip>
-            <para>This is the recommended way to resurrect a dead
-              file in your repository!</para>
+            <para>Esta é a maneira recomendada para ressuscitar um
+              arquivo morto em seu repositório!</para>
           </tip>
 
           <screen>
@@ -1361,7 +1377,7 @@ $ svn copy file:///tmp/repos/test/far-away near-here
 A         near-here
 </screen>
 
-          <para>And finally, copying between two URLs:</para>
+          <para>E, finalmente, copiando entre duas URLs:</para>
 
           <screen>
 $ svn copy file:///tmp/repos/test/far-away file:///tmp/repos/test/over-there -m "remote copy."
@@ -1370,10 +1386,11 @@ Committed revision 9.
 </screen>
 
           <tip>
-            <para>This is the easiest way to <quote>tag</quote> a
-              revision in your repository&mdash;just <command>svn
-              copy</command> that revision (usually
-              <literal>HEAD</literal>) into your tags directory.</para>
+            <para>Esta é a forma mais fácil de <quote>rotular</quote>
+              (tag) uma revisão em seu repositório&mdash;apenas execute
+              um <command>svn copy</command> daquela revisão
+              (normalmente a <literal>HEAD</literal>) para dentro de seu
+              diretório tags.</para>
           </tip>
 
           <screen>
@@ -1382,8 +1399,9 @@ $ svn copy file:///tmp/repos/test/trunk file:///tmp/repos/test/tags/0.6.32-prere
 Committed revision 12.
 </screen>
 
-          <para>And don't worry if you forgot to tag&mdash;you can
-            always specify an older revision and tag anytime:</para>
+          <para>E não se preocupe se você se esquecer de rotular&mdash;
+            você pode sempre especificar uma revisão mais antiga e o
+            rótulo a qualquer momento:</para>
 
           <screen>
 $ svn copy -r 11 file:///tmp/repos/test/trunk file:///tmp/repos/test/tags/0.6.32-prerelease -m "Forgot to tag at rev 11"
