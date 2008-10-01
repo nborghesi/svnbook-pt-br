@@ -9,7 +9,7 @@
     confortável para submeter e receber mudanças usando as funções
     <command>svn commit</command> e <command>svn update</command>.  Você
     provavelmente desenvolveu um reflexo que lhe impele a executar o
-    comando <command>svn status</command> quase inconsientemente.  Para
+    comando <command>svn status</command> quase inconscientemente.  Para
     todos os intentos e propósitos, você está pronto para usar o
     Subversion em um ambiente típico.</para>
 
@@ -36,7 +36,7 @@
     <title>Especificadores de Revisão</title>
 
     <para>Como você viu em <xref linkend="svn.basic.in-action.revs" />,
-      números re revisão no Subversion são bastante
+      números de revisão no Subversion são bastante
       simples&mdash;números inteiros que aumentam conforme você submete
       mais alterações em seus dados versionados.  Assim, não demora
       muito para que você não se lembre mais do que aconteceu exatamente
@@ -248,7 +248,7 @@ r12 | ira | 2006-11-27 12:31:51 -0600 (Mon, 27 Nov 2006) | 6 lines
         <para>Se você quiser incluir o dia 27 em sua busca, você pode
           tanto especificar o dia 27 com o horário
           (<literal>{"2006-11-27 23:59"}</literal>), ou apenas
-          espeficiar o próximo dia
+          especificar o próximo dia
           (<literal>{2006-11-28}</literal>).</para>
         
       </sidebar>
@@ -271,7 +271,7 @@ $ svn log -r {2006-11-20}:{2006-11-29}
           completas da cronologia real, ou mesmo podem ser removidas
           inteiramente.  A capacidade do Subversion de converter
           corretamente datas de revisão em números de revisão depende da
-          manutenção da ordem sequencial desta informação
+          manutenção da ordem seqüencial desta informação
           temporal&mdash;quanto mais recente uma revisão, mais recente é
           sua informação de data e horário.  Se esta ordenação não for
           mantida, você perceberá que tentar usar datas para especificar
@@ -367,7 +367,7 @@ $ svn log -r {2006-11-20}:{2006-11-29}
     <para>Nesta seção, vamos examinar a utilidade&mdash;tanto para os
       usuários quanto para o próprio Subversion&mdash;do suporte a
       propriedades.  Você vai aprender sobre os subcomandos de
-      <command>svn</command> que lidam com propriedaes, e como
+      <command>svn</command> que lidam com propriedades, e como
       alterações nas propriedades afetam seu fluxo de trabalho normal no
       Subversion.</para>
 
@@ -379,7 +379,7 @@ $ svn log -r {2006-11-20}:{2006-11-29}
         informações extras sobre arquivos, diretórios, e revisões que as
         contém, você também pode usar propriedades de forma semelhante.
         Você poderia achar útil ter um lugar próximo de seus dados
-        versionados para pendurar metadados personalidados sobre estes
+        versionados para pendurar metadados personalizados sobre estes
         dados.</para>
 
       <para>Digamos que você quer elaborar um website que armazene
@@ -422,10 +422,10 @@ $ svn log -r {2006-11-20}:{2006-11-29}
         de preocupar em estar manipulando caminhos dos arquivos.</para>
 
       <para>As propriedades personalizadas de revisões também são
-        frequentemente usadas.  Um de seus usos comuns é uma
+        freqüentemente usadas.  Um de seus usos comuns é uma
         propriedades cujo valor contém um recurso de ID de rastreamento
         ao qual a revisão está associada, talvez pelo fato de a
-        alteração feita nesta revisão corrigir um bug relatado
+        alteração feita nesta revisão corrigir um problema relatado
         externamente com aquele ID.  Outros usos incluem a inserção de
         nomes mais amigáveis à revisão&mdash;pode ser difícil lembrar
         que a revisão 1935 foi uma revisão testada completamente.  Mas
@@ -491,8 +491,8 @@ Isto corrige um erro de falha de segmentação no gerenciador de processos
       <para>O comando <command>svn</command> oferece algumas poucas
         maneiras de se adicionar ou modificar propriedades de arquivos e
         diretórios.  Para propriedades com valores pequenos, legíveis
-        por humanos, talvez a forma mais simplesde se adicionar uma nova
-        propriedade é espeficificar o nome e o valor da propriedade na
+        por humanos, talvez a forma mais simples de se adicionar uma nova
+        propriedade é especificar o nome e o valor da propriedade na
         linha de comando com o subcomando
         <command>propset</command>.</para>
 
@@ -504,7 +504,7 @@ $
        
       <para>Mas sempre podemos contar com a flexibilidade que o
         Subversion oferece para seus valores de propriedades.  E se você
-        está planejanto ter texto com múltiplas linhas, ou mesmo valores
+        está planejando ter texto com múltiplas linhas, ou mesmo valores
         binários para o valor da propriedade, você provavelmente não vai
         informar este valor pela linha de comando.  Então, o subcomando
         <command>propset</command> leva uma opção <option>--file
@@ -644,7 +644,7 @@ $
 
       <para>Lembra das propriedades não-versionadas de revisões?  Você
         pode modificá-las, também, usando os mesmo subcomandos do
-        <command>svn</command> qua acabamos de descrever.  Apenas
+        <command>svn</command> que acabamos de descrever.  Apenas
         adicione o parâmetro <option>--revprop</option> na linha de
         comando, e especifique a revisão cujas propriedades você quer
         modificar.  Como as revisões são globais, você não precisa
@@ -868,7 +868,7 @@ $
         adições e importações e não apenas podem sobrescrever a
         identificação sobre o tipo MIME padrão feita pelo Subversion
         durante suas operações, como pode definir propriedades do
-        Subversion adicionais e personalidadas também.  Por exemplo,
+        Subversion adicionais e personalizadas também.  Por exemplo,
         você poderia criar um mapeamento que dissesse que sempre que
         você adicionar arquivos JPEG&mdash;aqueles cujos nomes casem com
         o padrão <literal>*.jpg</literal>&mdash;o Subversion deveria
@@ -3003,7 +3003,7 @@ Index: frabnaggilywort/IDEA
         autenticação for concluída, o servidor responde com a informação
         original a qual o cliente requisitou.  Perceba que este sistema
         é diferente de sistemas como o CVS em que o cliente oferece
-        credenciais pre-emptivamente (<quote>efetua um login</quote>) ao
+        credenciais preemptivamente (<quote>efetua um login</quote>) ao
         servidor antes de fazer uma requisição.  No Subversion, o
         servidor é que <quote>pega</quote> as credenciais desafiando o
         cliente no momento adequado, ao invés de o cliente ter de
@@ -3021,7 +3021,7 @@ Index: frabnaggilywort/IDEA
         como o valor da propriedade <literal>svn:author</literal> na
         nova revisão (veja <xref linkend="svn.ref.properties"/>).  Se o
         cliente não estava autenticado (em outras palavras, se o
-        servidor nunca lançara um desafio de autenticação other words),
+        servidor nunca lançara um desafio de autenticação),
         então a propriedade <literal>svn:author</literal> será vazia.
       </para>
 
