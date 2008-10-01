@@ -3029,42 +3029,42 @@ Index: frabnaggilywort/IDEA
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.netmodel.credcache">
-      <title>Client Credentials Caching</title>
+      <title>Armazenando Credenciais pelo Cliente</title>
 
-      <para>Many servers are configured to require authentication on
-        every request.  This would be a big annoyance to users, if
-        they were forced to type their passwords over and over again.
-        Fortunately, the Subversion client has a remedy for
-        this&mdash;a built-in system for caching authentication
-        credentials on disk.  By default, whenever the command-line
-        client successfully responds to a server's authentication
-        challenge, it saves the credentials in the user's private
-        runtime configuration area
-        (<filename>~/.subversion/auth/</filename> on Unix-like systems
-        or <filename>%APPDATA%/Subversion/auth/</filename> on Windows;
-        see <xref linkend="svn.advanced.confarea" /> for more details
-        about the runtime configuration system).  Successful
-        credentials are cached on disk, keyed on a combination of the
-        server's hostname, port, and authentication realm.</para>
+      <para>Muitos servidores estão configurados para exigir autenticação em
+        todas solicitações.  Isto seria um grande incomodo para os usuários, se
+        eles forem forçados a digitar suas senhas várias vezes.
+        Felizmente, o cliente Subversion possui um remédio para
+        isto&mdash;um sistema embutido para armazenamento das credenciais
+        de autenticação em disco.  Por padrão, se o cliente de linha de
+        comando responde com sucesso a um desafio de autenticação do
+        servidor, ele salva as credenciais na área privada de configuração
+        de execução do usuário
+        (<filename>~/.subversion/auth/</filename> em sistemas baseado em Unix
+        ou <filename>%APPDATA%/Subversion/auth/</filename> em Windows;
+        veja <xref linkend="svn.advanced.confarea" /> para maiores detalhes
+        sobre o sistema de configuração de execução).  As credenciais
+        aprovadas são armazenadas em disco, chaveadas com uma combinação do
+        nome do servidor, porta, e o domínio de autenticação.</para>
 
-      <para>When the client receives an authentication challenge, it
-        first looks for the appropriate credentials in the user's disk
-        cache.  If seemingly suitable credentials are not present, or
-        if the cached credentials ultimately fail to authenticate,
-        then the client will, by default, fall back to prompting the
-        user for the necessary information.</para>
+      <para>Quando o cliente recebe um desafio de autenticação, ele
+        primeiro procura pelas credenciais apropriadas na cache em disco do
+        usuário.  Se aparentemente nenhuma credencial apta está presente, ou
+        se em último caso a credencial armazenada falhar ao autenticar,
+        então o cliente, por padrão, voltará a solicitar ao
+        usuário pela informação necessária.</para>
 
-      <para>The security-conscious reader will suspect immediately
-        that there is reason for concern here.  <quote>Caching
-        passwords on disk?  That's terrible!  You should never do
-        that!</quote></para>
+      <para>O leitor consciente de segurança suspeitará imediatamente
+        que há motivo para preocupação aqui.  <quote>Armazenar
+        senhas em disco?  Isto é terrível!  Você nunca deve fazer
+        isto!</quote></para>
 
-      <para>The Subversion developers recognize the legitimacy of such
-        concerns, and so Subversion works with available mechanisms
-        provided by the operating system and environment to try to
-        minimize the risk of leaking this information.  Here's a
-        breakdown of what this means for users on the most common
-        platforms:</para>
+      <para>Os desenvolvedores do Subversion reconhecem a legitimidade de tais
+        preocupações, e por esta razão o Subversion trabalha com os mecanismos disponíveis
+        fornecidos pelo sistema e ambiente operacional para tentar
+        minimizar o risco de vazamento destas informações.  Aqui está uma
+        descrição de que isto significa para os usuários nas plataformas mais
+        comuns:</para>
 
       <itemizedlist>
 
