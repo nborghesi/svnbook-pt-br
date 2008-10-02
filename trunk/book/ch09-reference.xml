@@ -11,9 +11,10 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.ref.svn">
-    <title>O Cliente de Linha de Comando do Subevrsion: <command>svn</command></title>
+    <title>O Cliente de Linha de Comando do Subversion:
+      <command>svn</command></title>
     
-    <para>para usar o cliente de linha de comando, você digita 
+    <para>Para usar o cliente de linha de comando, você digita 
       <command>svn</command>, o subcomando que você quer usar 
       <footnote><para>Sim, sim, você não precisa de um subcomando para
       usar a opção <option>--version</option>, mas vamos falar disso num
@@ -1421,8 +1422,8 @@ Committed revision 13.
 
         <refnamediv>
           <refname>svn delete</refname>
-          <refpurpose>Delete an item from a working copy
-            or the repository.</refpurpose>
+          <refpurpose>Exclui um item de uma cópia de trabalho ou do
+            repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1432,17 +1433,18 @@ Committed revision 13.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Items specified by <replaceable>PATH</replaceable> are scheduled
-            for deletion upon the next commit.  Files (and
-            directories that have not been committed) are
-            immediately removed from the working copy.  The command
-            will not remove any unversioned or modified items; use
-            the <option>--force</option> option to override this
-            behavior.</para>
+          <para>Os itens especificados pelo
+            <replaceable>PATH</replaceable> são agendados para exclusão
+            até o próximo commit.  Os arquivos (e diretórios que ainda
+            não foram submetidos) são imediatamente removidos da cópia
+            de trabalho.  O comando não irá remover quaisquer itens não
+            versionados ou modificados; utilize a opção
+            <option>--force</option> para sobrescrever este
+            comportamento.</para>
 
-          <para>Items specified by URL are deleted from
-            the repository via an immediate commit.  Multiple URLs are
-            committed atomically.</para>
+          <para>Itens especificados pela URL são excluídos do
+            repositório por meio de um registro (commit) imediato.
+            Múltiplas URLs sofrem as alterações de forma atômica.</para>
         </refsect1>
 
         <refsect1>
@@ -1452,13 +1454,13 @@ Committed revision 13.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy if operating on files, repository if
-            operating on URLs</para>
+          <para>Cópia de trabalho, se executando sobre arquivos;
+            repositório, se operando sobre URLs</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on URLs</para>
+          <para>Apenas quando executado sobre URLs</para>
         </refsect1>
 
         <refsect1>
@@ -1484,11 +1486,11 @@ Committed revision 13.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Using <command>svn</command> to delete a file from
-            your working copy deletes your local copy of the file, but
-            merely schedules it to be deleted from the repository.
-            When you commit, the file is deleted in the
-            repository.</para>
+          <para>Usar <command>svn</command> para excluir um arquivo de
+            sua cópia de trabalho remove sua cópia local do arquivo, mas
+            apenas faz o agendamento para que ele seja removido do
+            repositório.  Quando você submeter a alteração, o arquivo é
+            excluído efetivamente do repositório.</para>
 
           <screen>
 $ svn delete myfile
@@ -1500,8 +1502,8 @@ Transmitting file data .
 Committed revision 14.
 </screen>
 
-          <para>Deleting a URL, however, is immediate, so you have
-            to supply a log message:</para>
+          <para>Excluir uma URL, no entanto, é imediato, então você deve
+            informar também uma mensagem de log:</para>
 
           <screen>
 $ svn delete -m "Deleting file 'yourfile'" file:///tmp/repos/test/yourfile
@@ -1509,8 +1511,8 @@ $ svn delete -m "Deleting file 'yourfile'" file:///tmp/repos/test/yourfile
 Committed revision 15.
 </screen>
 
-          <para>Here's an example of how to force deletion of a file
-            that has local mods:</para>
+          <para>Aqui está um exemplo de como forçar a exclusão de um
+            arquivo que já foi modificado localmente:</para>
 
           <screen>
 $ svn delete over-there 
@@ -1535,7 +1537,8 @@ D         over-there
 
         <refnamediv>
           <refname>svn diff</refname>
-          <refpurpose>Display the differences between two revisions or paths.</refpurpose>
+          <refpurpose>Exibe as diferenças entre duas revisões ou
+            caminhos.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1548,68 +1551,69 @@ D         over-there
           <title>Descrição</title>
 
 
-          <para>Display the differences between two paths.  The ways
-            you can use <command>svn diff</command> are:</para>
+          <para>Exibe as diferenças entre dois caminhos.  As formas de
+            se usar o <command>svn diff</command> são:</para>
 
-          <para>Use just <command>svn diff'</command>to display local
-            modifications in a working copy.</para>
+          <para>Use somente <command>svn diff'</command> para exibir as
+            modificações locais em uma cópia de trabalho.</para>
 
-          <para>Display the changes made to
-            <replaceable>TARGET</replaceable>s as they are seen in
-            <replaceable>REV</replaceable> between two revisions.
-            <replaceable>TARGET</replaceable>s may be all working copy
-            paths or all <replaceable>URL</replaceable>s.  If
-            <replaceable>TARGET</replaceable>s are working copy paths,
-            <replaceable>N</replaceable> defaults to
-            <literal>BASE</literal> and <replaceable>M</replaceable>
-            to the working copy; if <replaceable>URL</replaceable>s,
-            <replaceable>N</replaceable> must be specified and
-            <replaceable>M</replaceable> defaults to
-            <literal>HEAD</literal>.  The <quote>-c M</quote> option
-            is equivalent to <quote>-r N:M</quote> where <literal>N =
-            M-1</literal>.  Using <quote>-c -M</quote> does the
-            reverse: <quote>-r M:N</quote> where <literal>N =
+          <para>Exibe as mudanças feitas nos
+            <replaceable>TARGET</replaceable>s de como eram em
+            <replaceable>REV</replaceable> entre duas revisões.
+            <replaceable>TARGET</replaceable>s podem ser todos cópias de
+            trabalho como <replaceable>URL</replaceable>s.  Se
+            <replaceable>TARGET</replaceable>s são caminhos na cópia de
+            trabalho, <replaceable>N</replaceable> se referirá por
+            padrão a <literal>BASE</literal> e
+            <replaceable>M</replaceable>, à cópia de trabalho; se forem
+            <replaceable>URL</replaceable>s,
+            <replaceable>N</replaceable> deve ser especificado e
+            <replaceable>M</replaceable> servirá de referência a
+            <literal>HEAD</literal>.  A opção <quote>-c M</quote> é
+            equivalente a <quote>-r N:M</quote> sendo <literal>N =
+            M-1</literal>.  Usar <quote>-c -M</quote> faz o contrário:
+            <quote>-r M:N</quote> sendo <literal>N =
             M-1</literal>.</para>
 
-          <para>Display the differences between
-            <replaceable>OLD-TGT</replaceable> as it was seen in
-            <replaceable>OLDREV</replaceable> and
-            <replaceable>NEW-TGT</replaceable> as it was seen ain
+          <para>Exibe as diferenças entre 
+            <replaceable>OLD-TGT</replaceable> de como estava em 
+            <replaceable>OLDREV</replaceable> e
+            <replaceable>NEW-TGT</replaceable> de como estava em 
             <replaceable>NEWREV</replaceable>.
-            <replaceable>PATH</replaceable>s, if given, are relative
-            to <replaceable>OLD-TGT</replaceable> and
-            <replaceable>NEW-TGT</replaceable> and restrict the output
-            to differences for those paths.
-            <replaceable>OLD-TGT</replaceable> and
-            <replaceable>NEW-TGT</replaceable> may be working copy
-            paths or <replaceable>URL[@REV]</replaceable>.
-            <replaceable>NEW-TGT</replaceable> defaults to
-            <replaceable>OLD-TGT</replaceable> if not specified.
-            <quote>-r N</quote> makes OLDREV default to N, -r N:M
-            makes <replaceable>OLDREV</replaceable> default to
-            <replaceable>N</replaceable> and
-            <replaceable>NEWREV</replaceable> default to
+            <replaceable>PATH</replaceable>s, se especificados, são
+            relativos a <replaceable>OLD-TGT</replaceable> e
+            <replaceable>NEW-TGT</replaceable> e restringem a saída às
+            diferenças entre estes caminhos.
+            <replaceable>OLD-TGT</replaceable> e
+            <replaceable>NEW-TGT</replaceable> podem ser caminhos na
+            cópia de trabalho ou <replaceable>URL[@REV]</replaceable>.
+            <replaceable>NEW-TGT</replaceable>, por padrão, se refere a
+            <replaceable>OLD-TGT</replaceable> se não for especificada.
+            <quote>-r N</quote> faz com que OLDREV seja N, -r N:M
+            faz com que <replaceable>OLDREV</replaceable> seja
+            <replaceable>N</replaceable> e que
+            <replaceable>NEWREV</replaceable> seja
             <replaceable>M</replaceable>.</para>
 
-          <para>Shorthand for <command>svn diff --old=OLD-URL[@OLDREV]
+          <para>Abreviação para <command>svn diff --old=OLD-URL[@OLDREV]
             --new=NEW-URL[@NEWREV]</command></para>
 
-          <para><command>svn diff -r N:M URL</command> is shorthand
-            for <command>svn diff -r N:M --old=URL
+          <para><command>svn diff -r N:M URL</command> é abreviação para
+            <command>svn diff -r N:M --old=URL
             --new=URL</command>.</para>
 
           <para><command>svn diff [-r N[:M]] URL1[@N]
-            URL2[@M]</command> is shorthand for <command>svn diff [-r
+            URL2[@M]</command> é abreviação para <command>svn diff [-r
             N[:M]] --old=URL1 --new=URL2</command>.</para>
 
-          <para>If <replaceable>TARGET</replaceable> is a URL, then
-            revs N and M can be given either via the
-            <option>--revision</option> or by using
-            <quote>@</quote> notation as described earlier.</para>
+          <para>Se <replaceable>TARGET</replaceable> for uma URL, então
+            as revisões N e M podem ser dadas tanto pela opção
+            <option>--revision</option> como pela notação
+            <quote>@</quote> como descrito anteriormente.</para>
 
-          <para>If <replaceable>TARGET</replaceable> is a working copy
-            path, then the <option>--revision</option> option
-            means:</para>
+          <para>Se <replaceable>TARGET</replaceable> é um caminho na
+            cópia de trabalho, então a opção <option>--revision</option>
+            significa:</para>
 
           <variablelist>
 
