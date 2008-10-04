@@ -3029,7 +3029,7 @@ Index: frabnaggilywort/IDEA
 
     <!-- =============================================================== -->
     <sect2 id="svn.serverconfig.netmodel.credcache">
-      <title>Armazenando Credenciais pelo Cliente</title>
+      <title>Armazenando Credenciais no Cliente</title>
 
       <para>Muitos servidores estão configurados para exigir autenticação em
         todas solicitações.  Isto seria um grande incomodo para os usuários, se
@@ -3069,35 +3069,35 @@ Index: frabnaggilywort/IDEA
       <itemizedlist>
 
         <listitem>
-          <para>On Windows 2000 and later, the Subversion client uses
-            standard Windows cryptography services to encrypt the
-            password on disk.  Because the encryption key is managed
-            by Windows and is tied to the user's own login
-            credentials, only the user can decrypt the cached
-            password.  (Note that if the user's Windows account password
-            is reset by an administrator, all of the cached passwords
-            become undecipherable.  The Subversion client will behave
-            as if they don't exist, prompting for passwords when
-            required.)</para>
+          <para>No Windows 2000 e posteriores, o cliente Subversion utiliza
+            os serviços de criptografia padrão do Windows para criptografar a
+            senha no disco.  Devido a chave de criptografia ser gerenciada
+            pelo Windows e ser vinculada às credenciais de <foreignphrase>login</foreignphrase> do próprio
+            usuário, somente o usuário pode descriptografar a senha
+            armazenada.  (Note que se a senha da conta Windows do usuário
+            é redefinida por um administrador, todas as senhas armazenadas
+            se tornam indecifráveis.  O cliente Subversion se comportará
+            como se elas não existissem, solicitando pelas senhas quando
+            requeridas.)</para>
         </listitem>
 
         <listitem>
-          <para>Similarly, on Mac OS X, the Subversion client stores
-            all repository passwords in the login keyring (managed by
-            the Keychain service), which is protected by the user's
-            account password.  User preference settings can impose
-            additional policies, such as requiring the user's account
-            password be entered each time the Subversion password is
-            used.</para>
+          <para>Similarmente, no Mac OS X, o cliente Subversion armazena
+            todas as senha de repositório na coleção de chaves de <foreignphrase>login</foreignphrase> (gerenciada pelo
+            serviço <foreignphrase>Keychain</foreignphrase>), o qual é protegida pela senha da
+            conta do usuário.  As configurações de preferências do usuário podem impor
+            políticas adicionais, como exigir que a senha da conta do usuário
+            seja fornecida cada vez que o Subversion utilize a
+            senha.</para>
         </listitem>
 
         <listitem>
-          <para>For other Unix-like operating systems, no standard
-            <quote>keychain</quote> services exist.  However,
-            the <filename>auth/</filename> caching area is still
-            permission-protected so that only the user (owner) can
-            read data from it, not the world at large.  The operating
-            system's own file permissions protect the passwords.</para>
+          <para>Para outros sistemas operacionais baseado em Unix, nenhum serviço
+            de <quote>keychain</quote> existe.  No entanto,
+            a área de armazenamento <filename>auth/</filename> ainda é
+            protegida por permissão para que somente o usuário (proprietário) possa
+            ler dados dela, não todos em geral.  As permissões de arquivo do
+            próprio sistema operacional protege as senhas.</para>
         </listitem>
 
       </itemizedlist>
