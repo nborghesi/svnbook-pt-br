@@ -1620,9 +1620,9 @@ D         over-there
             <varlistentry>
               <term><option>--revision N:M</option></term>
               <listitem>
-                <para>The server compares
+                <para>O servidor compara 
                   <replaceable>TARGET</replaceable>@<replaceable>N</replaceable>
-                  and
+                  e
                   <replaceable>TARGET</replaceable>@<replaceable>M</replaceable>.</para>
               </listitem>
             </varlistentry>
@@ -1630,40 +1630,41 @@ D         over-there
             <varlistentry>
               <term><option>--revision N</option></term>
               <listitem>
-                <para>The client compares
+                <para>O cliente compara 
                   <replaceable>TARGET</replaceable>@<replaceable>N</replaceable>
-                  against working copy.</para>
+                  com a cópia de trabalho.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
-              <term>(no <option>--revision</option>)</term>
+              <term>(sem <option>--revision</option>)</term>
               <listitem>
-                <para>The client compares base and working copies of
-                  <replaceable>TARGET</replaceable>.</para>
+                <para>O cliente compara a base com a cópia de trabalho
+                  de <replaceable>TARGET</replaceable>.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>If the alternate syntax is used, the server compares
-            <replaceable>URL1</replaceable> and
-            <replaceable>URL2</replaceable> at revisions
-            <replaceable>N</replaceable> and
-            <replaceable>M</replaceable> respectively.  If either
-            <replaceable>N</replaceable> or
-            <replaceable>M</replaceable> are omitted, a value of
-            <literal>HEAD</literal> is assumed.</para>
+          <para>Se a sintaxe alternativa for usada, o servidor compara 
+            <replaceable>URL1</replaceable> e
+            <replaceable>URL2</replaceable> nas revisões 
+            <replaceable>N</replaceable> e
+            <replaceable>M</replaceable> respectivamente.  Se tanto 
+            <replaceable>N</replaceable> ou
+            <replaceable>M</replaceable> forem omitidos, é assumido o
+            valor de <literal>HEAD</literal>.</para>
 
-          <para>By default, <command>svn diff</command> ignores the
-            ancestry of files and merely compares the contents of the
-            two files being compared.  If you use
-            <option>--notice-ancestry</option>, the ancestry of the
-            paths in question will be taken into consideration when
-            comparing revisions (that is, if you run <command>svn
-            diff</command> on two files with identical contents but
-            different ancestry you will see the entire contents of the
-            file as having been removed and added again).</para>
+          <para>Por padrão, <command>svn diff</command> ignora os
+            diretórios superiores dos caminhos dos arquivos e meramente
+            compara o conteúdo dos dois arquivos sendo comparados.  Se
+            você usar <option>--notice-ancestry</option>, estes
+            ancestrais dos caminhos serão levados em consideração ao
+            comparar as revisões (isto é, se você executar <command>svn
+            diff</command> em dois arquivos com conteúdos idênticos mas
+            com diretórios superiores em caminhos diferentes, você irá
+            ver o conteúdo inteiro do arquivo como se ele tivesse sido
+            removido e adicionado novamente).</para>
 
         </refsect1>
         <refsect1>
@@ -1678,8 +1679,9 @@ D         over-there
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>For obtaining differences against anything but
-            <literal>BASE</literal> revision in your working copy</para>
+          <para>Para obter as diferenças de qualquer coisa com relação
+            à revisão <literal>BASE</literal> em sua cópia de
+            trabalho</para>
         </refsect1>
 
         <refsect1>
@@ -1709,8 +1711,8 @@ D         over-there
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Compare <literal>BASE</literal> and your working copy
-            (one of the most popular uses of <command>svn
+          <para>Compara <literal>BASE</literal> e sua cópia de trabalho
+            (um dos usos mais comuns do <command>svn
             diff</command>):</para>
 
           <screen>
@@ -1721,8 +1723,8 @@ Index: COMMITTERS
 +++ COMMITTERS	(working copy)
 </screen>
 
-          <para>See what changed in the file
-            <literal>COMMITTERS</literal> revision 9115:</para>
+          <para>Ver o que mudou no arquivo 
+            <literal>COMMITTERS</literal> na revisão 9115:</para>
 
           <screen>
 $ svn diff -c 9115 COMMITTERS 
@@ -1733,8 +1735,8 @@ Index: COMMITTERS
 </screen>
 
 
-          <para>See how your working copy's modifications compare
-            against an older revision:</para>
+          <para>Verificar como as modificações em sua cópia de trabalho
+            se comparam com relação a revisões mais antigas:</para>
 
           <screen>
 $ svn diff -r 3900 COMMITTERS 
@@ -1744,8 +1746,8 @@ Index: COMMITTERS
 +++ COMMITTERS	(working copy)
 </screen>
 
-          <para>Compare revision 3000 to revision 3500 using <quote>@</quote>
-            syntax:</para>
+          <para>Comparar a revisão 3000 com a revisão 3500 usando a
+            sintaxe de <quote>@</quote>:</para>
 
           <screen>
 $ svn diff http://svn.collab.net/repos/svn/trunk/COMMITTERS@3000 http://svn.collab.net/repos/svn/trunk/COMMITTERS@3500
@@ -1756,9 +1758,9 @@ Index: COMMITTERS
 &hellip;
 </screen>
 
-          <para>Compare revision 3000 to revision 3500 using range
-            notation (you only pass the one URL in this
-            case):</para>
+          <para>Compara a revisão 3000 com a revisão 3500 usando a
+            notação de intervalo (você passa apenas uma URL neste
+            caso):</para>
 
           <screen>
 $ svn diff -r 3000:3500 http://svn.collab.net/repos/svn/trunk/COMMITTERS
@@ -1769,24 +1771,25 @@ Index: COMMITTERS
 </screen>
 
 
-          <para>Compare revision 3000 to revision 3500 of all files in
-            <filename>trunk</filename> using range notation:</para>
+          <para>Compara a revisão 3000 com a revisão 3500 de todos os
+            arquivos em <filename>trunk</filename> usando a notação de
+            intervalo:</para>
 
           <screen>
 $ svn diff -r 3000:3500 http://svn.collab.net/repos/svn/trunk
           </screen>
 
 
-          <para>Compare revision 3000 to revision 3500 of only three
-            files in <filename>trunk</filename> using range
-            notation:</para>
+          <para>Compara a revisão 3000 com a revisão 3500 apenas de três
+            arquivos em <filename>trunk</filename> usando a notação de
+            intervalo:</para>
 
           <screen>
 $ svn diff -r 3000:3500 --old http://svn.collab.net/repos/svn/trunk COMMITTERS README HACKING
           </screen>
 
-          <para>If you have a working copy, you can obtain the
-            differences without typing in the long URLs:</para>
+          <para>Se você já tem uma cópia de trabalho, você pode obter as
+            diferenças sem digitar URLs longas:</para>
 
           <screen>
 $ svn diff -r 3000:3500 COMMITTERS 
@@ -1797,9 +1800,9 @@ Index: COMMITTERS
 </screen>
 
           <para>Use <option>--diff-cmd</option>
-            <replaceable>CMD</replaceable> <option>-x</option> to
-            pass arguments directly to the external diff
-            program</para>
+            <replaceable>CMD</replaceable> <option>-x</option> para
+            passar argumentos dirtamente para o programa diff
+            externo</para>
           
           <screen>
 $ svn diff --diff-cmd /usr/bin/diff -x "-i -b" COMMITTERS 
@@ -1823,7 +1826,7 @@ Index: COMMITTERS
 
         <refnamediv>
           <refname>svn export</refname>
-          <refpurpose>Export a clean directory tree.</refpurpose>
+          <refpurpose>Exporta uma árvore de diretórios limpa.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1833,21 +1836,21 @@ Index: COMMITTERS
         <refsect1>
           <title>Descrição</title>
 
-          <para>The first form exports a clean directory tree from the
-            repository specified by URL, at revision
-            <replaceable>REV</replaceable> if it is given, otherwise
-            at <literal>HEAD</literal>, into
-            <replaceable>PATH</replaceable>.  If
-            <replaceable>PATH</replaceable> is omitted, the last
-            component of the <replaceable>URL</replaceable> is used
-            for the local directory name.</para>
+          <para>A primeira forma exporta uma árvore de diretórios limpa
+            a partir do repositório especificado pela URL, na revisão
+            <replaceable>REV</replaceable> se esta for dada, ou de
+            <literal>HEAD</literal> em caso contrário, para o caminho
+            dado por <replaceable>PATH</replaceable>.  Se 
+            <replaceable>PATH</replaceable> for omitido, o último
+            componente da <replaceable>URL</replaceable> é usado como
+            nome do diretório local.</para>
 
-          <para>The second form exports a clean directory tree from
-            the working copy specified by
-            <replaceable>PATH1</replaceable> into
-            <replaceable>PATH2</replaceable>.  All local changes will
-            be preserved, but files not under version control will not
-            be copied.</para>
+          <para>A segunda forma exporta uma árvore de diretórios limpa a
+            partir da cópia de trabalho especificada por
+            <replaceable>PATH1</replaceable> para o caminho dado por 
+            <replaceable>PATH2</replaceable>.  Todas as modificações
+            locais serão preservadas, mas arquivos que não estiverem sob
+            controle de versão não serão copiados.</para>
         </refsect1>
 
         <refsect1>
@@ -1857,12 +1860,12 @@ Index: COMMITTERS
 
         <refsect1>
           <title>Altera</title>
-          <para>Local disk</para>
+          <para>Disco local</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if exporting from a URL</para>
+          <para>Apenas se exportando a partir de uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -1886,16 +1889,16 @@ Index: COMMITTERS
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Export from your working copy (doesn't print every
-            file and directory):</para>
+          <para>Exporta a partir de sua cópia de trabalho (não exibe
+            nenhum arquivo ou diretório):</para>
 
           <screen>
 $ svn export a-wc my-export
 Export complete.
 </screen>
 
-          <para>Export directly from the repository (prints every
-            file and directory):</para>
+          <para>Exporta diretamente a partir do repositório (exibe cada
+            arquivo e diretório):</para>
 
           <screen>
 $ svn export file:///tmp/repos my-export
@@ -1905,14 +1908,16 @@ A  my-export/quiz
 Exported revision 15.
 </screen>
 
-          <para>When rolling operating-system-specific release
-            packages, it can be useful to export a tree which uses a
-            specific EOL character for line endings.  The
-            <option>--native-eol</option> option will do this, but it
-            only affects files that have <literal>svn:eol-style =
-            native</literal> properties attached to them.  For
-            example, to export a tree with all CRLF line endings
-            (possibly for a Windows .zip file distribution):</para>
+          <para>Ao distribuir pacotes de seus repositório específicos
+            para um determinado sistema operacional, pode ser útil
+            exportar uma árvore que use o marcador de fim de linha (EOL)
+            específico.  A opção <option>--native-eol</option> fará
+            isso, mas ela afeta apenas os arquivos que tenham a
+            propriedade <literal>svn:eol-style = native</literal>
+            anexada a si.  Por exemplo, para exportar uma árvore com
+            todas as terminações de linhas dadas do tipo CRLF
+            (possivelmente para distribuição de arquivos .zip para
+            Windows):</para>
 
           <screen>
 $ svn export file:///tmp/repos my-export --native-eol CRLF
@@ -1922,10 +1927,10 @@ A  my-export/quiz
 Exported revision 15.
 </screen>
 
-          <para>You can specify <literal>LR</literal>,
-            <literal>CR</literal>, or <literal>CRLF</literal> as a
-            line ending type with the <option>--native-eol</option>
-            option.</para>
+          <para>Você pode especificar <literal>LR</literal>,
+            <literal>CR</literal>, ou <literal>CRLF</literal> como tipos
+            de marcadores de fim de linha com esta opção
+            <option>--native-eol</option>.</para>
 
         </refsect1>
       </refentry>
@@ -1942,7 +1947,7 @@ Exported revision 15.
 
         <refnamediv>
           <refname>svn help</refname>
-          <refpurpose>Help!</refpurpose>
+          <refpurpose>Ajuda!</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -1951,16 +1956,17 @@ Exported revision 15.
         <refsect1>
           <title>Descrição</title>
 
-          <para>This is your best friend when you're using
-            Subversion and this book isn't within reach!</para>
+          <para>Este é seu melhor amigo quando estiver usando o
+            Subversion e este livro sequer chegará a seus
+            pés!</para>
         </refsect1>
         
         <refsect1>
           <title>Nomes Alternativos</title>
           <para>?, h</para>
-          <para>The options <option>-?</option>, <option>-h</option>
-            and <option>--help</option> have the same effect as using the
-            <command>help</command> subcommand.</para>
+          <para>As opções <option>-?</option>, <option>-h</option> e
+            <option>--help</option> têm todas o mesmo efeito que usando
+            o subcomando <command>help</command>.</para>
         </refsect1>
 
         <refsect1>
