@@ -1998,8 +1998,9 @@ Exported revision 15.
 
         <refnamediv>
           <refname>svn import</refname>
-          <refpurpose>Commit an unversioned file or tree into the 
-            repository.</refpurpose>
+          <refpurpose>Submete (<foreignphrase>commit</foreignphrase>) um
+            arquivo ou árvore não-versionada ao
+            repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2008,13 +2009,13 @@ Exported revision 15.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Recursively commit a copy of
-            <replaceable>PATH</replaceable> to
-            <replaceable>URL</replaceable>.  If
-            <replaceable>PATH</replaceable> is omitted
-            <quote><filename>.</filename></quote> is assumed.  Parent
-            directories are created in the repository as
-            necessary.</para>
+          <para>Submete recursivamente uma cópia de 
+            <replaceable>PATH</replaceable> para
+            <replaceable>URL</replaceable>.  Se 
+            <replaceable>PATH</replaceable> for omitido, então
+            <quote><filename>.</filename></quote> é assumido.
+            Diretórios anteriores são criados no repositório, se
+            necessário.</para>
         </refsect1>
 
         <refsect1>
@@ -2024,7 +2025,7 @@ Exported revision 15.
 
         <refsect1>
           <title>Altera</title>
-          <para>Repository</para>
+          <para>Repositório</para>
         </refsect1>
 
         <refsect1>
@@ -2045,7 +2046,7 @@ Exported revision 15.
 --no-auth-cache
 --non-interactive
 --force-log
---editor-cmd EDITOR
+--editor-cmd EDITOR 
 --encoding ENC
 --config-dir DIR
 --auto-props
@@ -2057,13 +2058,13 @@ Exported revision 15.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>This imports the local directory
-            <filename>myproj</filename> into
-            <filename>trunk/misc</filename> in your repository.  The
-            directory <filename>trunk/misc</filename> need not exist
-            before you import into it&mdash;<command>svn
-            import</command> will recursively create directories for
-            you.</para>
+          <para>Isto importa o diretório local
+            <filename>myproj</filename> para dentro de 
+            <filename>trunk/misc</filename> em seu repositório.  O
+            diretório <filename>trunk/misc</filename> não precisa
+            existir antes da operação&mdash;<command>svn
+            import</command> irá criár diretórios recursivamente para
+            você.</para>
 
           <screen>
 $ svn import -m "New import" myproj http://svn.red-bean.com/repos/trunk/misc
@@ -2073,10 +2074,10 @@ Transmitting file data .........
 Committed revision 16.
 </screen>
 
-          <para>Be aware that this will <emphasis>not</emphasis>
-            create a directory named <filename>myproj</filename> in
-            the repository.  If that's what you want, simply add
-            <filename>myproj</filename> to the end of the URL:</para>
+          <para>Atente que isto <emphasis>não</emphasis> cria um
+            diretório chamado <filename>myproj</filename> no
+            repositório.  Se é isso o que você quer, simplesmente
+            adicione <filename>myproj</filename> ao final da URL:</para>
 
           <screen>
 $ svn import -m "New import" myproj http://svn.red-bean.com/repos/trunk/misc/myproj
@@ -2086,10 +2087,11 @@ Transmitting file data .........
 Committed revision 16.
 </screen>
 
-          <para>After importing data, note that the original tree is
-            <emphasis>not</emphasis> under version control.  To start
-            working, you still need to <command>svn checkout</command>
-            a fresh working copy of the tree.</para>
+          <para>Depois de importar dados, perceba que a árvore original
+            <emphasis>not</emphasis> está sob controle de versão.  Para
+            começar a trabalhar, você ainda precisa realizar um
+            <command>svn checkout</command> para obter uma nova cópia de
+            trabalho da árvore.</para>
           
         </refsect1>
       </refentry>
@@ -2104,8 +2106,8 @@ Committed revision 16.
 
         <refnamediv>
           <refname>svn info</refname>
-          <refpurpose>Display information about a local or remote 
-            item.</refpurpose>
+          <refpurpose>Exibe informação sobre um item local ou
+            remoto.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2114,9 +2116,9 @@ Committed revision 16.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print information about the working copy paths or
-           URLs specified.  The information shown for both may
-           include:</para>
+          <para>Exibe informação sobre caminhos na cópia de trabalho ou
+            URLs especificadas.  A informação exibida para ambos pode
+            incluir:</para>
 
           <itemizedlist>
             <listitem><para>Path</para></listitem>
@@ -2135,8 +2137,8 @@ Committed revision 16.
             <listitem><para>Lock Expires (date)</para></listitem>
           </itemizedlist>
 
-          <para>Additional kinds of information available only for
-            working copy paths are:</para>
+          <para>Tipos adicionais de informação disponíveis apenas para
+            caminhos em cópias de trabalho são:</para>
 
           <itemizedlist>
             <listitem><para>Schedule</para></listitem>
@@ -2164,7 +2166,7 @@ Committed revision 16.
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on URLs</para>
+          <para>Apenas se operando sobre URLs</para>
         </refsect1>
 
         <refsect1>
@@ -2187,9 +2189,9 @@ Committed revision 16.
         <refsect1>
           <title>Exemplos</title>
 
-          <para><command>svn info</command> will show you all the
-            useful information that it has for items in your working
-            copy.  It will show information for files:</para>
+          <para><command>svn info</command> irá mostrar a você toda a
+            informação útil que tiver para itens em sua cópia de
+            trabalho.  Ele exibirá informações sobre arquivos:</para>
 
           <screen>
 $ svn info foo.c
@@ -2209,7 +2211,7 @@ Properties Last Updated: 2003-01-13 21:50:19 -0600 (Mon, 13 Jan 2003)
 Checksum: d6aeb60b0662ccceb6bce4bac344cb66
 </screen>
 
-          <para>It will also show information for directories:</para>
+          <para>Ele também exibirá informações sobre diretórios:</para>
 
           <screen>
 $ svn info vendors
@@ -2226,9 +2228,10 @@ Last Changed Date: 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003)
 Properties Last Updated: 2003-01-16 23:39:02 -0600 (Thu, 16 Jan 2003)
 </screen>
 
-           <para><command>svn info</command> also acts on URLs (also
-             note that the file readme.doc in this example is locked,
-             so lock information is also provided):</para>
+           <para><command>svn info</command> também funciona em URLs
+             (perceba também que o arquivo readme.doc neste exemplo está
+             travado, então a informação da trava também é
+             exibida):</para>
 
            <screen>
 $ svn info http://svn.red-bean.com/repos/test/readme.doc
@@ -2265,7 +2268,8 @@ My test lock comment
 
         <refnamediv>
           <refname>svn list</refname>
-          <refpurpose>List directory entries in the repository.</refpurpose>
+          <refpurpose>Lista entradas de diretório no
+            repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2274,41 +2278,43 @@ My test lock comment
         <refsect1>
           <title>Descrição</title>
 
-          <para>List each <replaceable>TARGET</replaceable> file and
-            the contents of each <replaceable>TARGET</replaceable>
-            directory as they exist in the repository.  If
-            <replaceable>TARGET</replaceable> is a working copy path,
-            the corresponding repository URL will be used.</para>
+          <para>Lista cada arquivo em <replaceable>TARGET</replaceable>
+            e o conteúdo de cada diretório em
+            <replaceable>TARGET</replaceable> como existirem no
+            repositório.  Se <replaceable>TARGET</replaceable> for um
+            caminho em uma cópia de trabalho, a URL correspondente no
+            repositório será usada.</para>
 
-          <para>The default <replaceable>TARGET</replaceable> is
-            <quote><filename>.</filename></quote>, meaning the
-            repository URL of the current working copy
-            directory.</para>
+          <para>O <replaceable>TARGET</replaceable> padrão, quando não
+            informado, é <quote><filename>.</filename></quote>,
+            significando a URL correspondente ao diretório atual na
+            cópia de trabalho.</para>
 
-          <para>With <option>--verbose</option>, <command>svn
-            list</command> shows the following fields for each
+          <para>Com <option>--verbose</option>, <command>svn
+            list</command> exibe os seguintes campos para cada
             item:</para>
 
           <itemizedlist>
-            <listitem><para>Revision number of the last
+            <listitem><para>Número da revisão do último
               commit</para></listitem>
 
-            <listitem><para>Author of the last commit</para></listitem>
+            <listitem><para>Autor do último commit</para></listitem>
 
-            <listitem><para>If locked, the letter <quote>O</quote> (See <xref
-              linkend="svn.ref.svn.c.info"/> for details).</para></listitem>
+            <listitem><para>Se travado, a letra <quote>O</quote> (Veja
+              <xref linkend="svn.ref.svn.c.info"/> para
+              detalhes).</para></listitem>
 
-            <listitem><para>Size (in bytes)</para></listitem>
+            <listitem><para>Tamanho (em bytes)</para></listitem>
 
-            <listitem><para>Date and time of the last
+            <listitem><para>Data e horário do último
               commit</para></listitem>
           </itemizedlist>
 
-          <para>With <option>--xml</option>, output is in XML format (with
-            a header and an enclosing document element unless
-            <option>--incremental</option> is also specified).  All of the
-            information is present; the <option>--verbose</option> option
-            is not accepted.</para>
+          <para>Com <option>--xml</option>, a saída fica em um formato
+            XML (com um cabeçalho e um elemento de documento
+            encapsulador, a menos que <option>--incremental</option>
+            também seja especificado).  Toda a informação está presente;
+            a opção <option>--verbose</option> não é aceita.</para>
         </refsect1>
 
         <refsect1>
@@ -2346,9 +2352,9 @@ My test lock comment
         <refsect1>
           <title>Exemplos</title>
 
-          <para><command>svn list</command> is most useful if you
-            want to see what files a repository has without
-            downloading a working copy:</para>
+          <para><command>svn list</command> é mais útil se você quiser
+            ver que arquivos um repositório tem sem precisar obter uma
+            cópia de trabalho:</para>
 
           <screen>
 $ svn list http://svn.red-bean.com/repos/test/support
@@ -2358,8 +2364,8 @@ examples/
 &hellip;
 </screen>
 
-          <para>You can pass the <option>--verbose</option> option for
-            additional information, rather like the UNIX command
+          <para>Você pode passar a opção <option>--verbose</option> para
+            informações adicionais, similar ao comando UNIX 
             <command>ls -l</command>:</para>
 
           <screen>
@@ -2369,7 +2375,7 @@ $ svn list --verbose file:///tmp/repos
      24 harry               Jan 18 11:27 examples/
 </screen>
 
-          <para>For further details, see <xref
+          <para>Para mais detalhes, veja <xref
             linkend="svn.tour.history.browsing.list"/>.</para>
 
         </refsect1>
@@ -2386,9 +2392,9 @@ $ svn list --verbose file:///tmp/repos
 
         <refnamediv>
           <refname>svn lock</refname> 
-            <refpurpose>Lock working copy paths or URLs in the
-              repository, so that no other user can commit changes to
-              them.</refpurpose>
+            <refpurpose>Trava caminhos na cópia de trabalho ou em URLs
+              no repositório, assim nenhum outro usuário poderá submeter
+              alterações neles.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2397,12 +2403,12 @@ $ svn list --verbose file:///tmp/repos
         <refsect1>
           <title>Descrição</title>
 
-          <para>Lock each <replaceable>TARGET</replaceable>.  If any
-            <replaceable>TARGET</replaceable> is already locked by
-            another user, print a warning and continue locking the
-            rest of the <replaceable>TARGET</replaceable>s.  Use
-            <option>--force</option> to steal a lock from another user
-            or working copy.</para>
+          <para>Trava cada <replaceable>TARGET</replaceable>.  Se algum
+            <replaceable>TARGET</replaceable> já estiver travado por
+            outro usuário, exibe uma mensagem de aviso e continua
+            travando os demais <replaceable>TARGET</replaceable>s
+            informados.  Use <option>--force</option> para roubar uma
+            trava de outro usuário ou cópia de trabalho.</para>
 
         </refsect1>
 
@@ -2413,7 +2419,7 @@ $ svn list --verbose file:///tmp/repos
 
         <refsect1>
           <title>Altera</title>
-          <para>Working Copy, Repository</para>
+          <para>Cópia de trabalho, Repositório</para>
         </refsect1>
 
         <refsect1>
@@ -2442,7 +2448,7 @@ $ svn list --verbose file:///tmp/repos
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Lock two files in your working copy:</para>
+          <para>Trava dois arquivos em sua cópia de trabalho:</para>
 
           <screen>
 
@@ -2451,8 +2457,8 @@ $ svn lock tree.jpg house.jpg
 'house.jpg' locked by user 'harry'.
 </screen>
 
-          <para>Lock a file in your working copy that is currently
-            locked by another user:</para>
+          <para>Trava um arquivo em sua cópia de trabalho que já estava
+            travado por outro usuário:</para>
 
           <screen>
 $ svn lock tree.jpg
@@ -2463,14 +2469,14 @@ $ svn lock --force tree.jpg
 'tree.jpg' locked by user 'harry'.
 </screen>
 
-          <para>Lock a file without a working copy:</para>
+          <para>Trava um arquivo sem uma cópia de trabalho:</para>
 
           <screen>
 $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
 'tree.jpg' locked by user 'harry'.
 </screen>
 
-          <para>For further details, see <xref
+          <para>Para mais detalhes, veja <xref
             linkend="svn.advanced.locking"/>.</para>
 
         </refsect1>
@@ -2487,7 +2493,7 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
 
         <refnamediv>
           <refname>svn log</refname>
-          <refpurpose>Display commit log messages.</refpurpose>
+          <refpurpose>Exibe as mensagens de log submetidas.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2498,33 +2504,36 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
         <refsect1>
           <title>Descrição</title>
 
-          <para>Shows log messages from the repository.
-            If no arguments are supplied, <command>svn
-            log</command> shows the log messages for all files and
-            directories inside of (and including) the current working
-            directory of your working copy.  You can refine the
-            results by specifying a path, one or more revisions, or
-            any combination of the two.  The default revision range
-            for a local path is <literal>BASE:1</literal>.</para>
+          <para>Exibe mensagens de log do repositório.  Se nenhum
+            argumento for informado, <command>svn log</command> exibe as
+            mensagens de log para todos os arquivos e diretórios dentro
+            do diretório atual (inclusive) de sua cópia de trabalho.
+            Você pode refinar os resultados especificando um caminho,
+            uma ou mais revisões, ou qualquer combinação das duas.  O
+            intervalo padrão de revisões para caminhos locais é
+            <literal>BASE:1</literal>.</para>
 
-          <para>If you specify a URL alone, then it prints log
-            messages for everything that the URL contains.  If you
-            add paths past the URL, only messages for those paths
-            under that URL will be printed.  The default revision range
-            for a URL is <literal>HEAD:1</literal>.</para>
+          <para>Se você especificar uma URL sozinha, então o comando
+            exibe as mensagens de log para tudo o que a URL contiver.
+            Se você adicionar caminhos depois da URL, apenas as
+            mensagens para estes caminhos sob a URL serão exibidas.  O
+            intervalo padrão de revisões para uma URL é
+            <literal>HEAD:1</literal>.</para>
 
-          <para>With <option>--verbose</option>, <command>svn log</command>
-            will also print all affected paths with each log message.
-            With <option>--quiet</option>, <command>svn log</command>
-            will not print the log message body itself (this is
-            compatible with <option>--verbose</option>).</para>
+          <para>Com <option>--verbose</option>, <command>svn
+            log</command> também irá exibir todos os caminhos afetados
+            com cada mensagem de log.  Com <option>--quiet</option>,
+            <command>svn log</command> não irá exibir o corpo da
+            mensagem de log em si (isto é compatível com
+            <option>--verbose</option>).</para>
 
-          <para>Each log message is printed just once, even if more
-            than one of the affected paths for that revision were
-            explicitly requested.  Logs follow copy history by
-            default.  Use <option>--stop-on-copy</option> to disable
-            this behavior, which can be useful for determining branch
-            points.</para>
+          <para>Cada mensagem de log é exibida apenas uma vez, mesmo se
+            mais de um dos caminhos afetados por aquela revisão forem
+            solicitados explicitamente.  As mensagens de log seguem o
+            histórico de cópias por padrão.  Use
+            <option>--stop-on-copy</option> para desabilitar este
+            comportamento, o que pode ser útil para determinar pontos de
+            ramificação.</para>
 
         </refsect1>
         <refsect1>
@@ -2565,9 +2574,9 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
         <refsect1>
           <title>Exemplos</title>
 
-          <para>You can see the log messages for all the paths that
-            changed in your working copy by running <command>svn
-            log</command> from the top:</para>
+          <para>Você pode ver as mensagens de log para todos os caminhos
+            que sofreram alterações em sua cópia de trabalho, executando
+            <command>svn log</command> a partir da raíz da mesma:</para>
 
           <screen>
 $ svn log
@@ -2580,8 +2589,8 @@ r17 | sally | 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003) | 2 lines
 &hellip;
 </screen>
 
-          <para>Examine all log messages for a particular file in
-            your working copy:</para>
+          <para>Examine todas as mensagens de log para um dado arquivo
+            em sua cópia de trabalho:</para>
 
           <screen>
 $ svn log foo.c
@@ -2594,8 +2603,8 @@ r28 | sally | 2003-01-07 21:48:33 -0600 (Tue, 07 Jan 2003) | 3 lines
 &hellip;
 </screen>
 
-          <para>If you don't have a working copy handy, you can log
-            a URL:</para>
+          <para>Se você não tiver uma cópia de trabalho à mão, você pode
+            obter as mensagens de log a partir de uma URL:</para>
 
           <screen>
 $ svn log http://svn.red-bean.com/repos/test/foo.c
@@ -2608,9 +2617,9 @@ r28 | sally | 2003-01-07 21:48:33 -0600 (Tue, 07 Jan 2003) | 3 lines
 &hellip;
 </screen>
 
-          <para>If you want several distinct paths underneath the
-            same URL, you can use the <literal>URL [PATH...]</literal>
-            syntax.</para>
+          <para>Se você quiser as mensagens de diversos arquivos sob uma
+            mesma URL, você pode usar a sintaxe <literal>URL
+            [PATH...]</literal>.</para>
 
           <screen>
 $ svn log http://svn.red-bean.com/repos/test/ foo.c bar.c
@@ -2627,14 +2636,14 @@ r28 | sally | 2003-01-07 21:48:33 -0600 (Tue, 07 Jan 2003) | 3 lines
 &hellip;
 </screen>
 
-          <para>When you're concatenating the results of multiple
-            calls to the log command, you may want to use the
-            <option>--incremental</option> option. <command>svn
-            log</command> normally prints out a dashed line at the
-            beginning of a log message, after each subsequent log
-            message, and following the final log message.  If you
-            ran <command>svn log</command> on a range of two
-            revisions, you would get this:</para>
+          <para>Quando estiver concatenando os resultados de múltiplas
+            chamadas ao comando log, você também pode usar a opção
+            <option>--incremental</option>.  O <command>svn
+            log</command> normalmente exibe uma linha tracejada no
+            começo de cada mensagem de log, depois de cada mensagem de
+            log subsequente, e após a última mensagem de log.  Se você
+            executou o <command>svn log</command> com um intervalo de
+            revisões, você deve ter obtido isto:</para>
           <screen>
 $ svn log -r 14:15
 ------------------------------------------------------------------------
@@ -2646,9 +2655,9 @@ r15 | &hellip;
 ------------------------------------------------------------------------
 </screen>
 
-          <para>However, if you wanted to gather 2 non-sequential
-            log messages into a file, you might do something like
-            this:</para>
+          <para>Entretanto, se você queria gravar duas mensagens de
+            log não-sequenciais em um arquivo, você poderia ter feito
+            algo assim:</para>
 
           <screen>
 $ svn log -r 14 &gt; mylog
@@ -2669,8 +2678,8 @@ r27 | &hellip;
 ------------------------------------------------------------------------
 </screen>
 
-          <para>You can avoid the clutter of the double dashed lines
-            in your output by using the incremental option:</para>
+          <para>Você pode evitar a bangunça das duplas linhas tracejadas
+            em sua saída usando a opção incremental:</para>
 
 
           <screen>
@@ -2688,26 +2697,27 @@ r19 | &hellip;
 r27 | &hellip;
 </screen>
 
-          <para>The <option>--incremental</option> option provides
-            similar output control when using the
-            <option>--xml</option> option.</para>
+          <para>A opção <option>--incremental</option> resulta em um
+            controle da saída semelhante também quando usada com a opção
+            <option>--xml</option>.</para>
 
 
 
           <tip>
-            <para>If you run <command>svn log</command> on a specific
-              path and provide a specific revision and get no output
-              at all</para>
+            <para>Se você executar <command>svn log</command> em um dado
+              específico e informar uma revisão específica e não obtiver
+              nada como saída</para>
 
             <screen>
 $ svn log -r 20 http://svn.red-bean.com/untouched.txt
 ------------------------------------------------------------------------
 </screen>
 
-            <para>That just means that the path was not modified in
-              that revision.  If you log from the top of the
-              repository, or know the file that changed in that
-              revision, you can specify it explicitly:</para>
+            <para>Isto apenas significa que aquele caminho não foi
+              modificado naquela revisão.  Se você obtiver o log a
+              partir da raíz do repositório, ou souber o arquivo que foi
+              alterado naquela revisão, você pode especificá-lo
+              explicitamente:</para>
             
             <screen>
 $ svn log -r 20 touched.txt 
@@ -2732,8 +2742,8 @@ Made a change.
 
         <refnamediv>
           <refname>svn merge</refname>
-          <refpurpose>Apply the differences between two sources to a
-          working copy path.</refpurpose>
+          <refpurpose>Aplica as diferenças entre duas fontes para um
+            caminho numa cópia de trabalho.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2744,39 +2754,42 @@ Made a change.
         <refsect1>
           <title>Descrição</title>
 
-          <para>In the first and second forms, the source paths (URLs
-            in the first form, working copy paths in the second) are
-            specified at revisions <replaceable>N</replaceable> and
-            <replaceable>M</replaceable>.  These are the two sources
-            to be compared.  The revisions default to
-            <literal>HEAD</literal> if omitted.</para>
+          <para>Na primeira e na segunda formas, os caminhos de origem
+            (URLs na primeira forma, caminhos na cópia de trabalho na
+            segunda) são especificados nas revisões
+            <replaceable>N</replaceable> e
+            <replaceable>M</replaceable>.  Estas são as duas fontes a
+            serem comparadas.  A revisão padrão, quando omitida, será
+            <literal>HEAD</literal>.</para>
 
-          <para>The <literal>-c M</literal> option is equivalent to
-            <literal>-r N:M</literal> where <replaceable>N =
-            M-1</replaceable>.  Using <literal>-c -M</literal> does
-            the reverse: <literal>-r M:N</literal> where
+          <para>A opção <literal>-c M</literal> é equivalente a
+            <literal>-r N:M</literal> onde <replaceable>N =
+            M-1</replaceable>.  Usar <literal>-c -M</literal> faz o
+            inverso: <literal>-r M:N</literal> onde
             <replaceable>N = M-1</replaceable>.</para>
 
-          <para>In the third form, <replaceable>SOURCE</replaceable>
-            can be a URL or working copy item, in which case the
-            corresponding URL is used.  This URL, at revisions
-            <replaceable>N</replaceable> and
-            <replaceable>M</replaceable>, defines the two sources to
-            be compared.</para>
+          <para>Na terceira forma, <replaceable>SOURCE</replaceable>
+            pode ser uma URL ou um item numa cópia de trabalho, neste
+            caso a URL correspondente é usada.  Esta URL, nas revisões
+            <replaceable>N</replaceable> e
+            <replaceable>M</replaceable>, define as duas fontes a serem
+            comparadas.</para>
 
-          <para><replaceable>WCPATH</replaceable> is the working copy
-            path that will receive the changes.  If
-            <replaceable>WCPATH</replaceable> is omitted, a default
-            value of <quote><filename>.</filename></quote> is assumed,
-            unless the sources have identical basenames that match a
-            file within <quote><filename>.</filename></quote>: in which
-            case, the differences will be applied to that file.</para>
+          <para><replaceable>WCPATH</replaceable> é o caminho na cópia
+            de trabalho que irão receber as alterações.  Se 
+            <replaceable>WCPATH</replaceable> for omitido, será assumido
+            <quote><filename>.</filename></quote> como valor padrão, a
+            menos que as fontes tenham nomes de base idênticos que
+            correspondam a um arquivo dentro de
+            <quote><filename>.</filename></quote>: neste caso, as
+            diferenças serão aplicadas àquele arquivo.</para>
 
-          <para>Unlike <command>svn diff</command>, the merge command
-            takes the ancestry of a file into consideration when
-            performing a merge operation.  This is very important when
-            you're merging changes from one branch into another and
-            you've renamed a file on one branch but not the other.</para>
+          <para>Diferentemente do <command>svn diff</command>, o comando
+            merge leva os diretórios anteriores de um arquivo em
+            consideração ao executar uma operação de mesclagem.  Isto é
+            muito importante quando você estiver juntando as alterações
+            feitas de um ramo para outro e tiver renomeado um arquivo em
+            um ramo mas não em outro.</para>
 
         </refsect1>
         <refsect1>
@@ -2786,12 +2799,12 @@ Made a change.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy</para>
+          <para>Cópia de trabalho</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if working with URLs</para>
+          <para>Apenas se trabalhando com URLs</para>
         </refsect1>
 
         <refsect1>
@@ -2818,9 +2831,9 @@ Made a change.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Merge a branch back into the trunk (assuming that
-            you have a working copy of the trunk, and that the branch
-            was created in revision 250):</para>
+          <para>Mescla um ramo de volta ao trunk (assumindo que você tem
+            uma cópia de trabalho de trunk, e que o ramo tenha sido
+            criado na revisão 250):</para>
 
           <screen>
 $ svn merge -r 250:HEAD http://svn.red-bean.com/repos/branches/my-branch
@@ -2830,9 +2843,10 @@ U  myproj/win.txt
 U  myproj/flo.txt
 </screen>
 
-          <para>If you branched at revision 23, and you want to
-            merge changes on trunk into your branch, you could do
-            this from inside the working copy of your branch:</para>
+          <para>Se você tiver feito a ramificação na revisão 23, e
+            quiser mesclar as alterações feitas no trunk para seu ramo,
+            você pode fazer isto de dentro da cópia de trabalho de seu
+            ramo:</para>
 
           <screen>
 $ svn merge -r 23:30 file:///tmp/repos/trunk/vendors
@@ -2840,7 +2854,7 @@ U  myproj/thhgttg.txt
 &hellip;
 </screen>
           
-        <para>To merge changes to a single file:</para>
+        <para>Para mesclar as alterações em um único arquivo:</para>
 
         <screen>
 $ cd myproj
