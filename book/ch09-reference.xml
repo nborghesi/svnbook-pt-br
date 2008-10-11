@@ -5558,42 +5558,42 @@ $ svnadmin verify /usr/local/svn/repos/
     <title><command>svnlook</command></title>
     
     <para><command>svnlook</command> é um comando de console útil
-    para examinar diferentes aspectos do repositório Subversion.
-    Ele não faz nenhuma mudança no repositório&mdash;é usado mesmo 
-    para dar uma dar uma <quote>espiada</quote>.
+      para examinar diferentes aspectos do repositório Subversion.
+      Ele não faz nenhuma mudança no repositório&mdash;é usado mesmo 
+      para dar uma dar uma <quote>espiada</quote>.
       <command>svnlook</command> é usando tipicamente usado pelos
-     hooks do repositório, mas o administrador do repositório pode
-     achá-lo útil como ferramente de diagnóstico.</para>
+      hooks do repositório, mas o administrador do repositório pode
+      achá-lo útil como ferramente de diagnóstico.</para>
 
-    <para>Já que <command>svnlook</command> funciona via acesso direto ao
-    repositório, (e por isso só pode ser usado em máquinas que tenham o
-     repositórios), ele se refere ao repositório por um caminho, 
-     não uma URL.</para>
+    <para>Já que <command>svnlook</command> funciona via acesso direto
+      ao repositório, (e por isso só pode ser usado em máquinas que
+      tenham repositórios), ele se refere ao repositório por um caminho, 
+      não uma URL.</para>
 
-    <para>Se nenhuma revisão ou transação for especificada, 
-       o padrão do <command>svnlook</command> é da revisão mais 
-       jovem(mais recente) do repositório.  </para>
+    <para>Se nenhuma revisão ou transação for especificada, o padrão do
+      <command>svnlook</command> é da revisão mais jovem(mais recente)
+      do repositório.</para>
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnlook.sw">
       <title>Opções do <command>svnlook</command></title>
       
-      <para>Opções no <command>svnlook</command> são globais, 
-      assim como no <command>svn</command> e <command>svnadmin</command>;
-      entretanto, a maioria das opções apenas se aplicam a um commando
-       já que as funcionalidades do <command>svnlook</command> é 
-       (intencionalmente) limitado ao escopo.</para>
+      <para>Opções no <command>svnlook</command> são globais, assim como
+        no <command>svn</command> e <command>svnadmin</command>;
+        entretanto, a maioria das opções apenas se aplicam a um commando
+        já que as funcionalidades do <command>svnlook</command> é 
+        (intencionalmente) limitado ao escopo.</para>
 
       <variablelist>
 
         <varlistentry>
           <term><option>--no-diff-deleted</option></term>
           <listitem>
-	      <para> Previne <command>svnlook</command> de mostrar 
-	  diferenças entre arquivos deletados. O comportamento
-	  padrão quando um arquivo é deletado numa transação/revisão
-	  é mostrar as mesmas diferenças que você veria se tivesse
-	  deixado o arquivo mas apagado seu conteudo</para> 
+	      <para>Previne o <command>svnlook</command> de mostrar as
+	        diferenças entre arquivos deletados.  O comportamento padrão
+	        quando um arquivo é deletado numa transação/revisão é
+	        mostrar as mesmas diferenças que você veria se tivesse
+	        deixado o arquivo mas apagado seu conteudo.</para> 
           </listitem>
         </varlistentry>
 
@@ -5602,7 +5602,7 @@ $ svnadmin verify /usr/local/svn/repos/
             (<option>-r</option>)</term>
           <listitem>
 	      <para>Especifica uma revisão em particular que você deseja
-		  examinar.</para>
+		    examinar.</para>
           </listitem>
         </varlistentry>
 
@@ -5610,10 +5610,9 @@ $ svnadmin verify /usr/local/svn/repos/
           <term><option>--revprop</option></term>
           <listitem>
 	      <para>Opera uma propriedade da revisão ao invés da propriedade
-		  especificada para o arquivo ou diretório. Essa opção
-		 exige que você passe a revisão com a opção 
-              <option>--revision</option> (<option>-r</option>)
-              .</para>
+		    especificada para o arquivo ou diretório. Essa opção exige
+		    que você passe a revisão com a opção
+		    <option>--revision</option> (<option>-r</option>).</para>
           </listitem>
         </varlistentry>
 
@@ -5621,16 +5620,16 @@ $ svnadmin verify /usr/local/svn/repos/
           <term><option>--transaction</option>
             (<option>-t</option>)</term>
           <listitem>
-	      <para>Especifica um ID de transação particular que você deseja 
-		  examinar.</para>
+	      <para>Especifica um ID de transação particular que você deseja
+	        examinar.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--show-ids</option></term>
           <listitem>
-	      <para>Mostrar o ID da revisão do nodo do sistema de arquivos para cada
-		  caminho da árvore do sistema de arquivos.</para>
+	      <para>Mostrar o ID da revisão do nodo do sistema de arquivos
+	        para cada caminho da árvore do sistema de arquivos.</para>
           </listitem>
         </varlistentry>
 
@@ -5655,7 +5654,7 @@ $ svnadmin verify /usr/local/svn/repos/
           <refpurpose>Mostrar o autor.</refpurpose>
         </refnamediv>
         <refsect1>
-          <title>Sinópses</title>
+          <title>Sinopse</title>
           <programlisting>svnlook author REPOS_PATH</programlisting>
         </refsect1>
         <refsect1>
@@ -5809,8 +5808,8 @@ Contents:
           </variablelist>
 
 	  <para>Arquivos e diretórios podem ser distinguidos, como os
-            caminhos dos diretórios são mostrados com caracter'<literal>/</literal>'
-            .</para>
+	    caminhos dos diretórios são mostrados com caracter
+	    '<literal>/</literal>'.</para>
 
         </refsect1>
 
