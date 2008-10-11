@@ -2875,7 +2875,7 @@ U  thhgttg.txt
 
         <refnamediv>
           <refname>svn mkdir</refname>
-          <refpurpose>Create a new directory under version control.</refpurpose>
+          <refpurpose>Cria um novo diretório sob controle de versão.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2885,15 +2885,14 @@ U  thhgttg.txt
         <refsect1>
           <title>Descrição</title>
 
-          <para>Create a directory with a name given by the final
-            component of the <replaceable>PATH</replaceable> or URL.
-            A directory specified by a working copy
-            <replaceable>PATH</replaceable> is scheduled for addition
-            in the working copy.  A directory specified by a URL is
-            created in the repository via an immediate commit.
-            Multiple directory URLs are committed atomically.  In both
-            cases all the intermediate directories must already
-            exist.</para>
+          <para>Cria um diretório com o nome dado pelo último componente
+            de <replaceable>PATH</replaceable> ou da URL.  Um diretório
+            especificado por <replaceable>PATH</replaceable> como um
+            caminho na cópia de trabalho é agendado para adição.  Um
+            diretório especificado por uma URL é criado no repositório
+            por meio de um commit imediato.  Múltiplas URLs de diretório
+            são submetidas atomicamente.  Em ambos os casos, todos os
+            diretórios intermediários já devem existir.</para>
         </refsect1>
 
         <refsect1>
@@ -2932,15 +2931,15 @@ U  thhgttg.txt
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Create a directory in your working copy:</para>
+          <para>Cria um diretório em sua cópia de trabalho:</para>
 
           <screen>
 $ svn mkdir newdir
 A         newdir
 </screen>
 
-          <para>Create one in the repository (instant commit, so a
-            log message is required):</para>
+          <para>Cria um diretório no repositório (submissão instantânea,
+            então uma mensagem de log é requerida):</para>
 
           <screen>
 $ svn mkdir -m "Making a new dir." http://svn.red-bean.com/repos/newdir
@@ -2961,7 +2960,7 @@ Committed revision 26.
 
         <refnamediv>
           <refname>svn move</refname>
-          <refpurpose>Move a file or directory.</refpurpose>
+          <refpurpose>Move um arquivo ou diretório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -2970,20 +2969,20 @@ Committed revision 26.
         <refsect1>
           <title>Descrição</title>
 
-          <para>This command moves a file or directory in your
-            working copy or in the repository.</para>
+          <para>Este comando move um arquivo ou diretório em sua cópia
+            de trabalho ou no repositório.</para>
 
           <tip>
-            <para>This command is equivalent to an <command>svn
-              copy</command> followed by <command>svn
+            <para>Este comando é equivalente a um <command>svn
+              copy</command> seguido de um <command>svn
               delete</command>.</para>
           </tip>
 
           <note>
-            <para>Subversion does not support moving between working
-              copies and URLs.  In addition, you can only move files
-              within a single repository&mdash;Subversion does not
-              support cross-repository moving.</para>
+            <para>O Subversion não movimentação entre cópias de trabalho
+              e URLs.  Além disso, você só pode mover arquivos dentro
+              de um único repositório&mdash;o Subversion não suporta
+              movimentação entre repositórios.</para>
           </note>
 
           <variablelist>
@@ -2991,15 +2990,15 @@ Committed revision 26.
             <varlistentry>
               <term>WC  -&gt; WC</term>
               <listitem>
-                <para>Move and schedule a file or directory for
-                  addition (with history).</para>
+                <para>Move e agenda um arquivo ou diretório para adição
+                  (com histórico).</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>URL -&gt; URL</term>
               <listitem>
-                <para>Complete server-side rename.</para>
+                <para>Renomeação inteiramente no lado do servidor.</para>
               </listitem>
             </varlistentry>
 
@@ -3013,12 +3012,12 @@ Committed revision 26.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository if operating on a URL</para>
+          <para>Cópia de trabalho, repositório se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3027,7 +3026,7 @@ Committed revision 26.
           <screen>
 --message (-m) TEXT
 --file (-F) FILE
---revision (-r) REV (<emphasis>Deprecated</emphasis>)
+--revision (-r) REV (<emphasis>Obsoleto</emphasis>)
 --quiet (-q)
 --force
 --username USER
@@ -3044,7 +3043,7 @@ Committed revision 26.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Move a file in your working copy:</para>
+          <para>Move um arquivo em sua cópia de trabalho:</para>
 
           <screen>
 $ svn move foo.c bar.c
@@ -3052,8 +3051,8 @@ A         bar.c
 D         foo.c
 </screen>
 
-          <para>Move a file in the repository (an immediate commit,
-            so it requires a commit message):</para>
+          <para>Move um arquivo no repositório (commit imediato,
+            necessitando, então, de uma mensagem de log):</para>
 
           <screen>
 $ svn move -m "Move a file" http://svn.red-bean.com/repos/foo.c \
@@ -3075,7 +3074,7 @@ Committed revision 27.
 
         <refnamediv>
           <refname>svn propdel</refname>
-          <refpurpose>Remove a property from an item.</refpurpose>
+          <refpurpose>Remove uma propriedade de um item.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3085,12 +3084,12 @@ Committed revision 27.
         <refsect1>
           <title>Descrição</title>
 
-          <para>This removes properties from files, directories, or
-            revisions.  The first form removes versioned properties in
-            your working copy, while the second removes unversioned
-            remote properties on a repository revision
-            (<replaceable>TARGET</replaceable> only determines which
-            repository to access).</para>
+          <para>Este comando remove as propriedades de arquivos,
+            diretórios, ou revisões.  A primeira forma remove
+            propriedades versionadas em sua cópia de trabalho, enquanto
+            que a segunda remove propriedades não-versionadas remotas em
+            uma revisão no repositório (<replaceable>TARGET</replaceable>
+            apenas determina qual repositório acessar).</para>
         </refsect1>
 
         <refsect1>
@@ -3100,12 +3099,13 @@ Committed revision 27.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository only if operating on a URL</para>
+          <para>Cópia de trabalho, repositório apenas se executando
+            sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3127,15 +3127,15 @@ Committed revision 27.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Delete a property from a file in your working
-            copy</para>
+          <para>Remove uma propriedade de um arquivo em sua cópia de
+            trabalho</para>
 
           <screen>
 $ svn propdel svn:mime-type  some-script
 property 'svn:mime-type' deleted from 'some-script'.
 </screen>
 
-          <para>Delete a revision property:</para>
+          <para>Remove uma propriedade de uma revisão:</para>
 
           <screen>
 $ svn propdel --revprop -r 26 release-date 
@@ -3155,8 +3155,8 @@ property 'release-date' deleted from repository revision '26'
 
         <refnamediv>
           <refname>svn propedit</refname>
-          <refpurpose>Edit the property of one or more items under
-            version control.</refpurpose>
+          <refpurpose>Edita a propriedade de um ou mais itens sob
+            controle de versão.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3166,12 +3166,12 @@ property 'release-date' deleted from repository revision '26'
         <refsect1>
           <title>Descrição</title>
 
-          <para>Edit one or more properties using your favorite
-            editor.  The first form edits versioned properties in
-            your working copy, while the second edits unversioned
-            remote properties on a repository revision
-            (<replaceable>TARGET</replaceable> only determines which
-            repository to access).</para>
+          <para>Edita uma ou mais propriedades usando seu editor
+            preferido.  A primeira forma edita propriedades versionadas
+            em sua cópia de trabalho, enquanto que a segunda edita
+            propriedades não-versionadas remotas em uma revisão de
+            repositório (<replaceable>TARGET</replaceable> apenas
+            determina qual repositório acessar).</para>
         </refsect1>
 
         <refsect1>
@@ -3181,12 +3181,12 @@ property 'release-date' deleted from repository revision '26'
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository only if operating on a URL</para>
+          <para>Cópia de trabalho, repositório apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3208,8 +3208,8 @@ property 'release-date' deleted from repository revision '26'
         <refsect1>
           <title>Exemplos</title>
 
-          <para><command>svn propedit</command> makes it easy to
-            modify properties that have multiple values:</para>
+          <para><command>svn propedit</command> facilita a modificação
+            de propriedades que tenham múltiplos valores:</para>
 
           <screen>
 $ svn propedit svn:keywords  foo.c 
@@ -3233,7 +3233,7 @@ Set new value for property 'svn:keywords' on 'foo.c'
 
         <refnamediv>
           <refname>svn propget</refname>
-          <refpurpose>Print the value of a property.</refpurpose>
+          <refpurpose>Exibe o valor de uma propriedade.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3243,13 +3243,13 @@ Set new value for property 'svn:keywords' on 'foo.c'
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print the value of a property on files,
-            directories, or revisions.  The first form prints the
-            versioned property of an item or items in your working
-            copy, while the second prints unversioned remote
-            property on a repository revision.  See <xref
-            linkend="svn.advanced.props"/> for more information on
-            properties.</para>
+          <para>Exibe o valor de uma propriedade de arquivos, diretórios
+            ou revisões.  A primeira forma exibe a propriedade
+            versionada de um item ou itens em sua cópia de trabalho,
+            enquanto que a segunda exibe propriedades remotas
+            não-versionadas em uma revisão de repositório.  Veja <xref
+            linkend="svn.advanced.props"/> para mais informaçoes sobre
+            propriedades.</para>
         </refsect1>
 
         <refsect1>
@@ -3259,12 +3259,12 @@ Set new value for property 'svn:keywords' on 'foo.c'
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository only if operating on a URL</para>
+          <para>Cópia de trabalho, repositório apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3286,8 +3286,8 @@ Set new value for property 'svn:keywords' on 'foo.c'
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Examine a property of a file in your working
-            copy:</para>
+          <para>Examina uma propriedade de um arquivo em sua cópia de
+            trabalho:</para>
           
           <screen>
 $ svn propget svn:keywords foo.c
@@ -3296,7 +3296,7 @@ Date
 Rev
 </screen>
 
-          <para>The same goes for a revision property:</para>
+          <para>O mesmo para revisões de propriedades:</para>
 
           <screen>
 $ svn propget svn:log --revprop -r 20 
@@ -3316,7 +3316,7 @@ Began journal.
 
         <refnamediv>
           <refname>svn proplist</refname>
-          <refpurpose>List all properties.</refpurpose>
+          <refpurpose>Lista todas as propriedades.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3326,12 +3326,12 @@ Began journal.
         <refsect1>
           <title>Descrição</title>
 
-          <para>List all properties on files, directories, or
-            revisions.  The first form lists versioned properties in
-            your working copy, while the second lists unversioned remote
-            properties on a repository revision
-            (<replaceable>TARGET</replaceable> only determines which
-            repository to access).</para>
+          <para>Lista todas as propriedades de arquivos, diretórios, ou
+            revisões.  A primeira forma lista propriedades versionadas
+            em sua cópia de trabalho, enquanto que a segunda lista
+            propriedades remotas não-versionadas em uma revisão de
+            repositório (<replaceable>TARGET</replaceable> apenas
+            determina que repositório acessar).</para>
         </refsect1>
 
         <refsect1>
@@ -3341,12 +3341,12 @@ Began journal.
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository only if operating on a URL</para>
+          <para>Cópia de trabalho, repositório apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3369,8 +3369,8 @@ Began journal.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>You can use proplist to see the properties on an
-            item in your working copy:</para>
+          <para>Você pode usar proplist para ver as propriedades de um
+            item em sua cópia de trabalho:</para>
 
           <screen>
 $ svn proplist foo.c
@@ -3380,9 +3380,9 @@ Properties on 'foo.c':
   owner
 </screen>
 
-          <para>But with the <option>--verbose</option> flag, svn
-            proplist is extremely handy as it also shows you the
-            values for the properties:</para>
+          <para>Mas com a opção <option>--verbose</option>, o svn
+            proplist torna-se extremamente útil pois também lhe mostra
+            os valores das propriedades:</para>
 
           <screen>
 $ svn proplist --verbose foo.c
@@ -3405,7 +3405,7 @@ Properties on 'foo.c':
 
         <refnamediv>
           <refname>svn propset</refname>
-          <refpurpose>Set PROPNAME to PROPVAL on files, directories, or revisions.</refpurpose>
+          <refpurpose>Define PROPNAME para PROPVAL em arquivos, diretórios, ou revisões.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3416,20 +3416,20 @@ Properties on 'foo.c':
         <refsect1>
           <title>Descrição</title>
 
-          <para>Set <replaceable>PROPNAME</replaceable> to
-            <replaceable>PROPVAL</replaceable> on files, directories,
-            or revisions.  The first example creates a versioned, local
-            property change in the working copy, and the second
-            creates an unversioned, remote property change on a
-            repository revision
-            (<replaceable>TARGET</replaceable> only determines which
-            repository to access).</para>
+          <para>Define <replaceable>PROPNAME</replaceable> para
+            <replaceable>PROPVAL</replaceable> em arquivos, diretórios,
+            ou revisões files, directories, or revisions.  O primeiro
+            exemplo cria uma modificação numa propriedade local,
+            versionada, na cópia de trabalho; e o segundo cria uma
+            modificação numa propriedade remota, não-versionada, em uma
+            revisão de repositório (<replaceable>TARGET</replaceable>
+            apenas determina que repositório acessar).</para>
 
           <tip>
-            <para>Subversion has a number of <quote>special</quote>
-              properties that affect its behavior.  See <xref
-              linkend="svn.ref.properties"/> for more on these
-              properties.</para>
+            <para>O Subversion tem um conjunto de propriedades
+              <quote>especiais</quote> que afetam seu comportamento.
+              Veja <xref linkend="svn.ref.properties"/> para mais sobre
+              estas propriedades.</para>
           </tip>
 
         </refsect1>
@@ -3440,12 +3440,12 @@ Properties on 'foo.c':
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository only if operating on a URL</para>
+          <para>Cópia de trabalho, repositório apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3471,50 +3471,52 @@ Properties on 'foo.c':
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Set the mime type on a file:</para>
+          <para>Define o tipo mime de um arquivo:</para>
 
           <screen>
 $ svn propset svn:mime-type image/jpeg foo.jpg 
 property 'svn:mime-type' set on 'foo.jpg'
 </screen>
 
-          <para>On a UNIX system, if you want a file to have the
-            executable permission set:</para>
+          <para>Em um sistema UNIX, se você quiser que um arquivo tenha
+            a permissão de execução definida:</para>
 
           <screen>
 $ svn propset svn:executable ON somescript
 property 'svn:executable' set on 'somescript'
 </screen>
 
-          <para>Perhaps you have an internal policy to set certain
-            properties for the benefit of your coworkers:</para>
+          <para>Talvez você tenha uma política interna que defina certas
+            propriedades para beneficiar seus colaboradores:</para>
 
           <screen>
 $ svn propset owner sally foo.c
 property 'owner' set on 'foo.c'
 </screen>
 
-          <para>If you made a mistake in a log message for a
-            particular revision and want to change it, use
-            <option>--revprop</option> and set <literal>svn:log</literal>
-            to the new log message:</para>
+          <para>Se você se enganar escrevendo uma mensagem de log para
+            uma dada revisão e quiser mudá-la, use
+            <option>--revprop</option> e atribua o valor de 
+            <literal>svn:log</literal> para  a nova mensagem de
+            log:</para>
 
           <screen>
 $ svn propset --revprop -r 25 svn:log "Journaled about trip to New York."
 property 'svn:log' set on repository revision '25'
 </screen>
 
-          <para>Or, if you don't have a working copy, you can
-            provide a URL.</para>
+          <para>Ou, se você não tiver uma cópia de trabalho, você pode
+            informar uma URL.</para>
           
           <screen>
 $ svn propset --revprop -r 26 svn:log "Document nap." http://svn.red-bean.com/repos
 property 'svn:log' set on repository revision '25'
 </screen>
 
-          <para>Lastly, you can tell propset to take its input from
-            a file.  You could even use this to set the contents of a
-            property to something binary:</para>
+          <para>Por fim, você pode informar ao propset para obter suas
+            entradas a partir de um arquivo.  Você ainda pode usar isso
+            para definir o conteúdo de uma propriedade para qualquer
+            valor binário:</para>
 
           <screen>
 $ svn propset owner-pic -F sally.jpg moo.c 
@@ -3522,13 +3524,14 @@ property 'owner-pic' set on 'moo.c'
 </screen>
 
           <note>
-            <para>By default, you cannot modify revision properties
-              in a Subversion repository.  Your repository
-              administrator must explicitly enable revision property
-              modifications by creating a hook named
-              <literal>pre-revprop-change</literal>.  See <xref
-              linkend="svn.reposadmin.create.hooks"/> for more information on
-              hook scripts.</para>
+            <para>Por padrão, você não pode modificar propriedades de
+              revisão em um repositório Subversion.  O administrador de
+              seu repositório deve explicitamente permitir modificações
+              em revisões de propriedades criando um script de extensão
+              (<foreignphrase>hook</foreignphrase>) chamado 
+              <literal>pre-revprop-change</literal>.  Veja <xref
+              linkend="svn.reposadmin.create.hooks"/> para mais
+              informações sobre scripts de extensão.</para>
           </note>
 
         </refsect1>
@@ -3544,8 +3547,8 @@ property 'owner-pic' set on 'moo.c'
 
         <refnamediv>
           <refname>svn resolved</refname>
-          <refpurpose>Remove <quote>conflicted</quote> state on
-            working copy files or directories.</refpurpose>
+          <refpurpose>Remove arquivo ou diretórios da cópia de trabalho
+            do estado de <quote>conflito</quote>.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3554,15 +3557,15 @@ property 'owner-pic' set on 'moo.c'
         <refsect1>
           <title>Descrição</title>
 
-          <para>Remove <quote>conflicted</quote> state on working copy
-            files or directories.  This routine does not semantically
-            resolve conflict markers; it merely removes
-            conflict-related artifact files and allows
-            <replaceable>PATH</replaceable> to be committed again;
-            that is, it tells Subversion that the conflicts have been
-            <quote>resolved</quote>.  See <xref
-            linkend="svn.tour.cycle.resolve"/> for an in-depth look at
-            resolving conflicts.</para> </refsect1>
+          <para>Remove o estado de <quote>conflito</quote> em arquivos
+            ou diretórios numa cópia de trabalho.  Esta rotina não
+            resolve marcadores de conflito semanticamente; ele apenas
+            remove os arquivos auxiliares relacionados ao conflito e
+            permite que o <replaceable>PATH</replaceable> possa ser
+            submetido novamente; isto é, ele informa ao Subevrsion que
+            o conflito foi <quote>resolvido</quote>.  Leia <xref
+            linkend="svn.tour.cycle.resolve"/> para uma visão mais
+            aprofundada sobre resolução de conflitos.</para> </refsect1>
 
         <refsect1>
           <title>Nomes Alternativos</title>
@@ -3571,7 +3574,7 @@ property 'owner-pic' set on 'moo.c'
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy</para>
+          <para>Cópia de trabalho</para>
         </refsect1>
 
         <refsect1>
@@ -3593,8 +3596,8 @@ property 'owner-pic' set on 'moo.c'
         <refsect1>
           <title>Exemplos</title>
           
-          <para>If you get a conflict on an update, your working
-            copy will sprout three new files:</para>
+          <para>Se você obtiver um conflito em uma atualização, sua
+            cópia de trabalho irá gerar três novos arquivos:</para>
 
           <screen>
 $ svn update
@@ -3607,18 +3610,20 @@ foo.c.r30
 foo.c.r31
 </screen>
 
-          <para>Once you've resolved the conflict and
-            <filename>foo.c</filename> is ready to be committed, run
-            <command>svn resolved</command> to let your working copy
-            know you've taken care of everything.</para>
+          <para>Uma vez que você tenha resolvido o conflito e que
+            <filename>foo.c</filename> esteja pronto para ser submetido,
+            execute o comando <command>svn resolved</command> para fazer
+            com que sua cópia de trabalho saiba que você já cuidou de
+            tudo.</para>
 
           <warning>
-            <para>You <emphasis>can</emphasis> just remove the
-              conflict files and commit, but <command>svn
-              resolved</command> fixes up some bookkeeping data
-              in the working copy administrative area in addition
-              to removing the conflict files, so we recommend that
-              you use this command.</para>
+            <para>Você <emphasis>pode</emphasis> apenas remover os
+              arquivos relacionados ao conflito e realizar a operação de
+              commit, mas o <command>svn resolved</command> corrige
+              alguns dados de registro na área administrativa na cópia
+              de trabalho além de remover os arquivos conflituosos, de
+              forma que recomendamos que você utilize este
+              comando.</para>
           </warning>
 
         </refsect1>
@@ -3634,7 +3639,7 @@ foo.c.r31
 
         <refnamediv>
           <refname>svn revert</refname>
-          <refpurpose>Undo all local edits.</refpurpose>
+          <refpurpose>Desfaz todas as edições locais.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3643,14 +3648,15 @@ foo.c.r31
         <refsect1>
           <title>Descrição</title>
 
-          <para>Reverts any local changes to a file or directory and
-            resolves any conflicted states.  <command>svn
-            revert</command> will not only revert the contents of an
-            item in your working copy, but also any property
-            changes.  Finally, you can use it to undo any scheduling
-            operations that you may have done (e.g. files scheduled
-            for addition or deletion can be
-            <quote>unscheduled</quote>).</para>
+          <para>Reverte quaisquer alterações feitas em um arquivo ou
+            diretório e resolve quaisquer estados de conflito.
+            <command>svn revert</command> não apenas irá reverter o
+            conteúdo de um item em sua cópia de trabalho mas também
+            quaisquer modificação de propriedades.  Finalmente, você
+            pode usá-lo para desfazer qualquer operação de agendamento
+            que você possa ter feito (p.ex., arquivos agendados para
+            adição ou remoção podem ser
+            <quote>desagendados</quote>).</para>
         </refsect1>
 
         <refsect1>
@@ -3660,7 +3666,7 @@ foo.c.r31
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy</para>
+          <para>Cópia de trabalho</para>
         </refsect1>
 
         <refsect1>
@@ -3682,7 +3688,7 @@ foo.c.r31
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Discard changes to a file:</para>
+          <para>Descarta as alterações em um arquivo:</para>
 
           <screen>
 $ svn revert foo.c
@@ -3699,8 +3705,8 @@ Reverted foo.c
 Reverted bar.txt
 </screen>
 
-          <para>Lastly, you can undo any scheduling
-            operations:</para>
+          <para>Por último, você pode desfazer quaisquer operações de
+            agendamento:</para>
 
           <screen>
 $ svn add mistake.txt whoops
@@ -3718,18 +3724,19 @@ $ svn status
 </screen>
 
           <warning>
-            <para><command>svn revert</command> is inherently
-              dangerous, since its entire purpose is to throw away
-              data&mdash;namely, your uncommitted changes.  Once
-              you've reverted, Subversion provides <emphasis>no
-              way</emphasis> to get back those uncommitted
-              changes.</para>
+            <para>O <command>svn revert</command> instrinsecamente
+              perigoso, já que todo o seu propósito é descartar
+              dados&mdash;especificamente, modificações não submetidas
+              ao repositório.  Uma vez que você tenha feito uma
+              reversão, o Subversion <emphasis>não disponibiliza nenhuma
+              forma</emphasis> de obter estes dados de suas alterações
+              não submetidas.</para>
 
-            <para>If you provide no targets to <command>svn
-              revert</command>, it will do nothing&mdash;to protect
-              you from accidentally losing changes in your working
-              copy, <command>svn revert</command> requires you to
-              provide at least one target.</para>
+            <para>Se você não informar um alvo para o <command>svn
+              revert</command>, ele não fará nada&mdash;para protegê-lo
+              de perder suas alterações acidentalmente em sua cópia de
+              trabalho, o <command>svn revert</command> requer que você
+              informe pelo menos um alvo.</para>
           </warning>
 
         </refsect1>
@@ -3745,7 +3752,8 @@ $ svn status
 
         <refnamediv>
           <refname>svn status</refname>
-          <refpurpose>Print the status of working copy files and directories.</refpurpose>
+          <refpurpose>Exibe informação sobre o estado de arquivos e
+            diretórios na cópia de trabalho.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -3754,146 +3762,148 @@ $ svn status
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print the status of working copy files and
-            directories.  With no arguments, it prints only locally
-            modified items (no repository access).  With
-            <option>--show-updates</option>, it adds working revision
-            and server out-of-date information.  With
-            <option>--verbose</option>, it prints full revision
-            information on every item.</para>
+          <para>Exibe informação sobre o estado de arquivos e diretórios
+            na cópia de trabalho.  Sem argumentos, o comando exibe
+            apenas os items modificados localmente (sem acesso ao
+            repositório).  Com <option>--show-updates</option>, ele
+            adiciona informação sobre a revisão de trabalho e
+            informações defasadas de servidor.  Com
+            <option>--verbose</option>, exibe informações completas
+            sobre revisão de cada item.</para>
 
-          <para>The first six columns in the output are each one
-            character wide, and each column gives you information
-            about different aspects of each working copy item.</para>
+          <para>As primeiras seis colunas na saída têm um caracter de
+            largura cada, e cada coluna lhe dá informação sobre
+            diferentes aspectos de cada item na cópia de
+            trabalho.</para>
           
-          <para>The first column indicates that an item
-            was added, deleted, or otherwise changed.</para>
+          <para>A primeira coluna indica que um item foi adicionado,
+            removido, ou então alterado.</para>
 
           <variablelist>
             
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>No modifications.</para>
+                <para>Sem modificações.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'A'</term>
               <listitem>
-                <para>Item is scheduled for Addition.</para>
+                <para>O item foi agendado para adição.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'D'</term>
               <listitem>
-                <para>Item is scheduled for Deletion.</para>
+                <para>O item foi agendado para remoção (deleção).</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'M'</term>
               <listitem>
-                <para>Item has been modified.</para>
+                <para>O item está sendo modificado.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'R'</term>
               <listitem>
-                <para>Item has been replaced in your working copy.
-                This means the file was scheduled for deletion, and
-                then a new file with the same name was scheduled for
-                addition in its place.</para>
+                <para>O item foi substituído em sua cópia de trabalho.
+                Isto significa que o arquivo foi agendado para remoção,
+                e então um novo arquivo com o mesmo nome foi agendado
+                para adição em seu lugar.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'C'</term>
               <listitem>
-                <para>The contents (as opposed to the properties) of
-                  the item conflict with updates received from the
-                  repository.</para>  
+                <para>O conteúdo (ao contrário das propriedades) do item
+                  entra em conflito com as atualizações recebidas do
+                  repositório.</para>  
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'X'</term>
               <listitem>
-                <para>Item is present because of an externals definition.</para>
+                <para>O item está presente devido a uma definição externa.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'I'</term>
               <listitem>
-                <para>Item is being ignored (e.g. with the 
-                  <literal>svn:ignore</literal> property).</para>
+                <para>O item está sendo ignorado (p.ex., com a
+                  propriedade <literal>svn:ignore</literal>).</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'?'</term>
               <listitem>
-                <para>Item is not under version control.</para>
+                <para>O item não está sob controle de versão.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'!'</term>
               <listitem>
-                <para>Item is missing (e.g. you moved or deleted it
-                  without using <command>svn</command>).  This also
-                  indicates that a directory is incomplete (a checkout
-                  or update was interrupted).</para>
+                <para>O item está faltando (p.ex., você o moveu ou
+                  removeu sem usar o <command>svn</command>).  Isto
+                  também indica que um diretório está incompleto (uma
+                  operação de checkout ou update foi
+                  interrompida).</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'~'</term>
               <listitem>
-                <para>Item is versioned as one kind of object (file,
-                  directory, link), but has been replaced by different
-                  kind of object.</para>
+                <para>O item está versionado como um tipo de objeto (
+                  arquivo, diretório, link), mas está sendo substituído
+                  por um tipo diferente de objeto.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The second column tells the status of a file's or
-            directory's properties.</para>
+          <para>A segunda coluna indica o estado das propriedades de um
+            arquivo ou diretório.</para>
 
           <variablelist>
             
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>No modifications.</para>
+                <para>Sem modificações.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'M'</term>
               <listitem>
-                <para>Properties for this item have been
-                  modified.</para>
+                <para>Propriedades deste item foram modificadas.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>'C'</term>
               <listitem>
-                <para>Properties for this item are in conflict with
-                  property updates received from the
-                  repository.</para>
+                <para>As propriedades para este item entram em conflito
+                  com as atualizações de propriedades recebidas do
+                  repositório.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The third column is populated only if the
-            working copy directory is locked. (See
+          <para>A terceira coluna é preenchida apenas se a cópia de
+            trabalho estiver travada.  (Veja
             <xref linkend="svn.tour.cleanup"/>.)</para>
 
           <variablelist>
@@ -3901,42 +3911,42 @@ $ svn status
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>Item is not locked.</para>
+                <para>O item não está travado.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>'L'</term>
               <listitem>
-                <para>Item is locked.</para>
+                <para>O item está travado.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The fourth column is populated only if the item is
-            scheduled for addition-with-history.</para>
+          <para>A quarta coluna é preenchida se o item estiver agendado
+            para adição com histórico.</para>
           
           <variablelist>
             
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>No history scheduled with commit.</para>
+                <para>O histório não está agendado para submissão.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>'+'</term>
               <listitem>
-                <para>History scheduled with commit.</para>
+                <para>O histório está agendado para submissão.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The fifth column is populated only if the item is
-            switched relative to its parent (see <xref
+          <para>A quinta coluna é preenchida apenas se o item tiver sido
+            trocado relativo a seus diretórios anteriores (veja <xref
             linkend="svn.branchmerge.switchwc"/>).</para>
 
           <variablelist>
@@ -3944,68 +3954,70 @@ $ svn status
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>Item is a child of its parent directory.</para>
+                <para>O item é filho de seu diretório pai.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>'S'</term>
               <listitem>
-                <para>Item is switched.</para>
+                <para>O item foi trocado.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The sixth column is populated with lock information.</para>
+          <para>A sexta coluna contém informação sobre trava.</para>
           
           <variablelist>
             
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>When <option>--show-updates</option> is used,
-                the file is not locked.  If
-                <option>--show-updates</option> is
-                <emphasis>not</emphasis> used, this merely means that
-                the file is not locked in this working copy.</para>
+                <para>Quando <option>--show-updates</option> é usado,
+                o arquivo não está travado.  Se 
+                <option>--show-updates</option> <emphasis>não</emphasis>
+                é usado, isto apenas significa que o arquivo não está
+                travado nesta cópia de trabalho.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>K</term>
               <listitem>
-                <para>File is locked in this working copy.</para>
+                <para>O arquivo está travado nesta cópia de
+                trabalho.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>O</term>
               <listitem>
-                <para>File is locked either by another user or in
-                another working copy.  This only appears when
-                <option>--show-updates</option> is used.</para>
+                <para>O arquivo ou está travado por outro usuário ou em
+                outra cópia de trabalho.  Isto só aparece quando 
+                <option>--show-updates</option> é usado.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>T</term>
               <listitem>
-                <para>File was locked in this working copy, but the
-                lock has been <quote>stolen</quote> and is invalid.
-                The file is currently locked in the repository.  This
-                only appears when <option>--show-updates</option> is
-                used.</para>
+                <para>O arquivo estava travado nesta cópia de trabalho,
+                mas a trava foi <quote>roubada</quote> e está inválida.
+                O arquivo atualmente está travado no repositório.  Isto
+                só aparece quando <option>--show-updates</option> é
+                usado.</para>
               </listitem>
             </varlistentry>
 
             <varlistentry>
               <term>B</term>
               <listitem>
-                <para>File was locked in this working copy, but the
-                lock has been <quote>broken</quote> and is invalid.
-                The file is no longer locked This only appears when
-                <option>--show-updates</option> is used.</para>
+                <para>O arquivo estava travado nesta cópia de trabalho,
+                mas a trava está sendo <quote>quebrada</quote> e está
+                inválida.  O arquivo não está mais travado.  Isto só
+                aparece quando <option>--show-updates</option> é
+                usado</para>
               </listitem>
             </varlistentry>
 
@@ -4014,40 +4026,39 @@ $ svn status
 
 
 
-          <para>The out-of-date information appears in the seventh
-            column (only if you pass the
-            <option>--show-updates</option> option).</para>
+          <para>A informação defasada aparece na sétima coluna (apenas
+            se você passar a opção
+            <option>--show-updates</option>).</para>
 
           <variablelist>
             
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>The item in your working copy is up-to-date.</para>
+                <para>O item em sua cópia de trabalho está atualizado.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>'*'</term>
               <listitem>
-                <para>A newer revision of the item exists on the
-                  server.</para>
+                <para>Uma nova resivão do item existe no servidor.</para>
               </listitem>
             </varlistentry>
 
           </variablelist>
 
-          <para>The remaining fields are variable width and
-            delimited by spaces.  The working revision is the next
-            field if the <option>--show-updates</option> or
-            <option>--verbose</option> options are passed.</para>
+          <para>Os campos restantes têm largura variável e são
+            delimitados por espaços.  A revisão de trabalho é o próximo
+            campo se as opções <option>--show-updates</option> ou
+            <option>--verbose</option> forem passadas.</para>
           
-          <para>If the <option>--verbose</option> option is passed,
-            the last committed revision and last committed author
-            are displayed next.</para>
+          <para>Se a opção <option>--verbose</option> for passada, a
+            última revisão submetida e o último autor são exibidos na
+            sequência.</para>
           
-          <para>The working copy path is always the final field, so
-            it can include spaces.</para>
+          <para>O caminho na cópia de trabalho é sempre o último campo,
+            então ele pode incluir espaços.</para>
 
         </refsect1>
 
@@ -4063,7 +4074,7 @@ $ svn status
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if using <option>--show-updates</option></para>
+          <para>Apenas quando usando <option>--show-updates</option></para>
         </refsect1>
 
         <refsect1>
@@ -4087,8 +4098,8 @@ $ svn status
         <refsect1>
           <title>Exemplos</title>
 
-          <para>This is the easiest way to find out what changes you
-            have made to your working copy:</para>
+          <para>Esta é a forma mais fácil de encontrar quais alterações
+            você fez em sua cópia de trabalho:</para>
 
           <screen>
 $ svn status wc
@@ -4096,14 +4107,13 @@ $ svn status wc
 A  +   wc/qax.c
 </screen>
 
-          <para>If you want to find out what files in your working
-            copy are out-of-date, pass the
-            <option>--show-updates</option> option (this will
-            <emphasis>not</emphasis> make any changes to your
-            working copy).  Here you can see that
-            <filename>wc/foo.c</filename> has changed in the
-            repository since we last updated our working
-            copy:</para>
+          <para>Se você quiser encontrar quais arquivos em sua cópia de
+            trabalho estão desatualizados, passe a opção 
+            <option>--show-updates</option> (isto
+            <emphasis>não</emphasis> faz quaisquer alterações em sua
+            cópia de trabalho).  Aqui você pode ver que 
+            <filename>wc/foo.c</filename> foi modificado no repositório
+            desde a última atualização em sua cópia de trabalho:</para>
 
           <screen>
 $ svn status --show-updates wc
@@ -4115,18 +4125,19 @@ Status against revision:    981
 
           <note>
             <para><option>--show-updates</option>
-              <emphasis>only</emphasis> places an asterisk next to
-              items that are out of date (that is, items that will be
-              updated from the repository if you run <command>svn
-              update</command>).  <option>--show-updates</option> does
-              <emphasis>not</emphasis> cause the status listing to
-              reflect the repository's version of the item (although
-              you can see the revision number in the repository by
-              passing the <option>--verbose</option> option).</para>
+              <emphasis>apenas</emphasis> coloca um asterisco próximo
+              aos itens que estão desatualizados (isto é, os itens que
+              serão atualizados a partir do repositório se você executar
+              um <command>svn update</command>).
+              <option>--show-updates</option> <emphasis>não</emphasis>
+              faz com que a listagem de estado reflita a versão de
+              repositório do item (apesar de que  você pode ver o número
+              de revisão do repositório passando a opção
+              <option>--verbose</option>).</para>
           </note>
 
-          <para>And finally, the most information you can get out of
-            the status subcommand:</para>
+          <para>E finalmente, o máximo de informação que você pode obter
+            com o subcomando status:</para>
 
           <screen>
 $ svn status --show-updates --verbose wc
@@ -4137,8 +4148,8 @@ A  +         965       687 harry        wc/qax.c
 Head revision:   981
 </screen>
 
-          <para>For many more examples of <command>svn status</command>,
-            see <xref linkend="svn.tour.cycle.examine.status"/>.</para>
+          <para>Para mais exemplos de <command>svn status</command>,
+            veja <xref linkend="svn.tour.cycle.examine.status"/>.</para>
 
         </refsect1>
       </refentry>
