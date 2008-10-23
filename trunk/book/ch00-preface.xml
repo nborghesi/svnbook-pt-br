@@ -62,13 +62,13 @@
       programas auxiliares, são o foco deste livro.</para>
 
     <para>Por motivo de consistência, os exemplos neste livro presumem que
-      o leitor está usando um sistema operacional baseado em Unix e se sente
+      o leitor esteja usando um sistema operacional baseado em Unix e se sinta
       relativamente confortável com Unix e com interfaces de linha de comando.
       Dito isto, o programa <command>svn</command> também roda em plataformas
       não-Unix, como o Microsoft Windows.  Com poucas exceções, como o uso de
       barras invertidas (<literal>\</literal>) em lugar de barras regulares
       (<literal>/</literal>) para separadores de caminho, a entrada e a saída
-      desta ferramenta, quando executada no Windows, são idênticas ao seu
+      desta ferramenta, quando executada no Windows, são idênticas às do seu
       companheiro Unix.</para>
 
     <para>Muitos leitores são provavelmente programadores ou administradores de
@@ -159,7 +159,7 @@
       <varlistentry>
         <term>Usuários avançados</term>
         <listitem>
-          <para>Seja você é um usuário ou um administrador, eventualmente seu 
+          <para>Seja você um usuário ou um administrador, eventualmente seu 
             projeto irá crescer muito.  Você irá querer aprender a fazer 
             coisas avançadas com o Subversion, como usar branches e fazer merges
             (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
@@ -185,7 +185,7 @@
 
     <para>O livro termina com um material de referência &mdash; o <xref
       linkend="svn.ref"/> é um guia de referência para todos os comandos do 
-      Subversion, e o apêndice cobre um número considerável de tópicos úteis. 
+      Subversion, e os apêndices cobrem um número considerável de tópicos úteis. 
       Estes capítulos serão os que você irá voltar com mais freqüência depois 
       que terminar de ler o livro.</para>
 
@@ -236,7 +236,7 @@
       <title>Ícones</title>
 
       <note>
-        <para>Este ícone representa uma nota relacionada ao texto em 
+        <para>Este ícone representa uma nota relacionada ao texto 
         citado.</para>
       </note>
 
@@ -284,7 +284,7 @@
         <varlistentry>
           <term><xref linkend="svn.tour"/></term>
           <listitem>
-            <para>Faz um tour em um dia na vida de um usuário do Subversion.
+            <para>Faz um tour por um dia na vida de um usuário do Subversion.
               Demonstra como usar o cliente do subversion para
               obter, modificar e submeter dados.</para>
           </listitem>
@@ -414,7 +414,7 @@
     <title>Este Livro é Livre</title>
 
     <para>Este livro teve início com a documentação escrita pelos desenvolvedores
-      do projeto Subversion, o qual foi reunido em um único trabalho e 
+      do projeto Subversion, a qual foi reunida em um único trabalho e 
       reescrito.  Assim, ele sempre esteve sob uma licença livre.
       (Veja <xref linkend="svn.copyright"/>.)  De fato,
       o livro foi escrito sob uma visão pública, originalmente como parte do
@@ -456,7 +456,7 @@
     <title>Agradecimentos</title>
 
     <para>Este livro não existiria (e nem seria útil) se o
-      Subversion não existisse.  Assim, os autores gostaria de agradecer a 
+      Subversion não existisse.  Assim, os autores gostariam de agradecer a 
       Brian Behlendorf e a CollabNet, pela visão em acreditar en um arriscado 
       e ambicioso projeto de Código Aberto; Jim Blandy pelo nome e projeto
       original do Subversion&mdash;nós amamos você, Jim;
@@ -499,7 +499,7 @@
 
       <para>Agradeço a minha esposa Frances, quem, por vários meses, começou a
         ouvir, <quote>Mas docinho, eu estou trabalhando no livro</quote>,
-        do que o habitual, <quote>Mas docinho, eu estou escrevendo um
+        ao invés do habitual, <quote>Mas docinho, eu estou escrevendo um
         e-mail.</quote>  Eu não sei onde ela arruma tanta paciência!
         Ela é meu equilíbrio perfeito.</para>
 
@@ -510,7 +510,7 @@
         computador, eles te olham torto.)</para>
 
       <para>Agradeço aos meus amigos mais próximos, que me fazem um rico, rico 
-        homem.  Não me olham da mesma forma&mdash;vocês sabem quem são.</para>
+        homem.  Não me olhem assim&mdash;vocês sabem quem são.</para>
 
       <para>Agradeço aos meus pais pela minha perfeita formação básica, e pelos
         inacreditáveis conselhos.  Agradeços ao meu filho pela oportunidade de
@@ -526,13 +526,13 @@
 
       <para>Um grande obrigado à minha esposa Marie por sua inacreditável
         compreensão, apoio, e acima de tudo, paciência.  Obrigado ao meu irmão
-        Eric, quem primeiro me apresentou a programação voltada para UNIX.
+        Eric, quem primeiro me apresentou à programação voltada para UNIX.
         Agradeço à minha mãe e minha avó por seu
         apoio, sem falar nas longas férias de Natal, quando eu chegava em casa
         e mergulhava minha cabeça no
         laptop para trabalhar no livro.</para>
 
-      <para>Mike e Ben, foi um prezer trabalhar com você neste
+      <para>Mike e Ben, foi um prezer trabalhar com vocês neste
         livro.  Heck, é um prazer trabalhar com você nesta obra!</para>
 
       <para>Para todos da comunidade Subversion e a Apache
@@ -541,7 +541,7 @@
       </para>
 
       <para>Finalmente, agradeço ao meu avô que sempre me disse
-        <quote>Liberdade igual responsabilidade.</quote> Eu não
+        <quote>Liberdade é igual responsabilidade.</quote> Eu não
         poderia estar mais de acordo.</para>
 
     </sect2>
