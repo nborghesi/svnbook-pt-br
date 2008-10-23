@@ -1,15 +1,16 @@
 <appendix id="svn.3rdparty">
-  <title>Third Party Tools</title>
+  <title>Ferramentas de Terceiros</title>
 
-  <para>Subversion's modular design (covered in <xref
-    linkend="svn.developer.layerlib"/>) and the availability of
-    language bindings (as described in <xref
-    linkend="svn.developer.usingapi.otherlangs"/>) make it a likely
-    candidate for use as an extension or backend to other pieces of
-    software.  For a listing of many third-party tools that are using
-    Subversion functionality under-the-hood, check out the Links page on the
-    Subversion website (<ulink
-      url="http://subversion.tigris.org/project_links.html"/>).</para>
+  <para>O projeto modular do Subversion (abordado em <xref
+    linkend="svn.developer.layerlib"/>) e a disponibilidade extensões
+    para outras linguagens (como descrito em <xref
+    linkend="svn.developer.usingapi.otherlangs"/>) o tornam um provável
+    candidato a ser usado como uma extensão ou como suporte
+    (<foreignphrase>backend</foreignphrase>) para outros componentes de
+    software.  Para uma listagem de diversas ferramentas de terceiros
+    que estão elas mesmas fazendo uso de funcionalidades do Subversion,
+    confira a página de Links no site do Subversion (<ulink
+    url="http://subversion.tigris.org/project_links.html"/>).</para>
 
 </appendix>
 
