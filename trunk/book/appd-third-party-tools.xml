@@ -2,7 +2,7 @@
   <title>Ferramentas de Terceiros</title>
 
   <para>O projeto modular do Subversion (abordado em <xref
-    linkend="svn.developer.layerlib"/>) e a disponibilidade extensões
+    linkend="svn.developer.layerlib"/>) e a disponibilidade de extensões
     para outras linguagens (como descrito em <xref
     linkend="svn.developer.usingapi.otherlangs"/>) o tornam um provável
     candidato a ser usado como uma extensão ou como suporte
