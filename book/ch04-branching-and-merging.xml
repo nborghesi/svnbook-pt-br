@@ -8,17 +8,17 @@
   </blockquote>
 
 
-  <para>Criar Ramos, Rótulo, e Fundir são conceitor comuns a quase 
+  <para>Criar Ramos, Rótulos, e Fundir são conceitor comuns a quase 
 	todos os sistemas de controle de Versão. Caso você não esteja
-	familiarizado com estes conceitos, nos oferecemos uma boa
-	introdução a estes nesse capitulo. Se você ja conhece estes 
+	familiarizado com estes conceitos, nós oferecemos uma boa
+	introdução a estes nesse capítulo. Se você já conhece estes 
 	conceitos, então você vai achar interessante conhecer a maneira
-	como o Subversion implementa esses conceitos.</para>
+	como o Subversion os implementa.</para>
 
   <para>Criar Ramos é um item fundamental para Controle de Versão. Se
 	você vai usar o Subversion para gerenciar seus dados, então essa
 	é uma funcionalidade da qual você vai acaber dependendo. Este 
-	capitulo assume que você já esta familiarizado com os conceitos
+	capítulo assume que você já esteja familiarizado com os conceitos
 	básicos do Subversion(<xref linkend="svn.basic"/>).</para>
 
 
@@ -28,42 +28,42 @@
   <sect1 id="svn.branchmerge.whatis">
     <title>O que é um Ramo?</title>
 
-    <para>Suponha que é o seu trabalho manter um documento de uma
+    <para>Suponha que o seu trabalho seja manter um documento de uma
 	  divisão de sua empresa, um livro de anotações por exemplo. Um
 	  dia, uma outra divisão lhe pede este mesmo livro, mas com 
 	  alguns <quote>ajustes</quote> para eles, uma vez que eles
 	  trabalham de uma forma um pouco diferente.</para>
 
-    <para>O que você faz nessa situação? Você faz o obvio: faz uma
+    <para>O que você faz nessa situação? Você faz o óbvio: faz uma
 	  segunda cópia do seu documento, e começa a controlar as duas
 	  cópias separadamente. Quando cada departamento lhe requisitar
-	  por alterações, você as realiza em um copia, ou na outra.</para>
+	  alterações, você as realizará em um cópia, ou na outra.</para>
 
     <para>Em raros casos você vai precisar fazer alterações nos 
 	  dois documentos. Um exemplo, se você encontrar um erro em um
-	  dos arquivos, é muito provavel que este erro exista na segunda 
-	  cópia. A final, os dois documentos são quase identicos, eles
-	  apenas tem pequenas diferenças, em locais especificos.</para>
+	  dos arquivos, é muito provável que este erro exista na segunda 
+	  cópia. A final, os dois documentos são quase idênticos, eles
+	  têm apenas pequenas diferenças, em locais específicos.</para>
 
-    <para>Este é o conceito basico de 
-	  <firstterm>Ramo</firstterm>&mdash;namely, uma linha de
+    <para>Este é o conceito básico de 
+	  <firstterm>Ramo</firstterm>&mdash;isto é, uma linha de
 	  desenvolvimento que existe independente de outra linha, e ainda, 
-	  partilham um historico em comum, se você olha para tras na linha
+	  partilham um histórico em comum, se você olhar para trás na linha
 	  tempo. Um Ramo sempre se inicia como cópia de outra coisa, e segue
-	  rumo proprio a partir desse ponto, gerando seu proprio historico.
+	  rumo próprio a partir desse ponto, gerando seu próprio histórico.
 	  (veja <xref linkend="svn.branchmerge.whatis.dia-1"/>).</para>
 
       <figure id="svn.branchmerge.whatis.dia-1">
-        <title>Ramos no desenvolvimento</title>
+        <title>Ramos de desenvolvimento</title>
         <graphic fileref="images/ch04dia1.png"/>
       </figure>
 
     <para>O Subversion tem comandos para ajudar a controlar Ramos
 	  paralelos de um arquivo ou diretório. Ele permite você criar
-	  ramos copiando seus dados, e ainda lembra que as copias tem
-	  relação entre si. Ainda é possivel duplicar copias de um ramo 
+	  ramos copiando seus dados, e ainda lembra que as cópias têm
+	  relação entre si. Ainda é possível duplicar cópias de um ramo 
 	  para outro. Finalmente, ele pode fazer com que partes de sua
-	  copia de trabalho reflitam ramos diferentes, assim você pode
+	  cópia de trabalho reflitam ramos diferentes, assim você pode
 	  <quote>misturar e combinar</quote> diferentes linhas de 
 	  desenvolvimento no seu trabalho de dia-a-dia.</para>
 
@@ -82,22 +82,22 @@
 
     <para>Neste capítulo, vamos usar o mesmo exemplo de antes:
       <xref linkend="svn.basic"/>. Lembre-se que você e Sally estão
-	  compartilhando um repositório que contem dois projetos, 
+	  compartilhando um repositório que contém dois projetos, 
       <filename>paint</filename> e <filename>calc</filename>. 
 	  Note que em <xref linkend="svn.branchmerge.using.dia-1"/>,
-	  entretanto, cada diretório de projeto contem subdiretorios 
+	  entretanto, cada diretório de projeto contém subdiretórios 
 	  chamados <filename>trunk</filename> 
 	  e <filename>branches</filename>. O motivo para isso logo ficará 
 	  mais claro.</para>
 
       <figure id="svn.branchmerge.using.dia-1">
-        <title>Layout Inical do Repositorio</title>
+        <title>Layout Inical do Repositório</title>
         <graphic fileref="images/ch04dia2.png"/>
       </figure>
 
-    <para>Como antes, assuma que você e Sally possuem copias de trabalho
+    <para>Como antes, assuma que você e Sally possuem cópias de trabalho
 	  do projeto <quote>calc</quote>. Especificamente, cada um de vocês
-	  tem uma copia de trabalho de <filename>/calc/trunk</filename>.
+	  tem uma cópia de trabalho de <filename>/calc/trunk</filename>.
 	  Todos os arquivos deste projeto estão nesse diretório ao invés de
 	  estarem no <filename>/calc</filename>, porque a sua equipe decidiu
 	  que <filename>/calc/trunk</filename> é onde a 
@@ -107,36 +107,36 @@
     <para>Digamos que você recebeu a tarefa de implementar uma grande 
 	  funcionalidade nova no projeto. Isso vai requerer muito tempo para 
 	  escrever, e vai afetar todos os arquivos do projeto. O problema
-	  aqui é que você não quer interferir no trabalho de Sally, que esta 
-	  corrigindo pequenos bugs aqui e ali. Ela depende de que a ultima
+	  aqui é que você não quer interferir no trabalho de Sally, que está 
+	  corrigindo pequenos bugs aqui e ali. Ela depende de que a última
 	  versão do projeto (em <filename>/calc/trunk</filename>) esteja 
 	  sempre disponível. Se você começar a fazer commits de suas
-	  modificações bit-a-bit, com certeza você vai dificultar o trabalho
+	  modificações pouco a pouco, com certeza você vai dificultar o trabalho
 	  de Sally.</para>
 
-    <para>Um estratégia é "se isolar": você e Sally podem para de
-	  compartilhar informações por uma semana ou duas.Isto é, começar
+    <para>Um estratégia é "se isolar": você e Sally podem parar de
+	  compartilhar informações por uma semana ou duas. Isto é, começar
 	  cortar e reorganizar todos os arquivos da sua cópia de trabalho, 
 	  mas não realizar commit ou update antes de ter terminado todo o 
 	  trabalho. Existem alguns problemas aqui. Primeiro, não é seguro.
-	  A maioria das pessoas gostam de salvar seu trabalho no repositorio
-	  com frequencia, caso algo ruim aconteça por acidente à cópia de
+	  A maioria das pessoas gostam de salvar seu trabalho no repositório
+	  com frequência, caso algo ruim aconteça por acidente à cópia de
 	  trabalho. Segundo, não é nada flexível. Se você faz seu trabalho
-	  em computadores diferentes (talves você tenha uma cópia de 
+	  em computadores diferentes (talvez você tenha uma cópia de 
 	  trabalho de <filename>/calc/trunk</filename> em duas máquinas 
 	  diferentes), você terá que, manualmente, copiar suas alterações 
 	  de uma máquina para outra, ou simplesmente, realizar todo o 
-	  trabalho em um único computador. Por esse mesmo método, é dificil
+	  trabalho em um único computador. Por esse mesmo método, é difícil
 	  compartilhar suas constantes modificações com qualquer pessoa. Uma
 	  <quote>boa prática</quote> comum em desenvolvimento de software é
 	  permitir que outros envolvidos revisem seu trabalho enquanto sendo
 	  realizado.
 	  Se ninguém verificar seus commits intermediários, você perde um
-	  potêncial feedback. E por fim, quando você terminar todas as
-	  modificações, você pode achar muito dificil de fundir seu trabalho
+	  potencial feedback. E por fim, quando você terminar todas as
+	  modificações, você pode achar muito difícil fundir seu trabalho
 	  com o resto da linha principal de desenvolvimento da empresa. 
 	  Sally (ou outros) podem ter realizado muitas outras mudanças no 
-	  repositório que podem ser difíceis de incorporar com sua cópia de 
+	  repositório que podem ser difíceis de incorporar na sua cópia de 
 	  trabalho&mdash; especialmente se você rodar um <command>svn 
 	  update</command> depois de semanas trabalhando sozinho.</para>
 
@@ -144,7 +144,7 @@
 	  desenvolvimento, no repositório. Isso lhe permite salvar seu 
 	  trabalho ainda incompleto, sem interferir com outros, e ainda
 	  você pode escolher que informações compartilhar com seus 
-	  colaboradores. Você verá exatamente como isso funciona mais a
+	  colaboradores. Você verá exatamente como isso funciona mais à
 	  frente.</para>
 
     <!-- =============================================================== -->
@@ -201,7 +201,7 @@ A  +   branches/my-calc-branch
 		adicionado é uma <emphasis>cópia</emphasis> de algo e não um
 		item novo. Quando você realizar o Commit das modificações, o
 		Subversion vai criar o diretorio
-		<filename>/calc/branches/my-calc-branch</filename> no repositóio
+		<filename>/calc/branches/my-calc-branch</filename> no repositório
 		copiando <filename>/calc/trunk</filename>, ao invés de reenviar
 		todos os dados da cópia de trabalho pela rede:</para>
 
@@ -263,14 +263,14 @@ Committed revision 341.
 		  Unix, esse é o mesmo conceito do hard-link. Enquanto as 
 		  modificações são feitas em pastas e arquivos no diretório 
 		  copiado, o Subversion continua aplicando esse conceito de
-		  hard-link enquanto for possivel. Os dados somente serão 
-		  duplicados quando for necessário tira ambiguidade de 
+		  hard-link enquanto for possível. Os dados somente serão 
+		  duplicados quando for necessário desambiguizar 
 		  diferentes versões de um objeto.</para>
 
         <para>É por isso que você quase não vai ouvir os usuários do 
 		  Subversion reclamando de <quote>Cópias Leves</quote>
 		  (<foreignphrase>cheap copies</foreignphrase>). Não importa o 
-		  quão grande é o diretório&mdash; a cópia sempre sera feita
+		  quão grande é o diretório&mdash; a cópia sempre será feita
 		  em um pequeno e constante espaço de tempo. Na verdade, essa
 		  funcionalidade é a base do funcionamento do commit no 
 		  Subversion: cada revisão é uma <quote>cópia leve</quote> da 
@@ -281,7 +281,7 @@ Committed revision 341.
 
         <para>Claro que estes mecanismos internos de copiar e 
 		  compartilhar dados estão escondidos do usuário, que vê apenas
-		  copias das arvores de arquivos. O ponto principal aqui é que
+		  cópias das árvores de arquivos. O ponto principal aqui é que
 		  as cópias são leves, tanto em tempo quanto em tamanho. Se você
 		  criar um ramo inteiro dentro do repositório (usando o comando
 		  <command>svn copy URL1 URL2</command>), será uma operação 
@@ -297,7 +297,7 @@ Committed revision 341.
 
       <para>Agora que você criou um ramo do projeto, você pode
 		fazer um Checkout para uma nova cópia de trabalho e 
-		usa-la.</para>
+		usá-la.</para>
 
       <screen>
 $ svn checkout http://svn.example.com/repos/calc/branches/my-calc-branch
@@ -309,11 +309,11 @@ Checked out revision 341.
 
       <para>Não tem nada de especial nessa cópia de trabalho; ela
 		simplesmente aponta para um diretório diferente no 
-		repositorio. Entretanto, quando você faz o commit de 
-		modificações, essas não ficarão visiveis para Sally quando
+		repositório. Entretanto, quando você faz o commit de 
+		modificações, essas não ficarão visíveis para Sally quando
 	  	ela fizer Update, porque a cópia de trabalho dela aponta
-		paar <filename>/calc/trunk</filename>. (Leia <xref
-        linkend="svn.branchmerge.switchwc"/> logo a frente neste
+		para <filename>/calc/trunk</filename>. (Leia <xref
+        linkend="svn.branchmerge.switchwc"/> logo à frente neste
 		capítulo: o comando <command>svn switch</command> é uma 
 		forma alternativa de se criar uma cópia de trabalho de um
 		ramo.)</para>
@@ -341,7 +341,7 @@ Checked out revision 341.
         </listitem>
       </itemizedlist>
 
-      <para>Exitem agora duas linha independentes de desenvolvimento, 
+      <para>Exitem agora duas linhas independentes de desenvolvimento, 
 		mostrando em <xref linkend="svn.branchmerge.using.work.dia-1"/>,
 		afetando <filename>integer.c</filename>.</para>
 
@@ -390,10 +390,10 @@ Changed paths:
 ------------------------------------------------------------------------
 </screen>
 
-      <para>Note que o Subversion esta traçando o histórico do seu
+      <para>Note que o Subversion está traçando o histórico do seu
 		ramo de <filename>integer.c</filename> pelo tempo, até o
 		momento em que ele foi copiado. Isso mostra o momento em que 
-		o ramo foi criado como uma evento no histórico, ja que
+		o ramo foi criado como um evento no histórico, já que
 		<filename>integer.c</filename> foi copiado implicitamente 
 		quando <filename>/calc/trunk/</filename> foi copiado. Agora
 		veja o que ocorre quando Sally executa o mesmo comando em
@@ -428,12 +428,12 @@ Changed paths:
 ------------------------------------------------------------------------
 </screen>
 
-      <para>Sally vê suas proprias modificações na revisão 344, e não
+      <para>Sally vê suas próprias modificações na revisão 344, e não
 		as modificações que você fez na revisão 343. Até onde o 
 		Subversion sabe, esses dois commits afetaram arquivos 
 		diferentes em locais distintos no repositório. Entretanto
 		o Subversion <emphasis>mostra</emphasis> que os dois arquivos
-		tem um histórico em comum. Antes de ser feita a cópia/ramo na 
+		têm um histórico em comum. Antes de ser feita a cópia/ramo na 
 		revisão 341, eles eram o mesmo arquivo. É por isso que você e
 		Sally podem ver as alterações feitas nas 
 		revisões 303 e 98.</para>
@@ -442,7 +442,7 @@ Changed paths:
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.using.concepts">
-      <title>O conceito chame por trás de ramos</title> 
+      <title>Os conceitos chave por trás de ramos</title> 
 
       <para>Há duas lições importantes que você deve se lembrar desta
 		seção. Primeiro, o Subversion não tem um conceito interno de
@@ -450,13 +450,13 @@ Changed paths:
 		diretório, o diretório resultante somente é um 
 		<quote>ramo</quote> porque <emphasis>você</emphasis> atribui
 		esse significado a ele. Você pode pensar de forma diferente
-		sobre esse diretório, ou trata-lo de forma diferente, mas 
+		sobre esse diretório, ou tratá-lo de forma diferente, mas 
 		para o subversion é apenas um diretório comum que carrega uma
-		informação extra de histórico. Segundo, devido a este mecânismo
+		informação extra de histórico. Segundo, devido a este mecanismo
 		de cópia, os ramos no Subversion existem como 
-		<emphasis>diretórios com sistema de arquivo normal</emphasis>
-		no repositório. Isso é de outros sistemas de controle de versão,
-		onde ramos são criados ao adicionar <quote>rótulos</quote> 
+		<emphasis>diretórios normais do sistema de arquivos</emphasis>
+		no repositório. Isso é diferente de outros sistemas de controle de
+		versão, onde ramos são criados ao adicionar <quote>rótulos</quote> 
 		extra-dimensionais aos arquivos.</para>
 
     </sect2>
