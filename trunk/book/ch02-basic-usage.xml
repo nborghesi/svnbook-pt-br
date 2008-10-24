@@ -1,7 +1,7 @@
 <chapter id="svn.tour">
   <title>Uso Básico</title>
 
-  <para>Agora entraremos em detalhes do uso do Subversion.  Quando
+  <para>Agora entraremos nos detalhes do uso do Subversion.  Quando
     chegar ao final deste capítulo, você será capaz de realizar
     todas as tarefas necessárias para usar Subversion em um dia normal
     de trabalho.  Iniciará acessando seus arquivos que estão no Subversion,
@@ -28,7 +28,7 @@
 
     <para>Antes de continuar a leitura, aqui está o comando mais importante que
       você precisará quando usar o Subversion: <command>svn help</command>.
-      A linha de comando do cliente Subversion é auto-documentada&mdash;a
+      O cliente de linha de comando do Subversion é auto-documentado&mdash;a
       qualquer momento, um rápido <command>svn help
       <replaceable>SUBCOMANDO</replaceable></command> descreverá
       a sintaxe, opções, e comportamento do subcomando.</para>
@@ -69,9 +69,9 @@ Opções válidas:
 
       <para>O comando <command>svn import</command> é um modo rápido para
         copiar uma árvore de arquivos não versionada em um repositório, criando
-        diretórios intermediários quando necessário.  <command>svn
+        diretórios intermediários quando necessário. <command>svn
         import</command> não requer uma cópia de trabalho, e seus arquivos
-        são imediatamente submetidos ao repositório.  Este é tipicamente
+        são imediatamente submetidos ao repositório.  Isto é tipicamente
         usado quando você tem uma árvore de arquivos existente que você quer
         monitorar em seu repositório Subversion.  Por exemplo:</para>
 
@@ -98,7 +98,7 @@ foo.c
 subdir/
 </screen>
 
-      <para>Note que após a importação finalizar, a árvore inicial
+      <para>Note que após a importação terminar, a árvore inicial
         <emphasis>não</emphasis> está convertida em uma cópia de trabalho.  Para
         começar a trabalhar, você ainda precisa obter(<command>svn
         checkout</command>) uma nova cópia de trabalho da árvore.</para>
@@ -142,7 +142,7 @@ $ svn list file:///usr/local/svn/repos
     <title>Checkout Inicial</title>
 
     <para>Na maioria das vezes, você começa a usar um repositório
-      Subversion por efetuar um <firstterm>checkout</firstterm> de seu
+      Subversion fazendo um <firstterm>checkout</firstterm> de seu
       projeto.  Fazer um checkout de um repositório cria uma <quote>cópia de
       trabalho</quote> em sua máquina local.  Esta cópia contém
       o <literal>HEAD</literal> (revisão mais recente) do repositório
@@ -163,10 +163,10 @@ Gerado cópia de trabalho para revisão 8810.
     <sidebar>
       <title>O que há em um Nome?</title>
 
-      <para>Subversion tenta arduamente não limitar o tipo de dado que você
+      <para>O Subversion tenta arduamente não limitar o tipo de dado que você
         pode colocar sob controle de versão.  O conteúdo dos arquivos e
         valores de propriedades são armazenados e transmitidos como dados binários, e
-        <xref linkend="svn.advanced.props.special.mime-type"/>
+        a seção <xref linkend="svn.advanced.props.special.mime-type"/>
         diz-lhe como dar ao Subversion uma dica de que operações
         <quote>textuais</quote> não têm sentido para um
         arquivo em particular.  Há umas poucas ocasiões, porém, onde o
@@ -177,28 +177,28 @@ Gerado cópia de trabalho para revisão 8810.
         dados&mdash;por exemplo, nomes de propriedades, nomes de caminhos, e mensagens
         de log&mdash;como Unicode codificado em UTF-8.  Porém, isto não quer dizer
         que todas suas interações com o Subversion devam envolver UTF-8.
-        Como uma regra geral, clientes Subversion graciosa
-        e transparentemente manipulará conversões entre UTF-8 e o
+        Como uma regra geral, os clientes Subversion graciosa
+        e transparentemente manipularão as conversões entre UTF-8 e o
         sistema de codificação em uso em seu computador, caso tal conversão
-        possa ser feita de forma significativa (o que é o caso das codificações
+        possa ser feita de forma que faça sentido (o que é o caso das codificações
         mais comuns em uso hoje).</para>
 
-      <para>Adicionalmente, nomes de caminhos são usados como valores de atributos XML
+      <para>Adicionalmente, caminhos de arquivos são usados como valores de atributos XML
         nas trocas WebDAV, bem como em alguns arquivos internamente mantidos pelo 
-        Subversion.  Isto significa que nomes de caminhos podem somente
-        conter caracteres aceitos no XML (1.0).  Subversion também proibe
+        Subversion.  Isto significa que os caminhos de arquivos podem somente
+        conter caracteres aceitos no XML (1.0).  Subversion também proíbe
         os caracteres TAB, CR, e LF em nomes de caminhos para prevenir que caminhos
         sejam quebrados nos diffs, ou em saídas de comandos como 
         <xref linkend="svn.ref.svn.c.log"/> ou <xref
         linkend="svn.ref.svn.c.status"/>.</para>
 
-      <para>Embora pareça que há muito o que recordar, na pratica
+      <para>Embora pareça que há muito o que recordar, na prática
         estas limitações raramente são um problema.  Enquanto suas
         configurações regionais são compatíveis com UTF-8, e você não usar
         caracteres de controle nos nomes dos caminhos, você não terá problemas na
         comunicação com o Subversion.  O cliente de linha de comando dá um pouco
         de ajuda extra&mdash;ele automaticamente adiciona informações de escape
-        para os caracteres ilegais nos caminhos em URLs que você digita
+        para os caracteres ilegais nos caminhos em URLs que você digita,
         para criar versões <quote>legalmente corretas</quote> para uso
         interno quando necessário.</para>
 
@@ -206,7 +206,7 @@ Gerado cópia de trabalho para revisão 8810.
 
     <para>Embora os exemplos acima efetuem o checkout do diretório trunk,
       você pode facilmente efetuar o checkout em qualquer nível de subdiretórios de um
-      repositório por especificar o subdiretório na URL do
+      repositório especificando o subdiretório na URL do
       checkout:</para>
 
     <screen>
@@ -226,8 +226,8 @@ Gerado cópia de trabalho para revisão 8810.
       linkend="svn.basic.vsn-models"/>), você pode iniciar por
       fazer alterações nos arquivos e diretórios em sua cópia de
       trabalho.  Sua cópia de trabalho é igual a qualquer outra coleção de
-      arquivos e diretórios em seu sistema.  Você pode editá-los e
-      alterá-los, movê-los, você pode até mesmos apagar toda sua cópia
+      arquivos e diretórios em seu sistema.  Você pode editá-los,
+      alterá-los e movê-los, você pode até mesmos apagar toda sua cópia
       de trabalho e esquecê-la.</para>
 
       <warning>
@@ -295,7 +295,7 @@ Gerado cópia de trabalho para revisão 8810.
       <para>Quando você realiza uma operação no Subversion
         que requer autenticação, por padrão o Subversion
         mantém suas credenciais de autenticação num cache em disco.
-        Isto é feito por conveniencia, para que você não precise
+        Isto é feito por conveniência, para que você não precise
         continuamente ficar re-digitando sua senha em operações
         futuras. Se você estiver preocupado com o fato de o Subversion
         manter um cache de suas senhas, <footnote><para>É claro, você
@@ -412,7 +412,7 @@ Gerado cópia de trabalho para revisão 8810.
       </listitem>
 
       <listitem>
-        <para>Registrar (dar commit em) suas alterações</para>
+        <para>Submeter suas alterações</para>
         <itemizedlist>
           <listitem>
             <para><command>svn commit</command></para>
@@ -439,9 +439,9 @@ U  bar.c
 Updated to revision 2.
 </screen>
 
-      <para>Neste caso, alguém registrou modificações em 
+      <para>Neste caso, alguém submeteu modificações em 
         <filename>foo.c</filename> e <filename>bar.c</filename> desde a
-        última vez que você havia atualizado, e o Subversion atualizou
+        última vez que você atualizou, e o Subversion atualizou
         sua cópia de trabalho para incluir estas modificações.</para>
 
       <para>Quando o servidor envia as alterações para sua cópia de
