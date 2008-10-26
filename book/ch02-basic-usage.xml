@@ -513,7 +513,7 @@ Updated to revision 2.
           texto normal que cujo conteúdo é o caminho para o qual o link
           original aponta.  Apesar deste arquivo não poder ser usado
           como link simbólico num sistema Windows, ele também não
-          previne os usuários Windows de executarem suas outras
+          proíbe os usuários Windows de executarem suas outras
           atividades relacionadas ao Subversion.</para> </sidebar>
 
       <variablelist>
@@ -606,7 +606,7 @@ Updated to revision 2.
           apenas acontece quando um subcomando está operando diretamente
           numa URL, ao invés de na cópia de trabalho.  Em particular,
           usos específicos de <command>svn mkdir</command>, <command>svn
-          copy</command>, <command>svn move</command>, e
+          copy</command>, <command>svn move</command> e
           <command>svn delete</command> trabalham com URLs (e não
           esqueça que o <command>svn import</command> sempre faz
           alterações em uma URL).</para>
@@ -616,7 +616,7 @@ Updated to revision 2.
           cópia de trabalho como uma espécie de <quote>área de
           teste</quote> onde executar suas alterações antes de
           registrá-las efetivamente no repositório.  Os comandos que
-          operam em URLs não dispõe deste luxo, então quando você opera
+          operam em URLs não dispõem deste luxo, então quando você opera
           diretamente em uma URL, quaisquer das ações acima resultam em
           commits imediatos.</para>
 
@@ -632,7 +632,7 @@ Updated to revision 2.
         registrá-las no repositório, mas antes de fazer isso, é quase
         sempre uma boa idéia conferir exatamente que alterações você
         fez.  Ao verificar suas alterações antes de dar commit, você
-        pode uma mensagem de log bem mais adequada.  Você também pode
+        pode criar uma mensagem de log bem mais adequada. Você também pode
         descobrir se não modificou um arquivo inadvertidamente, e então
         ter a oportunidade de reverter essas modificações antes de dar
         commit.  Você pode ter uma visão geral das alterações que você
@@ -728,10 +728,10 @@ M       bar.c               # conteúdo em bar.c tem alterações locais
 </screen>
 
         <para>Neste formato de saída <command>svn status</command> exibe
-          seix colunas de caracteres, seguidas de diversos espaços em
-          branco, seguidos po um nome de arquivo ou diretório.  A
+          seis colunas de caracteres, seguidas de diversos espaços em
+          branco, seguidos por um nome de arquivo ou diretório. A
           primeira coluna indica o estado do arquivo ou diretório e/ou
-          seu conteúdo.  Os códigos listados são:</para>
+          seu conteúdo. Os códigos listados são:</para>
 
         <variablelist>
 
@@ -1230,7 +1230,7 @@ Bottom piece of bread
         <para>As strings de sinais de menor, sinais de igual, e sinais
           de maior são marcações de conflito, e não fazem parte
           atualmente dos dados em conflito.  Você geralmente quer
-          garantir que estes sinais tipos de sinais sejam removidos
+          garantir que estes sinais sejam removidos
           do arquivo antes de seu próximo commit.  O texto entre os dois
           primeiros conjuntos de marcações é composto pelas alterações
           que você fez na área do conflito:</para>
@@ -1294,7 +1294,7 @@ $ svn commit -m "Go ahead and use my sandwich, discarding Sally's edits."
           tiver certeza de ter resolvido o conflito em seu
           arquivo&mdash;quando os arquivos temporários forem removidos,
           o Subversion vai deixar que você submeta o arquivo ainda que
-          ainda permaneça com marcações de conflito.</para>
+          ele permaneça com marcações de conflito.</para>
 
         <para>Se você se confundiu ao editar o arquivo conflituoso, você
           sempre pode consultar os três arquivos que o Subversion cria
@@ -1355,7 +1355,7 @@ sandwich.txt
 
       <para>Finalmente!  Suas edições estão concluídas, você mesclou
         todas as alterações do servidor, e agora está pronto para
-        registrar suas alterações ao repositório.</para>
+        registrar suas alterações no repositório.</para>
 
       <para>O comando <command>svn commit</command> envia todas as suas
         modificações para o servidor.  Quando você registra uma
@@ -1432,7 +1432,7 @@ svn: Your file or directory 'sandwich.txt' is probably out-of-date
         é a mesma em todos os casos.)</para>
 
       <para>Neste ponto, você precisa executar <command>svn
-        update</command>, lidar com quaisquer mesclagem ou conflitos
+        update</command>, lidar com quaisquer mesclagens ou conflitos
         resultantes, e tentar executar o commit novamente.</para>
 
       <para>Isto conclui o ciclo básico de trabalho no uso do
@@ -1497,7 +1497,7 @@ svn: Your file or directory 'sandwich.txt' is probably out-of-date
         <varlistentry>
           <term><command>svn list</command></term>
           <listitem>
-            <para>Exibe os arquivo em um diretório para uma dada
+            <para>Exibe os arquivos em um diretório para uma dada
               revisão.</para>
           </listitem>
         </varlistentry>
@@ -1910,7 +1910,7 @@ $ svn export http://svn.example.com/svn/repos1 -r 1729
     <para>Quando o Subversion modifica sua cópia de trabalho (ou
       qualquer informação dentro de <filename>.svn</filename>), ele
       tenta fazer isso da forma mais segura possível.  Antes de
-      modificar a cópa de trabalho, o Subversion escreve suas pretenções
+      modificar a cópa de trabalho, o Subversion escreve suas pretensões
       em um arquivo de log.  Depois ele executa os comandos no arquivo
       de log para aplicar a alteração requisitada, mantendo uma trava na
       parte relevante da cópia de trabalho enquanto trabalha&mdash;para
