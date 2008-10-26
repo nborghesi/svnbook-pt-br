@@ -1,30 +1,30 @@
 <chapter id="svn.reposadmin">
-  <title>Administração do Respositório</title>
+  <title>Administração do Repositório</title>
 
-  <para>O respositório Subversion é a central de todos os dados que 
-      estão sobre o controle de versão. Assim, ele se transforma num candidato
-      óbivo para receber todo amor e atenção que o administrador pode oferecer.
-      Enquanto o respositório é geralmente um item de manutenção baixa, 
-      é importante entender como configurar e cuidar propriamente para que potenciais 
-      problemas sejam evitados e eventuais problemas sejam resolvidos de maneira 
+  <para>O repositório Subversion é a central de todos os dados que
+      estão sendo versionados. Assim, ele se transforma num candidato
+      óbvio para receber todo amor e atenção que um administrador pode oferecer.
+      Embora o repositório seja geralmente um item de baixa manutenção,  
+      é importante entender como configurar e cuidar apropriadamente para que problemas  
+      potenciais sejam evitados, e problemas eventuais sejam resolvidos de maneira 
       segura.</para>
 
-  <para>Neste capítulo, vamos discutir como criar e configura um respositório
+  <para>Neste capítulo, vamos discutir sobre como criar e configurar um repositório
       Subversion. Vamos falar também sobre manutenção, dando exemplos de 
       como e quando usar as ferramentas <command>svnlook</command> e 
       <command>svnadmin</command> providas pelo Subversion. Vamos apontar
-      alguns questionamentos e erros, e dar algumas sugestões em como 
+      alguns questionamentos e erros, e dar algumas sugestões sobre como 
       organizar seus dados em um repositório.</para>
 
 
-  <para>Se você planeja acessar um respositório Subversion apenas 
-      como um usuário cujos dados estão em um controle de versão 
-      (que seria via um cliente Subversion), você pode pular esse
+  <para>Se você planeja acessar um repositório Subversion apenas 
+      como um usuário cujos dados estão sendo versionados 
+      (isto é, via um cliente Subversion), você pode pular esse
       capítulo todo. Entretanto, se você é, ou deseja se tornar, 
-      um administrador de um respositório Subversion,
+      um administrador de um repositório Subversion,
       <footnote>
 	  <para>
-	      Isto pode soar bem metido ou arrogante, mas nós estomos
+	      Isto pode soar bem metido ou arrogante, mas nós estamos
 	      apenas falando de alguém que tenha interesse no misterioso
 	      local por trás das cópias de trabalho onde os dados de 
 	      todos ficam.</para>
@@ -35,31 +35,31 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.reposadmin.basics">
-    <title>O Respositório Subversion, Definição</title>
+    <title>O Repositório Subversion, Definição</title>
 
     <para>Antes de entrarmos no vasto tópico da administração
 	do repositório, vamos primeiro definir o que é um 
-	respositório. Como ele se parece? Como é a sensação?
+	repositório. Como ele se parece? Como ele se sente?
 	Ele gosta de chá gelado ou quente, doce, e com limão?
 	Como um administrador, será esperado que você entenda
 	a composição de um repositório tanto da perspectiva 
 	do Sistema Operacional&mdash;como o repositório 
-	se parece e comporta em respeito a ferramentas que não 
-	são do Subversion&mdash;e da perspectiva lógica&mdash;
-	lidando com como os dados são representados
-	<emphasis>dentro</emphasis> do respositório.</para>
+	se parece e comporta em relação a ferramentas que não 
+	são do Subversion&mdash;e de uma perspectiva lógica&mdash;
+	relacionada com a forma com que os dados são representados
+	<emphasis>dentro</emphasis> do repositório.</para>
 
-    <para>Vendo pelos olhos de um típico browser de arquivos (como
-	o Windows Explorer) ou linha de comando baseado em 
-	ferramentas de navegação, o repositório Subversion é apenas
-	outro diretório cheio de coisas. Há alguns sub-diretórios
-	que possuem arquivos de configurção que podem ser lidos por
-	humanos, alguns que são não tão fáceis de serem lidos assim
-	e assim por diante. Como em outras áreas do desenho do 
-	Subversion, modularidade tem grande importância, e a organizção
-	hierarquizada é usada pra controlar o caos. Então uma superficial
-	olhada nas partes essenciais é suficiente para revelar os componentes
-	básicos do respositório:</para>
+    <para>Vendo pelos olhos de um típico navegador de arquivos (como
+	o Windows Explorer) ou de ferramentas de navegação em sistemas de arquivos
+	baseadas em linha de comando, o repositório Subversion é apenas
+	outro diretório cheio de coisas. Existem alguns sub-diretórios
+	que possuem arquivos de configuração que podem ser lidos por
+	humanos, e outros que não são tão fáceis de serem lidos,  
+	e assim por diante. Como em outras áreas do projeto do 
+	Subversion, modularidade tem grande importância, e a organização
+	hierárquica é usada pra controlar o caos. Assim, uma olhada 
+	superficial nas partes essenciais é suficiente para revelar os componentes
+	básicos do repositório:</para>
             
     <screen>
 $ ls repos
@@ -67,71 +67,71 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
 </screen>
 
     <para>Aqui está uma pequena pincelada do que exatamente você está 
-	vendendo nessa lista do diretório. (Não fique assustado com a
+	vendo nessa lista do diretório. (Não fique assustado com a
 	terminologia&mdash;uma explicação mais detalhada desses componentes
-	existem em algum lugar nesse e em outros capítulos.)</para>
+	está disponível em algum lugar nesse e em outros capítulos.)</para>
 
     <variablelist>
       <varlistentry>
         <term>conf</term>
         <listitem>
-          <para>Diretório contentdo arquivos de configuração do repostiório.</para>
+          <para>Um diretório contendo arquivos de configuração do repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>dav</term>
         <listitem>
-          <para>Diretório onde ficam os arquivos usados pelo mod_dav_svn.</para>
+          <para>Um diretório onde ficam os arquivos usados pelo mod_dav_svn.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>db</term>
         <listitem>
-          <para>Local onde é armazenado todos os seus dados versionados.</para>
+          <para>Local onde são armazenados todos os seus dados versionados.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>format</term>
         <listitem>
-          <para>Arquivo que contém um único inteiro que indica
-            o número da versão do respositório.</para>
+          <para>Um arquivo que contém um simples inteiro que indica
+            o número da versão do repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>hooks</term>
         <listitem>
-          <para>Diretório cheio de modelos de scripts (e scripts,
-            para quando você instalar alguns).</para>
+          <para>Um diretório cheio de modelos de scripts (e scripts,
+            uma vez que você tenha instalado algum).</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>locks</term>
         <listitem>
-          <para>Diretórios para arquivos travados do Subversion,
-            usado para rastrear acessos ao respositório.</para>
+          <para>Um diretório para arquivos travados do Subversion,
+            usado para rastrear acessos ao repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>README.txt</term>
         <listitem>
           <para>Arquivo que meramente informa a seus leitores que
-            eles estão olhando para um respositório Subversion.</para>
+            eles estão olhando para um repositório Subversion.</para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>Claro, quando acesso via bibliotecas do Subversion, 
+    <para>É claro que, quando acessado por meio das bibliotecas do Subversion, 
 	essa estranha coleção de arquivos e diretórios de repente
-	se torna uma implementação de completo virtual, sistema de
-	arquivos, com customizáveis triggers. Este sistema de arquivo
-	tem suas próprias noções de diretórios e arquivos, muito
-	similar a noções de coisas usadas em sistemas de arquivos
+	torna-se uma implementação de um sistema de arquivos virtual, versionável e completo,   
+	com gatilhos de eventos personalizáveis. Este sistema de arquivos
+	tem o seu próprio entendimento sobre diretórios e arquivos, muito
+	semelhante aos conceitos usados em sistemas de arquivos
 	reais (como NTFS, FAT32, ext3, e assim por diante). Mas 
-	isto é um sistema de arquivos especial&mdash;ele controla
-	esses diretórios e arquivos desde revisões, manter todas 
-	as mudanças que você fez neles e guarda com segurança para
-	ser acessando quando quiser. É aqui onde todos os seus
-	dados versionados moram.</para>
+	este é um sistema de arquivos especial&mdash;ele controla 
+	os diretórios e arquivos a partir das revisões, mantendo todas 
+	as mudanças que você fez neles armazenadas com segurança e 
+	sempre acessíveis. É aqui onde todos os seus
+	dados versionados vivem.</para>
 
   </sect1>
  
