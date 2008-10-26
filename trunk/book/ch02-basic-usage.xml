@@ -1910,7 +1910,7 @@ $ svn export http://svn.example.com/svn/repos1 -r 1729
     <para>Quando o Subversion modifica sua cópia de trabalho (ou
       qualquer informação dentro de <filename>.svn</filename>), ele
       tenta fazer isso da forma mais segura possível.  Antes de
-      modificar a cópa de trabalho, o Subversion escreve suas pretensões
+      modificar a cópia de trabalho, o Subversion escreve suas pretensões
       em um arquivo de log.  Depois ele executa os comandos no arquivo
       de log para aplicar a alteração requisitada, mantendo uma trava na
       parte relevante da cópia de trabalho enquanto trabalha&mdash;para
