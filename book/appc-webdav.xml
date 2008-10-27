@@ -114,46 +114,51 @@
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.webdav.autoversioning">
-    <title>Autoversioning</title>
+    <title>Autoversionamento</title>
 
-    <para>While the Subversion client is not a full DeltaV client, nor
-      the Subversion server a full DeltaV server, there's still a
-      glimmer of WebDAV interoperability to be happy about:  it's
-      called autoversioning.</para>
+    <para>Ainda que o cliente Subversion não seja um cliente DeltaV
+      completo, e que nem mesmo o servidor Subversion serja um servidor
+      DeltaV completo, ainda há um lampejo de interoperabilidade com o
+      WebDAV com o qual se contentar: é o chamado autoversionamento.</para>
 
-    <para>Autoversioning is an optional feature defined in the DeltaV
-      standard.  A typical DeltaV server will reject an ignorant
-      WebDAV client attempting to do a <literal>PUT</literal> to a
-      file that's under version control.  To change a
-      version-controlled file, the server expects a series of proper
-      versioning requests: something like
+    <para>Autoversionamento é um recurso opcional definido no padrão
+      DeltaV.  Um servidor DeltaV típico irá rejeitar um cliente WebDAV
+      ignorante que tente fazer um <literal>PUT</literal> em um arquivo
+      que esteja sob controle de versão.  Para alterar um arquivo
+      versionado, o servidor expera uma série de requisições próprias
+      relacionadas a versionamento: algo como
       <literal>MKACTIVITY</literal>, <literal>CHECKOUT</literal>,
-      <literal>PUT</literal>, <literal>CHECKIN</literal>.  But if the
-      DeltaV server supports autoversioning, then write-requests from
-      basic WebDAV clients are accepted.  The server behaves as if the
-      client <emphasis>had</emphasis> issued the proper series of
-      versioning requests, performing a commit under the hood.  In
-      other words, it allows a DeltaV server to interoperate with
-      ordinary WebDAV clients that don't understand versioning.</para>
+      <literal>PUT</literal>, <literal>CHECKIN</literal>.  Mas se o
+      servidor DeltaV suportar autoversionamento, então as requisições
+      de escrita a partir de clientes WebDAV básicos são aceitas.  O
+      servidor se comporta como se o cliente
+      <emphasis>tivesse</emphasis> feito o conjunto de requisições
+      próprias relacionadas ao versionamento adequadas, executando uma
+      submissão (<foreignphrase>commit</foreignphrase>) por debaixo dos
+      panos.  Em outras palavras, ele permite a um servidor DeltaV
+      interoperar com clientes WebDAV ordinários que não entendam
+      versionamento.</para>
 
-    <para>Because so many operating systems already have integrated
-      WebDAV clients, the use case for this feature can be incredibly
-      appealing to administrators working with non-technical users:
-      imagine an office of ordinary users running Microsoft Windows or
-      Mac OS.  Each user <quote>mounts</quote> the Subversion
-      repository, which appears to be an ordinary network folder.
-      They use the shared folder as they always do: open files, edit
-      them, save them.  Meanwhile, the server is automatically
-      versioning everything.  Any administrator (or knowledgeable
-      user) can still use a Subversion client to search history and
-      retrieve older versions of data.</para>
+    <para>Pelo fato de que muitos sistemas operacionais já têm clientes
+      WebDAV integrados, o caso de uso para este recurso pode ser
+      incrivelmente interessante a administradores que estejam
+      trabalhando com usuários não-técnicos: imagine um escritório de
+      usuários comuns executando Microsoft Windows ou Mac OS.  Cada
+      usuário <quote>monta</quote> o repositório Subversion, o qual
+      aparece como uma pasta de rede normal.  Eles usam a pasta
+      compartilhada como estão acostumados: abrem arquivos, fazem
+      modificações, salvam.  Enquanto isso, o servidor está
+      automaticamente versionando tudo.  Qualquer administrador (ou
+      usuário com conhecimento adequado) ainda pode usar um cliente
+      Subversion para pesquisar num histórico e obter versões mais
+      antigas dos dados.</para>
 
-    <para>This scenario isn't fiction: it's real and it works, as of
-      Subversion 1.2 and later.  To activate autoversioning in
-      <command>mod_dav_svn</command>, use
-      the <literal>SVNAutoversioning</literal> directive within
-      the <filename>httpd.conf</filename> Location block, like
-      so:</para>
+    <para>Este cenário não é fictício: é real e funciona, sendo o
+      Subversion versão 1.2 ou posterior.  Para ativar o
+      autoversionamento no <command>mod_dav_svn</command>, use a
+      diretiva <literal>SVNAutoversioning</literal> dentro do bloco
+      Location no <filename>httpd.conf</filename>, mais ou menos
+      assim:</para>
 
     <screen>
 &lt;Location /repos&gt;
@@ -163,47 +168,49 @@
 &lt;/Location&gt;
 </screen>
 
-    <para>When SVNAutoversioning is active, write requests from WebDAV
-      clients result in automatic commits.  A generic log message is
-      auto-generated and attached to each revision.</para>
+    <para>Quando o SVNAutoversioning está ativa, requisições de escrita
+      a partir de clientes WebDAV resultam em submissões automáticas.
+      Uma mensagem de log genérica é gerada automaticamente e anexada a
+      cada revisão.</para>
 
-    <para>Before activating this feature, however, understand what
-      you're getting into.  WebDAV clients tend to do
-      <emphasis>many</emphasis> write requests, resulting in a huge
-      number of automatically committed revisions.  For example, when
-      saving data, many clients will do a <literal>PUT</literal> of a
-      0-byte file (as a way of reserving a name) followed by another
-      <literal>PUT</literal> with the real file data.  The single
-      file-write results in two separate commits.  Also consider that
-      many applications auto-save every few minutes, resulting in even
-      more commits.</para>
+    <para>Antes de ativar este recurso, no entanto, entenda no que você
+      está se metendo.  Clientes WebDAV tendem a fazer
+      <emphasis>muitas</emphasis> requisições de escrita, resultando em
+      um número enorme de revisões submetidas automaticamente.  Por
+      exemplo, ao salvar dados, muitos clientes farão um
+      <literal>PUT</literal> de um arquivo de zero bytes (como uma forma
+      de reservar um nome) seguida de outro <literal>PUT</literal> com
+      os dados do arquivo real.  Um único salvamento de arquivo resulta
+      em duas submissões em separado.  Também considere que muitas
+      aplicações realizam salvamento automático em intervalos definidos,
+      resultando em ainda mais submissões de rede.</para>
 
-    <para>If you have a post-commit hook program that sends email, you
-      may want to disable email generation either altogether, or on
-      certain sections of the repository; it depends on whether you
-      think the influx of emails will still prove to be valuable
-      notifications or not.  Also, a smart post-commit hook program
-      can distinguish between a transaction created via autoversioning
-      and one created through a normal <command>svn commit</command>.
-      The trick is to look for a revision property
-      named <literal>svn:autoversioned</literal>.  If present, the
-      commit was made by a generic WebDAV client.</para>
+    <para>Se você tiver um script de hook post-commit que envie um
+      e-mail, você pode querer desabilitar a geração de e-mail como um
+      todo, ou em certas seções do repositório; depende de como você
+      acha que o fluxo de e-mails resultante ainda sejam notificações
+      importantes ou não.  Ainda, um script de hook post-commit esperto
+      pode diferenciar entre uma transação criada a partir de
+      autoversionamento e uma criada a partir de um <command>svn
+      commit</command> normal.  O truque é olhar para uma propriedade da
+      revisão chamada <literal>svn:autoversioned</literal>.  Se existir,
+      o commit foi feito por um cliente WebDAV genérico.</para>
 
-    <para>Another feature that may be a useful complement
-      for <literal>SVNAutoversioning</literal> comes from
-      Apache's <literal>mod_mime</literal> module.  If a WebDAV client
-      adds a new file to the repository, there's no opportunity for
-      the user to set the the <literal>svn:mime-type</literal>
-      property.  This might cause the file to appear as generic icon
-      when viewed within a WebDAV shared folder, not having an
-      association with any application.  One remedy is to have a
-      sysadmin (or other Subversion-knowledgeable person) check out a
-      working copy and manually set
-      the <literal>svn:mime-type</literal> property on necessary
-      files. But there's potentially no end to such cleanup tasks.
-      Instead, you can use the <literal>ModMimeUsePathInfo</literal>
-      directive in your Subversion <literal>&lt;Location&gt;</literal>
-      block:</para>
+    <para>Outro recurso que pode ser um útil complemento para o
+      <literal>SVNAutoversioning</literal> vem do módulo
+      <literal>mod_mime</literal> do Apache.  Se um cliente WebDAV
+      adicionar um novo arquivo ao repositório, não haverá uma
+      oportunidade para que o usuário defina a propriedade
+      <literal>svn:mime-type</literal>.  Isto pode fazer com que o
+      arquivo apareça como um ícone genérico quando visto em uma pasta
+      WebDAV compartilhada, não associado a nenhuma aplicação.  Uma
+      solução é ter um administrador de sistema (ou outra pessoa com
+      conhecimento do Subversion) que obtenha uma cópia de trabalho e
+      defina manualmente a propriedade <literal>svn:mime-type</literal>
+      nos arquivos necessários.  Mas potencialmente essas tarefas de
+      limpeza potencialmente não têm fim.  Ao invés disso, você pode
+      usar a diretiva <literal>ModMimeUsePathInfo</literal> no bloco
+      <literal>&lt;Location&gt;</literal> de seu Subversion:</para>
 
     <screen>
 &lt;Location /repos&gt;
@@ -216,13 +223,13 @@
 &lt;/Location&gt;
 </screen>
 
-    <para>This directive allows <literal>mod_mime</literal> to attempt
-      automatic deduction of the mime-type on new files that enter the
-      repository via autoversioning.  The module looks at the file's
-      named extension and possibly the contents as well; if the file
-      matches some common patterns, then the the
-      file's <literal>svn:mime-type</literal> property will be set
-      automatically.</para>
+    <para>Esta diretiva permite que o <literal>mod_mime</literal> para
+      tentar deduzir automaticamente o tipo mime em novos arquivos
+      adicionados ao repositório pelo autoversionamento.  O módulo
+      verifica a extensão do nome do arquivo e possivelmente seu
+      conteúdo também; se o arquivo corresponder a alguns padrões
+      comuns, então a propriedade <literal>svn:mime-type</literal> será
+      definida automaticamente.</para>
 
   </sect1>
 
@@ -380,7 +387,7 @@
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.webdav.clients.standalone.windows">
-        <title>Microsoft Office, Dreamweaver, Photoshop</title> 
+        <title>Microsoft Office, Dreamweaver, Photoshop</title>
 
         <para>On Windows, there are several well-known applications
           that contain integrated WebDAV client functionality, such as
