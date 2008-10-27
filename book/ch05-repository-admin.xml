@@ -5,13 +5,13 @@
       estão sendo versionados. Assim, ele se transforma num candidato
       óbvio para receber todo amor e atenção que um administrador pode oferecer.
       Embora o repositório seja geralmente um item de baixa manutenção,  
-      é importante entender como configurar e cuidar apropriadamente para que problemas  
-      potenciais sejam evitados, e problemas eventuais sejam resolvidos de maneira 
-      segura.</para>
+      é importante entender como configurar e cuidar apropriadamente para que 
+      problemas potenciais sejam evitados, e problemas eventuais sejam 
+      resolvidos de maneira segura.</para>
 
-  <para>Neste capítulo, vamos discutir sobre como criar e configurar um repositório
-      Subversion. Vamos falar também sobre manutenção, dando exemplos de 
-      como e quando usar as ferramentas <command>svnlook</command> e 
+  <para>Neste capítulo, vamos discutir sobre como criar e configurar um 
+  	  repositório Subversion. Vamos falar também sobre manutenção, dando 
+  	  exemplos de como e quando usar as ferramentas <command>svnlook</command> e 
       <command>svnadmin</command> providas pelo Subversion. Vamos apontar
       alguns questionamentos e erros, e dar algumas sugestões sobre como 
       organizar seus dados em um repositório.</para>
@@ -75,19 +75,22 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <varlistentry>
         <term>conf</term>
         <listitem>
-          <para>Um diretório contendo arquivos de configuração do repositório.</para>
+          <para>Um diretório contendo arquivos de configuração do repositório.
+          </para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>dav</term>
         <listitem>
-          <para>Um diretório onde ficam os arquivos usados pelo mod_dav_svn.</para>
+          <para>Um diretório onde ficam os arquivos usados pelo mod_dav_svn.
+          </para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>db</term>
         <listitem>
-          <para>Local onde são armazenados todos os seus dados versionados.</para>
+          <para>Local onde são armazenados todos os seus dados versionados.
+          </para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -122,9 +125,9 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
 
     <para>É claro que, quando acessado por meio das bibliotecas do Subversion, 
 	essa estranha coleção de arquivos e diretórios de repente
-	torna-se uma implementação de um sistema de arquivos virtual, versionável e completo,   
-	com gatilhos de eventos personalizáveis. Este sistema de arquivos
-	tem o seu próprio entendimento sobre diretórios e arquivos, muito
+	torna-se uma implementação de um sistema de arquivos virtual, versionável 
+	e completo,	com gatilhos de eventos personalizáveis. Este sistema de 
+	arquivos tem o seu próprio entendimento sobre diretórios e arquivos, muito
 	semelhante aos conceitos usados em sistemas de arquivos
 	reais (como NTFS, FAT32, ext3, e assim por diante). Mas 
 	este é um sistema de arquivos especial&mdash;ele controla 
@@ -144,10 +147,9 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       repositório Subversion e as tecnologias nas quais ele se baseia,
       criá-lo e configurá-lo são tarefas bastante naturais. 
       Existem algumas decisões preliminares que você
-      precisará tomar, mas o trabalho necessário para fazer alguma configuração no
-      repositório Subversion é muito simples, tendendo a 
-      repetição mecânica a medida que você começa a configurar várias
-      dessas coisas.</para>
+      precisará tomar, mas o trabalho necessário para fazer alguma configuração
+      no repositório Subversion é muito simples, tendendo a repetição mecânica a
+      medida que você começa a configurar várias dessas coisas.</para>
       
     <para>Algumas coisas que você precisará considerar logo no início são:</para>
 
@@ -165,8 +167,8 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
           você irá precisar?</para>
       </listitem>
       <listitem>
-        <para>Qual tipo de armazenamento de dados, entre os disponíveis, você irá
-          utilizar?</para>
+        <para>Qual tipo de armazenamento de dados, entre os disponíveis, você 
+          irá utilizar?</para>
       </listitem>
     </itemizedlist>
 
@@ -179,15 +181,15 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
 
       <para>Embora o Subversion permita que você mova arquivos 
       	e diretórios versionados sem qualquer perda de informação, e até mesmo
-      	provê meios de mover conjuntos inteiros de eventos históricos versionados
-      	de um repositório para outro, fazer isso pode atrapalhar significativamente o
-      	fluxo de trabalho daqueles que acessam o repositório frequentemente e
-      	esperam que algumas coisas estejam em certos lugares. Então antes
-      	de criar um novo repositório, tente olhar um pouco para o futuro; pense 
-      	a diante antes de colocar seus dados no controle de versão. Planejando 
-      	conscientemente o <quote>leiaute</quote> do repositório, ou repositórios,
-      	e seu conteúdo versionado antes do tempo, você pode previnir muitas 
-      	dores-de-cabeça futuras.</para>
+      	provê meios de mover conjuntos inteiros de eventos históricos 
+      	versionados	de um repositório para outro, fazer isso pode atrapalhar 
+      	significativamente o fluxo de trabalho daqueles que acessam o 
+      	repositório frequentemente e esperam que algumas coisas estejam em 
+      	certos lugares. Então antes	de criar um novo repositório, tente olhar um
+      	pouco para o futuro; pense a diante antes de colocar seus dados no 
+      	controle de versão. Planejando conscientemente o <quote>leiaute</quote> 
+      	do repositório, ou repositórios, e seu conteúdo versionado antes do 
+      	tempo, você pode previnir muitas dores-de-cabeça futuras.</para>
         
       <para>Vamos assumir que como administrador de repositório você será
       	responsável pelo suporte do sistema de controle de versões para v
@@ -208,16 +210,16 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       	diferentes projetos podem ter diferentes requisitos em termos de 
       	gatilhos de eventos, como por exemplo a necessidade de enviar
       	notificações de submissão para diferentes listas de e-mail, ou ter
-      	diferentes definições sobre o que constitui uma sumissão correta. É claro
-      	que eles não são problemas insuperáveis&mdash;somente significa que 
-      	todos os seus scripts de gatilho devem ser sensíveis ao leiaute
+      	diferentes definições sobre o que constitui uma sumissão correta. 
+      	É claro	que eles não são problemas insuperáveis&mdash;somente significa 
+      	que	todos os seus scripts de gatilho devem ser sensíveis ao leiaute
       	do seu repositório ao invés de assumir que todo o repositório está
       	assoicado com um único grupo de pessoas. Além disso, lembre-se que
       	o Subversion usa números de revisão globais com relação ao repositório.
-      	Muito embora esses números não tenham particularmente nenhum poder mágico,
-      	algumas pessoas continuam não gostando do fato de que mesmo que não haja
-      	modificações no seu projeto recentemente o número de revisão continua 
-      	sendo incrementado porque outros projetos continuam adicionando 
+      	Muito embora esses números não tenham particularmente nenhum poder
+      	mágico,	algumas pessoas continuam não gostando do fato de que mesmo que 
+      	não hajam modificações no seu projeto recentemente o número de revisão 
+      	continua sendo incrementado porque outros projetos continuam adicionando 
       	novas revisões.  
         <footnote>
           <para>Quer seja baseado na ignorância ou em fracos conceitos
@@ -231,26 +233,28 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <para>Uma abordagem meio termo pode ser utilizada também. Por exemplo,
       	projetos podem ser agrupados pela forma como eles se relacionam entre si.
       	Você pode ter alguns poucos repositórios com um punhado de projetos 
-      	em cada um deles. Dessa forma, projetos nos quais é desejável o compartilhamento
-      	de dados podem fazê-lo facilmente, e quando novas revisões são adicionadas
-      	ao repositório, os desenvolvedores saberão que essas revisões são no 
-      	mínimo remotamente relacionadas com todos que usam esse repositório.</para>
+      	em cada um deles. Dessa forma, projetos nos quais é desejável o 
+      	compartilhamento de dados podem fazê-lo facilmente, e quando novas 
+      	revisões são adicionadas ao repositório, os desenvolvedores saberão que 
+      	essas revisões são no mínimo remotamente relacionadas com todos que usam
+      	esse repositório.</para>
 
       <para>Depois de decidir como organizar seus projetos com relação
       	aos repositórios você irá provavelmente pensar sobre a hierarquia 
       	de diretórios lá dentro. Como o Subversion utiliza cópias comuns 
       	de diretórios para ramificações (<foreignphrase>branches</foreignphrase>)
-      	e rótulos (<foreignphrase>tags</foreignphrase>) (veja <xref linkend="svn.branchmerge"/>),
-      	a comunidade recomenda que você escolha uma localização para cada
-      	<firstterm>raiz de projeto</firstterm>&mdash;o <quote>mais alto</quote>
-      	diretório que irá conter dados relacionados com o projeto&mdash;e então 
-      	criar três subdiretórios abaixo desse raiz:  
+      	e rótulos (<foreignphrase>tags</foreignphrase>) 
+      	(veja <xref linkend="svn.branchmerge"/>), a comunidade recomenda que 
+      	você escolha uma localização para cada 	<firstterm>raiz de projeto</firstterm>&mdash;
+      	o <quote>mais alto</quote> diretório que irá conter dados relacionados 
+      	com o projeto&mdash;e então	criar três subdiretórios abaixo desse raiz:  
         <filename>trunk</filename>, o diretório no qual o desenvolvimento
         principal do projeto ocorre;
-        <filename>branches</filename>, diretório no podem ser criados vários ramos
-        da linha principal de desenvolvimento;
-        <filename>tags</filename>, diretório que poderá conter uma coleção instantâneos de árvores
-        de diretório que são criados, e possivelmente destroídos, mas nunca alterados.
+        <filename>branches</filename>, diretório no podem ser criados vários 
+        ramos da linha principal de desenvolvimento;
+        <filename>tags</filename>, diretório que poderá conter uma coleção 
+        instantâneos de árvores de diretório que são criados, e possivelmente 
+        destroídos, mas nunca alterados.
         <footnote>
           <para>O trio <filename>trunk</filename>, <filename>tags</filename>, 
             and <filename>branches</filename> são muitas vezes chamados de
