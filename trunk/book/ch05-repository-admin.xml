@@ -1,35 +1,35 @@
 <chapter id="svn.reposadmin">
   <title>Administração do Repositório</title>
 
-  <para>O repositório Subversion é a central de todos os dados que
-      estão sendo versionados. Assim, ele se transforma num candidato
-      óbvio para receber todo amor e atenção que um administrador pode oferecer.
-      Embora o repositório seja geralmente um item de baixa manutenção,  
-      é importante entender como configurar e cuidar apropriadamente para que 
-      problemas potenciais sejam evitados, e problemas eventuais sejam 
-      resolvidos de maneira segura.</para>
+  <para>O repositório Subversion é a central de todos os dados que estão
+    sendo versionados. Assim, ele se transforma num candidato óbvio para
+    receber todo amor e atenção que um administrador pode oferecer.
+    Embora o repositório seja geralmente um item de baixa manutenção, é
+    importante entender como configurar e cuidar apropriadamente para
+    que problemas potenciais sejam evitados, e problemas eventuais sejam
+    resolvidos de maneira segura.</para>
 
-  <para>Neste capítulo, vamos discutir sobre como criar e configurar um 
-  	  repositório Subversion. Vamos falar também sobre manutenção, dando 
-  	  exemplos de como e quando usar as ferramentas <command>svnlook</command> e 
-      <command>svnadmin</command> providas pelo Subversion. Vamos apontar
-      alguns questionamentos e erros, e dar algumas sugestões sobre como 
-      organizar seus dados em um repositório.</para>
+  <para>Neste capítulo, vamos discutir sobre como criar e configurar um
+    repositório Subversion. Vamos falar também sobre manutenção, dando
+    exemplos de como e quando usar as ferramentas
+    <command>svnlook</command> e <command>svnadmin</command> providas
+    pelo Subversion.  Vamos apontar alguns questionamentos e erros, e
+    dar algumas sugestões sobre como organizar seus dados em um
+    repositório.</para>
 
 
-  <para>Se você planeja acessar um repositório Subversion apenas 
-      como um usuário cujos dados estão sendo versionados 
-      (isto é, via um cliente Subversion), você pode pular esse
-      capítulo todo. Entretanto, se você é, ou deseja se tornar, 
-      um administrador de um repositório Subversion,
-      <footnote>
-	  <para>
-	      Isto pode soar bem metido ou arrogante, mas nós estamos
-	      apenas falando de alguém que tenha interesse no misterioso
-	      local por trás das cópias de trabalho onde os dados de 
-	      todos ficam.</para>
-      </footnote> 
-      este capítulo é para você.</para>
+  <para>Se você planeja acessar um repositório Subversion apenas como
+    um usuário cujos dados estão sendo versionados (isto é, por meio de
+    um cliente Subversion), você pode pular esse capítulo todo.
+    Entretanto, se você é, ou deseja se tornar, um administrador de um
+    repositório Subversion,
+    <footnote>
+      <para>
+        Isto pode soar bem metido ou arrogante, mas nós estamos apenas
+        falando de alguém que tenha interesse no misterioso local por
+        trás das cópias de trabalho onde os dados de todos ficam.</para>
+      </footnote>
+    este capítulo é para você.</para>
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
@@ -37,121 +37,122 @@
   <sect1 id="svn.reposadmin.basics">
     <title>O Repositório Subversion, Definição</title>
 
-    <para>Antes de entrarmos no vasto tópico da administração
-	do repositório, vamos primeiro definir o que é um 
-	repositório. Como ele se parece? Como ele se sente?
-	Ele gosta de chá gelado ou quente, doce, e com limão?
-	Como um administrador, será esperado que você entenda
-	a composição de um repositório tanto da perspectiva 
-	do Sistema Operacional&mdash;como o repositório 
-	se parece e comporta em relação a ferramentas que não 
-	são do Subversion&mdash;e de uma perspectiva lógica&mdash;
-	relacionada com a forma com que os dados são representados
-	<emphasis>dentro</emphasis> do repositório.</para>
+    <para>Antes de entrarmos no vasto tópico da administração do
+      repositório, vamos primeiro definir o que é um repositório.  Como
+      ele se parece?  Como ele se sente?  Ele gosta de chá gelado ou
+      quente, doce, e com limão?  Como um administrador, será esperado
+      que você entenda a composição de um repositório tanto da
+      perspectiva do Sistema Operacional&mdash;como o repositório se
+      parece e se comporta em relação a ferramentas que não são do
+      Subversion&mdash;e de uma perspectiva lógica&mdash;relacionada
+      com a forma com que os dados são representados
+      <emphasis>dentro</emphasis> do repositório.</para>
 
-    <para>Vendo pelos olhos de um típico navegador de arquivos (como
-	o Windows Explorer) ou de ferramentas de navegação em sistemas de arquivos
-	baseadas em linha de comando, o repositório Subversion é apenas
-	outro diretório cheio de coisas. Existem alguns sub-diretórios
-	que possuem arquivos de configuração que podem ser lidos por
-	humanos, e outros que não são tão fáceis de serem lidos,  
-	e assim por diante. Como em outras áreas do projeto do 
-	Subversion, modularidade tem grande importância, e a organização
-	hierárquica é usada pra controlar o caos. Assim, uma olhada 
-	superficial nas partes essenciais é suficiente para revelar os componentes
-	básicos do repositório:</para>
-            
+    <para>Vendo pelos olhos de um típico navegador de arquivos (como o
+      Windows Explorer) ou de ferramentas de navegação em sistemas de
+      arquivos baseadas em linha de comando, o repositório Subversion é
+      apenas outro diretório cheio de coisas.  Existem alguns
+      sub-diretórios que possuem arquivos de configuração que podem ser
+      lidos por humanos, e outros que não são tão fáceis de serem lidos,
+      e assim por diante.  Como em outras áreas do projeto do
+      Subversion, modularidade tem grande importância, e a organização
+      hierárquica é usada pra controlar o caos.  Assim, uma olhada
+      superficial nas partes essenciais é suficiente para revelar os
+      componentes básicos do repositório:</para>
+
     <screen>
 $ ls repos
 conf/  dav/  db/  format  hooks/  locks/  README.txt
 </screen>
 
-    <para>Aqui está uma pequena pincelada do que exatamente você está 
-	vendo nessa lista do diretório. (Não fique assustado com a
-	terminologia&mdash;uma explicação mais detalhada desses componentes
-	está disponível em algum lugar nesse e em outros capítulos.)</para>
+    <para>Aqui está uma pequena pincelada do que exatamente você está
+      vendo nessa lista do diretório. (Não fique assustado com a
+      terminologia&mdash;uma explicação mais detalhada desses
+      componentes está disponível em algum lugar nesse e em outros
+      capítulos.)</para>
 
     <variablelist>
       <varlistentry>
         <term>conf</term>
         <listitem>
-          <para>Um diretório contendo arquivos de configuração do repositório.
-          </para>
+          <para>Um diretório contendo arquivos de configuração do
+            repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>dav</term>
         <listitem>
-          <para>Um diretório onde ficam os arquivos usados pelo mod_dav_svn.
-          </para>
+          <para>Um diretório onde ficam os arquivos usados pelo
+            mod_dav_svn.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>db</term>
         <listitem>
-          <para>Local onde são armazenados todos os seus dados versionados.
-          </para>
+          <para>Local onde são armazenados todos os seus dados
+            versionados.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>format</term>
         <listitem>
-          <para>Um arquivo que contém um simples inteiro que indica
-            o número da versão do repositório.</para>
+          <para>Um arquivo que contém um simples inteiro que indica o
+            número da versão do repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>hooks</term>
         <listitem>
-          <para>Um diretório cheio de modelos de scripts (e scripts,
-            uma vez que você tenha instalado algum).</para>
+          <para>Um diretório cheio de modelos de scripts (e scripts, uma
+            vez que você tenha instalado algum).</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>locks</term>
         <listitem>
-          <para>Um diretório para arquivos travados do Subversion,
-            usado para rastrear acessos ao repositório.</para>
+          <para>Um diretório para arquivos travados do Subversion, usado
+            para rastrear acessos ao repositório.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>README.txt</term>
         <listitem>
-          <para>Arquivo que meramente informa a seus leitores que
-            eles estão olhando para um repositório Subversion.</para>
+          <para>Arquivo que meramente informa a seus leitores que eles
+            estão olhando para um repositório Subversion.</para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>É claro que, quando acessado por meio das bibliotecas do Subversion, 
-	essa estranha coleção de arquivos e diretórios de repente
-	torna-se uma implementação de um sistema de arquivos virtual, versionável 
-	e completo,	com gatilhos de eventos personalizáveis. Este sistema de 
-	arquivos tem o seu próprio entendimento sobre diretórios e arquivos, muito
-	semelhante aos conceitos usados em sistemas de arquivos
-	reais (como NTFS, FAT32, ext3, e assim por diante). Mas 
-	este é um sistema de arquivos especial&mdash;ele controla 
-	os diretórios e arquivos a partir das revisões, mantendo todas 
-	as mudanças que você fez neles armazenadas com segurança e 
-	sempre acessíveis. É aqui onde todos os seus
-	dados versionados vivem.</para>
+    <para>É claro que, quando acessado por meio das bibliotecas do
+      Subversion, esse estranho conjunto de arquivos e diretórios de
+      repente torna-se uma implementação de um sistema de arquivos
+      virtual, versionável e completo, com gatilhos de eventos
+      personalizáveis.  Este sistema de arquivos tem o seu próprio
+      entendimento sobre diretórios e arquivos, muito semelhante aos
+      conceitos usados em sistemas de arquivos reais (como NTFS, FAT32,
+      ext3, e assim por diante).  Mas este é um sistema de arquivos
+      especial&mdash;ele controla os diretórios e arquivos a partir das
+      revisões, mantendo todas as mudanças que você fez neles
+      armazenadas com segurança e sempre acessíveis.  É aqui onde todos
+      os seus dados versionados vivem.</para>
 
   </sect1>
- 
+
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.reposadmin.planning">
     <title>Estratégias para Implementação de Repositórios</title>
-	<para>Devido, em grande parte, a simplicidade do projeto do
+    <para>Devido, em grande parte, a simplicidade do projeto do
       repositório Subversion e as tecnologias nas quais ele se baseia,
-      criá-lo e configurá-lo são tarefas bastante naturais. 
-      Existem algumas decisões preliminares que você
-      precisará tomar, mas o trabalho necessário para fazer alguma configuração
-      no repositório Subversion é muito simples, tendendo a repetição mecânica a
-      medida que você começa a configurar várias dessas coisas.</para>
-      
-    <para>Algumas coisas que você precisará considerar logo no início são:</para>
+      criá-lo e configurá-lo são tarefas bastante naturais.  Existem
+      algumas decisões preliminares que você precisará tomar, mas o
+      trabalho necessário para fazer alguma configuração no repositório
+      Subversion é muito simples, tendendo a repetição mecânica a medida
+      que você começa a configurar várias dessas coisas.</para>
+
+    <para>Algumas coisas que você precisará considerar logo no início
+      são:</para>
 
     <itemizedlist>
       <listitem>
@@ -167,8 +168,8 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
           você irá precisar?</para>
       </listitem>
       <listitem>
-        <para>Qual tipo de armazenamento de dados, entre os disponíveis, você 
-          irá utilizar?</para>
+        <para>Qual tipo de armazenamento de dados, entre os disponíveis,
+          você irá utilizar?</para>
       </listitem>
     </itemizedlist>
 
@@ -179,90 +180,100 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
     <sect2 id="svn.reposadmin.projects.chooselayout">
       <title>Planejando a Organização do Repositório</title>
 
-      <para>Embora o Subversion permita que você mova arquivos 
-      	e diretórios versionados sem qualquer perda de informação, e até mesmo
-      	provê meios de mover conjuntos inteiros de eventos históricos 
-      	versionados	de um repositório para outro, fazer isso pode atrapalhar 
-      	significativamente o fluxo de trabalho daqueles que acessam o 
-      	repositório frequentemente e esperam que algumas coisas estejam em 
-      	certos lugares. Então antes	de criar um novo repositório, tente olhar um
-      	pouco para o futuro; pense a diante antes de colocar seus dados no 
-      	controle de versão. Planejando conscientemente o <quote>leiaute</quote> 
-      	do repositório, ou repositórios, e seu conteúdo versionado antes do 
-      	tempo, você pode previnir muitas dores-de-cabeça futuras.</para>
-        
-      <para>Vamos assumir que como administrador de repositório você será
-      	responsável pelo suporte do sistema de controle de versões para v
-      	vários projetos. Sua primeira decisão é se usará um único repositório
-      	para múltiplos projetos, ou fornecer para cada projeto o seu próprio
-      	repositório, ou ainda alguma combinação disso.</para>
+      <para>Embora o Subversion permita que você mova arquivos e
+        diretórios versionados sem qualquer perda de informação, e até
+        mesmo provê meios de mover conjuntos inteiros de eventos
+        históricos versionados de um repositório para outro, fazer isso
+        pode atrapalhar significativamente o fluxo de trabalho daqueles
+        que acessam o repositório frequentemente e esperam que algumas
+        coisas estejam em certos lugares.  Então antes de criar um novo
+        repositório, tente olhar um pouco para o futuro; pense a diante
+        antes de colocar seus dados no controle de versão.  Planejando
+        conscientemente o <quote>leiaute</quote> do repositório, ou
+        repositórios, e seu conteúdo versionado antes do tempo, você
+        pode previnir muitas dores-de-cabeça futuras.</para>
+
+      <para>Vamos assumir que como administrador de repositório você
+        será responsável pelo suporte do sistema de controle de versões
+        para vários projetos. Sua primeira decisão é se usará um único
+        repositório para múltiplos projetos, ou fornecer para cada
+        projeto o seu próprio repositório, ou ainda alguma combinação
+        disso.</para>
 
       <para>Existem vantagens em se utilizar um único repositório para
-      	múltiplos projetos e a mais óbvia é a ausência de manutenção 
-      	duplicada. Um único repositório significa que haverá um único conjunto
-      	de programas de gatilhos, uma única coisa para fazer cópias de segurança 
-      	periódicas, uma única coisa para descarregar e carregar se o Subversion 
-      	lança um nova versão incompatível, e por aí vai. Além disso, você pode
-      	mover dados entre projetos facilmente, e sem perder qualquer informação
-      	de versionamento.</para>
+        múltiplos projetos e a mais óbvia é a ausência de manutenção
+        duplicada. Um único repositório significa que haverá um único
+        conjunto de programas de gatilhos, uma única coisa para fazer
+        cópias de segurança periódicas, uma única coisa para descarregar
+        e carregar se o Subversion lança um nova versão incompatível, e
+        por aí vai.  Além disso, você pode mover dados entre projetos
+        facilmente, e sem perder qualquer informação de
+        versionamento.</para>
 
-      <para>A desvantagem de usar um único repositório é que 
-      	diferentes projetos podem ter diferentes requisitos em termos de 
-      	gatilhos de eventos, como por exemplo a necessidade de enviar
-      	notificações de submissão para diferentes listas de e-mail, ou ter
-      	diferentes definições sobre o que constitui uma sumissão correta. 
-      	É claro	que eles não são problemas insuperáveis&mdash;somente significa 
-      	que	todos os seus scripts de gatilho devem ser sensíveis ao leiaute
-      	do seu repositório ao invés de assumir que todo o repositório está
-      	assoicado com um único grupo de pessoas. Além disso, lembre-se que
-      	o Subversion usa números de revisão globais com relação ao repositório.
-      	Muito embora esses números não tenham particularmente nenhum poder
-      	mágico,	algumas pessoas continuam não gostando do fato de que mesmo que 
-      	não hajam modificações no seu projeto recentemente o número de revisão 
-      	continua sendo incrementado porque outros projetos continuam adicionando 
-      	novas revisões.  
+      <para>A desvantagem de usar um único repositório é que diferentes
+        projetos podem ter diferentes requisitos em termos de gatilhos
+        de eventos, como por exemplo a necessidade de enviar
+        notificações de submissão para diferentes listas de e-mail, ou
+        ter diferentes definições sobre o que constitui uma sumissão
+        correta.  É claro que eles não são problemas
+        insuperáveis&mdash;somente significa que todos os seus scripts
+        de gatilho devem ser sensíveis ao leiaute do seu repositório ao
+        invés de assumir que todo o repositório está associado com um
+        único grupo de pessoas.  Além disso, lembre-se que o Subversion
+        usa números de revisão globais com relação ao repositório.
+        Muito embora esses números não tenham particularmente nenhum
+        poder mágico, algumas pessoas continuam não gostando do fato de
+        que mesmo que não hajam modificações no seu projeto recentemente
+        o número de revisão continua sendo incrementado porque outros
+        projetos continuam adicionando novas revisões.
         <footnote>
           <para>Quer seja baseado na ignorância ou em fracos conceitos
-          	sobre como produzir métricas de desenvolvimento corretamente,
-          	números de revisões globais são uma coisa tola para temer, e
-          	<emphasis>não</emphasis> o tipo de coisa que você deveria pesar
-          	na hora de decidir como organizar seus projetos e repositórios.</para>
+            sobre como produzir métricas de desenvolvimento
+            corretamente, números de revisões globais são uma coisa tola
+            para temer, e <emphasis>não</emphasis> o tipo de coisa que
+            você deveria pesar na hora de decidir como organizar seus
+            projetos e repositórios.</para>
         </footnote>
       </para>
 
-      <para>Uma abordagem meio termo pode ser utilizada também. Por exemplo,
-      	projetos podem ser agrupados pela forma como eles se relacionam entre si.
-      	Você pode ter alguns poucos repositórios com um punhado de projetos 
-      	em cada um deles. Dessa forma, projetos nos quais é desejável o 
-      	compartilhamento de dados podem fazê-lo facilmente, e quando novas 
-      	revisões são adicionadas ao repositório, os desenvolvedores saberão que 
-      	essas revisões são no mínimo remotamente relacionadas com todos que usam
-      	esse repositório.</para>
+      <para>Uma abordagem meio termo pode ser utilizada também.  Por
+        exemplo, projetos podem ser agrupados pela forma como eles se
+        relacionam entre si.  Você pode ter alguns poucos repositórios
+        com um punhado de projetos em cada um deles.  Dessa forma,
+        projetos nos quais é desejável o compartilhamento de dados podem
+        fazê-lo facilmente, e quando novas revisões são adicionadas ao
+        repositório, os desenvolvedores saberão que essas revisões são
+        no mínimo remotamente relacionadas com todos que usam esse
+        repositório.</para>
 
       <para>Depois de decidir como organizar seus projetos com relação
-      	aos repositórios você irá provavelmente pensar sobre a hierarquia 
-      	de diretórios lá dentro. Como o Subversion utiliza cópias comuns 
-      	de diretórios para ramificações (<foreignphrase>branches</foreignphrase>)
-      	e rótulos (<foreignphrase>tags</foreignphrase>) 
-      	(veja <xref linkend="svn.branchmerge"/>), a comunidade recomenda que 
-      	você escolha uma localização para cada 	<firstterm>raiz de projeto</firstterm>&mdash;
-      	o <quote>mais alto</quote> diretório que irá conter dados relacionados 
-      	com o projeto&mdash;e então	criar três subdiretórios abaixo desse raiz:  
-        <filename>trunk</filename>, o diretório no qual o desenvolvimento
-        principal do projeto ocorre;
-        <filename>branches</filename>, diretório no podem ser criados vários 
-        ramos da linha principal de desenvolvimento;
-        <filename>tags</filename>, diretório que poderá conter uma coleção 
-        instantâneos de árvores de diretório que são criados, e possivelmente 
-        destroídos, mas nunca alterados.
+        aos repositórios você irá provavelmente pensar sobre a
+        hierarquia de diretórios lá dentro.  Como o Subversion utiliza
+        cópias comuns de diretórios para ramificações
+        (<foreignphrase>branches</foreignphrase>) e rótulos
+        (<foreignphrase>tags</foreignphrase>) (veja <xref
+        linkend="svn.branchmerge"/>), a comunidade recomenda que você
+        escolha uma localização para cada  <firstterm>raiz de
+        projeto</firstterm>&mdash;o <quote>mais alto</quote> diretório
+        que irá conter dados relacionados com o projeto&mdash;e então
+        criar três subdiretórios abaixo desse raiz:
+        <filename>trunk</filename>, o diretório no qual o
+        desenvolvimento principal do projeto ocorre;
+        <filename>branches</filename>, diretório no podem ser criados
+        vários ramos da linha principal de desenvolvimento;
+        <filename>tags</filename>, diretório que poderá conter uma
+        coleção de instantâneos de árvores de diretório que são criados,
+        e possivelmente destruídos, mas nunca alterados.
         <footnote>
-          <para>O trio <filename>trunk</filename>, <filename>tags</filename>, 
-            and <filename>branches</filename> são muitas vezes chamados de
-            <quote>diretórios TTB</quote>.</para>
+          <para>O trio <filename>trunk</filename>,
+            <filename>tags</filename>, e <filename>branches</filename>
+            são muitas vezes chamados de <quote>diretórios
+            TTB</quote>.</para>
         </footnote>
         </para>
 
-      <para>Por exemplo, seu repositório poderá se parecer com o seguinte:</para>
+      <para>Por exemplo, seu repositório poderá se parecer com o
+        seguinte:</para>
 
       <screen>
 /
@@ -281,15 +292,15 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
    &hellip;
 </screen>
 
-      <para>Note que não importa onde está cada raiz de projeto
-      	no seu repositório. Se você possuir somente um único projeto 
-      	por repositório, o lugar mais lógico para colocar cada 
-      	raiz de projeto é na raiz do respectivo repositório do projeto.
-      	Se você possui múltiplos projetos, você pode querer organizá-los
-      	em grupos dentro do repositório, talvez colocando projetos com 
-      	objetivos semelhantes ou código compartilhado no mesmo subdiretório,
-      	ou talvez simplesmente agrupá-los alfabeticamente. Tal organização
-      	poderia se parecer com o que segue: </para>
+      <para>Note que não importa onde está cada raiz de projeto no seu
+        repositório. Se você possuir somente um único projeto por
+        repositório, o lugar mais lógico para colocar cada raiz de
+        projeto é na raiz do respectivo repositório do projeto.  Se você
+        possui múltiplos projetos, você pode querer organizá-los em
+        grupos dentro do repositório, talvez colocando projetos com
+        objetivos semelhantes ou código compartilhado no mesmo
+        subdiretório, ou talvez simplesmente agrupá-los alfabeticamente.
+        Tal organização poderia se parecer com o que segue:</para>
 
       <screen>
 /
@@ -311,18 +322,19 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       &hellip;
 </screen>
 
-      <para>Organize seu repositório da forma que você preferir.
-      	Subversion não espera ou força uma organização particular&mdash;
-      	na sua visão, um diretório é um diretório. 
-      	No final das contas você deve escolher a organização de
-      	repositório que atende as necessidades das pessoas que trabalham
-      	nos projetos que irão viver lá.</para>
+      <para>Organize seu repositório da forma que você preferir.  O
+        Subversion não espera ou força uma organização
+        particular&mdash;na sua visão, um diretório é um diretório.  No
+        final das contas você deve escolher a organização de repositório
+        que atende as necessidades das pessoas que trabalham nos
+        projetos que irão viver lá.</para>
 
       <para>Em nome da revelação completa, no entanto, nós iremos
-      	mencionar outra forma muito comum de organizção. Nesse leiaute	 
-        os diretórios <filename>trunk</filename>, <filename>tags</filename>
-        e <filename>branches</filename> residem no diretório raiz do
-        repositório e os projetos estão em subdiretórios abaixo deles, como:</para>
+        mencionar outra forma muito comum de organizção.  Nesse leiaute
+        os diretórios <filename>trunk</filename>,
+        <filename>tags</filename> e <filename>branches</filename>
+        residem no diretório raiz do repositório e os projetos estão em
+        subdiretórios abaixo deles, como:</para>
 
       <screen>
 /
@@ -343,55 +355,58 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       &hellip;
 </screen>
 
-      <para>Não existe nada de incorreto nessa forma de organização, 
-      mas ela pode ou não parecer intuitiva para seus usuários.
-      Especialmente em situações de vários e grandes projetos com muitos
-      usuários, esses usuários podem tender a se familiarizar com
-      somente um ou dois projetos no repositório. Utilizar projetos como 
-      ramos irmãos tende a desenfatizar a individualidade dos projetos 
-      e focar no conjunto inteiro como uma única entidade. De qualquer 
-      forma essa é uma questão social. Nós gostamos da organização 
-      inicialmente proposta por razões puramente práticas&mdash;é fácil 
-      perguntar sobre (ou modificar, ou migrar para outro lugar) 
-      o histórico completo de um único projeto quando existe um único
-      caminho no repositório que guarda tudo&mdash;
-      passado, presente, etiquetas, and ramos&mdash;referente ao 
-      projeto sozinho.</para>
+      <para>Não existe nada de incorreto nessa forma de organização, mas
+        ela pode ou não parecer intuitiva para seus usuários.
+        Especialmente em situações de vários e grandes projetos com
+        muitos usuários, esses usuários podem tender a se familiarizar
+        com somente um ou dois projetos no repositório.  Utilizar
+        projetos como ramos irmãos tende a desenfatizar a
+        individualidade dos projetos e focar no conjunto inteiro como
+        uma única entidade. De qualquer forma essa é uma questão social.
+        Nós gostamos da organização inicialmente proposta por razões
+        puramente práticas&mdash;é fácil perguntar sobre (ou modificar,
+        ou migrar para outro lugar) o histórico completo de um único
+        projeto quando existe um único caminho no repositório que guarda
+        tudo&mdash;passado, presente, etiquetas, e ramos&mdash;referente
+        ao projeto sozinho.</para>
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.basics.hosting">
-      <title>Deciding Where and How to Host Your Repository</title>
+      <title>Decidindo Onde e Como Hospedar Seu Repositório</title>
 
-      <para>Before creating your Subversion repository, an obvious
-        question you'll need to answer is where the thing is going to
-        live.  This is strongly connected to a myriad of other
-        questions involving how the repository will be accessed (via a
-        Subversion server or directly), by whom (users behind your
-        corporate firewall or the whole world out on the open
-        Internet), what other services you'll be providing around
-        Subversion (repository browsing interfaces, e-mail based
-        commit notification, etc.), your data backup strategy, and so
-        on.</para>
+      <para>Antes de criar seu repositório Subversion, uma questão óbvia
+        que você precisa responder é onde a coisa toda deverá ficar.
+        Isto está fortemente interligado a uma miríade de outras
+        questões que dizem respeito a como o repositório será acessado
+        (através de um servidor Subversion ou diretamente), por quem
+        (usuários que estejam por atrás de um firewall corporativo ou
+        globalmente por meio da Internet), que outros serviços você irá
+        disponibilizar em conjunto com o Subversion (interfaces de
+        navegação de repositório, avisos de submissões
+        (<foreignphrase>commits</foreignphrase>) por e-mail, etc.), sua
+        estratégia de cópias de segurança
+        (<foreignphrase>backup</foreignphrase>), e por aí vai.</para>
 
-      <para>We cover server choice and configuration in <xref
-        linkend="svn.serverconfig" />, but the point we'd like to
-        briefly make here is simply that the answers to some of these
-        other questions might have implications that force your hand
-        when deciding where your repository will live.  For example,
-        certain deployment scenarios might require accessing the
-        repository via a remote filesystem from multiple computers, in
-        which case (as you'll read in the next section) your choice of
-        a repository back-end data store turns out not to be a choice
-        at all because only one of the available back-ends will work
-        in this scenario.</para>
+      <para>Abordamos a escolha do servidor e configuração em <xref
+        linkend="svn.serverconfig" />, o que gostaríamos brevemente de
+        apontar aqui é simplesmente que as respostas a algumas destas e
+        de outras perguntas podem ter implicações que forcem sua cuca
+        ao decidir sobre onde seu repositório irá residir.  Por exemplo,
+        certos cenários de produção podem demandar acesso ao repositório
+        a partir de um sistema de arquivos remoto para múltiplos
+        computadores, caso este em que (como você verá na próxima seção)
+        a sua escolha de um repositório secundário para armazenamento de
+        dados passa a não ser uma escolha porque apenas um dos
+        servidores secundários disponíveis irá funcionar neste
+        cenário.</para>
 
-      <para>Addressing each possible way to deploy
-        Subversion is both impossible, and outside the scope of this
-        book.  We simply encourage you to evaluate your options using
-        these pages and other sources as your reference material, and
-        plan ahead.</para>
+      <para>Averiguar cada possível maneira de implantação do Subversion
+        também é impossível, e fora do escopo deste livro.  Simplesmente
+        encorajamos você a avaliar suas opções usando estas páginas e
+        outras fontes como seu material de referência, e planejar a
+        partir daí.</para>
 
     </sect2>
 
@@ -415,7 +430,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
             Repenning has anything to say about it.  (This book,
             however, assumes that the reader is thinking
             <quote>eff-ess-eff-ess</quote>.)</para>
-        </footnote> 
+        </footnote>
         &mdash;a versioned filesystem implementation that uses the
         native OS filesystem directly&mdash;rather than via a database
         library or some other abstraction layer&mdash;to store data.</para>
@@ -500,11 +515,11 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
               <entry>Large commits</entry>
               <entry>slower overall, but cost is amortized across the
                 lifetime of the commit</entry>
-              <entry>faster overall, but finalization delay may cause 
+              <entry>faster overall, but finalization delay may cause
                 client timeouts</entry>
             </row>
           </tbody>
-        </tgroup>      
+        </tgroup>
       </table>
 
       <para>There are advantages and disadvantages to each of these
@@ -537,7 +552,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.basics.backends.bdb">
         <title>Berkeley DB</title>
-        
+
         <para>When the initial design phase of Subversion was in
           progress, the developers decided to use Berkeley DB for a
           variety of reasons, including its open-source license,
@@ -618,7 +633,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
             FSFS data store for repositories that need to live on a
             network share.</para>
         </warning>
-          
+
         <para>Finally, because Berkeley DB is a library linked
           directly into Subversion, it's more sensitive to
           interruptions than a typical relational database system.
@@ -664,7 +679,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
           linkend="svn.serverconfig.multimethod"/>.</para>
 
       </sect3>
-      
+
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.basics.backends.fsfs">
         <title>FSFS</title>
@@ -734,7 +749,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
     </sect2>
 
   </sect1>
- 
+
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
@@ -752,16 +767,16 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.basics.creating">
       <title>Creating the Repository</title>
-   
+
       <para>Subversion repository creation is an incredibly simple
         task.  The <command>svnadmin</command> utility that comes with
         Subversion provides a subcommand (<literal>create</literal>)
         for doing just that.</para>
-          
+
       <screen>
 $ svnadmin create /path/to/repos
 </screen>
-          
+
       <para>This creates a new repository in the directory
         <filename>/path/to/repos</filename>, and with the default
         filesystem data store.  Prior to Subversion 1.2, the default
@@ -770,7 +785,7 @@ $ svnadmin create /path/to/repos
         <option>--fs-type</option> argument, which accepts as a
         parameter either <literal>fsfs</literal> or
         <literal>bdb</literal>.</para>
- 
+
       <screen>
 $ # Create an FSFS-backed repository
 $ svnadmin create --fs-type fsfs /path/to/repos
@@ -782,7 +797,7 @@ $
 $ svnadmin create --fs-type bdb /path/to/repos
 $
 </screen>
-              
+
       <para>After running this simple command, you have a Subversion
         repository.</para>
 
@@ -846,18 +861,18 @@ $
         information to tell what that event is (or was), the specific
         repository changes proposed (or completed), and the username
         of the person who triggered the event.</para>
-            
+
       <para>The <filename>hooks</filename> subdirectory is, by
         default, filled with templates for various repository
         hooks.</para>
-            
+
       <screen>
 $ ls repos/hooks/
-post-commit.tmpl	  post-unlock.tmpl  pre-revprop-change.tmpl
-post-lock.tmpl		  pre-commit.tmpl   pre-unlock.tmpl
+post-commit.tmpl      post-unlock.tmpl  pre-revprop-change.tmpl
+post-lock.tmpl        pre-commit.tmpl   pre-unlock.tmpl
 post-revprop-change.tmpl  pre-lock.tmpl     start-commit.tmpl
 </screen>
-            
+
       <para>There is one template for each hook that the Subversion
         repository supports, and by examining the contents of those
         template scripts, you can see what triggers each script
@@ -1066,7 +1081,7 @@ Available subcommands:
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.tk.svnlook">
         <title>svnlook</title>
-            
+
         <para><command>svnlook</command> is a tool provided by
           Subversion for examining the various revisions and
           <firstterm>transactions</firstterm> (which are revisions
@@ -1078,10 +1093,10 @@ Available subcommands:
           committed (in the case of the <command>post-commit</command>
           hook) to the repository.  A repository administrator may use
           this tool for diagnostic purposes.</para>
-            
+
         <para><command>svnlook</command> has a straightforward
           syntax:</para>
-            
+
         <screen>
 $ svnlook help
 general usage: svnlook SUBCOMMAND REPOS_PATH [ARGS &amp; OPTIONS ...]
@@ -1131,7 +1146,7 @@ $ svnlook youngest /path/to/repos
             revision with the <option>--revision (-r)</option> option) or
             aborted and removed.</para>
         </note>
-            
+
         <para>Output from <command>svnlook</command> is designed to be
           both human- and machine-parsable.  Take as an example the output
           of the <literal>info</literal> subcommand:</para>
@@ -1208,7 +1223,7 @@ $ svndumpfilter help
 general usage: svndumpfilter SUBCOMMAND [ARGS &amp; OPTIONS ...]
 Type "svndumpfilter help &lt;subcommand&gt;" for help on a specific subcommand.
 Type 'svndumpfilter --version' to see the program version.
-  
+
 Available subcommands:
    exclude
    include
@@ -1309,7 +1324,7 @@ $
           <command>db_archive</command> command, and <command>svnadmin
           recover</command> reflects the common use cases of the
           <command>db_recover</command> utility.</para>
-            
+
         <para>However, there are still a few Berkeley DB utilities
           that you might find useful.  The <command>db_dump</command>
           and <command>db_load</command> programs write and read,
@@ -1343,7 +1358,7 @@ $
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.setlog">
       <title>Commit Log Message Correction</title>
-            
+
       <para>Sometimes a user will have an error in her log message (a
         misspelling or some misinformation, perhaps).  If the
         repository is configured (using the
@@ -1363,12 +1378,12 @@ $
         This command changes the log message (the
         <literal>svn:log</literal> property) on a given revision of a
         repository, reading the new value from a provided file.</para>
-          
+
       <screen>
 $ echo "Here is the new, correct log message" &gt; newlog.txt
 $ svnadmin setlog myrepos newlog.txt -r 388
 </screen>
-      
+
       <para>The <command>svnadmin setlog</command> command, by
         default, is
         still bound by the same protections against modifying
@@ -1379,7 +1394,7 @@ $ svnadmin setlog myrepos newlog.txt -r 388
         this nature.  But an administrator can get around these
         protections by passing the <option>--bypass-hooks</option>
         option to the <command>svnadmin setlog</command> command.</para>
- 
+
       <warning>
         <para>Remember, though, that by bypassing the hooks, you are
           likely avoiding such things as email notifications of
@@ -1517,7 +1532,7 @@ if [ "x$REPOS" = x ] ; then
   exit
 fi
 
-for TXN in `svnadmin lstxns ${REPOS}`; do 
+for TXN in `svnadmin lstxns ${REPOS}`; do
   echo "---[ Transaction ${TXN} ]-------------------------------------------"
   svnlook info "${REPOS}" -t "${TXN}"
 done
@@ -1635,7 +1650,7 @@ $ rm `svnadmin list-unused-dblogs /path/to/repos`
       </sect3>
 
     </sect2>
-        
+
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.recovery">
       <title>Berkeley DB Recovery</title>
@@ -1693,7 +1708,7 @@ $ rm `svnadmin list-unused-dblogs /path/to/repos`
 
       <para>Instead, use the following recipe to attempt to
         <quote>unwedge</quote> your repository:</para>
-   
+
       <orderedlist>
         <listitem>
           <para>Make sure that there are no processes accessing (or
@@ -1701,19 +1716,19 @@ $ rm `svnadmin list-unused-dblogs /path/to/repos`
             repositories, this means shutting down the Apache HTTP
             Server or svnserve daemon, too.</para>
         </listitem>
-        <listitem> 
+        <listitem>
           <para>Become the user who owns and manages the repository.
             This is important, as recovering a repository while
             running as the wrong user can tweak the permissions of the
             repository's files in such a way that your repository will
-            still be inaccessible even after it is 
+            still be inaccessible even after it is
             <quote>unwedged</quote>.</para>
         </listitem>
         <listitem>
           <para>Run the command <command>svnadmin recover
             /path/to/repos</command>.  You should see output like
             this:</para>
-              
+
           <screen>
 Repository lock acquired.
 Please wait; recovering the repository may take some time...
@@ -1727,7 +1742,7 @@ The latest repos revision is 19.
           <para>Restart the server process.</para>
         </listitem>
       </orderedlist>
-            
+
       <para>This procedure fixes almost every case of repository
         lock-up.  Make sure that you run this command as the user that
         owns and manages the database, not just as
@@ -1754,7 +1769,7 @@ The latest repos revision is 19.
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.migrate">
       <title>Migrating Repository Data Elsewhere</title>
-    
+
       <para>A Subversion filesystem has its data spread throughout
         files in the repository, in a fashion generally
         understood by (and of interest to) only the Subversion
@@ -1899,7 +1914,7 @@ $ svnadmin load newrepos &lt; dumpfile
         load process, people who are feeling especially saucy can try
         things like this (perhaps even using different versions of
         <command>svnadmin</command> on each side of the pipe):</para>
-  
+
       <screen>
 $ svnadmin create newrepos
 $ svnadmin dump oldrepos | svnadmin load newrepos
@@ -2017,7 +2032,7 @@ $ svn mkdir -m "Initial project roots" \
       file:///path/to/projects/calendar \
       file:///path/to/projects/spreadsheet
 Committed revision 1.
-$ 
+$
 </screen>
 
       <para>Lastly, load the individual dump files into their
@@ -2190,7 +2205,7 @@ Node-path: calc
 Node-action: add
 Node-kind: dir
 Content-length: 0
-  
+
 </screen>
 
       <warning>
@@ -2264,7 +2279,7 @@ $
           </listitem>
         </varlistentry>
       </variablelist>
-      
+
       <para>While <command>svndumpfilter</command> can be very
         useful, and a huge timesaver, there are unfortunately a
         couple of gotchas.  First, this utility is overly sensitive
@@ -2336,7 +2351,7 @@ Node-path: spreadsheet/Makefile
         load the stream into that repository.</para>
 
     </sect2>
-  
+
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.replication">
       <title>Repository Replication</title>
@@ -2485,7 +2500,7 @@ $
         <title>Mirror repository's pre-revprop-change hook script</title>
 
         <programlisting>
-#!/bin/sh 
+#!/bin/sh
 
 USER="$3"
 
@@ -2508,7 +2523,7 @@ exit 1
         <title>Mirror repository's start-commit hook script</title>
 
         <programlisting>
-#!/bin/sh 
+#!/bin/sh
 
 USER="$2"
 
@@ -2727,7 +2742,7 @@ UUID: 65390229-12b7-0310-b90b-f21a5aa7ec8e
 EOF
 $
 </screen>
-        
+
       <para>Now that the two repositories have the same UUID, you can
         use <command>svn switch --relocate</command> to point your
         working copy to whichever of the repositories you wish to
@@ -2894,12 +2909,12 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
         <footnote>
           <para><command>svnadmin setlog</command> can be called in a
             way that bypasses the hook interface altogether.</para>
-        </footnote>  
+        </footnote>
         And since you can change revision properties without respect
         to chronological order&mdash;you can change any revision's
         properties at any time&mdash;an incremental backup of the
         latest few revisions might not catch a property modification
-        to a revision that was included as part of a previous 
+        to a revision that was included as part of a previous
         backup.</para>
 
       <para>Generally speaking, only the truly paranoid would need to
@@ -2911,7 +2926,7 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
         repository administrator would want to include as part of a
         system-wide nightly backup.  It's your data&mdash;protect it
         as much as you'd like.</para>
-            
+
       <para>Often, the best approach to repository backups is a
         diversified one which leverages combinations of the methods
         described here.  The Subversion developers, for example, back
@@ -2930,7 +2945,7 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
           <para>You know&mdash;the collective term for all of her
             <quote>fickle fingers</quote>.</para>
         </footnote>
-        it should certainly help you recover from those trying 
+        it should certainly help you recover from those trying
         times.</para>
 
     </sect2>
@@ -2943,21 +2958,21 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
   <sect1 id="svn.reposadmin.summary">
     <title>Sumário</title>
 
-    <para>Até agora você deve ter tido um entendimento de como 
-	criar, configurar e manter repositórios Subversion.
-	Nós o introduzimos a várias ferramentas que o ajudarão
-	nessa tarefa. Ao longo desse capítulo, nós mostramos
-	obstáculos comuns e sugestões para evitá-los.</para>
+    <para>Até agora você deve ter tido um entendimento de como
+    criar, configurar e manter repositórios Subversion.
+    Nós o introduzimos a várias ferramentas que o ajudarão
+    nessa tarefa. Ao longo desse capítulo, nós mostramos
+    obstáculos comuns e sugestões para evitá-los.</para>
 
     <para>Tudo que falta para você é decidir que tipo de informação
-	armazenar no seu repositório, e finalmente, como deixá-lo 
-	disponível na rede. O próximo capítulo é todo sobre rede.</para>
+    armazenar no seu repositório, e finalmente, como deixá-lo
+    disponível na rede. O próximo capítulo é todo sobre rede.</para>
 
   </sect1>
 </chapter>
 
 <!--
-local variables: 
+local variables:
 sgml-parent-document: ("book.xml" "chapter")
 end:
 -->
