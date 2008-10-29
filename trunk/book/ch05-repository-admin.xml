@@ -412,142 +412,148 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.basics.backends">
-      <title>Choosing a Data Store</title>
+      <title>Escolhendo uma Base de Dados</title>
 
-      <para>As of version 1.1, Subversion provides two options for the
-        type of underlying data store&mdash;often referred to as
-        <quote>the back-end</quote> or, somewhat confusingly,
-        <quote>the (versioned) filesystem</quote>&mdash;that each
-        repository uses.  One type of data store keeps everything in a
-        Berkeley DB (or BDB) database environment; repositories that
-        use this type are often referred to as being
-        <quote>BDB-backed</quote>.  The other type stores data in
-        ordinary flat files, using a custom format.  Subversion
-        developers have adopted the habit of referring to this latter
-        data storage mechanism as <firstterm>FSFS</firstterm>
+      <para>A partir da versão 1.1, o Subversion provê duas opções de  
+        tipos de base de dados&mdash;frequentemente referenciada como
+        o <quote>back-end</quote> ou, de uma maneira que causa confusão,
+        <quote>o sistema de aruivos (versionado)</quote>&mdash; que
+        poderão ser utilizadas pelos repositórios. Um tipo mantém tudo
+        em um ambiente de banco de dados Berkeley DB (ou BDB); 
+        repositórios baseados nesse ambiente também são conhecidos como 
+        <quote>BDB-backed</quote>. O outro tipo de armazenagem de dados
+        usa arquivos comuns, com um formato próprio. Os desenvolvedores
+        Subversin têm o hábito de chamar esse último mecanismo de
+        <firstterm>FSFS</firstterm>
         <footnote>
-          <para>Often pronounced <quote>fuzz-fuzz</quote>, if Jack
-            Repenning has anything to say about it.  (This book,
-            however, assumes that the reader is thinking
+          <para>Frequentemente pronunciado com <quote>fuzz-fuzz</quote>,
+            se Jack  Repenning tem algo a dizer sobre isso. (Esse livro,
+            entretanto, assume que o leitos está pensando
             <quote>eff-ess-eff-ess</quote>.)</para>
         </footnote>
-        &mdash;a versioned filesystem implementation that uses the
-        native OS filesystem directly&mdash;rather than via a database
-        library or some other abstraction layer&mdash;to store data.</para>
-
+        &mdash;uma implementação de sistema de arquivos versionado que
+        usa diretamente o sistema de arquivos nativo do Sistema 
+        Operacional&mdash;ao invés de uma biblioteca de banco de dados
+        ou outra camada de abstração&mdash; para armazenar os dados.</para>  
+       
       <para><xref linkend="svn.reposadmin.basics.backends.tbl-1" />
-        gives a comparative overview of Berkeley DB and FSFS
-        repositories.</para>
+        fornece um comparativo geral dos repositórios Berkeley DB e 
+        FSFS.</para>
 
       <table id="svn.reposadmin.basics.backends.tbl-1">
-        <title>Repository Data Store Comparison</title>
+        <title>Comparativo dos Mecanismos de Armazenamento</title>
         <tgroup cols="4">
           <thead>
             <row>
-              <entry>Category</entry>
-              <entry>Feature</entry>
+              <entry>Categoria</entry>
+              <entry>Característica</entry>
               <entry>Berkeley DB</entry>
               <entry>FSFS</entry>
             </row>
           </thead>
           <tbody>
             <row>
-              <entry morerows="1">Reliability</entry>
-              <entry>Data integrity</entry>
-              <entry>when properly deployed, extremely reliable;
-                Berkeley DB 4.4 brings auto-recovery</entry>
-              <entry>older versions had some rarely demonstrated, but
-                data-destroying bugs</entry>
+              <entry morerows="1">Confiabilidade</entry>
+              <entry>Integridade dos Dados</entry>
+              <entry>quando corretamente implementado é extremamente 
+                confiável; Berkeley DB 4.4 oferece auto-recuperação</entry>
+              <entry>versões antigas têm bugs que comprometem os dados,
+                mas essas situações acontecem raramente</entry>
             </row>
             <row>
-              <entry>Sensitivity to interruptions</entry>
-              <entry>very; crashes and permission problems can leave the
-                database <quote>wedged</quote>, requiring journaled
-                recovery procedures</entry>
-              <entry>quite insensitive</entry>
+              <entry>Sensibilidade a interrupções</entry>
+              <entry>grande; travamentos e problemas de permissões podem
+                deixar a base de dados <quote>quebrada</quote>, 
+                requerindo procedimentos para recuperação.</entry>
+              <entry>bastante insensível</entry>
             </row>
             <row>
-              <entry morerows="3">Accessibility</entry>
-              <entry>Usable from a read-only mount</entry>
-              <entry>no</entry>
-              <entry>yes</entry>
+              <entry morerows="3">Acessibilidade</entry>
+              <entry>Usável de uma sistema de arquivos "montado" como 
+                "somente leitura"</entry>
+              <entry>não</entry>
+              <entry>sim</entry>
             </row>
             <row>
-              <entry>Platform-independent storage</entry>
-              <entry>no</entry>
-              <entry>yes</entry>
+              <entry>Aramazenamento independente de plataforma</entry>
+              <entry>não</entry>
+              <entry>sim</entry>
             </row>
             <row>
-              <entry>Usable over network filesystems</entry>
-              <entry>generally, no</entry>
-              <entry>yes</entry>
+              <entry>Usável em sistemas de arquivos de rede</entry>
+              <entry>geralmente, não</entry>
+              <entry>sim</entry>
             </row>
             <row>
-              <entry>Group permissions handling</entry>
-              <entry>sensitive to user umask problems;  best if accessed
-                by only one user</entry>
-              <entry>works around umask problems</entry>
+              <entry>Tratamento de permissões em grupo</entry>
+              <entry>sensível a problemas de umask; melhor se acessado
+                por somente um usuário</entry>
+              <entry>contorna problemas de umask</entry>
             </row>
             <row>
-              <entry morerows="2">Scalability</entry>
-              <entry>Repository disk usage</entry>
-              <entry>larger (especially if logfiles aren't purged)</entry>
-              <entry>smaller</entry>
+              <entry morerows="2">Escalabilidade</entry>
+              <entry>Uso de disco do repositório</entry>
+              <entry>grande (especialmente se arquivos de log não são 
+                limpados)</entry>
+              <entry>pequeno</entry>
             </row>
             <row>
-              <entry>Number of revision trees</entry>
-              <entry>database;  no problems</entry>
-              <entry>some older native filesystems don't scale well with
-                thousands of entries in a single directory</entry>
+              <entry>Número de árvores de revisão</entry>
+              <entry>banco de dados;  sem problemas</entry>
+              <entry>alguns sistemas de arquivos nativos antigos não 
+                crescem bem com 
+                some older native filesystems don't scale well with
+                milhares de entradas em um único diretório</entry>
             </row>
             <row>
-              <entry>Directories with many files</entry>
-              <entry>slower</entry>
-              <entry>faster</entry>
+              <entry>Diretórios com muitos arquivos</entry>
+              <entry>lento</entry>
+              <entry>rápido</entry>
             </row>
             <row>
-              <entry morerows="1">Performance</entry>
-              <entry>Checking out latest revision</entry>
-              <entry>no meaningful difference</entry>
-              <entry>no meaningful difference</entry>
+              <entry morerows="1">Desempenho</entry>
+              <entry>Obter cópia da última revisão</entry>
+              <entry>sem diferenças significativas</entry>
+              <entry>sem diferenças significativas</entry>
             </row>
             <row>
-              <entry>Large commits</entry>
-              <entry>slower overall, but cost is amortized across the
-                lifetime of the commit</entry>
-              <entry>faster overall, but finalization delay may cause
-                client timeouts</entry>
+              <entry>Grandes submissões</entry>
+              <entry>geralmente lentas, mas o custo é pago ao longo da
+                vida da submissão</entry>
+              <entry>geralmente rápidas, mas atraso na finalização pode
+                ocasionar timeouts no cliente</entry>
             </row>
           </tbody>
         </tgroup>
       </table>
 
-      <para>There are advantages and disadvantages to each of these
-        two back-end types.  Neither of them is more
-        <quote>official</quote> than the other, though the newer FSFS
-        is the default data store as of Subversion 1.2.  Both are
-        reliable enough to trust with your versioned data.  But as you
-        can see in <xref
-        linkend="svn.reposadmin.basics.backends.tbl-1" />, the FSFS
-        backend provides quite a bit more flexibility in terms of its
-        supported deployment scenarios.  More flexibility means you
-        have to work a little harder to find ways to deploy it
-        incorrectly.  Those reasons&mdash;plus the fact that not using
-        Berkeley DB means there's one fewer component in the
-        system&mdash;largely explain why today almost everyone uses
-        the FSFS backend when creating new repositories.</para>
-
-      <para>Fortunately, most programs which access Subversion
-        repositories are blissfully ignorant of which back-end data
-        store is in use.  And you aren't even necessarily stuck with
-        your first choice of a data store&mdash;in the event that you
-        change your mind later, Subversion provides ways of migrating
-        your repository's data into another repository that uses a
-        different back-end data store.  We talk more about that later
-        in this chapter.</para>
-
-      <para>The following subsections provide a more detailed look at
-        the available data store types.</para>
+      <para>Existem vantagens e desvantagens em cada um desses dois 
+        mecanismos de armazenamento. Nenhum deles é mais 
+        <quote>oficial</quote> que o outro, embora os novos FSFS sejam
+        o padrão do Subversion 1.2. Ambos são confiáveis o suficiente
+        para confiar seus dados versionados. Mas como você pode ver em
+        <xref linkend="svn.reposadmin.basics.backends.tbl-1" />, o FSFS
+        oferece um pouco mais de flexibilidade em termos de seus 
+        cenários de implantação. Maior flexibilidade significa que você
+        tem que trabalhar um pouco mais para encontrar formas de
+        implantá-lo incorretamente. Essas razões&mdash;adicionadas 
+        ao fato de que não usando Berkeleu DB significa que existem um 
+        componente a menos no sistema&mdash;explicam porque atualmente
+        quase todo mundo utiliza o FSFS para criar novos repositórios.
+        </para>  
+      
+      <para>Felizmente, muitos programas que acessam os repositórios
+        Subversion são abençoados por ignorarem o mecanismo de
+        armazenamento que está em uso. E você nem mesmo precisa se
+        preocupar com a sua primeira escolha de mecanismo de 
+        armazenamento&mdash;no caso de você mudar de idéia 
+        posteriormente, o Subversion oferece formas de migrar os dados 
+        do seu repositório para outro repositório que usa um mecanismo
+        de armazenamento diferente. Nós iremos falar mais sobre isso
+        nesse capítulo.</para> 
+        
+      <para>As seguintes subseções oferecem uma visão mais detalhada
+        sobre os tipos de mecanismos de armazenamento disponíveis.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.basics.backends.bdb">
