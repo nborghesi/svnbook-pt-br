@@ -3102,14 +3102,14 @@ Index: frabnaggilywort/IDEA
 
       </itemizedlist>
 
-      <para>Of course, for the truly paranoid, none of these
-        mechanisms meets the test of perfection.  So for those folks
-        willing to sacrifice convenience for the ultimate security,
-        Subversion provides various ways of disabling its credentials
-        caching system altogether.</para>
+      <para>Claro que, para o paranóico de verdade, nenhum destes
+        mecanismos satisfaz o teste de perfeição.  Então, para aqueles
+        dispostos a sacrificar a conveniência pela segurança extrema,
+        o Subversion oferece vários meios de desabilitar seu sistema de
+        armazenamento de credenciais completamente.</para>
 
-      <para>To disable caching for a single command, pass the
-        <option>--no-auth-cache</option> option:</para>
+      <para>Para desabilitar o armazenamento para um único comando, passe a
+        opção <option>--no-auth-cache</option>:</para>
 
       <screen>
 $ svn commit -F log_msg.txt --no-auth-cache
@@ -3130,15 +3130,15 @@ Username:  joe
 &hellip;
 </screen>
 
-      <para>Or, if you want to disable credential caching permanently,
-        you can edit the <filename>config</filename> file in your
-        runtime configuration area, and set the
-        <option>store-auth-creds</option> option to
-        <literal>no</literal>.  This will prevent the storing of
-        credentials used in any Subversion interactions you perform on
-        the affected computer.  This can be extended to cover all
-        users on the computer, too, by modifying the system-wide
-        runtime configuration area (described in <xref
+      <para>Ou, se você quiser desabilitar o armazenamento de credencial permanentemente,
+        você pode editar o arquivo <filename>config</filename> em sua
+        área de configuração do ambiente de execução, e defina a opção
+        <option>store-auth-creds</option> para
+        <literal>no</literal>.  Isso evitará o armazenamento de
+        credenciais usadas em qualquer interação que você efetuar com o Subversion
+        no computador afetado.  Isso pode ser estendido a todos os
+        usuários no computador, também, ao modificar a área de
+        configuração do sistema como um todo (descrito em <xref
         linkend="svn.advanced.confarea.layout" />).</para>
 
       <screen>
@@ -3146,14 +3146,14 @@ Username:  joe
 store-auth-creds = no
 </screen>
 
-      <para>Sometimes users will want to remove specific credentials
-        from the disk cache.  To do this, you need to navigate into
-        the <filename>auth/</filename> area and manually delete the
-        appropriate cache file.  Credentials are cached in individual
-        files;  if you look inside each file, you will see keys and
-        values.  The <literal>svn:realmstring</literal> key describes
-        the particular server realm that the file is associated
-        with:</para>
+      <para>Algumas vezes os usuários poderão querer remover credenciais específicas
+        da cache em disco.  Para fazer isso, você precisa ir até
+        a área <filename>auth/</filename> e excluir manualmente o
+        arquivo de cache apropriado.  As credenciais são armazenadas em arquivos
+        individuais;  se você olhar dentro de cada arquivo, você verá chaves e
+        valores.  A chave <literal>svn:realmstring</literal> descreve
+        o domínio do servidor específico ao qual o arquivo está
+        associado:</para>
 
       <screen>
 $ ls ~/.subversion/auth/svn.simple/
@@ -3178,70 +3178,70 @@ V 45
 END
 </screen>
 
-      <para>Once you have located the proper cache file, just delete
-        it.</para>
+      <para>Assim que você localizar o respectivo arquivo de cache, apenas o
+        exclua.</para>
 
-      <para>One last word about <command>svn</command>'s
-        authentication behavior, specifically regarding the
-        <option>--username</option> and <option>--password</option>
-        options.  Many client subcommands accept these options, but it
-        is important to understand using these options does
-        <emphasis>not</emphasis> automatically send credentials to the
-        server.  As discussed earlier, the server <quote>pulls</quote>
-        credentials from the client when it deems necessary; the
-        client cannot <quote>push</quote> them at will.  If a username
-        and/or password are passed as options, they will only be
-        presented to the server if the server requests them.
+      <para>Uma última palavra sobre o comportamento de autenticação do
+        <command>svn</command>, especificamente em relação às opções
+        <option>--username</option> e <option>--password</option>.
+        Muitos dos subcomandos do cliente aceitam estas opções, mas
+        é importante entender que o uso dessas opções
+        <emphasis>não</emphasis> envia as credenciais automaticamente ao
+        servidor.  Conforme discutido anteriormente, o servidor <quote>puxa</quote>
+        as credenciais do cliente quando julgar necessário; o
+        cliente não pode <quote>empurrá</quote>-las à vontade.  Se um nome de usuário
+        e/ou senha são passados como opções, elas somente serão
+        apresentadas ao servidor se o servidor solicitar elas.
         <footnote>
-         <para>Again, a common mistake is to misconfigure a
-           server so that it never issues an authentication challenge.
-           When users pass <option>--username</option> and
-           <option>--password</option> options to the client, they're
-           surprised to see that they're never used, i.e. new revisions
-           still appear to have been committed
-           anonymously!</para>
+         <para>Novamente, um erro comum é deixar um servidor mal
+           configurado de forma que ele nunca exija a autenticação do usuário.
+           Quando os usuários passam as opções <option>--username</option> e
+           <option>--password</option> para o cliente, eles ficam
+           surpresos ao ver que elas nunca foram usadas, ou seja, novas
+           revisões parecem ter sido submetidas
+           anonimamente!</para>
         </footnote>
 
-        These options are typically used to authenticate as a
-        different user than Subversion would have chosen by default
-        (such as your system login name), or when trying to avoid
-        interactive prompting (such as when calling
-        <command>svn</command> from a script).</para>
+        Estas opções são normalmente utilizadas para autenticar como um
+        usuário diferente daquele que o Subversion teria optado por padrão
+        (como seu nome de usuário no sistema), ou quando tenta-se evitar
+        as perguntas interativas (como nas chamadas ao comando
+        <command>svn</command> a partir de um script).</para>
 
-      <para>Here is a final summary that describes how a Subversion
-        client behaves when it receives an authentication
-        challenge.</para>
+      <para>Aqui está um resumo final que descreve como um cliente
+        Subversion se comporta quando ele recebe um desafio de
+        autenticação.</para>
 
       <orderedlist>
         <listitem>
-          <para>First, the client checks whether the user specified
-            any credentials as command-line options
-            (<option>--username</option> and/or
-            <option>--password</option>).  If not, or if these options
-            fail to authenticate successfully, then</para> 
+          <para>Primeiro, o cliente verifica se o usuário especificou
+            alguma credencial na linda de comando com as opções
+            (<option>--username</option> e/ou
+            <option>--password</option>).  Se não, ou se essas opções
+            não conseguem autenticar com sucesso, então</para> 
         </listitem>
 
         <listitem>
-          <para>the client looks up the server's hostname, port, and realm in
-            the runtime <filename>auth/</filename> area, to see if the
-            user already has the appropriate credentials cached.  If
-            not, or if the cached credentials fail to authenticate,
-            then</para>
+          <para>o cliente procura pelo nome, porta e domínio do servidor na
+            área <filename>auth/</filename> do ambiente de execução, para ver se o
+            usuário já possui as credenciais em cache.  Se
+            não, ou se as credenciais em cache não conseguem autenticar,
+            então</para>
         </listitem>
 
         <listitem>
-          <para>finally, the client resorts to prompting the user
-            (unless instructed not to do so via the
-            <option>--non-interactive</option> option or its
-            client-specific equivalents).</para>
+          <para>finalmente, o cliente solicita as credenciais ao usuário
+            (a menos que seja instruído a não fazer isso através da
+            opção <option>--non-interactive</option> ou suas
+            equivalentes específicas do cliente).</para>
         </listitem>
 
       </orderedlist>
 
-      <para>If the client successfully authenticates by any of the
-        methods listed above, it will attempt to cache the credentials
-        on disk (unless the user has disabled this behavior, as
-        mentioned earlier).</para>
+      <para>Se o cliente autentica-se com sucesso por qualquer dos
+        métodos listados acima, ele tentará armazenar as credenciais
+        em disco (a menos que o usuário tenha desabilitado este comportamento,
+        como mencionado anteriormente).</para>
 
     </sect2>
 
