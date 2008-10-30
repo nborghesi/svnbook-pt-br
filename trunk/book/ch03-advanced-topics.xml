@@ -2617,19 +2617,19 @@ $
   <sect1 id="svn.advanced.pegrevs">
     <title>Peg and Operative Revisions</title>
 
-    <para>We copy, move, rename, and
-      completely replace files and directories on our computers all
-      the time.  And your version control system shouldn't get in the
-      way of your doing these things with your version-controlled
-      files and directories, either.  Subversion's file management
-      support is quite liberating, affording almost as much
-      flexibility for versioned files as you'd expect when
-      manipulating your unversioned ones.  But that flexibility means
-      that across the lifetime of your repository, a given versioned
-      object might have many paths, and a given path might represent
-      several entirely different versioned objects.  And this
-      introduces a certain level of complexity to your interactions
-      with those paths and objects.</para>
+    <para>Nós copiamos, movemos, renomeamos, e substituímos
+      completamente arquivos e diretórios em nossos computadores a todo
+      tempo.  E seu sistema de controle de versão não deveria basear
+      em seu modo e fazer estas coisas com seus arquivos e diretórios
+      com versões controladas.  O suporte a gerenciamento de arquivos
+      do Subversion é bastante aberto, proporcionando quase tanta
+      flexibilidade para arquivos versionados quanto você desejaria ao
+      manipular os seus não-versionados.  Mas essa flexibilidade significa
+      que durante o tempo de vida de seus repositório, um dado objeto
+      versionado pode ter muitos caminhos, e um dado caminho pode representar
+      vários objetos versionados inteiramente diferentes.  E isto
+      introduz um certo nível de complexidade em suas interações
+      com esses caminhos e objetos.</para>
 
     <para>Subversion is pretty smart about noticing when an object's
       version history includes such <quote>changes of address</quote>.
