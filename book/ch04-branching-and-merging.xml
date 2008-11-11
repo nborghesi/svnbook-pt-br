@@ -2267,31 +2267,31 @@ Committed revision 377.
       existindo apenas como ajustes personalizados para fazer com que a biblioteca atenda
       melhor as necessidades dos desenvolvedores de software.</para>
 
-    <para>Now you face an interesting situation.  Your project could
-      house its custom modifications to the third-party data in some
-      disjointed fashion, such as using patch files or full-fledged
-      alternate versions of files and directories.  But these quickly
-      become maintenance headaches, requiring some mechanism by which
-      to apply your custom changes to the third-party data, and
-      necessitating regeneration of those changes with each successive
-      version of the third-party data that you track.</para>
+    <para>Agora você enfrenta uma situação interessante. Seu projeto poderia
+      abrigar suas próprias modificação aos dados de terceiros de algum modo
+      desarticulado, tal como a utilização de <foreignphrase>patches</foreignphrase> ou versões
+      alternativas completas dos arquivos e diretórios. Mas estas rapidamente
+      tornam-se dores de cabeça para a manutenção, exigindo algum mecanismo
+      para aplicar suas alterações personalizadas aos dados de terceiros, e
+      necessitando de regeneração dessas mudanças a cada sucessiva
+      versão dos dados de terceiros que você acompanha.</para>
 
-    <para>The solution to this problem is to use <firstterm>vendor
-      branches</firstterm>.  A vendor branch is a directory tree in
-      your own version control system that contains information
-      provided by a third-party entity, or vendor.  Each version of
-      the vendor's data that you decide to absorb into your project is
-      called a <firstterm>vendor drop</firstterm>.</para> 
+    <para>A solução para este problema é usar <firstterm>ramos de
+      fornecedores</firstterm> (<foreignphrase>vendor branches</foreignphrase>).  Um ramo de fornecedor é uma árvore de diretórios no 
+      nosso próprio sistema de controle de versões que contém informações
+      fornecidas por uma entidade de terceiros, ou fornecedor. Cada versão dos
+      dados do fornecedor que você decidir absorver em seu projeto é
+      chamada <firstterm>pingo de fornecedor</firstterm> (<foreignphrase>vendor drop</foreignphrase>).</para> 
 
-    <para>Vendor branches provide two benefits.  First, by storing
-      the currently supported vendor drop in your own version control
-      system, the members of your project never need to question
-      whether they have the right version of the vendor's data.  They
-      simply receive that correct version as part of their regular
-      working copy updates.  Secondly, because the data lives in your
-      own Subversion repository, you can store your custom changes to
-      it in-place&mdash;you have no more need of an automated (or
-      worse, manual) method for swapping in your customizations.</para>
+    <para>Os ramos de fornecedor proporcionam dois benefícios.  Primeiro, por armazenar
+      o pingo de fornecedor atualmente suportado em seu próprio sistema de controle
+      de versão, os membros do seu projeto nunca precisam perguntar
+      se têm a versão correta dos dados do fornecedor. Eles
+      simplesmente recebem essa versão correta como parte de suas atualizações
+      regulares da cópia de trabalho.  Em segundo lugar, como os dados residem em seu
+      próprio repositório Subversion, você pode armazenar as alterações personalizadas feitas nele
+      no próprio local&mdash;você não precisa mais de um método automatizado
+      (ou pior, manual) para incluir no projeto suas personalizações.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.vendorbr.general">
