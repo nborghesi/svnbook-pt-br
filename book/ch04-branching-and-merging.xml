@@ -2295,150 +2295,150 @@ Committed revision 377.
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.vendorbr.general">
-      <title>General Vendor Branch Management Procedure</title>
+      <title>Procedimento Geral para Manutenção de Ramos de Fornecedores</title>
 
-      <para>Managing vendor branches generally works like this.  You
-        create a top-level directory (such as
-        <filename>/vendor</filename>) to hold the vendor branches.
-        Then you import the third party code into a subdirectory of
-        that top-level directory.  You then copy that subdirectory
-        into your main development branch (for example,
-        <filename>/trunk</filename>) at the appropriate location.  You
-        always make your local changes in the main development branch.
-        With each new release of the code you are tracking you bring
-        it into the vendor branch and merge the changes into
-        <filename>/trunk</filename>, resolving whatever conflicts
-        occur between your local changes and the upstream
-        changes.</para>
+      <para>Gerenciar ramos de fornecedores geralmente funciona assim. Você
+        cria um diretório de nível superior (tal como
+        <filename>/vendor</filename>) para conter os ramos de fornecedores.
+        Então você importa o código de terceiros em um subdiretório
+        desse diretório de nível superior. Em seguida copia esse subdiretório
+        para o seu ramo principal de desenvolvimento (por exemplo,
+        <filename>/trunk</filename>) no local apropriado. Você
+        sempre faz suas alterações locais no ramo principal de desenvolvimento.
+        A cada nova versão do código que você está acompanhando, você o traz
+        para o ramo de fornecedor e funde as alterações em
+        <filename>/trunk</filename>, resolvendo quaisquer conflitos
+        que ocorrerem entre suas alterações locais e as alterações da
+        nova versão.</para>
 
-      <para>Perhaps an example will help to clarify this algorithm.
-        We'll use a scenario where your development team is creating a
-        calculator program that links against a third-party complex
-        number arithmetic library, libcomplex.  We'll begin with the
-        initial creation of the vendor branch, and the import of the
-        first vendor drop.  We'll call our vendor branch directory
-        <filename>libcomplex</filename>, and our code drops will go
-        into a subdirectory of our vendor branch called
-        <filename>current</filename>.  And since <command>svn
-        import</command> creates all the intermediate parent
-        directories it needs, we can actually accomplish both of these
-        steps with a single command.</para>
+      <para>Talvez um exemplo ajudará a esclarecer este algoritmo.
+        Usaremos um cenário onde a sua equipe de desenvolvimento está criando um
+        <foreignphrase>software</foreignphrase> de calculadora que referencia uma complexa biblioteca
+        de aritmética de terceiros, libcomplex.  Começaremos com a
+        criação inicial do ramo de fornecedor, e a importação do
+        primeiro pingo de fornecedor.  Iremos chamar o nosso diretório do ramo de fornecedor
+        de <filename>libcomplex</filename>, e nossos pingos de código irão
+        para um subdiretório do nosso ramo de fornecedor chamado
+        <filename>current</filename>.  E como <command>svn
+        import</command> cria todos os diretórios pais
+        intermediários de que precisa, nós podemos de fato realizar ambos os
+        os passos com um único comando.</para>
 
       <screen>
-$ svn import /path/to/libcomplex-1.0 \
-             http://svn.example.com/repos/vendor/libcomplex/current \
-             -m 'importing initial 1.0 vendor drop'
+$ svn import /caminho/para/libcomplex-1.0 \
+             http://svn.exemplo.com/repos/vendor/libcomplex/current \
+             -m 'importando pingo de fornecedor 1.0 inicial'
 &hellip;
 </screen>
 
-      <para>We now have the current version of the libcomplex source
-        code in <filename>/vendor/libcomplex/current</filename>.  Now,
-        we tag that version (see <xref linkend="svn.branchmerge.tags" />)
-        and then copy it into the main development branch.  Our copy
-        will create a new directory called
-        <filename>libcomplex</filename> in our existing
-        <filename>calc</filename> project directory.  It is in this
-        copied version of the vendor data that we will make our
-        customizations.</para>
+      <para>Temos agora a versão atual do código fonte de libcomplex
+        em <filename>/vendor/libcomplex/current</filename>. Agora,
+        vamos rotular essa versão (ver <xref linkend="svn.branchmerge.tags" />)
+        e então copiá-la para o ramo principal de desenvolvimento.  Nosso cópia
+        criará um novo diretório chamado
+        <filename>libcomplex</filename> no nosso diretório de projeto
+        <filename>calc</filename> já existente. É nesta
+        versão copiada dos dados do fornecedor que nós vamos fazer nossas
+        personalizações.</para>
 
       <screen>
-$ svn copy http://svn.example.com/repos/vendor/libcomplex/current  \
-           http://svn.example.com/repos/vendor/libcomplex/1.0      \
-           -m 'tagging libcomplex-1.0'
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/current  \
+           http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+           -m 'rotulando libcomplex-1.0'
 &hellip;
-$ svn copy http://svn.example.com/repos/vendor/libcomplex/1.0  \
-           http://svn.example.com/repos/calc/libcomplex        \
-           -m 'bringing libcomplex-1.0 into the main branch'
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/1.0  \
+           http://svn.exemplo.com/repos/calc/libcomplex        \
+           -m 'trazendo libcomplex-1.0 para o ramo principal'
 &hellip;
 </screen>
 
-      <para>We check out our project's main branch&mdash;which now
-        includes a copy of the first vendor drop&mdash;and we get to
-        work customizing the libcomplex code.  Before we know it, our
-        modified version of libcomplex is now completely integrated
-        into our calculator program.
+      <para>Nós obtemos uma cópia do ramo principal do nosso projeto&mdash;que agora
+        inclui uma cópia do primeiro pingo de fornecedor&mdash;e começamos a
+        trabalhar personalizando o código de libcomplex.  Antes que saibamos, nossa
+        versão modificada de libcomplex agora está completamente integrada
+        ao nosso programa da calculadora.
         <footnote>
-          <para>And entirely bug-free, of course!</para>
+          <para>E inteiramente livre de <foreignphrase>bugs</foreignphrase>, é claro!</para>
         </footnote>
       </para>
 
-      <para>A few weeks later, the developers of libcomplex release a
-        new version of their library&mdash;version 1.1&mdash;which
-        contains some features and functionality that we really want.
-        We'd like to upgrade to this new version, but without losing
-        the customizations we made to the existing version.  What we
-        essentially would like to do is to replace our current
-        baseline version of libcomplex 1.0 with a copy of libcomplex
-        1.1, and then re-apply the custom modifications we previously
-        made to that library to the new version.  But we actually
-        approach the problem from the other direction, applying the
-        changes made to libcomplex between versions 1.0 and 1.1 to our
-        modified copy of it.</para>
+      <para>Algumas semanas depois, os desenvolvedores da libcomplex lançam uma
+        nova versão da sua biblioteca&mdash;versão 1.1&mdash;que
+        contém algumas características e funcionalidades que nós queremos muito.
+        Nós gostaríamos de atualizar para esta nova versão, mas sem perder
+        as personalizações que fizemos na versão existente. O que nós
+        essencialmente gostaríamos de fazer é substituir nossa atual
+        versão base da libcomplex 1.0 por uma cópia da libcomplex
+        1.1 e, em seguida, voltar a aplicar as modificações que fizemos
+        anteriormente na biblioteca, desta vez para a nova versão.  Mas na prática nós
+        abordamos o problema na outra direção, aplicando as
+        alterações feitas em libcomplex entre as versões 1.0 e 1.1 diretamente na nossa
+        cópia personalizada dela.</para>
 
-      <para>To perform this upgrade, we check out a copy of our vendor
-        branch, and replace the code in the
-        <filename>current</filename> directory with the new libcomplex
-        1.1 source code.  We quite literally copy new files on top of
-        existing files, perhaps exploding the libcomplex 1.1 release
-        tarball atop our existing files and directories.  The goal
-        here is to make our <filename>current</filename> directory
-        contain only the libcomplex 1.1 code, and to ensure that all
-        that code is under version control.  Oh, and we want to do
-        this with as little version control history disturbance as
-        possible.</para>
+      <para>Para executar esta atualização, nós obtemos uma cópia do nosso ramo
+        de fornecedor, e substituímos o código no diretório
+        <filename>current</filename> pelo novo código fonte da
+        libcomplex 1.1.  Nós literalmente copiamos novos arquivos sobre
+        os arquivos existentes, talvez descompactando a versão compactada da
+        libcomplex 1.1 sobre nossos arquivos e diretórios existentes.  A meta
+        aqui é fazer nosso diretório <filename>current</filename> 
+        conter apenas o código da libcomplex 1.1, e garantir que todo esse
+        código esteja sob controle de versão. Ah, e nós queremos fazer
+        isto com o mínimo possível de perturbação no histórico do controle de
+        versão.</para>
 
-      <para>After replacing the 1.0 code with 1.1 code, <command>svn
-        status</command> will show files with local modifications as
-        well as, perhaps, some unversioned or missing files.  If we
-        did what we were supposed to do, the unversioned files are
-        only those new files introduced in the 1.1 release of
-        libcomplex&mdash;we run <command>svn add</command> on those to
-        get them under version control.  The missing files are files
-        that were in 1.0 but not in 1.1, and on those paths we run
-        <command>svn delete</command>.  Finally, once our
-        <filename>current</filename> working copy contains only the
-        libcomplex 1.1 code, we commit the changes we made to get it
-        looking that way.</para>
+      <para>Após substituir o código 1.0 pelo código 1.1, <command> svn
+        status</command> vai mostrar arquivos com modificações locais assim
+        como, talvez, alguns arquivos fora do controle de versão ou faltantes.  Se nós
+        fizemos o que deveríamos ter feito, os arquivos fora do controle de versão são
+        apenas os novos arquivos introduzidos na versão 1.1 da
+        libcomplex&mdash;nós executamos <command>svn add</command> sobre eles para
+        colocá-los sob controle versão.  Os arquivos faltantes são arquivos
+        que estavam em 1.0, mas não em 1.1, e sobre esses caminhos nós executamos
+        <command>svn delete</command>. Por fim, uma vez que nossa
+        cópia de trabalho <filename>current</filename> contém apenas o
+        código da libcomplex 1.1, nós submetemos as alterações que fizemos para
+        que ela ficasse desse jeito.</para>
 
-      <para>Our <filename>current</filename> branch now contains the
-        new vendor drop.  We tag the new version (in the same way we
-        previously tagged the version 1.0 vendor drop), and then merge
-        the differences between the tag of the previous version and
-        the new current version into our main development
-        branch.</para>
+      <para>Nosso ramo <filename>current</filename> agora contém o
+         novo pingo de fornecedor. Nós rotulamos a nova versão (da mesma maneira que
+         anteriormente rotulamos o pingo de fornecedor da versão 1.0), e em seguida fundimos
+         as diferenças entre o rótulo da versão anterior e
+         a nova versão atual em nosso ramo principal de
+         desenvolvimento.</para>
 
       <screen>
 $ cd working-copies/calc
-$ svn merge http://svn.example.com/repos/vendor/libcomplex/1.0      \
-            http://svn.example.com/repos/vendor/libcomplex/current  \
+$ svn merge http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+            http://svn.exemplo.com/repos/vendor/libcomplex/current  \
             libcomplex
-&hellip; # resolve all the conflicts between their changes and our changes
-$ svn commit -m 'merging libcomplex-1.1 into the main branch'
+&hellip; # resolva todos os conflitos entre as alterações deles e as nossas
+$ svn commit -m 'fundindo libcomplex-1.1 com o ramo principal'
 &hellip;
 </screen>
 
-      <para>In the trivial use case, the new version of our
-        third-party tool would look, from a files-and-directories
-        point of view, just like the previous version.  None of the
-        libcomplex source files would have been deleted, renamed or
-        moved to different locations&mdash;the new version would
-        contain only textual modifications against the previous one.
-        In a perfect world, our modifications would apply cleanly to
-        the new version of the library, with absolutely no
-        complications or conflicts.</para>
+      <para>No caso de uso trivial, a nova versão da nossa
+        ferramenta de terceiros pareceria com a versão anterior,
+        de um ponto de vista de arquivos e diretórios.  Nenhum dos
+        arquivos fonte de libcomplex teria sido excluído, renomeado ou
+        movido para locais diferentes&mdash;a nova versão
+        conteria apenas alterações textuais em relação à anterior.
+        Em um mundo perfeito, nossas alterações seriam facilmente aplicadas
+        à nova versão da biblioteca, sem absolutamente nenhuma
+        complicação ou conflito.</para>
 
-      <para>But things aren't always that simple, and in fact it is
-        quite common for source files to get moved around between
-        releases of software.  This complicates the process of
-        ensuring that our modifications are still valid for the new
-        version of code, and can quickly degrade into a situation
-        where we have to manually recreate our customizations in the
-        new version.  Once Subversion knows about the history of a
-        given source file&mdash;including all its previous
-        locations&mdash;the process of merging in the new version of
-        the library is pretty simple.  But we are responsible for
-        telling Subversion how the source file layout changed from
-        vendor drop to vendor drop.</para>
+      <para>Mas as coisas nem sempre são assim tão simples, e na verdade é
+        bastante comum que arquivos fonte sejam movidos de lugar entre
+        liberações de <foreignphrase>software</foreignphrase>. Isto dificulta o processo de
+        garantir que as nossas alterações ainda são válidas para a nova
+        versão do código, e pode degradar rapidamente em uma situação
+        onde teremos de recriar manualmente as nossas customizações na
+        nova versão.  Uma vez que o Subversion conhece a história de um
+        determinado arquivo fonte&mdash;incluindo todas as suas localizações
+        anteriores&mdash;o processo de fusão da nova versão da
+        biblioteca é bem simples.  Mas nós somos responsáveis por
+        dizer ao Subversion como a posição do arquivo fonte mudou entre
+        um pingo de fornecedor e outro.</para>
 
     </sect2>
 
