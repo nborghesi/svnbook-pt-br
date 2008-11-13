@@ -2379,7 +2379,7 @@ $
         não faz com que o repositório requeira uma trava quando for
         submeter as mudanças.</para>
 
-      <para>Infelismente, o sistema não é perfeito.  É possível
+      <para>Infelizmente, o sistema não é perfeito.  É possível
         que mesmo quando um arquivo possua a propriedade, a advertência de somente leitura
         nem sempre funcione.  Algumas vezes as aplicações comportam-se mal e
         <quote>adulteram</quote> o arquivo somente leitura, silenciosamente permitindo aos
@@ -2414,7 +2414,7 @@ $
       as mesmas operações de <foreignphrase>checkout</foreignphrase> que
       você fez.</para>
 
-    <para> Felizmente, o Subversion provê suporte para
+    <para>Felizmente, o Subversion provê suporte para
       <firstterm>definições externas</firstterm>.  Uma definição
       externa é um mapeamento de um diretório local para a URL&mdash;e,
       idealmente, uma determinada revisão&mdash;de um diretório sob
