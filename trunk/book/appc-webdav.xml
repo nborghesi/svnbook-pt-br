@@ -430,11 +430,11 @@
           available at
           <ulink url="http://www.webdav.org/cadaver/"/>.</para>
 
-        <para>Using cadaver is similar to using a commandline FTP
-          program, and thus it's extremely useful for basic WebDAV
-          debugging.  It can be used to upload or download files in a
-          pinch, and also to examine properties, and to copy, move,
-          lock or unlock files:</para>
+        <para>Usar o cadaver se parece com usar um programa FTP de linha de
+          comando, sendo assim extremamente útil para depuração básica de
+          WebDAv.  O programa pode ser usado para se fazer upload ou download
+          de arquivos de uma só vez, e também examinar propriedades, além de
+          copiar, mover, travar ou destravar arquivos:</para>
 
         <screen>
 $ cadaver http://host/repos
@@ -454,123 +454,125 @@ Downloading `/repos/proofbypoem.txt' to proofbypoem.txt:
 Progress: [=============================&gt;] 100.0% of 1461 bytes succeeded.
 </screen>
 
-        <para>DAV Explorer is another standalone WebDAV client, written
-          in Java.  It's under a free Apache-like license and is
-          available at <ulink url="http://www.ics.uci.edu/~webdav/"/>.
-          DAV Explorer does everything cadaver does, but has the
-          advantages of being portable and being a more user-friendly GUI
-          application.  It's also one of the first clients to support
-          the new WebDAV Access Control Protocol (RFC 3744).</para>
+      <para>DAV Explorer é outro cliente WebDAV independente, escrito em
+          Java.  É distribuído sob uma licença livre ao estilo da do Apache e
+          está disponível em <ulink url="http://www.ics.uci.edu/~webdav/"/>.  O
+          DAV Explorer faz tudo o que o cadaver faz, mas tem as vantagens de
+          ser uma aplicação gráfica mais portável e mais amigável.  Também foi
+          um dos primeiros clientes a dar suporte ao novo protocolo de acesso
+          WebDAV (RFC 3744).</para>
 
-        <para>Of course, DAV Explorer's ACL support is useless in this
-          case, since <command>mod_dav_svn</command> doesn't support
-          it.  The fact that both Cadaver and DAV Explorer support
-          some limited DeltaV commands isn't particularly useful
-          either, since they don't allow <literal>MKACTIVITY</literal>
-          requests.  But it's not relevant anyway; we're assuming all
-          of these clients are operating against an autoversioning
-          repository.</para>
+      <para>Obviamente, o suporte a ACL do DAV Explorer é inútil neste caso,
+          já que o <command>mod_dav_svn</command> não dá suporte a ele.  O fato
+          de tanto o Cadaver quanto o DAV Explorer suportarem alguns comandos
+          DeltaV, particularmente, também é igualmente inútil, uma vez que eles
+          não permitem requisições <literal>MKACTIVITY</literal>.  Mas de
+          qualquer forma isso também não é relevante; estamos assumindo que
+          todos esses clientes trabalham normalmente com um repositório com
+          autoversionamento.</para>
 
       </sect3>
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.webdav.clients.file-explorer-extensions">
-      <title>File-explorer WebDAV extensions</title>
+      <title>Extensões WebDAV para gerenciadores de arquivos</title>
 
-      <para>Some popular file explorer GUI programs support WebDAV
-        extensions which allow a user to browse a DAV share as if it
-        was just another directory on the local computer, and to
-        perform basic tree editing operations on the items in that
-        share.  For example, Windows Explorer is able to browse a
-        WebDAV server as a <quote>network place</quote>.  Users can
-        drag files to and from the desktop, or can rename, copy, or
-        delete files in the usual way.  But because it's only a
-        feature of the file-explorer, the DAV share isn't visible to
-        ordinary applications.  All DAV interaction must happen
-        through the explorer interface.</para>
+      <para>Alguns programas gráficos gerenciadores de arquivos dão suporte a
+        extensões WebDAV que permitem ao usuário navegar em compartilhamentos
+        DAV como se fossem apenas mais um diretório no computador local, além
+        de realizar operações básicas de edição de árvore nos itens naquele
+        compartilhamento.  Por exemplo, o Windows Explorer é capaz de navegar
+        em um servidor WebDAV como um <quote>local de rede</quote>.  Os
+        usuários podem arrastar arquivos de e para sua área de trabalho, ou
+        podem renomear, copiar, ou excluir arquivos normalmente.  Mas pelo fato
+        de ser apenas um recurso do gerenciador de arquivos, o compartilhamento
+        DAV não é visível às aplicações ordinárias.  Todas as interações DAV
+        devem acontecer dentro da interface do gerenciador de arquivos.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.webdav.clients.file-explorer-extensions.windows">
         <title>Microsoft Web Folders</title>
 
-        <para>Microsoft was one of the original backers of the WebDAV
-          specification, and first started shipping a client in Windows
-          98, known as <quote>Web Folders</quote>.  This client was also
-          shipped in Windows NT4 and 2000.</para>
+        <para>A Microsoft foi uma das incentivadoras originais da especificação
+          WebDAV, e começou desenvolvendo um cliente no Windows 98, conhecido
+          como <quote>Web Folders</quote>.  Este cliente também estava presente
+          no Windows NT4 e no 2000.</para>
 
-        <para>The original Web Folders client was an extension to
-          Explorer, the main GUI program used to browse filesystems.  It
-          works well enough.  In Windows 98, the feature might need to
-          be explicitly installed if Web Folders aren't already visible
-          inside <quote>My Computer</quote>.  In Windows 2000, simply
-          add a new <quote>network place</quote>, enter the URL, and the
-          WebDAV share will pop up for browsing.</para>
+        <para>O cliente Web Folders original era uma extensão para o Explorer,
+          o principal programa gráfico usado para navegar em sistemas de
+          arquivos.  Ele funciona suficientemente bem.  No Windows 98, o
+          recurso precisa ser explicitamente instalado se Web Folders já não
+          estiverem visíveis dentro do <quote>Meu Computador</quote>.  No
+          Windows 2000, simplesmente adicione um novo <quote>local de
+          rede</quote>, informe a URL, e o compartilhamento surgirá para
+          navegação.</para>
 
-        <para>With the release of Windows XP, Microsoft started shipping
-          a new implementation of Web Folders, known as the <quote>WebDAV
-          mini-redirector</quote>.  The new implementation is a
-          filesystem-level client, allowing WebDAV shares to be mounted
-          as drive letters.  Unfortunately, this implementation is
-          incredibly buggy.  The client usually tries to convert http
-          URLs (<literal>http://host/repos</literal>) into UNC share
-          notation (<literal>\\host\repos</literal>); it also often
-          tries to use Windows Domain authentication to respond to
-          basic-auth HTTP challenges, sending usernames as
-          <literal>HOST\username</literal>.  These interoperability
-          problems are severe and documented in numerous places around
-          the web, to the frustration of many users.  Even Greg Stein,
-          the original author of Apache's WebDAV module, recommends
-          against trying to use XP Web Folders against an Apache
-          server.</para>
+        <para>Com o lançamento do Windows XP, a Microsoft começou a distribuir
+          uma nova implementação do Web Folders, conhecida como <quote>WebDAV
+          mini-redirector</quote>.  A nova implementação é um cliente em nível
+          de sistema de arquivos, que permite que compartilhamentos WebDAV
+          sejam montados como letras de drives.  Infelizmente, esta
+          implementação é incrivelmente problemática.  O cliente frequentemente
+          tenta converter URLs http (<literal>http://host/repos</literal>) para
+          a notação UNC de compartilhamentos (<literal>\\host\repos</literal>);
+          ele também tenta usar a autenticação de domínio do Windows para
+          responder aos desafios de autenticação basic do HTTP, enviando nomes
+          de usuários como <literal>HOST\username</literal>.  Estes problemas
+          de interoperabilidade são críticos e estão documentados em diversos
+          locais pela web, para frustração de muitos usuários.  Mesmo Greg
+          Stein, o autor original do módulo WebDAV do Apache, desaconselha o
+          uso do Web Folders do XP para comunicação com um servidor
+          Apache.</para>
 
-        <para>It turns out that the original
-          <quote>Explorer-only</quote> Web Folders implementation isn't
-          dead in XP, it's just buried.  It's still possible to find it
-          by using this technique:</para>
+        <para>Vê-se, porém, que a implementação original do Web Folders
+          <quote>somente para Windows Explorer</quote> não morreu no XP, mas
+          só está enterrada.  Ainda é possível encontrá-la usando esta
+          técnica:</para>
 
         <orderedlist>
 
           <listitem>
-            <para>Go to 'Network Places'.</para>
+            <para>Vá em 'Locais de Rede'.</para>
           </listitem>
 
           <listitem>
-            <para>Add a new network place.</para>
+            <para>Adicione um novo local de rede.</para>
           </listitem>
 
           <listitem>
-            <para>When prompted, enter the URL of the repository, but
-              <emphasis>include a port number</emphasis> in the URL.
-              For example, <literal>http://host/repos</literal> would be
-              entered as <literal>http://host:80/repos</literal> instead.
+            <para>Quando solicitado, informe a URL do repositório, mas 
+              <emphasis>inclua um número de porta</emphasis> na URL.  Por
+              exemplo, <literal>http://host/repos</literal> deveria ser
+              informado como <literal>http://host:80/repos</literal>.
             </para>
           </listitem>
 
           <listitem>
-            <para>Respond to any authentication prompts.</para>
+            <para>Responda a quaisquer solicitações de autenticação.</para>
           </listitem>
 
         </orderedlist>
 
-        <para>There are a number of other rumored workarounds to the
-          problems, but none of them seem to work on all versions and
-          patchlevels of Windows XP.  In our tests, only the previous
-          algorithm seems to work consistently on every system.  The
-          general consensus of the WebDAV community is that you should
-          avoid the new Web Folders implementation and use the old one
-          instead, and that if you need a real filesystem-level
-          client for Windows XP, then use a third-party program like
-          WebDrive or NetDrive.</para>
+        <para>Há alguns outros rumores sobre formas de contornar outros
+          problemas, mas nenhum deles parece funcionar em todas as versões e
+          com os diferentes patches do Windows XP.  Em nossos testes, apenas
+          estes passos anteriores parecem funcionar consistentemente em cada
+          sistema.  É consenso geral da comunidade WebDAV que você deveria
+          evitar essa nova implementação de Web Folders e usar a antiga no
+          lugar, e que se você precisar de um cliente em nível de sistema de
+          arquivos para o Windows XP, use então um programa de terceiros como o
+          WebDrive ou o NetDrive.</para>
 
-        <para>A final tip: if you're attempting to use XP Web Folders,
-          make sure you have the absolute latest version from
-          Microsoft.  For example, Microsoft released a bug-fixed
-          version in January 2005, available at
-          <ulink url="http://support.microsoft.com/?kbid=892211"/>.
-          In particular, this release is known to fix a bug whereby
-          browsing a DAV share shows an unexpected infinite
-          recursion.</para>
+        <para>Uma última dica: se você estiver tentando usar o XP Web Folders,
+          certifique-se de ter realmente a sua versão mais recente da
+          Microsoft.  Por exemplo, a Microsoft disponibilizou uma versão com
+          <foreignphrase>bugs</foreignphrase> corrigidos em janeiro de 2005,
+          que encontra-se disponível em <ulink
+          url="http://support.microsoft.com/?kbid=892211"/>.  Em particular,
+          esta versão é conhecida por corrigir um problema em que ao se navegar
+          em um compartilhamento DAV resultava em uma inesperada recursão
+          infinita.</para>
 
       </sect3>
 
