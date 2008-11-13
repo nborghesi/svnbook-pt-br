@@ -15,5 +15,5 @@ Estimamos que cerca de *56,4%* do livro já tenha sido traduzido. Esse número n
 || 9. Subversion Complete Reference          || 5%     ||
 || *A. Subversion Quick-Start Guide*         || *100%* ||
 || *B. Subversion for CVS Users*             || *100%* ||
-|| C. WebDAV and Autoversioning              ||        ||
+|| C. WebDAV and Autoversioning              ||  80%   ||
 || D. Third Party Tools                      ||        ||
