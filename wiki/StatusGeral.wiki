@@ -12,7 +12,7 @@ Estimamos que cerca de *56,4%* do livro já tenha sido traduzido. Esse número n
 || *6. Server Configuration*                 || *100%* ||
 || 7. Customizing Your Subversion Experience || 11%    ||
 || 8. Embedding Subversion                   || 49%    ||
-|| 9. Subversion Complete Reference          || 5%     ||
+|| 9. Subversion Complete Reference          || 56%    ||
 || *A. Subversion Quick-Start Guide*         || *100%* ||
 || *B. Subversion for CVS Users*             || *100%* ||
 || C. WebDAV and Autoversioning              ||  80%   ||
