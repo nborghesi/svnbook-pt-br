@@ -3695,8 +3695,8 @@ $ svn revert foo.c
 Reverted foo.c
 </screen>
 
-          <para>If you want to revert a whole directory of files,
-            use the <option>--recursive</option> flag:</para>
+          <para>Se você quiser reverter um diretório inteiro de arquivos, use a
+            opção <option>--recursive</option>:</para>
 
           <screen>
 $ svn revert --recursive .
