@@ -4584,18 +4584,19 @@ Updated to revision 30.
   <sect1 id="svn.ref.svnadmin">
     <title><command>svnadmin</command></title>
     
-    <para><command>svnadmin</command> is the administrative tool for
-      monitoring and repairing your Subversion repository.  For
-      detailed information, see <xref
+    <para>O <command>svnadmin</command> é a ferramenta administrativa para
+      monitoramento e manutenção de seu repositório Subversion.  Para
+      informações detalhadas, veja <xref
       linkend="svn.reposadmin.maint.tk.svnadmin"/>.</para>
 
-    <para>Since <command>svnadmin</command> works via direct repository access
-      (and thus can only be used on the machine that holds the
-      repository), it refers to the repository with a path, not a URL.</para>
+    <para>Como o <command>svnadmin</command> trabalha com acesso direto ao
+      repositório (e assim só pode ser usado na própria máquina onde se
+      encontra o repositório), ele se refere ao repositório com um caminho e
+      não com uma URL.</para>
       
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnadmin.sw">
-      <title><command>svnadmin</command> Options</title> 
+      <title>Opções do <command>svnadmin</command></title> 
       
       <variablelist>
         
