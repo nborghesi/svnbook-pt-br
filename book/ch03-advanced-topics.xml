@@ -2615,7 +2615,7 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.pegrevs">
-    <title>Peg and Operative Revisions</title>
+    <title>Revisões Peg e Revisões Operativas</title>
 
     <para>Nós copiamos, movemos, renomeamos, e substituímos
       completamente arquivos e diretórios em nossos computadores a todo
@@ -2675,64 +2675,65 @@ $
       usado diariamente por uma multidão de pessoas que pretendem melhorar
       suas vidas.</para>
     
-    <para>It's a nice story, really, but it doesn't end there.
-      Entrepreneur that you are, you've already got another think in
-      the tank.  So you make a new directory,
-      <filename>concept</filename>, and the cycle begins again.  In
-      fact, the cycle begins again many times over the years, each
-      time starting with that old <filename>concept</filename>
-      directory, then sometimes seeing that directory renamed as the
-      idea cures, sometimes seeing it deleted when you scrap the idea.
-      Or, to get really sick, maybe you rename
-      <filename>concept</filename> to something else for a while, but
-      later rename the thing back to <filename>concept</filename> for
-      some reason.</para>
+    <para>É uma bela história, realmente, mas não termina aqui.  Como
+      empreendedor que você é, você já está com novas idéias em mente.  Então
+      você cria um novo diretório, <filename>concept</filename>, e o ciclo
+      começa outra vez.  De fato, o ciclo recomeça muitas vezes ao longo dos
+      anos, cada vez começando com o antigo diretório
+      <filename>concept</filename>, então algumas vezes vendo esse diretório
+      ser renomeado como você bem o quiser, algumas vezes vendo esse diretório
+      ser excluído quando você descarta a idéia.  Ou, para complicar de vez,
+      algumas vezes talvez você <filename>concept</filename> para qualquer
+      outra coisa por algum tempo, mas depois renomei-o de volta para
+      <filename>concept</filename> por alguma razão.</para>
 
-    <para>In scenarios like these, attempting to instruct
-      Subversion to work with these re-used paths can be a little like
-      instructing a motorist in Chicago's West Suburbs to drive east
-      down Roosevelt Road and turn left onto Main Street.  In a mere
-      twenty minutes, you can cross <quote>Main Street</quote> in
-      Wheaton, Glen Ellyn, and Lombard.  And no, they aren't the same
-      street.  Our motorist&mdash;and our Subversion&mdash;need a
-      little more detail in order to do the right thing.</para>
+    <para>Em cenários como este, tentar instruir o Subversion para trabalhar
+      com estes caminhos reutilizados pode ser um pouco como instruir um
+      motorista dos subúrbios da Chicago ocidental a dirigir sempre a leste na
+      estrada Roosevelt Road e então virar à esquerda na Main Street.  Em meros
+      vinte minutos, você pode cruzar com a tal <quote>Main Street</quote> ao
+      andar pela Wheaton, Glen Ellyn ou Lombard.  E não, elas não são a mesma
+      rua.  Nosso motorista&mdash;e o nosso Subversion&mdash;precisa de um
+      pouco mais de detalhes para poder fazer a coisa certa.</para>
 
-    <para>In version 1.1, Subversion introduced a way for you to tell
-      it exactly which Main Street you meant.  It's called the
-      <firstterm>peg revision</firstterm>, and it is a revision
-      provided to Subversion for the sole purpose of identifying a
-      unique line of history.  Because at most one versioned object
-      may occupy a path at any given time&mdash;or, more precisely, in
-      any one revision&mdash;the combination of a path and a peg
-      revision is all that is needed to refer to a specific line of
-      history.  Peg revisions are specified to the Subversion
-      command-line client using <firstterm>at syntax</firstterm>, so
-      called because the syntax involves appending an <quote>at
-      sign</quote> (<literal>@</literal>) and the peg revision to the
-      end of the path with which the revision is associated.</para>
+    <para>Na versão 1.1, i Subversion introduziu uma maneira para você dizer
+      exatamente à que Main Street você se refere.  É chamada de
+      <firstterm>revisão peg</firstterm>, e é uma revisão disponibilizada pelo
+      Subversion apenas com propósito de identificar uma linha única de
+      histórico.  Como no máximo um objeto versionado pode ocupar um caminho em
+      um dado instante&mdash;ou, mais precisamente, em uma dada revisão&mdash;a
+      combinação de um caminho e uma revisão peg é tudo o que é necessário para
+      se referenciar a uma linha específica de histórico.  Revisões peg são
+      especificadas pelo cliente de linha de comando do Subversion usando
+      <firstterm>sintaxe de arroba</firstterm><footnote>N.T.: Em inglês, o
+      símbolo de arroba é lido como <quote>at</quote>, que tem o sentido de
+      <emphasis>em</emphasis> ou <emphasis>naquele
+      lugar</emphasis>.</footnote>, assim chamada porque envolve anexar-se um
+      <quote>sinal de arroba</quote> (<literal>@</literal>) e a revisão peg ao
+      final do caminho com o qual a revisão está associada.</para>
 
-    <para>But what of the <option>--revision (-r)</option> of which
-      we've spoken so much in this book?  That revision (or set of
-      revisions) is called the <firstterm>operative
-      revision</firstterm> (or <firstterm>operative revision
-      range</firstterm>).  Once a particular line of history has been
-      identified using a path and peg revision, Subversion performs
-      the requested operation using the operative revision(s).  To map
-      this to our Chicagoland streets analogy, if we are told to go to
-      606 N. Main Street in Wheaton,
+    <para>Mas e sobre as revisões dadas por <option>--revision (-r)</option>,
+      as quais falamos tanto neste livro?  Essas revisões (ou conjuntos de
+      revisões) são chamadas de <firstterm>revisões operativas</firstterm> (ou
+      <firstterm>intervalos de revisões operativas</firstterm>).  Uma vez qua
+      uma linha em particular do histórico tenha sido identificada usando-se um
+      caminho e uma revisão peg, o Subversion executa a operação requisitada
+      usando a(s) revisão(ões) operativa(s).  Para relacionar isto com nossa
+      analogia às ruas de Chicago, se nos disserem para irmos para até a Main
+      Street em Wheaton 606 N.,
       <footnote>
-        <para>606 N. Main Street, Wheaton, Illinois, is the home of
-          the Wheaton History Center.  Get it&mdash;<quote>History
-          Center</quote>?  It seemed appropriate&hellip;.</para>
+        <para>Main Street, Wheaton, 606 N., Illinois, é o endereço do Wheaton
+          History Center.  Sacou&mdash;<quote>History
+          Center</quote>?  Parece apropriado&hellip;.</para>
       </footnote>
-      we can think of <quote>Main Street</quote> as our path and
-      <quote>Wheaton</quote> as our peg revision.  These two pieces of
-      information identify a unique path which can travelled (north or
-      south on Main Street), and will keep us from travelling up and
-      down the wrong Main Street in search of our destination.  Now we
-      throw in <quote>606 N.</quote> as our operative revision, of
-      sorts, and we know <emphasis>exactly</emphasis> where to
-      go.</para>
+      poderíamos pensar na <quote>Main Street</quote> como nosso caminho e em
+      <quote>Wheaton</quote> como nossa revisão peg.  Estes dois pedaçoes de
+      informaçao identificam um único caminho que pode ser percorrido (em
+      sentido sul ou sentido norte na Main Street), e que nos permitir andar
+      para cima e para baixo na Main Street ao acaso na busca pelo nosso
+      destino.  Agora temos <quote>606 N.</quote> como nossa revisão operativa,
+      de sorte que sabemos <emphasis>exatamente</emphasis> aonde temos que
+      ir.</para>
 
     <sidebar>
       <title>The peg revision algorithm</title>
