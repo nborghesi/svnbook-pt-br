@@ -580,62 +580,62 @@ Progress: [=============================&gt;] 100.0% of 1461 bytes succeeded.
       <sect3 id="svn.webdav.clients.file-explorer-extensions.linux-de">
         <title>Nautilus, Konqueror</title>
 
-        <para>Nautilus is the official file manager/browser for the
-          GNOME desktop (<ulink url="http://www.gnome.org"/>), and
-          Konqueror is the manager/browser for the KDE desktop (<ulink
-          url="http://www.kde.org"/>).  Both of these applications have
-          an explorer-level WebDAV client built-in, and operate just
-          fine against an autoversioning repository.</para>
+        <para>O Nautilus é o gerenciador de arquivos/navegador oficial do
+          ambiente GNOME (<ulink url="http://www.gnome.org"/>), já o Konqueror é
+          o gerenciador de arquivos/navegador para o ambiente KDE (<ulink
+          url="http://www.kde.org"/>).  Estas duas aplicações já possuem
+          nativamente o suporte a WebDAV em nível de sistema de arquivos, e
+          trabalham muito bem com repositórios com recurso de
+          autoversionamento.</para>
 
-        <para>In GNOME's Nautilus, from the <guimenu>File
-          menu</guimenu>, select <guimenuitem>Open
-          location</guimenuitem> and enter the URL.  The repository
-          should then be displayed like any other filesystem.</para>
+        <para>No Nautilus do GNOME, a partir do menu <guimenu>File</guimenu>,
+          escolha <guimenuitem>Open location</guimenuitem> e entre com a URL.
+          O repositório deverá ser então exibido como um sistema de arquivos
+          como outro qualquer.</para>
 
-        <para>In KDE's Konqueror, you need to use the
-          <literal>webdav://</literal> scheme when entering the URL in
-          the location bar.  If you enter
-          an <literal>http://</literal> URL, Konqueror will behave
-          like an ordinary web browser.  You'll likely see the generic
-          HTML directory listing produced
-          by <command>mod_dav_svn</command>.  By entering
-          <literal>webdav://host/repos</literal> instead of
-          <literal>http://host/repos</literal>, Konqueror becomes a
-          WebDAV client and displays the repository as a
-          filesystem.</para>
+        <para>No Konqueror do KDE, você precisa usar o esquema
+          <literal>webdav://</literal> ao informar uma URL na barra de
+          endereços.  Se você informar uma URL <literal>http://</literal>, o
+          Konqueror vai se comportar como um navegador web comum.  Você
+          provavelmente verá a listagem genérica do diretório HTML produzida
+          pelo <command>mod_dav_svn</command>.  Ao informar 
+          <literal>webdav://host/repos</literal> ao invés de 
+          <literal>http://host/repos</literal>, faz com que o Konqueror atue
+          como cliente WebDAV e exiba o repositório como um sistema de
+          arquivos.</para>
 
       </sect3>
     </sect2>
 
     <sect2 id="svn.webdav.clients.fs-impl">
-      <title>WebDAV filesystem implementation</title>
+      <title>Implementações de sistemas de arquivos WebDAV</title>
 
-      <para>The WebDAV filesystem implementation is arguably the best
-        sort of WebDAV client.  It's implemented as a low-level
-        filesystem module, typically within the operating system's
-        kernel.  This means that the DAV share is mounted like any
-        other network filesystem, similar to mounting an NFS share on
-        Unix, or attaching an SMB share as drive letter in Windows.
-        As a result, this sort of client provides completely
-        transparent read/write WebDAV access to all programs.
-        Applications aren't even aware that WebDAV requests are
-        happening.</para>
+      <para>Uma implementação de sistemas de arquivos WebDAV é sem dúvida o
+        melhor tipo de cliente WebDAV.  É implementada como um módulo de
+        sistema de arquivos em baixo nível, normalmente já embutido no próprio
+        kernel.  Isto quer dizer que o compartilhamento DAV é montado como
+        qualquer outro sistema de arquivos de rede, semelhante a montagem de um
+        compartilhamento NFS no Unix, ou o mapeamento de um compartilhamento
+        SMB em uma letra de drive no Windows.  Como resultado, este tipo de
+        cliente oferece acesso de leitura/escrita a WebDAV de forma completamente
+        transparente para todos os programas.  As aplicações nem sequer se dão
+        conta de que requisições WebDAV estão acontecendo.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.webdav.clients.fs-impl.windows">
         <title>WebDrive, NetDrive</title>
 
-        <para>Both WebDrive and NetDrive are excellent commercial
-          products which allow a WebDAV share to be attached as drive
-          letters in Windows.  We've had nothing but success with
-          these products.  At the time of writing, WebDrive can be
-          purchased from South River Technologies (<ulink
-          url="http://www.southrivertech.com"/>).  NetDrive ships with
-          Netware, is free of charge, and can be found by searching
-          the web for <quote>netdrive.exe</quote>.  Though it is
-          freely available online, users are required to have a
-          Netware license.  (If any of that sounds odd to you, you're
-          not alone.  See this page on Novell's website: <ulink
+        <para>Ambos, WebDrive e NetDrive, são excelentes produtos comerciais
+          que permitem que um compartilhamento WebDAV seja mapeado como letras
+          de drives no Windows.  Nunca tivemos nada além de êxito com estes
+          produtos.  No momento em que este livro estava sendo escrito, o
+          WebDrive podia ser adquirido junto a South River Technologies (<ulink
+          url="http://www.southrivertech.com"/>).  Já o NetDrive vem junto com
+          o Netware, sem custos adicionais, e pode ser encontrado na web
+          procurando-se por <quote>netdrive.exe</quote>.  Ainda que esteja
+          livremente disponível na internet, os usuários precisam ter uma
+          licença do Netware para usá-lo.  (Se você acha isso estranho, você
+          não está sozinho.  Veja esta página no site da Novell: <ulink
           url="http://www.novell.com/coolsolutions/qna/999.html"/>)</para>
 
       </sect3>
@@ -644,32 +644,33 @@ Progress: [=============================&gt;] 100.0% of 1461 bytes succeeded.
       <sect3 id="svn.webdav.clients.fs-impl.macosx">
         <title>Mac OS X</title>
 
-        <para>Apple's OS X operating system has an integrated
-          filesystem-level WebDAV client.  From the Finder, select the
-          <guimenuitem>Connect to Server</guimenuitem> item from the
-          <guimenu>Go menu</guimenu>.  Enter a WebDAV URL, and it
-          appears as a disk on the desktop, just like any other
-          mounted volume.  You can also mount a WebDAV share from the
-          Darwin terminal by using the <literal>webdav</literal>
-          filesystem type with the <command>mount</command> command:</para>
+        <para>O sistema operacional OS X da Apple tem um cliente WebDAV
+          integrado em nível de sistema de arquivos.  A partir do Finder,
+          selecione o item <guimenuitem>Connect to Server</guimenuitem> a
+          partir do menu <guimenu>Go</guimenu>.  Entre com uma URL WebDAV, e
+          ela aparecerá como um disco em sua área de trabalho, tal como
+          qualquer outro volume montado.  Você também pode montar um
+          compartilhamento WebDAV a partir do terminal do Darwin usando o tipo
+          de sistema de arquivos <literal>webdav</literal> com o comando
+          <command>mount</command>:</para>
 
         <screen>
 $ mount -t webdav http://svn.example.com/repos/project /some/mountpoint
 $
 </screen>
 
-        <para>Note that if your <command>mod_dav_svn</command> is
-          older than version 1.2, OS X will refuse to mount the share
-          as read-write; it will appear as read-only.  This is because
-          OS X insists on locking support for read-write shares, and
-          the ability to lock files first appeared in Subversion
-          1.2.</para>
+        <para>Note que se seu <command>mod_dav_svn</command> for anterior à
+          versão 1.2, o OS X vai se negar a montar o compartilhamento como
+          leitura-escrita; e ele aparecerá como somente-leitura.  Isto é porque
+          o OS X insiste em usar travar para o suporte a compartilhamentos
+          leitura-escrita, e o recurso de travas de arquivos só surgiu no
+          Subversion versão 1.2.</para>
 
-        <para>One more word of warning: OS X's WebDAV client can
-          sometimes be overly sensitive to HTTP redirects.  If OS X is
-          unable to mount the repository at all, you may need to enable
-          the BrowserMatch directive in the Apache server's
-          <filename>httpd.conf</filename>:</para>
+        <para>Mais uma palavra de alerta: o cliente WebDAV do OS X algumas
+          vezes pode ser excessivamente sensível a redirecionamentos HTTP.  Se
+          o OS X não for capaz de montar um repositório como um todo, você pode
+          precisar habilitar a diretiva BrowserMatch no
+          <filename>httpd.conf</filename> de seu servidor Apache:</para>
 
         <screen>
 BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
@@ -681,11 +682,11 @@ BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
       <sect3 id="svn.webdav.clients.fs-impl.linux">
         <title>Linux davfs2</title>
 
-        <para>Linux davfs2 is a filesystem module for the Linux kernel,
-          whose development is located at <ulink
-          url="http://dav.sourceforge.net/"/>.  Once installed, a WebDAV
-          network share can be mounted with the usual Linux mount
-          command:</para>
+        <para>Linux davfs2 é um módulo de sistema de arquivos para o kernel do
+          Linux, cujo desenvolvimento está centrado em <ulink
+          url="http://dav.sourceforge.net/"/>.  Uma vez instalado este módulo,
+          um compartilhamento pode ser montado normalmente com o comando mount
+          do Linux:</para>
 
         <screen>
 $ mount.davfs http://host/repos /mnt/dav
