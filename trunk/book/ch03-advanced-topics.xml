@@ -2615,7 +2615,7 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.pegrevs">
-    <title>Revisões Peg e Revisões Operativas</title>
+    <title>Revisões Marcadoras e Revisões Operativas</title>
 
     <para>Nós copiamos, movemos, renomeamos, e substituímos
       completamente arquivos e diretórios em nossos computadores a todo
@@ -2696,39 +2696,39 @@ $
       rua.  Nosso motorista&mdash;e o nosso Subversion&mdash;precisa de um
       pouco mais de detalhes para poder fazer a coisa certa.</para>
 
-    <para>Na versão 1.1, i Subversion introduziu uma maneira para você dizer
+    <para>Na versão 1.1, o Subversion introduziu uma maneira para você dizer
       exatamente à que Main Street você se refere.  É chamada de
-      <firstterm>revisão peg</firstterm>, e é uma revisão disponibilizada pelo
+      <firstterm>revisão marcadora</firstterm>, e é uma revisão disponibilizada pelo
       Subversion apenas com propósito de identificar uma linha única de
       histórico.  Como no máximo um objeto versionado pode ocupar um caminho em
       um dado instante&mdash;ou, mais precisamente, em uma dada revisão&mdash;a
-      combinação de um caminho e uma revisão peg é tudo o que é necessário para
-      se referenciar a uma linha específica de histórico.  Revisões peg são
-      especificadas pelo cliente de linha de comando do Subversion usando
-      <firstterm>sintaxe de arroba</firstterm><footnote>N.T.: Em inglês, o
-      símbolo de arroba é lido como <quote>at</quote>, que tem o sentido de
-      <emphasis>em</emphasis> ou <emphasis>naquele
+      combinação de um caminho e uma revisão marcadora é tudo o que é
+      necessário para se referenciar a uma linha específica de histórico.
+      Revisões marcadoras são especificadas pelo cliente de linha de comando do
+      Subversion usando <firstterm>sintaxe de arroba</firstterm><footnote>N.T.:
+      Em inglês, o símbolo de arroba é lido como <quote>at</quote>, que tem o
+      sentido de <emphasis>em</emphasis> ou <emphasis>naquele
       lugar</emphasis>.</footnote>, assim chamada porque envolve anexar-se um
-      <quote>sinal de arroba</quote> (<literal>@</literal>) e a revisão peg ao
-      final do caminho com o qual a revisão está associada.</para>
+      <quote>sinal de arroba</quote> (<literal>@</literal>) e a revisão
+      marcadora ao final do caminho com o qual a revisão está associada.</para>
 
     <para>Mas e sobre as revisões dadas por <option>--revision (-r)</option>,
       as quais falamos tanto neste livro?  Essas revisões (ou conjuntos de
       revisões) são chamadas de <firstterm>revisões operativas</firstterm> (ou
       <firstterm>intervalos de revisões operativas</firstterm>).  Uma vez qua
       uma linha em particular do histórico tenha sido identificada usando-se um
-      caminho e uma revisão peg, o Subversion executa a operação requisitada
-      usando a(s) revisão(ões) operativa(s).  Para relacionar isto com nossa
-      analogia às ruas de Chicago, se nos disserem para irmos para até a Main
-      Street em Wheaton 606 N.,
+      caminho e uma revisão marcadora, o Subversion executa a operação
+      requisitada usando a(s) revisão(ões) operativa(s).  Para relacionar isto
+      com nossa analogia às ruas de Chicago, se nos disserem para irmos para
+      até a Main Street em Wheaton 606 N.,
       <footnote>
         <para>Main Street, Wheaton, 606 N., Illinois, é o endereço do Wheaton
           History Center.  Sacou&mdash;<quote>History
           Center</quote>?  Parece apropriado&hellip;.</para>
       </footnote>
       poderíamos pensar na <quote>Main Street</quote> como nosso caminho e em
-      <quote>Wheaton</quote> como nossa revisão peg.  Estes dois pedaçoes de
-      informaçao identificam um único caminho que pode ser percorrido (em
+      <quote>Wheaton</quote> como nossa revisão marcadora.  Estes dois pedaçoes
+      de informaçao identificam um único caminho que pode ser percorrido (em
       sentido sul ou sentido norte na Main Street), e que nos permitir andar
       para cima e para baixo na Main Street ao acaso na busca pelo nosso
       destino.  Agora temos <quote>606 N.</quote> como nossa revisão operativa,
@@ -2736,156 +2736,155 @@ $
       ir.</para>
 
     <sidebar>
-      <title>The peg revision algorithm</title>
+      <title>O algoritmo de revisões marcadoras</title>
       
-      <para>The Subversion command-line performs the peg revision
-        algorithm any time it needs to resolve possible ambiguities in
-        the paths and revisions provided to it.  Here's an example of
-        such an invocation:</para>
+      <para>O Subversion em linha de comando executa o algoritmo de revisões
+        marcadora a qualquer momento em que precise resolver possíveis
+        ambiguidades nos caminhos e revisões por ele providos.  Aqui está um
+        exemplo de execução:</para>
 
       <screen>
 $ svn <replaceable>command</replaceable> -r <replaceable>OPERATIVE-REV</replaceable> item@<replaceable>PEG-REV</replaceable>
 </screen>
       
-      <para>If <replaceable>OPERATIVE-REV</replaceable> is older than
-        <replaceable>PEG-REV</replaceable>, then the algorithm is as
-        follows:</para>
+      <para>Se <replaceable>OPERATIVE-REV</replaceable> for mais antiga que
+        <replaceable>PEG-REV</replaceable>, então o algoritmo será o
+        seguinte:</para>
 
       <itemizedlist>
         
         <listitem>
-          <para>Locate <replaceable>item</replaceable> in the revision
-            identified by <replaceable>PEG-REV</replaceable>.  There
-            can be only one such object.</para>
+          <para>Localize o <replaceable>item</replaceable> na revisão
+            identificada por <replaceable>PEG-REV</replaceable>.  Deve ser
+            encontrado apenas um único objeto.</para>
         </listitem>
 
         <listitem>
-          <para>Trace the object's history backwards (through any
-            possible renames) to its ancestor in the revision
+          <para>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão 
             <replaceable>OPERATIVE-REV</replaceable>.</para>
         </listitem>
 
         <listitem>
-          <para>Perform the requested action on that ancestor,
-            wherever it is located, or whatever its name might
-            be or have been at that time.</para>
+          <para>Execute a ação requisitada naquele ancestral, onde quer que ele
+            se encontre, ou qualquer que seja o nome que ele tenha ou que tenha
+            tido ao longo do tempo.</para>
         </listitem>
 
       </itemizedlist>
 
-      <para>But what if <replaceable>OPERATIVE-REV</replaceable> is
-        <emphasis>younger</emphasis> than
-        <replaceable>PEG-REV</replaceable>?  Well, that adds some
-        complexity to the theoretical problem of locating the path in
-        <replaceable>OPERATIVE-REV</replaceable>, because the path's
-        history could have forked multiple times (thanks to copy
-        operations) between <replaceable>PEG-REV</replaceable> and
-        <replaceable>OPERATIVE-REV</replaceable>.  And that's not
-        all&mdash;Subversion doesn't store enough information to
-        performantly trace an object's history forward, anyway.  So
-        the algorithm is a little different:</para>
+      <para>Mas e se <replaceable>OPERATIVE-REV</replaceable> for 
+        <emphasis>mais recente</emphasis> que
+        <replaceable>PEG-REV</replaceable>?  Bem, isso adiciona alguma
+        complexidade ao problema teórico de localização do caminho em 
+        <replaceable>OPERATIVE-REV</replaceable>, pois o histórico do caminho
+        pode ter sido ramificado várias vezes (graças a operações de cópia)
+        entre <replaceable>PEG-REV</replaceable> e
+        <replaceable>OPERATIVE-REV</replaceable>.  E isso não é tudo&mdash;de
+        qualquer maneira, o Subversion não armazena informação o suficiente
+        para traçar eficientemente o histórico das revisões à frente para um
+        objeto.  Assim, o algoritmo neste caso é um pouco diferente:</para>
 
       <itemizedlist>
         
         <listitem>
-          <para>Locate <replaceable>item</replaceable> in the revision
-            identified by <replaceable>OPERATIVE-REV</replaceable>.  There
-            can be only one such object.</para>
+          <para>Localize o <replaceable>item</replaceable> na revisão
+            identificada por <replaceable>OPERATIVE-REV</replaceable>.  Deve
+            ser encontrado apenas um único objeto.</para>
         </listitem>
 
         <listitem>
-          <para>Trace the object's history backwards (through any
-            possible renames) to its ancestor in the revision
+          <para>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão
             <replaceable>PEG-REV</replaceable>.</para>
         </listitem>
 
         <listitem>
-          <para>Verify that the object's location (path-wise) in
-            <replaceable>PEG-REV</replaceable> is the same as it is in
-            <replaceable>OPERATIVE-REV</replaceable>.  If that's the
-            case, then at least the two locations are known to be
-            directly related, so perform the requested action on the
-            location in <replaceable>OPERATIVE-REV</replaceable>.
-            Otherwise, relatedness was not established, so error out
-            with a loud complaint that no viable location was found.
-            (Someday, we expect that Subversion will be able to handle
-            this usage scenario with more flexibility and
-            grace.)</para>
+          <para>Verifique se a localização do objeto (caminho) em
+              <replaceable>PEG-REV</replaceable> é a mesma que o era na revisão
+            <replaceable>OPERATIVE-REV</replaceable>.  Se for este o caso,
+            então sabe-se que pelo menos dois locais estão diretamente
+            relacionados, e então execute a ação requisitada na localização em
+            <replaceable>OPERATIVE-REV</replaceable>.  Caso contrário, nenhuma
+            relação pôde ser estabelecida, então exiba uma mensagem de erro
+            detalhando que nenhuma localização viável foi encontrada.  (Algum
+            dia esperamos que o Subversion será capaz de lidar com este cenário
+            de uso com mais graça e flexibilidade.)</para>
         </listitem>
 
       </itemizedlist>
 
-      <para>Note that even when you don't explicitly supply a peg
-        revision or operative revision, they are still present.  For
-        your convenience, the default peg revision is
-        <literal>BASE</literal> for working copy items and
-        <literal>HEAD</literal> for repository URLs.  And when no
-        operative revision is provided, it defaults to being the same
-        revision as the peg revision.</para>
+      <para>Note que mesmo quando você não informa uma revisão marcadora ou uma
+        revisão operativa, elas ainda estarão presentes.  Para sua
+        conveniência, <literal>BASE</literal> é tida como revisão marcadora
+        padrão para itens em sua cópia de trabalho e <literal>HEAD</literal> o
+        é para URLs do repositório.  E quando nenhuma revisão operativa for
+        informada, por padrão será usada a mesma que a da revisão marcadora.</para>
         
     </sidebar>
 
-    <para>Say that long ago we created our repository, and in revision 1
-      added our first <filename>concept</filename> directory, plus an
-      <filename>IDEA</filename> file in that directory talking about
-      the concept.  After several revisions in which real code was
-      added and tweaked, we, in revision 20, renamed this directory to
-      <filename>frabnaggilywort</filename>.  By revision 27, we had a
-      new concept, a new <filename>concept</filename> directory to
-      hold it, and a new <filename>IDEA</filename> file to describe
-      it.  And then five years and twenty thousand revisions flew by,
-      just like they would in any good romance story.</para>
+    <para>Digamos que tenhamos criado nosso repositório muito tempo atrás, e
+      que na revisão 1 adicionamos nosso primeiro diretório
+      <filename>concept</filename>, além de um arquivo
+      <filename>IDEA</filename> nesse diretório contendo as idéias relacionadas
+      ao conceito.  Depois de algumas revisões nas quais códigos reais foram
+      adicionados e manipulados, nós, na revisão 20, renomeamos este diretório
+      para <filename>frabnaggilywort</filename>.  Lá pela revisão 27, temos um
+      novo conceito, e criamos um novo diretório <filename>concept</filename>
+      para armazená-lo, e um novo arquivo <filename>IDEA</filename> para
+      descrevê-lo.  E assim, cinco anos e vinte mil revisões se passaram, tal
+      como seria em qualquer história de romance que se preze.</para>
 
-    <para>Now, years later, we wonder what the
-      <filename>IDEA</filename> file looked like back in revision 1.
-      But Subversion needs to know if we are asking about how the
-      <emphasis>current</emphasis> file looked back in revision 1, or
-      if we are asking for the contents of whatever file lived at
-      <filename>concepts/IDEA</filename> in revision 1.  Certainly
-      those questions have different answers, and because of peg
-      revisions, you can ask either of them.  To find out how the
-      current <filename>IDEA</filename> file looked in that old
-      revision, you run:</para>
+    <para>Agora, anos depois, nos questionamos como seria ter de volta o
+      arquivo <filename>IDEA</filename> tal como na revisão 1.  Mas o
+      Subversion precisa saber se nós estamos querendo saber sobre como o
+      <emphasis>atual</emphasis> arquivo se pareceria na revisão 1, ou se
+      estamos solicitando o conteúdo de qualquer que fosse o arquivo que
+      estivava como <filename>concepts/IDEA</filename> na revisão 1.
+      Certamente estas questões têm respostas diferentes, e devido as revisões
+      marcadoras, é possível obter ambas as respostas.  Para ver como o arquivo
+      <filename>IDEA</filename> atual era naquela revisão antiga, você
+      executa:</para>
 
     <screen>
 $ svn cat -r 1 concept/IDEA 
 svn: Unable to find repository location for 'concept/IDEA' in revision 1
 </screen>
 
-    <para>Of course, in this example, the current
-      <filename>IDEA</filename> file didn't exist yet in revision 1,
-      so Subversion gives an error.  The command above is shorthand
-      for a longer notation which explicitly lists a peg revision.
-      The expanded notation is:</para>
+    <para>É claro, neste exemplo, o atual arquivo <filename>IDEA</filename> não
+      existia ainda na revisão 1, então o Subversion lhe exibe um erro.  O
+      comando acima é uma versão resumida para uma notação mais longa que
+      relaciona explicitamente uma revisão marcadora.  A notação expandida
+      é:</para>
 
     <screen>
 $ svn cat -r 1 concept/IDEA@BASE
 svn: Unable to find repository location for 'concept/IDEA' in revision 1
 </screen>
 
-    <para>And when executed, it has the expected results.</para>
+    <para>E quando executada, ela dá os mesmos resultados esperados.</para>
 
-    <para>The perceptive reader is probably wondering at this point if
-      the peg revision syntax causes problems for working copy paths
-      or URLs that actually have at signs in them.  After
-      all, how does <command>svn</command> know whether
-      <literal>news@11</literal> is the name of a directory in my
-      tree, or just a syntax for <quote>revision 11 of
-      <filename>news</filename></quote>?  Thankfully, while
-      <command>svn</command> will always assume the latter, there is a
-      trivial workaround.  You need only append an at sign to the
-      end of the path, such as <literal>news@11@</literal>.
-      <command>svn</command> only cares about the last at sign in
-      the argument, and it is not considered illegal to omit a literal
-      peg revision specifier after that at sign.  This workaround
-      even applies to paths that end in an at sign&mdash;you would
-      use <literal>filename@@</literal> to talk about a file named
+    <para>Neste ponto, provavelmente o leitor mais atento está se perguntando
+      se a sintaxe de revisões marcadoras causa problemas em caminhos na c[opia
+      de trabalho ou em URLs que atualmente tenham sinais em si mesmas.  Depois
+      de tudo, como o <command>svn</command> sabe se 
+      <literal>news@11</literal> é o nome de um diretório em minha árvore, ou
+      se é apenas uma sintaxe para a <quote>revisão 11 de
+      <filename>news</filename></quote>?  Felizmente, ainda que o 
+      <command>svn</command> considere sempre esta última opção, existe uma
+      regra trivial.  Você só precisa adicionar um sinal de arroba ao final do
+      caminho, como em <literal>news@11@</literal>.  O <command>svn</command>
+      só irá se importar com o último sinal de arroba no argumento, e que não
+      seja considerado ilegal omitir um especificador do número da revisão
+      marcadora depois desse arroba.  Esta regra também se aplica a caminhos
+      que terminal com um sinal de arroba&mdash;você poderia usar
+      <literal>filename@@</literal> para se referir a um arquivo chamado 
       <filename>filename@</filename>.</para>
 
-    <para>Let's ask the other question, then&mdash;in revision 1, what
-      were the contents of whatever file occupied the address
-      <filename>concepts/IDEA</filename> at the time?  We'll use an
-      explicit peg revision to help us out.</para>
+    <para>Vamos considerar a outra questão, então&mdash;na revisão 1, como era
+      estava o conteúdo de qualquer que seja o arquivo que estava ocupando o
+      endereço <filename>concepts/IDEA</filename> naquele momento?  Vamos usar
+      explicitamente uma revisão marcadora para nos ajudar.</para>
 
     <screen>
 $ svn cat concept/IDEA@1
