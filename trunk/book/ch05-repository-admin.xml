@@ -2966,7 +2966,7 @@ $ svnadmin hotcopy --clean-logs /path/to/bdb-repos /path/to/bdb-repos-backup
     <para>Até agora você deve ter tido um entendimento de como
     criar, configurar e manter repositórios Subversion.
     Nós o introduzimos a várias ferramentas que o ajudarão
-    nessa tarefa. Ao longo desse capítulo, nós mostramos
+    nessa tarefa.  Ao longo deste capítulo, nós mostramos
     obstáculos comuns e sugestões para evitá-los.</para>
 
     <para>Tudo que falta para você é decidir que tipo de informação
