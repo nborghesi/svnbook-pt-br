@@ -2701,10 +2701,10 @@ $
       combinação de um caminho e uma revisão marcadora é tudo o que é
       necessário para se referenciar a uma linha específica de histórico.
       Revisões marcadoras são especificadas pelo cliente de linha de comando do
-      Subversion usando <firstterm>sintaxe de arroba</firstterm><footnote>N.T.:
+      Subversion usando <firstterm>sintaxe de arroba</firstterm><footnote><para>N.T.:
       Em inglês, o símbolo de arroba é lido como <quote>at</quote>, que tem o
       sentido de <emphasis>em</emphasis> ou <emphasis>naquele
-      lugar</emphasis>.</footnote>, assim chamada porque envolve anexar-se um
+      lugar</emphasis>.</para></footnote>, assim chamada porque envolve anexar-se um
       <quote>sinal de arroba</quote> (<literal>@</literal>) e a revisão
       marcadora ao final do caminho com o qual a revisão está associada.</para>
 
