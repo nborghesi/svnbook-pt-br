@@ -455,9 +455,9 @@
   <sect1 id="svn.preface.acks">
     <title>Agradecimentos</title>
 
-    <para>Este livro não existiria (e nem seria útil) se o
-      Subversion não existisse.  Assim, os autores gostariam de agradecer a 
-      Brian Behlendorf e a CollabNet, pela visão em acreditar en um arriscado 
+    <para>Este livro não existiria (nem seria útil) se o
+      Subversion não existisse.  Assim, os autores gostariam de agradecer ao 
+      Brian Behlendorf e à CollabNet, pela visão em acreditar em um arriscado 
       e ambicioso projeto de Código Aberto; Jim Blandy pelo nome e projeto
       original do Subversion&mdash;nós amamos você, Jim;
       Karl Fogel, por ser um excelente amigo e grande líder na comunidade,
