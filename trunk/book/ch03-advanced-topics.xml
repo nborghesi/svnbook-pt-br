@@ -2895,23 +2895,22 @@ we need to employ over-the-top input validation and data verification
 mechanisms.
 </screen>
 
-    <para>Notice that we didn't provide an operative revision this
-      time.  That's because when no operative revision is specified,
-      Subversion assumes a default operative revision that's the same
-      as the peg revision.</para>
+    <para>Perceba que nós não informamos uma revisão operativa neste momento.
+      Isso se deve porque quando uma revisão operativa não é especificada, o
+      Subversion assume como padrão uma revisão operativa que é a mesma da
+      revisão marcadora.</para>
 
-    <para>As you can see, the output from our operation appears to be
-      correct.  The text even mentions frabbing naggily worts, so this
-      is almost certainly the file which describes the software now
-      called Frabnaggilywort.  In fact, we can verify this using the
-      combination of an explicit peg revision and explicit operative
-      revision.  We know that in <literal>HEAD</literal>, the
-      Frabnaggilywort project is located in the
-      <filename>frabnaggilywort</filename> directory.  So we specify
-      that we want to see how the line of history identified in
-      <literal>HEAD</literal> as the path
-      <filename>frabnaggilywort/IDEA</filename> looked in revision
-      1.</para>
+    <para>Como você pode ver, a saída da execução de nosso comando parece estar
+      correta.  O texto ainda menciona <foreignphrase>frabbing naggily
+      worts</foreignphrase>, então isto é certamente o arquivo que descreve o
+      software agora chamado de Frabnaggilywort.  De fato, podemos verificar
+      isto usando a combinação de uma revisão marcadora e uma revisão
+      operativa.  Nós sabemos que em <literal>HEAD</literal>, o projeto
+      Frabnaggilywort está localizado no diretório
+      <filename>frabnaggilywort</filename>.  Então nós especificamos que
+      queremos ver como a linha de histórico identificada em 
+      <literal>HEAD</literal> como o caminho
+      <filename>frabnaggilywort/IDEA</filename> se parecia na revisão 1.</para>
 
     <screen>
 $ svn cat -r 1 frabnaggilywort/IDEA@HEAD
@@ -2922,15 +2921,15 @@ we need to employ over-the-top input validation and data verification
 mechanisms.
 </screen>
 
-    <para>And the peg and operative revisions need not be so trivial,
-      either.  For example, say <filename>frabnaggilywort</filename>
-      had been deleted from <literal>HEAD</literal>, but we know it
-      existed in revision 20, and we want to see the diffs for its
-      <filename>IDEA</filename> file between revisions 4 and 10.  We
-      can use the peg revision 20 in conjunction with the URL that
-      would have held Frabnaggilywort's <filename>IDEA</filename> file
-      in revision 20, and then use 4 and 10 as our operative revision
-      range.</para>
+    <para>E as revisões marcadora e operativa nem precisam ser tão triviais.
+      Por exemplo, digamos que <filename>frabnaggilywort</filename> esteja
+      removido na revisão <literal>HEAD</literal>, mas nós sabemos que esse
+      diretório existia na revisão 20, e nós queremos ver as diferenças de seu
+      arquivo <filename>IDEA</filename> entre as revisões 4 e 10.  Nós podemos
+      usar a revisão marcadora 20 em conjunto com a URL que deveria conter o
+      diretório <filename>IDEA</filename> do diretório Frabnaggilywort na
+      revisão 20, e então usar 4 e 10 como nosso intervalo de revisões
+      operativas.</para>
 
     <screen>
 $ svn diff -r 4:10 http://svn.red-bean.com/projects/frabnaggilywort/IDEA@20
@@ -2951,9 +2950,10 @@ Index: frabnaggilywort/IDEA
 +input validation and data verification mechanisms.
 </screen>
 
-    <para>Fortunately, most folks aren't faced with such complex
-      situations.  But when you are, remember that peg revisions are
-      that extra hint Subversion needs to clear up ambiguity.</para>
+    <para>Felizmente, a maioria das pessoas não se deparam com situações tão
+      complexas desse tipo.  Mas se um dia você se deparar, lembre-se que
+      revisões marcadoras são um recurso extra de que o Subversion precisa para
+      reslver ambiguidades.</para>
 
   </sect1>
 
