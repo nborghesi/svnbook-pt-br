@@ -6,7 +6,7 @@ Estimamos que cerca de *56,4%* do livro já tenha sido traduzido. Esse número n
 || *Preface*                                 || *100%* ||
 || *1. Fundamental Concepts*                 || *100%* ||
 || *2. Basic Usage*                          || *100%* ||
-|| 3. Advanced Topics                        || 89%    ||
+|| *3. Advanced Topics*                      || *100%* ||
 || 4. Branching and Merging                  || 41%    ||
 || 5. Repository Administration              || 17%    ||
 || *6. Server Configuration*                 || *100%* ||
