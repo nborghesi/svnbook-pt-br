@@ -686,31 +686,31 @@ collabnet = svn.collab.net
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.l10n">
-    <title>Localization</title>
+    <title>Localização</title>
 
-    <para><firstterm>Localization</firstterm> is the act of making
-      programs behave in a region-specific way.  When a program
-      formats numbers or dates in a way specific to your part of the
-      world, or prints messages (or accepts input) in your native
-      language, the program is said to
-      be <firstterm>localized</firstterm>.  This section describes
-      steps Subversion has made towards localization.</para>
+    <para><firstterm>Localização</firstterm> é o ato de fazer com que
+      programas comportem-se de um modo específico de região.  Quando um programa
+      formata números ou datas em um modo específico para sua parte do
+      mundo, ou imprime mensagens (ou aceita uma entrada) em sua linguagem
+      nativa, o programa é dito
+      ser <firstterm>localizado</firstterm>.  Esta seção descreve os
+      passos que o Subversion tem feito a respeito de localização.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.l10n.understanding">
-      <title>Understanding locales</title>
+      <title>Compreendendo localidades</title>
       
-      <para>Most modern operating systems have a notion of the
-        <quote>current locale</quote>&mdash;that is, the region or
-        country whose localization conventions are honored.  These
-        conventions&mdash;typically chosen by some runtime
-        configuration mechanism on the computer&mdash;affect the way
-        in which programs present data to the user, as well as the way
-        in which they accept user input.</para>
+      <para>A maioria dos sistemas operacionais modernos têm uma noção da
+        <quote>localidade atual</quote>&mdash;isto é, a região ou
+        país cujas convenções de localização são aplicadas.  Estas
+        convenções&mdash;normalmente escolhidas por algum mecanismo de
+        configuração de execução no computador&mdash;afetam a forma
+        como os programas apresentam dados para o usuário, bem como a forma
+        como eles aceitam dados fornecidos pelo usuário.</para>
 
-      <para>On most Unix-like systems, you can check the values of the
-        locale-related runtime configuration options by running the
-        <command>locale</command> command:</para>
+      <para>Na maioria dos sistemas Unix, você pode verificar os valores das
+        opções de configuração relacionadas à localidade pela execução do
+        comando <command>locale</command>:</para>
 
       <screen>
 $ locale
@@ -724,31 +724,31 @@ LC_TIME="C"
 LC_ALL="C"
 </screen>
 
-      <para>The output is a list of locale-related environment
-        variables and their current values.  In this example, the
-        variables are all set to the default <literal>C</literal>
-        locale, but users can set these variables to specific
-        country/language code combinations.  For example, if one were
-        to set the <literal>LC_TIME</literal> variable to
-        <literal>fr_CA</literal>, then programs would know to present
-        time and date information formatted according a
-        French-speaking Canadian's expectations.  And if one were to
-        set the <literal>LC_MESSAGES</literal> variable to
-        <literal>zh_TW</literal>, then programs would know to present
-        human-readable messages in Traditional Chinese.  Setting the
-        <literal>LC_ALL</literal> variable has the effect of changing
-        every locale variable to the same value.  The value of
-        <literal>LANG</literal> is used as a default value for any
-        locale variable that is unset.  To see the list of available
-        locales on a Unix system, run the command <command>locale
+      <para>A saída é uma lista de variáveis de ambiente, relacionadas com
+        a localidade, e seus valores atuais.  Neste exemplo, as
+        variáveis estão todas definidas com o local padrão <literal>C</literal>,
+        mas os usuários podem definir estas variáveis para especificar
+        combinações de código país/idioma.  Por exemplo, se alguém quisesse
+        definir a variável <literal>LC_TIME</literal> com o valor
+        <literal>fr_CA</literal>, então os programas saberiam apresentar
+        informações de data e hora formatadas de acordo com a
+        expectativa de um Canadense que fala Francês.  E se alguém quisesse
+        definir a variável <literal>LC_MESSAGES</literal> com o valor
+        <literal>zh_TW</literal>, então os programas saberiam apresentar
+        mensagens legíveis em Chinês Tradicional.  Configurar a
+        variável <literal>LC_ALL</literal> tem o efeito de modificar
+        todas as variáveis de localidade para o mesmo valor.  O valor de
+        <literal>LANG</literal> é utilizado como um valor padrão para qualquer
+        variável de localidade que está indefinida.  Para ver a lista de localidades
+        disponíveis em um sistema Unix, execute o comando <command>locale
         -a</command>.</para>
 
-      <para>On Windows, locale configuration is done via the
-        <quote>Regional and Language Options</quote> control panel
-        item.  There you can view and select the values of individual
-        settings from the available locales, and even customize (at a
-        sickening level of detail) several of the display formatting
-        conventions.</para>
+      <para>No Windows, a configuração de localidade é feita por meio do
+        item <quote>Opções Regionais e de Idioma</quote> no painel de
+        controle.  Lá você poderá ver e selecionar os valores das configurações
+        individuais das localidades disponíveis, e até mesmo personalizar (a um
+        nível de detalhe enjoativo) várias das convenções de formatação de
+        exibição.</para>
 
     </sect2>
 
