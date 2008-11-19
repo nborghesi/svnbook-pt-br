@@ -2479,74 +2479,72 @@ Fetching external item into calc/third-party/skins
 &hellip;
 </screen>
 
-    <para>If you need to change the externals definition, you can do
-      so using the regular property modification subcommands.  When
-      you commit a change to the <literal>svn:externals</literal>
-      property, Subversion will synchronize the checked-out items
-      against the changed externals definition when you next run
-      <command>svn update</command>.  The same thing will happen when
-      others update their working copies and receive your changes to
-      the externals definition.</para>
+    <para>Se você precisar mudar as definições externas, você pode fazer isso
+      usando os subcomandos para modificação de propriedades normalmente.
+      Quando você submeter uma alteração na propriedade
+      <literal>svn:externals</literal>, o Subversion irá sincronizar os itens
+      submetidos com as definições externas na próxima vez que você executar um
+      <command>svn update</command>.  A mesma coisa irá acontecer quando outros
+      atualizarem suas cópias de trabalho e recebam as suas modificações nas
+      definições externas.</para>
 
     <tip>
-      <para>Because the <literal>svn:externals</literal> property has
-        a multiline value, we strongly recommend that you use
-        <command>svn propedit</command> instead of <command>svn
+      <para>Como o valor da propriedade <literal>svn:externals</literal> é um
+        conteúdo de múltiplas linhas, nós recomendamos fortemente que você use
+        o <command>svn propedit</command> ao invés do <command>svn
         propset</command>.</para>
     </tip>
 
     <tip>
-      <para>You should seriously consider using explicit revision
-        numbers in all of your externals definitions.  Doing so means
-        that you get to decide when to pull down a different snapshot
-        of external information, and exactly which snapshot to pull.
-        Besides avoiding the surprise of getting changes to
-        third-party repositories that you might not have any control
-        over, using explicit revision numbers also means that as you
-        backdate your working copy to a previous revision, your
-        externals definitions will also revert to the way they looked
-        in that previous revision, which in turn means that the
-        external working copies will be updated to match they way
-        <emphasis>they</emphasis> looked back when your repository was
-        at that previous revision.  For software projects, this could
-        be the difference between a successful and a failed build of
-        an older snapshot of your complex codebase.</para> 
+      <para>Você deveria considerar seriamente o uso de um número de revisão
+        explícito em todas as suas definições externas.  Fazer isso significa
+        que você tem que decidir quando trazer um diferente registro
+        instantâneo de uma informação externa, e exatamente qual instantâneo
+        trazer.  Além de evitar a surpresa de obter mudanças de repositórios de
+        terceiros sobre as quais você pode não ter nenhum controle, usar número
+        de revisão explícitos também significa que conforme você voltar no
+        tempo sua cópia de trabalho para uma revisão anterior, suas definições
+        externas também serão revertidas para a forma como estavam na revisão
+        passada, o que por sua vez significa que as cópias de trabalho serão
+        atualizadas de volta para corresponder à forma como
+        <emphasis>elas</emphasis> se pareciam quando seu repositório estava
+        naquela revisão anterior.  Para projetos de software, isso poderia ser
+        a diferença entre uma compilação de sucesso ou uma falha em um momento
+        passado de sua complexa base de código.</para> 
     </tip>
 
-    <para>The <command>svn status</command> command also recognizes
-      externals definitions, displaying a status code of
-      <literal>X</literal> for the disjoint subdirectories into which
-      externals are checked out, and then recursing into those
-      subdirectories to display the status of the external items
-      themselves.</para>
+    <para>O comando <command>svn status</command> também reconhece definições
+      externas, exibindo um código de status <literal>X</literal> para
+      subdiretórios desmembrados nos quais as externas foram obtidas, e então
+      varrer recursivamente dentro destes subdiretórios para mostrar o status
+      dos próprios itens externos.</para>
 
-    <para>The support that exists for externals definitions in
-      Subversion is less than ideal, though.  First, an
-      externals definition can only point to directories, not files.
-      Second, the externals definition cannot point to relative paths
-      (paths like <filename>../../skins/myskin</filename>).  Third, the
-      working copies created via the externals definition support are
-      still disconnected from the primary working copy (on whose
-      versioned directories the <literal>svn:externals</literal>
-      property was actually set).  And Subversion still only truly
-      operates on non-disjoint working copies.  So, for example, if
-      you want to commit changes that you've made in one or more of
-      those external working copies, you must run <command>svn
-      commit</command> explicitly on those working
-      copies&mdash;committing on the primary working copy will not
-      recurse into any external ones.</para>
+    <para>O suporte que existe para definições externas no Subversion ainda
+      está abaixo do ideal.  Primeiro, uma definição externa pode apenas
+      apontar para diretórios, não para arquivos.  Segundo, as definições
+      externas não podem apontar para caminhos relativos (tais como
+      <filename>../../skins/myskin</filename>).  Terceiro, o suporte a cópias
+      de trabalho criadas por meio de definições externas ainda está
+      desconectado da cópia de trabalho primária (na qual a propriedade
+      <literal>svn:externals</literal> dos diretórios versionados foi
+      atualmente definida).  E o Subversion ainda só pode operar
+      verdadeiramente em cópias de trabalho não-desmembradas.  Então, por
+      exemplo, se você quiser submeter as alterações que você tenha feito em um
+      ou mais destas cópias de trabalho externas, você deve executar um
+      <command>svn commit</command> explicitamente nessas cópias de
+      trabalho&mdash;submeter alterações numa cópia de trabalho não irá
+      implicar numa recursão dentro de nenhuma das externas.</para>
 
-    <para>Also, since the definitions themselves use absolute URLs,
-      moving or copying a directory to which they are attached will
-      not affect what gets checked out as an external (though the
-      relative local target subdirectory will, of course, move with
-      renamed directory).  This can be confusing&mdash;even
-      frustrating&mdash;in certain situations.  For example, say you
-      have a top-level directory named
-      <filename>my-project</filename>, and you've created an externals
-      definition on one of its subdirectories
-      (<filename>my-project/some-dir</filename>) which tracks the
-      latest revision of another of its subdirectories
+    <para>E também, como as definições externas em si usam URLs absolutas, a
+      movimentação ou cópia de um diretório ao qual elas estejam anexadas não
+      afetará aquela obtida como uma externa (ainda que o subdiretório local de
+      destino relativo seja, é claro, movido com o diretório renomeado).  Isto
+      pode ser confuso&mdash;ou mesmo frustrante&mdash;em certas situações.
+      Por exemplo, digamos que você tenha um diretório de alto nível chamado
+      <filename>my-project</filename>, e que você tenha criado uma definição
+      externa em um de seus subdiretórios
+      (<filename>my-project/some-dir</filename>) que acompanha a última revisão
+      de outro de seus subdiretórios 
       (<filename>my-project/external-dir</filename>).</para>
 
     <screen>
@@ -2565,11 +2563,11 @@ subdir http://svn.example.com/projects/my-project/external-dir
 $
 </screen>
 
-    <para>Now you use <command>svn move</command> to rename the
-      <filename>my-project</filename> directory.  At this point, your
-      externals definition will still refer to a path under the
-      <filename>my-project</filename> directory, even though that
-      directory no longer exists.</para>
+    <para>Agora você executa <command>svn move</command> para renomear o
+      diretório <filename>my-project</filename> directory.  Neste ponto, sua
+      definição externa ainda vai se referir ao caminho relacionado ao
+      diretório <filename>my-project</filename>, muito embora esse diretório
+      não exista mais.</para>
 
     <screen>
 $ svn move -q my-project renamed-project
@@ -2585,30 +2583,28 @@ svn: Target path does not exist
 $
 </screen>
 
-    <para>Also, the absolute URLs that externals definitions use
-      can cause problems with repositories that are available via
-      multiple URL schemes.  For example, if your Subversion server is
-      configured to allow everyone to check out the repository over
-      <literal>http://</literal> or <literal>https://</literal>, but
-      only allow commits to come in via <literal>https://</literal>,
-      you have an interesting problem on your hands.  If your
-      externals definitions use the <literal>http://</literal> form
-      of the repository URLs, you won't be able to commit anything
-      from the working copies created by those externals.  On the
-      other hand, if they use the <literal>https://</literal> form of
-      the URLs, anyone who might be checking out via
-      <literal>http://</literal> because their client doesn't support
-      <literal>https://</literal> will be unable to fetch the external
-      items.  Be aware, too, that if you need to re-parent your
-      working copy (using <command>svn switch --relocate</command>),
-      externals definitions will <emphasis>not</emphasis> also be
-      re-parented.</para>
+    <para>E também, as URLs absolutas que as definições externas usam podem
+      causar problemas com repositórios que estejam disponíveis a partir de
+      múltiplos esquemas de URL.  Por exemplo, se seu servidor Subversion
+      estiver configurado para permitir que qualquer um obtenha o conteúdo do
+      repositório por meio de <literal>http://</literal> ou
+      <literal>https://</literal>, mas que apenas possam submeter alterações
+      através de <literal>https://</literal>, você tem um interessante problema
+      em mãos.  Se suas definições externas usam o formato
+      <literal>http://</literal> para URLs do repositório, você não será capaz
+      de submeter nada a partir das cópias de trabalho criadas por definições
+      externas.  Por outro lado, se elas usam o formato
+      <literal>https://</literal> para URLs, qualquer pessoa que tenha obtido a
+      cópia através de <literal>http://</literal> por não ter um cliente com
+      suporte a <literal>https://</literal> estará impossibilitado de buscar
+      itens externos.  Atente também que se você precisar realocar sua cópia de
+      trabalho (usando <command>svn switch --relocate</command>), suas
+      definições externas <emphasis>não</emphasis> serão realocadas.</para>
 
-    <para>Finally, there might be times when you would prefer that
-      <command>svn</command> subcommands would not recognize, or
-      otherwise operate upon, the external working copies.   In those instances,
-      you can pass the <option>--ignore-externals</option> option to
-      the subcommand.</para>
+    <para>Finalmente, pode ser que algumas vezes você prefira que os
+      subcomandos não reconheçam <command>svn</command>, ou mesmo não operem
+      sobre cópias de trabalhos externas.  Nesses casos, você pode passar a
+      opção <option>--ignore-externals</option> para o subcomando.</para>
   </sect1>
 
   <!-- ================================================================= -->
