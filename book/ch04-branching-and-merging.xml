@@ -1912,7 +1912,7 @@ URL: http://svn.example.com/repos/calc/branches/my-calc-branch
 	exatamente isso&mdash;uma foto da estrutura depois de 
 	cada commit.</para>
 
-    <para>Entretando, pessoas normalmente querem dar rótulos mais amigáveis
+    <para>Entretanto, pessoas normalmente querem dar rótulos mais amigáveis
 	como nomes de tags, como <literal>versão-1.0</literal>. E querem
 	fazer <quote>fotos</quote> de pequenos sub-diretórios da estrutura.
 	Além do mais, não é fácil lembrar que versão-1.0 de um pedaço do
