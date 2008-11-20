@@ -782,7 +782,7 @@ Aufruf: cat ZIEL[@REV]...
 </screen>
 
       <para>Este comportamento ocorre identicamente tanto em sistemas Unix quando
-        em Windows.  Note, entretanto, que enquanto seu sistema operacioal possa
+        em Windows.  Note, entretanto, que enquanto seu sistema operacional possa
         ter suporte para uma certa localidade, o cliente do Subversion ainda
         pode não estar hábil para falar com o idioma específico.  A fim de
         produzir mensagens localizadas, pessoas voluntárias podem fornecer
@@ -791,7 +791,7 @@ Aufruf: cat ZIEL[@REV]...
         tradução que terminam com a extensão <filename>.mo</filename> no nome do
         arquivo.  Por exemplo, o arquivo de tradução para o Alemão é nomeado
         <filename>de.mo</filename>.  Estes arquivos de tradução estão
-        instalados em algum lugar em seu sistema.  No Unix, esles normalmente
+        instalados em algum lugar em seu sistema.  No Unix, eles normalmente
         ficam em <filename>/usr/share/locale/</filename>, enquanto que
         no Windows eles são frequentemente encontrados na
         pasta <filename>\share\locale\</filename> na área de instalação
@@ -804,39 +804,39 @@ Aufruf: cat ZIEL[@REV]...
         pode ver quais linguagens o cliente Subversion está hábil para
         falar.</para>
 
-      <para>The second way in which the locale is honored involves how
-        <command>svn</command> interprets your input.  The repository
-        stores all paths, filenames, and log messages in Unicode,
-        encoded as UTF-8.  In that sense, the repository is
-        <firstterm>internationalized</firstterm>&mdash;that is, the
-        repository is ready to accept input in any human language.
-        This means, however, that the Subversion client is responsible
-        for sending only UTF-8 filenames and log messages into the
-        repository.  In order to do this, it must convert the data
-        from the native locale into UTF-8.</para>
+      <para>A segunda forma na qual a localidade é aplicada envolve como o
+        <command>svn</command> interpreta suas entradas.  O repositório
+        armazena todos os caminhos, nomes de arquivo, e mensagens de log em Unicode,
+        codificadas como UTF-8.  Nesse sentido, o repositório está
+        <firstterm>internacionalizado</firstterm>&mdash;isto é, o
+        repositório está pronto para aceitar entradas em qualquer linguagem humana.
+        Isso significa, contudo, que o cliente do Subversion é responsável
+        por enviar somente nomes de arquivos e mensagens de log em UTF-8 para o
+        repositório.  Para isso, ele deve converter os dados a partir
+        da localidade nativa em UTF-8.</para>
 
-      <para>For example, suppose you create a file named
-        <filename>caffÃ¨.txt</filename>, and then when committing the
-        file, you write the log message as <quote>Adesso il caffÃ¨ Ã¨
-        piÃ¹ forte</quote>.  Both the filename and log message contain
-        non-ASCII characters, but because your locale is set to
-        <literal>it_IT</literal>, the Subversion client knows to
-        interpret them as Italian.  It uses an Italian character set
-        to convert the data to UTF-8 before sending them off to the
-        repository.</para>
+      <para>Por exemplo, suponha que você criou uma arquivo chamado
+        <filename>caffÃ¨.txt</filename>, e então ao submeter o
+        arquivo, você escreve a mensagem de log como <quote>Adesso il caffÃ¨ Ã¨
+        piÃ¹ forte</quote>.  Tanto o nome do arquivo quanto a mensagem de log contem
+        caracteres não-ASCII, porém, sua localidade está definida como
+        <literal>it_IT</literal>, e o cliente Subversion sabe
+        interpretá-los como Italiano.  Ele usa um conjunto de caracteres do Italiano
+        para converter os dados para UTF-8 antes de enviá-los para o
+        repositório.</para>
 
-      <para>Note that while the repository demands UTF-8 filenames and
-        log messages, it <emphasis>does not</emphasis> pay attention
-        to file contents.  Subversion treats file contents as opaque
-        strings of bytes, and neither client nor server makes an
-        attempt to understand the character set or encoding of the
-        contents.</para>
+      <para>Observe que, enquanto o repositório demanda nomes de arquivo e mensagens
+        de log em UTF-8, ele <emphasis>não</emphasis> presta atenção
+        ao conteúdo do arquivo.  O Subversion trata o conteúdo do arquivo como
+        sequências de bytes quaisquer, e nem o cliente nem servidor fazem uma
+        tentativa de entender o conjunto de caracteres ou codificação do
+        conteúdo.</para>
 
       <sidebar>
-        <title>Character set conversion errors</title>
+        <title>Erros de conversão de conjuntos de caracter</title>
 
-        <para>While using Subversion, you might get hit with an error
-          related to character set conversions:</para>
+        <para>Quando estiver usando o Subversion, você pode receber um erro
+          relacionado a conversões de conjuntos de carecter:</para>
 
         <screen>
 svn: Can't convert string from native encoding to 'UTF-8':
@@ -845,22 +845,22 @@ svn: Can't convert string from 'UTF-8' to native encoding:
 &hellip;
 </screen>
     
-        <para>Errors like this typically occur when the Subversion
-          client has received a UTF-8 string from the repository, but
-          not all of the characters in that string can be represented
-          using the encoding of the current locale.  For example, if
-          your locale is <literal>en_US</literal> but a collaborator
-          has committed a Japanese filename, you're likely to see this
-          error when you receive the file during an <command>svn
+        <para>Erros como estes normalmente ocorrem quando o cliente do
+          Subversion recebeu uma sequência UTF-8 do repositório, mas
+          nem todos os caracteres nesta sequência podem ser representados
+          usando a codificação da localidade atual.  Por exemplo, se
+          sua localidade é <literal>en_US</literal> mas um colaborador
+          submeteu um nome de arquivo em Japonês, você provavelmente verá este
+          erro quando for receber o arquivo durante um <command>svn
           update</command>.</para>
 
-        <para>The solution is either to set your locale to something
-          which <emphasis>can</emphasis> represent the incoming UTF-8
-          data, or to change the filename or log message in the
-          repository.  (And don't forget to slap your collaborator's
-          hand&mdash;projects should decide on common languages ahead of
-          time, so that all participants are using the same
-          locale.)</para>
+        <para>A solução está tanto em definir sua localidade para alguma
+          que <emphasis>possa</emphasis> representar os dados UTF-8
+          recebidos, ou modificar o nome do arquivo ou mensagem de log dentro do
+          repositório.  (E não esqueça de dar uma bofetada na mão de seu
+          colaborador&mdash;os projetos devem decidir o quanto antes as linguagens
+          comuns, para que todos participantes estejam utilizando a mesma
+          localidade.)</para>
       </sidebar>
 
     </sect2>
