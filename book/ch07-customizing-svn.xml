@@ -765,13 +765,13 @@ LC_ALL="C"
 
     <!-- =============================================================== -->
     <sect2 id="svn.advanced.l10n.svnuse">
-      <title>Subversion's use of locales</title>
+      <title>Uso de localidades do Subversion</title>
 
-      <para>The Subversion client, <command>svn</command>, honors the
-        current locale configuration in two ways.  First, it notices
-        the value of the <literal>LC_MESSAGES</literal> variable and
-        attempts to print all messages in the specified language.  For
-        example:</para>
+      <para>O cliente Subversion, <command>svn</command>, aplica a
+        configuração de localidade atual de duas formas.  Primeiro, ele trata
+        o valor da variável <literal>LC_MESSAGES</literal> e
+        tenta imprimir todas as mensagens no idioma especificado.  Por
+        exemplo:</para>
 
       <screen>
 $ export LC_MESSAGES=de_DE
@@ -781,28 +781,28 @@ Aufruf: cat ZIEL[@REV]...
 &hellip;
 </screen>
 
-      <para>This behavior works identically on both Unix and Windows
-        systems.  Note, though, that while your operating system might
-        have support for a certain locale, the Subversion client still
-        may not be able to speak the particular language.  In order to
-        produce localized messages, human volunteers must provide
-        translations for each language.  The translations are written
-        using the GNU gettext package, which results in translation
-        modules that end with the <filename>.mo</filename> filename
-        extension.  For example, the German translation file is named
-        <filename>de.mo</filename>.  These translation files are
-        installed somewhere on your system.  On Unix, they typically
-        live in <filename>/usr/share/locale/</filename>, while
-        on Windows they're often found in the
-        <filename>\share\locale\</filename> folder in Subversion's
-        installation area.  Once installed, a module is named after
-        the program it provides translations for.  For example, the
-        <filename>de.mo</filename> file may ultimately end up
-        installed as
+      <para>Este comportamento ocorre identicamente tanto em sistemas Unix quando
+        em Windows.  Note, entretanto, que enquanto seu sistema operacioal possa
+        ter suporte para uma certa localidade, o cliente do Subversion ainda
+        pode não estar hábil para falar com o idioma específico.  A fim de
+        produzir mensagens localizadas, pessoas voluntárias podem fornecer
+        traduções para cada linguagem.  As traduções são escritas
+        usando o pacote GNU gettext, que resultam em módulos de
+        tradução que terminam com a extensão <filename>.mo</filename> no nome do
+        arquivo.  Por exemplo, o arquivo de tradução para o Alemão é nomeado
+        <filename>de.mo</filename>.  Estes arquivos de tradução estão
+        instalados em algum lugar em seu sistema.  No Unix, esles normalmente
+        ficam em <filename>/usr/share/locale/</filename>, enquanto que
+        no Windows eles são frequentemente encontrados na
+        pasta <filename>\share\locale\</filename> na área de instalação
+        do Subversion.  Uma vez instalado, um módulo que contém o nome do
+        programa que fornece as traduções.  Por exemplo, o arquivo
+        <filename>de.mo</filename> pode vir a ser finalmente
+        instalado como
         <filename>/usr/share/locale/de/LC_MESSAGES/subversion.mo</filename>.
-        By browsing the installed <filename>.mo</filename> files, you
-        can see which languages the Subversion client is able to
-        speak.</para>
+        Ao navegar pelos arquivos <filename>.mo</filename> instalados, você
+        pode ver quais linguagens o cliente Subversion está hábil para
+        falar.</para>
 
       <para>The second way in which the locale is honored involves how
         <command>svn</command> interprets your input.  The repository
