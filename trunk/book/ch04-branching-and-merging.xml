@@ -1856,7 +1856,7 @@ URL: http://svn.example.com/repos/calc/branches/my-calc-branch
       <para>Você reparou que a saída dos comandos <command>svn
         switch</command> e <command>svn update</command> possuem a
         mesma aparência?  O comando <literal>switch</literal> é na verdade um
-        <quote>super-comando<quote> do comando <literal>update</literal>.</para>
+        <quote>super-comando</quote> do comando <literal>update</literal>.</para>
 
       <para>Quando você executa <command>svn update</command>, você está pedindo
         ao repositório para comparar duas árvores.  O repositório assim faz,
