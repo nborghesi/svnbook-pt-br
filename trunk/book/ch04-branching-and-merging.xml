@@ -1759,17 +1759,17 @@ A  newdirectory/newfile
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.switchwc">
-    <title>Traversing Branches</title>
+    <title>Atravessando Ramos</title>
 
-    <para>The <command>svn switch</command> command transforms an
-      existing working copy to reflect a different branch.  While this
-      command isn't strictly necessary for working with branches, it
-      provides a nice shortcut.  In our earlier example,
-      after creating your private branch, you checked out a fresh
-      working copy of the new repository directory.  Instead, you can
-      simply ask Subversion to change your working copy of
-      <filename>/calc/trunk</filename> to mirror the new branch
-      location:</para>
+    <para>O comando <command>svn switch</command> transforma uma
+      cópia de trabalho existente para refletir um ramo diferente.  Enquanto este
+      comando não é estritamente necessário para trabalhar com ramos, ele
+      oferece um bom atalho.  Em nosso exemplo anterior,
+      depois de criar seu ramo pessoal, você obteve uma cópia de
+      trabalho atualizada do novo diretório do repositório.  Em vez disso, você pode
+      simplesmente pedir ao Subversion que mude sua cópia de trabalho de
+      <filename>/calc/trunk</filename> para espelhar o local do novo
+      ramo:</para>
 
     <screen>
 $ cd calc
@@ -1787,115 +1787,115 @@ $ svn info | grep URL
 URL: http://svn.example.com/repos/calc/branches/my-calc-branch
 </screen>
 
-    <para>After <quote>switching</quote> to the branch, your working
-      copy is no different than what you would get from doing a fresh
-      checkout of the directory.  And it's usually more efficient to
-      use this command, because often branches only differ by a small
-      degree.  The server sends only the minimal set of changes
-      necessary to make your working copy reflect the branch
-      directory.</para>
+    <para>Depois da <quote>comutação</quote> para o ramo, sua cópia de
+      trabalho não é diferente daquilo que você obteria fazendo uma cópia
+      atualizada do diretório.  E ainda é usualmente mais eficiente
+      usar este comando, porque muitas vezes os ramos diferem somente em poucos
+      detalhes.  O servidor envia somente o conjunto mínimo de mudanças
+      necessárias para fazer sua cópia de trabalho refletir o diretório
+      do ramo.</para>
 
-    <para>The <command>svn switch</command> command also takes a
-      <option>--revision</option> (<option>-r</option>) option, so you
-      need not always move your working copy to the
-      <literal>HEAD</literal> of the branch.</para>
+    <para>O comando <command>svn switch</command> também possui uma opção
+      <option>--revision</option> (<option>-r</option>), assim você
+      não precisa sempre mover sua cópia de trabalho para a revisão
+      <literal>HEAD</literal> do ramo.</para>
 
-    <para>Of course, most projects are more complicated than our
-      <filename>calc</filename> example, containing multiple
-      subdirectories.  Subversion users often follow a specific
-      algorithm when using branches:</para>
+    <para>Certamente, a maioria dos projetos são mais complicados que nosso
+      exemplo <filename>calc</filename>, contendo múltiplos
+      subdiretórios.  Os usuários do Subversion muitas vezes seguem um algoritmo
+      específico ao usar ramos:</para>
 
       <orderedlist>
         <listitem>
-          <para>Copy the project's entire <quote>trunk</quote> to a
-            new branch directory.</para>
+          <para>Copiar todo o <quote>trunk</quote> do projeto para um
+            novo diretório de ramo.</para>
         </listitem>
         <listitem>
-          <para>Switch only <emphasis>part</emphasis> of the trunk
-            working copy to mirror the branch.</para>
+          <para>Comutar somente <emphasis>parte</emphasis> do <quote>trunk</quote>
+            da cópia de trabalho para espelhar o ramo.</para>
         </listitem>
       </orderedlist>
 
-    <para>In other words, if a user knows that the branch-work only
-      needs to happen on a specific subdirectory, they use
-      <command>svn switch</command> to move only that subdirectory to
-      the branch.  (Or sometimes users will switch just a single
-      working file to the branch!)  That way, they can continue to
-      receive normal <quote>trunk</quote> updates to most of their
-      working copy, but the switched portions will remain immune
-      (unless someone commits a change to their branch).  This feature
-      adds a whole new dimension to the concept of a <quote>mixed
-      working copy</quote>&mdash;not only can working copies contain a
-      mixture of working revisions, but a mixture of repository
-      locations as well.</para>
+    <para>Em outras palavras, se um usuário sabe que o trabalho no ramo só
+      deve acontecer sobre um subdiretório específico, eles usam
+      <command>svn switch</command> para mover somente este subdiretório para
+      o ramo.  (Ou algumas vezes os usuários comutarão apenas um único
+      arquivo de trabalho para o ramo!)  Dessa forma, eles podem continuar a
+      receber normalmente as atualizações do <quote>trunk</quote> para a maior parte de
+      sua cópia de trabalho, mas as porções comutadas ficarão imunes
+      (a não ser que alguém submeta uma mudança em seu ramo).  Esta funcionalidade
+      adiciona uma completa nova dimensão ao conceito de uma <quote>cópia de
+      trabalho mista</quote>&mdash;podemos ter não apenas cópias de trabalho que
+      possuem uma mistura de revisões de trabalho, mas também uma mistura de locais
+      de repositório.</para>
 
-    <para>If your working copy contains a number of switched subtrees
-      from different repository locations, it continues to function as
-      normal.  When you update, you'll receive patches to each subtree
-      as appropriate.  When you commit, your local changes will still
-      be applied as a single, atomic change to the repository.</para>
+    <para>Se sua cópia de trabalho contém um número de sub-árvores comutadas
+      de diferentes locais do repositório, ela continua a funcionar
+      normalmente.  Quando você atualiza, você receberá as diferenças em cada sub-árvore
+      apropriadamente.  Quando você submete, suas mudanças locais ainda serão
+      aplicadas como uma única e atômica mudança para o repositório.</para>
 
-    <para>Note that while it's okay for your working copy to reflect a
-      mixture of repository locations, these locations must all be
-      within the <emphasis>same</emphasis> repository.  Subversion
-      repositories aren't yet able to communicate with one another;
-      that's a feature planned for the
-      future.
+    <para>Note que enquanto está tudo certo para sua cópia de trabalho refletir uma
+      mistura de locais do repositório, estes locais devem estar todos
+      dentro do <emphasis>mesmo</emphasis> repositório.  Os repositórios
+      do Subversion ainda não são capazes de comunicarem entre si;
+      esta é uma funcionalidade planejada para o
+      futuro.
       <footnote>
-        <para>You <emphasis>can</emphasis>, however, use <command>svn
-          switch</command> with the <option>--relocate</option> option
-          if the URL of your server changes and you don't want to
-          abandon an existing working copy.  See <xref
-          linkend="svn.ref.svn.c.switch"/> for more information and an
-          example.</para>
+        <para>Você <emphasis>pode</emphasis>, entretanto, usar <command>svn
+          switch</command> com a opção <option>--relocate</option>
+          se a URL de seu servidor mudar e você não quiser
+          abandonar uma cópia de trabalho existente.  Veja <xref
+          linkend="svn.ref.svn.c.switch"/> para mais informações e um
+          exemplo.</para>
       </footnote></para>
 
     <sidebar>
-      <title>Switches and Updates</title>
+      <title>Comutações e Atualizações</title>
 
-      <para>Have you noticed that the output of <command>svn
-        switch</command> and <command>svn update</command> look the
-        same?  The <literal>switch</literal> command is actually a
-        superset of the update command.</para>
+      <para>Você reparou que a saída dos comandos <command>svn
+        switch</command> e <command>svn update</command> possuem a
+        mesma aparência?  O comando <literal>switch</literal> é na verdade um
+        <quote>super-comando<quote> do comando <literal>update</literal>.</para>
 
-      <para>When you run <command>svn update</command>, you're asking
-        the repository to compare two trees.  The repository does so,
-        and then sends a description of the differences back to the
-        client.  The only difference between <command>svn
-        switch</command> and <command>svn update</command> is that the
-        <literal>update</literal> command always compares two identical
-        paths.</para>
+      <para>Quando você executa <command>svn update</command>, você está pedindo
+        ao repositório para comparar duas árvores.  O repositório assim faz,
+        e então envia uma descrição das diferenças de volta para o
+        cliente.  A única diferença entre <command>svn
+        switch</command> e <command>svn update</command> é que o comando
+        <literal>update</literal> sempre compara dois caminhos
+        idênticos.</para>
 
-      <para>That is, if your working copy is a mirror of
-        <filename>/calc/trunk</filename>, then <command>svn
-        update</command> will automatically compare your working copy
-        of <filename>/calc/trunk</filename> to
-        <filename>/calc/trunk</filename> in the
-        <literal>HEAD</literal> revision.  If you're switching your
-        working copy to a branch, then <command>svn switch</command>
-        will compare your working copy of
-        <filename>/calc/trunk</filename> to some
-        <emphasis>other</emphasis> branch-directory in the
-        <literal>HEAD</literal> revision.</para>
+      <para>Isto é, se sua cópia de trabalho é um espelho de
+        <filename>/calc/trunk</filename>, então <command>svn
+        update</command> comparará automaticamente sua cópia de trabalho
+        de <filename>/calc/trunk</filename> com
+        <filename>/calc/trunk</filename> na revisão
+        <literal>HEAD</literal>.  Se você está comutando sua
+        cópia de trabalho para um ramo, então <command>svn switch</command>
+        comparará sua cópia de trabalho de
+        <filename>/calc/trunk</filename> com algum
+        <emphasis>outro</emphasis> diretório de ramo na revisão
+        <literal>HEAD</literal>.</para>
 
-      <para>In other words, an update moves your working copy through
-        time.  A switch moves your working copy through time
-        <emphasis>and</emphasis> space.</para>
+      <para>Em outras palavras, uma atualização move sua cópia de trabalho através
+        do tempo.  Uma comutação move sua cópia de trabalho através do tempo
+        <emphasis>e</emphasis> do espaço.</para>
     </sidebar>
 
-    <para>Because <command>svn switch</command> is essentially a
-      variant of <command>svn update</command>, it shares the same
-      behaviors; any local modifications in your working copy are
-      preserved when new data arrives from the repository.  This
-      allows you to perform all sorts of clever tricks.</para>
+    <para>Porque <command>svn switch</command> é essencialmente uma
+      variante de <command>svn update</command>, ele compartilha os mesmos
+      comportamentos; qualquer modificação local em sua cópia de trabalho é
+      preservada quando novos dados chegam do repositório.  Isso
+      lhe permite executar todos os tipos de truques engenhosos.</para>
 
-    <para>For example, suppose you have a working copy of
-      <filename>/calc/trunk</filename> and make a number of changes to
-      it.  Then you suddenly realize that you meant to make the
-      changes to a branch instead.  No problem!  When you <command>svn
-      switch</command> your working copy to the branch, the local
-      changes will remain.  You can then test and commit them to the
-      branch.</para>
+    <para>Por exemplo, suponha que você tem uma cópia de trabalho de
+      <filename>/calc/trunk</filename> e realizou um certo número de mudanças
+      nele.  Então você rapidamente constata que você pretendia fazer as
+      mudanças em um ramo.  Não tem problema!  Quando você executa <command>svn
+      switch</command> para um ramo de sua cópia de trabalho, as mudanças
+      locais permanecerão.  Você pode então testar e submeter elas para o
+      ramo.</para>
 
   </sect1>
 
