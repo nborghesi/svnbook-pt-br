@@ -38,5 +38,7 @@ Eis a lista, em ordem alfabética.
 || Third-party tools                     || Ferramentas de terceiros ||
 || Versioned file                        || Arquivo sob controle de versão ||
 || Working copy                          || Cópia de trabalho ||
+|| Switch                                || Comutar (v); Comutação (s) ||
+|| Siwitching                            || Comutação ||
 
 (v) verbo; (s) substantivo
