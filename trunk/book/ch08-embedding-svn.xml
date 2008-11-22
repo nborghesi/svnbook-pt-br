@@ -700,74 +700,74 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.developer.usingapi">
-    <title>Using the APIs</title>
+    <title>Usando as APIs</title>
 
-    <para>Developing applications against the Subversion library APIs
-      is fairly straightforward.  Subversion is primarily a set of C
-      libraries, with header (.h) files that live in the
-      <filename>subversion/include</filename> directory of the source
-      tree.  These headers are copied into your system locations (for
-      example, <filename>/usr/local/include</filename>) when you build
-      and install Subversion itself from source.  These headers
-      represent the entirety of the functions and types meant to be
-      accessible by users of the Subversion libraries.  The Subversion
-      developer community is meticulous about ensuring that the public
-      API is well-documented&mdash;refer directly to the header files
-      for that documentation.</para>
+    <para>Desenvolver aplicações junto com as APIs de biblioteca do Subversion
+      é bastante simples.  O Subversion é essencialmente um conjunto de
+      bibliotecas C, com arquivos de cabeçalho (.h) que ficam no
+      diretório <filename>subversion/include</filename> da árvore de
+      fontes.  Estes cabeçalhos são copiados para locais de seu sistema (por
+      exemplo, <filename>/usr/local/include</filename>) quando você constrói
+      e instala o Subversion a partir dos fontes.  Estes cabeçalhos
+      representam o conjunto das funções e tipos que são
+      acessíveis pelos usuários das bibliotecas do Subversion.  A comunidade
+      de desenvolvedores do Subversion é meticulosa em garantir que a API
+      pública esteja bem documentada&mdash;refere-se diretamente aos arquivos de
+      cabeçalho para esta documentação.</para>
 
-    <para>When examining the public header files, the first thing you
-      might notice is that Subversion's datatypes and functions are
-      namespace protected.  That is, every public Subversion symbol name begins
-      with <literal>svn_</literal>, followed by a short code for the
-      library in which the symbol is defined (such as
+    <para>Ao examinar os arquivos de cabeçalho públicos, a primeira coisa que você
+      pode perceber é que os tipos de dado e funções do Subversion possuem um
+      espaço de nomes protegidos.  Isto é, cada nome de símbolo público do Subversion inicia
+      com <literal>svn_</literal>, seguido por um código curto para a
+      biblioteca na qual o símbolo está definido (como
       <literal>wc</literal>, <literal>client</literal>,
-      <literal>fs</literal>, etc.), followed by a single underscore
-      (<literal>_</literal>) and then the rest of the symbol name.
-      Semi-public functions (used among source files of a given
-      library but not by code outside that library, and found inside
-      the library directories themselves) differ from this naming
-      scheme in that instead of a single underscore after the library
-      code, they use a double underscore (<literal>__</literal>).
-      Functions that are private to a given source file have no
-      special prefixing, and are declared <literal>static</literal>.
-      Of course, a compiler isn't interested in these naming
-      conventions, but they help to clarify the scope of a given
-      function or datatype.</para>
+      <literal>fs</literal>, etc.), seguido por um único sublinhado
+      (<literal>_</literal>) e então o restante do nome do símbolo.
+      As funções semi-públicas (usadas entre os arquivos fonte de uma dada
+      biblioteca mas não por código fora desta biblioteca, e encontrada dentro
+      de seus próprios diretórios) diferem deste esquema de
+      nomeação em que, em vez de um único sublinhado depois do código da
+      biblioteca, elas usam um sublinhado duplo (<literal>__</literal>).
+      As funções que são privadas a um dado arquivo fonte não possuem
+      prefixação especial, e são declaradas como <literal>static</literal>.
+      Evidentemente, um compilador não está interessado nestas convenções
+      de nomeação, mas elas ajudam esclarecer o escopo de uma dada
+      função ou tipo de dado.</para>
 
-    <para>Another good source of information about programming against
-      the Subversion APIs is the project's own hacking guidelines,
-      which can be found at <ulink
-      url="http://subversion.tigris.org/hacking.html" />.  This
-      document contains useful information which, while aimed at
-      developers and would-be developers of Subversion itself, is
-      equally applicable to folks developing against Subversion as a
-      set of third-party libraries.
+    <para>Uma outra boa fonte de informações sobre programação com
+      as APIs do Subversion são as diretrizes de <quote>hacking</quote> do projeto,
+      o qual pode ser encontrado em <ulink
+      url="http://subversion.tigris.org/hacking.html" />.  Este
+      documento contém informações úteis que, embora destinadas a
+      desenvolvedores e would-be developers do próprio Subversion, é
+      igualmente aplicável a pessoas desenvolvendo com o Subversion como um
+      conjunto de bibliotecas de terceiros.
       <footnote>
-        <para>After all, Subversion uses Subversion's APIs,
-          too.</para>
+        <para>Afinal, o Subversion usa as APIs do Subversion,
+          também.</para>
       </footnote>
     </para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.usingapi.apr">
-      <title>The Apache Portable Runtime Library</title>
+      <title>A Biblioteca Apache Portable Runtime</title>
 
-      <para>Along with Subversion's own datatypes, you will see many
-        references to datatypes that begin with
-        <literal>apr_</literal>&mdash;symbols from the Apache Portable
-        Runtime (APR) library.  APR is Apache's portability library,
-        originally carved out of its server code as an attempt to
-        separate the OS-specific bits from the OS-independent portions
-        of the code.  The result was a library that provides a generic
-        API for performing operations that differ mildly&mdash;or
-        wildly&mdash;from OS to OS.  While the Apache HTTP Server was
-        obviously the first user of the APR library, the Subversion
-        developers immediately recognized the value of using APR as
-        well.  This means that there is practically no OS-specific
-        code in Subversion itself.  Also, it means that the Subversion
-        client compiles and runs anywhere that Apache HTTP Server
-        itself does.  Currently this list includes all flavors of
-        Unix, Win32, BeOS, OS/2, and Mac OS X.</para>
+      <para>Juntamente com os tipos de dado do Subversion, você verá muitas
+        referências a tipos de dado que iniciam com
+        <literal>apr_</literal>&mdash;símbolos da biblioteca Apache
+        Portable Runtime (APR).  APR é uma biblioteca de portabilidade da Apache,
+        originalmente esculpida fora do código de seu servidor como uma tentativa em
+        separar as partes específicas de SO das porções independentes
+        de SO.  O resultado foi uma biblioteca que oferece uma API
+        genérica para executar operações that differ levemente&mdash;ou
+        agressivamente&mdash;de SO para SO.  Enquanto o Servidor HTTP da Apache foi
+        obviamente o primeiro usuário da biblioteca APR, os desenvolvedores do
+        Subversion imediatamente reconheceram o valor de usar APR
+        também.  Isto significa que existe praticamente nenhum código específico
+        de SO no Subversion.  Além disso, significa que o cliente Subversion
+        compila e executa em qualquer lugar em que o Servidor HTTP da Apache
+        compila e executa também.  Atualmente esta lista inclui todos os sabores de
+        Unix, Win32, BeOS, OS/2, e Mac OS X.</para>
 
       <para>In addition to providing consistent implementations of
         system calls that differ across operating systems,
