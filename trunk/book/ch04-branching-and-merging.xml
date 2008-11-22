@@ -2075,15 +2075,16 @@ At revision 353.
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.maint">
-    <title>Branch Maintenance</title>
+    <title>Manutenção de Ramos</title>
 
-    <para>You may have noticed by now that Subversion is extremely
-      flexible.  Because it implements branches and tags with the same
-      underlying mechanism (directory copies), and because branches
-      and tags appear in normal filesystem space, many people find
-      Subversion intimidating.  It's almost <emphasis>too</emphasis>
-      flexible.  In this section, we'll offer some suggestions for
-      arranging and managing your data over time.</para>
+    <para>Você pode ter notado por agora que o Subversion é extremamente
+      flexível.  Como ele implementa ramos e rótulos usando o mesmo
+      mecanismo de suporte (cópias de diretório), e como ramos e rótulos
+      aparecem normalmente no espaço do sistema de arquivos, muitas
+      pessoas vêem o Subversion como algo intimidador.  Ele é realmente
+      <emphasis>muito</emphasis> flexível.  Nesta seçãi, vamos lhe dar
+      algumas sugestões sobre como arrajar e gerenciar seus dados ao
+      longo do tempo.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.maint.layout">
