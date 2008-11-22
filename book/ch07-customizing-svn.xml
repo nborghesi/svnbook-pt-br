@@ -432,236 +432,250 @@ collabnet = svn.collab.net
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.advanced.confarea.opts.config">
-        <title>Config</title>
+        <title>Configuração</title>
 
-        <para>The <filename>config</filename> file contains the rest
-          of the currently available Subversion run-time options,
-          those not related to networking.  There are only a few
-          options in use as of this writing, but they are again grouped into
-          sections in expectation of future additions.</para>
+        <para>O arquivo <filename>config</filename> contém as demais
+          opções em tempo de execução atualmente disponíveis no
+          Subversion, estas não relacionadas à conexão de rede.  Há
+          apenas algumas poucas opções em uso até o momento em que este
+          livro estava sendo escrito, mas elas ainda são agrupadas em
+          seções na expectativa para adicões futuras.</para>
 
-        <para>The <literal>auth</literal> section contains settings
-          related to Subversion's authentication and authorization
-          against the repository.  It contains:</para>
+        <para>A seção <literal>auth</literal> contém configurações
+          relacionadas à autenticação e autorização no Subversion no
+          repositório.  Ela contém:</para>
 
         <variablelist>
           <varlistentry>
             <term><literal>store-passwords</literal></term>
             <listitem>
-              <para>This instructs Subversion to cache, or not to
-                cache, passwords that are supplied by the user in
-                response to server authentication challenges.  The
-                default value is <literal>yes</literal>.  Set this to
-                <literal>no</literal> to disable this on-disk password
-                caching.  You can override this option for a single
-                instance of the <command>svn</command> command using
-                the <option>--no-auth-cache</option> command-line
-                parameter (for those subcommands that support it).
-                For more information, see <xref
+              <para>Isto orienta o Subversion a armazenar, ou não, em
+                cache as senhas que são informadas pelo usuário em
+                resposta a desafios de autenticação do servidor.  O valor
+                padrão é <literal>yes</literal>.  Altere seu valor para
+                <literal>no</literal> para desabilitar este recurso de
+                cache de senhas em disco.  Você pode sobrescrever esta
+                opção para uma única instância do comando
+                <command>svn</command> usando o parâmetro
+                <option>--no-auth-cache</option> de linha de comando
+                (para os subcomandos que dêem suporte a ele).  Para mais
+                informações, veja <xref
                 linkend="svn.serverconfig.netmodel.credcache"/>.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term><literal>store-auth-creds</literal></term>
             <listitem>
-              <para>This setting is the same as
-                <literal>store-passwords</literal>, except that it
-                enables or disables disk-caching of
-                <emphasis>all</emphasis> authentication information:
-                usernames, passwords, server certificates, and any
-                other types of cacheable credentials.</para>
+              <para>Esta configuração é idêntica a 
+                <literal>store-passwords</literal>, exceto que ela
+                habilita ou desabilita o cache em disco de
+                <emphasis>todas</emphasis> as informações de
+                autenticação: nomes de usuário, senhas, certificados de
+                servidor, e quaisquer outros tipos de crendenciais
+                armazenáveis.</para>
             </listitem>
           </varlistentry>
         </variablelist>
 
-        <para>The <literal>helpers</literal> section controls which
-          external applications Subversion uses to accomplish its
-          tasks.  Valid options in this section are:</para>
+        <para>A seção <literal>helpers</literal> controla quais
+          aplicações externas o Subversion usa como suporte na execução
+          de suas tarefas.  Opções válidas nesta seção são:</para>
 
         <variablelist>
           <varlistentry>
             <term><literal>editor-cmd</literal></term>
             <listitem>
-              <para>This specifies the program Subversion will use to
-                query the user for a log message during a commit
-                operation, such as when using <command>svn
-                commit</command> without either the
-                <option>--message</option> (<option>-m</option>) or
-                <option>--file</option> (<option>-F</option>) options.
-                This program is also used with the <command>svn
-                propedit</command> command&mdash;a temporary file is
-                populated with the current value of the property the
-                user wishes to edit, and the edits take place right
-                in the editor program (see <xref
-                linkend="svn.advanced.props" />).  This option's default
-                value is empty.  The order of priority for determining the
-                editor command (where lower-numbered locations take 
-                precedence over higher-numbered locations) is:</para>
+              <para>Isto especifica o programa que o Subversion irá usar
+                para solicitar uma mensagem longa ao usuário durante uma
+                operação de submissão, como ao usar <command>svn
+                commit</command> sem as opções <option>--message</option>
+                (<option>-m</option>) ou <option>--file</option>
+                (<option>-F</option>).  Este programa também é usado com
+                o comando <command>svn propedit</command>&mdash;um
+                arquivo temporário é preenchido com o valor atual da
+                propriedade que o usuário pretende editar, e permite que
+                o usuário realize as modificações neste programa editor
+                (veja <xref linkend="svn.advanced.props" />).  O valor
+                padrão para esta opção é vazio.  A ordem de prioridade
+                para determinar o comando editor (em ordem crescente de
+                precedência) é:</para>
               <orderedlist>
                 <listitem>
-                  <para>Command-line option <literal>--editor-cmd</literal></para>
+                  <para>A opção de linha de comando <literal>--editor-cmd</literal></para>
                 </listitem>
                 <listitem>
-                  <para>Environment variable <literal>SVN_EDITOR</literal></para>
+                  <para>A variável de ambiente <literal>SVN_EDITOR</literal></para>
                 </listitem>
                 <listitem>
-                  <para>Configuration option <literal>editor-cmd</literal></para>
+                  <para>A opção de configuração <literal>editor-cmd</literal></para>
                 </listitem>
                 <listitem>
-                  <para>Environment variable <literal>VISUAL</literal></para>
+                  <para>A variável de ambiente <literal>VISUAL</literal></para>
                 </listitem>
                 <listitem>
-                  <para>Environment variable <literal>EDITOR</literal></para>
+                  <para>A variável de ambiente <literal>EDITOR</literal></para>
                 </listitem>
                 <listitem>
-                  <para>Possibly, a default value built in to Subversion
-                    (not present in the official builds)</para>
+                  <para>Possivelmente, um valor padrão já embutido no
+                    Subversion (ausente em distribuições oficiais do
+                    Subversion)</para>
                 </listitem>
               </orderedlist>
-              <para>The value of any of these options or variables is
-                (unlike <literal>diff-cmd</literal>) the beginning of a
-                command line to be executed by the shell.  Subversion
-                appends a space and the pathname of the temporary file to be
-                edited.  The editor should modify the temporary file and
-                return a zero exit code to indicate success.</para>
+              <para>O valor de quaisquer dessas opções ou variáveis
+                (diferentemente do <literal>diff-cmd</literal>) é o
+                começo de uma linha de comando a ser executada pelo
+                shell.  O Subversion concatena um espaço a o caminho do
+                arquivo temporário a ser editado.  O editor deve
+                modificar o arquivo temporário e retornar um código zero
+                como saída para indicar sucesso.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term><literal>diff-cmd</literal></term>
             <listitem>
-              <para>This specifies the absolute path of a differencing
-                program, used when Subversion generates
-                <quote>diff</quote> output (such as when using the
-                <command>svn diff</command> command).  By default
-                Subversion uses an internal differencing
-                library&mdash;setting this option will cause it to
-                perform this task using an external program.  See
-                <xref linkend="svn.advanced.externaldifftools"/> for
-                more details on using such programs.</para>
+              <para>Isto especifica o caminho absoluto para um programa
+                de diferenciação, usado quando o Subversion gera saída em
+                formato <quote>diff</quote> (como ao usar o comando
+                <command>svn diff</command>).  Por padrão, o Subversion
+                usa uma biblioteca interna de
+                diferenciação&mdash;atribuir um valor a esta opção irá
+                fazer com que o Subversion realize essa tarefa executando
+                um programa externo.  Veja <xref
+                linkend="svn.advanced.externaldifftools"/> para mais
+                detalhes sobre como usar tais programas.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term><literal>diff3-cmd</literal></term>
             <listitem>
-              <para>This specifies the absolute path of a three-way
-                differencing program.  Subversion uses this program to
-                merge changes made by the user with those received
-                from the repository.  By default Subversion uses an
-                internal differencing library&mdash;setting this
-                option will cause it to perform this task using an
-                external program.  See <xref
-                linkend="svn.advanced.externaldifftools"/> for more
-                details on using such programs.</para>
+              <para>Isto especifica o caminho absoluto para um programa
+                de diferenciação em três vias.  O Subversion usa este
+                programa para mesclar alterações feitas pelo usuário com
+                aquelas recebidas do repositório.  Por padrão, o
+                Subversion usa uma biblioteca interna de
+                diferenciação&mdash;atribuir um valor a esta opção irá
+                fazer com que o Subversion execute esta tarefa usando um
+                programa externo.  Veja <xref
+                linkend="svn.advanced.externaldifftools"/> para mais
+                detalhes sobre como usar tais programas.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term><literal>diff3-has-program-arg</literal></term>
             <listitem>
-              <para>This flag should be set to <literal>true</literal>
-                if the program specified by the
-                <literal>diff3-cmd</literal> option accepts a
-                <option>--diff-program</option> command-line
-                parameter.</para>
+              <para>Esta opção deve ser atribuída para
+                <literal>true</literal> se o programa especificado pela
+                opção <literal>diff3-cmd</literal> aceitar um parâmetro 
+                <option>--diff-program</option> de linha de
+                comando.</para>
             </listitem>
           </varlistentry>
         </variablelist>
 
-        <para>The <literal>tunnels</literal> section allows you to
-          define new tunnel schemes for use with
-          <command>svnserve</command> and <literal>svn://</literal>
-          client connections.  For more details, see <xref
+        <para>A seção <literal>tunnels</literal> permite que você defina
+          um novo esquema de túnel para uso com o
+          <command>svnserve</command> e clientes de conexões
+          <literal>svn://</literal>.  Para mais detalhes, veja <xref
           linkend="svn.serverconfig.svnserve.sshauth"/>.</para>
 
-        <para>The <literal>miscellany</literal> section is where
-          everything that doesn't belong elsewhere winds up.
+        <para>A seção <literal>miscellany</literal> é onde se encontram
+          todas aquelas opções que não pertençam a nenhuma das outras
+          seções.
           <footnote>
-            <para>Anyone for potluck dinner?</para> 
+            <para>Alguém para um jantar improvisado?</para> 
           </footnote>
-          In this section, you can find:</para>
+          Nesta seção, você pode encontrar:</para>
 
         <variablelist>
           <varlistentry>
             <term><literal>global-ignores</literal></term>
             <listitem>
-              <para>When running the <command>svn status</command>
-                command, Subversion lists unversioned files and
-                directories along with the versioned ones, annotating
-                them with a <literal>?</literal> character (see <xref
-                linkend="svn.tour.cycle.examine.status" />).  Sometimes, it can
-                be annoying to see uninteresting, unversioned
-                items&mdash;for example, object files that result from
-                a program's compilation&mdash;in this display.  The
-                <literal>global-ignores</literal> option is a list of
-                whitespace-delimited globs which describe the names of
-                files and directories that Subversion should not
-                display unless they are versioned.  The default value
-                is <literal>*.o *.lo *.la #*# .*.rej *.rej .*~ *~
+              <para>Ao executar o comando <command>svn status</command>,
+                o Subversion lista arquivos e diretórios não-versionados
+                juntamente com os versionados, marcando-os com um
+                caracter <literal>?</literal> (veja <xref
+                linkend="svn.tour.cycle.examine.status" />).  Algumas
+                vezes, pode ser chato ficar sempre vendo itens
+                não-versionados, desinteressantes&mdash;por exemplo,
+                arquivos objeto que resultantes da compilação de um
+                programa&mdash;na tela.  A opção
+                <literal>global-ignores</literal> é uma lista de campos
+                delimitados por espaços e que descrevem os nomes de
+                arquivos e diretórios que o Subversion não deveria exibir
+                a não ser apenas quando versionados.  Seu valor padrão é
+                <literal>*.o *.lo *.la #*# .*.rej *.rej .*~ *~
                 .#* .DS_Store</literal>.</para>
 
-              <para>As well as <command>svn status</command>, the
-                <command>svn add</command> and <command>svn import</command>
-                commands also ignore files that match the list
-                when they are scanning a directory.  You can override this
-                behaviour for a single instance of any of these commands
-                by explicitly specifying the file name, or by using
-                the <option>--no-ignore</option> command-line flag.</para>
+              <para>Bem como o <command>svn status</command>, os comandos
+                <command>svn add</command> e <command>svn
+                import</command> também ignoram arquivos que correspondam
+                com esta lista quando estão escaneando um diretório.
+                Você pode sobrescrever este comportamento para uma única
+                instância de qualquer desses comandos especificando
+                explicitamente o nome do arquivo ou usando a opção 
+                <option>--no-ignore</option> em linha de comando.</para>
 
-              <para>For information on more fine-grained control of
-                ignored items, see <xref linkend="svn.advanced.props.special.ignore"
-                />.</para>
+              <para>Para mais informação sobre controle granularizado de
+                itens ignorados, veja <xref
+                linkend="svn.advanced.props.special.ignore" />.</para>
             </listitem>
           </varlistentry>
           
           <varlistentry>
             <term><literal>enable-auto-props</literal></term>
             <listitem>
-              <para>This instructs Subversion to automatically set
-                properties on newly added or imported files.  The
-                default value is <literal>no</literal>, so set this to
-                <literal>yes</literal> to enable Auto-props.
-                The <literal>auto-props</literal> section of this file
-                specifies which properties are to be set on which files.</para>
+              <para>Isto faz com que o Subversion defina propriedades
+                automaticamente em novos arquivos adicionados ou
+                importados.  Seu valor padrão é <literal>no</literal>,
+                altere-o para <literal>yes</literal> para habilitar
+                propriedades automáticas.  A seção
+                <literal>auto-props</literal> deste arquivo especifica
+                quais propriedades serão definidas em quais arquivos.</para>
             </listitem>            
           </varlistentry>
 
           <varlistentry>
             <term><literal>log-encoding</literal></term>
             <listitem>         
-              <para>This variable sets the default character set
-                encoding for commit log messages.  It's a permanent
-                form of the <option>--encoding</option> option (see
-                <xref linkend="svn.ref.svn.sw"/>).  The Subversion
-                repository stores log messages in UTF-8, and assumes
-                that your log message is written using your operating
-                system's native locale.  You should specify a
-                different encoding if your commit messages are written
-                in any other encoding.</para>
+              <para>Esta variável define a codificação de caracteres
+                padrão para mensagens de log de submissões.  É uma versão
+                permanente da opção <option>--encoding</option> (veja
+                <xref linkend="svn.ref.svn.sw"/>).  O repositório
+                Subversion armazena mensagens de log em UTF-8, e assume
+                que suas mensagens de log sejam escritas usando a
+                localização nativa do sistema operacional.  Você deve
+                especificar uma codificação diferente se suas mensagens
+                de commit forem escritas em um outro conjunto de
+                caracteres.</para>
             </listitem>
           </varlistentry>
 
           <varlistentry>
             <term><literal>use-commit-times</literal></term>
             <listitem>         
-              <para>Normally your working copy files have timestamps
-                that reflect the last time they were touched by any
-                process, whether that be your own editor or by some
-                <command>svn</command> subcommand.  This is generally
-                convenient for people developing software, because
-                build systems often look at timestamps as a way of
-                deciding which files need to be recompiled.</para>
+              <para>Normalmente, os arquivos de sua cópia de trabalho têm
+                registros de tempo que refletem o momento da última vez
+                em que eles foram referenciados ou alterados por algum
+                processo, que pode ser seu próprio editor ou mesmo algum
+                subcomando do <command>svn</command>.  Isto geralmente é
+                conveniente para pessoas que desenvolvem software, porque
+                sistemas de compilação quase sempre verificam registros
+                de tempo como uma forma de decidir quais arquivos
+                precisam ser recompilados.</para>
 
-              <para>In other situations, however, it's sometimes nice
-                for the working copy files to have timestamps that
-                reflect the last time they were changed in the
-                repository.  The <command>svn export</command> command
-                always places these <quote>last-commit
-                timestamps</quote> on trees that it produces.  By
-                setting this config variable to
-                <literal>yes</literal>, the <command>svn
+              <para>Em outras situações, porém, algumas vezes é bom ter
+                registros de tempo de arquivos na cópia de trabalho que
+                reflitam a última vez em que eles foram modificados no
+                repositório.  O comando <command>svn export</command>
+                sempre pôe estes <quote>registros de tempo do último
+                commit</quote> nas árvores geradas por ele.  Ao definir
+                esta variável de configuração para
+                <literal>yes</literal>, os comandos <command>svn
                 checkout</command>, <command>svn update</command>,
-                <command>svn switch</command>, and <command>svn
-                revert</command> commands will also set last-commit
-                timestamps on files that they touch.</para>
+                <command>svn switch</command>, e <command>svn
+                revert</command> passarão a registrar momentos de tempo
+                dos commands de último commit nos arquivos que
+                manipularem.</para>
             </listitem>
           </varlistentry>
           
@@ -669,24 +683,25 @@ collabnet = svn.collab.net
           registry file, e.g., template-root -->
         </variablelist>
 
-        <para>The <literal>auto-props</literal> section controls
-          the Subversion client's ability to automatically set
-          properties on files when they are added or imported.
-          It contains any number of key-value pairs in the
-          format <literal>PATTERN = PROPNAME=PROPVALUE</literal>
-          where <literal>PATTERN</literal> is a file pattern
-          that matches a set of filenames and the rest of the
-          line is the property and its value.  Multiple matches
-          on a file will result in multiple propsets for that
-          file; however, there is no guarantee that auto-props
-          will be applied in the order in which they are listed
-          in the config file, so you can't have one rule
-          <quote>override</quote> another.  You can find several
-          examples of auto-props usage in the
-          <filename>config</filename> file.  Lastly, don't
-          forget to set <literal>enable-auto-props</literal> to
-          <literal>yes</literal> in the <literal>miscellany</literal>
-          section if you want to enable auto-props.</para>
+        <para>A seção <literal>auto-props</literal> controla a capacidade
+          de um cliente Subversion de atribuir propriedades
+          automaticamente em arquivos quando eles forem adicionados ou
+          importados.  Ela contém um conjunto de pares chave-valor no
+          formato <literal>PATTERN = PROPNAME=PROPVALUE</literal> onde
+          <literal>PATTERN</literal> é um padrão que corresponde a um
+          conjunto de nomes de arquivo e o restante da linha é a
+          propriedade e seu valor.  Múltiplas correspondências para um
+          arquivo irão resultar em múltiplas propriedades definidas para
+          aquele arquivo; no entanto, não há garantia de que essas
+          propriedades automáticas serão aplicadas na ordem na qual
+          estiverem listadas no arquivo de configuração, então você não
+          pode fazer com que uma regra <quote>sobrescreva</quote>.  Você
+          pode encontrar diversos exemplos do uso de propriedades
+          automáticas no arquivo <filename>config</filename>.  E por
+          último, não se esqueça de atribuir
+          <literal>enable-auto-props</literal> para
+          <literal>yes</literal> na seção <literal>miscellany</literal>
+          se você quiser habilitar propriedades automáticas.</para>
 
       </sect3>
 
