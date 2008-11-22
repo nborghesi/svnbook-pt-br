@@ -886,78 +886,83 @@ svn: Can't convert string from 'UTF-8' to native encoding:
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.advanced.externaldifftools">
-    <title>Using External Differencing Tools</title>
+    <title>Usando Ferramentas Externas de Diferenciação</title>
 
-    <para>The presence of <option>--diff-cmd</option> and
-      <option>--diff3-cmd</option> options, and similarly named
-      runtime configuration parameters (see <xref
-      linkend="svn.advanced.confarea.opts.config"/>), can lead to a
-      false notion of how easy it is to use external differencing (or
-      <quote>diff</quote>) and merge tools with Subversion.  While
-      Subversion can use most of popular such tools available, the
-      effort invested in setting this up often turns out to be
-      non-trivial.</para>
+    <para>A presença das opções <option>--diff-cmd</option> e
+      <option>--diff3-cmd</option>, e dos parâmetros de configuração em
+      tempo de execução similarmente nomeados (veja <xref
+      linkend="svn.advanced.confarea.opts.config"/>), podem levar a uma
+      falsa noção do qual fácil seja usar ferramentas externas de
+      diferenciação (ou <quote>diff</quote>) ou de fusão com o
+      Subversion.  Ainda que o Subversion possa usar a maioria das
+      ferramentas populares disponíveis, o esforço investido nesta
+      configuração quase sempre acaba por se tornar algo
+      não-trivial.</para>
 
-    <para>The interface between Subversion and external diff and merge
-      tools harkens back to a time when Subversion's only contextual
-      differencing capabilities were built around invocations of the
-      GNU diffutils toolchain, specifically the
-      <command>diff</command> and <command>diff3</command> utilities.
-      To get the kind of behavior Subversion needed, it called these
-      utilities with more than a handful of options and parameters,
-      most of which were quite specific to the utilities.  Some time
-      later, Subversion grew its own internal differencing library,
-      and as a failover mechanism,
+    <para>A interface entre o Subversion e ferramentas externas de
+      diferenciação e fusão remontam a uma época em que as únicas
+      capacidades de diferenciação do Subversion eram construídas sobre
+      invocações de utilitários do kit de ferramentas diffutils do GNU,
+      especificamente os utilitários <command>diff</command> e
+      <command>diff3</command>.  Para conseguir o tipo de comportamento
+      de que o Subversion precisa, ele chamava esses utilitários com
+      mais algumas opções e parâmetros úteis, muitas das quais eram
+      bastante específicas desses utilitários.  Algum tempo depois, o
+      Subversion desenvolveu-se com sua própria biblioteca de
+      diferenciação, e com mecanismos de recuperação de falhas,
       <footnote>
-        <para>Subversion developers are good, but even the best make
-          mistakes.</para>
+        <para>Os desenvolvedores do Subversion são muito bons, mas até
+          os melhores às vezes comentem erros.</para>
       </footnote>
-      the <option>--diff-cmd</option> and <option>--diff3-cmd</option>
-      options were added to the Subversion command-line client so
-      users could more easily indicate that they preferred to use the
-      GNU diff and diff3 utilities instead of the newfangled internal
-      diff library.  If those options were used, Subversion would
-      simply ignore the internal diff library, and fall back to
-      running those external programs, lengthy argument lists and all.
-      And that's where things remain today.</para>
+      as opções <option>--diff-cmd</option> e
+      <option>--diff3-cmd</option> foram adicionadas ao cliente de linha
+      de comando do Subversion e então os usuários puderam indicar com
+      mais facilidade se preferiam usar os utilitários GNU diff e diff3
+      ao invés da nova biblioteca biblioteca interna de diferenciação.
+      Se essas opções forem usadas, o Subversion deverá simplesmente
+      ignorar sua biblioteca interna de diferenciação, voltando a usar
+      programas externos, longas listas de argumentos e tudo o mais.  E
+      é assim que as coisas permanecem até hoje.</para>
 
-    <para>It didn't take long for folks to realize that having such
-      easy configuration mechanisms for specifying that Subversion
-      should use the external GNU diff and diff3 utilities located at
-      a particular place on the system could be applied toward the use
-      of other diff and merge tools, too.  After all, Subversion
-      didn't actually verify that the things it was being told to run
-      were members of the GNU diffutils toolchain.  But the only
-      configurable aspect of using those external tools is their
-      location on the system&mdash;not the option set, parameter
-      order, etc.  Subversion continues throwing all those GNU utility
-      options at your external diff tool regardless of whether or not
-      that program can understand those options.  And that's where
-      things get unintuitive for most users.</para>
+    <para>Não demora muito para as pessoas perceberem que dispor de tais
+      mecanismos de configuração para especificar que o Subversion deve
+      usar os utilitários GNU diff e diff3 localizados em um local
+      específico no sistema poderia ser aplicado também para o uso de
+      outras ferramentas de diferenciação e fusão.  No fim das contas, o
+      Subversion atualmente nem verifica se as coisas que mencionamos
+      executar eram membros do kit de ferramentas GNU diffutils.  Mas o
+      único aspecto configurável ao usar estas ferramentas externas é a
+      sua localização no sistema&mdash;e não o conjunto de opções,
+      parâmetros, ordem, etc.  O Subversion continua incluindo todas
+      essas opções de utilitários GNU à sua ferramenta externa de
+      diferenciação independemente se o programa em questão pode
+      entender tais opções ou não.  E é aqui que as coisas deixam de ser
+      intuitivas para a maioria dos usuários.</para>
 
-    <para>The key to using external diff and merge tools (other than
-      GNU diff and diff3, of course) with Subversion is to use wrapper
-      scripts which convert the input from Subversion into something
-      that your differencing tool can understand, and then to convert
-      the output of your tool back into a format which Subversion
-      expects&mdash;the format that the GNU tools would have used.
-      The following sections cover the specifics of those
-      expectations.</para>
+    <para>O ponto chave ao usar ferramentas externas de diferenciação e
+      fusão com o Subversion (que não as diff e diff3 do kit GNU, é
+      claro) é usar scripts encapsuladores que convertam a entrada do
+      Subversion em algo que sua ferramenta de diferenciação possa
+      entender, e então converter a saída de sua ferramenta de volta num
+      formato esperado pelo Subversion&mdash;o formato que as
+      ferramentas GNU deveriam usar.  As seções seguintes abordam os
+      detalhes sobre esses formatos.</para>
 
     <note>
-      <para>The decision on when to fire off a contextual diff or
-        merge as part of a larger Subversion operation is made
-        entirely by Subversion, and is affected by, among other
-        things, whether or not the files being operated on are
-        human-readable as determined by their
-        <literal>svn:mime-type</literal> property.  This means, for
-        example, that even if you had the niftiest Microsoft
-        Word-aware differencing or merging tool in the Universe, it
-        would never be invoked by Subversion so long as your versioned
-        Word documents had a configured MIME type that denoted that
-        they were not human-readable (such as
-        <literal>application/msword</literal>).  For more about MIME
-        type settings, see <xref
+      <para>A decisão sobre quando disparar uma diferenciação ou fusão
+        contextual como parte de uma operação maior do Subversion é
+        feita inteiramente pelo Subversion, e é efetada por, entre
+        outras coisas, se os arquivos em questão sobre os quais o
+        sistema estiver operando estiver ou não em um formato legível
+        por humanos como determinado a partir de sua propriedade
+        <literal>svn:mime-type</literal>.  Isto quer dizer, por exemplo,
+        que mesmo que se você tiver a ferramenta ou plugin de
+        diferenciação ou fusão do Microsoft Word mais esperta do
+        universo, ela nunca deveria ser invocada pelo Subversion se seus
+        documentos do Word sob controle de versão possuírem um tipo MIME
+        configurado que denote que eles não são legíveis por humanos
+        (tal como <literal>application/msword</literal>).  Para mais
+        informações sobre configurações de tipos MIME, veja <xref
         linkend="svn.advanced.props.special.mime-type"/></para>
     </note>
 
