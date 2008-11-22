@@ -739,7 +739,7 @@ $
       o qual pode ser encontrado em <ulink
       url="http://subversion.tigris.org/hacking.html" />.  Este
       documento contém informações úteis que, embora destinadas a
-      desenvolvedores e would-be developers do próprio Subversion, é
+      desenvolvedores e aos próprios desenvolvedores do Subversion, é
       igualmente aplicável a pessoas desenvolvendo com o Subversion como um
       conjunto de bibliotecas de terceiros.
       <footnote>
@@ -759,7 +759,7 @@ $
         originalmente esculpida fora do código de seu servidor como uma tentativa em
         separar as partes específicas de SO das porções independentes
         de SO.  O resultado foi uma biblioteca que oferece uma API
-        genérica para executar operações that differ levemente&mdash;ou
+        genérica para executar operações que diferem levemente&mdash;ou
         agressivamente&mdash;de SO para SO.  Enquanto o Servidor HTTP da Apache foi
         obviamente o primeiro usuário da biblioteca APR, os desenvolvedores do
         Subversion imediatamente reconheceram o valor de usar APR
@@ -769,74 +769,74 @@ $
         compila e executa também.  Atualmente esta lista inclui todos os sabores de
         Unix, Win32, BeOS, OS/2, e Mac OS X.</para>
 
-      <para>In addition to providing consistent implementations of
-        system calls that differ across operating systems,
+      <para>Além de oferecer implementações consistentes de
+        chamadas de sistemas que diferem entre os sistemas operacionais,
         <footnote>
-          <para>Subversion uses ANSI system calls and datatypes as much
-            as possible.</para>
+          <para>O Subversion usa chamadas de sistema e tipos de dado em ANSI
+            sempre que possível.</para>
         </footnote>
-        APR gives Subversion immediate access to many custom
-        datatypes, such as dynamic arrays and hash tables.  Subversion
-        uses these types extensively.  But
-        perhaps the most pervasive APR datatype, found in nearly every
-        Subversion API prototype, is the
-        <structname>apr_pool_t</structname>&mdash;the APR memory pool.
-        Subversion uses pools internally for all its memory allocation
-        needs (unless an external library requires a different memory
-        management mechanism for data passed through its API),
+        a APR dá ao Subversion acesso imediato a vários tipos de dado
+        personalizados, como matrizes dinâmicas e tabelas hash.  O Subversion
+        usa estes tipos extensivamente.  Mas
+        talvez o mais difundido tipo de dado da APR, encontrado em quase todo
+        protótipo da API do Subversion, seja o
+        <structname>apr_pool_t</structname>&mdash;o recipiente de memória da APR.
+        O Subversion usa recipientes internamente para todas as suas necessidades de alocação de
+        memória (a menos que uma biblioteca externa requeira um mecanismo de gerenciamento
+        de memória diferente para que dados passem através de sua API),
         <footnote>
-          <para>Neon and Berkeley DB are examples of such libraries.</para>
+          <para>Neon e Berkeley DB são exemplos de tais bibliotecas.</para>
         </footnote>
-        and while a person coding against the Subversion APIs is
-        not required to do the same, they <emphasis>are</emphasis> required to provide
-        pools to the API functions that need them.  This means that
-        users of the Subversion API must also link against APR, must
-        call <function>apr_initialize()</function> to initialize the
-        APR subsystem, and then must create and manage pools for use with
-        Subversion API calls, typically by using
+        e enquanto uma pessoa codifica com as APIs do Subversion não
+        é necessário fazer o mesmo, eles <emphasis>são</emphasis> requeridos para fornecer
+        recipientes para as funções da API que precisam deles.  Isto significa que
+        usuários da API do Subversion devem também vincular à APR, devem
+        chamar <function>apr_initialize()</function> para inicializar o
+        subsistema da APR, e então devem criar e gerenciar os recipientes para usar com
+        as chamadas da API do Subversion, normalmente pelo uso de
         <function>svn_pool_create()</function>,
-        <function>svn_pool_clear()</function>, and 
+        <function>svn_pool_clear()</function>, e 
         <function>svn_pool_destroy()</function>.</para>
 
       <sidebar>
-        <title>Programming with Memory Pools</title>
+        <title>Programando com Recipientes de Memória</title>
 
-        <para>Almost every developer who has used the C programming
-          language has at some point sighed at the daunting task of
-          managing memory usage.  Allocating enough memory to use,
-          keeping track of those allocations, freeing the memory when
-          you no longer need it&mdash;these tasks can be quite
-          complex.  And of course, failure to do those things properly
-          can result in a program that crashes itself, or worse,
-          crashes the computer.</para>
+        <para>Quase todo desenvolvedor que usou a linguagem de programação
+          C teve em algum ponto suspirou fundo ao enfrentar a assustadora tarefa de
+          gerenciar o uso de memória.  Alocar memória suficiente para o uso,
+          manter controle dessas alocações, liberar a memória quando
+          você não precisa mais dela&mdash;estas tarefas podem ser bastante
+          complexas.  E certamente, falhar ao fazer essas coisas adequadamente
+          pode resultar em um programa que trava sozinho, ou pior ainda,
+          trava todo o computador.</para>
 
-        <para>Higher-level languages, on the other hand, take the job of
-          memory management away from the developer completely.
+        <para>Em linguagens de alto nível, por outro lado, deixam o trabalho de
+          gerenciamento de memória completamente distante do desenvolvedor.
           <footnote>
-            <para>Or at least make it something you only toy with when
-              doing extremely tight program optimization.</para>
+            <para>Ou pelo menos torná-lo algo que você somente diverte-se ao
+              fazer uma otimização extremamente rígida do programa.</para>
           </footnote>
-          Languages like Java and Python use <firstterm>garbage
-          collection</firstterm>, allocating memory for
-          objects when needed, and automatically freeing that memory
-          when the object is no longer in use.</para>
+          Linguagens como Java e Python usam um <firstterm>coletor
+          de lixo</firstterm>, alocando memória para os
+          objetos quando necessário, e automaticamente liberando esta memória
+          quando o objeto não está mais em uso.</para>
 
-        <para>APR provides a middle-ground approach called pool-based
-          memory management.  It allows the developer to control
-          memory usage at a lower resolution&mdash;per chunk (or
-          <quote>pool</quote>) of memory, instead of per allocated
-          object.  Rather than using <function>malloc()</function> and
-          friends to allocate enough memory for a given object, you
-          ask APR to allocate the memory from a memory pool.  When
-          you're finished using the objects you've created in the
-          pool, you destroy the entire pool, effectively de-allocating the
-          memory consumed by <emphasis>all</emphasis> the objects you allocated from it.
-          Thus, rather than keeping track of individual objects which need
-          to be de-allocated, your program simply considers the
-          general lifetimes of those objects, and allocates the
-          objects in a pool whose lifetime (the time between the
-          pool's creation and its deletion) matches the object's
-          needs.</para>
+        <para>A APR fornece uma abordagem de meio-termo chamada gerenciamento
+          de memória baseada em recipientes.  Isto permite ao desenvolvedor controlar
+          o uso de memória em uma resolução mais baixa&mdash;por pedaços (ou
+          <quote>recipientes</quote>) de memória, em vez de por objeto
+          alocado.  Ao invés de usar <function>malloc()</function> e
+          similares para alocar memória suficiente para um dado objeto, você
+          pede que a APR aloque a memória de um recipiente de memória.  Quando
+          você estiver finalizado o uso dos objetos criados naquele
+          recipiente, você destrói todo o recipiente, efetivamente desalocando a
+          memória consumida por <emphasis>todos</emphasis> os objetos que você alocou nele.
+          Dessa forma, em vez de manter o controle individual de objetos que precisam
+          ser desalocados, seu programa simplesmente considera o
+          tempo de vida total desses objetos, e aloca os
+          objetos em um recipiente cujo tempo de vida (o tempo entre a
+          criação do recipiente e sua exclusão) coincide a necessidade do
+          objeto.</para>
 
       </sidebar>
     </sect2>
