@@ -710,66 +710,69 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <sect3 id="svn.reposadmin.basics.backends.fsfs">
         <title>FSFS</title>
 
-        <para>In mid-2004, a second type of repository storage
-          system&mdash;one which doesn't use a database at
-          all&mdash;came into being.  An FSFS repository stores the
-          changes associated with a revision in a single file, and so
-          all of a repository's revisions can be found in a single
-          subdirectory full of numbered files.  Transactions are
-          created in separate subdirectories as individual files.
-          When complete, the transaction file is renamed and moved
-          into the revisions directory, thus guaranteeing that commits
-          are atomic.  And because a revision file is permanent and
-          unchanging, the repository also can be backed up while
-          <quote>hot</quote>, just like a BDB-backed
-          repository.</para>
-
-        <para>The FSFS revision files describe a revision's
-          directory structure, file contents, and deltas against files
-          in other revision trees.  Unlike a Berkeley DB database,
-          this storage format is portable across different operating
-          systems and isn't sensitive to CPU architecture.  Because
-          there's no journaling or shared-memory files being used, the
-          repository can be safely accessed over a network filesystem
-          and examined in a read-only environment.  The lack of
-          database overhead also means that the overall repository
-          size is a bit smaller.</para>
-
-        <para>FSFS has different performance characteristics too.
-          When committing a directory with a huge number of files,
-          FSFS is able to more quickly append directory entries.  On
-          the other hand, FSFS writes the latest version of a file as
-          a delta against an earlier version, which means that
-          checking out the latest tree is a bit slower than fetching
-          the fulltexts stored in a Berkeley DB HEAD revision.  FSFS
-          also has a longer delay when finalizing a commit, which
-          could in extreme cases cause clients to time out while
-          waiting for a response.</para>
-
-        <para>The most important distinction, however, is FSFS's
-          imperviousness to <quote>wedging</quote> when something goes
-          wrong.  If a process using a Berkeley DB database runs into
-          a permissions problem or suddenly crashes, the database can
-          be left in an unusable state until an administrator recovers
-          it.  If the same scenarios happen to a process using an FSFS
-          repository, the repository isn't affected at all.  At worst,
-          some transaction data is left behind.</para>
-
-        <para>The only real argument against FSFS is its relative
-          immaturity compared to Berkeley DB.  Unlike Berkeley DB,
-          which has years of history, its own dedicated development
-          team and, now, Oracle's mighty name attached to it,
+        <para>Em meados de 2004, um segundo tipo de sistema de armazenamento
+          de repositórios&mdash;um que não usa um banco de dados&mdash;
+          nasceu.  Um repositório FSFS armazena as mudanças relacionadas com
+          uma revisão em um única arquivo, e assim todas as revisões do
+          repositório podem ser encontradas num único subdiretório que
+          contém arquivos numerados. Transações são criadas em subdiretórios
+          diferentes como arquivos individuais. Quando completa, o arquivo
+          de transação é renomeado e movido para o diretório de revisões,
+          garantindo assim que a transação será atômica. Em função do
+          arquivo de revisão ser permanente e imodificável, também é 
+          possível fazer uma cópia de segurança <quote>quente</quote> assim
+          como os repositórios baseados em BDB.</para>
+          
+        <para>Os arquivos de revisão FSFS decrevem uma estrutura de
+        diretórios de uma revisão, conteúdo dos arquivos, e diferenças em
+          relação aos arquivos em outras árvores de revisão. Ao contrário
+          das baseas de dados Berkeley DB esse formato de armazenamento é
+          portável em muitos sistemas operacionais e não é sensível a
+          arquitetura de CPU. Em função de não haver journaling ou arquivos
+          com memória compartilhada o repositório pode ser acessado com
+          segurança a partir de um sistema de arquivos de rede e examinado
+          em um ambiente somente para leitura. A inexistência da sobrecarga
+          de um banco de dados também significa que o tamanho total do
+          repositório também é um pouco menor.</para>
+        
+        <para>FSFS tem característica de desempenho diferentes também.
+          Quando se submete um diretório com um alto número de arquivos,
+          o FSFS é capaz de rapidamente atualizar as entradas de 
+          diretório. Por outro lado, FSF escreve a última versão de um
+          arquivo como um delta em relação à uma versão anterior, o que
+          significa que obtee a última árvore de diretórios é um pouco
+          mais lento do que obter os textos completos armazenados em 
+          uma revisão HEAD no Berkeley DB. O FSFS também possui uma certa
+          demora na finalização de uma submissão, o que em casos extremos
+          pode causar timeout no cliente.</para> 
+          
+        <para>A diferença mais importante, entretanto, é o formato 
+          <quote>inabalável</quote> do FSFS quando alguma coisa errada
+          acontece. Se ocorre um problema qualquer com um processo que 
+          está usando um banco de dados Berkeley DB, o banco de dados
+          pode ficar em um estado que não permite o seu uso até que um
+          adminitrador recupere ele. Se os mesmo cenários acontecerem
+          com um processo que utiliza FSFS, o repositório não é afetado.
+          No pior caso, algumas informações de transação são deixadas
+          para trás.</para>
+        
+        <para>O único argumento coerente contra o FSFS é que ele é
+        relativamente imaturo quando comparado ao Berkeley DB. Ao
+        contrário do Berkeley DB que tem anos de história, sua própria
+        equipe de desenvolvimento e, agora, o grande nome da Oracle
+        ligado à ele,
           <footnote>
-            <para>Oracle bought Sleepycat and its flagship software,
-              Berkeley DB, on Valentine's Day in 2006.</para>
-          </footnote>
-          FSFS is a much newer bit of engineering.  Prior to
-          Subversion 1.4, it was still shaking out some pretty serious
-          data integrity bugs which, while only triggered in very rare
-          cases, nonetheless did occur.  That said, FSFS has quickly
-          become the back-end of choice for some of the largest public
-          and private Subversion repositories, and promises a lower
-          barrier to entry for Subversion across the board.</para>
+            <para>A Oracle comprou Sleepycat e seu software,
+              Berkeley DB, no dia dos namorados em 2006.</para>
+          </footnote> 
+          FSFS é muito mais novo em termos de engenharia. Antes da
+          versão 1.4 ele ainda era afetado por algumas falhas bem
+          sérias com relação a integridade dos dados, muito embora
+          essas falhas ocorressem raramente, elas nunca deveriam ocorrer.
+          Dito isso, o FSFS tem se tornado rapidamente a escolha de 
+          armazenamento de alguns dos maiores repositórios Subversion
+          públicos e privados, e oferece poucos obstáculos a ponto de ser
+          um bom ponto de entrada para o Subversion. </para>
 
       </sect3>
     </sect2>
