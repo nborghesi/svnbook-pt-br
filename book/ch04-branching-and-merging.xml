@@ -1138,67 +1138,71 @@ A   whole.c
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.branchmerge.commonuses">
-    <title>Common Use-Cases</title>
+    <title>Casos Comuns de Utilização</title>
 
-    <para>There are many different uses for branching and <command>svn
-      merge</command>, and this section describes the most common ones
-      you're likely to run into.</para>
+    <para>Há muitos usos diferentes para ramificações e para o
+      <command>svn merge</command>, e esta seção descreve os usos mais
+      comuns com os quais você provavelmente irá se deparar.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.commonuses.wholebr">
-      <title>Merging a Whole Branch to Another</title>
+      <title>Mesclando um Ramo Inteiro para Outro</title>
 
-      <para>To complete our running example, we'll move forward in
-        time.  Suppose several days have passed, and many changes have
-        happened on both the trunk and your private branch.  Suppose
-        that you've finished working on your private branch; the
-        feature or bug fix is finally complete, and now you want to
-        merge all of your branch changes back into the trunk for
-        others to enjoy.</para>
+      <para>Para completar nosso exemplo de execução, vamos avançar no
+        tempo.  Suponha que vários dias tenham se passado, e que muitas
+        alterações tenham acontecido tanto no tronco quanto em seu ramo
+        particular.  Suponha que você tenha terminado de trabalhar 
+        seu ramo particular; e que o recurso ou correção de bug tenha
+        finalmente terminado, e que agora você quer mesclar todas as
+        modificações de seu ramo de volta para o tronco principal para
+        que os outros usufruam.</para>
 
-      <para>So how do we use <command>svn merge</command> in this
-        scenario?  Remember that this command compares two trees, and
-        applies the differences to a working copy.  So to receive the
-        changes, you need to have a working copy of the trunk.  We'll
-        assume that either you still have your original one lying
-        around (fully updated), or that you recently checked out a
-        fresh working copy of <filename>/calc/trunk</filename>.</para>
+      <para>Então como usamos o <command>svn merge</command> neste
+        cenário?  Lembre-se de que este comando compara duas árvores, e
+        aplica as diferenças em uma cópia de trabalho.  Então para
+        receber as modificações, você precisa ter uma cópia de trabalho
+        do tronco.  Vamos assumir que você ainda possua uma cópia
+        original (completamente atualizada), ou que você recentemente
+        tenha obtido uma nova cópia de trabalho de 
+        <filename>/calc/trunk</filename>.</para>
 
-      <para>But which two trees should be compared?  At first glance,
-        the answer may seem obvious: just compare the latest trunk
-        tree with your latest branch tree.  But beware&mdash;this
-        assumption is <emphasis>wrong</emphasis>, and has burned many
-        a new user!  Since <command>svn merge</command> operates like
-        <command>svn diff</command>, comparing the latest trunk and 
-        branch trees will <emphasis>not</emphasis> merely describe
-        the set of changes you made to your branch.  Such a comparison
-        shows too many changes: it would not only show the addition of
-        your branch changes, but also the <emphasis>removal</emphasis>
-        of trunk changes that never happened on your branch.</para>
+      <para>Mas quais duas árvores deveriam ser comparadas?  À primeira
+        vista a resposta pode parecer óbvia: apenas compare a árvore
+        mais recente do tronco com sua árvore mais recente de seu ramo.
+        Mas cuidado&mdash;esta suposição está
+        <emphasis>errada</emphasis>, e isso costuma confundir muito os
+        novos usuários!  Como o <command>svn merge</command> opera como
+        o <command>svn diff</command>, comparar as últimas versões das
+        árvores do tronco e do ramo <emphasis>não</emphasis> descreve
+        apenas o conjunto de modificações que você fez em seu ramo.  Tal
+        comparação exibe muito mais mudanças: ele não apenas exibe o
+        efeito das modificações de seu ramo, mas também todas as
+        alterações de <emphasis>removação</emphasis> que nunca
+        aconteceram em seu ramo.</para>
 
-      <para>To express only the changes that happened on your branch,
-        you need to compare the initial state of your branch to its
-        final state.  Using <command>svn log</command> on your branch,
-        you can see that your branch was created in revision 341.  And
-        the final state of your branch is simply a matter of using the
-        <literal>HEAD</literal> revision.  That means you want to
-        compare revisions 341 and <literal>HEAD</literal> of your
-        branch directory, and apply those differences to a working
-        copy of the trunk.</para>
+      <para>Para expressar apenas as modificações que aconteceram em seu
+        ramo, você precisa comparar o estado inicial de seu ramo com seu
+        estado final.  Usando um <command>svn log</command> em seu ramo,
+        você pode ver que seu ramo foi criado na revisão 341.  E o
+        estado final de seu ramo é simplesmente uma dada forma de uso da
+        revisão <literal>HEAD</literal>.  Isso significa que você deve
+        comparar as revisões 341 e <literal>HEAD</literal> do seu
+        diretório branch, e aplicar estas diferenças na cópia de
+        trabalho de trunk.</para>
 
       <tip>
-        <para>A nice way of finding the revision in which a branch was
-          created (the <quote>base</quote> of the branch) is to use the
-          <option>--stop-on-copy</option> option to <command>svn
-          log</command>.  The log subcommand will normally show every
-          change ever made to the branch, including tracing back
-          through the copy which created the branch.  So normally,
-          you'll see history from the trunk as well.  The
-          <option>--stop-on-copy</option> will halt log output as soon
-          as <command>svn log</command> detects that its target was
-          copied or renamed.</para>
+        <para>Uma ótima maneira de encontrar a revisão na qual um ramo
+          foi criado (a <quote>base</quote> do ramo) é usar a opção
+          <option>--stop-on-copy</option> do comando <command>svn
+          log</command>.  O subcomando log normalmente irá mostrar cada
+          modificação feita no ramo, incluindo o rastreamento de volta
+          além da operação de cópia que criou o ramo.  Então,
+          normalmente, você irá ver o histório do tronco também.  A
+          opção <option>--stop-on-copy</option> irá parar a saída do log
+          assim que o <command>svn log</command> detecte que seu alvo
+          foi copiado ou renomeado.</para>
 
-        <para>So in our continuing example,</para>
+        <para>Assim, no caso de nosso exemplo,</para>
 
         <screen>
 $ svn log -v --stop-on-copy \
@@ -1212,13 +1216,13 @@ Changed paths:
 $
 </screen>
 
-        <para>As expected, the final revision printed by this command
-          is the revision in which <filename>my-calc-branch</filename>
-          was created by copying.</para>
+        <para>Como experado, a última revisão exibida por este comando é
+          é a revisão na qual o ramo <filename>my-calc-branch</filename>
+          foi criado por cópia.</para>
       </tip>
 
 
-      <para>Here's the final merging procedure, then:</para>
+      <para>E então, aqui está o último procedimento para mesclagem:</para>
 
       <screen>
 $ cd calc/trunk
@@ -1235,7 +1239,7 @@ M   integer.c
 M   button.c
 M   Makefile
 
-# ...examine the diffs, compile, test, etc...
+# ...examine os diffs, compilações, testes, etc...
 
 $ svn commit -m "Merged my-calc-branch changes r341:405 into the trunk."
 Sending        integer.c
@@ -1245,25 +1249,26 @@ Transmitting file data ...
 Committed revision 406.
 </screen>
 
-      <para>Again, notice that the commit log message very
-        specifically mentions the range of changes that was merged
-        into the trunk.  Always remember to do this, because it's
-        critical information you'll need later on.</para>
+      <para>Novamente, perceba que a mensagem de log do commit menciona
+        bem especificamente o intervalo de moficações que foram
+        mescladas para o tronco.  Sempre se lembre de fazer isso, pois é
+        uma informação crítica de que você irá precisar depois.</para>
 
-      <para>For example, suppose you decide to keep working on your
-        branch for another week, in order to complete an enhancement
-        to your original feature or bug fix.  The repository's
-        <literal>HEAD</literal> revision is now 480, and you're ready
-        to do another merge from your private branch to the trunk.
-        But as discussed in <xref linkend="svn.branchmerge.copychanges.bestprac"/>, you
-        don't want to merge the changes you've already merged before;
-        you only want to merge everything <quote>new</quote> on your
-        branch since the last time you merged.  The trick is to figure
-        out what's new.</para>
+      <para>Por exemplo, suponha que você decida continuar trabalhando
+        em seu ramo por mais uma semana, para concluir uma melhoria em
+        seu recurso original ou uma correção de bug.  A revisão
+        <literal>HEAD</literal> do repositório agora é a 480, e você
+        está pronto para fazer outra mesclagem de seu ramo particular
+        com o tronco principal.  Mas como já discutido em <xref
+        linkend="svn.branchmerge.copychanges.bestprac"/>, você não quer
+        mesclar as modificações que você já mesclou anteriormente; o que
+        você quer é mesclar todas as coisas <quote>novas</quote> em seu
+        ramo desde a última mesclagem que você fez.  O truque é conferir
+        exatamente quais são as coisas novas.</para>
 
-      <para>The first step is to run <command>svn log</command> on the
-        trunk, and look for a log message about the last time you
-        merged from the branch:</para>
+      <para>O primeiro passo é executar <command>svn log</command> no
+        tronco, e procurar por uma mensagem de log da última vez que
+        você mesclou um ramo:</para>
 
       <screen>
 $ cd calc/trunk
@@ -1277,18 +1282,18 @@ Merged my-calc-branch changes r341:405 into the trunk.
 &hellip;
 </screen>
 
-      <para>Aha!  Since all branch-changes that happened between
-        revisions 341 and 405 were previously merged to the trunk as
-        revision 406, you now know that you want to merge only the
-        branch changes after that&mdash;by comparing revisions 406 and
-        <literal>HEAD</literal>.</para>
+      <para>Aha!  Como todas as modificações no ramo que aconteceram
+        entre as revisões 341 e 408 já foram previamente mescladas para
+        o tronco gerando a revisão 406, você agora sabe que deve mesclar
+        apenas as alterações feitas depois disso&mdash;comparando as
+        revisões <literal>HEAD</literal>.</para>
 
       <screen>
 $ cd calc/trunk
 $ svn update
 At revision 480.
 
-# We notice that HEAD is currently 480, so we use it to do the merge:
+# Percebemos que atualmente HEAD está em 480, então usamos isso para fazer a mesclagem:
 
 $ svn merge -r 406:480 http://svn.example.com/repos/calc/branches/my-calc-branch
 U   integer.c
@@ -1303,11 +1308,11 @@ Transmitting file data ...
 Committed revision 481.
 </screen>
 
-      <para>Now the trunk contains the complete second wave of changes
-        made to the branch.  At this point, you can either delete your
-        branch (we'll discuss this later on), or continue working on
-        your branch and repeat this procedure for subsequent
-        merges.</para>
+      <para>Agora o tronco contém a segunda leva completa de
+        modificações feitas no ramo.  Neste ponto, você pode tanto
+        excluir o seu ramo (falaremos mais sobre isso posteriormente),
+        ou continuar trabalhando em seu ramo e repetir este procedimento
+        para mesclagens subsequentes.</para>
 
     </sect2>
 
