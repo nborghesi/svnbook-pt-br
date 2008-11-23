@@ -1060,44 +1060,46 @@ A  foo.c
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.copychanges.bestprac.moves">
-        <title>Merges and Moves</title>
+        <title>Fusões e Movimentações</title>
 
-        <para>A common desire is to refactor source code, especially
-          in Java-based software projects.  Files and directories are
-          shuffled around and renamed, often causing great disruption
-          to everyone working on the project.  Sounds like a perfect
-          case to use a branch, doesn't it?  Just create a branch,
-          shuffle things around, then merge the branch back to the
-          trunk, right?</para>
+        <para>Um desejo comum é refatorar código-fonte, especialmente em
+          projetos de software na linguagem Java.  Arquivos e diretórios
+          são mexidos e renomeados, possivelmente provocando transtornos
+          a todos que estiverem trabalhando no projeto.  Parece um caso
+          perfeito para criar um ramo, não?  Apenas crie um ramo,
+          modifique as coisas inteiramente, e então mescle o ramo de
+          volta ao tronco principal, certo?</para>
 
-        <para>Alas, this scenario doesn't work so well right now, and
-          is considered one of Subversion's current weak spots.  The
-          problem is that Subversion's <command>update</command>
-          command isn't as robust as it should be, particularly when
-          dealing with copy and move operations.</para>
+        <para>Infelizmente, no momento este cenário não funciona tão
+          bem, sendo algo considerado como um dos pontos fracos do
+          Subversion.  O problema é que o comando
+          <command>update</command> do Subversion não é tão robusto
+          quanto poderia ser, especialmente ao lidar com operações de
+          cópia e movimentações.</para>
 
-        <para>When you use <command>svn copy</command> to duplicate a
-          file, the repository remembers where the new file came from,
-          but it fails to transmit that information to the client
-          which is running <command>svn update</command>
-          or <command>svn merge</command>.  Instead of telling the
-          client, <quote>Copy that file you already have to this new
-          location</quote>, it instead sends down an entirely new
-          file.  This can lead to problems, especially because the
-          same thing happens with renamed files.  A lesser-known fact
-          about Subversion is that it lacks <quote>true
-          renames</quote>&mdash;the <command>svn move</command>
-          command is nothing more than an aggregation of <command>svn
-          copy</command> and <command>svn delete</command>.</para>
+        <para>Quando você usa o <command>svn copy</command> para
+          duplicar um arquivo, o repositório se lembra de onde o novo
+          arquivo veio, mas falha ao transmitir essa informação para o
+          cliente que está executando um <command>svn update</command>
+          ou um <command>svn merge</command>.  Ao invés de dizer para o
+          cliente, <quote>Copie este arquivo que você já possui para
+          este novo local</quote>, ele envia informação acerca de um
+          arquivo completamente novo.  Isto pode levar a problemas,
+          especialmente pelo fato de que a mesma coisa acontece com
+          arquivos renomeados.  Um fato pouco conhecido pouco conhecido
+          sobre o Subversion é que ainda lhe falta um recurso para
+          <quote>renomeação efetiva</quote>&mdash;o comando <command>svn
+          move</command> nada mais é que uma combinação de <command>svn
+          copy</command> e <command>svn delete</command>.</para>
 
-        <para>For example, suppose that while working on your private
-          branch, you rename <filename>integer.c</filename>
-          to <filename>whole.c</filename>.  Effectively you've created
-          a new file in your branch that is a copy of the original
-          file, and deleted the original file.  Meanwhile, back
-          on <filename>trunk</filename>, Sally has committed some
-          improvements to <filename>integer.c</filename>.  Now you
-          decide to merge your branch to the trunk:</para>
+        <para>Por exemplo, suponha que ao trabalhar em seu ramo
+          particular, você renomeie <filename>integer.c</filename> para 
+          <filename>whole.c</filename>.  Efetivamente você criou um novo
+          arquivo em seu ramo que é uma cópia do arquivo original e
+          excluiu o arquivo original.  Enquanto isso, de volta ao 
+          <filename>trunk</filename>, Sally submeteu algumas melhorias
+          em <filename>integer.c</filename>.  Agora você decide mesclar
+          seu ramo ao tronco:</para>
 
         <screen>
 $ cd calc/trunk
@@ -1107,23 +1109,23 @@ D   integer.c
 A   whole.c
 </screen>
 
-        <para>This doesn't look so bad at first glance, but it's also
-          probably not what you or Sally expected.  The merge
-          operation has deleted the latest version
-          of <filename>integer.c</filename> file (the one containing
-          Sally's latest changes), and blindly added your
-          new <filename>whole.c</filename> file&mdash;which is a
-          duplicate of the <emphasis>older</emphasis> version
-          of <filename>integer.c</filename>.  The net effect is that
-          merging your <quote>rename</quote> to the branch has removed
-          Sally's recent changes from the latest revision!</para>
+        <para>À primeira vista, isto não parece tão ruim, mas
+          provavelmente também não era o que você ou Sally esperavam.  A
+          operação de mesclagem excluiu a última versão do arquivo
+          <filename>integer.c</filename> (aquela que continha as últimas
+          alterações de Sally), e adicionou cegamente seu novo arquivo
+          <filename>whole.c</filename>&mdash;que é uma duplicata da
+          versão <emphasis>mais antiga</emphasis> de
+          <filename>integer.c</filename>.  O efeito em cascata é que
+          mesclar sua <quote>renomeação</quote> no ramo removeu as
+          modificações recentes de Sally para a última revisão!</para>
 
-        <para>This isn't true data-loss; Sally's changes are still in
-          the repository's history, but it may not be immediately
-          obvious that this has happened.  The moral of this story is
-          that until Subversion improves, be very careful about
-          merging copies and renames from one branch to
-          another.</para>
+        <para>Mas isto não é uma perda de dados real; as modificações de
+          Sally ainda estão no histórico do repositório, mas o que de
+          fato aconteceu pode não ser óbvio de imediato.  A moral dessa
+          histórioa é que até que o Subversion evolua, tenha cuidado ao
+          mesclar cópias e renomeações a partir de um ramo para
+          outro.</para>
 
       </sect3>
 
