@@ -8,7 +8,7 @@
   </blockquote>
 
 
-  <para>Criar Ramos, Rótulos, e Fundir são conceitor comuns a quase 
+  <para>Criar Ramos, Rótulos, e Fundir são conceitos comuns a quase 
 	todos os sistemas de controle de Versão. Caso você não esteja
 	familiarizado com estes conceitos, nós oferecemos uma boa
 	introdução a estes nesse capítulo. Se você já conhece estes 
@@ -75,7 +75,7 @@
   <sect1 id="svn.branchmerge.using">
     <title>Usando Ramos</title>
 
-    <para>Até aqui, você ja deve saber como cada commit cria uma nova
+    <para>Até aqui, você já deve saber como cada commit cria uma nova
 	  árvore de arquivos (chamada de <quote>revisão</quote>) no 
 	  repositório. Caso não saiba, volte e leia sobre revisões em
 	  <xref linkend="svn.basic.in-action.revs"/>.</para>
@@ -91,7 +91,7 @@
 	  mais claro.</para>
 
       <figure id="svn.branchmerge.using.dia-1">
-        <title>Layout Inical do Repositório</title>
+        <title>Layout Inicial do Repositório</title>
         <graphic fileref="images/ch04dia2.png"/>
       </figure>
 
@@ -200,7 +200,7 @@ A  +   branches/my-calc-branch
 		o sinal <quote>+</quote> próximo à letra A. Isso indica o item
 		adicionado é uma <emphasis>cópia</emphasis> de algo e não um
 		item novo. Quando você realizar o Commit das modificações, o
-		Subversion vai criar o diretorio
+		Subversion vai criar o diretório
 		<filename>/calc/branches/my-calc-branch</filename> no repositório
 		copiando <filename>/calc/trunk</filename>, ao invés de reenviar
 		todos os dados da cópia de trabalho pela rede:</para>
@@ -212,7 +212,7 @@ Committed revision 341.
 </screen>
 
       <para>E aqui está o método mais fácil de criar um ramo, o qual nós
-		deveriamos ter lhe mostrado desde o início: o comando
+		deveríamos ter lhe mostrado desde o início: o comando
 		<command>svn copy</command> é capaz de copiar diretamente duas
 		URLs.</para>
 
@@ -318,7 +318,7 @@ Checked out revision 341.
 		forma alternativa de se criar uma cópia de trabalho de um
 		ramo.)</para>
 
-      <para>Vamo imaginar que tenha se passado uma semana, e o
+      <para>Vamos imaginar que tenha se passado uma semana, e o
 		seguinte commit é realizado:</para>
 
       <itemizedlist>
@@ -446,12 +446,12 @@ Changed paths:
 
       <para>Há duas lições importantes que você deve se lembrar desta
 		seção. Primeiro, o Subversion não tem um conceito interno de
-		ramosmdash;ele apenas sabe fazer cópias. Quando você copia um	
+		ramos&mdash;ele apenas sabe fazer cópias. Quando você copia um	
 		diretório, o diretório resultante somente é um 
 		<quote>ramo</quote> porque <emphasis>você</emphasis> atribui
 		esse significado a ele. Você pode pensar de forma diferente
 		sobre esse diretório, ou tratá-lo de forma diferente, mas 
-		para o subversion é apenas um diretório comum que carrega uma
+		para o Subversion é apenas um diretório comum que carrega uma
 		informação extra de histórico. Segundo, devido a este mecanismo
 		de cópia, os ramos no Subversion existem como 
 		<emphasis>diretórios normais do sistema de arquivos</emphasis>
@@ -478,20 +478,20 @@ Changed paths:
 	  é comum que cada um tenha sua cópia de trabalho do tronco. Sempre
 	  que  alguem precise fazer uma longa modificação que possa 
 	  corromper o tronco, o procedimento padrão é criar um ramo privado
-	  e fazer os commits neste ramo até que todo o trabaho esteja
+	  e fazer os commits neste ramo até que todo o trabalho esteja
 	  concluido.</para>
 
     <para>Então, a boa notícia é que você não está interferindo no 
 	  trabalho de Sally, e vice-versa. A má notícia, é que é muito 
-	  fácil se <emphasis>distânciar</emphasis> do projeto. Lembre-se
+	  fácil se <emphasis>distanciar</emphasis> do projeto. Lembre-se
 	  que um dos problemas com a estratégia do <quote>se isolar</quote>
 	  é que quando você terminar de trabalhar no seu ramo, pode ser bem
-	  perto de impossivel de fundir suas modificações novamente com o
+	  perto de impossível de fundir suas modificações novamente com o
 	  tronco do projeto sem um grande numero de conflitos.</para>
 
     <para>Ao invés disso, você e Sally devem continuamente compartilhar
 	  as modificações ao longo do seu trabalho. Depende de você para 
-	  decidir quais modificações devem ser compartilhadas; O subversion
+	  decidir quais modificações devem ser compartilhadas; O Subversion
 	  lhe da a capacidade para selecionar o que <quote>copiar</quote>
 	  entre os ramos. E quando você terminar de trabalhar no seu ramo, 
 	  todas as modificações realizadas no seu ramo podem ser copiadas
@@ -508,10 +508,10 @@ Changed paths:
 		em ramos distintos.Se você olhar a mensagem de log de Sally
 		na revisão 344, você verá que ela corrigiu alguns erros de 
 		escrita. Sem duvida alguma, a sua cópia deste arquivo tem os
-		mesmo erros de escrita. É provavel que suas futuras 
+		mesmo erros de escrita. É provável que suas futuras 
 		modificações a este arquivo vão afetar as mesmas áreas onde
 		foram feitas as correções de escrita, então você tem grandes
-		chances de ter varios conflitos quando for fundir o seu ramo,
+		chances de ter vários conflitos quando for fundir o seu ramo,
 		eventualmente. Portanto, é melhor receber as modificações de
 		Sally agora, <emphasis>antes</emphasis> de você começar a 
 		trabalhar de forma massiva nessas áreas.</para>
@@ -583,7 +583,7 @@ $ svn status
 M  integer.c
 </screen>
 
-      <para>A saida do comando <command>svn merge</command> mostra
+      <para>A saída do comando <command>svn merge</command> mostra
 		a sua cópia de <filename>integer.c</filename> sofreu uma
 		correção. Agora ele contém as modificações feitas por
 		Sally&mdash; essas modificações foram <quote>copiadas</quote>
@@ -592,16 +592,16 @@ M  integer.c
 		altura, depende de você revisar essa modificação local e ter
 		certeza de funciona.</para>
 
-      <para>Em outra simulação, é possivel que as coisas não tenham
+      <para>Em outra simulação, é possível que as coisas não tenham
 		ocorrido tão bem assim, e o arquivo 
 		<filename>integer.c</filename> tenha entrado em estado de 
 		conflito. Pode ser que você precise resolver o conflito usando
-		procedimentos padrão (see <xref linkend="svn.tour"/>), ou se 
+		procedimentos padrão (veja <xref linkend="svn.tour"/>), ou se 
 		você decidir que fazer a fusão dos arquivos tenha sido uma má
 		idéia, desista e rode o comando <command>svn revert</command>
 		para retirar as modificações locais.</para>
 
-      <para>Partindo do pré-suposto que você revisou as modificações 
+      <para>Partindo do pressuposto que você revisou as modificações 
 		do processo de fusão , então você pode fazer o <command>svn
 		commit</command> como de costume. A este ponto, a mudança foi
 		fusionada ao seu ramo no repositório. Em tecnologias de 
@@ -629,7 +629,7 @@ Committed revision 360.
 
         <para>Essa questão pode estar em sua mente, especialmente se
 		  você for um usuário de Unix: porque usar o comando 
-		  <command>svn merge</command>? Porque não simplismente usar
+		  <command>svn merge</command>? Porque não simplesmente usar
 		  o comando do sistema <command>patch</command> para realizar
 		  esta tarefa? Por exemplo:</para>
 
@@ -654,10 +654,10 @@ done
 		  renomear arquivos e diretórios. Tão pouco pode o comando
 		  <command>patch</command> ver mudanças de propriedades. Se
 		  nas modificações de Sally, um diretório tivesse sido criado, 
-		  a saida do comando <command>svn diff</command> não iria 
+		  a saída do comando <command>svn diff</command> não iria 
 		  fazer menção disso. <command>svn diff</command> somente 
 		  mostra forma limitada do patch, então existem coisa que ele
-		  simplismente não irá mostrar. O comando <command>svn
+		  simplesmente não irá mostrar. O comando <command>svn
 		  merge</command>, por sua vez, pode mostrar modificações
 		  em estrutura de árvores e propriedades aplicando estes 
 		  diretamente em sua cópia de trabalho.</para>
@@ -676,13 +676,13 @@ done
 
       <orderedlist>
         <listitem>
-          <para>Você quer fundir modificações de diretorio no seu
+          <para>Você quer fundir modificações de diretório no seu
 			diretório de trabalho atual.</para>
         </listitem>
         <listitem>
           <para>Você quer fundir as modificações de um arquivo em 
 			específico, em outro arquivo de mesmo nome que existe no seu
-			diretorio atual de trabalho.</para>
+			diretório atual de trabalho.</para>
         </listitem>
       </orderedlist>
 
@@ -758,12 +758,12 @@ U   my-calc-branch/integer.c
 		arquivos, ou rodados vários comandos <command>svn
         add</command> ou <command>svn delete</command>. Se você gostar 
 		do resultado você pode fazer o commit dele. Se você não gostar
-		do resultado, você pode simplismente reverter as mudanças
+		do resultado, você pode simplesmente reverter as mudanças
 		com o comando <command>svn revert</command>.</para>
 
       <para>A sintaxe do comando <command>svn merge</command> lhe 
 		permite especificar os três argumentos necessários de forma 
-		flexivel. Veja aqui alguns exemplos:</para>
+		flexível. Veja aqui alguns exemplos:</para>
 
       <screen>
 $ svn merge http://svn.example.com/repos/branch1@150 \
@@ -803,18 +803,18 @@ $ svn merge -r 100:200 http://svn.example.com/repos/trunk
 		  algumas vezes as coisas vão funcionar corretamente. 
 		  Quando aplicando um patch em um arquivo, Subversion 
 		  verifica se o arquivo já possui aquelas modificações e 
-		  se tiver não faz nada. Mas se a modificaçõa ja existente
-		  tiver sido de alguma forma modificada, você terá um
+		  se tiver não faz nada. Mas se a modificações existentes
+		  já tiverem modificadas de alguma forma, você terá um
 		  conflito.</para>
 
         <para>O ideal seria se o seu sistema de controle de versão
 		  prevenisse o aplicar-duas-vezes modificações a um ramo.
 		  Ele deveria lembrar automaticamente quais modificações
-		  um ramo ja recebeu, e ser capaz de lista-los para você.
+		  um ramo já recebeu, e ser capaz de listá-los para você.
 		  Essa informação deveria ser usada para ajudar a 
 		  automatizar a Fusão o máximo possivel.</para>
 
-        <para>Infelizmentem, o Subversion não é esse sistema; ele
+        <para>Infelizmente, o Subversion não é esse sistema; ele
 		  ainda não grava informações sobre as fusões realizadas.
             <footnote><para>Entretanto, neste exato momento, essa
              funcionalidade está sendo preparada!</para></footnote>
@@ -828,15 +828,15 @@ $ svn merge -r 100:200 http://svn.example.com/repos/trunk
 		  terá que rastrear as informações de Fusão pessoalmente. A
 		  melhor maneira de fazer isso é com as mensagens de log do
 		  commit. Como mostrado nos exemplos anteriores, é 
-		  recomendavel que sua mensagem de log informe especificamente
+		  recomendável que sua mensagem de log informe especificamente
 		  o número da revisão (ou números das revisões) que serão 
 		  fundidas ao ramo. Depois, você pode rodar o comando 
 		  <command>svn log</command> para verificar quais modificações
-		  o seu ramo ja recebeu. Isso vai lhe ajudar a construir um
+		  o seu ramo já recebeu. Isso vai lhe ajudar a construir um
 		  próximo comando <command>svn merge</command> que não será
-		  redundante com as modificações ja aplicadas.</para>
+		  redundante com as modificações já aplicadas.</para>
 
-        <para>Na próxima seção, vamos mostrar alguns exeplos 
+        <para>Na próxima seção, vamos mostrar alguns exemplos 
 		  dessa técnica na prática.</para>
 
       </sect3>
@@ -862,7 +862,7 @@ $ svn merge -r 100:200 http://svn.example.com/repos/trunk
 		  possui modificações locais, a mudanças aplicadas pela fusão
 		  serão misturadas as pré existentes, e rodar o comando
 		  <command>svn revert</command> não é mais uma opção. Pode
-		  ser impossivel de separar os dois grupos de 
+		  ser impossível de separar os dois grupos de 
 		  modificações.</para>
 
         <para>Em casos como este, as pessoas se tranquilizam em 
@@ -885,7 +885,7 @@ $ svn status
 
         <para>A opção <option>--dry-run</option> não aplica qualquer
 		  mudança para a copia de trabalho. Essa opção apenas exibe
-		  os codigos que <emphasis>seriam</emphasis> escritos em uma 
+		  os códigos que <emphasis>seriam</emphasis> escritos em uma 
 		  situação real de fusão. É útil poder ter uma previsão de
 		  <quote>auto nível</quote> da potencial fusão, para aqueles
 		  momentos em que o comando <command>svn diff</command> dá 
@@ -925,9 +925,9 @@ $ svn status
 		  que existem uma grande margem para erro humano. Usuário vão
 		  acabar por compara duas árvores erradas, criando um delta que
 		  não se aplica sem conflitos. O comando <command>svn 
-		  merge</command> vai fazer o melhor possivel para aplicar
-		  o delta o máximo possivel, mas em algumas partes isso pode
-		  ser impossivel. Assim como no comando Unix 
+		  merge</command> vai fazer o melhor possível para aplicar
+		  o delta o máximo possível, mas em algumas partes isso pode
+		  ser impossível. Assim como no comando Unix 
 		  <command>patch</command> que as vezes reclama sobre 
 		  <quote>failed hunks</quote>, o <command>svn merge</command>
 		  vai reclamar sobre <quote>alvos perdidos</quote>:</para>
@@ -946,12 +946,12 @@ $
         <para>O exemplo anterior pode ser um caso no qual o arquivo
 		  <filename>baz.c</filename> existe nas duas imagens dos 
 		  ramos que estão sendo comparados, e o delta resultante 
-		  quer modificar o conteudo do arquivo, mas o arquivo não 
-		  existe na cópia de trabalho. Independete do caso, a 
+		  quer modificar o conteúdo do arquivo, mas o arquivo não 
+		  existe na cópia de trabalho. Independente do caso, a 
 		  mensagem de <quote>skipped</quote> significa que o usuário
 		  está, muito provavelmente, comparando árvores incorretas;
-		  esse é o sinal classico de erro do usuário. Quando isso 
-		  acontece, é facil reverter recursivamente as modificações
+		  esse é o sinal clássico de erro do usuário. Quando isso 
+		  acontece, é fácil reverter recursivamente as modificações
 		  criadas pela fusão 
 		  (<command>svn revert --recursive</command>), delete qualquer
 		  arquivo não versionado deixado pelo revert, e rode novamente
@@ -959,7 +959,7 @@ $
 		  argumentos.</para>
 
         <para>Note também que o exemplo anterior mostra um conflito
-		  no arquivo <filename>glorb.h</filename>. Nos ja mostramos
+		  no arquivo <filename>glorb.h</filename>. Nós já mostramos
 		  que a cópia local não possui modificações:como um conflito
 		  pôde acontecer? Novamente, uma vez que o usuário pode usar
 		  o comando <command>svn merge</command> para definir e 
@@ -1052,7 +1052,7 @@ A  foo.c
           arquivos e diretórios.  Adicione a opção
           <option>--ignore-ancestry</option> a seu comando merge, e ele
           se comportará como o <command>svn diff</command>.  (E
-          reversamente, a opção <option>--notice-ancestry</option> fará
+          reversalmente, a opção <option>--notice-ancestry</option> fará
           com que o <command>svn diff</command> se comporte como o
           comando <literal>merge</literal>.)</para>
 
@@ -1123,7 +1123,7 @@ A   whole.c
         <para>Mas isto não é uma perda de dados real; as modificações de
           Sally ainda estão no histórico do repositório, mas o que de
           fato aconteceu pode não ser óbvio de imediato.  A moral dessa
-          histórioa é que até que o Subversion evolua, tenha cuidado ao
+          história é que até que o Subversion evolua, tenha cuidado ao
           mesclar cópias e renomeações a partir de um ramo para
           outro.</para>
 
@@ -1197,7 +1197,7 @@ A   whole.c
           log</command>.  O subcomando log normalmente irá mostrar cada
           modificação feita no ramo, incluindo o rastreamento de volta
           além da operação de cópia que criou o ramo.  Então,
-          normalmente, você irá ver o histório do tronco também.  A
+          normalmente, você irá ver o histórico do tronco também.  A
           opção <option>--stop-on-copy</option> irá parar a saída do log
           assim que o <command>svn log</command> detecte que seu alvo
           foi copiado ou renomeado.</para>
@@ -1250,7 +1250,7 @@ Committed revision 406.
 </screen>
 
       <para>Novamente, perceba que a mensagem de log do commit menciona
-        bem especificamente o intervalo de moficações que foram
+        bem especificamente o intervalo de modificações que foram
         mescladas para o tronco.  Sempre se lembre de fazer isso, pois é
         uma informação crítica de que você irá precisar depois.</para>
 
