@@ -843,35 +843,35 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.usingapi.urlpath">
-      <title>URL and Path Requirements</title>
+      <title>Requisitos de URL e Caminho</title>
 
-      <para>With remote version control operation as the whole point
-        of Subversion's existence, it makes sense that some attention
-        has been paid to internationalization (i18n) support.  After
-        all, while <quote>remote</quote> might mean <quote>across the
-        office</quote>, it could just as well mean <quote>across the
-        globe.</quote> To facilitate this, all of Subversion's public
-        interfaces that accept path arguments expect those paths to be
-        canonicalized, and encoded in UTF-8.  This means, for example,
-        that any new client binary that drives the libsvn_client
-        interface needs to first convert paths from the
-        locale-specific encoding to UTF-8 before passing those paths
-        to the Subversion libraries, and then re-convert any resultant
-        output paths from Subversion back into the locale's encoding
-        before using those paths for non-Subversion purposes.
-        Fortunately, Subversion provides a suite of functions (see
-        <filename>subversion/include/svn_utf.h</filename>) that can be
-        used by any program to do these conversions.</para>
+      <para>Com operação remota de controle de versão como o ponto de toda
+        a existência do Subversion, faz sentido que alguma atenção
+        seja dada ao suporte de internacionalização (i18n).  Afinal,
+        enquanto o <quote>remoto</quote> possa significar <quote>em todo o
+        escritório</quote>, poderia perfeitamente dizer <quote>em todo o
+        globo</quote>. Para facilitar isto, todas as interfaces públicas do
+        Subversion que aceitam argumentos de caminho esperam que esses caminhos sejam
+        canonicalizados e codificados em UTF-8.  Isto significa, por exemplo,
+        que qualquer novo cliente binário que realiza a interface
+        libsvn_client precisa primeiro converter os caminhos a partir da
+        codificação específica da localidade para a UTF-8 antes de passar esses caminhos
+        para as bibliotecas do Subversion, e então reconverter qualquer dos caminhos
+        de saída resultantes do retorno do Subversion para a codificação da localidade
+        antes de usar esses caminhos para propósitos fora do Subversion.
+        Felizmente, o Subversion oferece um conjunto de funções (veja
+        <filename>subversion/include/svn_utf.h</filename>) que podem ser
+        usadas por qualquer programa para fazer esses conversões.</para>
 
-      <para>Also, Subversion APIs require all URL parameters to be
-        properly URI-encoded.  So, instead of passing
-        <uri>file:///home/username/My File.txt</uri> as the URL of a
-        file named <literal>My File.txt</literal>, you need to pass
-        <uri>file:///home/username/My%20File.txt</uri>.  Again,
-        Subversion supplies helper functions that your application can
-        use&mdash;<function>svn_path_uri_encode()</function> and
-        <function>svn_path_uri_decode()</function>, for URI encoding
-        and decoding, respectively.</para> </sect2>
+      <para>Além disso, as APIs do Subversion requerem que todos os parâmetros da URL sejam
+        devidamente codificados em URI.  Assim, em vez de passar
+        <uri>file:///home/username/My File.txt</uri> como a URL de um
+        arquivo nomeado <literal>My File.txt</literal>, você precisa passar
+        <uri>file:///home/username/My%20File.txt</uri>.  Novamente, o
+        Subversion fornece funções auxiliares que sua aplicação pode
+        usar&mdash;<function>svn_path_uri_encode()</function> e
+        <function>svn_path_uri_decode()</function>, para codificação e
+        decodificação de URI, respectivamente.</para> </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.usingapi.otherlangs">
