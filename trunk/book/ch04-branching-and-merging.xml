@@ -1216,7 +1216,7 @@ Changed paths:
 $
 </screen>
 
-        <para>Como experado, a última revisão exibida por este comando é
+        <para>Como esperado, a última revisão exibida por este comando é
           é a revisão na qual o ramo <filename>my-calc-branch</filename>
           foi criado por cópia.</para>
       </tip>
