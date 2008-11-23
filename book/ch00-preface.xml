@@ -131,7 +131,7 @@
       <varlistentry>
         <term>Administradores de Sistemas Experientes</term>
         <listitem>
-          <para>Supõem-se aqui que você, provavelmente, já tenha usado 
+          <para>Supõe-se aqui que você, provavelmente, já tenha usado 
             controle de versão anteriormente, e está morrendo de vontade de usar
             um servidor Subversion o quanto antes. O
             <xref linkend="svn.reposadmin"/> e o
@@ -147,7 +147,7 @@
       <varlistentry>
         <term>Novos usuário</term>
         <listitem>
-          <para>Seu administrador provavelmente já diponibilizou um servidor  
+          <para>Seu administrador provavelmente já disponibilizou um servidor  
             Subversion, e você precisa aprender a usar o cliente. Se você nunca 
             utilizou um sistema de controle de versão, então o 
             <xref linkend="svn.basic"/> será vital para introduzir e mostrar as 
@@ -161,10 +161,10 @@
         <listitem>
           <para>Seja você um usuário ou um administrador, eventualmente seu 
             projeto irá crescer muito.  Você irá querer aprender a fazer 
-            coisas avançadas com o Subversion, como usar branches e fazer merges
+            coisas avançadas com o Subversion, como usar ramos e fazer fusões
             (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
             suporte do Subversion (<xref linkend="svn.advanced"/>), como
-            configurar as opções de runtime 
+            configurar as opções de tempo de execu  o 
             (<xref linkend="svn.customization"/>), 
             entre outras coisas.  
             Estes capítulos não são críticos no início, porém não deixe de 
@@ -285,7 +285,7 @@
           <term><xref linkend="svn.tour"/></term>
           <listitem>
             <para>Faz um tour por um dia na vida de um usuário do Subversion.
-              Demonstra como usar o cliente do subversion para
+              Demonstra como usar o cliente do Subversion para
               obter, modificar e submeter dados.</para>
           </listitem>
         </varlistentry>
@@ -471,7 +471,7 @@
     <para>Finalmente, agrademos às inúmeras pessoas que contribuíram para
       este livro com suas revisões informais, sugestões e retificações.
       Certamente, esta não é uma lista completa, mas este livro estaria 
-      imcompleto e incorreto sem a ajuda de: David Anderson,
+      incompleto e incorreto sem a ajuda de: David Anderson,
       Jani Averbach, Ryan Barrett, Francois Beausoleil, Jennifer
       Bevan, Matt Blais, Zack Brown, Martin Buchholz, Brane Cibej,
       John R. Daily, Peter Davis, Olivier Davy, Robert P. J. Day, Mo
@@ -513,7 +513,7 @@
         homem.  Não me olhem assim&mdash;vocês sabem quem são.</para>
 
       <para>Agradeço aos meus pais pela minha perfeita formação básica, e pelos
-        inacreditáveis conselhos.  Agradeços ao meu filho pela oportunidade de
+        inacreditáveis conselhos.  Agradeço ao meu filho pela oportunidade de
         passar isto adiante.</para>
 
     </sect2>
@@ -532,7 +532,7 @@
         e mergulhava minha cabeça no
         laptop para trabalhar no livro.</para>
 
-      <para>Mike e Ben, foi um prezer trabalhar com vocês neste
+      <para>Mike e Ben, foi um prazer trabalhar com vocês neste
         livro.  Heck, é um prazer trabalhar com você nesta obra!</para>
 
       <para>Para todos da comunidade Subversion e a Apache
@@ -553,7 +553,7 @@
       <para>Um obrigado especial a Amy, minha melhor amiga e esposa por
         inacreditáveis nove anos, por seu amor e apoio paciente, por me 
         tolerar até tarde da noite, e por agüentar o duro processo de controle
-        de versão que impus a ela.  Não se precupe,  
+        de versão que impus a ela.  Não se preocupe,  
         querida&mdash;você será um assistente do TortoiseSVN  
         logo!</para>
 
@@ -756,7 +756,7 @@
               continente&mdash;não são suportadas no CVS.
               Adicionalmente, no CVS você não pode substituir um arquivo
               versionado por alguma outra coisa com o mesmo nome sem que
-              o novo item deixe de herdar o histório do arquivo
+              o novo item deixe de herdar o histórico do arquivo
               antigo&mdash;que talvez seja até algo com o qual não
               mantenha nenhuma correlação.  Com o Subversion, você pode
               adicionar, excluir, copiar, e renomear ambos os arquivos
@@ -962,7 +962,7 @@
       <para>Uma vez que você tenha instalado o Subversion corretamente,
         você já deve estar pronto para iniciar.  Os próximos dois
         capítulos vão guiá-lo pela uso do <command>svn</command>, o
-        programa clente de linha de comando do Subversion.</para>
+        programa cliente de linha de comando do Subversion.</para>
   
     </sect2>
 
