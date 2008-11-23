@@ -5,7 +5,7 @@
     chegar ao final deste capítulo, você será capaz de realizar
     todas as tarefas necessárias para usar Subversion em um dia normal
     de trabalho.  Iniciará acessando seus arquivos que estão no Subversion,
-    após um checkout inicial de seu código.  Guiaremos você pelo
+    após ter obtido uma cópia inicial de seu código.  Guiaremos você pelo
     processo de fazer modificações e examinar estas modificações.  Também verá
     como trazer mudanças feitas por outros para sua cópia de trabalho,
     examiná-las, e resolver quaisquer conflitos que possam
@@ -126,10 +126,10 @@ $ svn list file:///usr/local/svn/repos
 
       <para>Você aprenderá mais sobre tags e branches no <xref
       linkend="svn.branchmerge"/>.  Para detalhes e como configurar
-      multiplos projetos, veja <xref
+      múltiplos projetos, veja <xref
       linkend="svn.branchmerge.maint.layout"/> e <xref
       linkend="svn.reposadmin.projects.chooselayout"/> para ler mais
-      sobre <quote>raizes dos projetos</quote>.</para>
+      sobre <quote>raízes dos projetos</quote>.</para>
 
     </sect2>
 
@@ -262,7 +262,7 @@ Gerado cópia de trabalho para revisão 8810.
         acidentalmente, o modo mais fácil de resolver o problema é remover
         todo o conteúdo do diretório (uma exclusão normal pelo sistema,
         não <command>svn delete</command>), então executar <command>svn
-        update</command> apartir do diretório pai.  O cliente Subversion
+        update</command> a partir do diretório pai.  O cliente Subversion
         fará novamente o download do diretório que você excluiu, bem como
         uma nova área <filename>.svn</filename>.</para>
     </sidebar>
@@ -296,7 +296,7 @@ Gerado cópia de trabalho para revisão 8810.
         que requer autenticação, por padrão o Subversion
         mantém suas credenciais de autenticação num cache em disco.
         Isto é feito por conveniência, para que você não precise
-        continuamente ficar re-digitando sua senha em operações
+        continuamente ficar redigitando sua senha em operações
         futuras. Se você estiver preocupado com o fato de o Subversion
         manter um cache de suas senhas, <footnote><para>É claro, você
         não está terrivelmente preocupado &mdash; primeiro porque você
@@ -320,7 +320,7 @@ Gerado cópia de trabalho para revisão 8810.
     <sect2 id="svn.tour.initial.different-user">
       <title>Autenticando como um Usuário Diferente</title>
 
-      <para>Uma vez que por default o Subversion mantém um cache com as credenciais
+      <para>Uma vez que por padrão o Subversion mantém um cache com as credenciais
         de autenticação (tanto usuário quanto senha), ele convenientemente se lembra
         que era você estava ali na última vez que você modificou sua cópia de trabalho.
         Mas algumas vezes isto não é útil &mdash; particularmente se você estava
@@ -508,7 +508,7 @@ Updated to revision 2.
           o Subversion recria um link simbólico no nível do sistema de
           arquivos real a partir do symlink versionado.  Mas isto de
           forma nenhuma limita a usabilidade das cópias de trabalho em
-          sistmas como o Windows que não suportam links simbólicos.
+          sistemas como o Windows que não suportam links simbólicos.
           Nesses sistemas, o Subversion simplesmente cria um arquivo de
           texto normal que cujo conteúdo é o caminho para o qual o link
           original aponta.  Apesar deste arquivo não poder ser usado
@@ -643,7 +643,7 @@ Updated to revision 2.
       <sidebar>
         <title>Olha Mãe!  Sem a Rede!</title>
 
-        <para>Os commandos <command>svn status</command>,
+        <para>Os comandos <command>svn status</command>,
           <command>svn diff</command>, e <command>svn
           revert</command> podem ser usados sem nenhum acesso a rede
           mesmo se seu repositório <emphasis>for</emphasis>
@@ -672,7 +672,7 @@ Updated to revision 2.
 
       </sidebar>
 
-      <para>O Subverson está sendo otimizado para ajudar você com esta
+      <para>O Subversion está sendo otimizado para ajudar você com esta
         tarefa e é capaz de fazer muitas coisas sem se comunicar com o
         repositório.  Em particular, sua cópia de trabalho contém um
         cache escondido com uma cópia <quote>intacta</quote> de cada
@@ -802,7 +802,7 @@ A                0         ?     ?        stuff/things/bloo.h
                 44        36    harry     stuff/things/gloo.c
 </screen>
 
-        <para>Esta é a <quote>forma extendida</quote> da saída do
+        <para>Esta é a <quote>forma estendida</quote> da saída do
           <command>svn status</command>.  As letras na primeira coluna
           significam o mesmo que antes, mas a segunda coluna mostra a
           revisão de trabalho do item.  A terceira e quarta coluna
@@ -1047,7 +1047,7 @@ Updated to revision 46.
       <para>Já o <computeroutput>C</computeroutput> significa
         <computeroutput>C</computeroutput>onflito.  Isto quer dizer que
         as modificações do servidor se sobrepõem com as suas próprias, e
-        que agora você precisa escolhar entre elas manualmente.</para>
+        que agora você precisa escolher entre elas manualmente.</para>
 
       <para>Sempre que um conflito ocorre, normalmente acontecem três
         coisas para ajudar você a compreender e resolver este
@@ -1203,7 +1203,7 @@ Resolved conflicted state of 'sandwich.txt'
         <para>Veja um exemplo.  Por um problema de comunicação, você e
           Sally, sua colaboradora, ambos editam o arquivo 
           <filename>sandwich.txt</filename> ao mesmo tempo.  Sally
-          submete suas alterações, e quando você atualzar sua cópia de
+          submete suas alterações, e quando você atualizar sua cópia de
           trabalho, você terá um conflito e precisará editar o arquivo 
           <filename>sandwich.txt</filename> para resolvê-los.
           Primeiro, vamos dar uma olhada no arquivo:</para>
@@ -1606,7 +1606,7 @@ $
           de que as revisões se aplicam a todo o repositório, ao passo
           que o <command>svn log</command> atua em um caminho no
           repositório.  Se você não informar um caminho, o Subversion
-          usa o diretório atual como argumento default.  Como resultado,
+          usa o diretório atual como argumento padrão.  Como resultado,
           se você estiver em um subdiretório de sua cópia de trabalho e
           tentar ver o log de uma revisão em que nem o diretório nem
           qualquer item nele contido mudou, o Subversion vai lhe mostrar
@@ -1880,7 +1880,7 @@ $ svn update -r 1729 # Atualiza a cópia de trabalho existente para r1729
       <para>Finalmente, se você estiver criando uma versão final e
         quiser empacotar seus arquivos do Subversion mas não gostaria
         de incluir os incômodos diretórios <filename>.svn</filename> de
-        forma nenhuma, então você pode user o comando <command>svn 
+        forma nenhuma, então você pode usar o comando <command>svn 
         export</command> para criar uma cópia local de todo o conteúdo
         de seu repositório mas sem os diretórios
         <filename>.svn</filename>.  Da mesma forma que com o
