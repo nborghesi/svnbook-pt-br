@@ -116,7 +116,7 @@
       
       <para>Muitos sistemas de controle de versão usam o modelo
         <firstterm>lock-modify-unlock</firstterm> (travar-modificar-destravar)
-        para resolver o problema de vários autores destruirem o trabalho uns
+        para resolver o problema de vários autores destruírem o trabalho uns
         dos outros. Neste modelo, o repositório permite que apenas uma
         pessoa de cada vez altere o arquivo. Essa política de exclusividade
         é gerenciada usando locks (travas). Harry precisa <quote>travar
@@ -345,9 +345,9 @@ C:\&gt; svn checkout "file:///X|/path/to/repos"
 </screen>
    
       <para>Na segunda sintaxe, você precisa colocar a URL entre aspas
-        de modo que o caracter de barra vertical não seja interpretado
+        de modo que o caractere de barra vertical não seja interpretado
         como um pipe. Além disso, note que a URL utiliza barras normais,
-        enquanto no Windows os paths (não URLs) utilizam barra invertida.</para>
+        enquanto no Windows os caminhos (não URLs) utilizam barra invertida.</para>
 
       <note>
         <para>URLs <literal>file://</literal> do Subversion não podem
@@ -365,7 +365,7 @@ C:\&gt; svn checkout "file:///X|/path/to/repos"
       <para>Por último, convém notar que o cliente Subversion vai
         automaticamente codificar as URLs conforme necessário, de
         forma semelhante a um browser. Por exemplo, se a URL contiver
-        espaços ou algum caracter não ASCII:</para>
+        espaços ou algum caractere não-ASCII:</para>
   
       <screen>
 $ svn checkout "http://host/path with space/project/españa"
@@ -458,7 +458,7 @@ Makefile  integer.c  button.c  .svn/
 </screen>
 
       <para>A lista de letras A na margem esquerda indica que o
-        Subversion está adicionando um certo número de ítens à
+        Subversion está adicionando um certo número de itens à
         sua cópia de trabalho. Você tem agora uma cópia pessoal
         do diretório <filename>/calc</filename> do repositório,
         com uma entrada adicional - <filename>.svn</filename> -
@@ -485,7 +485,7 @@ Committed revision 57.
 </screen>
 
       <para>Agora as suas alterações no arquivo <filename>button.c
-      	</filename> foram <quote>comitadas</quote> no repositório, com uma nota
+      	</filename> foram <quote>submetidas</quote> no repositório, com uma nota
       	descrevendo as suas alterações (especificamente você corrigiu
       	um erro de digitação). Se outros usuários fizerem check out
       	de <filename>/calc</filename>, eles verão suas alterações
@@ -594,12 +594,12 @@ Updated to revision 57.
         feitas em qualquer número de arquivos o diretórios como uma única
         transação atômica. Em sua cópia de trabalho, você pode alterar o conteúdo
         de arquivos; criar, deletar, renomear e copiar arquivos e diretórios;
-        e então comitar um conjunto completo de alterações em uma transação
+        e então submeter um conjunto completo de alterações em uma transação
         atômica.</para>
 
       <para>Por <quote>transação atômica</quote>, nos entendemos simplesmente
 	isto: Ou são efetivadas todas as alterações no repositório, ou nenhuma
-	delas. O Subversion tenta manter esta atomicidade em face de crashes
+	delas. O Subversion tenta manter esta atomicidade em face de quebras ou travamentos
 	do programa ou do sistema, problemas de rede ou outras ações de
 	usuários.</para>
 
@@ -630,7 +630,7 @@ Updated to revision 57.
           os números de revisão do Subversion se aplicam à
           <emphasis>árvore inteira</emphasis>, não a arquivos individuais.
           Cada número de revisão refere-se a uma árvore inteira, um estado
-          particular do repositório após determinadas alterações serem comitadas.
+          particular do repositório após determinadas alterações serem submetidas.
           Uma outra forma de pensar a respeito é imaginar que a revisão
           N representa o estado do sistema de arquivos do repositório após o
           N-ésimo commit. Quando os usuários do Subversion falam sobre a
@@ -781,7 +781,7 @@ calc/Makefile:6
 
       <para>Isto pode soar como muito para acompanhar, mas o comando
         <command>svn status</command> mostrará para você o estado de
-        qualquer ítem em seu diretório local. Para maiores informações
+        qualquer item em seu diretório local. Para maiores informações
         sobre este comando, veja
         <xref linkend="svn.tour.cycle.examine.status" />.</para>
 
@@ -802,7 +802,7 @@ calc/Makefile:6
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.basic.in-action.mixedrevs.update-commit">
-        <title>Updates e Commits são Separados</title>
+        <title>Atualizações e Submissões são Separados</title>
 
         <para>Uma das regras fundamentais do Subversion é
           que uma ação de <quote>push</quote> não causa um
@@ -855,7 +855,7 @@ calc/Makefile:6
           um comando <command>svn commit</command>, sua cópia local
           acabará tendo uma mistura de revisões. As coisas que você acabou
           de publicar são marcadas com um número de revisão maior que todo
-          o resto. Após vários commits (sem updates entre eles) sua cópia
+          o resto. Após várias submissões (sem atualizações entre eles) sua cópia
           local irá conter uma completa mistura de revisões. Mesmo que você
           seja a única pessoa utilizando o repositório, você ainda verá este
           fenômeno. Para analisar a sua mistura de revisões use o comando
@@ -889,7 +889,7 @@ calc/Makefile:6
           que a que você tem) de partes de sua cópia local para revisões
           anteriores; você irá aprender como fazer isso em <xref
           linkend="svn.tour"/>. Talvez você queira testar uma versão anterior
-          de um sub-módulo contido em um subdiretório, ou talvez queira
+          de um submódulo contido em um subdiretório, ou talvez queira
           descobrir quando um bug apareceu pela primeira vez eu arquivo
           específico. Este é o aspecto de <quote>máquina do tempo</quote>
           de um sistema de controle de versão - a funcionalidade que te permite
@@ -907,13 +907,13 @@ calc/Makefile:6
           
         <para>Primeiramente, você não pode publicar a deleção de um arquivo
           ou diretório que não esteja completamente atualizado. Se uma
-          versão mais nova do ítem existe no repositório, sua tentativa de
+          versão mais nova do item existe no repositório, sua tentativa de
           deleção será rejeitada, para prevenir que você acidentalmente
           destrua alterações que você ainda não viu.</para>
 
-        <para>Em segundo lugar, você não pode publicar alterações em meta-dados
+        <para>Em segundo lugar, você não pode publicar alterações em metadados
           de diretórios a menos que ele esteja completamente atualizado.
-          Você irá aprender a anexar <quote>propriedades</quote> aos ítens
+          Você irá aprender a anexar <quote>propriedades</quote> aos itens
           em <xref linkend="svn.advanced"/>. Uma revisão em um diretório local
           define um conjunto específico de entradas e propriedades, e assim,
           publicar alterações em propriedades de um diretório desatualizado
