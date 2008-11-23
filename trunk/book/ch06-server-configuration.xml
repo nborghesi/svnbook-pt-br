@@ -106,7 +106,7 @@
           </row>
 
           <row>
-            <entry>Opções de authorização</entry>
+            <entry>Opções de autorização</entry>
             <entry>acesso leitura/escrita pode ser dado para o
               repositório como um todo, ou especificado por
               caminho</entry>
@@ -403,7 +403,7 @@
 
         <listitem>
           <para>Se você já tiver uma infraestrutura fortemente baseada
-            em contas SSH, e se seus usuários já possuirem contas no
+            em contas SSH, e se seus usuários já possuírem contas no
             servidor, então faz sentido implantar uma solução usando o
             svnserve sobre SSH.  Caso contrário, não recomendamos esta
             opção largamente ao público.  Ter seus usuários acessando o
@@ -692,7 +692,7 @@ C:\&gt; sc create svn
         <para>Uma vez que o serviço esteja definido, ele pode ser
           parado, iniciado, ou consultado usando-se as ferramentas GUI
           (o painel de controle administrativo Serviços), bem como
-          através da linha decomando:</para>
+          através da linha de comando:</para>
 
         <screen>
 C:\&gt; net stop svn
@@ -861,7 +861,7 @@ auth-access = write
 </screen>
 
         <para>De fato, as configurações deste exemplo são os valores
-          default para as variáveis, você poderia esquecer de
+          padrão para as variáveis, você poderia esquecer de
           definí-las.  Se você quer ser ainda mais conservador, você
           pode bloquear o acesso anônimo completamente:</para>
 
@@ -971,7 +971,7 @@ baz
         este recurso de cache de senhas.  Ao usar URLs 
         <literal>svn+ssh://</literal>, entretanto, os usuários podem ser
         incomodados repetidamente pelo <command>ssh</command>
-        solicitando senhas a cada conexão que inicie.  A solição é usar
+        solicitando senhas a cada conexão que inicie.  A solução é usar
         uma ferramenta separada para cache de senhas do SSH como o
         <command>ssh-agent</command> em um sistema Unix-like, ou o
         <command>pageant</command> no Windows.</para>
@@ -979,7 +979,7 @@ baz
       <para>Quando executada sobre um túnel, a autorização é
         principalmente controlada pelas permissões do sistema
         operacional para os arquivos da base dados do repositório; o que
-        é praticamente o mesmo como se Harry estivesse accesando o
+        é praticamente o mesmo como se Harry estivesse acessando o
         repositório diretamente através de uma URL
         <literal>file://</literal>.  Se múltiplos usuários no sistema
         vão acessar o repositório diretamente, você pode querer
@@ -1163,7 +1163,7 @@ joessh = $JOESSH /opt/alternate/ssh -p 29934
           <command>svnserve -t</command> para assumir que o argumento
           informado é um nome de usuário autenticado.  Não fosse pelo
           <option>--tunnel-user</option> pareceria como se todos os
-          commits viéssem de uma única mesma conta de sistema
+          commits viessem de uma única mesma conta de sistema
           compartilhada.</para>
 
         <para>Uma última palavra de precaução: dando acesso ao usuário
@@ -1467,7 +1467,7 @@ ServerName svn.example.com
         ler e escrever em seu repositório Subversion.</para>
 
       <para>Você vai precisar determinar uma configuração do sistema
-        de permissões que satisfaça os requisitos do Subvresion sem
+        de permissões que satisfaça os requisitos do Subversion sem
         causar problemas em nenhuma página ou script previamente
         instalado.  Isto pode significar alterar as permissões de seu
         repositório Subversion para corresponder àquelas em uso por
@@ -1523,7 +1523,7 @@ ServerName svn.example.com
       </itemizedlist>
 
       <para>Certamente, você pode já ter definido um hook script para
-        previnir commits (veja <xref
+        prevenir commits (veja <xref
         linkend="svn.reposadmin.create.hooks"/>).  Mas conforme você for
         lendo, verá que também é possível usar os métodos inerentes ao
         Apache para restringir o acesso de maneiras específicas.</para>
@@ -1543,7 +1543,7 @@ ServerName svn.example.com
 
         <screen>
 $ ### Primeira vez: use -c para criar o arquivo
-$ ### Use -m para usar cripgrafia MD5 na senha, o que é mais seguro
+$ ### Use -m para usar criptografia MD5 na senha, o que é mais seguro
 $ htpasswd -cm /etc/svn-auth-file harry
 New password: *****
 Re-type new password: *****
@@ -1882,7 +1882,7 @@ ssl-client-cert-password = somepassword
   AuthName "Subversion repository"
   AuthUserFile /caminho/do/arquivo/users
 
-  # Para quaiquer operações além destas, requeira um usuário autenticado
+  # Para quaisquer operações além destas, requeira um usuário autenticado
   &lt;LimitExcept GET PROPFIND OPTIONS REPORT&gt;
     Require valid-user
   &lt;/LimitExcept&gt;
@@ -2151,7 +2151,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 
           <para>Seu navegador web entende apenas HTTP padrão.  Isso
             significa que ele apenas sabe como obter (GET) URLs
-            públicas, as quais representam as últimas versõs dos
+            públicas, as quais representam as últimas versões dos
             arquivos e diretórios.  De acordo com a especificação
             WebDAV/DeltaV, cada servidor define uma sintaxe de URL
             particular para versões mais antigas dos recursos, e esta
@@ -2171,7 +2171,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
             navegador web, entretanto, você precisar usar software de
             terceiros.  Um bom exemplo disto é o ViewVC 
             (<ulink url="http://viewvc.tigris.org/"/>).  Originalmente o
-            ViewVC foi escritp para exibir repositórios CVS pela web,
+            ViewVC foi escrito para exibir repositórios CVS pela web,
             <footnote>
               <para>No início, ele chamava-se <quote>ViewCVS</quote>.</para>
             </footnote>
@@ -2327,7 +2327,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
           <literal>GET</literal>, <literal>PUT</literal>, e
           <literal>REPORT</literal>.  Para piorar as coisas, muitas
           operações dos clientes enviam conjuntos de requisições quase
-          idênticas, então é ainda mais difíci diferenciá-las.</para>
+          idênticas, então é ainda mais difícil diferenciá-las.</para>
 
         <para>O <literal>mod_dav_svn</literal>, entretanto, pode ajudar.
           Ativando um recurso de <quote>log operacional</quote>, você pode
@@ -2394,7 +2394,7 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
 
         <para>Vários recursos já providos pelo Apache como um servidor
           Web robusto que é também podem ser aproveitadas para aprimorar
-          as funcionaldades ou a segurança do Subversion.  O Subversion
+          as funcionalidades ou a segurança do Subversion.  O Subversion
           se comunica com o Apache usando o Neon, que é uma biblioteca
           HTTP/WebDAV genérica com suporte a alguns mecanismos como o SSL
           (<foreignphrase>Secure Socket Layer</foreignphrase>, discutida
@@ -2433,7 +2433,7 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
     <title>Autorização Baseada em Caminhos</title>
 
     <para>Tanto o Apache como o <command>svnserve</command> são capazes
-      de garantir (ou negar) permisssões aos usuários.  Tipicamente isto
+      de garantir (ou negar) permissões aos usuários.  Tipicamente isto
       é feito considerando todo o repositório: um usuário pode ler o
       repositório (ou não), e pode escrever no repositório (ou não).  No
       entanto, também é possível definir regras de acesso mais
@@ -2505,7 +2505,7 @@ CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
         livro!</para></footnote>.</para>
 
       <para>Como um exemplo a considerar, veja que o próprio projeto
-        Subverion sempre teve a noção de quem tem permissão para realizar
+        Subversion sempre teve a noção de quem tem permissão para realizar
         alterações em que lugares, mas isto já é o que acaba ocorrendo na 
         prática.  Este é um bom modelo de confiança da comunidade,
         especialmente para projetos
@@ -2618,7 +2618,7 @@ harry =
 
     <para>Esta é uma configuração comum; note que não aparece o nome de
       nenhum repositório no nome da seção.  Isto torna todos os
-      repositórios legíveis para todos os usuários.  Uma vez ue todos os
+      repositórios legíveis para todos os usuários.  Uma vez que todos os
       usuários tem acesso de leitura aos repositórios, você pode dar
       permissões <literal>rw</literal> explícitas a certos usuários em
       subdiretórios dentro de repositórios específicos.</para>
@@ -2688,7 +2688,7 @@ everyone = @calc-developers, @paint-developers
       repositório é legível apenas pelo usuário Sally, e o usuário Harry
       dá um checkout num diretório pai, seu cliente vai atender ao
       desafio de autenticação inicial como Harry.  Como o servidor gera
-      uma resposta grande, não há uma forma de re-enviar um desafio de
+      uma resposta grande, não há uma forma de reenviar um desafio de
       autenticação quando encontrar um subdiretório especial; pulando
       assim este subdiretório como um todo, em vez de solicitar que o
       usuário se re-autentique como Sally no momento certo.  De maneira
