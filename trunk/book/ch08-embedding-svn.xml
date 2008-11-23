@@ -875,67 +875,67 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.usingapi.otherlangs">
-      <title>Using Languages Other than C and C++</title> 
+      <title>Usando Outras Linguagens além de C e C++</title> 
 
-      <para>If you are interested in using the Subversion libraries in
-        conjunction with something other than a C program&mdash;say a
-        Python or Perl script&mdash;Subversion has some support for this
-        via the Simplified Wrapper and Interface Generator (SWIG).  The
-        SWIG bindings for Subversion are located in
-        <filename>subversion/bindings/swig</filename>.  They are still
-        maturing, but they are usable.  These bindings allow you
-        to call Subversion API functions indirectly, using wrappers that
-        translate the datatypes native to your scripting language into
-        the datatypes needed by Subversion's C libraries.</para>
+      <para>Se você está interessado em usar as bibliotecas do Subversion em
+        conjunção com alguma outra coisa do que um programa C&mdash;digo um
+        script Python ou Perl&mdash;o Subversion possui algum suporte para isto
+        por meio do <emphasis>Simplified Wrapper and Interface Generator</emphasis> (SWIG).
+        Os vínculos do SWIG com o Subversion estão localizados em
+        <filename>subversion/bindings/swig</filename>.  Eles estão ainda
+        amadurecendo, mas já são usáveis.  Estes vínculos permitem você
+        chamar as funções da API do Subversion indiretamente, usando invólucros que
+        traduzem os tipos de dado nativos de sua linguagem de <foreignphrase>scripting</foreignphrase> para
+        os tipos de dado necessários das bibliotecas C do Subversion.</para>
 
-      <para>Significant efforts have been made towards creating
-        functional SWIG-generated bindings for Python, Perl, and Ruby.
-        To some extent, the work done preparing the SWIG interface
-        files for these languages is reusable in efforts to generate
-        bindings for other languages supported by SWIG (which include
-        versions of C#, Guile, Java, MzScheme, OCaml, PHP, and Tcl,
-        among others).  However, some extra programming is required to
-        compensate for complex APIs that SWIG needs some help
-        translating between languages.  For more information on SWIG
-        itself, see the project's website at <ulink
+      <para>Esforços significantes vêm sendo realizados na criação de
+        vínculos funcionais gerados por SWIG para Python, Perl e Ruby.
+        De certa forma, o trabalho realizado preparando os arquivos de interface
+        SWIG para estas linguagens é reutilizável em esforços para produzir
+        vínculos para outras linguagens suportadas por SWIG (as quais incluem
+        versões de C#, Guile, Java, MzScheme, OCaml, PHP, e Tcl,
+        entre outras).  No entanto, alguma programação extra é necessária para
+        compensar as APIs complexas, assim o SWIG precisa de alguma ajuda na
+        tradução entre linguagens.  Para mais informações sobre o
+        SWIG, veja o site do projeto em <ulink
         url="http://www.swig.org/"/>.</para>
 
-      <para>Subversion also has language bindings for Java.  The
-        JavaJL bindings (located in
-        <filename>subversion/bindings/java</filename> in the
-        Subversion source tree) aren't SWIG-based, but are instead a
-        mixture of javah and hand-coded JNI.  JavaHL most covers
-        Subversion client-side APIs, and is specifically targeted at
-        implementors of Java-based Subversion clients and IDE
-        integrations.</para>
+      <para>O Subversion também possui vínculos de linguagem para Java.  Os
+        vínculos JavaJL (localizados em
+        <filename>subversion/bindings/java</filename> na
+        árvore de fontes do Subversion) não são baseados no SWIG, porém são uma
+        mistura de javah e JNI codificada na unha.  JavaHL abrange a maior parte
+        das APIs do Subversion no lado do cliente, e é especificamente orientada aos
+        implementadores de clientes Subversion baseado em Java e integrações
+        em IDE.</para>
 
-      <para>Subversion's language bindings tend to lack the level of
-        developer attention given to the core Subversion modules, but
-        can generally be trusted as production-ready.  A number of
-        scripts and applications, alternative Subversion GUI clients
-        and other third-party tools are successfully using
-        Subversion's language bindings today to accomplish their
-        Subversion integrations.</para>
+      <para>Os vínculos de linguagem do Subversion tendem a necessitar do nível de
+        atenção do desenvolvedor dada aos módulos principais do Subversion, mas
+        podem geralmente serem confiáveis como prontos para produção.  Um número de
+        scripts e aplicações, clientes Subversion alternativos com GUI
+        e outras ferramentas de terceiros estão atualmente usando com sucesso
+        os vínculos de linguagem do Subversion para realizar suas
+        integrações com o Subversion.</para>
 
-      <para>It's worth noting here that there are other options for
-        interfacing with Subversion using other languages:  alternative
-        bindings for Subversion which aren't provided by the
-        Subversion development community at all.  You can find links
-        to these alternative bindings on the Subversion project's
-        links page (at <ulink
-        url="http://subversion.tigris.org/links.html" />), but there
-        are a couple of popular ones we feel are especially
-        noteworthy.  First, Barry Scott's PySVN bindings (<ulink
-        url="http://pysvn.tigris.org/" />) are a popular option for
-        binding with Python.  PySVN boasts of a more Pythonic
-        interface than the more C-like APIs provided by Subversion's
-        own Python bindings.  For folks looking for a pure Java
-        implementation of Subversion, check out SVNKit (<ulink
-        url="http://svnkit.com/" />), which is Subversion re-written
-        from the ground up in Java.  You should exercise caution here,
-        though&mdash;because SVNKit doesn't use the core Subversion
-        libraries, it's behavior is not guaranteed to match that of
-        Subversion itself.</para>
+      <para>Cabe notar aqui que existem outras opções para
+        interfacear com o Subversion usando outras linguagens:  vínculos
+        alternativos para o Subversion que não são fornecidos por toda a
+        comunidade de desenvolvimento do Subversion.  Você pode encontrar links
+        para estes vínculos alternativos na página de links do projeto
+        Subversion (em <ulink
+        url="http://subversion.tigris.org/links.html" />), mas existe
+        uma dupla popular que sentimos serem especialmente
+        notáveis.  Primeiro, os vínculos PySVN de Barry Scott (<ulink
+        url="http://pysvn.tigris.org/" />) são uma opção popular para
+        vinculação com Python.  PySVN ostenta uma interface mais <quote>Pythônica</quote>
+        do que a das APIs baseadas na da C e oferecida pelos vínculos Python
+        do próprio Subversion.  Para pessoas procurando por uma implementação
+        puramente em Java do Subversion, verifiquem o SVNKit (<ulink
+        url="http://svnkit.com/" />), que é um Subversion reescrito
+        totalmente em Java.  Contudo, você deve ter muito cuidado
+        aqui&mdash;porque o SVNKit não utiliza as bibliotecas base do
+        Subversion, seu comportamento não possui garantias de coincidir com o do
+        próprio Subversion.</para>
 
     </sect2>
 
