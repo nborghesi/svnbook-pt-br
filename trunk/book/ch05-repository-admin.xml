@@ -52,7 +52,7 @@
       Windows Explorer) ou de ferramentas de navegação em sistemas de
       arquivos baseadas em linha de comando, o repositório Subversion é
       apenas outro diretório cheio de coisas.  Existem alguns
-      sub-diretórios que possuem arquivos de configuração que podem ser
+      subdiretórios que possuem arquivos de configuração que podem ser
       lidos por humanos, e outros que não são tão fáceis de serem lidos,
       e assim por diante.  Como em outras áreas do projeto do
       Subversion, modularidade tem grande importância, e a organização
@@ -191,7 +191,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
         antes de colocar seus dados no controle de versão.  Planejando
         conscientemente o <quote>leiaute</quote> do repositório, ou
         repositórios, e seu conteúdo versionado antes do tempo, você
-        pode previnir muitas dores-de-cabeça futuras.</para>
+        pode prevenir muitas dores de cabeça futuras.</para>
 
       <para>Vamos assumir que como administrador de repositório você
         será responsável pelo suporte do sistema de controle de versões
@@ -214,7 +214,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
         projetos podem ter diferentes requisitos em termos de gatilhos
         de eventos, como por exemplo a necessidade de enviar
         notificações de submissão para diferentes listas de e-mail, ou
-        ter diferentes definições sobre o que constitui uma sumissão
+        ter diferentes definições sobre o que constitui uma submissão
         correta.  É claro que eles não são problemas
         insuperáveis&mdash;somente significa que todos os seus scripts
         de gatilho devem ser sensíveis ao leiaute do seu repositório ao
@@ -330,7 +330,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
         projetos que irão viver lá.</para>
 
       <para>Em nome da revelação completa, no entanto, nós iremos
-        mencionar outra forma muito comum de organizção.  Nesse leiaute
+        mencionar outra forma muito comum de organização.  Nesse leiaute
         os diretórios <filename>trunk</filename>,
         <filename>tags</filename> e <filename>branches</filename>
         residem no diretório raiz do repositório e os projetos estão em
@@ -464,7 +464,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
               <entry>Sensibilidade a interrupções</entry>
               <entry>grande; travamentos e problemas de permissões podem
                 deixar a base de dados <quote>quebrada</quote>,
-                requerindo procedimentos para recuperação.</entry>
+                requirindo procedimentos para recuperação.</entry>
               <entry>bastante insensível</entry>
             </row>
             <row>
@@ -475,7 +475,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
               <entry>sim</entry>
             </row>
             <row>
-              <entry>Aramazenamento independente de plataforma</entry>
+              <entry>Armazenamento independente de plataforma</entry>
               <entry>não</entry>
               <entry>sim</entry>
             </row>
@@ -520,7 +520,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
               <entry>geralmente lentas, mas o custo é pago ao longo da
                 vida da submissão</entry>
               <entry>geralmente rápidas, mas atraso na finalização pode
-                ocasionar timeouts no cliente</entry>
+                ocasionar <foreignphrase>timeouts</foreignphrase> no cliente</entry>
             </row>
           </tbody>
         </tgroup>
@@ -574,7 +574,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
           o código no repositório do Subversion tenha uma visão estática
           da base de dados&mdash;e não uma base de dados que esteja
           mudando constantemente nas mãos de alguns outros
-          processoss&mdash;e possa tomar decisões baseadas no que vê.
+          processos&mdash;e possa tomar decisões baseadas no que vê.
           Se uma decisão tomada parecer conflitar com o que outro
           processo esteja fazendo, a operação inteira é desfeita como se
           nunca tivesse acontecido, e o Subversion graciosamente irá
@@ -594,7 +594,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
           confiável quando utilizado adequadamente.  O Subversion usa as
           facilidades de registros de log do Berkeley DB, o que quer
           dizer que a base de dados primeiro escreve uma descrição de
-          quaisuqer modificações que estiver para fazer em seus arquivos
+          quaisquer modificações que estiver para fazer em seus arquivos
           de log em disco, e só então realiza a modificação em si.  Isto
           é para garantir que se qualquer coisa der errado, o sistema da
           base de dados pode se recuperar para um determinado
