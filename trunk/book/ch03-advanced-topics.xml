@@ -519,9 +519,9 @@ $
 
       <para>Há algumas restrições sobre os nomes que você pode usar para
         propriedades.  Um nome de propriedade deve começar com uma
-        letra, dois-pontos (<literal>:</literal>), ou um caracter
+        letra, dois-pontos (<literal>:</literal>), ou um caractere
         sublinha (<literal>_</literal>); e depois disso, você também
-        pode usar dígitos, hífens (<literal>-</literal>), e pontos
+        pode usar dígitos, hifens (<literal>-</literal>), e pontos
         (<literal>.</literal>).
           <footnote>
             <para>Se você é familiarizado com XML, este é exatamente o
@@ -652,7 +652,7 @@ $
         propriedades enquanto estiver em uma cópia de trabalho do
         repositório cuja propriedade de revisão você queira alterar.
         Por outro lado, você pode apenas especificar a URL de qualquer
-        caminho de seu interesse no repositório (incluindo a URL raíz
+        caminho de seu interesse no repositório (incluindo a URL raiz
         do repositório).  Por exemplo, você pode querer trocar a
         mensagem de log de um registro de alteração de uma revisão
         existente.
@@ -975,7 +975,7 @@ $
           navegadores que eles estavam baixando um arquivo, assim o navegador
           poderia fazer algo inteligente com esta informação, quer seja para
           exibir os dados usando um programa registrado para lidar com este
-          tipo de dados, quer seja para solicitar ao usário onde armazenar
+          tipo de dados, quer seja para solicitar ao usuário onde armazenar
           os dados baixados.</para>
 
         <para>Finalmente, um padrão surgiu para, entre outras coisas,
@@ -1041,7 +1041,7 @@ $
         o conceito de bit de permissão para executável, como, por exemplo,
         FAT32 e NTFS.
         <footnote>
-          <para>Os sitemas de arquivos do Windows usam extensões de arquivo 
+          <para>Os sistemas de arquivos do Windows usam extensões de arquivo 
           (tais como <literal>.EXE</literal>, <literal>.BAT</literal>, e
             <literal>.COM</literal>) para indicar arquivos
             executáveis.</para>
@@ -1114,7 +1114,7 @@ $
         tudo mais.</para>
 
       <para>O resultado de cenários como estes incluem perda de tempo
-        e modificções desnecessárias aos arquivos submetidos.  A perda de tempo
+        e modificações desnecessárias aos arquivos submetidos.  A perda de tempo
         é suficientemente dolorosa.  Mas quando submissões mudam cada uma das linhas
         em um arquivo, isso dificulta o trabalho de determinar quais dessas
         linhas foram modificadas de uma forma não trivial.  Onde o bug
@@ -1253,7 +1253,7 @@ $
       os filtros encontrados na propriedade <literal>svn:ignore</literal>
       aplicam-se somente ao diretório no qual esta propriedade está
       definida, e em nenhum de seus subdiretórios.  A propriedade
-      <literal>svn:ignore</literal> é uma boa meneira para dizer ao
+      <literal>svn:ignore</literal> é uma boa maneira para dizer ao
       Subversion ignorar arquivos que estão susceptíveis a estarem presentes em
       todas as cópias de trabalho de usuário deste diretório, assim como as saídas
       de compilador ou&mdash;para usar um exemplo mais apropriado para este
@@ -1262,7 +1262,7 @@ $
       formato de saída mais legível.</para>
 
     <note>
-      <para>O suporte do Subversion para filtros de arquivos ignoráveis extende
+      <para>O suporte do Subversion para filtros de arquivos ignoráveis estende
         somente até o processo de adicionar arquivos e diretórios
         não versionados ao controle de versão.  Desde que um objeto está
         sob o controle do Subversion, os mecanismos de filtro de ignoração já
@@ -1293,7 +1293,7 @@ $
       <para>Existem, entretanto, algumas diferenças nos meios que CVS
         e Subversion manipulam filtros de rejeição.  Os dois sistemas usam
         os filtros de rejeição em tempos um pouco diferentes, e existem
-        legeiras discrepâncias na aplicação dos filtros de rejeição.
+        ligeiras discrepâncias na aplicação dos filtros de rejeição.
         Além disso, o Subversion não reconhece o uso do filtro
         <literal>!</literal> como uma redefinição que torna os filtros
         seguintes como não-ignorados.</para>
@@ -1361,7 +1361,7 @@ $ svn status
 </screen>
     
     <para>Agora, todas aqueles resíduos não são apresentados nos resultados!  Certamente,
-      seu programa compidado <filename>calculator</filename> e todos aqueles
+      seu programa compilado <filename>calculator</filename> e todos aqueles
       arquivos de registro estão ainda em sua cópia de trabalho.  O Subversion está
       simplesmente não lembrando você que eles estão presentes e não-versionados.
       E agora com todos os arquivos desinteressantes removidos dos resultados,
@@ -1506,7 +1506,7 @@ I      calc/debug_log.3.gz
     <para>Muitas das descrições anteriores usam a frase <quote>último
       valor conhecido</quote> ou algo parecido.  Tenha em mente que
       a expansão da palavra-chave é uma operação no lado do cliente, e seu cliente
-      somente <quote>conhece</quote> sobre mudanças que tenham ocoridas no
+      somente <quote>conhece</quote> sobre mudanças que tenham ocorrido no
       repositório quando você atualiza sua cópia de trabalho para incluir
       essas mudanças.  Se você nunca atualizar sua cópia de trabalho, suas
       palavras-chave nunca expandirão para valores diferentes, mesmo que esses
@@ -1541,7 +1541,7 @@ I      calc/debug_log.3.gz
 Aqui está o mais recente relatório das linhas iniciais.
 $LastChangedDate$
 $Rev$
-Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se aproxima.
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
 </programlisting>
         
     <para>Sem definir a propriedade <literal>svn:keywords</literal>
@@ -1585,7 +1585,7 @@ $
 Aqui está o mais recente relatório das linhas iniciais.
 $LastChangedDate: 2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006) $
 $Rev$
-Acúmulos de núvens estão aparecendo com mais freqüência quando o verão se aproxima.
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
 </screen>
         
     <para>Se agora alguém submeter uma mudança para
@@ -1672,7 +1672,7 @@ $Date: 2006-03-15 02:33:03 -0500 (Wed, 15 Mar 2006) $:    Data da última submis
       submete o arquivo, teremos tudo bagunçado novamente.  No entanto, se
       você está usando o Subversion 1.2 ou superior, você pode usar a nova sintaxe
       para palavra-chave com tamanho fixo, definir algumas larguras de campo que
-      sejam razoáveis, e agora seu arquivo pode ter esta parência:</para>
+      sejam razoáveis, e agora seu arquivo pode ter esta aparência:</para>
 
     <screen>
 $Rev::               $:  Revisão da última submissão
@@ -1717,7 +1717,7 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
         notariam o texto em UTF-8 quebrado e ainda considerem todo o arquivo
         como corrompido, recusando-se a operar sobre o arquivo de um
         modo geral.  Portanto, ao limitar palavras-chave para um tamanho fixo,
-        escollha um tamanho que permita este tipo de expansão ciente dos
+        escolha um tamanho que permita este tipo de expansão ciente dos
         bytes.</para> 
     </warning>
 
@@ -1753,11 +1753,11 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       mesmo projeto, que faz parte do marketing paralelo para um
       automóvel mecânico.  O núcleo da concepção de um determinado
       cartaz é uma imagem de um carro que necessita de alguns reparos, armazenada em
-      um arquivo usando o formato de imagen PNG.  O leiaute do cartaz está
+      um arquivo usando o formato de imagem PNG.  O leiaute do cartaz está
       quase pronto, e tanto Harry quanto Sally estão satisfeitos com a
       foto que eles escolheram para o carro danificado&mdash;um Ford Mustang
       1967 azul bebê com uma parte infelizmente amassada no
-      para-lama dianteiro esquerdo.</para>
+      pára-lama dianteiro esquerdo.</para>
 
     <para>Agora, como é comum em trabalhos de desenho gráfico, existe uma mudança
       de planos que faz da cor do carro uma preocupação.  Então, Sally
@@ -1894,7 +1894,7 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
         usuário é chamado de <firstterm>proprietário da trava</firstterm>.
         Cada trava também tem um identificador único, tipicamente uma longa
         cadeia de caracteres, conhecida como o <firstterm>sinal de
-        trava</firstterm>.  O repositoório gerencia as travas, basicamente
+        trava</firstterm>.  O repositório gerencia as travas, basicamente
         manipulando sua criação, aplicação e remoção.  Se qualquer
         transação de submissão tenta modificar ou excluir um arquivo travado
         (ou excluir um dos diretórios pais do arquivo), o
@@ -1993,18 +1993,18 @@ $
           dentro de uma cópia de trabalho.  Ele é prova de que a trava foi criada
           em uma cópia de trabalho específica, e não noutra qualquer por algum
           outro cliente.  Apenas se autenticando como o proprietário da trava
-          não é suficiente para previnir acidentes.</para>
+          não é suficiente para prevenir acidentes.</para>
 
         <para>Por exemplo, suponha que você travou um arquivo usando um computador em
-          seu escriório, mas deixou o trabalho antes de concluir
+          seu escritório, mas deixou o trabalho antes de concluir
           suas modificações para esse arquivo.  Não deveria ser possível
           acidentalmente submeter mudanças para esse mesmo arquivo do seu
           computador de casa mais tarde da noite, simplesmente porque você está
           autenticado como o proprietário da trava.  Em outras palavras, o sinal de
           trava previne uma parte do software relacionado ao Subversion de
           invadir o trabalho do outro.  (Em nosso exemplo, se você
-          realmente procisa modificar o arquivo de uma cópia de trabalho alternativa,
-          você precisaria <firstterm>parar</firstterm> a trava e re-travar o
+          realmente precisa modificar o arquivo de uma cópia de trabalho alternativa,
+          você precisaria <firstterm>parar</firstterm> a trava e retravar o
           arquivo.)</para>
 
       </sidebar>
@@ -2047,7 +2047,7 @@ $
         trabalho (ou lista de alvos, se você fornecer uma lista desse tipo) por
         modificações locais, e envia todos os sinalizadores de trava
         encontrados durante esta caminhada para o servidor como parte da
-        transação de submissão.  Após a submissão concluir com successo,
+        transação de submissão.  Após a submissão concluir com sucesso,
         todas as travas do repositório que forem mencionadas são
         liberadas&mdash;<emphasis>até mesmo em arquivos que não foram
         submetidos</emphasis>.  Isto é utilizado para que os usuários não
@@ -2214,7 +2214,7 @@ $
 
       <para>Agora, a tentativa inicial de Sally para destravar falhou porque ela
         executou <command>svn unlock</command> diretamente em sua cópia de trabalho
-        do arquivo, e nenhum sinal de trava estava presente.  Para removee a
+        do arquivo, e nenhum sinal de trava estava presente.  Para remover a
         trava diretamente do repositório, ela precisa passar uma URL
         para <command>svn unlock</command>.  Sua primeira tentativa para destravar
         a URL falhou, porque ela não pode autenticar como a proprietária
@@ -2225,13 +2225,13 @@ $
         
       <para>Simplesmente quebrar uma trava pode não ser suficiente.  No
         exemplo atual, Sally pode não somente querer quebrar a trava esquecida
-        a longo prazo por Harry, mas também re-travar o arquivo para seu próprio uso.
+        a longo prazo por Harry, mas também retravar o arquivo para seu próprio uso.
         Ela pode realizar isto executando <command>svn unlock
         --force</command> e então <command>svn lock</command>
         logo em seguida, mas existe uma pequena chance de que outra pessoa
         possa travar o arquivo entre os dois comandos.  Uma coisa mais simples
         é <firstterm>roubar</firstterm> a trava, que envolve
-        quebrar e re-travar o arquivo em um passo atômico.  Para
+        quebrar e retravar o arquivo em um passo atômico.  Para
         fazer isto, Sally passa a opção <option>--force</option>
         para <command>svn lock</command>:</para>
 
@@ -2269,7 +2269,7 @@ $
         <literal>B</literal> (<foreignphrase>Broken</foreignphrase>) próximo ao arquivo.  Se uma
         nova trava existe no lugar da anterior, então um símbolo
         <literal>T</literal> (<foreignphrase>sTolen</foreignphrase>) é mostrado.  Finalmente,
-        <command>svn update</command> relata os sinais de trava existos
+        <command>svn update</command> relata os sinais de trava existentes
         e os remove da cópia de trabalho.</para>
 
       <sidebar>
@@ -2297,7 +2297,7 @@ $
           certo usuário pode quebrar ou roubar uma trava.  Os ganchos
           <filename>post-lock</filename> e
           <filename>post-unlock</filename> também estão disponíveis,
-          e podem ser usados para enviar email após ações de travamento.  Para
+          e podem ser usados para enviar e-mail após ações de travamento.  Para
           aprender mais sobre ganhos de repositório, veja <xref
           linkend="svn.reposadmin.create.hooks" />.</para>
 
@@ -2312,7 +2312,7 @@ $
       <para>Vimos como <command>svn lock</command>
         e <command>svn unlock</command> podem ser usados para criar,
         liberar, quebrar, e roubar travas.  Isso satisfaz o objetivo de
-        serializar o accesso a submissões de um arquivo.  Mas o que aconteceu
+        serializar o acesso a submissões de um arquivo.  Mas o que aconteceu
         com o maior problema da prevenção de perda de tempo?</para>
 
       <para>Por exemplo, suponha que Harry trave um arquivo de imagem e, em seguida,
@@ -2424,7 +2424,7 @@ $
       <command>svn propset</command> ou <command>svn
       propedit</command> (veja <xref linkend="svn.advanced.props.manip"/>).
       Essa propriedade pode ser configurada em qualquer diretório sob
-      controle de versão, e seu valor é uma tabela multi-linha de
+      controle de versão, e seu valor é uma tabela multilinha de
       subdiretórios (relativos ao diretório sob controle de versão no
       qual a propriedade está configurada), opções de revisão, e URLs
       absolutas (totalmente qualificadas) de repositórios Subversion.</para>
@@ -2711,7 +2711,7 @@ $
     <para>Mas e sobre as revisões dadas por <option>--revision (-r)</option>,
       as quais falamos tanto neste livro?  Essas revisões (ou conjuntos de
       revisões) são chamadas de <firstterm>revisões operativas</firstterm> (ou
-      <firstterm>intervalos de revisões operativas</firstterm>).  Uma vez qua
+      <firstterm>intervalos de revisões operativas</firstterm>).  Uma vez que
       uma linha em particular do histórico tenha sido identificada usando-se um
       caminho e uma revisão marcadora, o Subversion executa a operação
       requisitada usando a(s) revisão(ões) operativa(s).  Para relacionar isto
@@ -2723,8 +2723,8 @@ $
           Center</quote>?  Parece apropriado&hellip;.</para>
       </footnote>
       poderíamos pensar na <quote>Main Street</quote> como nosso caminho e em
-      <quote>Wheaton</quote> como nossa revisão marcadora.  Estes dois pedaçoes
-      de informaçao identificam um único caminho que pode ser percorrido (em
+      <quote>Wheaton</quote> como nossa revisão marcadora.  Estes dois pedaços
+      de informação identificam um único caminho que pode ser percorrido (em
       sentido sul ou sentido norte na Main Street), e que nos permitir andar
       para cima e para baixo na Main Street ao acaso na busca pelo nosso
       destino.  Agora temos <quote>606 N.</quote> como nossa revisão operativa,
@@ -2736,7 +2736,7 @@ $
       
       <para>O Subversion em linha de comando executa o algoritmo de revisões
         marcadora a qualquer momento em que precise resolver possíveis
-        ambiguidades nos caminhos e revisões por ele providos.  Aqui está um
+        ambigüidades nos caminhos e revisões por ele providos.  Aqui está um
         exemplo de execução:</para>
 
       <screen>
