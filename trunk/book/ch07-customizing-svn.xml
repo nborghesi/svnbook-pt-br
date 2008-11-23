@@ -3,11 +3,11 @@
 
   <para>Controle de versão pode ser um tema complexo, assim como
       arte ou ciência, e oferecer variadas maneiras fazer as 
-      coisas. Através desse livro você leu sobre vários sub-comandos
+      coisas. Através desse livro você leu sobre vários subcomandos
       do cliente de linha de comando e as opções para modificar
       seu comportamento. Nesse capítulo, vamos dar uma olhada 
       e mais maneiras de customizar o jeito que o Subversion 
-      trabalha para você&mdash;setando as configurações em 
+      trabalha para você&mdash;definindo as configurações em 
       tempo de execução, usando ajuda de aplicações externas,
       a interação do Subversion com as configurações locais do
       sistema operacional, e assim por diante.</para>
@@ -167,7 +167,7 @@
       <para>Adicionalmente, o registro do Windows não suporta a noção de
         algo sendo <quote>comentado</quote>.  No entanto, o Subversion
         irá ignorar quaisquer opções cujos nome da chave comece com um
-        caracter de cerquilha (<literal>#</literal>).  Na prática,
+        caractere de cerquilha (<literal>#</literal>).  Na prática,
         efetivamente isto permite que você comente uma opção do
         Subversion sem remover a chave inteira do registro, o que
         obviamente simplifica o processo de restaurar tal opção.</para>
@@ -231,10 +231,10 @@ REGEDIT4
         <filename>.reg</filename> que contém algumas das opções de
         configuração mais comuns e seus valores padrão.  Note a presença
         tanto de configurações em nível de sistema (para opções
-        relacionadas a proxies de rede) e configurações específicar por
+        relacionadas a proxies de rede) e configurações específicas por
         usuário (programa editor de texto e armazenamento de senhas,
         entre outras).  Também note que todas as opções estão
-        efetivamente comentadas.  Você precisa apenas remover o caracter
+        efetivamente comentadas.  Você precisa apenas remover o caractere
         de cerquilha (<literal>#</literal>) do começo dos nomes das
         opções, e definir os valores como você quiser.</para>
 
@@ -384,7 +384,7 @@ collabnet = svn.collab.net
             <listitem>
               <para>Isto é uma lista de caminhos delimitada por
                 pontos-e-vírgulas, para os arquivos que contenham
-                certificados das autoridades certificadoras (os CAs) que
+                certificados das autoridades certificadoras (as ACs) que
                 são aceitas pelo cliente Subversion quando acessando
                 repositórios sob HTTPS.</para>
             </listitem>
@@ -394,7 +394,7 @@ collabnet = svn.collab.net
             <listitem>
               <para>Defina esta variável para <literal>yes</literal> se
                 você quer que o Subversion confie automaticamente no
-                conjunto padrão de CAs que vêm com o OpenSSL.</para>
+                conjunto padrão de ACs que vêm com o OpenSSL.</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -439,7 +439,7 @@ collabnet = svn.collab.net
           Subversion, estas não relacionadas à conexão de rede.  Há
           apenas algumas poucas opções em uso até o momento em que este
           livro estava sendo escrito, mas elas ainda são agrupadas em
-          seções na expectativa para adicões futuras.</para>
+          seções na expectativa para adições futuras.</para>
 
         <para>A seção <literal>auth</literal> contém configurações
           relacionadas à autenticação e autorização no Subversion no
@@ -471,7 +471,7 @@ collabnet = svn.collab.net
                 habilita ou desabilita o cache em disco de
                 <emphasis>todas</emphasis> as informações de
                 autenticação: nomes de usuário, senhas, certificados de
-                servidor, e quaisquer outros tipos de crendenciais
+                servidor, e quaisquer outros tipos de credenciais
                 armazenáveis.</para>
             </listitem>
           </varlistentry>
@@ -593,7 +593,7 @@ collabnet = svn.collab.net
               <para>Ao executar o comando <command>svn status</command>,
                 o Subversion lista arquivos e diretórios não-versionados
                 juntamente com os versionados, marcando-os com um
-                caracter <literal>?</literal> (veja <xref
+                caractere <literal>?</literal> (veja <xref
                 linkend="svn.tour.cycle.examine.status" />).  Algumas
                 vezes, pode ser chato ficar sempre vendo itens
                 não-versionados, desinteressantes&mdash;por exemplo,
@@ -667,14 +667,14 @@ collabnet = svn.collab.net
                 registros de tempo de arquivos na cópia de trabalho que
                 reflitam a última vez em que eles foram modificados no
                 repositório.  O comando <command>svn export</command>
-                sempre pôe estes <quote>registros de tempo do último
+                sempre põe estes <quote>registros de tempo do último
                 commit</quote> nas árvores geradas por ele.  Ao definir
                 esta variável de configuração para
                 <literal>yes</literal>, os comandos <command>svn
                 checkout</command>, <command>svn update</command>,
                 <command>svn switch</command>, e <command>svn
                 revert</command> passarão a registrar momentos de tempo
-                dos commands de último commit nos arquivos que
+                dos comandos de último commit nos arquivos que
                 manipularem.</para>
             </listitem>
           </varlistentry>
@@ -848,10 +848,10 @@ Aufruf: cat ZIEL[@REV]...
         conteúdo.</para>
 
       <sidebar>
-        <title>Erros de conversão de conjuntos de caracter</title>
+        <title>Erros de conversão de conjuntos de caractere</title>
 
         <para>Quando estiver usando o Subversion, você pode receber um erro
-          relacionado a conversões de conjuntos de carecter:</para>
+          relacionado a conversões de conjuntos de caractere:</para>
 
         <screen>
 svn: Can't convert string from native encoding to 'UTF-8':
@@ -935,7 +935,7 @@ svn: Can't convert string from 'UTF-8' to native encoding:
       sua localização no sistema&mdash;e não o conjunto de opções,
       parâmetros, ordem, etc.  O Subversion continua incluindo todas
       essas opções de utilitários GNU à sua ferramenta externa de
-      diferenciação independemente se o programa em questão pode
+      diferenciação independentemente se o programa em questão pode
       entender tais opções ou não.  E é aqui que as coisas deixam de ser
       intuitivas para a maioria dos usuários.</para>
 
@@ -951,7 +951,7 @@ svn: Can't convert string from 'UTF-8' to native encoding:
     <note>
       <para>A decisão sobre quando disparar uma diferenciação ou fusão
         contextual como parte de uma operação maior do Subversion é
-        feita inteiramente pelo Subversion, e é efetada por, entre
+        feita inteiramente pelo Subversion, e é afetada por, entre
         outras coisas, se os arquivos em questão sobre os quais o
         sistema estiver operando estiver ou não em um formato legível
         por humanos como determinado a partir de sua propriedade
@@ -983,7 +983,7 @@ svn: Can't convert string from 'UTF-8' to native encoding:
         plano</quote>), você pode ter diversas instâncias todas
         executando simultaneamente.  E finalmente, o Subversion espera
         que seu programa retorne um código de erro igual a 1 se seu
-        programa tiver encontrado quaisuqer diferenças, ou 0 em caso
+        programa tiver encontrado quaisquer diferenças, ou 0 em caso
         contrário&mdash;qualquer outro código resultante é considerado
         como um erro fatal.
         <footnote>
@@ -1076,7 +1076,7 @@ REM será considerado como fatal.
         e <xref linkend="svn.advanced.externaldifftools.diff3.ex-2"/>
         são modelos para scripts encapsuladores para ferramentas de
         fusão de texto externas, em formato de arquivos shell Bourne e 
-        batche do Windows, respectivamente.</para>
+        batch do Windows, respectivamente.</para>
 
       <example id="svn.advanced.externaldifftools.diff3.ex-1">
         <title>diff3wrap.sh</title>
