@@ -36,7 +36,7 @@
       requerido.  APR é uma biblioteca independente e que pode ser usada
       por qualquer aplicação.  Isso significa, entretanto, que como o
       Apache, os clientes Subversion e servidores executam em quaisquer
-      sistemas operacionas em que o servidor Apache httpd execute:
+      sistemas operacionais em que o servidor Apache httpd execute:
       Windows, Linux, todos os tipos de BSD, Mac OS X, Netware, e
       outros.</para>
 
@@ -103,7 +103,7 @@ A    subversion/build.conf
 &hellip;
 </screen>
 
-    <para>O comando acimma vai criar uma cópia de trabalho da última
+    <para>O comando acima vai criar uma cópia de trabalho da última
       versão (ainda não distribuída) do código-fonte do Subversion em
       um diretório chamado <filename>subversion</filename> no diretório
       de trabalho atual.  Você pode ajustar o último argumento como
@@ -112,7 +112,7 @@ A    subversion/build.conf
       você agora terá o código-fonte do Subversion.  É claro que você
       ainda vai precisar obter algumas poucas bibliotecas auxiliares
       (apr, apr-util, etc.)&mdash;consulte o arquivo
-      <filename>INSTALL</filename> na raíz de sua cópia de trabalho para
+      <filename>INSTALL</filename> na raiz de sua cópia de trabalho para
       mais detalhes.</para>
 
   </sect1>
@@ -188,7 +188,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <filename>meuprojeto</filename> (ou qualquer outro nome de sua
       preferência).  Por motivos que ficarão mais claros posteriormente
       (veja <xref linkend="svn.branchmerge"/>), a estrutura da árvore de
-      seu projeto deve conter três diretórios internor chamados de
+      seu projeto deve conter três diretórios internos chamados de
       <filename>branches</filename>, <filename>tags</filename>, e
       <filename>trunk</filename>.  O diretório
       <filename>trunk</filename> deve conter todos os seus dados,
@@ -234,7 +234,7 @@ $
       diretamente o conteúdo do repositório; os dados estão todos
       armazenados dentro de uma base de dados.  Mas o sistema de
       arquivos imaginário do repositório agora contém um diretório de
-      alto-nível chamado <filename>meuprojeto</filename>, que por sua
+      alto nível chamado <filename>meuprojeto</filename>, que por sua
       vez contém seus dados.</para>
 
     <para>Veja que o diretório <filename>/tmp/meuprojeto</filename>
