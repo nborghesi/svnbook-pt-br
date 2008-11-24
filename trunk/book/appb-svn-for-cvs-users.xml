@@ -159,7 +159,7 @@
       <varlistentry>
         <term><command>svn status</command></term>
         <listitem>
-          <para>Mostra quaisquer mudanças locais que você fez (see <xref
+          <para>Mostra quaisquer mudanças locais que você fez (veja <xref
             linkend="svn.tour.cycle.examine.status"/>)</para>
         </listitem>
       </varlistentry>
@@ -167,7 +167,7 @@
       <varlistentry>
         <term><command>svn diff</command></term>
         <listitem>
-          <para>Mostra os detalhes das suas mudanças (see <xref
+          <para>Mostra os detalhes das suas mudanças (veja <xref
             linkend="svn.tour.cycle.examine.diff"/>)</para>
         </listitem>
       </varlistentry>
@@ -175,7 +175,7 @@
       <varlistentry>
         <term><command>svn revert</command></term>
         <listitem>
-          <para>Remove suas mudanças locais (see <xref
+          <para>Remove suas mudanças locais (veja <xref
             linkend="svn.tour.cycle.revert"/>)</para>
         </listitem>
       </varlistentry>
@@ -401,7 +401,7 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
     <title>Resolução de Conflitos</title>
 
     <para>O CVS marca conflitos com <quote>marcadores de
-      conflito</quote> em-linha, e imprime um <literal>C</literal> durante uma
+      conflito</quote> em linha, e imprime um <literal>C</literal> durante uma
       atualização.  Historicamente, isso tem causado problemas, porque o CVS
       não está fazendo o suficiente. Muitos usuários esquecem (ou não vêem) o
       <literal>C</literal> depois que ele passa correndo pelo terminal.
@@ -481,7 +481,7 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
       trabalho apropriadamente, adicionando e removendo componentes.</para>
 
     <para>O Subversion define módulos como uma lista de diretórios dentro de uma
-      propriedade de diretório:  see <xref linkend="svn.advanced.externals"/>.</para>
+      propriedade de diretório:  veja <xref linkend="svn.advanced.externals"/>.</para>
 
   </sect1>
 
@@ -542,7 +542,7 @@ X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
     <para>A mais popular (e provavelmente a mais madura) ferramenta de
       conversão é cvs2svn (<ulink url="http://cvs2svn.tigris.org/"/>), um
       script Python originalmente criado por membros da própria comunidade de
-      desenvovimento do Subversion.  Esta ferramenta é destinada a ser executada exatamente
+      desenvolvimento do Subversion.  Esta ferramenta é destinada a ser executada exatamente
       uma vez:  ela examina seu repositório CVS diversas vezes e tenta
       deduzir submissões, ramos e rótulos da melhor forma que consegue.  Quando
       termina, o resultado é ou um repositório Subversion ou um
