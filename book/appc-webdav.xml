@@ -34,7 +34,7 @@
 
     <para>O problema, porém, é que apesar do acrônimo, a especificação
       RFC atualmente não descreve qualquer forma de controle de versão.
-      Clientes básicos de WebDAC e servidores assumem apenas uma versão
+      Clientes básicos de WebDAV e servidores assumem apenas uma versão
       para cada arquivo ou diretório existente, e podem ser
       repetidamente sobrescritos.</para>
 
@@ -50,12 +50,12 @@
     <para>O padrão WebDAV original tem sido largamente usado com
       sucesso.  Cada sistema operacional de computadores modernos tem
       uma implementação interna de um cliente WebDAV (mais detalhes a
-      seguir), e diversas aplicações indepentendes populares também são
+      seguir), e diversas aplicações independentes populares também são
       capazes de se comunicar em WebDAV&mdash;como o Microsoft Office,
       Dreamweaver, e Photoshop para relacionar apenas algumas.  No lado
       do servidor, o servidor web Apache tem capacidade de oferecer
-      serviços WebDAC desde 1998 e é considerado o padrão open-source
-      <quote>de-facto</quote>.  Há outros servidores WebDAV disponíveis,
+      serviços WebDAV desde 1998 e é considerado o padrão open-source
+      <quote>de facto</quote>.  Há outros servidores WebDAV disponíveis,
       incluindo o próprio IIS da Microsoft.</para>
 
     <para>Já o DeltaV, infelizmente, não tem sido tão bem sucedido.  É
@@ -98,7 +98,7 @@
       simplesmente não foram implementadas.</para>
 
     <para>Ainda há um certo debate na comunidade de desenvolvedores se
-      ainda é ou não adequado preocupar-se em tentar remediar estas
+      ainda é ou não adequado se preocupar em tentar remediar estas
       situações.  É quase impensável alterar-se o projeto do Subversion
       para corresponder à especificação DeltaV, então provavelmente não
       há nada que que um cliente não pode aprender para ter tudo o que
@@ -125,7 +125,7 @@
       DeltaV.  Um servidor DeltaV típico irá rejeitar um cliente WebDAV
       ignorante que tente fazer um <literal>PUT</literal> em um arquivo
       que esteja sob controle de versão.  Para alterar um arquivo
-      versionado, o servidor expera uma série de requisições próprias
+      versionado, o servidor espera uma série de requisições próprias
       relacionadas a versionamento: algo como
       <literal>MKACTIVITY</literal>, <literal>CHECKOUT</literal>,
       <literal>PUT</literal>, <literal>CHECKIN</literal>.  Mas se o
@@ -422,17 +422,18 @@
       <sect3 id="svn.webdav.clients.standalone.free">
         <title>Cadaver, DAV Explorer</title>
 
-        <para>Cadaver is a bare-bones Unix commandline program for
-          browsing and changing WebDAV shares.  Like the Subversion
-          client, it uses the neon HTTP library&mdash;not
-          surprisingly, since both neon and cadaver are written by the
-          same author.  Cadaver is free software (GPL license) and is
-          available at
-          <ulink url="http://www.webdav.org/cadaver/"/>.</para>
+        <para>Cadaver é um programa de linha de comando muito enxuto do
+          Unix para navegação e realização de modificações em
+          compartilhamentos WebDAV.  Como o cliente do Subversion, ele
+          usa a biblioteca HTTP neon&mdash;sem nenhuma surpresa, uma vez
+          que tanto o neon quanto o cadaver são desenvolvidos pelo mesmo
+          autor.  O Cadaver é um software livre (licença GPL) e está
+          disponível em <ulink
+          url="http://www.webdav.org/cadaver/"/>.</para>
 
         <para>Usar o cadaver se parece com usar um programa FTP de linha de
           comando, sendo assim extremamente útil para depuração básica de
-          WebDAv.  O programa pode ser usado para se fazer upload ou download
+          WebDAV.  O programa pode ser usado para se fazer upload ou download
           de arquivos de uma só vez, e também examinar propriedades, além de
           copiar, mover, travar ou destravar arquivos:</para>
 
