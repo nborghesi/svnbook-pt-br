@@ -941,31 +941,31 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.usingapi.codesamples">
-      <title>Code Samples</title> 
+      <title>Exemplos de Código</title> 
 
       <para><xref linkend="svn.developer.layerlib.repos.ex-1" />
-        contains a code segment (written in C) that illustrates some
-        of the concepts we've been discussing.  It uses both the
-        repository and filesystem interfaces (as can be determined by
-        the prefixes <literal>svn_repos_</literal> and
-        <literal>svn_fs_</literal> of the function names,
-        respectively) to create a new revision in which a directory is
-        added.  You can see the use of an APR pool, which is passed
-        around for memory allocation purposes.  Also, the code reveals
-        a somewhat obscure fact about Subversion error
-        handling&mdash;all Subversion errors must be explicitly
-        handled to avoid memory leakage (and in some cases,
-        application failure).</para>
+        contém um segmento de código (escrito em C) que ilustra alguns
+        dos conceitos que estamos discutindo.  Ele usa ambas as
+        interfaces de repositório e sistema de arquivo (como pode ser determinado pelos
+        prefixos <literal>svn_repos_</literal> e
+        <literal>svn_fs_</literal> dos nomes de função,
+        respectivamente) para criar uma nova revisão na qual um diretório é
+        adicionado.  Você pode ver o uso de um recipiente APR, o qual é passado
+        para propósitos de alocação de memória.  Além disso, o código revela
+        um fato um tanto obscuro sobre tratamento de erros do
+        Subversion&mdash;todos os erros do Subversion devem ser explicitamente
+        tratados para evitar vazamento de memória (e em alguns casos,
+        falha da aplicação).</para>
 
       <example id="svn.developer.layerlib.repos.ex-1">
-        <title>Using the Repository Layer</title>
+        <title>Usando a Camada do Repositório</title>
 
         <programlisting>
-/* Convert a Subversion error into a simple boolean error code.
+/* Converte um erro do Subversion em um simples código de erro booleano.
  *
- * NOTE:  Subversion errors must be cleared (using svn_error_clear())
- *        because they are allocated from the global pool, else memory
- *        leaking occurs.
+ * NOTA:  Erros do Subversion devem ser limpos (usando svn_error_clear())
+ *        porque eles são alocados a partir do recipiente global, senão
+ *        vazamento de memória ocorre.
  */
 #define INT_ERR(expr)                           \
   do {                                          \
@@ -978,11 +978,11 @@ $
     return 0;                                   \
   } while (0)
 
-/* Create a new directory at the path NEW_DIRECTORY in the Subversion
- * repository located at REPOS_PATH.  Perform all memory allocation in
- * POOL.  This function will create a new revision for the addition of
- * NEW_DIRECTORY.  Return zero if the operation completes
- * successfully, non-zero otherwise.
+/* Cria um novo diretório no caminho NEW_DIRECTORY no repositório Subversion
+ * localizado em REPOS_PATH.  Realiza toda a alocação de memória em POOL. 
+ * Esta função criará uma nova revisão para a adição de NEW_DIRECTORY. 
+ * Retorna zero se a operação foi concluída com sucesso, não-zero caso 
+ * contrário.
  */
 static int
 make_new_directory(const char *repos_path,
@@ -997,65 +997,65 @@ make_new_directory(const char *repos_path,
   svn_fs_root_t *txn_root;
   const char *conflict_str;
 
-  /* Open the repository located at REPOS_PATH. 
+  /* Abre o repositório localizado em REPOS_PATH. 
    */
   INT_ERR(svn_repos_open(&amp;repos, repos_path, pool));
 
-  /* Get a pointer to the filesystem object that is stored in REPOS. 
+  /* Obtém um ponteiro para o objeto de sistema de arquivo armazenado em REPOS. 
    */
   fs = svn_repos_fs(repos);
 
-  /* Ask the filesystem to tell us the youngest revision that
-   * currently exists. 
+  /* Pede ao sistema de arquivo para nos retornar a mais jovem revisão que
+   * existe atualmente. 
    */
   INT_ERR(svn_fs_youngest_rev(&amp;youngest_rev, fs, pool));
 
-  /* Begin a new transaction that is based on YOUNGEST_REV.  We are
-   * less likely to have our later commit rejected as conflicting if we
-   * always try to make our changes against a copy of the latest snapshot
-   * of the filesystem tree. 
+  /* Inicia uma nova transação que tem por base a YOUNGEST_REV.  Nós estamos
+   * menos prováveis de ter nossa submissão rejeitada como conflitante se
+   * sempre tentarmos fazer nossas mudanças novamente em uma cópia da última
+   * imagem da árvore do sistema de arquivo. 
    */
   INT_ERR(svn_fs_begin_txn(&amp;txn, fs, youngest_rev, pool));
 
-  /* Now that we have started a new Subversion transaction, get a root
-   * object that represents that transaction. 
+  /* Agora que temos iniciada uma nova transação Subversion, recupera um objeto
+   * raíz que representa esta transação. 
    */
   INT_ERR(svn_fs_txn_root(&amp;txn_root, txn, pool));
   
-  /* Create our new directory under the transaction root, at the path
+  /* Cria nosso novo diretório sob a transação raíz, para o caminho
    * NEW_DIRECTORY. 
    */
   INT_ERR(svn_fs_make_dir(txn_root, new_directory, pool));
 
-  /* Commit the transaction, creating a new revision of the filesystem
-   * which includes our added directory path.
+  /* Submete a transação, criando uma nova revisão do sistema de arquivo
+   * a qual inclui o caminho de nosso diretório adicionado.
    */
   err = svn_repos_fs_commit_txn(&amp;conflict_str, repos, 
                                 &amp;youngest_rev, txn, pool);
   if (! err)
     {
-      /* No error?  Excellent!  Print a brief report of our success.
+      /* Sem erro?  Excelente!  Imprime um breve relatório de nosso sucesso.
        */
-      printf("Directory '%s' was successfully added as new revision "
+      printf("O diretório '%s' foi adicionado com sucesso na nova revisão "
              "'%ld'.\n", new_directory, youngest_rev);
     }
   else if (err-&gt;apr_err == SVN_ERR_FS_CONFLICT)
     {
-      /* Uh-oh.  Our commit failed as the result of a conflict
-       * (someone else seems to have made changes to the same area 
-       * of the filesystem that we tried to modify).  Print an error
-       * message.
+      /* Oh não.  Nossa submissão falhou como resultado de um conflito
+       * (alguém parece ter feito mudanças na mesma área do sistema de 
+       * arquivo que nós tentamos modificar).  Imprime uma mensagem de
+       * erro.
        */
-      printf("A conflict occurred at path '%s' while attempting "
-             "to add directory '%s' to the repository at '%s'.\n", 
+      printf("Um conflito ocorreu no caminho '%s' na tentativa de "
+             "adicionar o diretório '%s' no repositório em '%s'.\n", 
              conflict_str, new_directory, repos_path);
     }
   else
     {
-      /* Some other error has occurred.  Print an error message.
+      /* Algum outro erro ocorreu.  Imprime uma mensagem de erro.
        */
-      printf("An error occurred while attempting to add directory '%s' "
-             "to the repository at '%s'.\n", 
+      printf("Um erro ocorreu na tentativa de adicionar o diretório '%s' "
+             "no repositório em '%s'.\n", 
              new_directory, repos_path);
     }
 
@@ -1064,27 +1064,27 @@ make_new_directory(const char *repos_path,
 </programlisting>
       </example>
 
-      <para>Note that in <xref
-        linkend="svn.developer.layerlib.repos.ex-1" />, the code could
-        just as easily have committed the transaction using
-        <function>svn_fs_commit_txn()</function>.  But the filesystem
-        API knows nothing about the repository library's hook
-        mechanism.  If you want your Subversion repository to
-        automatically perform some set of non-Subversion tasks every
-        time you commit a transaction (like, for example, sending an
-        email that describes all the changes made in that transaction
-        to your developer mailing list), you need to use the
-        libsvn_repos-wrapped version of that function, which adds the
-        hook triggering functionality&mdash;in this case,
-        <function>svn_repos_fs_commit_txn()</function>.  (For more
-        information regarding Subversion's repository hooks, see <xref
+      <para>Note que em <xref
+        linkend="svn.developer.layerlib.repos.ex-1" />, o código poderia
+        ter apenas tão facilmente submetido a transação usando
+        <function>svn_fs_commit_txn()</function>.  Mas a API do sistema de
+        arquivo sabe nada sobre o mecanismo de gancho da biblioteca do
+        repositório.  Se você quer que seu repositório Subversion
+        realize automaticamente algum conjunto de tarefas não-Subversion toda
+        vez que você submeter uma transação (como, por exemplo, enviar um
+        email que descreve todas as mudanças feitas nesta transação
+        para sua lista de discussão de desenvolvedores), você precisa usar a
+        versão desta função embrulhada em libsvn_repos, a qual adiciona a
+        funcionalidade de disparo de gancho&mdash;neste caso,
+        <function>svn_repos_fs_commit_txn()</function>.  (Para mais
+        informações em relação aos ganchos de repositório Subversion, veja <xref
         linkend="svn.reposadmin.create.hooks" />.)</para>
 
-      <para>Now let's switch languages.  <xref
-        linkend="svn.developer.usingapi.otherlangs.ex-1" /> is a
-        sample program that uses Subversion's SWIG Python bindings to
-        recursively crawl the youngest repository revision, and print
-        the various paths reached during the crawl.</para>
+      <para>Agora vamos trocar as linguagens.  <xref
+        linkend="svn.developer.usingapi.otherlangs.ex-1" /> é um
+        exemplo de programa que usa os vínculos Python SWIG do Subversion para
+        recursivamente rastrear a mais jovem revisão do repositório, e imprimir
+        os vários caminhos descobertos durante o rastreamento.</para>
 
       <example id="svn.developer.usingapi.otherlangs.ex-1">
         <title>Using the Repository Layer with Python</title>
