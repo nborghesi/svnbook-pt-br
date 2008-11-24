@@ -1,278 +1,274 @@
 <chapter id="svn.developer">
   <title>Incorporando o Subversion</title>
   
-  <para>O Subversion tem uma estrutura modular: é implementado
-      como uma coleção de bibliotecas em C. Cada biblioteca
-      tem um propósito bem definido e uma Aplicação de Interface
-      (API - Application Program Interface), e que a interface
-      está disponível não só para o próprio Subversion usar, mas 
-      para qualquer software que queira incorporar ou através de 
-      programação controlar o Subversion. Adicionalmente, a API
-      do Subversion está disponível não só para outros programas
-      em C, mas também programas em linguagens de alto nível como 
-      Python, Perl, Java ou Ruby.</para>  
+  <para>O Subversion tem uma estrutura modular: ele é implementado
+    como uma coleção de bibliotecas escritas em C. Cada biblioteca tem um
+    propósito bem definido e uma Interface de Programação de Aplicação (API
+    - Application Programming Interface), e esta interface está disponível
+    não só para o próprio Subversion usar, mas para qualquer software que
+    queira incorporar ou controlar o Subversion através de programação.
+    Adicionalmente, a API do Subversion está disponível não só para outros
+    programas em C, mas também para programas em linguagens de alto nível
+    como Python, Perl, Java ou Ruby.</para>
 
   <para>Este capítulo é para aqueles que desejam interagir com o 
-      Subversion através da sua API pública ou seus vários 
-      bindings de linguagem. Se você deseja escrever scripts robustos
-      ao redor das funcionalidades do Subversion para simplificar sua 
-      vida, se está tentando desenvolver integrações mais complexas
-      entre o Subversion e outros partes de um software, ou apenas
-      tem interesse nas várias bibliotecas modulares e o que 
-      elas tem a oferecer, este capítulo é para você. Se, entretanto,
-      você não se vê participando com o Subversion nesse nível, 
-      sinta-se livre para pular este capítulo certo que suas experiências
-      como usuários do Subversion não serão afetadas.</para>
+    Subversion através da sua API pública ou seus vários 
+    vínculos de linguagem. Se você deseja escrever scripts robustos
+    ao redor das funcionalidades do Subversion para simplificar sua 
+    vida, se está tentando desenvolver integrações mais complexas
+    entre o Subversion e outras partes de um software, ou apenas
+    tem interesse nas várias bibliotecas modulares e o que 
+    elas tem a oferecer, este capítulo é para você. Se, entretanto,
+    você não se vê participando com o Subversion nesse nível, 
+    sinta-se livre para pular este capítulo certo que suas experiências
+    como usuário do Subversion não serão afetadas.</para>
 
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.developer.layerlib">
-    <title>Desing da Camada de Biblioteca</title>
+    <title>Projeto da Biblioteca em Camadas</title>
 
-    <para>Para núcleo de bibliotecas do Subversion pode ser dito
-	existir em três principais camadas&mdash;a Camada do Respositório,
-	a Camada de Acesso ao Respositório (RA) ou Camada Cliente (veja
-	<xref linkend="svn.intro.architecture.dia-1" />). Nós iremos 
-	examinar essas camadas daqui a pouco, mas primeiro, vamos
-	dar uma olhada nas várias bibliotecas do Subversion. Pelo
-	bem da consistência, nós vamos nos referir às bibliotecas
-	pelos seus nomes de extensão de biblioteca Unix (libsvn_fs,
-	libsvn_wc, mod_dav_svn, etc.).</para>
+    <para>Cada uma das bibliotecas centrais do Subversion podem existir em
+      uma de três principais camadas&mdash;na Camada do Repositório, na
+      Camada de Acesso ao Repositório (RA), ou na Camada Cliente (veja <xref
+      linkend="svn.intro.architecture.dia-1" />). Nós examinaremos 
+      essas camadas daqui a pouco, mas primeiro, vamos brevemente dar uma
+      olhada nas várias bibliotecas do Subversion. Pelo bem da consistência,
+      nós referiremos às bibliotecas pelos seus nomes de biblioteca Unix sem
+      extensão (libsvn_fs, libsvn_wc, mod_dav_svn, etc.).</para>
 
     <variablelist>
       <varlistentry>
         <term>libsvn_client</term> 
-        <listitem><para>Interface primária de programas
+        <listitem><para>Interface primária para programas
           cliente</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_delta</term>
-	<listitem><para>Rotinas de diferenciação de Árvore e 
-	   byte-stream </para></listitem>
+        <listitem><para>Rotinas de diferenciação de árvore e 
+          fluxo de bytes</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_diff</term>
-	<listitem><para>Rotinas contextuais de fusão e
-          diferenciação</para></listitem>
+        <listitem><para>Rotinas de diferenciação e mesclagem
+          contextuais</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs</term>
-        <listitem><para>Sistema de arquivos comuns e carregamento
-          de módulos</para></listitem>
+        <listitem><para>Base comum e carregador de módulo para
+          sistema de arquivos</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs_base</term>
-        <listitem><para>Sistema de arquivos Berkeley DB
-          back-end --FIXME--</para></listitem>
+        <listitem><para>A base para sistema de arquivos do
+          Berkeley DB</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_fs_fs</term>
-        <listitem><para>Sistema de arquivos native (FSFS)
-          back-end--FIXME--</para></listitem>
+        <listitem><para>A base para sistema de arquivos nativo
+          (FSFS)</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra</term>
-        <listitem><para>--FIXME--Repository Access commons and module
-          loader</para></listitem>
+        <listitem><para>Base comum e carregador de módulo para 
+          Acesso ao Repositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_dav</term>
-        <listitem><para>Módulo WebDAV de acesso ao
-          Repositório</para></listitem>
+        <listitem><para>O módulo para Acesso ao Repositório
+          por WebDAV</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_local</term>
-        <listitem><para>Módulo de Accesso Local ao 
-          respositório</para></listitem>
+        <listitem><para>O módulo de Acesso ao Repositório
+          localmente</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_serf</term>
-        <listitem><para>Outro (em experimentação) módulo WebDAV de accesso
-          ao Repositório</para></listitem>
+        <listitem><para>Outro módulo (experimental) para Acesso ao
+          Repositório por WebDAV</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_ra_svn</term>
-        <listitem><para>Módulo de Acesso ao Repositório 
-          customizado</para></listitem>
+        <listitem><para>O módulo de Acesso ao Repositório do 
+          protocolo padrão</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_repos</term>
-        <listitem><para>Interface do Repositório</para></listitem>
+        <listitem><para>Interface de Repositório</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_subr</term>
-        <listitem><para>Várias sub-rotinas de ajuda
+        <listitem><para>Diversas sub-rotinas úteis
           </para></listitem>
       </varlistentry>
       <varlistentry>
         <term>libsvn_wc</term>
-        <listitem><para>Biblioteca de gerênciamente 
+        <listitem><para>A biblioteca de gerenciamento 
           de cópia de trabalho</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>mod_authz_svn</term>
-        <listitem><para>Módulo de autorização para acesso a Repositórios
-          Subversion WebDAV</para></listitem>
+        <listitem><para>Módulo de autorização do Apache para acesso a repositórios
+          do Subversion via WebDAV</para></listitem>
       </varlistentry>
       <varlistentry>
         <term>mod_dav_svn</term>
-        <listitem><para>Módulo Apache para mapear operações WebDAV 
+        <listitem><para>Módulo Apache para mapeamento de operações WebDAV 
           para operações do Subversion</para></listitem>
       </varlistentry>
     </variablelist>
 
-    <para>O fato da palavara <quote>várias</quote> só aparecer 
-	uma vez na lista anterior é um bom sinal. O time de desenvolvimento
-	do Subversion leva se esforça para fazer com que funcionalidades
-	fiquem na camada certo e nas bibliotecas certas. Talvez a 
-	maior vantagem de um sistema modular é a pouca complexidade
-	do ponto de vista do desenvolvedor. Como desenvolvedor, 
-	você pode enxergar rapidamente um tipo de <quote>grande
-	quadro</quote> que permite você achar o local de certos
-	pedaços de funcionalidade com certa facilidade.</para>
+    <para>O fato da palavra <quote>diversas</quote> só aparecer 
+      uma vez na lista anterior é um bom sinal. A equipe de desenvolvimento
+      do Subversion se esforça bastante para fazer com que as funcionalidades
+      fiquem na camada certa e nas bibliotecas certas. Talvez a 
+      maior vantagem de um sistema modular é a pouca complexidade
+      do ponto de vista do desenvolvedor. Como desenvolvedor, 
+      você pode enxergar rapidamente um tipo de <quote>grande
+      figura</quote> que permite você achar o local de certos
+      pedaços de funcionalidade com certa facilidade.</para>
 
-    <para>Outro benefício da modularidade é a habilidade de substituir
-	um módulo dado por uma biblioteca nova que implementa a mesma
-	API sem afetar o resto do código base. De certo modo, 
-	isso já acontece dentro do Subversion. Cada uma das bibliotecas 
-	libsvn_ra_dav, libsvn_ra_local, libsvn_ra_serf, e libsvn_ra_svn 
-	implementam a mesma interface, todas funcionam como plugins 
-	para libsvn_ra. E todas as quatro se comunicam com a camada 
-	de Repositório&mdash;libsvn_ra_local se conecta com o 
-	repositório diretamente; as outras três fazem atrás da rede.
-	As bibliotecas libsvn_fs_base e libsvn_fs_fs são outro par
-	de bibliotecas qeu implementam a mesma funcionalidade de 
-	maneiras diferentes&mdash;ambos plugins comuns a biblioteca
-	libsvn_fs.</para>
+    <para>Outro benefício da modularidade é a habilidade de substituir um
+      dado módulo por uma biblioteca inteiramente nova que implementa a mesma
+      API sem afetar o resto do código base. De certo modo, 
+      isso já acontece dentro do Subversion. Cada uma das bibliotecas
+      libsvn_ra_dav, libsvn_ra_local, libsvn_ra_serf, e libsvn_ra_svn
+      implementam a mesma interface, todas funcionando como extensões 
+      de libsvn_ra. E todas as quatro se comunicam com a Camada do
+      Repositório&mdash;libsvn_ra_local conecta-se ao repositório diretamente;
+      as outras três através de uma rede. As bibliotecas libsvn_fs_base
+      e libsvn_fs_fs são outro par de bibliotecas que
+      implementam a mesma funcionalidade de maneiras diferentes&mdash;ambas
+      são extensões para a biblioteca libsvn_fs comum.</para>
 
-    <para>O cliente também mostra os benefícios da modularidade no 
-	design do Subversion. A biblioteca lbsvn_client do Subversion
-	é uma boa para a maioria das funcionalidades necessárias para
-	o design do cliente Subversion (veja <xref
-	linkend="svn.developer.layerlib.client"/>). Enquanto a distribuição
-	do Subverion provê apenas o <command>svn</command> como linha de comando,
-	existe várias ferramentas de terceiros que provêm várias formas
-	de gráficas do cliente. Essas interfaces gráficas usam a mesma
-	API que o clinte de linha de comando usa. Este tipo de modularidade
-	tem tido um papel importante na proliferação de clientes Subversion
-	e integrações em IDEs e, por consequência, pela grande adoção do
-	Subversion.</para>
+    <para>O cliente também mostra os benefícios da modularidade
+      no projeto do Subversion. A biblioteca lbsvn_client do Subversion é
+      uma boa para a maioria das funcionalidades necessárias para
+      projetar um útil cliente do Subversion (veja <xref
+      linkend="svn.developer.layerlib.client"/>). Portanto, embora a
+      distribuição do Subversion ofereça apenas o programa de linha de comando
+      <command>svn</command> como cliente, existem várias ferramentas de
+      terceiros que oferecem várias formas de interface gráfica com o usuário.
+      Essas interfaces gráficas usam a mesma API que o cliente de linha de
+      comando usa. Este tipo de modularidade tem tido um papel importante na
+      proliferação de clientes Subversion acessíveis e integrações em
+      IDEs e, por consequência, pela tremenda taxa de adoção
+      do próprio Subversion.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.layerlib.repos">
-      <title>Camado do respositório</title>
+      <title>Camada de Repositório</title>
 
-      <para>Quando referindo a camada de Repositório do Subversion, 
-	  nós geralmente estamos falando sobre os conceitos&mdash;a
-	  implementação do sistema de arquivos (acessado via libsvn_fs,
-	  e suportados pelos plugins libsvn_fs_base e libsvn_fs_fs), e
-	  o respositório lógico que o contém (como implementado na
-	  libsvn_respos). Esta biblioteca provê o armazenamento 
-	  e mecanimos de relatórios para as várias revisões dos
-	  dados seus dados versionados. Esta camada é conectada
-	  a camada Cliente através da Camada de Acesso ao Repositório,
-	  e é, da perspectiva do usuário Subversion, a coisa do 
-	  <quote>outro lado da linha</quote></para> 
+      <para>Quando referirmos à Camada de Repositório do Subversion, estamos
+        geralmente falando sobre dois conceitos básicos&mdash;a implementação
+        de sistema de arquivos versionados (acessada via libsvn_fs, e
+        suportada por suas extensões libsvn_fs_base e libsvn_fs_fs), e
+        a lógica do repositório que a encapsula (implementada em
+        libsvn_respos). Estas bibliotecas provem os mecanismos de 
+        armazenamento e relatórios para as várias revisões de seus
+        dados em controle de versão. Esta camada está conectada com a
+        Camada de Cliente através da Camada de Acesso ao Repositório, e é, da
+        da perspectiva do usuário Subversion, a coisa no
+        <quote>outro extremo da linha</quote>.</para>
 
-      <para>O Sistema de Arquivos não é um sistema de arquivos no nível
-	  do kernel que se pode instalar em um sistema operacional (como
-	  o ext2 do Linux ou NTFS), mas um sistema de arquivos virtual.
-	  Além de guardar arquivos e diretórios (como os que você navega
-	  usando seu programa shell favorito), ele usa um dos dois 
-	  --FIXEME-- available abstract storage backends&mdash;mesmo o
-	  ambiente de banco de dados Berkeley DB, uma representação 
-	  plana de um arquivo. (Para aprender mais sobre os dois 
-	 --FIXEME-- respository back-end, veja  <xref
-	     linkend="svn.reposadmin.basics.backends"/>.) Sempre houve um
-	 considerável interesse pela comunidade de desenvolvimento 
-	 em dar a futuros releases do Subversion a habilidade de usar
-	 --FIXEME-- back-end database systems, talvez através de um
-	 mecanismo como um ODBC (Open Database Connectivity). De fato, 
-	 Google fez algo similar a isso antes de lançar o serviço Google para
-	 Host e Projetos: eles anunciaram em meados de 2006 que os membros
-	 do time Open Source teria escrito um novo plugin de sistema de arquivos 
-	 proprietário para o Subversion que seria usaria um banco de dados
-	 de Grande tabela ultra escalonável para armazenamento.</para> 
+      <para>O Sistema de Arquivos Subversion não é um sistema de arquivos a
+        nível de kernel que se pode instalar em um sistema operacional (como o
+        ext2 do Linux ou o NTFS), mas um sistema de arquivos virtual. Além de
+        armazenar <quote>arquivos</quote> e <quote>diretórios</quote> como
+        arquivos e diretórios reais (como os que você pode navegar
+        usando seu programa de terminal favorito), ele usa um dos dois
+        servidores abstratos de armazenamento disponíveis&mdash;seja um ambiente do
+        banco de dados Berkeley DB, ou uma representação em arquivos planos. (Para
+        aprender mais sobre os dois servidores de repositório, veja <xref
+        linkend="svn.reposadmin.basics.backends"/>.) Houve até um
+        considerável interesse na comunidade de desenvolvimento em
+        dar a futuras liberações do Subversion a habilidade de usar outros
+        sistemas de base de dados, talvez através de um mecanismo como
+        um ODBC (Open Database Connectivity). De fato, a Google fez
+        algo similar a isto antes de lançar o serviço Google Code para
+        hospedagem de projetos: eles anunciaram em meados de 2006 que os membros
+        de sua equipe Open Source teriam escrito uma nova extensão proprietária para o
+        sistema de arquivos do Subversion que usaria seu banco de dados
+        ultra-escalável Bigtable em seu armazenamento.</para> 
 
-     <para>A API do sistema de arquivos exportado pelo libsvn_fs contém
-	 funcionalidades que você esperaria de uma API de sistema de
-	 arquivos&mdash;você pode criar e remover arquivos e
-	 diretórios, copiar e move-los, modificar seus conteudos, 
-	 e assim por diante. Ela também tem funcionalidades que não são
-	 muito comuns, como a habilidade de adicionar, modificar, e 
-	 remover metadata (<quote>propriedades</quote>) em cada arquivo
-	 ou diretório. Além do mais, o sistema de arquivos Subversion 
-	 é um sistema versionado, o que significa que assim que você faz 
-	 mudanças na sua árvore de diretórios, Subversion lembra como sua
-	 árvore estava quando as mudanças foram feitas. E as mudanças anteriores.
-	 E as anteriores a essas. E assim por diante, todas as mudanças até
-	 durante o tempo de versionamento até (e no máximo) o primeiro momento
-	 que as coisas foram adicionadas ao sistema de arquivos.</para>
+      <para>A API de sistema de arquivos exportada por libsvn_fs contém os
+        tipos de funcionalidade que você esperaria de qualquer outra API de
+        sistema de arquivos&mdash;você pode criar e remover arquivos e
+        diretórios, copiar e movê-los, modificar o conteúdo de arquivos,
+        e assim por diante. Ela também tem funcionalidades que não são tão comuns,
+        como a habilidade de adicionar, modificar, e remover metadados
+        (<quote>propriedades</quote>) em cada arquivo ou diretório.
+        Além de tudo, o Sistema de Arquivos Subversion é um sistema de
+        versionamento, o que significa que assim que você faz mudanças em sua
+        árvore de diretórios, o Subversion lembra como sua árvore estava
+        quando essas mudanças ocorreram. E as mudanças anteriores.
+        E as anteriores a essas. E assim por diante, todo o caminho de volta durante
+        o tempo de versionamento até (e no máximo) o primeiro momento em que você
+        iniciou a adição de coisas ao sistema de arquivos.</para>
 
-     <para>Todas as modificações que você fez a sua árvore são feitas
-	 dentro do contexto de uma transação de commit do Subversion.
-	 A seguir veremos uma rotina simplificada e genérica de 
-	 modificação do seu sistema de arquivos:</para>
+      <para>Todas as modificações que você fez em sua árvore são feitas
+        dentro do contexto de uma transação de submissão do Subversion. A
+        seguir veremos uma rotina simplificada e genérica de modificação de
+        seu sistema de arquivos:</para>
 
       <orderedlist>
         <listitem>
-          <para>Iniciar uma transação de commit do Subversion.</para>
+          <para>Iniciar uma transação de submissão do Subversion.</para>
         </listitem>
         <listitem>
-          <para>Fazendo modificações (adicionar, apagar, modificações
+          <para>Fazer suas mudanças (adicionar, excluir, modificações
             de propriedades, etc.).</para>
         </listitem>
         <listitem>
-          <para>Commit as sua transação.</para>
+          <para>Submeter sua transação.</para>
         </listitem>
       </orderedlist>
 
-      <para>Uma vez que você commitou sua transação, as modificações
-	  do seu sistema de arquivo é permanentemente armazenado
-	  como um histórico. Cada um desses ciclos gerá um única
-	  nova revisão da sua árvore, e cada revisão é para sempre
-	  acessível como uma imutável foto de <quote>como as coisas
-	  estavam</quote></para>
+      <para>Uma vez que você submeteu sua transação, suas modificações no
+        sistema de arquivo são permanentemente armazenadas como artefatos de histórico.
+        Cada um desses ciclos produz uma única e nova revisão de sua
+        árvore, e cada revisão será sempre acessível como uma imagem
+        imutável de <quote>como as coisas estavam</quote>.</para>
 
       <sidebar>
-        <title>--FIXME--The Transaction Distraction</title>
+        <title>A Confusão com Transações</title>
 
-	<para>A noção de transação no Subversion pode facilmente
-	    ser confundida com as transações suportadas providas
-	    pelo próprio banco de dados, especialmente pelo código 
-	    do libsvn_fs_base se aproximar ao código do baco de dados
-	    Berkeley DB. Os 2 tipos de transação existem para prover
-	    atomicidade e isolamento. Em outra palavras, transações
-	    dão a você a habilidade de fazer um conjunto de ações
-	    no modo tudo ou nada&mdash;ou todas as ações são completadas
-	    com sucesso, ou todas são tratadas como se 
-	    <emphasis>nenhuma</emphasis> tivesse ocorrido&mdash;e 
-	    de um certo modo que não há interefência nos outros
-	    processos que estão agindo nos dados.</para> 
+        <para>A noção de transação no Subversion pode ser facilmente
+          confundida com o suporte a transações oferecido pelo
+          banco de dados encapsulado propriamente dito, especialmente pelo código
+          de libsvn_fs_base se aproximar ao código do banco de dados
+          Berkeley DB. Ambos os tipos de transação existem para prover
+          atomicidade e isolamento. Em outra palavras, transações dão a
+          você a habilidade de realizar um conjunto de ações em uma
+          forma <quote>tudo ou nada</quote>&mdash;ou todas as ações são
+          completadas com sucesso, ou todas são tratadas como se
+          <emphasis>nenhuma</emphasis> delas tivesse ocorrido&mdash;e em
+          modo que não exista interferência com outros processos atuando
+          nos dados.</para> 
 
-	<para>Transações de banco de dados geralmente contém
-	    pequenas operações relacionadas com a modificações
-	    de dados no banco de dados (como modificações em dados
-	    de uma linha de uma tabela). Transações do Subversion
-	    são grandes em escopo, com operações de alto nível 
-	    como fazer modificações de um conjunto de arquivos
-	    e diretórios os quais serão guardados como a próxima
-	    revisão da árvore de sistema de arquivos. Como se já
-	    não fosse confuso o suficiente, considerar o fato que
-	    o Subversion criam usa uma transação durante a criação
-	    de uma transação Subversion ( então se a criação
-	    da transação do Subversion falhar, o banco de dados
-	    irá travar como se nenhum tentativa de criação tivesse
-	    ocorrido em primeiro lugar)!</para>
+        <para>As transações de banco de dados geralmente inclui pequenas
+          operações relacionadas especificamente com a modificações de dados
+          no banco de dados propriamente dito (como modificar o conteúdo de uma
+          linha em uma tabela). As transações do Subversion são maiores em escopo,
+          incluindo operações de alto nível, como fazer
+          modificações em um conjunto de arquivos e diretórios os quais serão
+          armazenados como a próxima revisão da árvore do sistema de
+          arquivos. Como se já não fosse confuso o suficiente, considere o fato
+          de que o Subversion usa uma transação de banco de dados durante a
+          criação de uma transação Subversion (de modo que, se a
+          criação da transação do Subversion falhar, o banco de dados
+          ficará como se nunca tivéssemos tentado esta criação no primeiro
+          local)!</para>
 
-	<para>Felizmente para os usuários da API do sistema de arquivos,
-	    o suporte à transação provido pelo sistema de banco de dados
-	    é encondido quase totalmente de vista (como é esperado
-	    de um esquema de bibliotecas modularizadas). Apenas
-	    quando você começa a procurar dentro da implementação do 
-	    sistema de arquivos que essas coisas começam a ficar 
-	   visível (ou interessante).</para>
+        <para>Felizmente para os usuários da API de sistema de arquivos, o
+          suporte a transação provido pelo sistema de banco de dados
+          está quase totalmente escondido para exibição (como seria esperado
+          de um esquema de bibliotecas devidamente modularizadas). Apenas
+          quando você começa a procurar dentro da implementação do
+          próprio sistema de arquivos que essas coisas começam a ficar visíveis (ou
+          interessantes).</para>
 
       </sidebar>
 
