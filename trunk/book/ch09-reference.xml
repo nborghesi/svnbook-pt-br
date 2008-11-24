@@ -3,7 +3,7 @@
   
   <para>Este capítulo tem a intenção de ser uma referência completa
       para o uso do Subversion. Ele inclui o comando (<command>svn</command>)
-      e todos os seus sub-comandos, assim como programas de administração
+      e todos os seus subcomandos, assim como programas de administração
       de repositório (<command>svnadmin</command> e <command>svnlook</command>)
       e seus respectivos sub-comandos.</para>
   
@@ -87,7 +87,7 @@ $ svn status -v meuarquivo
             <para>Especifica um programa externo a ser usado para exibir
               diferenças entre arquivos.  Quando <command>svn
               diff</command> é invocado sem esta opção, ele usa o
-              mecanismo de diff interno do Subversion, que exib diffs
+              mecanismo de diff interno do Subversion, que exibe diffs
               unificados por padrão.  Se você quiser usar um programa
               diff externo, use <option>--diff-cmd</option>.  Você pode
               passar opções para o programa diff com a opção 
@@ -147,7 +147,7 @@ $ svn status -v meuarquivo
             <para>Especifica um argumento ou argumentos que o Subversion
               deve passar para um comando diff externo.  Esta opção é
               valida apenas quando usada com os comando <command>svn
-              diff</command> or <command>svn merge</command>, com a
+              diff</command> ou <command>svn merge</command>, com a
               opção <option>--diff-cmd</option>.  Se você quiser passar
               argumentos múltiplos, você deve delimitá-los todos entre
               aspas duplas (por exemplo, <command>svn diff --diff-cmd
@@ -175,7 +175,7 @@ $ svn status -v meuarquivo
           <listitem>
             <para>Força a execução de um comando ou operação
               específicos.  Há algumas operações em que o Subversion irá
-              impedí-lo de prosseguir, em sua utilização normal, mas você
+              impedi-lo de prosseguir, em sua utilização normal, mas você
               pode passar a opção force para dizer ao Subversion
               <quote>Eu sei o que estou fazendo, bem como as possíveis
               consequências disto, então deixe-me fazê-lo</quote>.  Esta
@@ -214,7 +214,7 @@ $ svn status -v meuarquivo
           </term>
           <listitem>
             <para>Se usado com um ou mais subcomandos, mostra o texto de
-              ajuda pré-existente para cada subcomando.  Se usado
+              ajuda preexistente para cada subcomando.  Se usado
               sozinho, exibe o texto de ajuda geral para o cliente
               Subversion.</para>
           </listitem>
@@ -334,7 +334,7 @@ $ svn commit -m "Eles não fazem isso no domingo."
         <varlistentry>
           <term><option>--no-unlock</option></term>
           <listitem>
-            <para>Não destava arquivos automaticamente (o comportamento
+            <para>Não destrava arquivos automaticamente (o comportamento
               padrão é destravar todos os arquivos listados como parte
               de um commit).  Veja <xref
               linkend="svn.advanced.locking"/> para mais
@@ -653,7 +653,7 @@ A         otherdir
             controle de versão.  Algumas vezes, no entanto, você pode
             querer adicionar quaisquer objetos não-versionados em sua
             cópia de trabalho, incluindo os que estiverem escondidos
-            mais produndamente na árvore de diretórios.  Passar a opção 
+            mais profundamente na árvore de diretórios.  Passar a opção 
             <option>--force</option> faz com que o <command>svn
             add</command> aja recursivamente também nos diretórios
             versionados:
@@ -774,7 +774,7 @@ $ svn blame http://svn.red-bean.com/repos/test/readme.txt
             5, você terá de verificar exatamente o que a revisão mudou
             para ter certeza de que Harry tenha mudado o
             <emphasis>context</emphasis> da linha&mdash;ele pode ter
-            apenas ajustad espaços em branco, p.ex.
+            apenas ajustado espaços em branco, p.ex.
           </para>
         </refsect1>
       </refentry>
@@ -928,7 +928,7 @@ Latest revision fresh from the repository!
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Carrega um acópia de trabalho dentro de subdiretório
+          <para>Carrega uma cópia de trabalho dentro de subdiretório
             chamado <filename>mine</filename>:</para>
 
           <screen>
@@ -956,7 +956,7 @@ quiz  test
 </screen>
 
           <para>Carrega dois diretórios diferentes para duas cópias de
-            trabalho separadas, mas pôe ambas dentro de um diretório
+            trabalho separadas, mas põe ambas dentro de um diretório
             chamado <filename>working-copies</filename>:</para>
 
           <screen>
@@ -1188,7 +1188,7 @@ Committed revision 3.
 
           <para>Submete uma modificação no arquivo
             <filename>foo.c</filename> (explicitamente especificado na
-            linha de comando) com a mensagem de log contina em um
+            linha de comando) com a mensagem de log contida em um
             arquivo chamado <literal>msg</literal>:</para>
 
           <screen>
@@ -1801,7 +1801,7 @@ Index: COMMITTERS
 
           <para>Use <option>--diff-cmd</option>
             <replaceable>CMD</replaceable> <option>-x</option> para
-            passar argumentos dirtamente para o programa diff
+            passar argumentos diretamente para o programa diff
             externo</para>
           
           <screen>
@@ -2063,7 +2063,7 @@ Exported revision 15.
             <filename>trunk/misc</filename> em seu repositório.  O
             diretório <filename>trunk/misc</filename> não precisa
             existir antes da operação&mdash;<command>svn
-            import</command> irá criár diretórios recursivamente para
+            import</command> irá criar diretórios recursivamente para
             você.</para>
 
           <screen>
@@ -2576,7 +2576,7 @@ $ svn lock http://svn.red-bean.com/repos/test/tree.jpg
 
           <para>Você pode ver as mensagens de log para todos os caminhos
             que sofreram alterações em sua cópia de trabalho, executando
-            <command>svn log</command> a partir da raíz da mesma:</para>
+            <command>svn log</command> a partir da raiz da mesma:</para>
 
           <screen>
 $ svn log
@@ -2678,7 +2678,7 @@ r27 | &hellip;
 ------------------------------------------------------------------------
 </screen>
 
-          <para>Você pode evitar a bangunça das duplas linhas tracejadas
+          <para>Você pode evitar a bagunça das duplas linhas tracejadas
             em sua saída usando a opção incremental:</para>
 
 
@@ -2715,7 +2715,7 @@ $ svn log -r 20 http://svn.red-bean.com/untouched.txt
 
             <para>Isto apenas significa que aquele caminho não foi
               modificado naquela revisão.  Se você obtiver o log a
-              partir da raíz do repositório, ou souber o arquivo que foi
+              partir da raiz do repositório, ou souber o arquivo que foi
               alterado naquela revisão, você pode especificá-lo
               explicitamente:</para>
             
@@ -2902,12 +2902,12 @@ U  thhgttg.txt
 
         <refsect1>
           <title>Altera</title>
-          <para>Working copy, repository if operating on a URL</para>
+          <para>Cópia de trabalho, repositório se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
           <title>Acessa o Repositório</title>
-          <para>Only if operating on a URL</para>
+          <para>Apenas se executando sobre uma URL</para>
         </refsect1>
 
         <refsect1>
@@ -3248,7 +3248,7 @@ Set new value for property 'svn:keywords' on 'foo.c'
             versionada de um item ou itens em sua cópia de trabalho,
             enquanto que a segunda exibe propriedades remotas
             não-versionadas em uma revisão de repositório.  Veja <xref
-            linkend="svn.advanced.props"/> para mais informaçoes sobre
+            linkend="svn.advanced.props"/> para mais informações sobre
             propriedades.</para>
         </refsect1>
 
@@ -3418,12 +3418,12 @@ Properties on 'foo.c':
 
           <para>Define <replaceable>PROPNAME</replaceable> para
             <replaceable>PROPVAL</replaceable> em arquivos, diretórios,
-            ou revisões files, directories, or revisions.  O primeiro
-            exemplo cria uma modificação numa propriedade local,
-            versionada, na cópia de trabalho; e o segundo cria uma
-            modificação numa propriedade remota, não-versionada, em uma
-            revisão de repositório (<replaceable>TARGET</replaceable>
-            apenas determina que repositório acessar).</para>
+            ou revisões.  O primeiro exemplo cria uma modificação numa
+            propriedade local, versionada, na cópia de trabalho; e o
+            segundo cria uma modificação numa propriedade remota,
+            não-versionada, em uma revisão de repositório
+            (<replaceable>TARGET</replaceable> apenas determina que
+            repositório acessar).</para>
 
           <tip>
             <para>O Subversion tem um conjunto de propriedades
@@ -3562,7 +3562,7 @@ property 'owner-pic' set on 'moo.c'
             resolve marcadores de conflito semanticamente; ele apenas
             remove os arquivos auxiliares relacionados ao conflito e
             permite que o <replaceable>PATH</replaceable> possa ser
-            submetido novamente; isto é, ele informa ao Subevrsion que
+            submetido novamente; isto é, ele informa ao Subversion que
             o conflito foi <quote>resolvido</quote>.  Leia <xref
             linkend="svn.tour.cycle.resolve"/> para uma visão mais
             aprofundada sobre resolução de conflitos.</para> </refsect1>
@@ -3724,7 +3724,7 @@ $ svn status
 </screen>
 
           <warning>
-            <para>O <command>svn revert</command> instrinsecamente
+            <para>O <command>svn revert</command> intrinsecamente
               perigoso, já que todo o seu propósito é descartar
               dados&mdash;especificamente, modificações não submetidas
               ao repositório.  Uma vez que você tenha feito uma
@@ -3764,14 +3764,14 @@ $ svn status
 
           <para>Exibe informação sobre o estado de arquivos e diretórios
             na cópia de trabalho.  Sem argumentos, o comando exibe
-            apenas os items modificados localmente (sem acesso ao
+            apenas os itens modificados localmente (sem acesso ao
             repositório).  Com <option>--show-updates</option>, ele
             adiciona informação sobre a revisão de trabalho e
             informações defasadas de servidor.  Com
             <option>--verbose</option>, exibe informações completas
             sobre revisão de cada item.</para>
 
-          <para>As primeiras seis colunas na saída têm um caracter de
+          <para>As primeiras seis colunas na saída têm um caractere de
             largura cada, e cada coluna lhe dá informação sobre
             diferentes aspectos de cada item na cópia de
             trabalho.</para>
@@ -3932,14 +3932,14 @@ $ svn status
             <varlistentry>
               <term>' '</term>
               <listitem>
-                <para>O histório não está agendado para submissão.</para>
+                <para>O histórico não está agendado para submissão.</para>
               </listitem>
             </varlistentry>
             
             <varlistentry>
               <term>'+'</term>
               <listitem>
-                <para>O histório está agendado para submissão.</para>
+                <para>O histórico está agendado para submissão.</para>
               </listitem>
             </varlistentry>
 
@@ -4042,7 +4042,7 @@ $ svn status
             <varlistentry>
               <term>'*'</term>
               <listitem>
-                <para>Uma nova resivão do item existe no servidor.</para>
+                <para>Uma nova revisão do item existe no servidor.</para>
               </listitem>
             </varlistentry>
 
@@ -4453,7 +4453,7 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
             trabalho.</para>
 
           <para>Para cada item atualizado, o comando exibe uma linha que
-            inicia com um caracter informando a ação tomada.  Estes
+            inicia com um caractere informando a ação tomada.  Estes
             caracteres têm o seguinte significado:</para>
 
           <variablelist>
@@ -4495,7 +4495,7 @@ $ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
 
           </variablelist>
 
-          <para>Um caracter na primeira coluna significa uma atualização
+          <para>Um caractere na primeira coluna significa uma atualização
             no arquivo atual, que atualizou as propriedades do arquivo
             mostradas na segunda coluna.</para>
         </refsect1>
