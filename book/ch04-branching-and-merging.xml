@@ -1457,7 +1457,7 @@ Committed revision 350.
 
       <para>O grande ponto sobre sistemas de controle de versão é que a
         informação nunca é perdida.  Mesmo quando você exclui um arquivo
-        ou diretório, ele pode ser trazido de volta à revisão
+        ou diretório, ele pode até não estar mais presente na revisão
         <literal>HEAD</literal>, mas o objeto ainda existe nas revisões
         mais antigas.  Uma das questões mais comuns que novos usuários
         se perguntam é, <quote>Como eu faço para obter meu arquivo ou
