@@ -1318,21 +1318,22 @@ Committed revision 481.
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.commonuses.undo">
-      <title>Undoing Changes</title>
+      <title>Desfazendo Alterações</title>
 
-      <para>Another common use for <command>svn merge</command> is to
-        roll back a change that has already been committed.  Suppose
-        you're working away happily on a working copy of
-        <filename>/calc/trunk</filename>, and you discover that the
-        change made way back in revision 303, which changed
-        <filename>integer.c</filename>, is completely wrong.  It never
-        should have been committed.  You can use <command>svn
-        merge</command> to <quote>undo</quote> the change in your
-        working copy, and then commit the local modification to the
-        repository.  All you need to do is to specify a
-        <emphasis>reverse</emphasis> difference.  (You can do this by
-        specifying <option>--revision 303:302</option>, or by an
-        equivalent <option>--change -303</option>.)</para>
+      <para>Outro uso comum do <command>svn merge</command> é para
+        desfazer uma modificação que já foi submetida ao repositório.
+        Suponha que você esteja trabalhando alegremente na cópia de
+        trabalho de <filename>/calc/trunk</filename>, e você descobre
+        que a modificação que havia sido feita na revisão 303, que
+        modificou o arquivo <filename>integer.c</filename>, está
+        completamente errada.  E que ela nunca deveria ter acontecido,
+        nem tampouco submetida.  Você pode usar o <command>svn
+        merge</command> para <quote>desfazer</quote> a modificação em
+        cópia de trabalho, e então submeter a modificação local para o
+        repositório.  Tudo o que você precisa fazer é especificar uma
+        diferença <emphasis>reversa</emphasis>.  (Você pode fazer isto
+        especificando <option>--revision 303:302</option>, ou também o
+        equivalente <option>--change -303</option>.)</para>
 
 
       <screen>
@@ -1353,85 +1354,98 @@ Transmitting file data .
 Committed revision 350.
 </screen>
 
-      <para>One way to think about a repository revision is as a
-        specific group of changes (some version control systems call
-        these <firstterm>changesets</firstterm>).  By using the
-        <option>-r</option> option, you can ask <command>svn
-        merge</command> to apply a changeset, or whole range of
-        changesets, to your working copy.  In our case of undoing a
-        change, we're asking <command>svn merge</command> to apply
-        changeset #303 to our working copy
-        <emphasis>backwards</emphasis>.</para>
+      <para>Uma maneira de pensar o repositório é como um grupo
+        específico de modificações (alguns sistemas de controle de
+        versão chamam a isto de <firstterm>conjuntos de
+        mudanças</firstterm> ou
+        <foreignphrase>changesets</foreignphrase>).  Usando a opção
+        <option>-r</option>, você pode solicitar que o <command>svn
+        merge</command> aplique um conjunto de mudanças, ou um intervalo
+        inteiro de conjuntos de mudanças, à sua cópia de trabalho.  Em
+        nosso caso em questão, como queremos desfazer uma mudança,
+        estamos solicitando que o <command>svn merge</command> aplique o
+        conjunto de mudanças #303
+        <emphasis>retrospectivamente</emphasis> de volta à nossa cópia
+        de trabalho.</para>
 
       <sidebar>
-        <title>Subversion and Changesets</title>
+        <title>Subversion e os Conjuntos de Mudanças</title>
 
-        <para>Everyone seems to have a slightly different definition
-          of <quote>changeset</quote>, or at least a different
-          expectation of what it means for a version control system to
-          have <quote>changeset features</quote>.  For our purpose,
-          let's say that a changeset is just a collection of changes
-          with a unique name.  The changes might include textual edits
-          to file contents, modifications to tree structure, or tweaks
-          to metadata.  In more common speak, a changeset is just a
-          patch with a name you can refer to.</para>
+        <para>Cada um parece ter uma definição ligeiramente diferente do
+          que seja um <quote>conjunto de mudanças</quote>, ou ao menos
+          diferentes expectativas sobre o que significa um sistema de
+          controle de versão possuir <quote>recursos para lidar com
+          conjuntos de mudanças</quote>.  Para nosso propósito, digamos
+          que um conjunto de mudança seja apenas uma porção de
+          alterações associadas a um nome único.  As alterações podem
+          incluir modificações textuais ao conteúdo de arquivos,
+          mudanças em uma estrutura de árvore, ou ajustes em metadados.
+          Falando de uma forma mais geral, um conjunto de mudanças é
+          apenas um <foreignphrase>patch</foreignphrase> com um nome a
+          partir do qual você pode se referir.</para>
 
-        <para>In Subversion, a global revision number N names a tree
-          in the repository: it's the way the repository looked after
-          the Nth commit.  It's also the name of an implicit
-          changeset: if you compare tree N with tree N-1, you can
-          derive the exact patch that was committed.  For this reason,
-          it's easy to think of <quote>revision N</quote> as not just
-          a tree, but a changeset as well.  If you use an issue
-          tracker to manage bugs, you can use the revision numbers to
-          refer to particular patches that fix bugs&mdash;for example,
-          <quote>this issue was fixed by revision 9238.</quote>.
-          Somebody can then run <command>svn log -r9238</command> to
-          read about the exact changeset which fixed the bug, and run
-          <command>svn diff -c 9238</command> to see the patch
-          itself.  And Subversion's <literal>merge</literal> command
-          also uses revision numbers.  You can merge specific changesets
-          from one branch to another by naming them in the merge
-          arguments: <command>svn merge -r9237:9238</command> would
-          merge changeset #9238 into your working copy.</para>
+        <para>No Subversion, um número global de revisão N nomeia uma
+          árvore no repositório: é a forma como o repositório se parece
+          após a N-ésima submissão.  É também o nome de um conjunto de
+          mudanças implícito: se você compara a árvore N com a árvore
+          N-1, você pode derivar o patch exato que foi submetido.  Por
+          esta razão, é fácil pensar que a <quote>revisão N</quote> não
+          é apenas uma árvore, mas um conjunto de mudanças também.  Se
+          você usar algum sistema de tíquetes (ou <foreignphrase>issue
+          tracker</foreignphrase>) para gerenciar bugs, você pode usar
+          os números de revisão para se referir a patches específicos
+          que corrigem determinados bugs&mdash;por exemplo, <quote>a
+          demanda deste tíquete foi corrigida na revisão 9238.</quote>.
+          Alguém pode então executar <command>svn log -r9238</command>
+          para ler exatamente sobre o conjunto de mudanças que
+          corrigiram o bug, e executar <command>svn diff -c
+          9238</command> para ver a correção em si.  E o comando
+          <literal>merge</literal> do Subversion também usa números de
+          revisão.  Você pode mesclar conjuntos de mudança específicos a
+          partir de um ramo para outro discriminando-os nos argumentos
+          do comando merge: <command>svn merge -r9237:9238</command>
+          deve incorporar o conjunto de mudanças #9238 à sua cópia de
+          trabalho.</para>
       </sidebar>
 
-      <para>Keep in mind that rolling back a change like this is just
-        like any other <command>svn merge</command> operation, so you
-        should use <command>svn status</command> and <command>svn
-        diff</command> to confirm that your work is in the state you
-        want it to be in, and then use <command>svn commit</command>
-        to send the final version to the repository.  After
-        committing, this particular changeset is no longer reflected
-        in the <literal>HEAD</literal> revision.</para>
+      <para>Tenha em mente que voltar uma mudança como neste caso é uma
+        operação de <command>svn merge</command> como outra qualquer,
+        então você deveria usar <command>svn status</command> e
+        <command>svn diff</command> para confirmar que seu trabalho
+        esteja no estado em que você quer que esteja, e então usar
+        <command>svn commit</command> para enviar a versão final para o
+        repositório.  Depois de submetido, este conjunto de mudanças em
+        particular não estará mais refletido na revisão
+        <literal>HEAD</literal>.</para>
 
-      <para>Again, you may be thinking: well, that really didn't undo
-        the commit, did it?  The change still exists in revision 303.
-        If somebody checks out a version of the
-        <filename>calc</filename> project between revisions 303 and
-        349, they'll still see the bad change, right?</para>
+      <para>Novamente, você pode estar pensando: bem, isto não desfaz
+        exatamente a submissão, não é?  A modificação ainda existe na
+        revisão 303.  Se alguém obtiver uma versão do projeto
+        <filename>calc</filename> entre as revisões 303 e 349, elas
+        ainda conterão a tal modificação incorreta, certo?</para>
 
-      <para>Yes, that's true.  When we talk about
-        <quote>removing</quote> a change, we're really talking about
-        removing it from <literal>HEAD</literal>.  The original change
-        still exists in the repository's history.  For most
-        situations, this is good enough.  Most people are only
-        interested in tracking the <literal>HEAD</literal> of a
-        project anyway.  There are special cases, however, where you
-        really might want to destroy all evidence of the commit.
-        (Perhaps somebody accidentally committed a confidential
-        document.)  This isn't so easy, it turns out, because
-        Subversion was deliberately designed to never lose
-        information.  Revisions are immutable trees which build upon
-        one another.  Removing a revision from history would cause a
-        domino effect, creating chaos in all subsequent revisions and
-        possibly invalidating all working copies.
+      <para>Sim, isto é verdade.  Quando nós falamos sobre
+        <quote>remover</quote> uma modificação, estávamos realmente
+        falando sobre removê-la da revisão <literal>HEAD</literal>.  A
+        modificação original ainda existirá no histórico do repositório.
+        Na maioria das situações, isto é o suficiente.  Afinal, a
+        maioria das pessoas estão apenas interessadas em rastrear a
+        revisão <literal>HEAD</literal> de um projeto.  Porém, há alguns
+        casos especiais onde você realmente pode querer destruir todas
+        as evidências da submissão errônea.  (Talvez alguém submetido
+        acidentalmente um documento confidencial.)  Isto não é tão
+        fácil de se fazer, pois o Subversion foi desenvolvido
+        deliberadamente para nunca perder informação.  As revisões são
+        árvores imutáveis as quais são construídas umas a partir das
+        outras.  Remover uma revisão do histórico deveria causar um
+        efeito dominó, criando o caos em todas as revisões subsequentes
+        e possivelmente invalidando todas as cópias de trabalho.
         <footnote>
-          <para>The Subversion project has plans, however, to someday
-            implement a command that would accomplish the task of
-            permanently deleting information.  In the meantime, see
-            <xref linkend="svn.reposadmin.maint.tk.svndumpfilter"/>
-            for a possible workaround.</para>
+          <para>Entretanto, o projeto Subversion tem planos de, algum
+            dia, implementar um comando que possa cumprir a tarefa de
+            excluir permanentemente alguma informação.  Enquanto isso,
+            veja <xref linkend="svn.reposadmin.maint.tk.svndumpfilter"/>
+            para uma possível solução.</para>
         </footnote>
       </para>
 
@@ -2610,8 +2624,8 @@ $ svn_load_dirs.pl -t libcomplex-1.1                              \
     <para>Lembre-se do mantra do Subversion: ramos <foreignphrase>branches</foreignphrase>
 	e rótulos <foreignphrase>tags</foreignphrase> são baratos. Então use-os livremente!
 	Ao mesmo tempo, não esqueça de usar bons hábitos de fusão 
-	<foreignphrase>merge</foreignphrase>. Copias baratas são úteis apenas quando você
-	é cuidadoso ao rastrear suas fusões<foreignphrase>merges</foreignphrase>.</para> 
+	<foreignphrase>merge</foreignphrase>. Cópias baratas são úteis apenas quando você
+	é cuidadoso ao rastrear suas fusões <foreignphrase>merges</foreignphrase>.</para> 
 
   </sect1>
 
