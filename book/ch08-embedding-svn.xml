@@ -272,70 +272,68 @@
 
       </sidebar>
 
-      <para>A maioria das funcionalidades providas pela interface 
-	  dos sitema de arquivos lida com ações que ocorrem em 
-	  caminhos de sistema de arquivos individuais. Isto é,
-	  de fora do sistema de arquivos, o mecanismo primário
-	  para descrever e acessar as revisões individuais de 
-	  arquivos e diretórios que veem do uso de string de 
-	  caminhos como <filename>/foo/bar</filename>, como se
-	  você estivesse endereçando arquivos e diretórios através
-	  do seu programa shell favorito. Você adiciona novos
-	  arquivos e diretórios passando o futuro caminho 
-	  para as funções certas da API. Você requisita uma informação
-	  sobre eles pelo menos mecanismo.</para>
+      <para>A maioria das funcionalidades providas pela interface
+        de sitema de arquivos lida com ações que ocorrem em caminhos de
+        sistema de arquivos individuais.  Isto é, de fora do sistema de arquivos, o
+        mecanismo primário para descrever e acessar as revisões
+        individuais de arquivos e diretórios vem através do uso de
+        de caminhos como <filename>/foo/bar</filename>, como se
+        você estivesse endereçando arquivos e diretórios através de seu
+        programa de terminal favorito.  Você adiciona novos arquivos e diretórios
+        passando seus futuros caminhos para as funções certas da API.  Você
+        requisita informações sobre eles pelo mesmo mecanismo.</para>
 
-      <para>Ao contrário de muitos sistemas de arquivos, entrentanto, 
-	  um cmainho sozinho não é informação suficiente para identificar
-	  um arquivo ou diretório no Subversion. Pense na árvore de 
-	  diretório como uma sistema de duas dimensões, onde um 
-	  nodo irmão representa um conjunto de movimentos direita-esquerda,
-	  e descendendo nos sub-diretórios em um movimento de descida.<xref
-	      linkend="svn.developer.layerlib.repos.dia-1"/> mostrando uma
-	  típica representação de uma árvore exatemente assim.</para>
+      <para>Ao contrário de muitos sistemas de arquivos, entrentanto, um caminho sozinho não é
+        informação suficiente para identificar um arquivo ou diretório no
+        Subversion. Pense na árvore de diretórios como um sistema de duas
+        dimensões, onde um irmão de um nó representa uma espécie de
+        movimento horizontal, e descendo nos subdiretórios um
+        movimento vertical.  <xref
+        linkend="svn.developer.layerlib.repos.dia-1"/> mostra uma
+        típica representação de uma árvore exatemente assim.</para>
 
       <figure id="svn.developer.layerlib.repos.dia-1">
         <title>Arquivos e diretórios em duas dimensões</title>
         <graphic fileref="images/ch08dia1.png"/>
       </figure>
 
-      <para>A diferença aqui é que o sistema de arquivos Subversion tem
-	  uma brilhante terceira dimensão que muitos sistemas de aquivo
-	  não tem&mdash;Tempo!
+      <para>A diferença aqui é que o sistema de arquivos Subversion tem uma
+        brilhante terceira dimensão que muitos sistemas de aquivos não
+        possuem&mdash;Tempo!
         <footnote>
-	    <para>Nós entendemos que isso é um shock para fans de ficção
-		científica que tem a impressão que tempo é na verdade
-		a <emphasis>quarta</emphasis> dimensão, e nos desculpamos
-		pelo trauma emocional causado pela nossa declaração
-		de uma teoria diferente.</para>
+          <para>Nós entendemos que isso pode ser um choque para os fãs de ficção
+          científica que estão a muito tempo sob a impressão de que Tempo é
+          na verdade a <emphasis>quarta</emphasis> dimensão, e nós pedimos
+          desculpamos por qualquer trauma emocional causado por nossa
+          declaração de uma teoria diferente.</para>
         </footnote>
-	Numa interface de sistema de arquivos, quase toda função que tem
-	um <parameter>caminho</parameter> como argumento também espera uma
-	<parameter>raíz</parameter> como arguemnto. Este argumento
-	<structname>svn_fs_root_t</structname> descreve tanto
-	a revisão ou a transação Subversion (que é simplesmente uma
-	--FIXME-- revision-in-the-making), e provê essa terceira 
-	dimensão necessário para entender a diferença entre 
-	<filename>/foot/bar</filename> na revisão 32, e o mesmo 
-	caminho como ele existe na revisão 98.<xref
-	    linkend="svn.developer.layerlib.repos.dia-2"/> mostra
-	o histórico de revisão como uma dimensão adicional ao 
-	universo do sistema de arquivos Subversion.</para>
+        Na interface de sistema de arquivos, quase toda função que tem um
+        um argumento <parameter>path</parameter> também espera um
+        argumento <parameter>root</parameter>. Este argumento
+        <structname>svn_fs_root_t</structname> descreve tanto
+        uma revisão quanto uma transação do Subversion (que é simplesmente
+        uma revisão em formação), e oferece esse contexto de terceira
+        dimensão necessário para entender a diferença entre
+        <filename>/foot/bar</filename> na revisão 32, e o mesmo
+        caminho existente na revisão 98.  A <xref
+        linkend="svn.developer.layerlib.repos.dia-2"/> mostra o histórico
+        de revisões como uma dimensão adicional no universo do sistema de
+        arquivos Subversion.</para>
 
       <figure id="svn.developer.layerlib.repos.dia-2">
-        <title>Versioning time&mdash;the third dimension!</title>
+        <title>Versionando o tempo&mdash;a terceira dimensão!</title>
         <graphic fileref="images/ch08dia2.png"/>
       </figure>
 
-      <para>Como mencionado anteriormente, a API libsvn_fs parece 
-	  qualquer outro sistema de arquivos, exceto que ele tem 
-	  essa maravilhosa capacidade de versionamento. Ele foi desenhado
-	  para ser usável por qualquer programa interessado em 
-	  versionar arquivos. Não coincidentemente, o próprio
-	  Subversion tem interesse nessa funcionalidade. Mas
-	  enquanto a API do sistema de arquivos deveria ser 
-	  suficiente para suporte básico de arquivos e diretórios,
-	  Subversion quer mais&mdash;e é aí que entra a libsvn_repos.</para>
+      <para>Como mencionado anteriormente, a API de libsvn_fs parece como
+        qualquer outro sistema de arquivos, exceto que ele tem essa maravilhosa
+        capacidade de versionamento. Ela foi projetada para ser usável por qualquer
+        programa interessado em um sistema de arquivos com cersionamento. Não
+        coincidentemente, o próprio Subversion tem interesse nessa
+        funcionalidade. Mas enquanto a API do sistema de arquivos deveria ser
+        suficiente para suporte básico em versionamento de arquivos e
+        diretórios, o Subversion quer mais&mdash;e é aí que aparece a
+        libsvn_repos.</para>
 
       <para>A biblioteca de respositório Subversion (libsvn_repos)
 	  está sentada (logicamente falando) no topo da API
