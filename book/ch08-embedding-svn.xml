@@ -273,7 +273,7 @@
       </sidebar>
 
       <para>A maioria das funcionalidades providas pela interface
-        de sitema de arquivos lida com ações que ocorrem em caminhos de
+        de sistema de arquivos lida com ações que ocorrem em caminhos de
         sistema de arquivos individuais.  Isto é, de fora do sistema de arquivos, o
         mecanismo primário para descrever e acessar as revisões
         individuais de arquivos e diretórios vem através do uso de
@@ -283,14 +283,14 @@
         passando seus futuros caminhos para as funções certas da API.  Você
         requisita informações sobre eles pelo mesmo mecanismo.</para>
 
-      <para>Ao contrário de muitos sistemas de arquivos, entrentanto, um caminho sozinho não é
+      <para>Ao contrário de muitos sistemas de arquivos, entretanto, um caminho sozinho não é
         informação suficiente para identificar um arquivo ou diretório no
         Subversion. Pense na árvore de diretórios como um sistema de duas
         dimensões, onde um irmão de um nó representa uma espécie de
         movimento horizontal, e descendo nos subdiretórios um
         movimento vertical.  <xref
         linkend="svn.developer.layerlib.repos.dia-1"/> mostra uma
-        típica representação de uma árvore exatemente assim.</para>
+        típica representação de uma árvore exatamente assim.</para>
 
       <figure id="svn.developer.layerlib.repos.dia-1">
         <title>Arquivos e diretórios em duas dimensões</title>
@@ -298,7 +298,7 @@
       </figure>
 
       <para>A diferença aqui é que o sistema de arquivos Subversion tem uma
-        brilhante terceira dimensão que muitos sistemas de aquivos não
+        brilhante terceira dimensão que muitos sistemas de arquivos não
         possuem&mdash;Tempo!
         <footnote>
           <para>Nós entendemos que isso pode ser um choque para os fãs de ficção
@@ -328,66 +328,62 @@
       <para>Como mencionado anteriormente, a API de libsvn_fs parece como
         qualquer outro sistema de arquivos, exceto que ele tem essa maravilhosa
         capacidade de versionamento. Ela foi projetada para ser usável por qualquer
-        programa interessado em um sistema de arquivos com cersionamento. Não
+        programa interessado em um sistema de arquivos com versionamento. Não
         coincidentemente, o próprio Subversion tem interesse nessa
         funcionalidade. Mas enquanto a API do sistema de arquivos deveria ser
         suficiente para suporte básico em versionamento de arquivos e
         diretórios, o Subversion quer mais&mdash;e é aí que aparece a
         libsvn_repos.</para>
 
-      <para>A biblioteca de respositório Subversion (libsvn_repos)
-	  está sentada (logicamente falando) no topo da API
-	  libsvn_fs, provendo funcionalidades adicionais além 
-	  das frisadas pelo versionamenteo logico do sistema de
-	  arquivos. Não contém completamente cada uma de todas
-	  as funções de um sistema de arquivos&mdash;apenas
-	  alguns grades passos no ciclo geral da atividade 
-	  de um sistema de arquivos é contida pela interface
-	  do respositório. Algumas dessas incluem a criação
-	  e commit de transações Subversion, e as modificações
-	  de propriedades de revisão. Esses eventos particulares
-	  estão contidos na camada de repositório porque eles tem
-	  --FIXME-- hooks associados a eles. Um --FIXME-- respository
-	  hook system não está restritamente relacionado a implemnentação
-	  de um sistema de arquivos relacionados, então ele fica 
-	  contido na biblioteca de repositório</para>
+      <para>A biblioteca de repositório Subversion (libsvn_repos) está
+        sentada (logicamente falando) no topo da API de libsvn_fs, provendo
+        funcionalidades adicionais além daquelas essenciais à
+        lógica do sistema de arquivos versionado.  Ela não cobre completamente
+        todas as funções de um sistema de arquivos&mdash;apenas alguns passos maiores
+        no ciclo geral de atividade do sistema de arquivos são cobertas pela
+        interface de repositório.  Algumas dessas incluem a criação e
+        submissão de transações Subversion, e a modificação de
+        propriedades de revisão.  Esses eventos particulares são cobertos pela
+        na camada de repositório porque possuem ganchos associados a
+        eles. Um sistema de ganchos de repositório não está estritamente relacionado à
+        implementação de um sistema de arquivos com versionamento, então ele fica na
+        biblioteca de cobertura do repositório</para>
       
-      <para>--FIXME--The hooks mechanism é uma das razões para a 
-	  abstração da separação da biblioteca de respositório
-	  do resto do código do sistema de arquivo. A API libsvn_repos
-	  provê muitas utilidades importantes para o Subversion. Isso 
-	  inclui habilidades para:</para>
+      <para>Não obstante, o mecanismo de ganchos é uma das razões para a
+        abstração de uma biblioteca de repositório separada do restante do
+        código do sistema de arquivo. A API de libsvn_repos oferece muitas
+        outras utilidades importantes ao Subversion. Isso inclui as
+        habilidades para:</para>
 
       <itemizedlist>
         <listitem>
-	    <para>criar, abrir, destruir, e recuperar passos no 
-		respositório Subversion e o sistema de arquivos 
-		incluido nesse respositório.</para>
+          <para>criar, abrir, destruir, e recuperar passos em um
+            repositório Subversion e o sistema de arquivos incluído nesse
+            repositório.</para>
         </listitem>
         <listitem>
-	    <para>descrever a diferença entre duas árovres de 
-		sistema de arquivos.</para>
+          <para>descrever as diferenças entre duas árvores de
+            sistema de arquivos.</para>
         </listitem>
         <listitem>
-	    <para>requisitar ao log de messagens do commit associados
-		a todas (ou algumas) das revisões nas quais um conjunto
-		de arquivos foi modificado no sistema de arquivos.</para>
+          <para>consultar as mensagens de log das submissões associadas com todas
+            (ou algumas) das revisões nas quais um conjunto de arquivos foi
+            modificado no sistema de arquivos.</para>
         </listitem>
         <listitem>
-	    <para>gerar um <quote>dump</quote> compreensível ao ser humano
-		do sistema de arquivos, uma completa representação da
-		revisão do sitema de arquivos.</para>
+          <para>gerar um <quote>despejo</quote> do sistema de arquivos que seja
+            legível ao ser humano, uma completa representação das revisões no
+            sistema de arquivos.</para>
         </listitem>
         <listitem>
-	    <para>--FIXME--parse that dump, carregando a revisão dumped
-		no repositório Subversion diferente.</para>
+          <para>analisar este formato de despejo, carregando as revisões despejadas
+            dentro de um repositório Subversion diferente.</para>
         </listitem>
       </itemizedlist>
 
-      <para>Como o Subversion coninua a evoluir, a biblioteca de 
-	  repositório irá crescer com a biblioteca de sistema de 
-	  arquivos para oferecer um número crescente de funcionalidades
-	  e opções de configuração.</para>
+      <para>Como o Subversion continua a evoluir, a biblioteca de repositório
+        repositório crescerá com a biblioteca de sistema de arquivos para oferecer
+        um número crescente de funcionalidades e opções de configuração.</para>
 
     </sect2>
 
