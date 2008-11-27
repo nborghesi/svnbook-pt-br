@@ -391,29 +391,29 @@
     <sect2 id="svn.developer.layerlib.ra">
       <title>Camada de Acesso ao Repositório</title>
 
-      <para>Se a Camada de Repositório do Subversion está <quote>
-      do outro lado da linha</quote>, a Camada de Accesso (RA)
-      está na linha. Carregado com dados--FIXME--marshaling entre as bibliotecas
-      de clientes e o respositório, esta camada inclue o módulo 
-      carregamento de bibliotecas libsvn_ra, os módulos RA mesmos 
-      (que normalmente incluem libsvn_ra_dav, libsvn_ra_local, 
-      libsvn_ra_serf, e libsvn_ra_svn), e qualquer biblioteca
-      adicional necessária por um ou mais dos módulos RA (assim como
-      o  módulo Apache mod_dav_svn ou servidor do libsvn_ra_svn, 
-      <command>svnserv</command>).</para>  
+      <para>Se a Camada de Repositório do Subversion está <quote>no outro
+        extremo da linha</quote>, a Camada de Acesso ao Repositório (RA) é
+        a própria linha. Encarregado de guiar dados entre as
+        bibliotecas clientes e o repositório, esta camada inclui a
+        biblioteca libsvn_ra, módulo carregador, os próprios módulos RA
+        (que normalmente incluem libsvn_ra_dav, libsvn_ra_local,
+        libsvn_ra_serf, e libsvn_ra_svn), e qualquer biblioteca
+        adicional necessária para um ou mais desses módulos RA (assim como
+        o módulo Apache mod_dav_svn ou o servidor de libsvn_ra_svn,
+        <command>svnserv</command>).</para>
 
-  <para>Já que Subversion usa URLs para identificar seus respositórios,
-      o porção de protocolo do esquema URL (normalmente
-      <literal>file://</literal>, <literal>http://</literal>,
-      <literal>https://</literal>, <literal>svn://</literal>,
-      ou <literal>svn+ssh://</literal>) é usado para determinar 
-      que módulo RA irá dar conta das comunicações. Cada módulo
-      possui uma lista de protocolos que sabem como <quote>falar</quote>
-      para que o carregador RA possa, em tempo de execução, determinar
-      que módulo usar para faze a tarefa. Você pode saber que 
-      módulo RA está disponível para o cliente de linha de comando
-      do Subversion e que protocolos ele suporta, apenas com o comando
-      <command>svn --version</command>:</para>
+      <para>Já que Subversion usa URLs para identificar suas fontes de
+        repositório, a parte protocolo do esquema URL (normalmente
+        <literal>file://</literal>, <literal>http://</literal>,
+        <literal>https://</literal>, <literal>svn://</literal>, ou
+        ou <literal>svn+ssh://</literal>) é usada para determinar qual módulo
+        RA manipulará as comunicações.  Cada módulo registra
+        uma lista dos protocolos que sabem como <quote>conversar</quote>
+        para que o carregador de RA possa, em tempo de execução, determinar qual módulo
+        usar para realizar a tarefa.  Você pode descobrir quais módulos
+        RA estão disponíveis ao cliente de linha de comando do Subversion
+        e que protocolos eles suportam, executando
+        <command>svn --version</command>:</para>
 
       <screen>
 $ svn --version
@@ -437,26 +437,26 @@ The following repository access (RA) modules are available:
 $
 </screen>
 
-    <para>A API pública exportada pela Camada RA contém 
-	funcionalidades necessárias por enviar e receber dados
-	versionados para e do resposítorio. Cada um dos plugins
-	RA estão disponíveis para fazer a tarefa de usar protocolos
-	específicos&mdash;libsvn_ra_dav fala HTTP/WebDAV (opcionalmente
-	usando SSL encryption) com um servidor Apache HTTP que estiver
-	rodando o módulo servidor mod_dav_svn; libsvn_ra_svn fala um
-	protocolo customizável de rede com o programa <command>svnserve</command>;
-	e assim por diante.</para>
+      <para>A API pública exportada pela Camada RA contém as
+        funcionalidades necessárias para enviar e receber dados
+        versionados para e do repositório.  E cada uma das extensões
+        disponíveis está hábil para realizar esta tarefa usando um protocolo
+        específico&mdash;libsvn_ra_dav conversa em HTTP/WebDAV (opcionalmente
+        usando criptografia com SSL) com um Servidor HTTP Apache que estiver
+        rodando o módulo mod_dav_svn de servidor Subversion;
+        libsvn_ra_svn conversa num protocolo de rede especial com o
+        programa <command>svnserve</command>; e assim por diante.</para>
 
-      <para>E para aqueles que desejam acessar um respositório Subversion
-	  usando outro protocolo, isso é exatamente por isso que a
-	  Camada de Acesso ao Respositório é modularazada! Desenvolvedores
-	  podem simplesmente escrever uma nova biblioteca que implementa
-	  a interface RA em um dos lados e comunicar com o respositório
-	  do outro lado. Sua biblioteca pode usar protocolos já existentes,
-	  ou você pode inventar o seu próprio. Você pode usar processos
-	  de comunicação (IPC), ou&mdash;vamos ficar loucos, podemos?&mdash;
-	  você pode até implementar um protocolo baseado em email. 
-	  Subversion provê a API; você vem com a criatividade.</para>
+      <para>E para aqueles que desejam acessar um repositório Subversion
+        usando ainda outro protocolo, isso é perfeitamente possível porque a
+        Camada de Acesso ao Repositório é modularizada!  Desenvolvedores podem
+        simplesmente escrever uma nova biblioteca que implementa a interface RA em
+        um dos lados e comunicar com o repositório no outro lado.  Sua
+        nova biblioteca pode usar protocolos de rede já existentes, ou você pode
+        inventar o seu próprio.  Você poderia usar chamadas de comunicação entre
+        processos (IPC), ou&mdash;vamos ficar loucos, devemos?&mdash;você
+        pode até implementar um protocolo baseado em email. O Subversion
+        oferece as APIs; você oferece a criatividade.</para>
 
     </sect2>
 
@@ -464,30 +464,29 @@ $
     <sect2 id="svn.developer.layerlib.client">
       <title>Camada Cliente</title>
       
-      <para>No lado do cliente, a cópia de trabalho do Subversion é 
-	  onde todas as ações tomam lugar. O conjunto de funcionalidades
-	  implementadas pelas bibliotecas cliente existem pelo único
-	  propósito de gerenciar as cópias de trabalho&mdash;
-	  diretórios cheios de arquivos e outros sub-diretórios
-	  que servem como um tipo de local, editáveis <quote>reflexos</quote>
-	  de um ou mais locais de repositórios&mdash;e propagando mudanças
-	  para e da Camada de Acesso ao Respositório.</para>
+      <para>No lado do cliente, a cópia de trabalho do Subversion é onde
+        todas as ações tomam lugar.  A pilha de funcionalidades
+        implementadas pelas bibliotecas do lado cliente existem para o único
+        propósito de gerenciar cópias de trabalho&mdash;diretórios cheios de
+        arquivos e outros sub-diretórios que servem como uma espécie de
+        <quote>reflexos</quote> locais e editáveis de um ou mais locais do
+        repositório&mdash;e propagando mudanças para e a partir da
+        Camada de Acesso ao Repositório.</para>
 
-      <para>Cópia de trabalho Subversion, libsvn_wc, é diretamente
-	  responsável por gerenciar os dados nas cópias de trablho.
-	  Para conseguir isso, a biblioteca guarda informações 
-	  administrativas sobre cada diretório da cópia de trabalho
-	  com em um sub-diretório especial. Este sub-diretório, chama-se
-	  <filename>.svn</filename>, está presente em cada cópia de 
-	  trabalho e contém vários outros arquivos e diretórios
-	  com o estado das informações e provê um espaço privado 
-	  para ações de administração. Para os familiares com o CVS, 
-	  este sub-diretório <filename>.svn</filename> é similar em
-	  objetivo ao diretório administrativo <filename>CVS</filename>
-	  encontrado nas cópias de trabalho CVS. Para mais informação
-	  sobre a área administrativa <filename>.svn</filename>, 
-	  veja<xref
-        linkend="svn.developer.insidewc"/>in this chapter.</para>
+      <para>A biblioteca de cópia de trabalho do Subversion, libsvn_wc, é diretamente
+        responsável por gerenciar os dados nas cópias de trabalho.  Para
+        conseguir isso, a biblioteca armazena informações administrativas
+        sobre cada diretório da cópia de trabalho dentro de um sub-diretório
+        especial.  Este sub-diretório, nomeado
+        <filename>.svn</filename>, está presente em cada diretório da
+        cópia de trabalho e contém vários outros arquivos e diretórios
+        que registram o estado e oferecem um espaço de trabalho privado para
+        as ações de administração.  Para os familiares com o CVS, este
+        sub-diretório <filename>.svn</filename> é similar em propósito
+        aos diretórios administrativos <filename>CVS</filename>
+        encontrados em cópias de trabalho CVS.  Para mais informações sobre a
+        área administrativa <filename>.svn</filename>, veja <xref
+        linkend="svn.developer.insidewc"/> neste capítulo.</para>
 
       <para>A biblioteca do cliente Subversion, libsvn_client, 
 	  tem uma responsabilidade mais abrangente. o seu trabalho
