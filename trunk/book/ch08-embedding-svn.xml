@@ -564,115 +564,117 @@ $
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.developer.insidewc">
-    <title>Por dentro da área de Administração da cópia de trabalho</title>
+    <title>Por dentro da Área de Administração da Cópia de Trabalho</title>
     
-    <para>Como mencionamos anteriormente, cada diretório do Subversion
-	tem um diretório especial chamado <filename>.svn</filename> que
-	hospeda informações administrativas sobre o diretório da 
-	cópia de trabalho. Subversion usa essa informação do <filename>.svn</filename>
-	para rastrear coisas como:</para>
+    <para>Como mencionamos anteriormente, cada diretório de uma cópia de trabalho
+      do Subversion contém um sub-diretório especial chamado
+      <filename>.svn</filename> que hospeda dados administrativos sobre
+      este diretório da cópia de trabalho.  O Subversion usa a informação em
+      <filename>.svn</filename> para rastrear coisas como:</para>
 
     <itemizedlist>
       <listitem>
-	  <para>Qual(is) os locais dos repositórios que são representados pelos
-	      arquivos e subdiretórios no diretório da cópia de trabalho</para>
+        <para>Quais locais do repositório são representados pelos
+          arquivos e subdiretórios no diretório da cópia de
+          trabalho.</para>
       </listitem>
       <listitem>
-	  <para>Que revisão de cada arquivo e diretório  está
-	      representado no momento na sua cópia de trabalho</para>
+        <para>Que revisão de cada um destes arquivos e diretórios está
+          atualmente presente na sua cópia de trabalho.</para>
       </listitem>
       <listitem>
-	  <para>Propriedades definidas pelo usuário que podem estar
-	      ligadas a esses arquivos e diretórios.</para>
+        <para>Todas propriedades definidas pelo usuário que possam estar
+          anexadas a esses arquivos e diretórios.</para>
       </listitem>
       <listitem>
-	  <para>--FIXME--Pristine (un-edited) cópias de arquivos 
-	      da cópia de trabalho.</para>
+        <para>Cópias intactas (não alteradas) de arquivos da cópia de
+          trabalho.</para>
       </listitem>
     </itemizedlist>
 
-    <para>A área de administração da cópia de trabalho do Subversion e
-	o seu conteúdo são consideradas implementações detalhadas e não
-	tem intenção de serem para consumo humano. Desenvolvedores
-	são encorajados a suar APÌs públicas do Subversion, ou as 
-	ferramentas que o Subversion provê, para acessar e 
-	manipular as informações da cópia local de trabalho, ao
-	invés de ler ou modificar diretamente esses arquivos.
-	Os formatos de arquivos empregados pela biblioteca
-	de cópia local para administração realmente muda de tempos
-	em tempos&mdash;um fato é que as APIs públicas fazem um
-	bom trabalho ao se esconder do usuário comum. Nessa seção,
-	vamos expor algumas desses detalhes de implementação para
-	satisfazer sua grande curiosidade.</para>
+    <para>A estrutura e o conteúdo da área de administração da cópia de trabalho
+      do Subversion são considerados detalhes de implementação realmente não
+      planejados para consumo humano.  Os desenvolvedores são encorajados a
+      usar as APIs públicas do Subversion, ou as ferramentas oferecidas pelo Subversion, para acessar e
+      manipular os dados da cópia de trabalho, em vez de ler ou modificar
+      esses arquivos diretamente.  Os formatos de arquivo empregados pela biblioteca
+      de cópia local para seus dados administrativos mudam de tempos em
+      tempos&mdash;um fato em que as APIs públicas fazem um bom trabalho ao
+      esconder do usuário comum.  Nesta seção, vamos
+      expor alguns destes detalhes de implementação para satisfazer
+      sua imensa curiosidade.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.insidewc.entries">
-      <title>Os arquivos de Entrada</title>
+      <title>Os Arquivos de Entrada</title>
 
-      <para>Talvez o arquivo único de maior importância no
-	  diretório <filename>.svn</filename> é o arquivo 
-	  <filename>entries</filename>. Nele está contido
-	  uma quantidade de informações administrativas sobre
-	 os ítens versionados no diretório da cópia de trabalho.
-	 É esse arquivo que rastreia as URLs do repositório, arquivos
-	 intocados, arquivos de checksum, textos intocados, 
-	 timestamps de propriedades, agendamento e informações de 
-	 conflitos, última informações conhecida de commit (autor, 
-	 revisão, timestamp), cópia local do histórico&mdash;praticamente
-	 tudo que um cliente Subversion tem interesse em saber sobre
-	 dados versionados ou que serão versionados!</para>
+      <para>Talvez o mais importante arquivo no
+        diretório <filename>.svn</filename> seja o
+        arquivo <filename>entries</filename>.  Ele
+        contém a maior parte das informações administrativas
+        sobre os ítens versionados em um diretório da cópia de
+        trabalho.  É este único arquivo que registra as URLs do repositório,
+        revisão inalterada, <foreignphrase>checksum</foreignphrase> dos arquivos, textos inalterados e
+        <foreignphrase>timestamp</foreignphrase> das propriedades, informações de agendamento e
+        conflitos, últimas informações conhecida de submissão (autor, revisão,
+        <foreignphrase>timestamp</foreignphrase>), histórico da cópia local&mdash;praticamente tudo
+        que um cliente Subversion tem interesse em saber sobre um
+        recurso versionado (ou a ser versionado)!</para>
 
-     <para>Pessoas familiares com diretórios de administração do CVS
-	 vão reconhecer nesse ponto que o arquivo <filename>.svn/entries</filename>
-	 serve ao propósito de, além de outras coisas, uma combinação dos 
-	 arquivos <filename>CVS/Entries</filename>,
-	 <filename>CVS/Root</filename>, and 
-	 <filename>CVS/Repository</filename>.</para>
+      <para>Pessoas familiares com os diretórios administrativos do CVS
+        terão reconhecido neste ponto que o arquivo
+        <filename>.svn/entries</filename> do Subversion serve o propósito,
+        entre outras coisas, dos arquivos <filename>CVS/Entries</filename>,
+        <filename>CVS/Root</filename> e
+        <filename>CVS/Repository</filename> do CSV combinados.</para>
 
-     <para>O formato do aquivo <filename>.snv/entries</filename> 
-	 tem mudado ao longo do tempo. Originalmente como um arquivo
-	 XML, usa um formato customizado&mdash;mas ainda legível a humanos&mdash;.
-	 Enquanto o XML foi uma boa escolha para o início do desenvolvimento
-	 do Subversion que era frequentemente debugado o conteúdo do arquivos
-	 (e o comportamento do Subversion na visão deles), a necessidade
-	 de um debug fácil no desenvolvimento foi se reduzindo com 
-	 a maturidade do Subversion, e vem sendo substituido pela
-	 impaciencia do usuário em ter performace. Fique atento
-	 que a biblioteca de cópia de trabalho do Subversion
-	 atualiza automaticamente cópias de trabalho de um formato para
-	 outro&mdash;ele lé formatos velhos, e escreve no novo&mdash;o que
-	 o salva do problema de checar uma nova cópia de trabalho, 
-	 mas pode complicar em situações onde diferentes versões do 
-	 Subversion estão tentando usar a mesma cópia de trabablho.</para> 
+      <para>O formato do arquivo <filename>.snv/entries</filename>
+        tem mudado ao longo do tempo.  Originalmente um arquivo XML, ele agora usa um
+        formato de arquivo customizado&mdash;apesar de ainda legível a humanos.
+        Enquanto o XML foi uma boa escolha no início para os desenvolvedores do
+        Subversion que foram freqüentemente depurando o conteúdo do arquivo
+        (e o comportamento do Subversion em função dele), a necessidade
+        de uma depuração fácil no desenvolvimento foi se reduzindo com a maturidade do
+        Subversion, e vem sendo substituída pela necessidade de desempenho do
+        usuário.  Fique ciente que a biblioteca de cópia de trabalho do Subversion
+        atualiza automaticamente as cópias de trabalho de um formato para
+        outro&mdash;ela lê os formatos antigos, e escreve os
+        novos&mdash;o que salva você do problema de verificar uma nova
+        cópia de trabalho, mas pode complicar em situações onde
+        diferentes versões do Subversion podem estar tentando usar a
+        mesma cópia de trabalho.</para>
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.developer.insidewc.base-and-props">
-      <title>Cópias inalteradas e Propriedade de arquivos</title>
+      <title>Cópias Inalteradas e Propriedade de Arquivos</title>
 
-      <para>Como mencionado anteriormente, o diretório<filename>.svn</filename>
-	  possui o arquivo inalterado de versão de arquivos <quote>text-base</quote>.
-	  Eles podem encotrados em <filename>.svn/text-base</filename>. Os benefícios
-	  das cópias inalteradas são muitas&mdash;checagem livre de rede
-	  para modificações locais e diferenças, checagem livre de rede
-	  de modificação de revisão e arquivos perdidos, maior eficiência
-	  na transmissão das mudanças para o servidor&mdash;mas tem o custo
-	  de ter cada arquivo armazenado 2 vezes no disco. Nos dias de hoje, 
-	  isso parece ser uma problema inofensivo para a maioria dos arquivos.
-	  Entretanto, a sutiação fica feia quando o tamanho dos seus arquivos
-	  versionados cresce. Uma atenção vem sendo dada para que a presença do 
-	  <quote>text-base</quote> seja opcional. Ironicamente, é quando 
-	  o tamanho dos seus arquivos fica grande que a existência do 
-	  <quote>text-base</quote> se torna crucial&mdash;quem gosta de 
-	  transmitir arquivos enormes pela rede apenas para comitar 
-	  uma pequena mudança?</para>
+      <para>Como mencionado antes, o diretório <filename>.svn</filename>
+        também mantém as versões <quote>text-base</quote> intactas
+        dos arquivos.  Eles podem ser encontrados em
+        <filename>.svn/text-base</filename>.  Os benefícios destas
+        cópias inalteradas são muitas&mdash;checagens de modificações locais
+        e avisos de diferenças livres de rede, reversão de arquivos
+        modificados ou perdidos livre de rede, maior eficiência na transmissão
+        das mudanças para o servidor&mdash;mas tem o custo de possuir
+        cada arquivo versionado armazenado duas vezes no disco.  Nos dias
+        de hoje, isso parece ser uma penalidade inofensiva para a maioria dos arquivos.
+        Entretanto, a situação fica feia quando o tamanho de seus
+        arquivos versionados aumenta.  Uma atenção vem sendo dada para
+        tornar opcional a presença do <quote>text-base</quote>.
+        Ironicamente, é quando o tamanho dos seus arquivos versionados fica
+        maior que a existência do <quote>text-base</quote>
+        se torna mais crucial&mdash;quem quer transmitir um arquivo enorme
+        através de uma rede apenas porque precisa submeter uma pequena
+        mudança para ele?</para>
 
       <para>Com propósito similar aos arquivos <quote>text-base</quote>
-	  estão os arquivos de propriedade e suas cópias inalteráveis 
-	  <quote>prop-base</quote>, localizados em <filename>.svn/props</filename>
-	  e <filename>.svn/prop-base</filename> respectivamente. Já que 
-	  diretórios podem ter propriedades, também, existe também os arquivos
+        estão os arquivos de propriedade e suas cópias
+        <quote>prop-base</quote> intactas, localizadas em
+        <filename>.svn/props</filename> e
+        <filename>.svn/prop-base</filename> respectivamente.  Já que
+        diretórios podem ter propriedades, também existem os arquivos
         <filename>.svn/dir-props</filename> e
         <filename>.svn/dir-prop-base</filename>.</para>
 
