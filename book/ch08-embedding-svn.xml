@@ -30,7 +30,7 @@
     <title>Projeto da Biblioteca em Camadas</title>
 
     <para>Cada uma das bibliotecas centrais do Subversion podem existir em
-      uma de três principais camadas&mdash;na Camada do Repositório, na
+      uma de três principais camadas&mdash;na Camada de Repositório, na
       Camada de Acesso ao Repositório (RA), ou na Camada Cliente (veja <xref
       linkend="svn.intro.architecture.dia-1" />). Nós examinaremos 
       essas camadas daqui a pouco, mas primeiro, vamos brevemente dar uma
@@ -136,7 +136,7 @@
       isso já acontece dentro do Subversion. Cada uma das bibliotecas
       libsvn_ra_dav, libsvn_ra_local, libsvn_ra_serf, e libsvn_ra_svn
       implementam a mesma interface, todas funcionando como extensões 
-      de libsvn_ra. E todas as quatro se comunicam com a Camada do
+      de libsvn_ra. E todas as quatro se comunicam com a Camada de
       Repositório&mdash;libsvn_ra_local conecta-se ao repositório diretamente;
       as outras três através de uma rede. As bibliotecas libsvn_fs_base
       e libsvn_fs_fs são outro par de bibliotecas que
@@ -944,7 +944,7 @@ $
         falha da aplicação).</para>
 
       <example id="svn.developer.layerlib.repos.ex-1">
-        <title>Usando a Camada do Repositório</title>
+        <title>Usando a Camada de Repositório</title>
 
         <programlisting>
 /* Converte um erro do Subversion em um simples código de erro booleano.
@@ -1073,106 +1073,106 @@ make_new_directory(const char *repos_path,
         os vários caminhos descobertos durante o rastreamento.</para>
 
       <example id="svn.developer.usingapi.otherlangs.ex-1">
-        <title>Using the Repository Layer with Python</title>
+        <title>Usando a Camada de Repositório com Python</title>
 
         <programlisting>
 #!/usr/bin/python
 
-"""Crawl a repository, printing versioned object path names."""
+"""Rastrear um repositório, imprimindo os nomes de caminho dos objetos versionados."""
 
 import sys
 import os.path
 import svn.fs, svn.core, svn.repos
 
 def crawl_filesystem_dir(root, directory):
-    """Recursively crawl DIRECTORY under ROOT in the filesystem, and return
-    a list of all the paths at or below DIRECTORY."""
+    """Rastreia recursivamente DIRECTORY sob ROOT no sistema de arquivo, e retorna
+    uma lista de todos os caminhos no mesmo nível ou baixo de DIRECTORY."""
 
-    # Print the name of this path.
+    # Imprime o nome deste caminho.
     print directory + "/"
     
-    # Get the directory entries for DIRECTORY.
+    # Obtém as entradas de diretório para DIRECTORY.
     entries = svn.fs.svn_fs_dir_entries(root, directory)
 
-    # Loop over the entries.
+    # Navega sobre as entradas.
     names = entries.keys()
     for name in names:
-        # Calculate the entry's full path.
+        # Calcula o caminho completo da entrada.
         full_path = directory + '/' + name
 
-        # If the entry is a directory, recurse.  The recursion will return
-        # a list with the entry and all its children, which we will add to
-        # our running list of paths.
+        # Se a entrada é um diretório, seja recursivo.  A recursão retornará
+        # uma lista com a entrada e todos seus filhos, os quais adicionamos em
+        # nossa lista de caminhos que estamos correndo.
         if svn.fs.svn_fs_is_dir(root, full_path):
             crawl_filesystem_dir(root, full_path)
         else:
-            # Else it's a file, so print its path here.
+            # Senão ele é um arquivo, assim imprima seu caminho aqui.
             print full_path
 
 def crawl_youngest(repos_path):
-    """Open the repository at REPOS_PATH, and recursively crawl its
-    youngest revision."""
+    """Abre o repositório em REPOS_PATH, e rastreia recursivamente sua
+    revisão mais recente."""
     
-    # Open the repository at REPOS_PATH, and get a reference to its
-    # versioning filesystem.
+    # Abre o repositório em REPOS_PATH, e obtém uma referência para seu
+    # sistema de arquivo de versionamento.
     repos_obj = svn.repos.svn_repos_open(repos_path)
     fs_obj = svn.repos.svn_repos_fs(repos_obj)
 
-    # Query the current youngest revision.
+    # Recupera a atual revisão mais recente.
     youngest_rev = svn.fs.svn_fs_youngest_rev(fs_obj)
     
-    # Open a root object representing the youngest (HEAD) revision.
+    # Abre um objeto raíz representando a mais recente (HEAD) revisão.
     root_obj = svn.fs.svn_fs_revision_root(fs_obj, youngest_rev)
 
-    # Do the recursive crawl.
+    # Faz o rastreamento recursivo.
     crawl_filesystem_dir(root_obj, "")
     
 if __name__ == "__main__":
-    # Check for sane usage.
+    # Verifica se o uso está correto.
     if len(sys.argv) != 2:
         sys.stderr.write("Usage: %s REPOS_PATH\n"
                          % (os.path.basename(sys.argv[0])))
         sys.exit(1)
 
-    # Canonicalize the repository path.
+    # Canoniza o caminho do repositório.
     repos_path = svn.core.svn_path_canonicalize(sys.argv[1])
 
-    # Do the real work.
+    # Faz o verdadeiro trabalho.
     crawl_youngest(repos_path)
 </programlisting>
       </example>
 
-      <para>This same program in C would need to deal with APR's
-        memory pool system.  But Python handles memory usage
-        automatically, and Subversion's Python bindings adhere to that
-        convention.  In C, you'd be working with custom datatypes
-        (such as those provided by the APR library) for representing
-        the hash of entries and the list of paths, but Python has
-        hashes (called <quote>dictionaries</quote>) and lists as
-        built-in datatypes, and provides a rich collection of
-        functions for operating on those types.  So SWIG (with the
-        help of some customizations in Subversion's language bindings
-        layer) takes care of mapping those custom datatypes into the
-        native datatypes of the target language.  This provides a more
-        intuitive interface for users of that language.</para>
+      <para>Este mesmo programa em C precisaria lidar com o sistema de recipiente
+        de memória da APR.  Mas Python manipula o uso de memória
+        automaticamente, e os vínculos Python do Subversion aderem a esta
+        convenção.  Em C, você teria que trabalhar com tipos de dados personalizados
+        (como aqueles oferecidos pela biblioteca APR) para representar
+        o hash de entradas e a lista de caminhos, mas Python possui
+        hashes (chamados <quote>dicionários</quote>) e listas como
+        tipos de dados embutidos, e oferece uma rica coleção de
+        funções para operar nesses tipos.  Então a SWIG (com a
+        ajuda de algumas personalizações na camada de vínculos de linguagem do
+        Subversion) toma o cuidado de mapear esses tipos de dados personalizados para os
+        tipos de dados nativos da linguagem alvo.  Isto oferece uma interface
+        mais intuitiva para os usuários desta linguagem.</para>
 
-      <para>The Subversion Python bindings can be used for working
-        copy operations, too.  In the previous section of this
-        chapter, we mentioned the <filename>libsvn_client</filename>
-        interface, and how it exists for the sole purpose of
-        simplifying the process of writing a Subversion client.  <xref
-        linkend="svn.developer.usingapi.otherlangs.ex-2" /> is a brief
-        example of how that library can be accessed via the SWIG
-        Python bindings to recreate a scaled-down version of the
-        <command>svn status</command> command.</para>
+      <para>Os vínculos Python do Subversion podem ser usados para trabalhar
+        com operações de cópia, também.  Na seção anterior deste
+        capítulo, mencionamos a interface <filename>libsvn_client</filename>,
+        e como ela existe para o único propósito de
+        simplificar o processo de escrever um cliente Subversion.  O <xref
+        linkend="svn.developer.usingapi.otherlangs.ex-2" /> é um breve
+        exemplo de como esta biblioteca pode ser acessada por meio dos vínculos
+        Python da SWIG para recriar uma versão menos escalada do
+        comando <command>svn status</command>.</para>
 
       <example id="svn.developer.usingapi.otherlangs.ex-2">
-        <title>A Python Status Crawler</title>
+        <title>Um Rastreador de Status em Python</title>
 
         <programlisting>
 #!/usr/bin/env python
 
-"""Crawl a working copy directory, printing status information."""
+"""Rastrear um diretório da cópia de trabalho, imprimindo as informações de status."""
 
 import sys
 import os.path
@@ -1180,8 +1180,8 @@ import getopt
 import svn.core, svn.client, svn.wc
 
 def generate_status_code(status):
-    """Translate a status value into a single-character status code,
-    using the same logic as the Subversion command-line client."""
+    """Traduz um valor de status para um código de status de um caractere,
+    usando a mesma lógica do cliente de linha de comando do Subversion."""
     code_map = { svn.wc.svn_wc_status_none        : ' ',
                  svn.wc.svn_wc_status_normal      : ' ',
                  svn.wc.svn_wc_status_added       : 'A',
@@ -1200,27 +1200,27 @@ def generate_status_code(status):
     return code_map.get(status, '?')
 
 def do_status(wc_path, verbose):
-    # Calculate the length of the input working copy path.
+    # Calcula o tamanho do caminho da cópia de trabalho informado.
     wc_path_len = len(wc_path)
 
-    # Build a client context baton.
+    # Contrói um contexto de cliente.
     ctx = svn.client.svn_client_ctx_t()
 
     def _status_callback(path, status, root_path_len=wc_path_len):
-        """A callback function for svn_client_status."""
+        """Uma função de retorno para svn_client_status."""
 
-        # Print the path, minus the bit that overlaps with the root of
-        # the status crawl
+        # Imprime o caminho, menos a parte que sobrepõe com a raíz do
+        # rastreamento de status
         text_status = generate_status_code(status.text_status)
         prop_status = generate_status_code(status.prop_status)
         print '%s%s  %s' % (text_status, prop_status, path[wc_path_len + 1:])
         
-    # Do the status crawl, using _status_callback() as our callback function.
+    # Faz o rastreamento de status, usando _status_callback() como função de retorno.
     svn.client.svn_client_status(wc_path, None, _status_callback,
                                  1, verbose, 0, 0, ctx)
 
 def usage_and_exit(errorcode):
-    """Print usage message, and exit with ERRORCODE."""
+    """Imprime a mensagem do modo de uso, e sai com ERRORCODE."""
     stream = errorcode and sys.stderr or sys.stdout
     stream.write("""Usage: %s OPTIONS WC-PATH
 Options:
@@ -1230,7 +1230,7 @@ Options:
     sys.exit(errorcode)
     
 if __name__ == '__main__':
-    # Parse command-line options.
+    # Analisa as opções de linha de comando.
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hv", ["help", "verbose"])
     except getopt.GetoptError:
@@ -1244,10 +1244,10 @@ if __name__ == '__main__':
     if len(args) != 1:
         usage_and_exit(2)
             
-    # Canonicalize the repository path.
+    # Canoniza o caminho do repositório.
     wc_path = svn.core.svn_path_canonicalize(args[0])
 
-    # Do the real work.
+    # Faz o verdadeiro trabalho.
     try:
         do_status(wc_path, verbose)
     except svn.core.SubversionException, e:
@@ -1256,22 +1256,22 @@ if __name__ == '__main__':
 </programlisting>
       </example>
 
-      <para>As was the case in <xref
-        linkend="svn.developer.usingapi.otherlangs.ex-1" />, this
-        program is pool-free and uses, for the most part, normal
-        Python data types.  The call to
-        <function>svn_client_ctx_t()</function> is deceiving because
-        the public Subversion API has no such function&mdash;this just
-        happens to be a case where SWIG's automatic language
-        generation bleeds through a little bit (the function is a sort
-        of factory function for Python's version of the corresponding
-        complex C structure).  Also note that the path passed to this
-        program (like the last one) gets run through
-        <function>svn_path_canonicalize()</function>, because to
-        <emphasis>not</emphasis> do so runs the risk of triggering the
-        underlying Subversion C library's assertions about such
-        things, which translate into rather immediate and
-        unceremonious program abortion.</para>
+      <para>Como foi o caso no <xref
+        linkend="svn.developer.usingapi.otherlangs.ex-1" />, este
+        programa não precisa de recipiente e usa, para na maior parte, os tipos de
+        dados normais do Python.  A chamada para
+        <function>svn_client_ctx_t()</function> está enganando porque
+        a API pública do Subversion não tem tal função&mdash;isto apenas
+        acontece por ser um caso onde a geração automática de linguagem
+        da SWIG não funciona para algumas partes (a função é um tipo
+        de função que fabrica a versão Python da estrutura complexa
+        correspondente em C).  Note também que o caminho passado para este
+        programa (como aquele último) passa através da
+        <function>svn_path_canonicalize()</function>, porque
+        <emphasis>não</emphasis> fazendo isso corre-se o risco de desencadear as
+        asserções subjacentes da biblioteca C do Subversion sobre tais
+        coisas, que se traduz a um aborto imediato e sem cerimônia
+        da execução do programa.</para>
 
     </sect2>
   </sect1>
