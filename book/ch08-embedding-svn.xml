@@ -488,77 +488,72 @@ $
         área administrativa <filename>.svn</filename>, veja <xref
         linkend="svn.developer.insidewc"/> neste capítulo.</para>
 
-      <para>A biblioteca do cliente Subversion, libsvn_client, 
-	  tem uma responsabilidade mais abrangente. o seu trabalho
-	  é unir as funcionalidades da biblioteca da cópia de trabalho
-	  com as da Camada de Acesso ao Respositório, e então prover uma
-	  API de alto nível para qualquer aplicação que desejar fazer
-	  controle geral de ações de revisão. Por exemplo, a função
-	  <function>svn_client_checkout()</function> pega um URL 
-	  como argumento. E passa a URL para a camada de RA e abre 
-	  uma sessão com um repositório. Ele então pede ao respositório
-	  pora uma certa árvore, e envia está árvore para a biblioteca
-	  da cópia de trabalho, que então esrever toda a cópia de trabalho
-	  no disco (o diretório <filename>.svn</filename> e tudo mais).</para>
+      <para>A biblioteca do cliente Subversion, libsvn_client, tem uma
+        responsabilidade mais abrangente; seu trabalho é combinar a
+        funcionalidade da biblioteca de cópia de trabalho com as da
+        Camada de Acesso ao Repositório, e então oferecer uma API de alto
+        nível para qualquer aplicação que desejar realizar ações gerais de
+        controle de revisão.  Por exemplo, a função
+        <function>svn_client_checkout()</function> pega uma URL como
+        argumento.  Ela passa esta URL para a camada de RA e abre uma
+        sessão autenticada com um determinado repositório.  Ela então
+        pede ao repositório por uma certa árvore, e envia esta árvore
+        para a biblioteca de cópia de trabalho, que então escrever toda a cópia
+        de trabalho no disco (o diretório <filename>.svn</filename>
+        e tudo mais).</para>
 
-	  <para>A biblioteca cliente foi desenhada para ser usada
-	      por qualquer aplicacação. Enquanto o código fonte
-	      inclui um cliente de linha de comando padrão, deveria
-	      ser muito fácil escrever qualquer número de clientes
-	      gráficos no topo dessa biblioteca cliente. Novas 
-	      interfaces gráficas (ou qualquer novo cliente) para
-	      não precisa ser algo em volta do cliente de linha 
-	      de comando&mdash;eles tem total acesso via
-	      API libsvn_client às mesmas funcionalidades, dados
-	      e mecanimos de resposta que o cliente de linha
-	      de comando usa. De fato, a ávore do código fonte
-	      do Subversion contém um pequeno programa em C (
-	      que pode ser encontrado em 
-	      <filename>tools/examples/minimal_client.c</filename>
-	      que exemplifica como usar a API do Subversion para
-	      criar um programa cliente simples</para>
-	      
+      <para>A biblioteca cliente é projetada para ser usada por qualquer
+        aplicação.  Enquanto o código fonte do Subversion inclui um
+        cliente de linha de comando padrão, deveria ser muito fácil escrever
+        qualquer número de clientes GUI sob essa biblioteca cliente. Novas
+        interfaces gráficas (ou qualquer novo cliente) para o Subversion não precisam
+        ser invólucros desajeitados sobre o cliente de linha de linha de
+        comando&mdash;elas possuem acesso total pela API de libsvn_client
+        às mesmas funcionalidades, dados e mecanismos de resposta que o
+        cliente de linha de comando usa.  De fato, a árvore do código fonte do
+        Subversion contém um pequeno programa em C (o qual pode ser encontrado em
+        <filename>tools/examples/minimal_client.c</filename> que
+        exemplifica como manusear a API do Subversion para criar um simples
+        programa cliente.</para>
+
       <sidebar>
-        <title>Fazendo binding diretamente&mdash;Uma palavra sobre o que é certo</title>
+        <title>Vinculando Diretamente&mdash;Uma Palavra Sobre o que é Certo</title>
 
-	<para>Porque seu programa de interface deveria
-	    fazer o bind diretamente com o libsvn_client ao 
-	    invés ser um programa em volta do cliente em linha 
-	    de comando? Além do fato de ser mais eficiente,
-	    é mais correto também. Um programa de linha de comando
-	    (como o que o Subversion fornece) que faz o bind
-	    para a biblioteca do cliente precisa traduzir
-	    eficientemente as respostas e requisões de bits
-	    de dados de tipos C para tipo em forma entendidas
-	    pelo ser humano. Esse tipo de tradução pode ser
-	    despendioso. Sendo assim, o programa pode não
-	    mostrar todas as informações colhidas pela API, ou
-	    pode combinar pedaços de informações para uma
-	    apresentação compacta.</para>
+        <para>Porque seu programa GUI deveria vincular-se diretamente com
+          libsvn_client em vez de agir como uma cobertura em volta do
+          programa de linha de comando?  Além de ser mais eficiente,
+          pode ser mais correto também. Um programa
+          de linha de comando (como o oferecido com o Subversion)
+          que se vincula com a biblioteca cliente precisa traduzir
+          eficientemente os bits das respostas e requisições de dados dos tipos C para
+          alguma forma de saída legível por seres humanos. Esse tipo de
+          tradução pode ser dispendioso.  Sendo assim, o programa pode não
+          mostrar todas as informações colhidas pela API, ou pode
+          combinar pedaços de informações para uma apresentação compacta.</para>
 
-	<para>Se você puser o programa de linha de comando com outro 
-	    programa, o segundo programa terá acesso apenas 
-	    às informações já interpretadas (e como mencionado, 
-	    possivelemente incompletas), o que é <emphasis>novamente</emphasis>
-	    uma tradução do <emphasis>seu próprio</emphasis> formato
-	    de apresentação. Com cada camada de encapsulamento, 
-	    a integridade do dado original é um pouco mudado mais e mais,
-	    parecido com o resultado de fazer uma copia da copia (da cópia &hellip;)
-	    do seu audio ou vídeo cassete favorito.</para>
+        <para>Se você encobrir um programa de linha de comando com outro
+          programa, o segundo programa terá acesso apenas às
+          informações já interpretadas (e como mencionado, possivelmente
+          incompletas), que devem ser <emphasis>novamente</emphasis>
+          traduzidas para <emphasis>seu próprio</emphasis> formato de
+          apresentação.   Com cada camada de encapsulamento, a integridade dos
+          dados originais é potencialmente degradada mais e mais, quase
+          como o resultado de fazer uma cópia de uma cópia (de uma cópia &hellip;)
+          do seu cassete de áudio ou vídeo favorito.</para>
 
-	<para>Mas o argumento mais contudente para fazer o bind 
-	    diretamente para as APIs ao invés de usar outrs programas
-	    é que o projeto Subversion fez promessas de compatibilidades
-	    entre suas APIs. Através de versões menores dessas APIs
-	    (como entre 1.3 e 1.4), nenhum protótipo de função irá mudar.
-	    Em outras palavras, você não será forçado a atualizar
-	    seu código fonte semplesmente porque você atualizou para
-	    uma nova versão do Subversion. Algumas funções podem ficar
-	    defazadas, msa ainda assim irão funcionar, e isso te dá um
-	    intervaldo de tempo para começar a usar as novas APIs.
-	    Esse tipo de compatibilidade não é prometido para as 
-	    mensagens de saída do cliente de linha de comando do 
-	   Subversion, o que é objeto de mudança de versão para versão.</para>
+        <para>Mas o argumento mais contundente para vincular diretamente
+          às APIs em vez de encapsular outros programas é que o
+          projeto Subversion fez promessas de compatibilidade entre
+          suas APIs.  Através de versões menores dessas APIs (como
+          entre 1.3 e 1.4), nenhum protótipo de função mudará.
+          Em outras palavras, você não será forçado a atualizar o código fonte
+          de seu programa simplesmente porque você atualizou para uma nova versão
+          do Subversion. Algumas funções podem ficar defasadas, mas
+          elas ainda funcionarão, e isso te dá um intervalo de tempo para
+          começar a usar as novas APIs.  Esse tipo de
+          compatibilidade não é prometido para as mensagens de saída do
+          cliente de linha de comando do Subversion, as quais estão sujeitas
+          a mudanças de uma versão para outra.</para>
 
       </sidebar>
 
