@@ -1572,7 +1572,7 @@ Committed revision 1390.
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.commonuses.patterns">
-      <title>Padrões de Ramificação Comuns</title>
+      <title>Padrões Comuns de Ramificação</title>
 
       <para>Controle de versão é muito usado para desenvolvimento de
         software, então aqui está uma rápida mostra de dois dos padrões
