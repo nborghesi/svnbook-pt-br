@@ -1572,181 +1572,198 @@ Committed revision 1390.
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.commonuses.patterns">
-      <title>Common Branching Patterns</title>
+      <title>Padrões de Ramificação Comuns</title>
 
-      <para>Version control is most often used for software
-        development, so here's a quick peek at two of the most common
-        branching/merging patterns used by teams of programmers.  If
-        you're not using Subversion for software development, feel
-        free to skip this section.  If you're a software developer
-        using version control for the first time, pay close attention,
-        as these patterns are often considered best practices by
-        experienced folk.  These processes aren't specific to
-        Subversion; they're applicable to any version control system.
-        Still, it may help to see them described in Subversion
-        terms.</para>
+      <para>Controle de versão é muito usado para desenvolvimento de
+        software, então aqui está uma rápida mostra de dois dos padrões
+        mais comuns de ramificação/fusão usados por equipes de
+        programadores.  Se você não estiver usando o Subversion para
+        desenvolvimento de software, fique à vontade para pular esta
+        seção.  Mas se você for um desenvolvedor de software usando
+        controle de versão pela primeira vez, preste bastante atenção,
+        já que estes padrões são frequentemente considerados como
+        melhores práticas por pessoas mais experientes.  Estes
+        procedimentos não são específicos para o Subversion; sendo
+        aplicáveis a qualquer sistema de controle de versão.  Além do
+        que pode ajudar ver tais padrões aplicados ao ambiente do
+        Subversion.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.commonuses.patterns.release">
-        <title>Release Branches</title>
+        <title>Ramos para Distribuição (<foreignphrase>Releases</foreignphrase>)</title>
 
-        <para>Most software has a typical lifecycle: code, test,
-          release, repeat.  There are two problems with this process.
-          First, developers need to keep writing new features while
-          quality-assurance teams take time to test supposedly-stable
-          versions of the software.  New work cannot halt while the
-          software is tested.  Second, the team almost always needs to
-          support older, released versions of software; if a bug is
-          discovered in the latest code, it most likely exists in
-          released versions as well, and customers will want to get
-          that bugfix without having to wait for a major new
-          release.</para>
+        <para>A maioria dos softwares possuem um ciclo de vida típico:
+          codifique, teste, entregue, repita.  Há dois problemas com
+          este processo.  Primeiro, os desenvolvedores precisam
+          continuar implementando novos recursos enquanto as equipes de
+          garantia da qualidade se dedicam a testar as versões
+          supostamente estáveis do software.  Segundo, a equipe quase
+          sempre precisa dar suporte a versões mais antigas, já
+          entregues, do software; se um bug for descoberto no código
+          mais recente, ele provavelmente também está presente nas
+          outras versões já distribuídas, e os clientes vão querer
+          obter a correção sem ter que esperar pelo lançamento de uma
+          próxima versão.</para>
 
-        <para>Here's where version control can help.  The typical
-          procedure looks like this:</para>
+        <para>É aqui que o controle de versão pode ajudar.  O
+          procedimento típico se parece com isto:</para>
 
       <itemizedlist>
 
         <listitem>
-          <para><emphasis>Developers commit all new work to the
-                trunk.</emphasis>
+          <para><emphasis>Desenvolvedores submetem todo o novo código
+              produzido para o tronco.</emphasis>
 
-              Day-to-day changes are committed to
-              <filename>/trunk</filename>: new features, bugfixes, and
-              so on.</para>
+              As modificações do dia-a-dia são submetidas para
+              <filename>/trunk</filename>: novos recursos, correções de
+              bugs, e por aí adiante.</para>
         </listitem>
 
         <listitem>
-          <para><emphasis>The trunk is copied to a
-                <quote>release</quote> branch.</emphasis>
-
-              When the team thinks the software is ready for release
-              (say, a 1.0 release), then <filename>/trunk</filename>
-              might be copied to
+          <para><emphasis>O tronco é copiado para um ramo de
+              <quote>release</quote>.</emphasis>
+          
+              Quando a equipe achar que o software está pronto para o
+              lançamento de um novo release (digamos, uma versão 1.0),
+              então o <filename>/trunk</filename> pode ser copiado para
               <filename>/branches/1.0</filename>.</para>
         </listitem>
 
         <listitem>
-          <para><emphasis>Teams continue to work in parallel.</emphasis>
-
-              One team begins rigorous testing of the release branch,
-              while another team continues new work (say, for version
-              2.0) on <filename>/trunk</filename>.  If bugs are
-              discovered in either location, fixes are ported back and
-              forth as necessary.  At some point, however, even that
-              process stops.  The branch is <quote>frozen</quote> for
-              final testing right before a release.</para>
+          <para><emphasis>As equipes continuam a trabalhar em
+              paralelo.</emphasis>  
+          
+              Uma equipe começa uma rigorosa etapa de testes no ramo do
+              release, enquanto outra equipe continua prosseguindo com o
+              trabalho (digamos, para uma futura versão 2.0) em
+              <filename>/trunk</filename>.  Se bugs forem descobertos em
+              algum local, correções são portadas adequadamente conforme
+              o necessário.  Em algum ponto, porém, mesmo esse processo
+              pára.  O ramo é então <quote>congelado</quote> para testes
+              finais imediatamente antes do lançamento do
+              release.</para>
         </listitem>
 
         <listitem>
-          <para><emphasis>The branch is tagged and released.</emphasis>
+          <para><emphasis>O ramo é rotulado e distribuído.</emphasis>
 
-              When testing is complete,
-              <filename>/branches/1.0</filename> is copied to
-              <filename>/tags/1.0.0</filename> as a reference
-              snapshot.  The tag is packaged and released to
-              customers.</para>
+              Quando os testes tiverem terminado, o conteúdo de
+              <filename>/branches/1.0</filename> é copiado para 
+              <filename>/tags/1.0.0</filename> como um registro
+              instantâneo de referência.  O rótulo é empacotado e
+              distribuído para os clientes.</para>
         </listitem>
 
         <listitem>
-          <para><emphasis>The branch is maintained over time.</emphasis>
+          <para><emphasis>O ramo é mantido ao longo do tempo.</emphasis>
 
-              While work continues on <filename>/trunk</filename> for
-              version 2.0, bugfixes continue to be ported from
-              <filename>/trunk</filename> to
-              <filename>/branches/1.0</filename>.  When enough
-              bugfixes have accumulated, management may decide to do a
-              1.0.1 release: <filename>/branches/1.0</filename> is
-              copied to <filename>/tags/1.0.1</filename>, and the tag
-              is packaged and released.</para>
+              Como o trabalho continua em <filename>/trunk</filename>
+              para uma versão 2.0, as correções de bugs continuam a ser
+              portadas de <filename>/trunk</filename> para
+              <filename>/branches/1.0</filename>.  Quando uma suficiente
+              quantidade de correções estiverem acumuladas, os gestores
+              do software pode decidir fazer uma versão 1.0.1:
+              <filename>/branches/1.0</filename> é copiado para
+              <filename>/tags/1.0.1</filename>, e o rótulo é empacotado
+              e distribuído.</para>
         </listitem>
 
         </itemizedlist>
 
-        <para>This entire process repeats as the software matures:
-          when the 2.0 work is complete, a new 2.0 release branch is
-          created, tested, tagged, and eventually released.  After
-          some years, the repository ends up with a number of release
-          branches in <quote>maintenance</quote> mode, and a number
-          of tags representing final shipped versions.</para>
+        <para>Este processo inteiro se repete enquanto o software
+          amadurece: quando a versão 2.0 estiver pronta, um novo ramo
+          para o release 2.0 é criado, testado, rotulado e eventualmente
+          distribuído.  Depois de alguns anos, o repositório acaba com
+          uma porção de ramos distribuídos em modo de
+          <quote>manutenção</quote>, e um conjunto de tags representando
+          as últimas versões entregues do software.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.branchmerge.commonuses.patterns.feature">
-        <title>Feature Branches</title>
+        <title>Ramos de Novos Recursos (<foreignphrase>Features</foreignphrase>)</title>
 
-        <para>A <firstterm>feature branch</firstterm> is the sort of
-          branch that's been the dominant example in this chapter, the
-          one you've been working on while Sally continues to work on
-          <filename>/trunk</filename>.  It's a temporary branch
-          created to work on a complex change without interfering with
-          the stability of <filename>/trunk</filename>.  Unlike
-          release branches (which may need to be supported forever),
-          feature branches are born, used for a while, merged back to
-          the trunk, then ultimately deleted.  They have a finite span
-          of usefulness.</para>
+        <para>Um <firstterm>ramo de novos recursos</firstterm> é o tipo
+          de ramo que tem sido o exemplo dominante neste capítulo,
+          aquele no qual você trabalhava enquanto Sally continuava seu
+          trabalho em <filename>/trunk</filename>.  É um ramo temporário
+          criado para lidar com uma modificação complexa sem interferir
+          na estabilidade de <filename>/trunk</filename>.
+          Diferentemente dos ramos de distribuição (os quais podem
+          continuar sendo mantidos para sempre), ramos de novos recursos
+          são criados, usados por um tempo, mesclados de volta ao
+          tronco, e finalmente excluídos.  Eles têm um escopo finito de
+          utilidade.</para>
 
-        <para>Again, project policies vary widely concerning exactly
-          when it's appropriate to create a feature branch.  Some
-          projects never use feature branches at all: commits to
-          <filename>/trunk</filename> are a free-for-all.  The
-          advantage to this system is that it's simple&mdash;nobody
-          needs to learn about branching or merging.  The disadvantage
-          is that the trunk code is often unstable or unusable.  Other
-          projects use branches to an extreme: no change is
-          <emphasis>ever</emphasis> committed to the trunk directly.
-          Even the most trivial changes are created on a short-lived
-          branch, carefully reviewed and merged to the trunk.  Then
-          the branch is deleted.  This system guarantees an
-          exceptionally stable and usable trunk at all times, but at
-          the cost of tremendous process overhead.</para>
+        <para>Novamente, as políticas de projeto variam enormemente ao
+          abordar sobre exatamente quando é adequado criar um ramo de
+          novos recursos.  Alguns projetos nunca usam ramos de recursos
+          como um todo: submissões de alterações em
+          <filename>/trunk</filename> são permitidas a todos.  A
+          vantagem deste sistema é sua simplicidade&mdash;ninguém
+          precisa aprender sobre fusões ou ramificações.  A desvantagem
+          é que o código no tronco está frequentemente instável ou
+          inutilizável.  Outros projetos usam ramos ao extremo: as
+          alterações <emphasis>nunca</emphasis> são submetidas
+          diretamente para o tronco.  Mesmo as modificações mais
+          triviais são criadas em um pequeno ramo de curta duração, são
+          cuidadosamente revistas e mescladas para o tronco.  Então o
+          ramo é excluído.  O sistema garante que o código presente no
+          tronco esteja excepcionalmente sempre estável e utilizável a
+          cada momento, mas a um curso de uma tremenda sobrecarga no
+          processo.</para>
 
-        <para>Most projects take a middle-of-the-road approach.  They
-          commonly insist that <filename>/trunk</filename> compile and
-          pass regression tests at all times.  A feature branch is
-          only required when a change requires a large number of
-          destabilizing commits.  A good rule of thumb is to ask this
-          question: if the developer worked for days in isolation and
-          then committed the large change all at once (so that
-          <filename>/trunk</filename> were never destabilized), would
-          it be too large a change to review?  If the answer to that
-          question is <quote>yes</quote>, then the change should be
-          developed on a feature branch.  As the developer commits
-          incremental changes to the branch, they can be easily
-          reviewed by peers.</para>
+        <para>Muitos projetos utilizam uma abordagem meio-termo.  São
+          projetos que insistem que o código presente em
+          <filename>/trunk</filename> compile e passe em testes de
+          regressão a cada momento.  Um ramo de novos recursos só é
+          necessário quando uma modificação demanda um grande número de
+          submissões que possam desestabilizar o código.  Uma regra de
+          ouro é se perguntar: se o desenvolvedor trabalhou vários dias
+          isoladamente e então submeteu uma grande alteração toda de uma
+          só vez (de forma que <filename>/trunk</filename> nunca esteve
+          desestabilizada), tal modificação seria muito grande para uma
+          revisão?  Se a resposta a esta pergunta for
+          <quote>sim</quote>, então a modificação deveria ser
+          desenvolvida em um ramo de novos recursos.  Se o desenvolvedor
+          submeter modificações incrementais ao ramo, elas podem ser
+          facilmente revistas por seus colegas.</para>
 
-        <para>Finally, there's the issue of how to best keep a feature
-          branch in <quote>sync</quote> with the trunk as work
-          progresses.  As we mentioned earlier, there's a great risk
-          to working on a branch for weeks or months; trunk changes
-          may continue to pour in, to the point where the two lines of
-          development differ so greatly that it may become a nightmare
-          trying to merge the branch back to the trunk.</para>
+        <para>Finalmente, há a questão sobre o quão  
+          <quote>sincronizado</quote> se deve manter um ramo de novos
+          recursos com o tronco conforme o trabalho no código for
+          avançando.  Como já mencionado anteriormente, há um grande
+          risco de se permanecer trabalhando em um ramo por semanas ou
+          meses; modificações no tronco podem continuar a acontecer, até
+          o ponto em que as duas linhas de desenvolvimento possam
+          diferir tanto a ponto de que realizar a fusão do ramo de volta
+          para o tronco possa se tornar um grande pesadelo.</para>
 
-        <para>This situation is best avoided by regularly merging
-          trunk changes to the branch.  Make up a policy: once a week,
-          merge the last week's worth of trunk changes to the branch.
-          Take care when doing this; the merging needs to be
-          hand-tracked to avoid the problem of repeated merges (as
-          described in
+        <para>A melhor maneira de evitar essa situação é regularmente
+          mesclar as alterações do tronco para o ramo em
+          desenvolvimento.  Defina uma política: uma vez por semana,
+          realize a fusão das alterações da última semana feitas no
+          tronco para seu ramo.  Tome cuidado ao fazer isto; será 
+          necessário controle manual nas fusões visando evitar o
+          problema de se realizar repetidas fusões (como descrito em
           <xref
-          linkend="svn.branchmerge.copychanges.bestprac.track"/>).
-          You'll need to write careful log messages detailing exactly
-          which revision ranges have been merged already (as
-          demonstrated in
-          <xref linkend="svn.branchmerge.commonuses.wholebr"/>).  It
-          may sound intimidating, but it's actually pretty easy to
-          do.</para>
+          linkend="svn.branchmerge.copychanges.bestprac.track"/>).  Você
+          precisará escrever cuidadosamente suas mensagens de log
+          detalhando quais intervalos de revisão já foram mesclados
+          (como demonstrado em <xref
+          linkend="svn.branchmerge.commonuses.wholebr"/>).  Pode parecer
+          assustador, mas atualmente é algo muito fácil de se
+          fazer.</para>
 
-        <para>At some point, you'll be ready to merge the
-          <quote>synchronized</quote> feature branch back to the
-          trunk.  To do this, begin by doing a final merge of the
-          latest trunk changes to the branch.  When that's done, the
-          latest versions of branch and trunk will be absolutely
-          identical except for your branch changes.  So in this
-          special case, you would merge by comparing the branch with
-          the trunk:</para>
+        <para>Em algum ponto, você estará pronto para fazer a fusão de
+          seu ramo <quote>sincronizado</quote> de recursos de volta para
+          o tronco.  Para fazer isto, comece fazendo uma última fusão
+          das últimas alterações presentes no tronco para seu ramo.  Ao
+          terminar, as últimas versões do ramo e do tronco serão
+          absolutamente idênticas, exceto pelas suas próprias
+          alterações.  Assim, particularmente neste caso, você realizar
+          a fusão comparando seu ramo com o tronco:</para>
 
         <screen>
 $ cd trunk-working-copy
@@ -1763,20 +1780,21 @@ A  newdirectory/newfile
 &hellip;
 </screen>
 
-        <para>By comparing the <literal>HEAD</literal> revision of the
-          trunk with the <literal>HEAD</literal> revision of the
-          branch, you're defining a delta that describes only the
-          changes you made to the branch; both lines of development
-          already have all of the trunk changes.</para>
+        <para>Comparando a revisão <literal>HEAD</literal> do tronco com
+          a revisão revision <literal>HEAD</literal> do ramo, você está
+          definindo um delta que descreve apenas as alterações que você
+          fez no ramo; ambas as linhas de desenvolvimento já possuem
+          todas as alterações do tronco.</para>
 
-        <para>Another way of thinking about this pattern is that your
-          weekly sync of trunk to branch is analogous to running
-          <command>svn update</command> in a working copy, while the
-          final merge step is analogous to running <command>svn
-          commit</command> from a working copy.  After all, what else
-          <emphasis>is</emphasis> a working copy but a very shallow
-          private branch?  It's a branch that's only capable of
-          storing one change at a time.</para>
+        <para>Outra forma de pensar sobre este padrão é que sua
+          sincronização semanal do tronco para o ramo é análoga à
+          execução de um <command>svn update</command> na cópia de
+          trabalho, ao passo que o passo da fusão final é análogo a
+          executar um <command>svn commit</command> a partir de sua
+          cópia de trabalho.  E no fim das contas, o que de fato 
+          <emphasis>é</emphasis> uma cópia de trabalho senão um rasteiro
+          ramo particular?  É um ramo que só é capaz de armazenar só uma
+          modificação por vez.</para>
 
       </sect3>
 
