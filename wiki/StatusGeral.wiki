@@ -17,3 +17,4 @@ Estimamos que cerca de *81,2%* do livro já tenha sido traduzido. Esse número n
 || *B. Subversion for CVS Users*               || *100%* ||
 || *C. WebDAV and Autoversioning*              || *100%* ||
 || *D. Third Party Tools*                      || *100%* ||
+|| *Copyright*                                 || *100%* ||
