@@ -7316,18 +7316,18 @@ exported
   <!-- ================================================================= -->
   <sect1 id="svn.ref.properties">
 
-    <title>Subversion properties</title>
+    <title>Propriedades do Subversion</title>
 
-    <para>Subversion allows users to invent arbitrarily-named
-      versioned properties on files and directories, as well as
-      unversioned properties on revisions.  The only restriction is on
-      properties whose names begin with <literal>svn:</literal> (those
-      are reserved for Subversion's own use).  While these properties
-      may be set by users to control Subversion's behavior, users may
-      not invent new <literal>svn:</literal> properties.</para>
+    <para>O Subversion permite que usuário inventem propriedades versionadas com
+      nomes arbitrários em arquivos e diretórios, bem como
+      propriedades não-versionadas em revisões.  A única restrição está nas
+      propriedades cujos nomes iniciam com <literal>svn:</literal> (esses
+      são reservados para uso do próprio Subversion).  Enquanto estas propriedades
+      podem ser definidas pelos usuários para controlar o comportamento do Subversion, os usuários não
+      podem inventar novas propriedades <literal>svn:</literal>.</para>
 
     <sect2 id="svn.ref.properties.versioned-props">
-      <title>Versioned Properties</title>
+      <title>Propriedades Versionadas</title>
 
       <variablelist>
 
@@ -7335,8 +7335,8 @@ exported
           <term><literal>svn:executable</literal></term>
           <listitem>
 
-            <para>If present on a file, the client will make the
-              file executable in Unix-hosted working copies.  See
+            <para>Se presente em um arquivo, o cliente tornará o
+              arquivo executável em cópias de trabalho hospedadas em Unix.  Veja
               <xref
               linkend="svn.advanced.props.special.executable"/>.</para>
 
@@ -7347,11 +7347,11 @@ exported
           <term><literal>svn:mime-type</literal></term>
           <listitem>
 
-            <para>If present on a file, the value indicates the
-              file's mime-type.  This allows the client to decide
-              whether line-based contextual merging is safe to
-              perform during updates, and can also affect how the
-              file behaves when fetched via web browser.  See
+            <para>Se presente em um arquivo, o valor indica o
+              mime-type do arquivo.  Esta propriedade permite ao cliente decidir
+              se a mesclagem contextual baseada em linhas é segura para
+              ser realizada durante as atualizações, e também pode afetar como o
+              arquivo comporta-se quando renderizado por um navegador web.  Veja
               <xref
               linkend="svn.advanced.props.special.mime-type"/>. </para>
 
@@ -7362,10 +7362,10 @@ exported
           <term><literal>svn:ignore</literal></term>
           <listitem>
 
-            <para>If present on a directory, the value is a list of
-              <emphasis>unversioned</emphasis> file patterns to be ignored
-              by <command>svn status</command> and other
-              subcommands.  See
+            <para>Se presente em um diretório, o valor é uma lista de
+              filtros de arquivos <emphasis>não-versionados</emphasis> a serem ignorados
+              por <command>svn status</command> e outros
+              subcomandos.  veja
               <xref
               linkend="svn.advanced.props.special.ignore"/></para>
 
@@ -7376,9 +7376,9 @@ exported
           <term><literal>svn:keywords</literal></term>
           <listitem>
 
-            <para>If present on a file, the value tells the client
-              how to expand particular keywords within the file.
-              See
+            <para>Se presente em um arquivo, o valor diz ao cliente
+              como expandir determinadas palavras-chave dentro do arquivo.
+              Veja
               <xref
               linkend="svn.advanced.props.special.keywords"/>.</para>
 
@@ -7389,10 +7389,10 @@ exported
           <term><literal>svn:eol-style</literal></term>
           <listitem>
 
-            <para>If present on a file, the value tells the client how
-              to manipulate the file's line-endings in the working
-              copy, and in exported trees.  See <xref
-              linkend="svn.advanced.props.special.eol-style"/> and
+            <para>Se presente em um arquivo, o valor diz ao cliente como
+              manipular as quebras de linha do arquivo na cópia de
+              trabalho e em árvores exportadas.  Veja <xref
+              linkend="svn.advanced.props.special.eol-style"/> e
               <xref linkend="svn.ref.svn.c.export" />.</para>
 
           </listitem>
@@ -7402,9 +7402,9 @@ exported
           <term><literal>svn:externals</literal></term>
           <listitem>
 
-            <para>If present on a directory, the value is a
-              multi-line list of other paths and URLs the client
-              should check out.  See
+            <para>Se presente em um diretório, o valor é uma
+              lista de várias linhas com outros caminhos e URLs que o cliente
+              deve verificar.  Veja
               <xref
               linkend="svn.advanced.externals"/>.</para>
 
@@ -7415,12 +7415,12 @@ exported
           <term><literal>svn:special</literal></term>
           <listitem>
 
-            <para>If present on a file, indicates that the file is not
-              an ordinary file, but a symbolic link or other special
-              object<footnote><para>As of this writing, symbolic links
-              are indeed the only <quote>special</quote> objects.  But
-              there might be more in future releases of
-              Subversion.</para></footnote>.</para>
+            <para>Se presente em um arquivo, indica que o arquivo não é
+              um arquivo normal, mas uma ligação simbólica ou outro objeto
+              especial<footnote><para>Até o momento, ligações simbólicas
+              são, na verdade, apenas objetos <quote>especiais</quote>.  Mas
+              poderão existir mais outros em versões futuras
+              do Subversion.</para></footnote>.</para>
 
           </listitem>
         </varlistentry>
@@ -7429,9 +7429,9 @@ exported
           <term><literal>svn:needs-lock</literal></term>
           <listitem>
 
-            <para>If present on a file, tells the client to make the
-              file read-only in the working copy, as a reminder that
-              the file should be locked before editing begins.  See
+            <para>Se presente em um arquivo, diz ao cliente para tornar o
+              arquivo somente de leitura na cópia de trabalho, como um lembrete de que
+              o arquivo deve ser travado antes de iniciar sua edição.  Veja
               <xref
               linkend="svn.advanced.locking.lock-communication"/>.</para>
 
@@ -7442,7 +7442,7 @@ exported
     </sect2>
 
     <sect2 id="svn.ref.properties.unversioned-props">
-      <title>Unversioned Properties</title>
+      <title>Propriedades Não-Versionadas</title>
 
       <variablelist>
 
@@ -7450,9 +7450,9 @@ exported
           <term><literal>svn:author</literal></term>
           <listitem>
 
-            <para>If present, contains the authenticated username of
-              the person who created the revision.  (If not present,
-              then the revision was committed anonymously.)</para>
+            <para>Se presente, contém o nome de usuário autenticado da
+              pessoa que criou a revisão.  (Se não presente,
+              então a revisão foi submitida anonimamente.)</para>
 
           </listitem>
         </varlistentry>
@@ -7461,10 +7461,10 @@ exported
           <term><literal>svn:date</literal></term>
           <listitem>
 
-            <para>Contains the UTC time the revision was created, in
-              ISO 8601 format.  The value comes from the
-              <emphasis>server</emphasis> machine's clock, not the
-              client's.</para>
+            <para>Contém a data e hora em UTC da revisão em que foi criada, no
+              formato ISO 8601.  O valor vem do relógio do
+              computador <emphasis>servidor</emphasis>, não do
+              cliente.</para>
 
           </listitem>
         </varlistentry>
@@ -7473,8 +7473,8 @@ exported
           <term><literal>svn:log</literal></term>
           <listitem>
 
-            <para>Contains the log message describing the
-              revision.</para>
+            <para>Contém a mensagem de log descrevendo a
+              revisão.</para>
 
           </listitem>
         </varlistentry>
@@ -7483,8 +7483,8 @@ exported
           <term><literal>svn:autoversioned</literal></term>
           <listitem>
 
-            <para>If present, the revision was created via the
-              autoversioning feature.  See
+            <para>Se presente, a revisão foi criada por meio do
+              recurso de autoversionamento.  Veja
               <xref linkend="svn.webdav.autoversioning"/>.</para>
 
           </listitem>
