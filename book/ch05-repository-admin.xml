@@ -783,92 +783,90 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.reposadmin.create">
-    <title>Creating and Configuring Your Repository</title>
+    <title>Criando e Configurando Seu Repositório</title>
 
-    <para>In <xref linkend="svn.reposadmin.planning" />, we looked at
-      some of the important decisions that should be made before
-      creating and configuring your Subversion repository.  Now, we
-      finally get to get our hands dirty!  In this section, we'll see
-      how to actually create a Subversion repository and configure it
-      to perform custom actions when special repository events
-      occur.</para>
-
+    <para>Em <xref linkend="svn.reposadmin.planning" /> foram vistas
+      algumas decisões importantes que devem ser feitas antes de criar e
+      configurar o seu repositório Subversion. Agora finalmente vamos sujar
+      nossas mãos! Nessa seção nós veremos como criar um repositório 
+      Subversion e configurá-lo para executar ações customizadas quando
+      eventos especiais ocorrerem.</para> 
+      
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.basics.creating">
-      <title>Creating the Repository</title>
+      <title>Criando o Repositório</title>
 
-      <para>Subversion repository creation is an incredibly simple
-        task.  The <command>svnadmin</command> utility that comes with
-        Subversion provides a subcommand (<literal>create</literal>)
-        for doing just that.</para>
+      <para>A criação de um repositório Subversion é uma tarefa
+        inacreditavelmente simples. O utilitário <command>svnadmin</command>,
+        que vem com Subversion, oferece um subcomando 
+        (<literal>create</literal>) para fazer isso.</para>
 
       <screen>
 $ svnadmin create /path/to/repos
 </screen>
 
-      <para>This creates a new repository in the directory
-        <filename>/path/to/repos</filename>, and with the default
-        filesystem data store.  Prior to Subversion 1.2, the default
-        was to use Berkeley DB; the default is now FSFS.  You can
-        explicitly choose the filesystem type using the
-        <option>--fs-type</option> argument, which accepts as a
-        parameter either <literal>fsfs</literal> or
-        <literal>bdb</literal>.</para>
+      <para>Esse comando cria um novo repositório no diretório 
+        <filename>/path/to/repos</filename>, com o sistema de armazenamento
+        padrão. Antes do Subversion 1.2, o padrão foi o Berkeley DB; agora
+        o padrão é o FSFS. Você pode escolher o sistema de armazenamento
+        usando a opção <option>--fs-type</option> que aceita como parâmetro
+        <literal>fsfs</literal> ou <literal>bdb</literal>.</para> 
 
       <screen>
-$ # Create an FSFS-backed repository
+$ # Cria um repositório FSFS
 $ svnadmin create --fs-type fsfs /path/to/repos
 $
 </screen>
 
       <screen>
-# Create a Berkeley-DB-backed repository
+# Cria um repositório Berkeley-DB
 $ svnadmin create --fs-type bdb /path/to/repos
 $
 </screen>
 
-      <para>After running this simple command, you have a Subversion
-        repository.</para>
-
+      <para>Depois de executar esse simples comando você obtém um 
+        repositório Subversion.</para>
+      
       <tip>
-        <para>The path argument to <command>svnadmin</command> is just
-          a regular filesystem path and not a URL like the
-          <command>svn</command> client program uses when referring to
-          repositories.  Both <command>svnadmin</command> and
-          <command>svnlook</command> are considered server-side
-          utilities&mdash;they are used on the machine where the
-          repository resides to examine or modify aspects of the
-          repository, and are in fact unable to perform tasks across a
-          network.  A common mistake made by Subversion newcomers is
-          trying to pass URLs (even <quote>local</quote>
-          <literal>file://</literal> ones) to these two programs.</para>
+        <para>O parâmetro de caminho para <command>svnadmin</command>
+          é um caminho comum no sistema de arquivos e não uma URL como
+          programa cliente <command>svn</command> usa quando faz
+          referência para um repositório. Ambos os comandos
+          <command>svnadmin</command> e <command>svnlook</command> são
+          considerados utilitários de servidor&mdash;eles são usados na
+          máquina onde o repositório está armazenado para examinar ou
+          modificar aspectos do repositório, e não têm a capacidade de
+          executar tarefas sobre uma rede. Um erro comum cometido pelos
+          novatos no Subversion é tentar utilizar URLs (mesmo 
+          <literal>file://</literal> para <quote>locais</quote>) nesses
+          dois programas.</para> 
       </tip>
 
-      <para>Present in the <filename>db/</filename> subdirectory of
-        your repository is the implementation of the versioned
-        filesystem. Your new repository's versioned filesystem begins
-        life at revision 0, which is defined to consist of nothing but
-        the top-level root (<filename>/</filename>) directory.
-        Initially, revision 0 also has a single revision property,
-        <literal>svn:date</literal>, set to the time at which the
-        repository was created.</para>
+      <para>Dentro do subdiretório <filename>db/</filename> do seu 
+        repositório está a implementação do sistema de arquivos versionado.
+        Seu novo sistema de arquivos versionado do repositório começa sua
+        vida na revisão 0, que consiste apenas do diretório raiz de mais
+        alto nível (<filename>/</filename>). Inicialmente a revisão 0
+        também tem uma única propriedadede revisão 
+        <literal>svn:date</literal>, configurada com o dia/hora em que o
+        repositório foi criado.</para>
 
-      <para>Now that you have a repository, it's time to customize
-        it.</para>
-
+      <para>Agora que você tem um repositório, é hora de customizá-lo
+      </para>
+      
       <warning>
-        <para>While some parts of a Subversion repository&mdash;such
-          as the configuration files and hook scripts&mdash;are meant
-          to be examined and modified manually, you shouldn't (and
-          shouldn't need to) tamper with the other parts of the
-          repository <quote>by hand</quote>.  The
-          <command>svnadmin</command> tool should be sufficient for
-          any changes necessary to your repository, or you can look to
-          third-party tools (such as Berkeley DB's tool suite) for
-          tweaking relevant subsections of the repository.  Do
-          <emphasis>not</emphasis> attempt manual manipulation of your
-          version control history by poking and prodding around in
-          your repository's data store files!</para>
+        <para>Enquanto algumas partes de um repositório&mdash;como seus 
+          arquivos de configuração e scripts de gatilho&mdash;são
+          passíveis de serem examinados e modificados manualmente, você
+          não deve (e não deveria precisar) modificar outras partes
+          <quote>manualmente</quote>. O comando 
+          <command>svnadmin</command> deve ser suficiente para qualquer
+          alteração no seu repositório, ou você pode procurar por
+          ferramentas de terceiros (como a suíte de ferramentas para o
+          Berkeley DB) para ajustar subseções relevantes do repositório.
+          <emphasis>Não</emphasis> tente manipular manualmente o histórico
+          do seu controle de versões mexendo nos arquivos de armazenamento!
+          </para>
       </warning>
 
     </sect2>
