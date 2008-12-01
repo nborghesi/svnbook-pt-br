@@ -1,6 +1,6 @@
 #summary Estado geral da tradução
 
-Estimamos que cerca de *83,7%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
+Estimamos que cerca de *84,9%* do livro já tenha sido traduzido. Esse número não é exato, mas é algo bastante aproximado.
 
 || *Foreword*                                  || *100%* ||
 || *Preface*                                   || *100%* ||
@@ -12,7 +12,7 @@ Estimamos que cerca de *83,7%* do livro já tenha sido traduzido. Esse número n
 || *6. Server Configuration*                   || *100%* ||
 || *7. Customizing Your Subversion Experience* || *100%* ||
 || *8. Embedding Subversion*                   || *100%* ||
-|| 9. Subversion Complete Reference            || 72%    ||
+|| 9. Subversion Complete Reference            || 77%    ||
 || *A. Subversion Quick-Start Guide*           || *100%* ||
 || *B. Subversion for CVS Users*               || *100%* ||
 || *C. WebDAV and Autoversioning*              || *100%* ||
