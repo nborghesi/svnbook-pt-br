@@ -7171,25 +7171,25 @@ exported
     <refentry id="svn.ref.mod_dav_svn.conf">
       <refnamediv>
 
-        <refname><literal>mod_dav_svn</literal> Configuration
-        Directives</refname> <refpurpose>Apache configuration
-        directives for serving Subversion repositories through Apache
-        HTTP Server.</refpurpose> 
+        <refname>Diretivas de Configuração do <literal>mod_dav_svn</literal>
+        </refname> <refpurpose>As diretivas de configuração do Apache
+        para servir repositórios do Subversion através de um Servidor
+        HTTP Apache.</refpurpose> 
 
       </refnamediv>
 
       <refsect1 id="svn.ref.mod_dav_svn.conf.desc">
         <title>Descrição</title>
 
-        <para>This section briefly describes each of the Subversion
-          Apache configuration directives.  For an in-depth
-          description of configuring Apache with Subversion, see <xref
+        <para>Esta seção descreve brevemente cada um das diretivas de
+          configuração do Subversion no Apache.  Para uma descrição
+          mais detalhada da configuração do Apache com Subversion, veja <xref
           linkend="svn.serverconfig.httpd"/>.)</para>
 
       </refsect1>
 
       <refsect1 id="svn.ref.mod_dav_svn.conf.directives">
-        <title>Directives</title>
+        <title>Diretivas</title>
 
         <variablelist>
     
@@ -7197,11 +7197,11 @@ exported
             <term><literal>DAV svn</literal></term>
             <listitem>
 
-              <para>This directive must be included in any
-                <literal>Directory</literal> or
-                <literal>Location</literal> block for a Subversion
-                repository.  It tells httpd to use the Subversion
-                backend for mod_dav to handle all requests.</para>
+              <para>Esta diretiva deve ser incluída em qualquer
+                bloco <literal>Directory</literal> ou
+                <literal>Location</literal> para um repositório do
+                Subversion.  Ela diz ao httpd usar o módulo base do
+                Subversion para que o mod_dav manipule todas as requisições.</para>
 
             </listitem>
           </varlistentry>
@@ -7210,16 +7210,16 @@ exported
             <term><literal>SVNAutoversioning On</literal></term>
             <listitem>
 
-              <para>This directive allows write requests from WebDAV
-                clients to result in automatic commits.  A generic log
-                message is auto-generated and attached to each
-                revision.  If you enable Autoversioning, you'll likely
-                want to set <literal>ModMimeUsePathInfo On</literal>
-                so that <literal>mod_mime</literal> can set
-                <literal>svn:mime-type</literal> to the correct
-                mime-type automatically (as best as
-                <literal>mod_mime</literal> is able to, of course).
-                For more information, see <xref
+              <para>Esta diretiva permite que requisições de clientes
+                WebDAV resultem em submissões automáticas.  Uma mensagem de log
+                genérica é gerada automaticamente e anexada a cada
+                revisão.  Se você habilitar o Auto-versionamento, é provável que
+                você queira definir <literal>ModMimeUsePathInfo On</literal>
+                de forma que <literal>mod_mime</literal> pode definir a propriedade
+                <literal>svn:mime-type</literal> para o mime-type
+                correto automaticamente (e <literal>mod_mime</literal>
+                 é capaz de fazer isto muito bem, naturalmente).
+                Para mais informações, veja <xref
                 linkend="svn.webdav"/></para>
 
             </listitem>
@@ -7229,12 +7229,12 @@ exported
             <term><literal>SVNPath</literal></term>
             <listitem>
 
-              <para>This directive specifies the location in the
-                filesystem for a Subversion repository's files.  In a
-                configuration block for a Subversion repository,
-                either this directive or
-                <literal>SVNParentPath</literal> must be present, but
-                not both.</para>
+              <para>Esta diretiva especifica o local no sistema de
+                arquivo para os arquivos do repositório do Subversion.  Em um
+                bloco de configuração para um repositório Subversion,
+                ou esta diretiva ou
+                <literal>SVNParentPath</literal> deve estar presente, mas
+                não ambas.</para>
 
             </listitem>
           </varlistentry>
@@ -7243,16 +7243,16 @@ exported
             <term><literal>SVNSpecialURI</literal></term>
             <listitem>
 
-              <para>Specifies the URI component (namespace) for
-                special Subversion resources.  The default is
-                <quote><literal>!svn</literal></quote>, and most
-                administrators will never use this directive.  Only
-                set this if there is a pressing need to have a file
-                named <filename>!svn</filename> in your repository.  If
-                you change this on a server already in use, it will
-                break all of the outstanding working copies and your
-                users will hunt you down with pitchforks and flaming
-                torches.</para>
+              <para>Especifica o componente URI (espaço de nome) para
+                recursos especiais do Subversion.  O padrão é
+                <quote><literal>!svn</literal></quote>, e a maioria
+                dos administradores nunca usarão esta diretiva.  Somente
+                defina ela se houver uma necessidade premente de ter um arquivo
+                chamado <filename>!svn</filename> em seu repositório.  Se
+                você mudar ela em um servidor já em uso, ele
+                quebrará todas as cópias de trabalho existentes e seus
+                usuários caçarão você com garfões e tochas
+                de fogo.</para>
 
             </listitem>
           </varlistentry>
@@ -7261,12 +7261,12 @@ exported
             <term><literal>SVNReposName</literal></term>
             <listitem>
 
-              <para>Specifies the name of a Subversion repository for
-                use in <literal>HTTP GET</literal> responses.  This
-                value will be prepended to the title of all directory
-                listings (which are served when you navigate to a
-                Subversion repository with a web browser).  This
-                directive is optional.</para>
+              <para>Especifica o nome de um repositório Subversion a ser
+                usado nas respostas <literal>HTTP GET</literal>.  Este
+                valor será colocado no início do título de todas as listagens
+                de diretório (as quais são servidas quando você navega em um
+                repositório Subversion com um navegador web).  Esta
+                diretiva é opcional.</para>
 
             </listitem>
           </varlistentry>
@@ -7275,8 +7275,8 @@ exported
             <term><literal>SVNIndexXSLT</literal></term>
             <listitem>
 
-              <para>Specifies the URI of an XSL transformation for
-                directory indexes.  This directive is optional.</para>
+              <para>Especifica a URI de uma transformação XSL para os
+                índices de diretório.  Esta diretiva é opcional.</para>
 
             </listitem>
           </varlistentry>
@@ -7285,12 +7285,12 @@ exported
             <term><literal>SVNParentPath</literal></term>
             <listitem>
 
-              <para>Specifies the location in the filesystem of a
-                parent directory whose child directories are
-                Subversion repositories.  In a configuration block for
-                a Subversion repository, either this directive or
-                <literal>SVNPath</literal> must be present, but not
-                both.</para>
+              <para>Especifica o local no sistema de arquivo de um
+                diretório pai, cujos diretórios filhos são
+                repositórios do Subversion.  Em um bloco de configuração para
+                um repositório Subversion, ou esta diretiva ou
+                <literal>SVNPath</literal> deve estar presente, mas não
+                ambas.</para>
 
             </listitem>
           </varlistentry>
@@ -7299,9 +7299,9 @@ exported
             <term><literal>SVNPathAuthz</literal></term>
             <listitem>
 
-              <para>Control path-based authorization by enabling or
-                disabling subrequests.  See <xref
-                linkend="svn.serverconfig.httpd.authz.pathauthzoff"/> for details.</para>
+              <para>Controla a autorização baseada em caminho ao habilitar ou
+                desabilitar sub-requisições.  Veja <xref
+                linkend="svn.serverconfig.httpd.authz.pathauthzoff"/> para detalhes.</para>
 
             </listitem>
           </varlistentry>
@@ -7318,7 +7318,7 @@ exported
 
     <title>Propriedades do Subversion</title>
 
-    <para>O Subversion permite que usuário inventem propriedades versionadas com
+    <para>O Subversion permite que os usuários inventem propriedades versionadas com
       nomes arbitrários em arquivos e diretórios, bem como
       propriedades não-versionadas em revisões.  A única restrição está nas
       propriedades cujos nomes iniciam com <literal>svn:</literal> (esses
@@ -7461,7 +7461,7 @@ exported
           <term><literal>svn:date</literal></term>
           <listitem>
 
-            <para>Contém a data e hora em UTC da revisão em que foi criada, no
+            <para>Contém a data e hora em UTC em que a revisão foi criada, no
               formato ISO 8601.  O valor vem do relógio do
               computador <emphasis>servidor</emphasis>, não do
               cliente.</para>
