@@ -7500,56 +7500,56 @@ exported
   <!-- ================================================================= -->
   <sect1 id="svn.ref.reposhooks">
   
-    <title>Repository Hooks</title>
+    <title>Ganchos do Repositório</title>
   
     <!-- =============================================================== -->
     <refentry id="svn.ref.reposhooks.start-commit">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>start-commit</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>start-commit</refname>
-        <refpurpose>Notification of the beginning of a commit.</refpurpose>
+        <refpurpose>Notificação do início de uma submissão.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
         
-        <para>The start-commit hook is run before the commit
-          transaction is even created.  It is typically used to
-          decide if the user has commit privileges at all.</para>
+        <para>O gancho start-commit é executado antes da transação de
+          submissão ser criada.  Isto é normalmente usado para
+          decidir se o usuário possui privilégios de submissão.</para>
 
-        <para>If the start-commit hook program returns a non-zero exit
-          value, the commit is stopped before the commit transaction
-          is even created, and anything printed to stderr is
-          marshalled back to the client.</para>
+        <para>Se o programa de gancho start-commit retorna um código de saída
+          não-zero, a submissão é interrompida antes da transação de submissão
+          ser criada, e qualquer coisa impressa em stderr é
+          devolvida ao cliente.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>authenticated username attempting the commit</para>
+            <para>nome do usuário autenticado que está tentando submeter</para>
           </listitem>
         </orderedlist>
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
+        <title>Usos Comuns</title>
 
-        <para>access control</para>
+        <para>controle de acesso</para>
       </refsect1>
   
       <!-- TODO(fitz): 1.5 Give a good example here of what we might use
@@ -7561,53 +7561,53 @@ exported
     <refentry id="svn.ref.reposhooks.pre-commit">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>pre-commit</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>pre-commit</refname>
-        <refpurpose>Notification just prior to commit completion.</refpurpose>
+        <refpurpose>Notificação pouco antes da conclusão da submissão.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The pre-commit hook is run just before a commit
-          transaction is promoted to a new revision.  Typically,
-          this hook is used to protect against commits that are
-          disallowed due to content or location (for example, your
-          site might require that all commits to a certain branch
-          include a ticket number from the bug tracker, or that the
-          incoming log message is non-empty).</para>
+        <para>O gancho pre-commit é executado pouco antes de uma transação de
+          submissão ser promovida para uma nova revisão.  Geralmente,
+          este gancho é usado para proteger contra submissões que são
+          recusadas devido ao conteúdo ou local (por exemplo, seu
+          site pode requerer que todas submissões para um certo ramo
+          inclua um número de entrada no <foreignphrase>issue tracker</foreignphrase>, ou que a
+          mensagem de log recebida não seja vazia).</para>
 
-        <para>If the pre-commit hook program returns a non-zero exit
-          value, the commit is aborted, the commit transaction is
-          removed, and anything printed to stderr is marshalled back
-          to the client.</para>
+        <para>Se o programa de gancho pre-commit retorna um código de saída
+          não-zero, a submissão é abortada, a transação de submissão é
+          removida, e qualquer coisa impressa em stderr é devolvida
+          ao cliente.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
 
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>commit transaction name</para>
+            <para>nome da transação de submissão</para>
           </listitem>
         </orderedlist>
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>change validation and control</para>
+        <title>Usos Comuns</title>
+        <para>validação e controle de mudanças</para>
       </refsect1>
   
     </refentry>
@@ -7616,50 +7616,50 @@ exported
     <refentry id="svn.ref.reposhooks.post-commit">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>post-commit</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>post-commit</refname>
-        <refpurpose>Notification of a successful commit.</refpurpose>
+        <refpurpose>Notificação de uma submissão com sucesso.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The post-commit hook is run after the transaction is
-          committed, and a new revision created.  Most people use
-          this hook to send out descriptive emails about the commit
-          or to notify some other tool (such as an issue tracker)
-          that a commit has happened.  Some configurations also use
-          this hook to trigger backup processes.</para>
+        <para>O gancho post-commit é executado depois que a transação é
+          submetida, e uma nova revisão criada.  Maior parte das pessoas usa
+          este gancho para enviar mensagens eletrônicas com detalhes sobre a submissão
+          ou para notificar alguma outra ferramenta (tal como um <foreignphrase>issue tracker</foreignphrase>)
+          que uma submissão aconteceu.  Algumas configurações também usam
+          este gancho para disparar processos de cópia de segurança.</para>
 
-        <para>The output from, and exit value returned by the
-          post-commit hook program are ignored.</para>
+        <para>A sua saída e o código de saída retornados pelo
+          programa de gancho post-commit são ignorados.</para>
               
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>revision number created by the commit</para>
+            <para>número de revisão criado pela submissão</para>
           </listitem>
         </orderedlist>
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>commit notification, tool integration</para>
+        <title>Usos Comuns</title>
+        <para>notificação de submissão, integração com ferramentas</para>
       </refsect1>
   
     </refentry>
@@ -7668,69 +7668,69 @@ exported
     <refentry id="svn.ref.reposhooks.pre-revprop-change">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>pre-revprop-change</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>pre-revprop-change</refname>
-        <refpurpose>Notification of a revision property change
-          attempt.</refpurpose>
+        <refpurpose>Notificação de uma tentativa de mudança de propriedade de
+          uma revisão.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The pre-revprop-change hook is run immediately prior to
-          the modification of a revision property when performed
-          outside the scope of a normal commit.  Unlike the other
-          hooks, the default state of this one is to deny the proposed
-          action.  The hook must actually exist and return a zero
-          exit value before a revision property modification can
-          happen.</para>
+        <para>O gancho pre-revprop-change é executado imediatamente antes da
+          modificação de uma propriedade de revisão quando realizada
+          fora do escopo de uma submissão normal.  Ao contrário dos outros
+          ganchos, o estado padrão deste gancho é negar a ação
+          proposta.  O gancho deve existir efetivamente e retornar um código de
+          saída zero antes de uma modificação de propriedade de revisão possa
+          acontecer.</para>
 
-        <para>If the pre-revprop-change hook doesn't exist, isn't
-          executable, or returns a non-zero exit value, no change to
-          the property will be made, and anything printed to stderr is
-          marshalled back to the client.</para>
+        <para>Se o gancho pre-revprop-change não existir, ele não é
+          executável, ou retorna um código de saída não-zero, nenhuma mudança na
+          propriedade será feita, e qualquer coisa impressa em stderr é
+          devolvida ao cliente.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
 
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>revision whose property is about to be modified</para>
+            <para>revisão cuja propriedade está prestes a ser modificada</para>
           </listitem>
           <listitem>
-            <para>authenticated username attempting the propchange</para>
+            <para>nome do usuário autenticado tentando a mudança de propriedade</para>
           </listitem>
           <listitem>
-            <para>name of the property changed</para>
+            <para>nome da propriedade modificada</para>
           </listitem>
           <listitem>
-            <para>change description: <literal>A</literal> (added),
-              <literal>D</literal> (deleted), or <literal>M</literal>
-              (modified)</para>
+            <para>descrição da mudança: <literal>A</literal> (adicionada),
+              <literal>D</literal> (excluída), ou <literal>M</literal>
+              (modificada)</para>
           </listitem>
         </orderedlist>
 
-        <para>Additionally, Subversion passes to the hook program via
-          standard input the proposed value of the property.</para>
+        <para>Adicionalmente, o Subversion passa para o programa de gancho por meio da
+          entrada padrão o valor proposto para a propriedade.</para>
 
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>access control, change validation and control</para>
+        <title>Usos Comuns</title>
+        <para>controle de acesso, validação e controle de mudanças</para>
       </refsect1>
   
     </refentry>
@@ -7739,68 +7739,68 @@ exported
     <refentry id="svn.ref.reposhooks.post-revprop-change">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>post-revprop-change</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>post-revprop-change</refname>
-        <refpurpose>Notification of a successful revision property 
-          change.</refpurpose>
+        <refpurpose>Notificação de uma mudança de propriedade de uma revisão 
+          com sucesso.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The post-revprop-change hook is run immediately after to
-          the modification of a revision property when performed
-          outside the scope of a normal commit.  As can be derived
-          from the description of its counterpart, the
-          pre-revprop-change hook, this hook will not run at all
-          unless the pre-revprop-change hook is implemented.  It is
-          typically used to send email notification of the property
-          change.</para>
+        <para>O gancho post-revprop-change é executado imediatamente depois que
+          a modificação de uma propriedade de revisão quando realizada
+          fora do escopo de uma submissão normal.  Como pode ser derivado
+          da descrição de sua contrapartida, o gancho
+          pre-revprop-change, este gancho não executará toda vez,
+          a menos que o gancho pre-revprop-change esteja implementado.  Ele é
+          geralmente usado para enviar mensagem de notificação da mudança da
+          propriedade.</para>
 
-        <para>The output from, and exit value returned by, the
-          post-revprop-change hook program are ignored.</para>
+        <para>A sua saída e o código de saída retornados pelo
+          programa de gancho post-revprop-change são ignorados.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>revision whose property was modified</para>
+            <para>revisão cuja propriedade foi modificada</para>
           </listitem>
           <listitem>
-            <para>authenticated username of the person making the change</para>
+            <para>nome de usuário autenticado da pessoa efetuando a mudança</para>
           </listitem>
           <listitem>
-            <para>name of the property changed</para>
+            <para>nome da propriedade modificada</para>
           </listitem>
           <listitem>
-            <para>change description: <literal>A</literal> (added),
-              <literal>D</literal> (deleted), or <literal>M</literal>
-              (modified)</para>
+            <para>descrição da mudança: <literal>A</literal> (adicionado),
+              <literal>D</literal> (excluído), ou <literal>M</literal>
+              (modificado)</para>
           </listitem>
         </orderedlist>
 
-        <para>Additionally, Subversion passes to the hook program, via
-          standard input, the previous value of the property.</para>
+        <para>Adicionalmente, o Subversion passa para o programa de gancho, por meio da
+          entrada padrão, o valor anterior da propriedade.</para>
 
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>propchange notification</para>
+        <title>Usos Comuns</title>
+        <para>notificação de mudança de propriedade de revisão</para>
       </refsect1>
   
     </refentry>
@@ -7809,55 +7809,55 @@ exported
     <refentry id="svn.ref.reposhooks.pre-lock">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>pre-lock</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>pre-lock</refname>
-        <refpurpose>Notification of a path lock attempt.</refpurpose>
+        <refpurpose>Notificação de uma tentativa de travamento de um caminho.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The pre-lock hook runs whenever someone attempts to lock
-          a path.  It can be used to prevent locks altogether, or to
-          create a more complex policy specifying exactly which users
-          are allowed to lock particular paths.  If the hook notices a
-          pre-existing lock, then it can also decide whether a user is
-          allowed to <quote>steal</quote> the existing lock.</para>
+        <para>O gancho pre-lock hook é executado quando alguém tenta travar
+          um caminho.  Ele pode ser usado para prevenir travas em conjunto, ou para
+          criar uma política mais complexa especificando exatamente quais usuários
+          são permitidos a travar caminhos determinados.  Se o gancho relatar uma
+          trava já existente, então ele pode também decidir quando um usuário é
+          permitido a <quote>roubar</quote> a trava existente.</para>
 
-        <para>If the pre-lock hook program returns a non-zero exit
-          value, the lock action is aborted and anything printed to
-          stderr is marshalled back to the client.</para>
+        <para>Se o programa de gancho pre-lock retorna um código de saída
+          não-zero, a ação de trava é abortada e qualquer coisa impressa em
+          stderr é devolvida ao cliente.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>versioned path which is to be locked</para>
+            <para>caminho versionado a ser travado</para>
           </listitem>
           <listitem>
-            <para>authenticated username of the person attempting the 
-              lock</para>
+            <para>nome de usuário autenticado da pessoa tentando o
+              travamento</para>
           </listitem>
         </orderedlist>
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>access control</para>
+        <title>Usos Comuns</title>
+        <para>controle de acesso</para>
       </refsect1>
   
     </refentry>
@@ -7866,52 +7866,52 @@ exported
     <refentry id="svn.ref.reposhooks.post-lock">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>post-lock</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>post-lock</refname>
-        <refpurpose>Notification of a successful path lock.</refpurpose>
+        <refpurpose>Notificação de um travamento de caminho com sucesso.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The post-lock hook runs after one or more paths has been
-          locked.  It is typically used to send email notification of
-          the lock event.</para>
+        <para>O gancho post-lock é executado depois que um ou mais caminhos tenham sido
+          travados.  Ele é geralmente usado para enviar mensagem de notificação do
+          evento de trava.</para>
 
-        <para>The output from and exit value returned by the post-lock
-          hook program are ignored.</para>
+        <para>A sua saída e o código de saída retornados pelo programa de gancho
+          post-lock são ignorados.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminhos do repositório</para>
           </listitem>
           <listitem>
-            <para>authenticated username of the person who locked the 
-              paths</para>
+            <para>nome de usuário autenticado da pessoa quem travou os
+              caminhos</para>
           </listitem>
         </orderedlist>
 
-        <para>Additionally, the list of paths locked is passed to the
-          hook program via standard input, one path per line.</para>
+        <para>Adicionalmente, a lista de caminhos travados é passada para o
+          programa de gancho por meio da entrada padrão, um caminhos por linha.</para>
 
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>lock notification</para>
+        <title>Usos Comuns</title>
+        <para>notificação de trava</para>
       </refsect1>
   
     </refentry>
@@ -7920,57 +7920,57 @@ exported
     <refentry id="svn.ref.reposhooks.pre-unlock">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>pre-unlock</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>pre-unlock</refname>
-        <refpurpose>Notification of a path unlock attempt.</refpurpose>
+        <refpurpose>Notificação de uma tentativa de destravamento de caminho.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The pre-unlock hook runs whenever someone attempts to
-          remove a lock on a file.  It can be used to create policies
-          that specify which users are allowed to unlock particular
-          paths.  It's particularly important for determining policies
-          about lock breakage.  If user A locks a file, is user B
-          allowed to break the lock?  What if the lock is more than a
-          week old?  These sorts of things can be decided and enforced
-          by the hook.</para>
+        <para>O gancho pre-unlock é executado quando alguém tenta
+          remover uma trava em um arquivo.  Ele pode ser usado para criar políticas
+          que especifique quais usuários são permitidos para destravar caminhos
+          determinados.  Isto é particularmente importante para determinar políticas
+          sobre quebra de travas.  Se o usuário A trava um arquivo, o usuário B
+          é permitido a quebrar a trava?  E se a trava existe a mais de uma
+          semana?  Estes tipos de coisas podem ser decididas e executadas
+          pelo gancho.</para>
 
-        <para>If the pre-unlock hook program returns a non-zero exit
-          value, the unlock action is aborted and anything printed to
-          stderr is marshalled back to the client.</para>
+        <para>Se o programa de gancho pre-unlock retorna um código de saída
+          não-zero, a ação de destrava é abortada e qualquer coisa impressa em
+          stderr é devolvida ao cliente.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>versioned path which is to be locked</para>
+            <para>caminho versionado a ser destravado</para>
           </listitem>
           <listitem>
-            <para>authenticated username of the person attempting the 
-              lock</para>
+            <para>nome de usuário autenticado da pessoa tentando o 
+              destravamento</para>
           </listitem>
         </orderedlist>
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>access control</para>
+        <title>Usos Comuns</title>
+        <para>controle de acesso</para>
       </refsect1>
   
     </refentry>
@@ -7979,52 +7979,52 @@ exported
     <refentry id="svn.ref.reposhooks.post-unlock">
   
       <indexterm>
-        <primary>repository</primary>
-        <secondary>hooks</secondary>
+        <primary>repositório</primary>
+        <secondary>ganchos</secondary>
         <tertiary>post-unlock</tertiary>
       </indexterm>
 
       <refnamediv>
         <refname>post-unlock</refname>
-        <refpurpose>Notification of a successful path unlock.</refpurpose>
+        <refpurpose>Notificação de um destravamento de caminho com sucesso.</refpurpose>
       </refnamediv>
 
       <refsect1>
         <title>Descrição</title>
 
-        <para>The post-unlock hook runs after one or more paths has
-          been unlocked.  It is typically used to send email
-          notification of the unlock event.</para>
+        <para>O gancho post-unlock executa depois que um ou mais caminhos tenham
+          sido destravados.  Isto é geralmente usado para enviar mensagem de
+          notificação do evento de destrava.</para>
 
-        <para>The output from and exit value returned by, the
-          post-unlock hook program are ignored.</para>
+        <para>A sua saída e o código de saída retornados pelo
+          programa de gancho post-unlock são ignorados.</para>
 
       </refsect1>
 
       <refsect1>
-        <title>Input Parameter(s)</title>
+        <title>Parâmetros de Entrada</title>
 
-        <para>The command-line arguments passed to the hook program,
-          in order, are:</para>
+        <para>Os argumentos de linha de comando passados ao programa de gancho,
+          em ordem, são:</para>
         
         <orderedlist>
           <listitem>
-            <para>repository path</para>
+            <para>caminho do repositório</para>
           </listitem>
           <listitem>
-            <para>authenticated username of the person who unlocked the 
-              paths</para>
+            <para>nome do usuário autenticado da pessoa quem destravou os 
+              caminhos</para>
           </listitem>
         </orderedlist>
 
-        <para>Additionally, the list of paths unlocked is passed to the
-          hook program via standard input, one path per line.</para>
+        <para>Adicionalmente, a lista de caminhos destravados é passada ao
+          programa de gancho por meio da entrada padrão, um caminho por linha.</para>
 
       </refsect1>
       
       <refsect1>
-        <title>Common Uses</title>
-        <para>unlock notification</para>
+        <title>Usos Comuns</title>
+        <para>notificação de destravamento</para>
       </refsect1>
   
     </refentry>
