@@ -6847,15 +6847,15 @@ $
       que o <command>sshd</command> execute-o sob demanda para o método
       de acesso <literal>svn+ssh://</literal>.</para>
 
-    <para>Regardless of the access method, once the client has
-      selected a repository by transmitting its URL,
-      <command>svnserve</command> reads a file named
-      <filename>conf/svnserve.conf</filename> in the repository
-      directory to determine repository-specific settings such as
-      what authentication database to use and what authorization
-      policies to apply.  See <xref
-      linkend="svn.serverconfig.svnserve"/> for details of the
-      <filename>svnserve.conf</filename> file.</para>
+    <para>Independentemente do método de acesso, uma vez que o cliente
+      tenha selecionado um repositório enviando sua URL, o 
+      <command>svnserve</command> lê um arquivo chamado 
+      <filename>conf/svnserve.conf</filename> no diretório do
+      repositório para determinar configurações específicas tais como
+      qual base de dados de autenticação usar e que políticas de
+      autorização aplicar.  Veja <xref
+      linkend="svn.serverconfig.svnserve"/> para mais detalhes sobre o
+      arquivo <filename>svnserve.conf</filename>.</para>
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnserve.sw">
