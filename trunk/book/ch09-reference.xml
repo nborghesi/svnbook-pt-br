@@ -6834,17 +6834,18 @@ $
 
     <title><command>svnserve</command></title>
     
-    <para><command>svnserve</command> allows access to Subversion
-      repositories using Subversion's custom network protocol.</para>
+    <para>O <command>svnserve</command> possibilita o acesso a
+      repositórios do Subversion usando o protocolo de rede específico
+      do Subversion.</para>
 
-    <para>You can run <command>svnserve</command> as a standalone
-      server process (for clients that are using the
-      <literal>svn://</literal> access method); you can have a daemon
-      such as <command>inetd</command> or <command>xinetd</command>
-      launch it for you on demand (also for
-      <literal>svn://</literal>), or you can have
-      <command>sshd</command> launch it on demand for the
-      <literal>svn+ssh://</literal> access method.</para>
+    <para>Você pode executar o <command>svnserve</command> como um
+      processo servidor independente (para clientes que estejam usando o
+      método de acesso <literal>svn://</literal>); você pode deixar com
+      que um daemon tal como o <command>inetd</command> ou
+      <command>xinetd</command> execute-o para você sob demanda (também
+      para acesso via <literal>svn://</literal>), ou você pode fazer com
+      que o <command>sshd</command> execute-o sob demanda para o método
+      de acesso <literal>svn+ssh://</literal>.</para>
 
     <para>Regardless of the access method, once the client has
       selected a repository by transmitting its URL,
