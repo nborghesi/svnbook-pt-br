@@ -126,8 +126,9 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
     <para>É claro que, quando acessado por meio das bibliotecas do
       Subversion, esse estranho conjunto de arquivos e diretórios de
       repente torna-se uma implementação de um sistema de arquivos
-      virtual, versionável e completo, com gatilhos de eventos
-      personalizáveis.  Este sistema de arquivos tem o seu próprio
+      virtual, versionável e completo, com gatilhos 
+      <foreignphrase>hook</foreignphrase> de eventos personalizáveis.  
+      Este sistema de arquivos tem o seu próprio
       entendimento sobre diretórios e arquivos, muito semelhante aos
       conceitos usados em sistemas de arquivos reais (como NTFS, FAT32,
       ext3, e assim por diante).  Mas este é um sistema de arquivos
@@ -203,7 +204,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
       <para>Existem vantagens em se utilizar um único repositório para
         múltiplos projetos e a mais óbvia é a ausência de manutenção
         duplicada. Um único repositório significa que haverá um único
-        conjunto de programas de gatilhos, uma única coisa para fazer
+        conjunto de programas de ganchos, uma única coisa para fazer
         cópias de segurança periódicas, uma única coisa para descarregar
         e carregar se o Subversion lança um nova versão incompatível, e
         por aí vai.  Além disso, você pode mover dados entre projetos
@@ -211,13 +212,13 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
         versionamento.</para>
 
       <para>A desvantagem de usar um único repositório é que diferentes
-        projetos podem ter diferentes requisitos em termos de gatilhos
+        projetos podem ter diferentes requisitos em termos de ganchos
         de eventos, como por exemplo a necessidade de enviar
         notificações de submissão para diferentes listas de e-mail, ou
         ter diferentes definições sobre o que constitui uma submissão
         correta.  É claro que eles não são problemas
         insuperáveis&mdash;somente significa que todos os seus scripts
-        de gatilho devem ser sensíveis ao leiaute do seu repositório ao
+        de ganchos devem ser sensíveis ao leiaute do seu repositório ao
         invés de assumir que todo o repositório está associado com um
         único grupo de pessoas.  Além disso, lembre-se que o Subversion
         usa números de revisão globais com relação ao repositório.
@@ -856,7 +857,7 @@ $
       
       <warning>
         <para>Enquanto algumas partes de um repositório&mdash;como seus 
-          arquivos de configuração e scripts de gatilho&mdash;são
+          arquivos de configuração e scripts de gancho&mdash;são
           passíveis de serem examinados e modificados manualmente, você
           não deve (e não deveria precisar) modificar outras partes
           <quote>manualmente</quote>. O comando 
@@ -873,26 +874,24 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.create.hooks">
-      <title>Implementing Repository Hooks</title>
+      <title>Implementando Ganchos de Repositório</title>
 
-      <para>A <firstterm>hook</firstterm> is a program triggered by
-        some repository event, such as the creation of a new revision
-        or the modification of an unversioned property.  Some hooks
-        (the so-called <quote>pre hooks</quote>) run in advance of a
-        repository operation and provide a means by which to both
-        report what is about to happen and to prevent it from
-        happening at all.  Other hooks (the <quote>post hooks</quote>)
-        run after the completion of a repository event, and are useful
-        for performing tasks that examine&mdash;but don't
-        modify&mdash;the repository.  Each hook is handed enough
-        information to tell what that event is (or was), the specific
-        repository changes proposed (or completed), and the username
-        of the person who triggered the event.</para>
-
-      <para>The <filename>hooks</filename> subdirectory is, by
-        default, filled with templates for various repository
-        hooks.</para>
-
+      <para>Um <firstterm>gancho</firstterm> é um programa disparado por
+        um evento ocorrido no repositório, como a criação de uma nova revisão
+        ou a modificação de uma propriedade não-versionada. Alguns ganchos
+        (os chamados <quote>pre hooks</quote>) são executados antes da 
+        ocorrência de uma operação no repositório e provêm um meio tanto de 
+        reportar o que está acontecendo quanto de previnir o acontecimento. 
+        Outros ganchos (os <quote>posto hooks</quote>) são executados depois 
+        que algum evento ocorre e, são úteis para executar tarefas que
+        examinam&mdash;mas não modificam&mdash;o repositório. Cada gancho 
+        é acompanhado de informações que dizem que evento é (ou foi), as 
+        modificações propostas (ou completadas) e o nome de usuário da
+        pessa que disparou o evento.</para> 
+        
+      <para>O subdiretório <filename>hooks</filename> contém, por padrão, 
+        vários modelos de ganchos.</para> 
+      
       <screen>
 $ ls repos/hooks/
 post-commit.tmpl      post-unlock.tmpl  pre-revprop-change.tmpl
@@ -900,46 +899,49 @@ post-lock.tmpl        pre-commit.tmpl   pre-unlock.tmpl
 post-revprop-change.tmpl  pre-lock.tmpl     start-commit.tmpl
 </screen>
 
-      <para>There is one template for each hook that the Subversion
-        repository supports, and by examining the contents of those
-        template scripts, you can see what triggers each script
-        to run and what data is passed to that script.  Also present
-        in many of these templates are examples of how one might use
-        that script, in conjunction with other Subversion-supplied
-        programs, to perform common useful tasks.  To actually install
-        a working hook, you need only place some executable program or
-        script into the <filename>repos/hooks</filename> directory
-        which can be executed as the name (like
-        <command>start-commit</command> or
-        <command>post-commit</command>) of the hook.</para>
-
-      <para>On Unix platforms, this means supplying a script or
-        program (which could be a shell script, a Python program, a
-        compiled C binary, or any number of other things) named
-        exactly like the name of the hook.  Of course, the template
-        files are present for more than just informational
-        purposes&mdash;the easiest way to install a hook on Unix
-        platforms is to simply copy the appropriate template file to a
-        new file that lacks the <literal>.tmpl</literal> extension,
-        customize the hook's contents, and ensure that the script is
-        executable.  Windows, however, uses file extensions to
-        determine whether or not a program is executable, so you would
-        need to supply a program whose basename is the name of the
-        hook, and whose extension is one of the special extensions
-        recognized by Windows for executable programs, such as
-        <filename>.exe</filename> for programs, and
-        <filename>.bat</filename> for batch files.</para>
+      <para>Existe um modelo para cada gancho que o repositório 
+        Subversion suporta, e examinando o conteúdo desses scripts 
+        você pode observar o que dispara cada script e que inforamções
+        são passadas para o script. Também são apresentados, em muitos 
+        desses modelos, exemplos de como alguém pode usar o script em
+        conjunto com outros programas disponibilizados pelo Subversion
+        para desempenhar tarefas úteis e rotineiras. Para instalar um
+        gancho você somente precisa colocar algum programa executável
+        ou script no diretório <filename>repos/hooks</filename> que
+        pode ser executado pelo nome do gancho (como 
+        <command>start-commit</command> ou <command>post-commit</command>)
+        </para>
+      
+      <para>Na plataforma Unix, isso significa fornecer um script ou
+        programa (que pode ser um script shell, um programa Python, um
+        binário C compilado, ou qualquer outra coisa semelhante) com o 
+        nome exato do gancho. É claro que os arquivos modelos são 
+        apresentados para serem terem uma função maior do que 
+        simplesmente serem informativos&mdash;a forma mais fácil de
+        instalar um gancho na plataforma Unix é simplesmente copiar o
+        arquivo modelo apropriado para um novo arquivo que leva a 
+        extensão <literal>tmpl</literal>, personalizar o seu conteúdo
+        e se assegurar de que o script é executável. Entretanto, o
+        Windos utiliza extensões de arquivos para determinar se um
+        arquivo é executável ou não. Assim, você precisa fornecer um
+        programa cujo o nome seja o mesmo do gancho e cuja extensão
+        seja uma das extensões especiais reconhecidas pelo Windows
+        como um programa executável, como por exemplo
+        <filename>.exe</filename> para programas, e
+        <filename>.bat</filename> para arquivos de lote.</para>
 
       <tip>
-        <para>For security reasons, the Subversion repository executes
-          hook programs with an empty environment&mdash;that is, no
-          environment variables are set at all, not even
-          <literal>$PATH</literal> (or <literal>%PATH%</literal>,
-          under Windows).  Because of this, many administrators
-          are baffled when their hook program runs fine by hand, but
-          doesn't work when run by Subversion.  Be sure to explicitly
-          set any necessary environment variables in your hook program
-          and/or use absolute paths to programs.</para>
+        <para>Por motivo de segurança o repositório Subversion
+          executa programas de gancho com um ambiente vazio&mdash;
+          o que significa que nenhuma variável de ambiente contém
+          valores, nem mesmo <literal>$PATH</literal> (ou 
+          <literal>%PATH%</literal>, no Windows). Por causa disso
+          muitos administradores são surpreendidos com o fato de
+          que seus ganchos funcionam perfeitamente quando executados
+          "na mão", mas não funcionam quando executados pelo Subversion.
+          Tenha certeza de configurar explicitamente qualquer variável
+          de ambiente que seja necessária no seu programa de gancho e/ou
+          use caminhos absolutos para os programas</para>
       </tip>
 
       <para>Subversion executes hooks as the same user who owns the
