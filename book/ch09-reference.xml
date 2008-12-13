@@ -6859,75 +6859,78 @@ $
     
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnserve.sw">
-      <title><command>svnserve</command> Options</title>
+      <title>Opções do <command>svnserve</command></title>
       
-      <para>Unlike the previous commands we've
-        described, <command>svnserve</command> has no
-        subcommands&mdash;<command>svnserve</command> is controlled
-        exclusively by options.</para>
+      <para>Diferente dos comandos anteriores que descrevemos, o
+        <command>svnserve</command> não possui subcomandos&mdash;o
+        <command>svnserve</command> é controlado exclusivamente por
+        opções.</para>
 
       <variablelist>
 
         <varlistentry>
           <term><option>--daemon</option> (<option>-d</option>)</term>
           <listitem>
-            <para>Causes <command>svnserve</command> to run in daemon
-              mode.  <command>svnserve</command> backgrounds itself
-              and accepts and serves TCP/IP connections on the svn
-              port (3690, by default).</para>
+            <para>Faz com que o <command>svnserve</command> execute em
+              modo daemon.  O próprio <command>svnserve</command> se pôe
+              em segundo plano, aceitando e servindo conexões TCP/IP na
+              porta do svn (3690, por padrão).</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--listen-port</option>=<replaceable>PORT</replaceable></term>
           <listitem>
-            <para>Causes svnserve to listen on
-              <replaceable>PORT</replaceable> when run in daemon mode.
-              (FreeBSD daemons only listen on tcp6 by default&mdash;this
-              option tells them to also listen on tcp4.)</para>
+              <para>Faz com que o <command>svnserve</command> escute na
+                porta <replaceable>PORT</replaceable> quando executado em
+                modo daemon.  (Por padrão, daemons FreeBSD só escutam em
+                tcp6&mdash;esta opção também faz com que escutem em
+                tcp4.)</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--listen-host</option>=<replaceable>HOST</replaceable></term>
           <listitem>
-            <para>Causes <command>svnserve</command> to listen on the
-              interface specified by <replaceable>HOST</replaceable>,
-              which may be either a hostname or an IP address.</para>
+            <para>Faz com que o <command>svnserve</command> escute na
+              interface especificada por
+              <replaceable>HOST</replaceable>, que pode ser tanto um
+              nome de host ou um endereço de IP.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--foreground</option></term>
           <listitem>
-            <para>When used together with <option>-d</option>, this
-              option causes <command>svnserve</command> to stay in the
-              foreground.  This option is mainly useful for
-              debugging.</para>
+            <para>Quando usado junto com <option>-d</option>, esta opção
+              faz com que o <command>svnserve</command> permaneça em
+              primeiro plano.  Esta opção é especialmente útil para
+              depuração.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--inetd</option> (<option>-i</option>)</term>
           <listitem>
-            <para>Causes <command>svnserve</command> to use the
-              stdin/stdout file descriptors, as is appropriate for a
-              daemon running out of <command>inetd</command>.</para>
+            <para>Faz com que o <command>svnserve</command> use os
+              descritores de arquivo stdin/stdout, como apropriado para
+              um daemon que esteja executando via
+              <command>inetd</command>.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--help</option> (<option>-h</option>)</term>
           <listitem>
-            <para>Displays a usage summary and exits.</para>
+            <para>Exibe um resumo de utilização do comando e encerra.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--version</option></term>
           <listitem>
-            <para>Displays version information, a list of repository
-            back-end modules available, and exits.</para>
+            <para>Exibe informação de versão, uma lista de módulos
+              disponíveis para repositório e encerra.</para>
           </listitem>
         </varlistentry>
 
@@ -6935,11 +6938,11 @@ $
           <term><option>--root</option>=<replaceable>ROOT</replaceable>
           (<option>-r</option>=<replaceable>ROOT</replaceable>)</term>
           <listitem>
-            <para>Sets the virtual root for repositories served by
-              <command>svnserve</command>.  The pathname in URLs
-              provided by the client will be interpreted relative to
-              this root, and will not be allowed to escape this
-              root.</para>
+            <para>Define a raiz virtual para os repositório servidos
+              pelo <command>svnserve</command>.  O caminho nas URLs
+              provido pelo cliente será interpretado como relativo a
+              este diretório raiz, e não será permitido de lá
+              escapar.</para>
           </listitem>
         </varlistentry>
 
