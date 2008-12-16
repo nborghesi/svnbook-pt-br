@@ -6949,19 +6949,21 @@ $
         <varlistentry>
           <term><option>--tunnel</option> (<option>-t</option>)</term>
           <listitem>
-            <para>Causes <command>svnserve</command> to run in tunnel
-              mode, which is just like the <command>inetd</command>
-              mode of operation (both modes serve one connection over
-              stdin/stdout, then exit), except that the connection is
-              considered to be pre-authenticated with the username of
-              the current uid.  This flag is automatically passed for
-              you by the client when running over a tunnel agent such
-              as <command>ssh</command>.  That means there's rarely
-              any need for <emphasis>you</emphasis> to pass this
-              option to <command>svnserve</command>.  So if you find
-              yourself typing <literal>svnserve --tunnel</literal> on
-              the command line, and wondering what to do next, see
-              <xref linkend="svn.serverconfig.svnserve.sshauth"/>.
+            <para>Faz com que o <command>svnserve</command> execute em 
+              modo túnel, o que é bem parecido com o modo de operação 
+              <command>inetd</command> (ambos os modos disponibilizam
+              uma conexão através de stdin/stdout, e então encerram), 
+              exceto que a conexão é considerada como já estando
+              pré-autenticada com o nome do usuário do uid atual.  Esta
+              informação é passada automaticamente para você pelo 
+              cliente quando se estiver executando sobre um agente túnel
+              como o <command>ssh</command>.  Isso quer dizer que 
+              raramente <emphasis>você</emphasis> precisará passar esta
+              opção para o <command>svnserve</command>.  Então se você 
+              se digitar <literal>svnserve --tunnel</literal> na linha
+              de comando, e ficar se perguntando o que acontece a 
+              seguir, veja <xref 
+              linkend="svn.serverconfig.svnserve.sshauth"/>.
               </para>
           </listitem>
         </varlistentry>
@@ -6969,33 +6971,35 @@ $
         <varlistentry>
           <term><option>--tunnel-user NAME</option></term>
           <listitem>
-            <para>Used in conjunction with the <option>--tunnel</option>
-              option; tells svnserve to assume that
-              <replaceable>NAME</replaceable> is the authenticated
-              user, rather than the UID of the svnserve
-              process.  Useful for users wishing to share a single
-              system account over SSH, but maintaining separate commit
-              identities.</para>
+            <para>Usado juntamente com a opção
+              <option>--tunnel</option>; instrui para que o svnserve
+              considere que <replaceable>NAME</replaceable> é o usuário 
+              autenticado, ao invés daquele do UID do processo svnserve.  
+              É útil para usuários que querem compartilhar uma única 
+              conta do sistema através de SSH mas ainda manter 
+              identidades distintas nos registros de submissão no
+              repositório.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--threads</option> (<option>-T</option>)</term>
           <listitem>
-            <para>When running in daemon mode, causes
-              <command>svnserve</command> to spawn a thread instead of
-              a process for each connection (e.g. for when running on
-              Windows).  The <command>svnserve</command> process still
-              backgrounds itself at startup time.</para>
+            <para>Quando executado em modo daemon, faz com que o 
+              <command>svnserve</command> dispare uma thread ao invés de 
+              um processo para cada conexão (p.ex., para quando estiver
+              executando em um sistema Windows).  O processo
+              <command>svnserve</command> em si ainda permanece em
+              segundo quando iniciado.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--listen-once</option> (<option>-X</option>)</term>
           <listitem>
-            <para>Causes <command>svnserve</command> to accept one
-              connection on the svn port, serve it, and exit.  This
-              option is mainly useful for debugging.</para>
+            <para>Faz com que o <command>svnserve</command> aceite uma
+              conexão na porta do svn, atenda a requisição, e encerre.  
+              Esta opção é útil principalmente para depuração.</para>
           </listitem>
         </varlistentry>
 
