@@ -2129,15 +2129,17 @@ At revision 353.
 
     <!-- =============================================================== -->
     <sect2 id="svn.branchmerge.maint.layout">
-      <title>Repository Layout</title>
+      <title>Estrutura de Repositório</title>
 
-      <para>There are some standard, recommended ways to organize a
-        repository.  Most people create a <filename>trunk</filename>
-        directory to hold the <quote>main line</quote> of development,
-        a <filename>branches</filename> directory to contain branch
-        copies, and a <filename>tags</filename> directory to contain
-        tag copies.  If a repository holds only one project, then
-        often people create these top-level directories:</para>
+      <para>Há algumas formas padronizadas e recomendadas de se
+        organizar um repositório.  A maioria das pessoas criam um
+        diretório <filename>trunk</filename> para conter a <quote>linha
+        principal</quote> do desenvolvimento, um diretório 
+        <filename>branches</filename> para conter cópias ramificadas, e
+        um diretório <filename>tags</filename> para conter cópias
+        rotuladas.  Se um repositório for armazenar apenas um projeto,
+        então quase sempre as pessoas criam esses três diretórios de
+        alto nível:</para>
 
       <screen>
 /trunk
@@ -2145,10 +2147,11 @@ At revision 353.
 /tags
 </screen>
 
-      <para>If a repository contains multiple projects, admins
-        typically index their layout by project (see <xref
-        linkend="svn.reposadmin.projects.chooselayout"/> to read more about
-        <quote>project roots</quote>):</para>
+      <para>Se um repositório for conter múltiplos projetos, os
+        administradores frequentemente indexam tal estrutura por projeto
+        (veja <xref linkend="svn.reposadmin.projects.chooselayout"/>
+        para saber mais sobre <quote>diretórios raízes de
+        projetos</quote>):</para>
 
       <screen>
 /paint/trunk
@@ -2159,27 +2162,29 @@ At revision 353.
 /calc/tags
 </screen>
 
-      <para>Of course, you're free to ignore these common layouts.
-        You can create any sort of variation, whatever works best for
-        you or your team.  Remember that whatever you choose, it's not
-        a permanent commitment.  You can reorganize your repository at
-        any time.  Because branches and tags are ordinary directories,
-        the <command>svn move</command> command can move or rename
-        them however you wish.  Switching from one layout to another
-        is just a matter of issuing a series of server-side moves; if
-        you don't like the way things are organized in the repository,
-        just juggle the directories around.</para>
+      <para>Mas é claro, você é livre para ignorar estes layouts comuns.
+        Você pode criar qualquer tipo de variação, que atenda melhor às
+        suas necessidades e de sua equipe.  Lembre que qualquer que seja
+        a estrutura que você escolha, não é uma definição permanente.
+        Você pode reorganizar seu repositório a qualquer momento.  Como
+        branches e tags são diretórios comuns, o comando <command>svn
+        move</command> pode movê-los ou renomeá-los como você queira.
+        Mudar de um layout para outro é apenas uma questão de executar
+        algumas movimentações no lado do servidor; se você não gostar da
+        forma como as coisas estiverem organizadas no repositório,
+        apenas manipule os diretórios com achar melhor.</para>
 
-      <para>Remember, though, that while moving directories may be
-        easy to do, you need to be considerate of your users as well.
-        Your juggling can be disorienting to users with existing
-        working copies.  If a user has a working copy of a particular
-        repository directory, your <command>svn move</command>
-        operation might remove the path from the latest revision.
-        When the user next runs <command>svn update</command>, she will
-        be told that her working copy represents a path that no
-        longer exists, and the user will be forced to <command>svn
-        switch</command> to the new location.
+      <para>Lembre-se, porém, que por mais que mover diretórios possa
+        ser algo fácil de se fazer, você precisa ter consideração com
+        seus usuários também.  Suas modificações no repositório podem
+        confundir os usuários que já tenham cópias de trabalho.  Se um
+        usuário já tem uma cópia de trabalho de um dado diretório do
+        repositório, executar <command>svn move</command> pode remover o
+        caminho na próxima revisão.  Da próxima vez que o usuário
+        executar <command>svn update</command>, ele será informado que
+        sua cópia de trabalho representa um caminho que não existe mais,
+        e o usuário será forçado a executar um <command>svn
+        switch</command> para o novo local.
         </para>
 
     </sect2>
