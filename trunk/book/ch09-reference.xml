@@ -6525,34 +6525,36 @@ $ svnlook youngest /tmp/repos/
 
     <title><command>svnsync</command></title>
     
-    <para><command>svnsync</command> is the Subversion remote
-      repository mirroring tool.  Put simply, it allows you to replay
-      the revisions of one repository into another one.</para>
+    <para>O <command>svnsync</command> é uma ferramenta remota para 
+      espelhamento de repositórios do Subversion.  Colocando de uma
+      forma simples, ela permite que você repita as revisões de um
+      repositório em outro.</para>
 
-    <para>In any mirroring scenario, there are two repositories: the
-      source repository, and the mirror (or <quote>sink</quote>)
-      repository.  The source repository is the repository from which
-      <command>svnsync</command> pulls revisions.  The mirror
-      repository is the destination for the revisions pulled from the
-      source repository.  Each of the repositories may be local or
-      remote&mdash;they are only ever addressed by their URLs.</para>
+    <para>Em um cenário de espelhamento, há dois repositórios: o
+      repositório de origem, e o repositório espelho (ou
+      <quote>sink</quote>).  O repositório de origem é o repositório a
+      partir do qual o <command>svnsync</command> obtém as revisões.  O
+      repositório espelho é o destino das revisões obtidas do
+      repositório de origem.  Cada um dos repositórios pode ser local ou
+      remoto&mdash;eles são apenas endereçados por suas URLs.</para>
 
-    <para>The <command>svnsync</command> process requires only read
-      access to the source repository; it never attempts to modify it.
-      But obviously, <command>svnsync</command> requires both read and
-      write access to the mirror repository.</para>
+    <para>O processo do <command>svnsync</command> precisa apenas de
+      acesso de leitura ao repositório de origem; ele nunca tenta
+      modificá-lo.  Mas, obviamente, o <command>svnsync</command>
+      precisa de acesso tanto de leitura quanto de escrita no
+      repositório espelho.</para>
 
     <warning>
-      <para><command>svnsync</command> is very sensitive to changes
-        made in the mirror repository that weren't made as part of a
-        mirroring operation.  To prevent this from happening, it's
-        best if the <command>svnsync</command> process is the only
-        process permitted to modify the mirror repository.</para>
+      <para>O <command>svnsync</command> é muito sensível a mudanças
+        feitas no repositório espelho quando elas não fazem parte de uma
+        operação de espelhamento.  Para previnir que isso aconteça, será
+        melhor se o processo <command>svnsync</command> for o único com
+        permissão para modificar o repositório espelho.</para>
     </warning>
 
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnsync.sw">
-      <title><command>svnsync</command> Options</title>
+      <title>Opções do <command>svnsync</command></title>
 
       <variablelist>
 
@@ -6560,31 +6562,32 @@ $ svnlook youngest /tmp/repos/
           <term><option>--config-dir</option>
             <replaceable>DIR</replaceable></term>
           <listitem>
-            <para>Instructs Subversion to read configuration
-              information from the specified directory instead of the
-              default location (<filename>.subversion</filename> in
-              the user's home directory).</para>
+            <para>Instrui o Subversion a ler informações de configuração
+              de um diretório específico ao invés do local padrão
+              (<filename>.subversion</filename> no diretório home do
+              usuário).</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--no-auth-cache</option></term>
           <listitem>
-            <para>Prevents caching of authentication information
-              (e.g. username and password) in the Subversion
-              administrative directories.</para>
+            <para>Evita que o cache de informações de autenticação 
+              (p.ex., nome de usuário e senha) seja feito em diretórios
+              administrativos do Subversion.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--non-interactive</option></term>
           <listitem>
-            <para>In the case of an authentication failure, or
-              insufficient credentials, prevents prompting for
-              credentials (e.g. username or password).  This is useful
-              if you're running Subversion inside of an automated
-              script and it's more appropriate to have Subversion fail
-              than to prompt for more information.</para>
+            <para>No caso de uma falha de autenticação, ou de
+              credenciais insuficientes, evita que sejam solicitadas
+              informações de credenciais (p.ex., nome de usuário e
+              senha) intereativamente.  Isto é útil se você estiver
+              executando o Subversion dentro de um script automatizado e
+              que seja mais adequado fazer o Subversion falhar do que
+              solicitar por mais informação.</para>
           </listitem>
         </varlistentry>
 
@@ -6592,10 +6595,10 @@ $ svnlook youngest /tmp/repos/
           <term><option>--password</option>
             <replaceable>PASS</replaceable></term>
           <listitem>
-            <para>Indicates that you are providing your password for
-              authentication on the command line&mdash;otherwise, if
-              it is needed, Subversion will prompt you for
-              it.</para>
+            <para>Indica que você está informando sua senha para
+              autenticação na linha de comando&mdash;de outra forma, se
+              necessário, o Subversion irá solicitá-la a você
+              interativamente.</para>
           </listitem>
         </varlistentry>
 
@@ -6603,10 +6606,10 @@ $ svnlook youngest /tmp/repos/
           <term><option>--username</option>
             <replaceable>NAME</replaceable></term>
           <listitem>
-            <para>Indicates that you are providing your username for
-              authentication on the command line&mdash;otherwise, if
-              it is needed, Subversion will prompt you for
-              it.</para>
+            <para>Indica que você está informando o nome de usuário para
+              autenticação na linha de comando&mdash;de outra forma, se
+              necessário, o Subversion irá solicitá-lo a você
+              interativamente.</para>
           </listitem>
         </varlistentry>
 
@@ -6616,9 +6619,9 @@ $ svnlook youngest /tmp/repos/
 
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnsync.c">
-      <title><command>svnsync</command> Subcommands</title>
+      <title>Subcomandos do <command>svnsync</command></title>
 
-      <para>Here are the various subcommands:</para>
+      <para>Há vários subcomandos:</para>
 
       <refentry id="svn.ref.svnsync.c.copy-revprops">
 
@@ -6630,9 +6633,9 @@ $ svnlook youngest /tmp/repos/
 
         <refnamediv>
           <refname>svnsync copy-revprops</refname>
-          <refpurpose>Copy all revision properties for a given
-            revision from the source repository to the mirror
-            repository.</refpurpose>
+          <refpurpose>Copia todas as propriedades de revisão para uma
+            dada revisão a partir do repositório de origem para o
+            repositório espelho.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6641,19 +6644,20 @@ $ svnlook youngest /tmp/repos/
         <refsect1>
           <title>Descrição</title>
 
-          <para>Because Subversion revision properties can be changed
-            at any time, it's possible that the properties for some
-            revision might be changed after that revision has already
-            been synchronized to another repository.  Because the
-            <command>svnsync synchronize</command> command operates
-            only on the range of revisions that have not yet been
-            synchronized, it won't notice a revision property change
-            outside that range.  Left as is, this causes a deviation
-            in the values of that revision's properties between the
-            source and mirror repositories.  <command>svnsync
-            copy-revprops</command> is the answer to this problem.
-            Use it to re-synchronize the revision properties for a
-            particular revision.</para>
+          <para>Como as propriedades de revisão do Subversio podem ser
+            modificadas a qualquer momento, é possível que as
+            propriedades para algumas revisões possam ser modificadas 
+            depois que a revisão já tenha sido sincronizada para o outro
+            repositório.  Como o comando <command>svnsync
+            synchronize</command> opera apenas num conjunto de revisões
+            que ainda não tenha sido sincronizado, ele não vai perceber
+            uma mudança numa propriedade de uma revisão que não esteja
+            no conjunto.  Assim, isto pode resultar em diferenças nos
+            valores de propriedades de revisão entre os repositórios 
+            espelho e de origem.  O <command>svnsync
+            copy-revprops</command> é a resposta a este problema.  Use-o
+            para re-sincronizar as propriedades de revisão para uma
+            dada revisão.</para>
         </refsect1>
 
         <refsect1>
@@ -6676,7 +6680,7 @@ $ svnlook youngest /tmp/repos/
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Re-synchronize revision properties for a single revision:</para>
+          <para>Re-sincroniza propriedades de revisão para uma única revisão:</para>
 
           <screen>
 $ svnsync copy-revprops file:///opt/svn/repos-mirror 6
@@ -6697,8 +6701,8 @@ $
 
         <refnamediv>
           <refname>svnsync initialize</refname>
-          <refpurpose>Initialize a destination repository for
-            synchronization from another repository.</refpurpose>
+          <refpurpose>Inicializa um repositório de destino para
+            sincronização a partir de outro repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6707,15 +6711,15 @@ $
         <refsect1>
           <title>Descrição</title>
 
-          <para><command>svnsync initialize</command> verifies that a
-            repository meets the requirements of a new mirror
-            repository&mdash;that it has no previous existing version
-            history, and that it allows revision property
-            modifications&mdash;and records the initial administrative
-            information which associates the mirror repository with
-            the source repository.  This is the first
-            <command>svnsync</command> operation you run on a would-be
-            mirror repository.</para>
+          <para>O <command>svnsync initialize</command> verifica que um
+            repositório atende aos requisitos de um novo repositório
+            espelho&mdash;ou seja, que não há histórico de versão
+            anterior existente, e que permite mudanças em propriedades
+            de revisão&mdash;e registra informação administrativa
+            inicial que associa o repositório espelho com o repositório
+            de origem.  Esta é a primeira operação do 
+            <command>svnsync</command> que você vai executar naquilo que
+            você quer tornar um repositório espelho.</para>
         </refsect1>
 
         <refsect1>
@@ -6738,8 +6742,8 @@ $
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Fail to initialize a mirror repository due to
-            inability to modify revision properties:</para>
+          <para>Falha ao inicializar um repositório espelho devido a
+            impossibilidade de modificar revisões de propriedades:</para>
 
           <screen>
 $ svnsync initialize file:///opt/svn/repos-mirror http://svn.example.com/repos
@@ -6748,9 +6752,9 @@ ask the administrator to create a pre-revprop-change hook
 $
 </screen>
 
-          <para>Initialize a repository as a mirror, having already
-            created a pre-revprop-change hook which permits all revision
-            property changes:</para>
+          <para>Inicializa um repositório como espelho, já tendo criado
+            um script de hook pre-revprop-change que possibilite todas
+            as mudanças de propriedades:</para>
 
           <screen>
 $ svnsync initialize file:///opt/svn/repos-mirror http://svn.example.com/repos
@@ -6771,8 +6775,8 @@ $
 
         <refnamediv>
           <refname>svnsync synchronize</refname>
-          <refpurpose>Transfer all pending revisions from the source
-            repository to the mirror repository.</refpurpose>
+          <refpurpose>Transfere todas as revisões pendentes do
+            repositório de origem para o repositório espelho.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6781,15 +6785,15 @@ $
         <refsect1>
           <title>Descrição</title>
 
-          <para>The <command>svnsync synchronize</command> command
-            does all the heavy lifting of a repository mirroring
-            operation.  After consulting with the mirror repository to
-            see which revisions have already been copied into it, it
-            then begins copying any not-yet-mirrored revisions from
-            the source repository.</para>
+          <para>O comando <command>svnsync synchronize</command> faz
+            todo o trabalho pesado da operação de espelhamento de
+            repositório.  Depois de verificar o repositório espelho para
+            ver quais revisões já foram copiadas para ele, e então
+            começa a copiar quaisquer revisões que ainda não tenham sido
+            espelhadas a partir do repositório origem.</para>
 
-          <para><command>svnsync synchronize</command> can be
-            gracefully cancelled and restarted.</para>
+          <para>O <command>svnsync synchronize</command> pode ser
+            graciosamente cancelado e reiniciado.</para>
         </refsect1>
 
         <refsect1>
@@ -6812,8 +6816,8 @@ $
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Copy unsynchronized revisions from the source
-            repository to the mirror repository:</para>
+          <para>Copia revisões ainda não sincronizadas do repositório de
+            origem para o repositório espelho:</para>
 
           <screen>
 $ svnsync synchronize file:///opt/svn/repos-mirror
