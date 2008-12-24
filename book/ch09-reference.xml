@@ -5358,8 +5358,8 @@ The latest repos revision is 34.
 
         <refnamediv>
           <refname>svnadmin rmlocks</refname>
-          <refpurpose>Unconditionally remove one or more locks from a
-          repository.</refpurpose>
+          <refpurpose>Remove, incondicionalmente, uma ou mais travas de
+          um repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5368,7 +5368,7 @@ The latest repos revision is 34.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Remove lock from each <replaceable>LOCKED_PATH</replaceable>.</para>
+          <para>Remove a trava de cada um dos itens em <replaceable>LOCKED_PATH</replaceable>.</para>
         </refsect1>
 
         <refsect1>
@@ -5378,11 +5378,11 @@ The latest repos revision is 34.
         </refsect1>
 
         <refsect1>
-          <title>Example</title>
+          <title>Exemplo</title>
 
-          <para>This deletes the locks on
-            <filename>tree.jpg</filename> and
-            <filename>house.jpg</filename> in the repository at
+          <para>Isto remove as travas em
+            <filename>tree.jpg</filename> e
+            <filename>house.jpg</filename> no repositório em
             <filename>/svn/repos</filename></para>
 
           <screen>
@@ -5404,7 +5404,7 @@ Removed lock on '/house.jpg.
 
         <refnamediv>
           <refname>svnadmin rmtxns</refname>
-          <refpurpose>Delete transactions from a repository.</refpurpose>
+          <refpurpose>Exclui transações de um repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5413,8 +5413,8 @@ Removed lock on '/house.jpg.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Delete outstanding transactions from a repository.
-            This is covered in detail in <xref
+          <para>Exclui transações pendentes de um repositório.  Este 
+            subcomando é coberto em detalhes em <xref
             linkend="svn.reposadmin.maint.diskspace.deadtxns" />.</para>
         </refsect1>
 
@@ -5429,21 +5429,21 @@ Removed lock on '/house.jpg.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Remove named transactions:</para>
+          <para>Exclui transações nomeadas:</para>
 
           <screen>
 $ svnadmin rmtxns /usr/local/svn/repos/ 1w 1x
 </screen>
 
-          <para>Fortunately, the output of <command>lstxns</command>
-            works great as the input for <command>rmtxns</command>:</para>
+          <para>Felizmente, a saída do <command>lstxns</command>
+            funciona bem como entrada para o <command>rmtxns</command>:</para>
 
           <screen>
 $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
 </screen>
 
-          <para>Which will remove all uncommitted transactions from
-            your repository.</para>
+          <para>O que irá remover todas as transações não submetidas
+            para seu repositório.</para>
 
         </refsect1>
       </refentry>
@@ -5459,7 +5459,7 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
 
         <refnamediv>
           <refname>svnadmin setlog</refname>
-          <refpurpose>Set the log-message on a revision.</refpurpose>
+          <refpurpose>Define a mensagem de log de uma revisão.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5468,21 +5468,22 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
         <refsect1>
           <title>Descrição</title>
 
-          <para>Set the log-message on revision REVISION to the
-            contents of FILE.</para>
+          <para>Define a mensagem de log da revisão REVISION para o
+            conteúdo de FILE.</para>
 
-          <para>This is similar to using <command>svn propset
-            --revprop</command> to set the <literal>svn:log</literal> property
-            on a revision, except that you can also use the option
-            <option>--bypass-hooks</option> to avoid running any pre- or
-            post-commit hooks, which is useful if the modification of
-            revision properties has not been enabled in the pre-revprop-change
-            hook.</para>
+          <para>Isto é similar a se usar <command>svn propset
+            --revprop</command> para definir a propriedade
+            <literal>svn:log</literal> de uma revisão, exceto que você
+            também pode usar a opção <option>--bypass-hooks</option>
+            para previnir que qualquer script de hook pre- ou
+            post-commit seja executado, o que é útil se a modificação
+            nas propriedades da revisão não estava habilitada no script
+            pre-revprop-change.</para>
 
           <warning>
-            <para>Revision properties are not under version control,
-              so this command will permanently overwrite the previous
-              log message.</para>
+            <para>Propriedades de revisão não estão sob controle de
+              versão, então este comando irá sobrescrever
+              permanentemente a mensagem de log anterior.</para>
           </warning>
 
         </refsect1>
@@ -5499,8 +5500,8 @@ $ svnadmin rmtxns /usr/local/svn/repos/  `svnadmin lstxns /usr/local/svn/repos/`
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Set the log message for revision 19 to the contents of
-            the file <filename>msg</filename>:</para>
+          <para>Define a mensagem de log da revisão 19 para o conteúdo
+            do arquivo <filename>msg</filename>:</para>
 
           <screen>
 $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
@@ -5509,8 +5510,8 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
         </refsect1>
       </refentry>
 
-      <!-- this could use a lot more explanation.  When should I use
-      it?  What do I do if it fails? -->
+      <!-- isto deveria ter um pouco mais de explicação.  Quando eu
+      deveria usá-lo?  O que fazer se o comando falhar? -->
       <refentry id="svn.ref.svnadmin.c.verify">
 
         <indexterm>
@@ -5521,7 +5522,7 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
 
         <refnamediv>
           <refname>svnadmin verify</refname>
-          <refpurpose>Verify the data stored in the repository.</refpurpose>
+          <refpurpose>Verifica os dados armazenados no repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5530,24 +5531,25 @@ $ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
         <refsect1>
           <title>Descrição</title>
 
-          <para>Run this command if you wish to verify the integrity
-            of your repository.  This basically iterates through all
-            revisions in the repository by internally dumping all
-            revisions and discarding the output&mdash;it's a good idea
-            to run this on a regular basis to guard against latent
-            hard disk failures and <quote>bitrot</quote>.  If this
-            command fails&mdash;which it will do at the first sign of
-            a problem&mdash;that means that your repository has at
-            least one corrupted revision and you should restore the
-            corrupted revision from a backup (you did make a backup,
-            didn't you?).</para>
+          <para>Execute este comando se você quiser verificar a
+            integridade de seu repositório.  Ele basicamente itera por
+            todas as revisões no repositório despejando todas as
+            revisões internamente e descartando a saída&mdash;é uma boa
+            idéia executar este comando regularmente para se previnir
+            contra falhas latentes do disco rígido e
+            <quote>bitrot</quote>.  Se este comando falhar&mdash;o que
+            ocorrerá quando encontrar o primeiro sinal de algum
+            problema&mdash;isso quer dizer que seu repositório tem pelo
+            menos uma revisão corrompida e que você deveria restaurar
+            tal revisão corrompida a partir de um backup (você faz
+            backups sempre, não faz?).</para>
 
         </refsect1>
 
         <refsect1>
-          <title>Exemplos</title>
+          <title>Exemplo</title>
           
-          <para>Verify a hung repository:</para>
+          <para>Verifica um repositório problemático:</para>
 
           <screen>
 $ svnadmin verify /usr/local/svn/repos/ 
