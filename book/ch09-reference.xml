@@ -4603,10 +4603,11 @@ Updated to revision 30.
         <varlistentry>
           <term><option>--bdb-log-keep</option></term>
           <listitem>
-            <para>(Berkeley DB specific) Disable automatic log removal
-              of database log files.  Having these log files around
-              can be convenient if you need to restore from a
-              catastrophic repository failure.</para>
+            <para>(Específica para o Berkeley DB) Desabilita remoção
+              automática de log dos arquivos de loga da base de dados.
+              Manter esses arquivos de log pode ser conveniente se você
+              precisar fazer uma restauração após uma falha catastrófica
+              no repositório.</para>
           </listitem>
         </varlistentry>
         
@@ -4614,26 +4615,26 @@ Updated to revision 30.
           <term><option>--bdb-txn-nosync</option></term>
           <listitem>
 
-            <para>(Berkeley DB specific) Disables fsync when
-              committing database transactions.  Used with the
-              <command>svnadmin create</command> command to create a
-              Berkeley DB backed repository with
-              <literal>DB_TXN_NOSYNC</literal> enabled (which improves
-              speed but has some risks associated with it).</para>
+            <para>(Específica para o Berkeley DB) Desabilita o fsync ao
+              submeter transações na base de dados.  Usada com o comando
+              <command>svnadmin create</command> para criar um
+              repositório baseado em Berkeley DB com 
+              <literal>DB_TXN_NOSYNC</literal> habilitado (o que melhora
+              a velocidade mas possui riscos associados).</para>
           </listitem>
         </varlistentry>
         
         <varlistentry>
           <term><option>--bypass-hooks</option></term>
           <listitem>
-            <para>Bypass the repository hook system.</para>
+            <para>Ignora o sistema de scripts de ganchos do repositório.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--clean-logs</option></term>
           <listitem>
-            <para>Removes unused Berkeley DB logs.</para>
+            <para>Remove logs não utilizados do Berkeley DB logs.</para>
           </listitem>
         </varlistentry>
 
@@ -4642,33 +4643,35 @@ Updated to revision 30.
         <varlistentry>
           <term><option>--force-uuid</option></term>
           <listitem>
-            <para>By default, when loading data into repository that
-              already contains revisions, <command>svnadmin</command>
-              will ignore the <literal>UUID</literal> from the dump
-              stream.  This option will cause the repository's
-              <literal>UUID</literal> to be set to the
-              <literal>UUID</literal> from the stream.</para>
+            <para>Por padrão, ao carregar dados no repositório que já
+              contenha revisões, o <command>svnadmin</command> vai
+              ignorar o <literal>UUID</literal> a partir do fluxo de
+              despejo (<foreignphrase>dump stream</foreignphrase>).  
+              Esta opção fará com que o <literal>UUID</literal> do
+              repositório seja definido para o mesmo 
+              <literal>UUID</literal> do fluxo.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--ignore-uuid</option></term>
           <listitem>
-            <para>By default, when loading an empty repository,
-              <command>svnadmin</command> will ignore the
-              <literal>UUID</literal> from the dump stream.  This
-              option will force that UUID to be ignored (useful for
-              overriding your configuration file if it has
-              <option>--force-uuid</option> set).</para>
+            <para>Por padrão, ao carregar dados no repositório que já
+              contenha revisões, o <command>svnadmin</command> vai
+              ignorar o <literal>UUID</literal> a partir do fluxo de
+              despejo.  Esta opção vai fazer com que o UUID seja
+              ignorado (útil para sobrescrever seu arquivo de
+              configuração se ele estava com <option>--force-uuid</option>
+              definido).</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--incremental</option></term>
           <listitem>
-            <para>Dump a revision only as a diff against the
-              previous revision, instead of the usual
-              fulltext.</para>
+            <para>Despeja uma revisão apenas como um diff relativo à
+              revisão anterior, ao invés do texto completo, que é o
+              normal.</para>
           </listitem>
         </varlistentry>
 
@@ -4676,9 +4679,9 @@ Updated to revision 30.
           <term><option>--parent-dir
           <replaceable>DIR</replaceable></option></term>
           <listitem>
-            <para>When loading a dump file, root paths at
-              <replaceable>DIR</replaceable> instead of
-              <filename>/</filename>.</para>
+            <para>Ao carregar um arquivo de despejo, considera os
+              caminhos raízes em <replaceable>DIR</replaceable> ao invés
+              de em <filename>/</filename>.</para>
           </listitem>
         </varlistentry>
 
@@ -4686,35 +4689,34 @@ Updated to revision 30.
           <term><option>--revision</option> (<option>-r</option>)
           <replaceable>ARG</replaceable></term>
           <listitem>
-            <para>Specify a particular revision to operate
-              on.</para>
+            <para>Especifica uma dada revisão na qual operar.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--quiet</option></term>
           <listitem>
-            <para>Do not show normal progress&mdash;show only
-              errors.</para>
+            <para>Não exibe o progresso normal&mdash;mostra apenas
+              erros.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--use-post-commit-hook</option></term>
           <listitem>
-            <para>When loading a dump file, run the repository's
-              post-commit hook after finalizing each newly loaded
-              revision.</para>
+            <para>Ao carregar um arquivo de despejo, executa os scripts
+              de hook de post-commit do repositório depois de terminar
+              com cada revisão recém carregada.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--use-pre-commit-hook</option></term>
           <listitem>
-            <para>When loading a dump file, run the repository's
-              pre-commit hook before finalizing each newly loaded
-              revision.  If the hook fails, abort the commit and
-              terminate the load process.</para>
+            <para>Ao carregar um arquivo de despejo, executa os scripts
+              de hook de pre-commit do repositório antes de terminar com
+              cada revisão recém carregada.  Se o script falhar, aborta
+              a operação e encerra o processo de carga.</para>
           </listitem>
         </varlistentry>
 
@@ -4723,7 +4725,7 @@ Updated to revision 30.
 
     <!-- =============================================================== -->
     <sect2 id="svn.ref.svnadmin.c">
-      <title><command>svnadmin</command> Subcommands</title>
+      <title>Subcomandos do <command>svnadmin</command></title>
       <refentry id="svn.ref.svnadmin.c.create">
 
         <indexterm>
@@ -4734,7 +4736,7 @@ Updated to revision 30.
 
         <refnamediv>
           <refname>svnadmin create</refname>
-          <refpurpose>Create a new, empty repository.</refpurpose>
+          <refpurpose>Cria um novo repositório vazio.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -4743,15 +4745,15 @@ Updated to revision 30.
         <refsect1>
           <title>Descrição</title>
 
-            <para>Create a new, empty repository at the path provided.
-              If the provided directory does not exist, it will be
-              created for you.<footnote><para>Remember,
-              <command>svnadmin</command> works only with local
-              <emphasis>paths</emphasis>, not
-              <emphasis>URLs</emphasis>.</para></footnote> As of
-              Subversion 1.2, <command>svnadmin</command> creates new
-              repositories with the <literal>fsfs</literal> filesystem
-              backend by default.</para>
+            <para>Cria um novo repositório vazio no caminho dado.  Se o
+              diretório informado não existir, ele será criado para
+              você.<footnote><para>Lembre-se, o 
+              <command>svnadmin</command> só trabalha com 
+              <emphasis>caminhos</emphasis> locais e não com
+              <emphasis>URLs</emphasis>.</para></footnote>  Desde o
+              Subversion 1.2, o <command>svnadmin</command> cria 
+              novos repositórios baseados no sistema de arquivos
+              <literal>fsfs</literal> por padrão.</para>
           </refsect1>
 
         <refsect1>
@@ -4768,17 +4770,16 @@ Updated to revision 30.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Creating a new repository is just this easy:</para>
+          <para>Criar um novo repositório é bem fácil:</para>
 
           <screen>
 $ svnadmin create /usr/local/svn/repos
 </screen>
           
-          <para>In Subversion 1.0, a Berkeley DB repository is always
-            created.  In Subversion 1.1, a Berkeley DB repository is
-            the default repository type, but an FSFS repository can be
-            created using the <option>--fs-type</option>
-            option:</para>
+          <para>No Subversion 1.0, sempre é criado um repositório do
+            tipo Berkeley DB.  No Subversion 1.1, Berkeley DB é o tipo
+            de repositório padrão, mas um repositório FSFS pode ser
+            criado com a opção <option>--fs-type</option>:</para>
 
           <screen>
 $ svnadmin create /usr/local/svn/repos --fs-type fsfs
@@ -4797,7 +4798,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
 
         <refnamediv>
           <refname>svnadmin deltify</refname>
-          <refpurpose>Deltify changed paths in a revision range.</refpurpose>
+          <refpurpose>Deltifica os caminhos modificados em um intervalo de revisões.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -4806,15 +4807,16 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
         <refsect1>
           <title>Descrição</title>
 
-          <para><command>svnadmin deltify</command> exists in
-            current versions of Subversion only for historical reasons.
-            This command is deprecated and no longer needed.</para>
+          <para><command>svnadmin deltify</command> existe nas versões
+            atuais do Subversion apenas por razões históricas.  Este
+            comando é obsoleto e não tem mais utilidade.</para>
 
-          <para>It dates from a time when Subversion offered
-            administrators greater control over compression strategies
-            in the repository.  This turned out to be a lot of
-            complexity for <emphasis>very</emphasis> little gain, and
-            this <quote>feature</quote> was deprecated.</para>
+          <para>Esse comando vem do tempo em que o Subversion oferecia
+            aos administratores um grande controle sobre estratégias de
+            compactação no repositório.  Isto mostrou-se ser algo de
+            muito complexo (muito custo) para
+            <emphasis>pouquíssimo</emphasis> ganho (pouco benefício),
+            e este <quote>recurso</quote> hoje está depreciado.</para>
 
             </refsect1>
         <refsect1>
@@ -4837,7 +4839,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
 
         <refnamediv>
           <refname>svnadmin dump</refname>
-          <refpurpose>Dump the contents of filesystem to stdout.</refpurpose>
+          <refpurpose>Despeja o conteúdo do sistema de arquivos para o stdout.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -4846,53 +4848,57 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
         <refsect1>
           <title>Descrição</title>
 
-          <para>Dump the contents of filesystem to stdout in a
-            <quote>dumpfile</quote> portable format, sending feedback
-            to stderr.  Dump revisions
-            <replaceable>LOWER</replaceable> rev through
-            <replaceable>UPPER</replaceable> rev.  If no revisions are
-            given, dump all revision trees.  If only
-            <replaceable>LOWER</replaceable> is given, dump that one
-            revision tree.  See <xref linkend="svn.reposadmin.maint.migrate"/>
-            for a practical use.</para>
+          <para>Despeja o conteúdo do sistema de arquivos para o stdout 
+            em um formato portável de <quote>dumpfile</quote>, enviando
+            mensagens de feedback para stderr.  Despeja as revisões de
+            <replaceable>LOWER</replaceable> rev até 
+            <replaceable>UPPER</replaceable> rev.  Se revisões não forem
+            informadas, despeja todas as árvores de revisões.  Se
+            somente <replaceable>LOWER</replaceable> for informada, 
+            então essa árvore de revisão será despejada.  Veja <xref
+            linkend="svn.reposadmin.maint.migrate"/> para exemplos
+            práticos de uso.</para>
 
-          <para>By default, the Subversion dumpfile stream contains a
-            single revision (the first revision in the requested
-            revision range) in which every file and directory in the
-            repository in that revision is presented as if that whole
-            tree was added at once, followed by other revisions (the
-            remainder of the revisions in the requested range) which
-            contain only the files and directories which were modified
-            in those revisions.  For a modified file, the complete
-            fulltext representation of its contents, as well as all of
-            its properties, are presented in the dumpfile; for a
-            directory, all of its properties are presented.</para>
+          <para>Por padrão, o fluxo do arquivo de despejo do Subversion
+            contém uma única revisão (a primeira revisão no intervalo de
+            revisões) em que cada arquivo e diretório no repositório
+            naquela revisão está presente tal como se a árvore completa
+            tivesse sido adicionada de uma só vez, seguido de outras
+            revisões (o restante das revisões no intervalo informado) as
+            quais contém somente os arquivos e diretório que foram
+            modificados nessas revisões.  Para um arquivo não
+            modificado, a representação completa de seu conteúdo, bem
+            como todas as suas propriedades, são apresentadas no arquivo
+            de despejo; para um diretório, todas as suas propriedades
+            são apresentadas.</para>
 
-          <para>There are two useful options which modify the dumpfile
-            generator's behavior.  The first is the
-            <option>--incremental</option> option, which simply causes
-            that first revision in the dumpfile stream to contain only
-            the files and directories modified in that revision,
-            instead of being presented as the addition of a new tree,
-            and in exactly the same way that every other revision in
-            the dumpfile is presented.  This is useful for generating
-            a relatively small dumpfile to be loaded into another
-            repository which already has the files and directories
-            that exist in the original repository.</para>
+          <para>Há duas opções úteis que modificam o comportamento do
+            gerador do arquivo de despejo.  A primeira é a opção 
+            <option>--incremental</option>, a qual simplesmente faz com
+            que a primeira revisão no fluxo do arquivo contenha apenas
+            os arquivos e diretórios modificados naquela revisão, ao
+            invés de serem apresentadas como adições de uma nova árvore,
+            e exatamente da mesma maneira que qualquer outra revisão no
+            arquivo de despejo é apresentada.  Isto é útil para gerar
+            arquivos de despejo relativamente pequenos para serem
+            carregados em outro repositório que já possua os arquivos e
+            diretórios existentes no repositório original.</para>
 
-          <para>The second useful option is <option>--deltas</option>.
-            This option causes <command>svnadmin dump</command> to,
-            instead of emitting fulltext representations of file
-            contents and property lists, emit only deltas of those
-            items against their previous versions.  This reduces (in
-            some cases, drastically) the size of the dumpfile that
-            <command>svnadmin dump</command> creates.  There are, however,
-            disadvantages to using this option&mdash;deltified
-            dumpfiles are more CPU intensive to create, cannot be
-            operated on by <command>svndumpfilter</command>, and tend
-            not to compress as well as their non-deltified counterparts
-            when using third-party tools like <command>gzip</command>
-            and <command>bzip2</command>.</para>
+          <para>A segunda opção útil é <option>--deltas</option>.  Esta
+            opção faz com que o <command>svnadmin dump</command>, ao
+            invés de emitir representações completas dos conteúdos de
+            arquivos e listas de propriedades, emita apenas as
+            diferenças desses itens relativas a suas versões anteriores.
+            Isto reduz (em alguns casos, drasticamente) o tamanho do
+            arquivo de despejo criado pelo <command>svnadmin
+            dump</command>.  Há, porém, algumas desvantagens em se usar
+            esta opção&mdash;arquivos de despejo deltificados precisam
+            de mais processamento de CPU para serem criados, não podem
+            ser utilizados com <command>svndumpfilter</command> e
+            tendem a não serem compactados tão bem quanto seus
+            correspondentes normais quando ferramentas de compactação
+            externas, como o <command>gzip</command> e o
+            <command>bzip2</command>, são usadas.</para>
         </refsect1>
         <refsect1>
           <title>Opções</title>
@@ -4908,7 +4914,7 @@ $ svnadmin create /usr/local/svn/repos --fs-type fsfs
         <refsect1>
           <title>Exemplos</title>
 
-          <para>Dump your whole repository:</para>
+          <para>Despeja todo o seu repositório:</para>
 
           <screen>
 $ svnadmin dump /usr/local/svn/repos
@@ -4920,8 +4926,8 @@ Content-length: 56
 &hellip;
 </screen>
 
-          <para>Incrementally dump a single transaction from your
-            repository:</para>
+          <para>Despeja incrementalmente uma única transação a partir de
+            seu repositório:</para>
 
           <screen>
 $ svnadmin dump /usr/local/svn/repos -r 21 --incremental 
@@ -4955,11 +4961,11 @@ Content-length: 101
         <refsect1>
           <title>Descrição</title>
 
-          <para>This subcommand is useful when you're trapped on a
-            desert island with neither a net connection nor a copy of
-            this book.</para>
-          <!-- although marginally less useful than, say, a cooler
-            full of beer. -->
+          <para>Este comando é útil quando você estiver perdido em uma
+            ilha deserta e não tiver uma conexão de Internet e nem mesmo
+            uma cópia deste livro.</para>
+          <!-- ainda que, marginalmente, seja menos útil que, digamos,
+            um isopor cheio de cerveja. -->
         </refsect1>
 
         <refsect1>
@@ -4979,7 +4985,7 @@ Content-length: 101
 
         <refnamediv>
           <refname>svnadmin hotcopy</refname>
-          <refpurpose>Make a hot copy of a repository.</refpurpose>
+          <refpurpose>Faz uma cópia a quente do repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -4989,15 +4995,17 @@ Content-length: 101
         <refsect1>
           <title>Descrição</title>
 
-          <para>This subcommand makes a full <quote>hot</quote> backup
-            of your repository, including all hooks, configuration
-            files, and, of course, database files.  If you pass the
-            <option>--clean-logs</option> option,
-            <command>svnadmin</command> will perform a hotcopy of your
-            repository, and then remove unused Berkeley DB logs from
-            the original repository.  You can run this command at any
-            time and make a safe copy of the repository, regardless of
-            whether other processes are using the repository.</para>
+          <para>Este subcomando faz um backup completo <quote>a
+            quente</quote> de seu repositório, incluindo todos os
+            scripts de hook, arquivos de configuração, e, é claro, os
+            arquivos da base de dados.  Se você passar a opção
+            <option>--clean-logs</option>, o <command>svnadmin</command> 
+            vai executar uma cópia a quante de seu repositório, e então
+            remover arquivos de log não utilizados do Berkeley DB de seu
+            repositório original.  Você pode executar este comando a
+            qualquer momento e fazer uma cópia de segurança do
+            repositório, independentemente de que outros processos
+            estejam usando o repositório.</para>
 
         </refsect1>
 
@@ -5009,12 +5017,13 @@ Content-length: 101
 </screen>
 
           <warning>
-            <para>As described in <xref
-              linkend="svn.reposadmin.basics.backends.bdb"/>, hot-copied
-              Berkeley DB repositories are <emphasis>not</emphasis>
-              portable across operating systems, nor will they work on
-              machines with a different <quote>endianness</quote> than
-              the machine where they were created.</para>
+            <para>Como descrito em <xref
+              linkend="svn.reposadmin.basics.backends.bdb"/>,
+              repositórios Berkeley DB que sejam copiados a quente
+              <emphasis>não</emphasis> são portáveis para outros
+              sistemas operacionais, e também não irão funcionar em
+              máquinas com <quote>finalidades</quote> distintas que a
+              da máquina em que foram criados.</para>
           </warning>
 
           </refsect1>
@@ -5030,10 +5039,10 @@ Content-length: 101
         </indexterm>
 
         <refnamediv>
-          <refname>svnadmin list-dblogs</refname> <refpurpose>Ask
-          Berkeley DB which log files exist for a given Subversion
-          repository (applies only to repositories using the
-          <literal>bdb</literal> backend).</refpurpose>
+          <refname>svnadmin list-dblogs</refname> <refpurpose>Solicita
+          ao Berkeley DB informação sobre quais arquivos de log existem
+          para um dado repositório do Subversion (se aplica apenas a
+          repositório baseados em <literal>bdb</literal>).</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5042,14 +5051,14 @@ Content-length: 101
         <refsect1>
           <title>Descrição</title>
 
-          <para>Berkeley DB creates logs of all changes to the
-            repository, which allow it to recover in the face of
-            catastrophe.  Unless you enable
-            <literal>DB_LOG_AUTOREMOVE</literal>, the log files
-            accumulate, although most are no longer used and can be
-            deleted to reclaim disk space.  See <xref
-            linkend="svn.reposadmin.maint.diskspace"/> for more
-            information.</para>
+          <para>O Berkeley DB cria logs de todas as modificações no
+            repositório, o que lhe permite se recuperar de alguma
+            eventual catástrofe.  A menos que você habilite 
+            <literal>DB_LOG_AUTOREMOVE</literal>, os arquivos de log se
+            acumulam, ainda que a maioria não seja mais usada e possa
+            ser normalmente excluída para liberação de espaço em disco.
+            Veja <xref linkend="svn.reposadmin.maint.diskspace"/> para
+            mais informações.</para>
         </refsect1>
 
       </refentry>
@@ -5064,9 +5073,9 @@ Content-length: 101
 
         <refnamediv>
           <refname>svnadmin list-unused-dblogs</refname>
-          <refpurpose>Ask Berkeley DB which log files can be safely
-          deleted (applies only to repositories using the
-          <literal>bdb</literal> backend).</refpurpose>
+          <refpurpose>Solicita ao Ask Berkeley DB informação sobre quais
+          arquivos de log podem ser seguramente excluídos (se aplica
+          apenas a repositórios baseados em <literal>bdb</literal>).</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5075,20 +5084,20 @@ Content-length: 101
         <refsect1>
           <title>Descrição</title>
 
-          <para>Berkeley DB creates logs of all changes to the
-            repository, which allow it to recover in the face of
-            catastrophe.  Unless you enable
-            <literal>DB_LOG_AUTOREMOVE</literal>, the log files
-            accumulate, although most are no longer used and can be
-            deleted to reclaim disk space.  See <xref
-            linkend="svn.reposadmin.maint.diskspace"/> for more
-            information.</para>
+          <para>O Berkeley DB cria logs de todas as modificações no
+            repositório, o que lhe permite se recuperar de alguma
+            eventual catástrofe.  A menos que você habilite 
+            <literal>DB_LOG_AUTOREMOVE</literal>, os arquivos de log se
+            acumulam, ainda que a maioria não seja mais usada e possa
+            ser normalmente excluída para liberação de espaço em disco.
+            Veja <xref linkend="svn.reposadmin.maint.diskspace"/> para
+            mais informações.</para>
         </refsect1>
 
         <refsect1>
           <title>Exemplos</title>
           
-          <para>Remove all unused log files from a repository:</para>
+          <para>Remove todos osa rquivos de log não usados de um repositório:</para>
 
         <screen>
 $ svnadmin list-unused-dblogs /path/to/repos
@@ -5112,9 +5121,8 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
         </indexterm>
 
         <refnamediv>
-          <refname>svnadmin load</refname> <refpurpose>Read a
-            <quote>dumpfile</quote>-formatted stream from
-            stdin.</refpurpose>
+          <refname>svnadmin load</refname> <refpurpose>Lê uma entrada
+            no formato de um arquivo de despejo a partir de stdin.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5123,9 +5131,10 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
         <refsect1>
           <title>Descrição</title>
 
-          <para>Read a <quote>dumpfile</quote>-formatted stream from
-            stdin, committing new revisions into the repository's
-            filesystem.  Send progress feedback to stdout.</para>
+          <para>Lê uma entrada no formato de um arquivo de despejo a
+            partir de stdin, submetendo novas revisões para o sistema de
+            arquivos do repositório.  Envia informação sobre o andamento
+            da operação para stdout.</para>
         </refsect1>
 
         <refsect1>
@@ -5142,11 +5151,11 @@ $ svnadmin list-unused-dblogs /path/to/repos | xargs rm
         </refsect1>
 
         <refsect1>
-          <title>Example</title>
+          <title>Exemplos</title>
 
-          <para>This shows the beginning of loading a repository from
-            a backup file (made, of course, with <command>svnadmin
-            dump</command>):</para>
+          <para>Isto mostra o começo da carga de um repositório a partir
+            de um arquivo de backup (feito, obviamente, com
+            <command>svnadmin dump</command>):</para>
 
           <screen>
 $ svnadmin load /usr/local/svn/restored &lt; repos-backup
@@ -5156,7 +5165,7 @@ $ svnadmin load /usr/local/svn/restored &lt; repos-backup
 &hellip;
 </screen>
 
-          <para>Or if you want to load into a subdirectory:</para>
+          <para>Ou se você quiser fazer a carga para um subdiretório:</para>
 
           <screen>
 $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt; repos-backup
@@ -5179,7 +5188,7 @@ $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt;
 
         <refnamediv>
           <refname>svnadmin lslocks</refname> 
-          <refpurpose>Print descriptions of all locks.</refpurpose>
+          <refpurpose>Exibe a descrição de todas as travas.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5188,7 +5197,7 @@ $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt;
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print descriptions of all locks in a repository.</para>
+          <para>Exibe a descrição de todas as travas em um repositório.</para>
         </refsect1>
 
         <refsect1>
@@ -5198,10 +5207,10 @@ $ svnadmin load --parent-dir new/subdir/for/project /usr/local/svn/restored &lt;
         </refsect1>
 
         <refsect1>
-          <title>Example</title>
+          <title>Exemplo</title>
 
 
-          <para>This lists the one locked file in the repository at
+          <para>Isto lista o arquivo travado no repositório em 
             <filename>/svn/repos</filename>:</para>
 
           <screen>
@@ -5227,7 +5236,7 @@ Rework the uppermost branches on the bald cypress in the foreground.
 
         <refnamediv>
           <refname>svnadmin lstxns</refname>
-          <refpurpose>Print the names of all uncommitted transactions.</refpurpose>
+          <refpurpose>Exibe os nomes de todas as transações não submetidas.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -5236,17 +5245,16 @@ Rework the uppermost branches on the bald cypress in the foreground.
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print the names of all uncommitted transactions.  See
-            <xref linkend="svn.reposadmin.maint.diskspace.deadtxns" />
-            for information on how uncommitted transactions are
-            created and what you should do with them.</para>
+          <para>Exibe os nomes de todas as transações não submetidas.  
+            Veja <xref linkend="svn.reposadmin.maint.diskspace.deadtxns" />
+            para informação sobre como transações não submetidas são
+            criadas e sobre como você deveria lidar com elas.</para>
         </refsect1>
 
         <refsect1>
           <title>Exemplos</title>
 
-          <para>List all outstanding transactions in a
-            repository.</para>
+          <para>Lista todas as transações pendentes em um repositório.</para>
 
           <screen>
 $ svnadmin lstxns /usr/local/svn/repos/ 
@@ -5268,11 +5276,11 @@ $ svnadmin lstxns /usr/local/svn/repos/
         <refnamediv>
           <refname>svnadmin recover</refname>
 
-          <refpurpose>Bring a repository database back into a
-          consistent state (applies only to repositories using the
-          <literal>bdb</literal> backend).  In addition, if
-          <filename>repos/conf/passwd</filename> does not exist, it
-          will create a default password file .</refpurpose>
+          <refpurpose>Traz uma base de dados de repositório de volta a
+          um estado consistente (se aplica apenas a repositórios
+          baseados em <literal>bdb</literal>).  Além disso, se 
+          <filename>repos/conf/passwd</filename> não existir, ele vai
+          criar um arquivo de senhas padrão.</refpurpose>
 
         </refnamediv>
         <refsect1>
@@ -5282,8 +5290,8 @@ $ svnadmin lstxns /usr/local/svn/repos/
         <refsect1>
           <title>Descrição</title>
 
-          <para>Run this command if you get an error indicating that
-            your repository needs to be recovered.</para>
+          <para>Execute este comando se você obtiver uma indicação de
+            erro dizendo que seu repositório precisa ser recuperado.</para>
         </refsect1>
         <refsect1>
           <title>Opções</title>
@@ -5294,7 +5302,7 @@ $ svnadmin lstxns /usr/local/svn/repos/
         <refsect1>
           <title>Exemplos</title>
           
-          <para>Recover a hung repository:</para>
+          <para>Recupera um repositório problemático:</para>
 
           <screen>
 $ svnadmin recover /usr/local/svn/repos/ 
@@ -5305,11 +5313,11 @@ Recovery completed.
 The latest repos revision is 34.
 </screen>
 
-          <para>Recovering the database requires an exclusive lock on
-            the repository. (This is a <quote>database lock</quote>;
-            see <xref linkend="svn.advanced.locking.meanings"/>.)
-            If another process is accessing the repository,
-            then <command>svnadmin recover</command> will error:</para>
+          <para>Recuperar a base de dados precisa de uma trava exclusiva
+            no repositório. (Esta é uma <quote>trava da base de dados</quote>;
+            veja <xref linkend="svn.advanced.locking.meanings"/>.)
+            Se outro processo estiver acessando o repositório, então o
+            <command>svnadmin recover</command> irá falhar:</para>
           <screen>
 $ svnadmin recover /usr/local/svn/repos
 svn: Failed to get exclusive repository access; perhaps another process
@@ -5318,9 +5326,10 @@ such as httpd, svnserve or svn has it open?
 $
 </screen>
 
-          <para>The <option>--wait</option> option, however, will
-            cause <command>svnadmin recover</command> to wait
-            indefinitely for other processes to disconnect:</para>
+          <para>A opção <option>--wait</option>, entretanto, vai fazer
+            com que o <command>svnadmin recover</command> aguarde
+            indefinidamente até que os outros processo se
+            desconectem:</para>
 
           <screen>
 $ svnadmin recover /usr/local/svn/repos --wait
