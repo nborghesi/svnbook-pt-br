@@ -1714,81 +1714,86 @@ $ rm `svnadmin list-unused-dblogs /path/to/repos`
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.recovery">
-      <title>Berkeley DB Recovery</title>
+      <title>Recuperação do Berkeley DB</title>
 
-      <para>As mentioned in <xref
-        linkend="svn.reposadmin.basics.backends.bdb"/>, a Berkeley DB
-        repository can sometimes be left in frozen state if not closed
-        properly.  When this happens, an administrator needs to rewind
-        the database back into a consistent state.  This is unique to
-        BDB-backed repositories, though&mdash;if you are using
-        FSFS-backed ones instead, this won't apply to you.  And for
-        those of you using Subversion 1.4 with Berkeley DB 4.4 or
-        better, you should find that Subversion has become much more
-        resilient in these types of situations.  Still, wedged
-        Berkeley DB repositories do occur, and an administrator needs
-        to know how to safely deal with this circumstance.</para>
+      <para>Como mencionado em <xref
+        linkend="svn.reposadmin.basics.backends.bdb"/>, um repositório
+        Berkeley DB, algumas vezes pode ser deixado em um estado
+        congelado se não for fechado adequadamente.  Quando isto
+        acontece, um administrador precisa retroceder a base de dados
+        de volta a um estado consistente.  Embora isso seja específico
+        apenas para repositórios baseados em BDB&mdash;assim, se você
+        estiver usando repositórios baseados em FSFS, isto não se aplica
+        a você.  E para aqueles que estiverem usando o Subversion 1.4
+        com Berkeley DB 4.4 ou superior, vocês deveriam perceber que o 
+        Subversion se tornou muito mais resistente nesses tipos de 
+        situações.  Mas, problemas com repositórios Berkeley DB ainda
+        podem ocorrer, e um administrador precisa saber como agir
+        seguramente nessas circunstâncias.</para>
 
-      <para>In order to protect the data in your repository, Berkeley
-        DB uses a locking mechanism.  This mechanism ensures that
-        portions of the database are not simultaneously modified by
-        multiple database accessors, and that each process sees the
-        data in the correct state when that data is being read from
-        the database.  When a process needs to change something in the
-        database, it first checks for the existence of a lock on the
-        target data.  If the data is not locked, the process locks the
-        data, makes the change it wants to make, and then unlocks the
-        data.  Other processes are forced to wait until that lock is
-        removed before they are permitted to continue accessing that
-        section of the database.  (This has nothing to do with the
-        locks that you, as a user, can apply to versioned files within
-        the repository; we try to clear up the confusion caused by
-        this terminology collision in <xref
+      <para>Para proteger os dados em seu repositório, o Berkeley DB usa
+        um mecanismo de travas.  Este mecanismo assegura que porções da
+        base de dados não sejam modificadas simultaneamente por
+        múltiplos acessos à base de dados, e que cada processo veja os
+        dados no estado correto quando esses dados estiverem sendo lidos
+        da base de dados.  Quando um processo precisar modificar algo na
+        base de dados, ele primeiro procura pela existência de uma trava
+        nos dados cuja modificação se destina.  Se os dados não
+        estiverem travados, o processo trava os dados, faz as
+        modificações pretendidas, e então destrava os dados.  Outros
+        processos são forçados a esperar até que uma trava seja
+        removida antes de conseguir permissão para acessar àquela seção
+        da base de dados.  (Isto não tem nada a ver com as travas que
+        você, como usuário, pode criar em arquivos versionados dentro do
+        repositório; tentamos esclarecer a confusão causada por essa
+        colisão de terminologias em <xref
         linkend="svn.advanced.locking.meanings" />.)</para>
 
-      <para>In the course of using your Subversion repository, fatal
-        errors or interruptions can prevent a process from having the
-        chance to remove the locks it has placed in the database.  The
-        result is that the back-end database system gets
-        <quote>wedged</quote>.  When this happens, any attempts to
-        access the repository hang indefinitely (since each new
-        accessor is waiting for a lock to go away&mdash;which isn't
-        going to happen).</para>
+      <para>Ao longo de sua utilização do repositório do Subversion,
+        erros fatais ou interrupções podem evitar que um processo tenha
+        a oportunidade de remover travas que tenham criado na base de
+        dados.  O resultado é que o sistema da base de dados pode ficar
+        <quote>encravado</quote>.  Quando isto acontece, quaisquer
+        tentativas de se acessar o repositório pode resultar em
+        travamentos indefinidamente (como cada novo ancestral esteja
+        aguardando por uma trava para prosseguir&mdash;o que não é algo
+        que estará para acontecer).</para>
 
-      <para>If this happens to your repository, don't panic.  The
-        Berkeley DB filesystem takes advantage of database
-        transactions and checkpoints and pre-write journaling to
-        ensure that only the most catastrophic of events
+      <para>Se isto acontecer com seu repositório, não se desespere.  O
+        sistema de arquivos do Berkeley DB se aproveita das transações
+        e pontos de verificação e journaling de pré-escrita para se
+        assegurar que somente os eventos mais catastróficos
         <footnote>
-          <para>E.g.:  hard drive + huge electromagnet = disaster.</para>
+          <para>P.ex.:  disco rígido + grande eletromagnetismo = desastre.</para>
         </footnote>
-        can permanently destroy a database environment.  A
-        sufficiently paranoid repository administrator will have made
-        off-site backups of the repository data in some fashion, but
-        don't head off to the tape backup storage closet just yet.</para>
+        pode destruir permanentemente um ambiente da base de dados.  Um
+        administrador de repositório paranóico terá feito backups dos
+        dados do repositório em máquinas distintas da mesma forma, mas
+        não abra a gaveta das fitas de armazenamento de de backup
+        ainda.</para>
 
-      <para>Instead, use the following recipe to attempt to
-        <quote>unwedge</quote> your repository:</para>
+      <para>Ao invés disso, use a seguinte receita para tentar 
+        <quote>desencravar</quote> seu repositório:</para>
 
       <orderedlist>
         <listitem>
-          <para>Make sure that there are no processes accessing (or
-            attempting to access) the repository.  For networked
-            repositories, this means shutting down the Apache HTTP
-            Server or svnserve daemon, too.</para>
+          <para>Assegure-se de que não há processos acessando (ou
+            tentando acessar) o repositório.  Para repositórios em rede,
+            isto significa derrubar o servidor Apache HTTP ou o daemon
+            svnserve, também.</para>
         </listitem>
         <listitem>
-          <para>Become the user who owns and manages the repository.
-            This is important, as recovering a repository while
-            running as the wrong user can tweak the permissions of the
-            repository's files in such a way that your repository will
-            still be inaccessible even after it is
-            <quote>unwedged</quote>.</para>
+          <para>Torne-se o usuário que possui e gerencia o repositório.
+            Isto é importante, já que realizar a recuperação de um
+            repositório com o usuário errado pode detonar as permissões
+            dos arquivos do repositório de tal forma que seu repositório
+            ficará inacessível mesmo depois de
+            <quote>desencravado</quote>.</para>
         </listitem>
         <listitem>
-          <para>Run the command <command>svnadmin recover
-            /path/to/repos</command>.  You should see output like
-            this:</para>
+          <para>Execute o comando <command>svnadmin recover
+            /path/to/repos</command>.  Você deveria ver uma saída como
+            esta:</para>
 
           <screen>
 Repository lock acquired.
@@ -1797,33 +1802,37 @@ Please wait; recovering the repository may take some time...
 Recovery completed.
 The latest repos revision is 19.
 </screen>
-          <para>This command may take many minutes to complete.</para>
+          <para>Este comando pode levar alguns minutos para completar.</para>
         </listitem>
         <listitem>
-          <para>Restart the server process.</para>
+          <para>Reinicie o processo do servidor.</para>
         </listitem>
       </orderedlist>
 
-      <para>This procedure fixes almost every case of repository
-        lock-up.  Make sure that you run this command as the user that
-        owns and manages the database, not just as
-        <literal>root</literal>.  Part of the recovery process might
-        involve recreating from scratch various database files (shared
-        memory regions, for example).  Recovering as
-        <literal>root</literal> will create those files such that they
-        are owned by <literal>root</literal>, which means that even
-        after you restore connectivity to your repository, regular
-        users will be unable to access it.</para>
+      <para>Este procedimento vai corrigir praticamente todos os casos
+        de problemas dessa natureza do repositório.  Certifique-se de
+        executar este comando como o usuário que possui e gerencia a 
+        base de dados, não apenas como usuário <literal>root</literal>.
+        Parte do processo de recuperação pode envolver recriar do zero
+        vários arquivos da base de dados do repositório (regiões de
+        memória compartilhada, por exemplo).  Fazer esta recuperação
+        como usuário <literal>root</literal> vai criar estes arquivos
+        como se tivessem pertencido ao <literal>root</literal>, o que
+        quer dizer que mesmo depois de você restaurar a conectividade de
+        seu repositório, usuários normais estarão impossibilitados de
+        acessá-lo.</para>
 
-      <para>If the previous procedure, for some reason, does not
-        successfully unwedge your repository, you should do two
-        things.  First, move your broken repository directory aside
-        (perhaps by renaming it to something like
-        <filename>repos.BROKEN</filename>) and then restore your
-        latest backup of it.  Then, send an email to the Subversion
-        user list (at <email>users@subversion.tigris.org</email>)
-        describing your problem in detail.  Data integrity is an
-        extremely high priority to the Subversion developers.</para>
+      <para>Se o procedimento anterior, por alguma razão, não tiver
+        êxito ao desencravar o repositório, você deveria fazer duas
+        coisas.  Primeiro, deixe seu diretório problemático de lado
+        (talvez renomeando-o para algo como
+        <filename>repos.BROKEN</filename>) e então restaure o último
+        backup que você tiver dele.  Depois, envie um e-mail à lista
+        de usuários do Subversion (em
+        <email>users@subversion.tigris.org</email>) descrevendo seu
+        problema em detalhes.  A integridade de dados é uma
+        característica de altíssima prioridade para os desenvolvedores
+        do Subversion.</para>
 
     </sect2>
 
