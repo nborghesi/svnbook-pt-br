@@ -1345,52 +1345,56 @@ $
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.tk.bdbutil">
-        <title>Berkeley DB Utilities</title>
+        <title>Utilitários Berkeley DB</title>
 
-        <para>If you're using a Berkeley DB repository, then all of
-          your versioned filesystem's structure and data live in a set
-          of database tables within the <filename>db/</filename>
-          subdirectory of your repository.  This subdirectory is a
-          regular Berkeley DB environment directory, and can therefore
-          be used in conjunction with any of the Berkeley database
-          tools, typically provided as part of the Berkeley DB
-          distribution.</para>
+        <para>Se você está usando um repositório Berkeley DB, então toda
+          a estrutura de seu sistema de arquivos e dados versionado
+          reside em um conjunto de tabelas de base de dados dentro do
+          subdiretório <filename>db/</filename> de seu repositório.  
+          Este subdiretório é um diretório do ambiente normal do 
+          Berkeley DB, e pode dessa forma ser usado em conjunto com 
+          qualquer outras ferramentas de base de dados, tipicamente 
+          disponíveis como parte de uma distribuição do Berkeley
+          DB.</para>
 
-        <para>For day-to-day Subversion use, these tools are
-          unnecessary.  Most of the functionality typically needed for
-          Subversion repositories has been duplicated in the
-          <command>svnadmin</command> tool.  For example,
-          <command>svnadmin list-unused-dblogs</command> and
-          <command>svnadmin list-dblogs</command> perform a
-          subset of what is provided by the Berkeley
-          <command>db_archive</command> command, and <command>svnadmin
-          recover</command> reflects the common use cases of the
-          <command>db_recover</command> utility.</para>
+        <para>Para utilização do Subversion no dia-a-dia, essas 
+          ferramentas são desnecessárias.  A maioria das funcionalidades
+          tipicamente necessárias para repositórios do Subversion já
+          foram duplicadas na ferramenta <command>svnadmin</command>.  
+          Por exemplo, <command>svnadmin list-unused-dblogs</command> e
+          <command>svnadmin list-dblogs</command> executam funções que
+          estão disponíveis pelo comando <command>db_archive</command> 
+          do Berkeley DB, e <command>svnadmin recover</command> reflete
+          os casos mais comuns de utilização do utilitário 
+          <command>db_recover</command>.</para>
 
-        <para>However, there are still a few Berkeley DB utilities
-          that you might find useful.  The <command>db_dump</command>
-          and <command>db_load</command> programs write and read,
-          respectively, a custom file format which describes the keys
-          and values in a Berkeley DB database.  Since Berkeley
-          databases are not portable across machine architectures,
-          this format is a useful way to transfer those databases from
-          machine to machine, irrespective of architecture or
-          operating system.  As we describe later in this chapter, you
-          can also use <command>svnadmin dump</command> and
-          <command>svnadmin load</command> for similar purposes, but
-          <command>db_dump</command> and <command>db_load</command>
-          can do certain jobs just as well and much faster.  They can
-          also be useful if the experienced Berkeley DB hacker needs
-          to do in-place tweaking of the data in a BDB-backed
-          repository for some reason, which is something Subversion's
-          utilities won't allow.  Also, the <command>db_stat</command>
-          utility can provide useful information about the status of
-          your Berkeley DB environment, including detailed statistics
-          about the locking and storage subsystems.</para>
+        <para>Entretanto, há ainda alguns poucos utilitários do Berkeley
+          DB que você pode achar úteis.  Os programas
+          <command>db_dump</command> e <command>db_load</command> 
+          escrevem e lêem, respectivamente, um arquivo de formato 
+          específico que descreve as chaves e valores em uma base de 
+          dados Berkeley DB.  Uma vez que as bases de dados Berkeley DB
+          não são portáveis entre máquinas de arquiteturas diferentes,
+          este formato é útils para transferir bases de dados de uma
+          máquina a outra, independemente das arquiteturas ou sistemas
+          operacionais em questão.  Como descrito depois neste capítulo,
+          você sempre pode usar <command>svnadmin dump</command> e
+          <command>svnadmin load</command> para propósitos similares, 
+          mas <command>db_dump</command> e <command>db_load</command>
+          podem fazer estas tarefas adequadamente e de forma muito mais
+          rápida.  Esses comandos também podem ser úteis se um
+          especialista em Berkeley DB precisar, por algum motivo, 
+          realizar otimizações e  ajustes de dados diretamente em um
+          repositório baseado em BDB, coisa que alguns utilitários do
+          Subversion não permitem.  E ainda, o utilitário
+          <command>db_stat</command> pode oferecer informações úteis
+          sobre o estado de seu ambiente Berkeley DB environment, 
+          incluindo estatísticas detalhadas sobre os subsistemas de
+          travas e de armazenamento.</para>
 
-        <para>For more information on the Berkeley DB tool chain,
-          visit the documentation section of the Berkeley DB section
-          of Oracle's website, located at <ulink
+        <para>Para mais informações sobre o conjunto de ferramentas do
+          Berkeley DB, visite a área de documentação da seção Berkeley
+          DB no site da Oracle, em <ulink
           url="http://www.oracle.com/technology/documentation/berkeley-db/db/"
           />.</para>
 
