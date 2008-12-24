@@ -1403,51 +1403,53 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.setlog">
-      <title>Commit Log Message Correction</title>
+      <title>Corrigindo Mensagens de Log Submetidas</title>
 
-      <para>Sometimes a user will have an error in her log message (a
-        misspelling or some misinformation, perhaps).  If the
-        repository is configured (using the
-        <literal>pre-revprop-change</literal> hook; see <xref
-        linkend="svn.reposadmin.create.hooks"/>) to accept changes to
-        this log message after the commit is finished, then the user
-        can <quote>fix</quote> her log message remotely using the
-        <command>svn</command> program's <literal>propset</literal>
-        command (see <xref linkend="svn.ref.svn.c.propset"/>).
-        However, because of the potential to lose information forever,
-        Subversion repositories are not, by default, configured to
-        allow changes to unversioned properties&mdash;except by an
-        administrator.</para>
+      <para>Algumas vezes um usuário pode cometer um erro em sua
+        mensagem de log (talvez, uma palavra digitada errado ou alguma
+        informação incorreta).  Se o repositório estiver configurado 
+        (com o script <literal>pre-revprop-change</literal>; veja <xref
+        linkend="svn.reposadmin.create.hooks"/>) para aceitar
+        modificações em mensagens de log depois de efetuada uma submissão
+        (<foreignphrase>commit</foreignphrase>), então o usuário pode
+        <quote>corrigir</quote> sua mensagem de log remotamente usando o
+        comando <literal>propset</literal> do programa
+        <command>svn</command> (veja <xref
+        linkend="svn.ref.svn.c.propset"/>).  No entanto, devido a
+        possibilidade de perda definitiva de informação, os repositórios
+        do Subversion, por padrão, não vêm configurados para permitir
+        modificações em propriedades não versionadas&mdash;exceto as
+        feitas por um administrador.</para>
 
-      <para>If a log message needs to be changed by an administrator,
-        this can be done using <command>svnadmin setlog</command>.
-        This command changes the log message (the
-        <literal>svn:log</literal> property) on a given revision of a
-        repository, reading the new value from a provided file.</para>
+      <para>Se uma mensagem de log precisar ser modificada por um
+        administrador, isto pode ser feito usando-se <command>svnadmin
+        setlog</command>.  Este comando modifica a mensagem de log (a
+        propriedade <literal>svn:log</literal>) em uma dada revisão do
+        repositório, lendo o novo valor a partir de um arquivo
+        informado.</para>
 
       <screen>
 $ echo "Here is the new, correct log message" &gt; newlog.txt
 $ svnadmin setlog myrepos newlog.txt -r 388
 </screen>
 
-      <para>The <command>svnadmin setlog</command> command, by
-        default, is
-        still bound by the same protections against modifying
-        unversioned properties as a remote client is&mdash;the
-        <literal>pre-</literal> and
-        <literal>post-revprop-change</literal> hooks are still
-        triggered, and therefore must be set up to accept changes of
-        this nature.  But an administrator can get around these
-        protections by passing the <option>--bypass-hooks</option>
-        option to the <command>svnadmin setlog</command> command.</para>
+      <para>O comando <command>svnadmin setlog</command>, por padrão,
+        ainda está sujeito às mesmas proteções contra modificação de
+        propriedades não versionadas que um cliente remoto&mdash;os
+        scripts <literal>pre-</literal> e
+        <literal>post-revprop-change</literal> ainda são disparados e
+        devem estar definidos de forma a aceitar modificações desta
+        natureza.  Mas um administrador pode não se sujeitar a tais
+        proteções passando a opção <option>--bypass-hooks</option>
+        para o comando <command>svnadmin setlog</command>.</para>
 
       <warning>
-        <para>Remember, though, that by bypassing the hooks, you are
-          likely avoiding such things as email notifications of
-          property changes, backup systems which track unversioned
-          property changes, and so on.  In other words, be very
-          careful about what you are changing, and how you change
-          it.</para>
+        <para>Lembre-se, porém, que ao ignorar os scripts de hook, você
+          está impedindo certas coisas, como notificações de alterações
+          por e-mail, backup de modificações não versionadas do sistema
+          dentre outras, de acontecer.  Em outras palavras, tenha muito
+          cuidado com o que você está modificando, e como está fazendo
+          tais modificações.</para>
       </warning>
 
 
@@ -1455,77 +1457,83 @@ $ svnadmin setlog myrepos newlog.txt -r 388
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.diskspace">
-      <title>Managing Disk Space</title>
+      <title>Gerenciando Espaço em Disco</title>
 
-      <para>While the cost of storage has dropped incredibly in the
-        past few years, disk usage is still a valid concern for
-        administrators seeking to version large amounts of data.
-        Every bit of version history information stored in the live
-        repository needs to be backed up
-        elsewhere, perhaps multiple times as part of rotating backup
-        schedules.  It is useful to know what pieces of Subversion's
-        repository data need to remain on the live site, which need to
-        be backed up, and which can be safely removed.</para>
+      <para>Ainda que o custo de armazenagem por megabyte tenha caído
+        incrivelmente nos últimos anos, utilização de disco ainda é uma
+        preocupação para administradores que procuram versionar grandes
+        quantidades de dados.  Cada porção de informação de um histórico
+        de versão em um repositório de produção precisa ter backups
+        armazenados em outra máquina, possivelmente até várias vezes ao
+        dia por meio de agendamentos e backups rotativos.  É util saber
+        que partes dos dados do repositório do Subversion podem ficar
+        apenas no servidor ativo, quais delas precisam efetivamente de
+        cópias de segurança, e quais podem ser excluídas sem
+        problemas.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.diskspace.deltas">
-        <title>How Subversion saves disk space</title>
+        <title>Como o Subversion economiza espaço em disco</title>
 
-        <para>To keep the repository small,
-          Subversion uses <firstterm>deltification</firstterm> (or,
-          <quote>deltified storage</quote>) within the repository
-          itself.  Deltification involves encoding the representation
-          of a chunk of data as a collection of differences against
-          some other chunk of data.  If the two pieces of data are
-          very similar, this deltification results in storage savings
-          for the deltified chunk&mdash;rather than taking up space
-          equal to the size of the original data, it takes up only
-          enough space to say, <quote>I look just like this other
-          piece of data over here, except for the following couple of
-          changes</quote>.  The result is that most of the repository
-          data that tends to be bulky&mdash;namely, the contents of
-          versioned files&mdash;is stored at a much smaller size than
-          the original <quote>fulltext</quote> representation of that
-          data.  And for repositories created with Subversion 1.4 or
-          later, the space savings are even better&mdash;now those
-          fulltext representations of file contents are themselves
-          compressed.</para>
+        <para>Para manter o repositório pequeno, o Subversion usa uma
+          técnica de <firstterm>deltificação</firstterm> (ou,
+          <quote>armazenamento de diferenças</quote>) internamente ao
+          repositório.  Deltificação envolve codificar a representação
+          de uma porção de dados como um conjunto de diferenças
+          relativas a outra porção de dados.  Se as duas porções de
+          dados forem bastante similares entre si, a deltificação
+          resulta em economia de armazenamento para os dados
+          deltificados&mdash;ao invés de usar espaço igual ao tamanho
+          dos dados originais, dessa forma é necessário apenas espaço 
+          para dizer: <quote>Eu sou bem parecido com os dados que você
+          já viu até aqui, exceto por estes seguintes trechos
+          diferentes</quote>.  O resultado é que a maior parte dos dados
+          do repositório que tendem a ser
+          volumosos&mdash;especificamente o conteúdo dos arquivos
+          versionados&mdash;é armazenada em um espaço muito menor que a
+          representação <quote>inteira</quote> do conteúdo do texto
+          original dos dados.  E para repositórios criados com o
+          Subversion 1.4 ou posterior, a economia de espaço é ainda 
+          melhor&mdash;agora, as próprias representações completas do
+          conteúdo dos arquivos são compactadas.</para>
 
         <note>
-          <para>Because all of the data that is subject to
-            deltification in a BDB-backed repository is stored in a
-            single Berkeley DB database file, reducing the size of the
-            stored values will not immediately reduce the size of the
-            database file itself.  Berkeley DB will, however, keep
-            internal records of unused areas of the database file, and
-            consume those areas first before growing the size of the
-            database file.  So while deltification doesn't produce
-            immediate space savings, it can drastically slow future
-            growth of the database.</para>
+          <para>Como todos os dados que estão sujeitos a deltificação em
+            um repositório baseado em BDB são armazenados em um único
+            arquivo de base de dados do Berkeley DB, reduzir o tamanho
+            dos valores armazenados não irá reduzir o tamanho do arquivo
+            da base de dados em si.  O Berkeley DB irá, entretanto,
+            manter registros internos de áreas não utilizadas do arquivo
+            da base de dados e utilizar essas áreas antes de aumentar o
+            tamanho do arquivo da base de dados.  Então, por mais que a
+            deltificação não produza economia de espaço imediata, ela
+            pode reduzir drasticamente o crescimento da base de
+            dados.</para>
         </note>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.diskspace.deadtxns">
-        <title>Removing dead transactions</title>
+        <title>Removendo transações mortas</title>
 
-        <para>Though they are uncommon, there are circumstances in
-          which a Subversion commit process might fail, leaving behind
-          in the repository the remnants of the revision-to-be that
-          wasn't&mdash;an uncommitted transaction and all the file and
-          directory changes associated with it.  This could happen for
-          several reasons:  perhaps the client operation was
-          inelegantly terminated by the user, or a network failure
-          occurred in the middle of an operation.
-          Regardless of the reason, dead transactions can happen.
-          They don't do any real harm, other than consuming disk
-          space.  A fastidious administrator may nonetheless wish to
-          remove them.</para>
+        <para>Apesar de ser algo bastante raro, há circunstâncias nas
+          quais uma submissão (<foreignphrase>commit</foreignphrase>) do
+          Subversion pode falhar, deixando para trás no repositório
+          aquilo que viria a ser uma revisão, e não foi&mdash;uma
+          transação não concluída e todos os arquivos e diretórios
+          associados a ela.  Isto pode acontecer em virtude de várias
+          coisas: talvez a operação do cliente tenha sido bruscamente
+          terminada pelo usuário, ou talvez tenha havido uma falha na
+          conexão de rede durante a operação.  Indepentendemente do
+          motivo, transações mortas podem acontecer.  Elas não
+          representam nenhuma preocupação mais séria, além talvez de
+          consumir algum espaço em disco.  Um administrador bastante 
+          atento, todavia, pode querer sempre removê-las.</para>
 
-        <para>You can use <command>svnadmin</command>'s
-          <literal>lstxns</literal> command to list the names of the
-          currently outstanding transactions.</para>
+        <para>Você pode usar o comando <literal>lstxns</literal> do
+          <command>svnadmin</command> para listar os nomes das
+          transações atualmente pendentes.</para>
 
         <screen>
 $ svnadmin lstxns myrepos
@@ -1535,42 +1543,40 @@ a45
 $
 </screen>
 
-        <para>Each item in the resultant output can then be used with
-          <command>svnlook</command> (and its
-          <option>--transaction (-t)</option> option) to determine who
-          created the transaction, when it was created, what types of
-          changes were made in the transaction&mdash;information that
-          is helpful in determining whether or not the transaction is
-          a safe candidate for removal!  If you do indeed want to
-          remove a transaction, its name
-          can be passed to <command>svnadmin rmtxns</command>, which
-          will perform the cleanup of the transaction.  In fact, the
-          <literal>rmtxns</literal> subcommand can take its input
-          directly from the output of
-          <literal>lstxns</literal>!</para>
+        <para>Cada item na saída resultante pode então ser usada com o
+          <command>svnlook</command> (e sua opção <option>--transaction
+          (-t)</option>) para determinar quem criou a transação, quando
+          ela foi criada, ou que tipos de modificações estava contidas
+          na transação&mdash;informações que são úteis para determinar
+          se se trata de uma transação que pode ou não ser removida!  Se
+          você pretende remover a transação, seu nome pode ser passado
+          para o <command>svnadmin rmtxns</command>, que então fará a
+          limpeza da transação.  De fato, o subcomando
+          <literal>rmtxns</literal> pode obter sua entrada diretamente a
+          partir da saída do <literal>lstxns</literal>!</para>
 
         <screen>
 $ svnadmin rmtxns myrepos `svnadmin lstxns myrepos`
 $
 </screen>
 
-        <para>If you use these two subcommands like this, you should
-          consider making your repository temporarily inaccessible to
-          clients.  That way, no one can begin a legitimate
-          transaction before you start your cleanup.  <xref
+        <para>Se você usar esses dois comandos desta forma, você deveria
+          considerar deixar seu repositório inacessível temporariamente
+          aos seus clientes.  Dessa forma, ninguém poderá iniciar uma
+          transação legítima antes de você começar a limpexa.  <xref
           linkend="svn.reposadmin.maint.diskspace.deadtxns.ex-1" />
-          contains a bit of shell-scripting that can quickly generate
-          information about each outstanding transaction in your
-          repository.</para>
+          contém um pouco de programação em shell script que pode
+          facilmente gerar informação sobre cada uma das transações
+          pendentes em seu repositório.</para>
 
         <example id="svn.reposadmin.maint.diskspace.deadtxns.ex-1">
-          <title>txn-info.sh (Reporting Outstanding Transactions)</title>
+          <title>txn-info.sh (Obtendo Informações Sobre Transações Pendentes)</title>
 
           <programlisting>
 #!/bin/sh
 
-### Generate informational output for all outstanding transactions in
-### a Subversion repository.
+### Gera uma saída informativa para todas as transações pendentes em
+### um repositório do Subversion.
 
 REPOS="${1}"
 if [ "x$REPOS" = x ] ; then
@@ -1585,10 +1591,10 @@ done
 </programlisting>
         </example>
 
-        <para>The output of the script is basically a concatenation of
-          several chunks of <command>svnlook info</command> output
-          (see <xref linkend="svn.reposadmin.maint.tk.svnlook"/>), and
-          will look something like:</para>
+        <para>A saída do script é basicamente uma concatenação de alguns
+          trechos da saída do <command>svnlook info</command> (veja
+          <xref linkend="svn.reposadmin.maint.tk.svnlook"/>), e será
+          algo parecido com isto:</para>
 
         <screen>
 $ txn-info.sh myrepos
@@ -1608,68 +1614,74 @@ sally
 $
 </screen>
 
-        <para>A long-abandoned transaction usually represents some
-          sort of failed or interrupted commit.  A transaction's
-          datestamp can provide interesting information&mdash;for
-          example, how likely is it that an operation begun nine
-          months ago is still active?</para>
+        <para>Uma transação abandonada há muito tempo normalmente
+          representa algum tipo de falha ou interrupção na operação.  
+          A data de uma transação pode fornecer informação
+          interessante&mdash;por exemplo, como pode uma transação
+          iniciada nove meses atrás ainda estar ativa?</para>
 
-        <para>In short, transaction cleanup decisions need not be made
-          unwisely.  Various sources of information&mdash;including
-          Apache's error and access logs, Subversion's operational
-          logs, Subversion revision history, and so on&mdash;can be
-          employed in the decision-making process.  And of course, an
-          administrator can often simply communicate with a seemingly
-          dead transaction's owner (via email, for example) to verify
-          that the transaction is, in fact, in a zombie state.</para>
+        <para>Em suma, a decisão sobre operações de limpeza não devem
+          ser tomadas de qualquer jeito.  Várias fontes de
+          informação&mdash;incluindo logs de erro e de acesso do Apache,
+          logs operacionais do Subversion, o histórico de revisões do
+          Subversion e daí em diante&mdash;podem ser empregadas no
+          processo de tomada de decisão.  E, é claro, um administrador
+          pode muitas vezes, simplesmente falar com a pessoa (por
+          telefone ou e-mail, por exemplo) que parece ter iniciado a
+          transação incompleta, para verificar se a transação está, de
+          fato, em um estado zumbi.</para>
 
       </sect3>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.diskspace.bdblogs">
-        <title>Purging unused Berkeley DB logfiles</title>
+        <title>Remover completamente arquivos de log não usados do Berkeley DB</title>
 
-        <para>Until recently, the largest offender of disk space usage
-          with respect to BDB-backed Subversion repositories was the
-          log files in which Berkeley DB performs its pre-writes
-          before modifying the actual database files.  These files
-          capture all the actions taken along the route of changing
-          the database from one state to another&mdash;while the
-          database files, at any given time, reflect a particular state, the log
-          files contain all the many changes along the way <emphasis>between</emphasis>
-          states.  Thus, they can grow and accumulate quite
-          rapidly.</para>
+        <para>Até recentemente, o maior ladrão de espaço em disco em
+          repositórios Subversion baseados em BDB eram os arquivos de
+          log nos quais o Berkeley DB mantém registros de pré-escrita
+          antes de modificar efetivamente os arquivos da base de dados.
+          Estes arquivos capturam todas as ações executadas durante uma
+          modificação da base de dados de um estado para 
+          outro&mdash;ainda que os arquivos da base de dado, a cada
+          instante, reflitam um estado em particular, os arquivos de log
+          contém todas as diversas modificações proferias
+          <emphasis>entre</emphasis> os estados.  Assim, eles podem
+          crescer e se acumular muito rapidamente.</para>
 
-        <para>Fortunately, beginning with the 4.2 release of Berkeley
-          DB, the database environment has the ability to remove its
-          own unused log files automatically.  Any
-          repositories created using an <command>svnadmin</command>
-          which is compiled against Berkeley DB version 4.2 or greater
-          will be configured for this automatic log file removal.  If
-          you don't want this feature enabled, simply pass the
-          <option>--bdb-log-keep</option> option to the
-          <command>svnadmin create</command> command.  If you forget
-          to do this, or change your mind at a later time, simply edit
-          the <filename>DB_CONFIG</filename> file found in your
-          repository's <filename>db</filename> directory, comment out
-          the line which contains the <literal>set_flags
-          DB_LOG_AUTOREMOVE</literal> directive, and then run
-          <command>svnadmin recover</command> on your repository to
-          force the configuration changes to take effect.  See <xref
-          linkend="svn.reposadmin.create.bdb"/> for more information about
-          database configuration.</para>
+        <para>Felizmente, a partir da versão 4.2 do Berkeley DB, o
+          ambiente de base de dados passou a ter a capacidade de remover
+          seus próprios arquivos de log não utilizados.  Quaisquer
+          repositórios criados com o <command>svnadmin</command>
+          compilado com suporte a Berkeley DB versão 4.2 ou posterior
+          serão configurados para fazer remoção automática de arquivos
+          de log.  Se você não quiser que este recurso esteja
+          disponível, simplesmente passe a opção
+          <option>--bdb-log-keep</option> para o comando 
+          <command>svnadmin create</command>.  Se você se esquecer de
+          fazer isto, ou se mudar de idéia posteriormente, simplesmente
+          modifique o arquivo <filename>DB_CONFIG</filename>, encontrado
+          no diretório <filename>db</filename> de seu repositório, 
+          descomentando a linha que contém a diretiva <literal>set_flags
+          DB_LOG_AUTOREMOVE</literal>, e então execute 
+          <command>svnadmin recover</command> em seu repositório para
+          forçar que as modificações de configuração tenham efeito.  
+          Veja <xref linkend="svn.reposadmin.create.bdb"/> para mais
+          informações sobre configuração da base de dados.</para>
 
-        <para>Without some sort of automatic log file removal in
-          place, log files will accumulate as you use your repository.
-          This is actually somewhat of a feature of the database
-          system&mdash;you should be able to recreate your entire
-          database using nothing but the log files, so these files can
-          be useful for catastrophic database recovery.  But
-          typically, you'll want to archive the log files that are no
-          longer in use by Berkeley DB, and then remove them from disk
-          to conserve space.  Use the <command>svnadmin
-          list-unused-dblogs</command> command to list the unused
-          log files:</para>
+        <para>Sem algum tipo de remoção automática de arquivos de log à
+          disposição, os arquivos de log irão se acumular conforme você
+          for usando seu repositório.  Atualmente isto é um tipo de 
+          recurso do sistema da base de dados&mdash;você deveria ser
+          capaz de recriar sua base de dados inteira sem precisar de
+          nada além dos arquivos de log, então esses arquivos podem
+          ser úteis para recuperação da base de dados após algum
+          desastre.  Mas normalmente, você vai querer arquivar os
+          arquivos de log que não estiverem mais sendo usados pelo
+          Berkeley DB, e então removê-los do disco para economizar
+          espaço.  Use o comando <command>svnadmin
+          list-unused-dblogs</command> para listar os arquivos de log 
+          não utilizados:</para>
 
         <screen>
 $ svnadmin list-unused-dblogs /path/to/repos
@@ -1682,15 +1694,18 @@ $ rm `svnadmin list-unused-dblogs /path/to/repos`
 </screen>
 
         <warning>
-          <para>BDB-backed repositories whose log files are used
-            as part of a backup or disaster recovery plan should
-            <emphasis>not</emphasis> make use of the log file
-            autoremoval feature.  Reconstruction of a repository's
-            data from log files can only be accomplished when <emphasis>all</emphasis> the log
-            files are available.  If some of the log files are
-            removed from disk before the backup system has a chance to
-            copy them elsewhere, the incomplete set of backed-up log
-            files is essentially useless.</para>
+          <para>Repositórios baseados em BDB e cujos arquivos de log
+            forem usados como parte de um plano de backup ou recuperação
+            de desastres <emphasis>não</emphasis> deveria dispor do
+            recurso de remoção automática de arquivos de log.  
+            Reconstruir dados do repositório a partir de arquivos de log
+            é algo que só pode ser feito quando
+            <emphasis>todos</emphasis> os arquivos de log estiverem
+            disponíveis.  Se alguns dos arquivos de log tiverem sido
+            removidos do disco antes que o sistema de backup tivessi
+            tido a oportunidade de copiá-los para algum outro lugar, um
+            backup de um conjunto incompleto de arquivos de log é algo
+            essencialmente inútil.</para>
         </warning>
 
       </sect3>
