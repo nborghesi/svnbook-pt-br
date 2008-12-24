@@ -8,7 +8,7 @@ Estimamos que cerca de *94,7%* do livro já tenha sido traduzido. Esse número n
 || *2. Basic Usage*                            || *100%* ||
 || *3. Advanced Topics*                        || *100%* ||
 || *4. Branching and Merging*                  || *100*% ||
-|| 5. Repository Administration                || 35%    ||
+|| 5. Repository Administration                || 44%    ||
 || *6. Server Configuration*                   || *100%* ||
 || *7. Customizing Your Subversion Experience* || *100%* ||
 || *8. Embedding Subversion*                   || *100%* ||
