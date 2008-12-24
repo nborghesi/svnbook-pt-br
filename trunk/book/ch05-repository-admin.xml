@@ -1247,15 +1247,15 @@ Greek tree.
       <sect3 id="svn.reposadmin.maint.tk.svndumpfilter">
         <title>svndumpfilter</title>
 
-        <para>While it won't be the most commonly used tool at the
-          administrator's disposal, <command>svndumpfilter</command>
-          provides a very particular brand of useful
-          functionality&mdash;the ability to quickly and easily modify
-          streams of Subversion repository history data by acting as a
-          path-based filter.</para>
+        <para>Por mais que este não seja uma das ferramentas mais usadas
+          à disposição do administrador, o
+          <command>svndumpfilter</command> oferece uma funcionalidade
+          nova e bastante útil&mdash;a capacidade de modificar rápida e
+          facilmente fluxos de dados do histórico do Subversion, agindo
+          como um filtro baseado em caminhos.</para>
 
-        <para>The syntax of <command>svndumpfilter</command> is as
-          follows:</para>
+        <para>A sintaxe do <command>svndumpfilter</command> é a
+          seguinte:</para>
 
         <screen>
 $ svndumpfilter help
@@ -1269,30 +1269,31 @@ Available subcommands:
    help (?, h)
 </screen>
 
-        <para>There are only two interesting subcommands.  They allow
-          you to make the choice between explicit or implicit
-          inclusion of paths in the stream:</para>
+        <para>Há apenas dois subcomandos interessantes.  Eles lhe
+          permitem fazer a escolha entre inclusão de caminhos explícita
+          ou implícita no fluxo:</para>
 
         <variablelist>
           <varlistentry>
             <term><literal>exclude</literal></term>
             <listitem>
-              <para>Filter out a set of paths from the dump data
-                stream.</para>
+              <para>Exclui do filtro um conjunto de caminhos dos dados
+                do fluxo de despejo.</para>
             </listitem>
           </varlistentry>
 
           <varlistentry>
             <term><literal>include</literal></term>
             <listitem>
-              <para>Allow only the requested set of paths to pass
-                through the dump data stream.</para>
+              <para>Permite que apenas o conjunto de caminhos
+                requisitados passem para os dados do fluxo de
+                despejo.</para>
             </listitem>
           </varlistentry>
         </variablelist>
 
-        <para>You can learn more about these subcommands and
-          <command>svndumpfilter</command>'s unique purpose in <xref
+        <para>Você pode aprender mais sobre esses subcomandos e o
+          propósito único do <command>svndumpfilter</command> em <xref
           linkend="svn.reposadmin.maint.filtering" />.</para>
 
       </sect3>
@@ -1301,24 +1302,26 @@ Available subcommands:
       <sect3 id="svn.reposadmin.maint.tk.svnsync">
         <title>svnsync</title>
 
-        <para>The <command>svnsync</command> program, which is new to
-          the 1.4 release of Subversion, provides all the
-          functionality required for maintaining a read-only mirror of
-          a Subversion repository.  The program really has one
-          job&mdash;to transfer one repository's versioned history
-          into another repository.  And while there are few ways to do
-          that, its primary strength is that it can operate
-          remotely&mdash;the <quote>source</quote> and
-          <quote>sink</quote>
+        <para>O programa <command>svnsync</command>, que é uma das
+          novidades da versão 1.4 so Subversion, oferece toda a
+          funcionalidade necessária para manter um espelho somente
+          leitura de um repositório do Subversion.  O programa realmente
+          tem apenas um propósito&mdash;tranferir o histórico versionado 
+          de um repositório para outro repositório.  E por mais que haja
+          algumas poucas formas de fazer isso, seu principal ponto forte
+          é poder operar remotamente&mdash;os repositórios de 
+          <quote>origem</quote> (<foreignphrase>source</foreignphrase>)
+          e de <quote>destino</quote> (<foreignphrase>sink</foreignphrase>)
           <footnote>
-            <para>Or is that, the <quote>sync</quote>?</para>
+            <para>Ou seria, <quote>sync</quote>?</para>
           </footnote>
-          repositories may be on different computers from each other
-          and from <command>svnsync</command> itself.</para>
+          podem estar cada um em computadores diferentes entre si e 
+          mesmo longe da própria máquina que executa o
+          <command>svnsync</command>.</para>
 
-        <para>As you might expect, <command>svnsync</command> has a
-          syntax that looks very much like every other program we've
-          mentioned in this chapter:</para>
+        <para>Como você pode supor, o <command>svnsync</command> tem uma
+          sintaxe que parece muito com a de outros programas já
+          mencionados neste capítulo:</para>
 
         <screen>
 $ svnsync help
@@ -1334,8 +1337,8 @@ Available subcommands:
 $
 </screen>
 
-        <para>We talk more about replication repositories with
-          <command>svnsync</command> in <xref
+        <para>Falamos mais sobre replicação de repositórios com o 
+          <command>svnsync</command> em <xref
           linkend="svn.reposadmin.maint.replication" />.</para>
 
       </sect3>
