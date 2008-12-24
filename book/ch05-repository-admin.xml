@@ -944,101 +944,108 @@ post-revprop-change.tmpl  pre-lock.tmpl     start-commit.tmpl
           use caminhos absolutos para os programas</para>
       </tip>
 
-      <para>Subversion executes hooks as the same user who owns the
-        process which is accessing the Subversion repository.  In most
-        cases, the repository is being accessed via a Subversion
-        server, so this user is the same user as which that server
-        runs on the system.  The hooks themselves will need to be
-        configured with OS-level permissions that allow that user to
-        execute them.  Also, this means that any file or programs
-        (including the Subversion repository itself) accessed directly
-        or indirectly by the hook will be accessed as the same user.
-        In other words, be alert to potential permission-related
-        problems that could prevent the hook from performing the tasks
-        it is designed to perform.</para>
+      <para>O Subversion executa os scripts de
+        <foreignphrase>hooks</foreignphrase> como o mesmo usuário que
+        executa o processo que estiver acessando o repositório do
+        Subversion.  Na maioria dos casos, o repositórios estará sendo
+        acessado por um servidor Subersion, então tal usuário é o mesmo
+        usuário com o qual o servidor é executado no sistema.  Os
+        scripts em si precisarão ser configurados em nível de sistema
+        operacional para permitir que esse usuário execute-os.  Também,
+        isto quer dizer que quaisquer arquivos ou programas (incluindo o
+        próprio repositório do Subversion) que forem acessados direta ou
+        indiretamente pelos scripts serão executados como um mesmo
+        usuário.  Em outras palavras, esteja atento para potenciais
+        problemas relacionados a permissões e que podem acabar impedindo
+        os scripts de hook de executar adequadamente as devidas tarefas
+        para as quais foram programados.</para>
 
-      <para>There are nine hooks implemented by the Subversion
-        repository, and you can get details about each of them in
-        <xref linkend="svn.ref.reposhooks" />.  As a repository
-        administrator, you'll need to decide which of hooks you wish
-        to implement (by way of providing an appropriately named and
-        permissioned hook program), and how.  When you make this
-        decision, keep in mind
-        the big picture of how your repository is deployed.
-        For example, if you are using server configuration
-        to determine which users are permitted to commit
-        changes to your repository, then you don't need to do this
-        sort of access control via the hook system.</para>
+      <para>Existem nove scripts de hook já implementados pelo
+        repositório do Subversion, e você pode ver mais detalhes sobre
+        cada um em <xref linkend="svn.ref.reposhooks" />.  Como um
+        administrador de repositório. você vai precisar decidir sobre
+        quais scripts você vai querer implementar e como.  Quando você
+        tomar esta decisão, tenha em mente a visão geral de como seu
+        repositório está implantado.  Por exemplo, se você estiver
+        usando uma configuração de servidor para determinar que usuários
+        têm permissão para submeter alterações no repositório, então
+        você não precisa fazer fazer este tipo de controle de acesso por
+        meio do sistema de scripts de hook.</para>
 
-      <para>There is no shortage of Subversion hook programs and
-        scripts freely available either from the Subversion community
-        itself or elsewhere.  These scripts cover a wide range of
-        utility&mdash;basic access control, policy adherence checking,
-        issue tracker integration, email- or syndication-based commit
-        notification, and beyond.  See <xref linkend="svn.3rdparty" />
-        for discussion of some of the most commonly used hook
-        programs.  Or, if you wish to write your own, see <xref
+      <para>Há uma abundância de programas e scripts de hook livremente
+        disponíveis pela comunidade do Subversion em si ou em geral na
+        Internet.  Esses scripts constituem uma ampla gama de
+        utilitários&mdash;controle de acesso básico, verificação de
+        aderência de políticas, integração com sistemas de demandas,
+        notificações por e-mail ou sindicação de alterações submetidas,
+        e muito mais.  Veja <xref linkend="svn.3rdparty" /> para uma
+        discussão de alguns dos programas de hook mais comumente usados.
+        Ou, se você quiser escrever seu próprio, veja <xref
         linkend="svn.developer" />.</para>
 
       <warning>
-        <para>While hook scripts can do almost
-          anything, there is one dimension in which hook script
-          authors should show restraint:  do <emphasis>not</emphasis>
-          modify a commit transaction using hook scripts.  While it
-          might be tempting to use hook scripts to automatically
-          correct errors or shortcomings or policy violations present
-          in the files being committed, doing so can cause problems.
-          Subversion keeps client-side caches of certain bits of
-          repository data, and if you change a commit transaction in
-          this way, those caches become indetectably stale.  This
-          inconsistency can lead to surprising and unexpected
-          behavior.  Instead of modifying the transaction, you should
-          simply <emphasis>validate</emphasis> the transaction in the
-          <filename>pre-commit</filename> hook and reject the commit
-          if it does not meet the desired requirements.  As a
-          bonus, your users will learn the value of careful,
-          compliance-minded work habits.</para>
+        <para>Ainda que muitos scripts de hook possam fazer muita coisa,
+          há uma dimensão na qual os autores de scripts devem se
+          restringir: <emphasis>nunca</emphasis> modificar uma transação
+          de commit utilizando scripts de hook.  Por mais que possa
+          parecer tentador utilizar scripts para automatizar correções
+          de erros ou deficiências ou ainda violações de políticas
+          presentes nos arquivos a serem submetidos, fazer isso resulta
+          em problemas.  O Subversion mantém caches de certas porções de
+          dados do repositório no lado do cliente, e se você modificar
+          uma transação de commit desta forma, estes caches ficarão
+          inutilizáveis de uma maneira difícil de ser detectada.  Essa
+          inconsistência pode levar a comportamentos errôneos e
+          inesperados.  Ao invés de modificá-la, você deveria
+          simplesmente <emphasis>validar</emphasis> a transação em um
+          script <filename>pre-commit</filename> e rejeitar a submissão
+          se os requisitos em questão desejados não forem cumpridos.  
+          Como um bônus, seus usuários irão aprender o valor de hábitos
+          de trabalho cuidadosos e adequadamente.</para>
       </warning>
 
     </sect2>
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.create.bdb">
-      <title>Berkeley DB Configuration</title>
+      <title>Configuração do Berkeley DB</title>
 
-      <para>A Berkeley DB environment is an encapsulation of one or
-        more databases, log files, region files and configuration
-        files.  The Berkeley DB environment has its own set of default
-        configuration values for things like the number of database locks
-        allowed to be taken out at any given time, or the maximum size
-        of the journaling log files, etc.  Subversion's filesystem
-        logic additionally chooses default values for some of the
-        Berkeley DB configuration options.  However, sometimes your
-        particular repository, with its unique collection of data and
-        access patterns, might require a different set of
-        configuration option values.</para>
+      <para>Um ambiente DB environment é um encapsulamento de uma ou
+        mais bases de dados, arquivos de log, arquivos de região e
+        arquivos de configuração.  O ambiente Berkeley DB possui seu
+        próprio conjunto de valores de configuração padrão para coisas
+        como o número de travas de base de dados possíveis a cada
+        instante, ou o tamanho máximo de arquivos de log, etc.  A lógica
+        do sistema de arquivos do Subversion adicionalmente escolhe
+        valores padrão para algumas das opções de configuração do
+        Berkeley DB.  No entanto, algumas vezes seu repositório 
+        específico, o qual é uma coleção única de dados e padrões de 
+        acesso, pode requerer um conjunto diferente de valores para
+        opções de configuração.</para>
 
-      <para>The producers of Berkeley DB understand that different
-        applications and database environments have different
-        requirements, and so they have provided a mechanism for
-        overriding at runtime many of the configuration values for the
-        Berkeley DB environment:  BDB checks for the presence of
-        a file named <filename>DB_CONFIG</filename> in the environment
-        directory (namely, the repository's
-        <filename>db</filename> subdirectory), and parses the options found in that file .  Subversion itself creates
-        this file when it creates the rest of the repository.  The
-        file initially contains some default options, as well as
-        pointers to the Berkeley DB online documentation so you can
-        read about what those options do.  Of course, you are free to
-        add any of the supported Berkeley DB options to your
-        <filename>DB_CONFIG</filename> file.  Just be aware that while
-        Subversion never attempts to read or interpret the contents of
-        the file, and makes no direct use of the option settings in
-        it, you'll want to avoid any configuration changes that may
-        cause Berkeley DB to behave in a fashion that is at odds with
-        what Subversion might expect.  Also, changes made to
-        <filename>DB_CONFIG</filename> won't take effect until you
-        recover the database environment (using <command>svnadmin
+      <para>Os criadores do Berkeley DB compreendem que aplicações
+        diferentes e ambientes de bases de dados possuem requisitos
+        diferentes, e assim eles deixaram disponível um mecanismo para
+        sobrescrever muitos dos valores de configuração em tempo de 
+        execução no ambiente do Berkeley DB:  BDB verifica a presença
+        de um arquivo chamado <filename>DB_CONFIG</filename> no 
+        diretório do ambiente (no caso, o subdiretório
+        <filename>db</filename> do repositório), e considera as opções
+        encontradas nesse arquivo.  O próprio Subversion cria este
+        arquivo ao criar o restante do repositório.  O arquivo
+        inicialmente contém algumas opções padrão, bem como ponteiros
+        para a documentação online do Berkeley DB para que você possa
+        ler sobre o que as opções em questão fazem.  É claro, você é
+        livre para adicionar quaisquer opções suportadas pelo Berkeley
+        DB em seu arquivo <filename>DB_CONFIG</filename>.  Apenas atente
+        que por mais que este o Subversion nunca tente ler ou
+        interpretar o conteúdo desse arquivo, e que  não utiliza
+        diretamente as opções de configuração presentes nele, você não
+        vai querer modificar quaisquer configurações que podem fazer com
+        que o Berkeley DB se comporte de uma forma diferente do que que
+        o Subversion espera.  Além disso, modificar o arquivo 
+        <filename>DB_CONFIG</filename> não fará efeito até que você
+        recupere o ambiente da base de dados (usando <command>svnadmin
         recover</command>).</para>
 
     </sect2>
