@@ -7041,8 +7041,8 @@ $
 
       <refnamediv>
         <refname>svnversion</refname>
-        <refpurpose>Summarize the local revision(s) of a working
-                    copy.</refpurpose>
+        <refpurpose>Sumariza revisão(ões) locais de uma cópia de
+                    trabalho.</refpurpose>
       </refnamediv>
 
       <refsect1 id="svn.ref.svnversion.re.syn">
@@ -7053,65 +7053,67 @@ $
       <refsect1 id="svn.ref.svnversion.re.desc">
         <title>Descrição</title>
 
-        <para><command>svnversion</command> is a program for
-          summarizing the revision mixture of a working copy.  The
-          resultant revision number, or revision range, is written to
-          standard output.</para>
+        <para>O <command>svnversion</command> é um programa para
+          sumarização do conjunto de revisões de uma cópia de trabalho.
+          O número de revisão resultante, ou intervalo de revisões, é
+          escrito na saída padrão.</para>
 
-        <para>It's common to use this output in your build process
-          when defining the version number of your program.</para>
+        <para>É comum usar essa saída em seu processo de compilação e
+          distribuição para definir o número de versão de seu
+          programa.</para>
         
-        <para><replaceable>TRAIL_URL</replaceable>, if present, is the
-          trailing portion of the URL used to determine if
-          <replaceable>WC_PATH</replaceable> itself is switched
-          (detection of switches within
-          <replaceable>WC_PATH</replaceable> does not rely on
+        <para><replaceable>TRAIL_URL</replaceable>, se estiver presente,
+          é a porção final da URL usada para determinar se o 
+          <replaceable>WC_PATH</replaceable> em si foi trocado
+          (detecção de chaves dentro de 
+          <replaceable>WC_PATH</replaceable> não depende de 
           <replaceable>TRAIL_URL</replaceable>).</para>
 
-        <para>When <replaceable>WC_PATH</replaceable> is not defined,
-          the current directory will be used as the working copy path.
-          <replaceable>TRAIL_URL</replaceable> cannot be defined if
-          <replaceable>WC_PATH</replaceable> is not explicitly
-          given.</para>
+        <para>Quando <replaceable>WC_PATH</replaceable> não está
+          definido, o diretório atual será usado como caminho da cópia
+          de trabalho <replaceable>TRAIL_URL</replaceable> não pode ser
+          definido se <replaceable>WC_PATH</replaceable> não for
+          informado explicitamente.</para>
   
       </refsect1>
 
       <refsect1 id="svn.ref.svnversion.re.sw">
         <title>Opções</title>
 
-        <para>Like <command>svnserve</command>,
-          <command>svnversion</command> has no subcommands, it only
-          has options.</para>
+        <para>Como o <command>svnserve</command>, o 
+          <command>svnversion</command> não tem subcomandos, mas apenas
+          opções.</para>
 
         <variablelist>
     
           <varlistentry>
             <term><option>--no-newline</option> (<option>-n</option>)</term>
             <listitem>
-              <para>Omit the usual trailing newline from the output.</para>
+              <para>Omite a quebra de linha usual da saída.</para>
             </listitem>
           </varlistentry>
     
           <varlistentry>
             <term><option>--committed</option> (<option>-c</option>)</term>
             <listitem>
-              <para>Use the last-changed revisions rather than the
-              current (i.e., highest locally available) revisions.</para>
+              <para>Usa as revisões das últimas modificações ao invés da
+              revisão atual (i.e., a mais alta revisão disponível
+              localmente).</para>
             </listitem>
           </varlistentry>
     
           <varlistentry>
             <term><option>--help</option> (<option>-h</option>)</term>
             <listitem>
-              <para>Print a help summary.</para>
+              <para>Exibe um resumo da ajuda.</para>
             </listitem>
           </varlistentry>
     
           <varlistentry>
             <term><option>--version</option></term>
             <listitem>
-              <para>Print the version of <command>svnversion</command>
-              and exit with no error.</para>
+              <para>Exibe a versão do <command>svnversion</command> e
+              encerra sem nenhum erro.</para>
             </listitem>
           </varlistentry>
 
@@ -7121,60 +7123,61 @@ $
       <refsect1 id="svn.ref.svnversion.re.examples">
         <title>Exemplos</title>
 
-        <para>If the working copy is all at the same revision (for
-          example, immediately after an update), then that revision is
-          printed out:</para>
+        <para>Se a cópia de trabalho estiver toda na mesma revisão (por
+          exemplo, imediatamente depois de uma atualização), então essa
+          revisão é exibida:</para>
 
         <screen>
 $ svnversion
 4168
 </screen>
 
-        <para>You can add <replaceable>TRAIL_URL</replaceable> to make
-          sure that the working copy is not switched from what you
-          expect.  Note that the <replaceable>WC_PATH</replaceable>
-          is required in this command:</para>
+        <para>Você pode adicionar <replaceable>TRAIL_URL</replaceable> 
+          para se assegurar que a cópia de trabalho não seja diferente
+          daquela que você espera.  Note que o
+          <replaceable>WC_PATH</replaceable> é requerido neste
+          comando:</para>
 
         <screen>
 $ svnversion . /repos/svn/trunk
 4168
 </screen>
 
-        <para>For a mixed-revision working copy, the range of
-          revisions present is printed:</para>
+        <para>Para uma cópia de trabalho que esteja em diversas revisões
+          distintas, o intervalo das revisões presentes é exibido:</para>
 
         <screen>
 $ svnversion
 4123:4168
 </screen>
 
-        <para>If the working copy contains modifications, a trailing
-          "M" is added:</para>
+        <para>Se a cópia de trabalho contiver modificações, um "M" é
+          adicionado ao final para sinalizar:</para>
 
         <screen>
 $ svnversion
 4168M
 </screen>
 
-        <para>If the working copy is switched, a trailing "S" is
-          added:</para> 
+        <para>Se a cópia de trabalho for trocada, um "S" é adicionado ao
+          final:</para> 
 
         <screen>
 $ svnversion
 4168S
 </screen>
 
-        <para>Thus, here is a mixed-revision, switched working copy
-          containing some local modifications:</para>
+        <para>E ainda, aqui está uma cópia de trabalho que foi trocada e
+          que continha algumas modificações locais:</para>
 
         <screen>
 $ svnversion
 4212:4168MS
 </screen>
 
-        <para>If invoked on a directory that is not a working copy,
-          <command>svnversion</command> assumes it is an exported
-          working copy and prints "exported":</para>
+        <para>Se executado em um diretório que não seja uma cópia de
+          trabalho, o <command>svnversion</command> considera que está
+          em uma cópia de trabalho exportada e exibe "exported":</para>
 
         <screen>
 $ svnversion
