@@ -6274,8 +6274,8 @@ Rearrange lunch.
 
         <refnamediv>
           <refname>svnlook propget</refname>
-          <refpurpose>Print the raw value of a property on a path in
-            the repository.</refpurpose>
+          <refpurpose>Exibe o valor cru de uma propriedade em um 
+            caminho no repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6284,8 +6284,8 @@ Rearrange lunch.
         <refsect1>
           <title>Descrição</title>
 
-          <para>List the value of a property on a path in the
-            repository.</para>
+          <para>Lista o valor de uma propriedade em um caminho no
+            repositório.</para>
 
           </refsect1>
 
@@ -6307,9 +6307,9 @@ Rearrange lunch.
         <refsect1>
           <title>Exemplos</title>
 
-          <para>This shows the value of the <quote>seasonings</quote> property
-            on the file <filename>/trunk/sandwich</filename> in the
-            <literal>HEAD</literal> revision:</para>
+          <para>Isto mostra o valor da propriedade <quote>seasonings</quote>
+            do arquivo <filename>/trunk/sandwich</filename> na revisão
+            <literal>HEAD</literal>:</para>
 
           <screen>
 $ svnlook pg /usr/local/svn/repos seasonings /trunk/sandwich
@@ -6329,8 +6329,8 @@ mustard
 
         <refnamediv>
           <refname>svnlook proplist</refname>
-          <refpurpose>Print the names and values of versioned file and
-            directory properties.</refpurpose>
+          <refpurpose>Exibe os nomes e valores de propriedades de
+            arquivos e diretórios versionados.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6339,8 +6339,9 @@ mustard
         <refsect1>
           <title>Descrição</title>
 
-          <para>List the properties of a path in the repository.  With
-            <option>--verbose</option>, show the property values too.</para>
+          <para>Lista as propriedades de um caminho no repositório.  Com
+            <option>--verbose</option>, também exibe os valores das
+            propriedades.</para>
 
           </refsect1>
 
@@ -6363,9 +6364,9 @@ mustard
         <refsect1>
           <title>Exemplos</title>
 
-          <para>This shows the names of properties set on the file
-            <filename>/trunk/README</filename> in the
-            <literal>HEAD</literal> revision:</para>
+          <para>Isto mostra os nomes das propriedades definidas para o
+            arquivo <filename>/trunk/README</filename> na revisão 
+            <literal>HEAD</literal>:</para>
 
           <screen>
 $ svnlook proplist /usr/local/svn/repos /trunk/README
@@ -6373,8 +6374,8 @@ $ svnlook proplist /usr/local/svn/repos /trunk/README
   svn:mime-type
 </screen>
 
-          <para>This is the same command as in the previous example,
-            but this time showing the property values as well:</para>
+          <para>Este é o mesmo comando do exemplo anterior, mas desta
+            vez mostrando os valores das propriedades também:</para>
 
           <screen>
 $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
@@ -6394,7 +6395,7 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
 
         <refnamediv>
           <refname>svnlook tree</refname>
-          <refpurpose>Print the tree.</refpurpose>
+          <refpurpose>Exibe a árvore.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6402,10 +6403,10 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
         </refsect1>
         <refsect1>
           <title>Descrição</title>
-          <para>Print the tree, starting at
-            <replaceable>PATH_IN_REPOS</replaceable> (if supplied, at
-            the root of the tree otherwise), optionally showing node
-            revision IDs.</para>
+          <para>Exibe a árvore, começando em 
+            <replaceable>PATH_IN_REPOS</replaceable> (se informado, ou
+            da raiz da árvore em caso contrário), opcionalmente mostra
+            os IDs das revisões dos nós.</para>
         </refsect1>
 
         <refsect1>
@@ -6421,8 +6422,8 @@ $ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
         <refsect1>
           <title>Exemplos</title>
           
-          <para>This shows the tree output (with node-IDs) for revision
-            40 in our sample repository:</para>
+          <para>Isto mostra a árvore de saída (com os IDs dos nós) para
+            a revisão 40 em nosso repositório de exemplo:</para>
 
           <screen>
 $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
@@ -6448,8 +6449,8 @@ $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
 
         <refnamediv>
           <refname>svnlook uuid</refname>
-          <refpurpose>Print the repository's
-          <literal>UUID</literal>.</refpurpose>
+          <refpurpose>Exibe o <literal>UUID</literal> do
+          repositório.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6458,12 +6459,13 @@ $ svnlook tree -r 40 /usr/local/svn/repos --show-ids
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print the <literal>UUID</literal> for the repository.
-            the UUID is the repository's
-            <emphasis>u</emphasis>niversal <emphasis>u</emphasis>nique
-            <emphasis>id</emphasis>entifier.  The Subversion client
-            uses this identifier to differentiate between one
-            repository and another.</para>
+          <para>Exibe o <literal>UUID</literal> do repositório.  O UUID
+            é o identificador universal e único do repositório
+            (<foreignphrase><emphasis>u</emphasis>niversal
+            <emphasis>u</emphasis>nique
+            <emphasis>id</emphasis>entifier</foreignphrase>).  O cliente
+            do Subversion usa este identificador para diferenciar um
+            repositório de outro.</para>
         </refsect1>
 
         <refsect1>
@@ -6487,7 +6489,7 @@ e7fe1b91-8cd5-0310-98dd-2f12e793c5e8
 
         <refnamediv>
           <refname>svnlook youngest</refname>
-          <refpurpose>Print the youngest revision number.</refpurpose>
+          <refpurpose>Exibe o número da revisão mais jovem.</refpurpose>
         </refnamediv>
         <refsect1>
           <title>Sinopse</title>
@@ -6496,14 +6498,14 @@ e7fe1b91-8cd5-0310-98dd-2f12e793c5e8
         <refsect1>
           <title>Descrição</title>
 
-          <para>Print the youngest revision number of a repository.</para>
+          <para>Exibe o número da revisão mais jovem de um repositório.</para>
         </refsect1>
 
         <refsect1>
           <title>Exemplos</title>
 
-        <para>This shows the youngest revision of our sample
-          repository:</para>
+        <para>Isto mostra a revisão mais jovem de nosso repositório de
+          exemplo:</para>
 
           <screen>
 $ svnlook youngest /tmp/repos/ 
