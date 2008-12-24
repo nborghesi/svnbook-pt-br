@@ -1056,40 +1056,40 @@ post-revprop-change.tmpl  pre-lock.tmpl     start-commit.tmpl
   <!-- ================================================================= -->
   <!-- ================================================================= -->
   <sect1 id="svn.reposadmin.maint">
-    <title>Repository Maintenance</title>
+    <title>Manutenção do Repositório</title>
 
-    <para>Maintaining a Subversion repository can be daunting,
-      mostly due to the complexities inherent in systems which have a
-      database backend.  Doing the task well is all about knowing the
-      tools&mdash;what they are, when to use them, and how to use
-      them.  This section will introduce you to the repository
-      administration tools provided by Subversion, and how to wield
-      them to accomplish tasks such as repository data migration,
-      upgrades, backups and cleanups.</para>
+    <para>Manter um repositório do Subversion pode ser algo intimidante,
+      muito devido às complexidades inerentes aos sistemas baseados em
+      bases de dados.  Fazer bem as tarefas tem a ver com conhecer bem
+      as ferramentas&mdash;o que elas são, quando usá-las, e como
+      usá-las.  Esta seção vai apresentar a você as ferramentas de
+      administração do repositório oferecidas pelo Subversion, e como 
+      utilizá-las para executar tarefas como migração de dados do
+      repositório, atualizações, backups e limpezas.</para>
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.tk">
-      <title>An Administrator's Toolkit</title>
+      <title>Um Kit de Ferramentas do Administrador</title>
 
-      <para>Subversion provides a handful of utilities useful for
-        creating, inspecting, modifying and repairing your repository.
-        Let's look more closely at each of those tools.  Afterward,
-        we'll briefly examine some of the utilities included in the
-        Berkeley DB distribution that provide functionality specific
-        to your repository's database backend not otherwise provided
-        by Subversion's own tools.</para>
+      <para>O Subversion fornece um conjunto de utilitários para
+        criação, inspeção, modificação e reparação de seu repositório.  
+        Vamos olhar mais de perto cada uma dessas ferramentas.  Depois,
+        vamos examinar brevemente alguns dos utilitários incluídos na
+        distribuição Berkeley DB que oferecem funcionalidades
+        específicas para a base de dados de seu repositório que não são
+        oferecidas por outras ferramentas do próprio Subversion.</para>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
       <sect3 id="svn.reposadmin.maint.tk.svnadmin">
         <title>svnadmin</title>
 
-        <para>The <command>svnadmin</command> program is the
-          repository administrator's best friend.  Besides providing
-          the ability to create Subversion repositories, this program
-          allows you to perform several maintenance operations on
-          those repositories.  The syntax of
-          <command>svnadmin</command> is similar to that of other
-          Subversion command-line programs:</para>
+        <para>O programa <command>svnadmin</command> é o melhor amigo do
+          administrador do repositórios do Subversion.  Além de
+          possibilitar a criação de repositórios, este programa permite
+          a você executar diversas operações de manutenção nesses
+          repositórios.  A subtaxe do 
+          <command>svnadmin</command> é semelhante à de outros programas
+          de linha de comando do Subversion:</para>
 
         <screen>
 $ svnadmin help
@@ -1104,13 +1104,12 @@ Available subcommands:
 &hellip;
 </screen>
 
-        <para>We've already mentioned <command>svnadmin</command>'s
-          <literal>create</literal> subcommand (see <xref
-          linkend="svn.reposadmin.basics.creating"/>).  Most of the
-          others we will cover later
-          in this chapter.  And you can consult <xref
-          linkend="svn.ref.svnadmin" /> for a full rundown of
-          subcommands and what each of them offers.</para>
+        <para>Nós já mencionamos o subcomando <literal>create</literal>
+          do <command>svnadmin</command> (veja <xref
+          linkend="svn.reposadmin.basics.creating"/>).  Muitos dos
+          outros vamos abordar depois neste capítulo.  E você pode
+          consultar <xref linkend="svn.ref.svnadmin" /> para um apanhado
+          geral dos subcomandos e do que cada um deles oferece.</para>
 
       </sect3>
 
@@ -1118,20 +1117,20 @@ Available subcommands:
       <sect3 id="svn.reposadmin.maint.tk.svnlook">
         <title>svnlook</title>
 
-        <para><command>svnlook</command> is a tool provided by
-          Subversion for examining the various revisions and
-          <firstterm>transactions</firstterm> (which are revisions
-          in-the-making) in a repository.  No part of this program
-          attempts to change the repository.  <command>svnlook</command>
-          is typically used by the repository hooks for reporting the
-          changes that are about to be committed (in the case of the
-          <command>pre-commit</command> hook) or that were just
-          committed (in the case of the <command>post-commit</command>
-          hook) to the repository.  A repository administrator may use
-          this tool for diagnostic purposes.</para>
+        <para>O <command>svnlook</command> é uma ferramenta oferecida
+          pelo Subversion para se examinar várias revisões e 
+          <firstterm>transações</firstterm> (que são revisões
+          <foreignphrase>in-the-making</foreignphrase>) em um
+          repositório.  Nenhuma parte deste programa tenta modificar o
+          repositório.  O <command>svnlook</command> é tipicamente usado
+          pelos scripts de hook do repositório para informação sobre as
+          modificações que estão para ser (no caso de um script
+          <command>pre-commit</command>) ou que acabaram de ser
+          submetidas (no caso de scripts <command>post-commit</command>)
+          ao repositório.  Um administador do repositório pode usar esta
+          ferramenta para fins de diagnóstico.</para>
 
-        <para><command>svnlook</command> has a straightforward
-          syntax:</para>
+        <para>O <command>svnlook</command> tem a seguinte sintaxe:</para>
 
         <screen>
 $ svnlook help
@@ -1144,19 +1143,19 @@ Type 'svnlook --version' to see the program version and FS modules.
 &hellip;
 </screen>
 
-        <para>Nearly every one of <command>svnlook</command>'s
-          subcommands can operate on either a revision or a
-          transaction tree, printing information about the tree
-          itself, or how it differs from the previous revision of the
-          repository.  You use the <option>--revision (-r)</option> and
-          <option>--transaction (-t)</option> options to specify which
-          revision or transaction, respectively, to examine.  In the
-          absence of both the <option>--revision (-r)</option> and
-          <option>--transaction (-t)</option> options,
-          <command>svnlook</command> will examine the youngest (or
-          <quote>HEAD</quote>) revision in the repository.  So the
-          following two commands do exactly the same thing when 19 is
-          the youngest revision in the repository located at
+        <para>Quase todos os subcomandos do <command>svnlook</command> 
+          podem operar tanto em uma revisão quanto em uma árvore de 
+          transações, exibindo informação sobre a árvore em si, ou sobre
+          como ela difere da revisão anterior do repositório.  Você usa
+          as opções <option>--revision (-r)</option> e
+          <option>--transaction (-t)</option> para especificar,
+          respectivamente, a revisão ou transação a examinar.  Na
+          ausência de ambas as opções <option>--revision (-r)</option> e
+          <option>--transaction (-t)</option>, o
+          <command>svnlook</command> irá examinar a revisão mais recente
+          (ou <quote>HEAD</quote>) do repositório.  Assim, os seguintes
+          dois comandos fazem exatamente a mesma coisa quando a revisão
+          19 for a mais recente no repositório localizado em 
           <filename>/path/to/repos</filename>:</para>
 
         <screen>
@@ -1164,10 +1163,10 @@ $ svnlook info /path/to/repos
 $ svnlook info /path/to/repos -r 19
 </screen>
 
-        <para>The only exception to these rules about subcommands is
-          the <command>svnlook youngest</command> subcommand, which
-          takes no options, and simply prints out the repository's
-          youngest revision number.</para>
+        <para>A única exceção a essas regras é o subcomando
+          <command>svnlook youngest</command>, o qual não leva opções, e
+          simplesmente exibe o número da revisão mais recente do
+          repositório.</para>
 
         <screen>
 $ svnlook youngest /path/to/repos
@@ -1175,17 +1174,19 @@ $ svnlook youngest /path/to/repos
 </screen>
 
         <note>
-          <para>Keep in mind that the only transactions you can browse
-            are uncommitted ones.  Most repositories will have no such
-            transactions, because transactions are usually either
-            committed (in which case, you should access them as
-            revision with the <option>--revision (-r)</option> option) or
-            aborted and removed.</para>
+          <para>Tenha em mente que as únicas transações que podem ser
+            visualizadas são as que ainda não foram submetidas.  A
+            maioria dos repositórios não terão tais transações, já que
+            transações normalmente são submetidas (neste caso, você
+            deveria acessá-las por seu número de revisão com a opção
+            <option>--revision (-r)</option>) ou abortadas e
+            removidas.</para>
         </note>
 
-        <para>Output from <command>svnlook</command> is designed to be
-          both human- and machine-parsable.  Take as an example the output
-          of the <literal>info</literal> subcommand:</para>
+        <para>A saída do <command>svnlook</command> é projetada para ser
+          facilmente legível tanto por humanos quanto analisável por
+          computadores.  Tome como um exemplo, a saída do subcomando
+          <literal>info</literal>:</para>
 
         <screen>
 $ svnlook info /path/to/repos
@@ -1196,47 +1197,49 @@ Added the usual
 Greek tree.
 </screen>
 
-        <para>The output of the <literal>info</literal> subcommand is
-          defined as:</para>
+        <para>A saída do subcomando <literal>info</literal> é definida 
+          como:</para>
 
         <orderedlist>
           <listitem>
-            <para>The author, followed by a newline.</para>
+            <para>O autor, seguido de uma quebra de linha.</para>
           </listitem>
           <listitem>
-            <para>The date, followed by a newline.</para>
+            <para>A data, seguida de uma quebra de linha.</para>
           </listitem>
           <listitem>
-            <para>The number of characters in the log message,
-              followed by a newline.</para>
+            <para>O número de caracteres na mensagem de log, seguido de
+              uma quebra de linha.</para>
           </listitem>
           <listitem>
-            <para>The log message itself, followed by a newline.</para>
+            <para>A mensagem de log em si, seguida de uma quebra de
+              linha.</para>
           </listitem>
         </orderedlist>
 
-        <para>This output is human-readable, meaning items like the
-          datestamp are displayed using a textual representation
-          instead of something more obscure (such as the number of
-          nanoseconds since the Tasty Freeze guy drove by).  But the
-          output is also machine-parsable&mdash;because the log
-          message can contain multiple lines and be unbounded in
-          length, <command>svnlook</command> provides the length of
-          that message before the message itself.  This allows scripts
-          and other wrappers around this command to make intelligent
-          decisions about the log message, such as how much memory to
-          allocate for the message, or at least how many bytes to skip
-          in the event that this output is not the last bit of data in
-          the stream.</para>
+        <para>Esta saída é legível por humanos, o que quer dizer que
+          itens como a data são exibidos usando uma representação
+          textual ao invés de algo mais obscuro (como o número de
+          nanosegundos desde que Judas perdeu as botas).  Mas a saída
+          também é facilmente analisável por um computador&mdash;já que
+          a mensagem de log pode conter múltiplas linhas e pode
+          extrapolar no tamanho, o <command>svnlook</command> informa o
+          comprimento do texto da mensagem antes da mensagem em si.  
+          Isso permite que scripts que usem ou encapsulem este comando
+          possam tomar decisões inteligentes sobre a mensagem de log,
+          tais como definir quanta memória alocar para a mensagem, ou ao
+          menos quantos bytes desconsiderar no caso de a saída não ser a
+          última parte em um fluxo de dados.</para>
 
-        <para><command>svnlook</command> can perform a variety of
-          other queries:  displaying subsets of bits of information
-          we've mentioned previously, recursively listing versioned
-          directory trees, reporting which paths were modified in a
-          given revision or transaction, showing textual and property
-          differences made to files and directories, and so on.  See
-          <xref linkend="svn.ref.svnlook" /> for a full reference of
-          <command>svnlook</command>'s features.</para>
+        <para>O <command>svnlook</command> pode executar uma porção de
+          outras consultas: exibir subconjuntos de pedaços de informação
+          que já mencionamos anteriormente, listar árvores de diretórios
+          versionados recursivamente, informar que caminhos foram
+          modificados em uma dada revisão ou transação, mostrar
+          diferenças textuais e de propriedades feitas em arquivos e 
+          diretórios, e assim por diante.  Veja <xref
+          linkend="svn.ref.svnlook" /> para uma referência completa dos
+          recursos do <command>svnlook</command>.</para>
 
       </sect3>
 
