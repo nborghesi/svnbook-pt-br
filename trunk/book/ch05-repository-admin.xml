@@ -2082,8 +2082,8 @@ $ svnadmin load newrepos &lt; dumpfile3
 
       <para>Outro truque efetivo que você pode executar com esta opção
         <option>--incremental</option> envolve anexar um novo intervalo
-        de revisõe despejadas para um arquivo de despejo existente.  Por
-        exemplo, você pode ter um script de hook
+        de revisões despejadas para um arquivo de despejo existente.
+        Por exemplo, você pode ter um script de hook
         <literal>post-commit</literal> que simplesmente anexe o despejo
         do repositório de uma única revisão que senha disparado o
         script.  Ou você pode ter um script que seja executado
@@ -2154,81 +2154,85 @@ $
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.filtering">
-      <title>Filtering Repository History</title>
+      <title>Filtrando o Histórico do Repositório</title>
 
-      <para>Since Subversion stores your versioned history using, at
-        the very least, binary differencing algorithms and data
-        compression (optionally in a completely opaque database
-        system), attempting manual tweaks is unwise, if not quite
-        difficult, and at any rate strongly discouraged.  And once
-        data has been stored in your repository, Subversion
-        generally doesn't provide an easy way to remove that data.
+      <para>Como o Subversion armazena seu histórico versionado usando,
+        no mínimo, algorítmos de diferenciação binária e compactação de
+        dados (opcionalmente em um sistema de base de dados
+        completamente opaco), tentar fazer qualquer ajuste manual é
+        imprudente, para não dizer difícil, e pelo menos fortemente
+        desencorajado.  E uma vez que os dados forem armazenados em seu
+        repositório, o Subversion geralmente não dispõe de uma maneira
+        fácil de remover estes dados.
         <footnote>
-          <para>That's rather the reason you use version control at
-            all, right?</para>
+          <para>Que é precisamente a razão para usar um sistema de
+            controle de versão, certo?</para>
         </footnote>
-        But inevitably, there will be times when you would like to
-        manipulate the history of your repository.  You might need
-        to strip out all instances of a file that was accidentally
-        added to the repository (and shouldn't be there for whatever
-        reason).
+        Mas inevitavelmente, há algumas vezes que você poderia querer 
+        manipular o histórico de seu repositório.  Você pode precisar
+        remover todas as instâncias de um arquivo que fora
+        acidentalmente adicionado ao repositório (e não deveria estar
+        ali de forma nenhuma).
         <footnote>
-          <para>Conscious, cautious removal of certain bits of
-            versioned data is actually supported by real use-cases.
-            That's why an <quote>obliterate</quote> feature has been
-            one of the most highly requested Subversion features,
-            and one which the Subversion developers hope to soon
-            provide.</para>
+          <para>Conscientemente, a remoção cuidadosa de certas porções
+            de dados versionados é necessária atualmente em alguns casos
+            de uso reais.  Isso é porque o recurso de
+            <quote>obliteração</quote> tenha sido um dos recursos mais
+            requisitados para o Subversion, e um dos quais os
+            desenvolvedores do Subversion esperam disponibilizar em
+            breve.</para>
         </footnote>
-        Or, perhaps you have multiple projects sharing a
-        single repository, and you decide to split them up into
-        their own repositories.  To accomplish tasks like this,
-        administrators need a more manageable and malleable
-        representation of the data in their repositories&mdash;the
-        Subversion repository dump format.</para>
+        Ou, talvez, você tenha múltiplos projetos compartilhando um
+        único repositório, e você decida dividí-lo em seus próprios
+        repositórios.  Para cumprir uma tarefa como esta, os
+        administradores precisam de uma representação mais gerenciável e
+        flexível dos dados em seus repositórios&mdash;o formato de
+        despejo do repositório do Subversion.</para>
 
-      <para>As we described in <xref
-        linkend="svn.reposadmin.maint.migrate" />, the
-        Subversion repository dump format is a human-readable
-        representation of the changes that you've made to your
-        versioned data over time.  You use the <command>svnadmin
-        dump</command> command to generate the dump data, and
-        <command>svnadmin load</command> to populate a new
-        repository with it (see <xref
-        linkend="svn.reposadmin.maint.migrate"/>).  The great thing
-        about the human-readability aspect of the dump format is
-        that, if you aren't careless about it, you can manually
-        inspect and modify it.  Of course, the downside is that if
-        you have three years' worth of repository activity
-        encapsulated in what is likely to be a very large dump file,
-        it could take you a long, long time to manually inspect and
-        modify it.</para>
+      <para>Como descrevemos em <xref
+        linkend="svn.reposadmin.maint.migrate" />, o repositório do
+        Subversion é uma representação legível por humanos das
+        alterações que você tem feito em seus dados versionados ao longo
+        do tempo.  Você usa o comando <command>svnadmin
+        dump</command> para gerar dados de despejo, e o
+        <command>svnadmin load</command> para popular um novo
+        repositório com eles (veja <xref
+        linkend="svn.reposadmin.maint.migrate"/>).  A grande coisa sobre
+        o aspecto da legibilidade do formato de despejo é que, se você
+        não tiver cuidado sobre isso, você pode manualmente
+        inspecioná-lo e modificá-lo.  É claro, o lado negativo é que se
+        você tiver três anos de atividade no repositório encapsulados no
+        que pode ser um arquivo de despejo muito grande, isso levaria 
+        muito, muito tempo para inspecioná-lo e modificá-lo
+        manualmente.</para>
 
-      <para>That's where <command>svndumpfilter</command> becomes
-        useful.  This program acts as path-based filter for
-        repository dump streams.  Simply give it either a list of
-        paths you wish to keep, or a list of paths you wish to not
-        keep, then pipe your repository dump data through this
-        filter.  The result will be a modified stream of dump data
-        that contains only the versioned paths you (explicitly or
-        implicitly) requested.</para>
+      <para>É aí que entra o comando <command>svndumpfilter</command>.
+        Este programa atua como um filtro baseado em caminhos para
+        fluxos de despejo do repositório.  Simplesmhete lhe dê ou uma
+        lista de caminhos que você quer manter, ou uma lista de caminhos
+        que você não quer manter, e então canalize seu fluxo de dados de
+        despejo do repositório para este filtro.  O resultado será um
+        fluxo de dados de despejo que contenha apenas os caminhos
+        versionados que você requisitou (explicita ou
+        implicitamente).</para>
 
-      <para>Let's look a realistic example of how you might use this
-        program.  We discuss elsewhere (see <xref
-        linkend="svn.reposadmin.projects.chooselayout"/>) the
-        process of deciding how to choose a layout for the data in
-        your repositories&mdash;using one repository per project or
-        combining them, arranging stuff within your repository, and
-        so on.  But sometimes after new revisions start flying in,
-        you rethink your layout and would like to make some changes.
-        A common change is the decision to move multiple projects
-        which are sharing a single repository into separate
-        repositories for each project.</para>
+      <para>Vamos dar uma olhada em um exemplo realista de como você
+        poderia usar este programa.  Discutimos mais sobre o processo de
+        decidir como escolher a estrutura para os dados de seu
+        repositório (veja <xref
+        linkend="svn.reposadmin.projects.chooselayout"/>)&mdash;utilizando
+        um repositório por projeto ou combinando eles, arranjando coisas
+        dentro de seu repositório, e daí por diante.  Mas algumas vezes
+        depois que novas revisões começam a ocorrer, você reconsidera a
+        estrutura de seu repositório e gostaria de fazer algumas
+        modificações.  Uma modificação comum é a decisão de mover
+        múltiplos projetos que estejam compartilhando um único
+        repositório em repositórios separados para cada projeto.</para>
 
-      <para>Our imaginary repository contains three projects:
-        <literal>calc</literal>, <literal>calendar</literal>, and
-        <literal>spreadsheet</literal>.  They have been living
-        side-by-side in a layout like this:</para>
+      <para>Nosso repositório imaginário contém três projetos:
+        <literal>calc</literal>, <literal>calendar</literal>, e
+        <literal>spreadsheet</literal>.  Eles têm convivido lado-a-lado
+        em uma estrutura como esta:</para>
 
       <screen>
 /
@@ -2246,8 +2250,8 @@ $
       tags/
 </screen>
 
-      <para>To get these three projects into their own repositories,
-        we first dump the whole repository:</para>
+      <para>Para pôr estes três projetos em seus próprios repositórios,
+        primeiro despejamos todo o repositório:</para>
 
       <screen>
 $ svnadmin dump /path/to/repos &gt; repos-dumpfile
@@ -2259,9 +2263,9 @@ $ svnadmin dump /path/to/repos &gt; repos-dumpfile
 $
 </screen>
 
-      <para>Next, run that dump file through the filter, each time
-        including only one of our top-level directories, and
-        resulting in three new dump files:</para>
+      <para>Depois, passamos o arquivo de despejo por um filtro, a cada
+        vez incluindo apenas um de nossos diretórios de alto nível, e
+        resultando em três novos arquivos de despejo:</para>
 
       <screen>
 $ svndumpfilter include calc &lt; repos-dumpfile &gt; calc-dumpfile
@@ -2273,22 +2277,22 @@ $ svndumpfilter include spreadsheet &lt; repos-dumpfile &gt; ss-dumpfile
 $
 </screen>
 
-      <para>At this point, you have to make a decision.  Each of
-        your dump files will create a valid repository,
-        but will preserve the paths exactly as they were in the
-        original repository.  This means that even though you would
-        have a repository solely for your <literal>calc</literal>
-        project, that repository would still have a top-level
-        directory named <filename>calc</filename>.  If you want
-        your <filename>trunk</filename>, <filename>tags</filename>,
-        and <filename>branches</filename> directories to live in the
-        root of your repository, you might wish to edit your
-        dump files, tweaking the <literal>Node-path</literal> and
-        <literal>Node-copyfrom-path</literal> headers to no longer have
-        that first <filename>calc/</filename> path component.  Also,
-        you'll want to remove the section of dump data that creates
-        the <filename>calc</filename> directory.  It will look
-        something like:</para>
+      <para>Neste ponto, nós tomamos uma decisão.  Cada um de seus
+        arquivos de despejo vai criar um repositório válido, mas ainda
+        preservando os caminhos exatamente como eram no repositório
+        original.  Isto quer dizer que mesmo que você tivesse um
+        repositório apenas para seu projeto <literal>calc</literal>, 
+        este repositório ainda assim teria um diretório de alto nível
+        chamado <filename>calc</filename>.  Se você quiser que seus
+        diretórios <filename>trunk</filename>, <filename>tags</filename>,
+        e <filename>branches</filename> fiquem na raiz de seu
+        repositório, você poderia querer editar seus arquivos de
+        despejo, ajustando os cabeçalhos <literal>Node-path</literal> e
+        <literal>Node-copyfrom-path</literal> para que não tenham mais o
+        <filename>calc/</filename> como parte do caminho.  Também, você
+        vai querer remover a seção de dados de despejo que cria o
+        diretório <filename>calc</filename>.  Ela será algo parecido
+        com:</para>
 
       <screen>
 Node-path: calc
@@ -2299,17 +2303,17 @@ Content-length: 0
 </screen>
 
       <warning>
-        <para>If you do plan on manually editing the dump file to
-          remove a top-level directory, make sure that your editor is
-          not set to automatically convert end-of-line characters to the native
-          format (e.g. \r\n to \n), as the content will then not agree
-          with the metadata.  This will render the dump file
-          useless.</para>
+        <para>Se você planeja editar manualmente o arquivo de despejo
+          para remover um diretório de alto nível, certifique-se de que
+          seu editor não esteja configurado para converter caracteres
+          de quebras de linhas para o formato nativo (p.ex., \r\n para
+          \n), pois assim o conteúdo não irá correspondem aos metadados.
+          Isto vai inutilizar o arquivo de despejo.</para>
       </warning>
 
-      <para>All that remains now is to create your three new
-        repositories, and load each dump file into the right
-        repository:</para>
+      <para>Tudo o que resta agora é criar seus três novos repositórios,
+        e carregar cada arquivo de despejo para dentro do repositório
+        correto:</para>
 
       <screen>
 $ svnadmin create calc; svnadmin load calc &lt; calc-dumpfile
@@ -2330,53 +2334,54 @@ $ svnadmin create spreadsheet; svnadmin load spreadsheet &lt; ss-dumpfile
 $
 </screen>
 
-      <para>Both of <command>svndumpfilter</command>'s subcommands
-        accept options for deciding how to deal with
-        <quote>empty</quote> revisions.  If a given revision
-        contained only changes to paths that were filtered out, that
-        now-empty revision could be considered uninteresting or even
-        unwanted.  So to give the user control over what to do with
-        those revisions, <command>svndumpfilter</command> provides
-        the following command-line options:</para>
+      <para>Ambos os subcomandos do <command>svndumpfilter</command>
+        aceitam opções para decidir como lidar com revisões 
+        <quote>vazias</quote>.  Se uma dada revisão contiver apenas
+        modificações em caminhos que foram filtrados, então as revisões
+        que não foram filtradas podem ser vistas como desinteressantes
+        ou mesmo indesejadas.  Assim, para deixar que o usuário controle
+        o que fazer com tais revisões, o
+        <command>svndumpfilter</command> dispõe das seguintes opções de
+        linhas de comando:</para>
 
       <variablelist>
         <varlistentry>
           <term><option>--drop-empty-revs</option></term>
           <listitem>
-            <para>Do not generate empty revisions at all&mdash;just
-              omit them.</para>
+            <para>Nunca gera revisões vazias&mdash;apenas as omite.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><option>--renumber-revs</option></term>
           <listitem>
-            <para>If empty revisions are dropped (using the
-              <option>--drop-empty-revs</option> option), change the
-              revision numbers of the remaining revisions so that
-              there are no gaps in the numeric sequence.</para>
+            <para>Se as revisões vazias forem removidas (usando a opção
+              <option>--drop-empty-revs</option>), modifica os números
+              de revisão das revisões remanescentes de tal forma que não
+              fiquem partes faltando na sequência numérica.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><option>--preserve-revprops</option></term>
           <listitem>
-            <para>If empty revisions are not dropped, preserve the
-              revision properties (log message, author, date, custom
-              properties, etc.) for those empty revisions.
-              Otherwise, empty revisions will only contain the
-              original datestamp, and a generated log message that
-              indicates that this revision was emptied by
+            <para>Se as revisões vazias não forem removidas, preserva as
+              propriedades de revisão (mensagem de log, autor, data,
+              propriedades específicas, etc.) para essas revisões
+              vazias.  Do contrário, revisões vazias sempre irão conter
+              a datação original, e uma mensagem de log gerada que
+              indica que aquela revisão foi esvaziada pelo 
               <command>svndumpfilter</command>.</para>
           </listitem>
         </varlistentry>
       </variablelist>
 
-      <para>While <command>svndumpfilter</command> can be very
-        useful, and a huge timesaver, there are unfortunately a
-        couple of gotchas.  First, this utility is overly sensitive
-        to path semantics.  Pay attention to whether paths in your
-        dump file are specified with or without leading slashes.
-        You'll want to look at the <literal>Node-path</literal> and
-        <literal>Node-copyfrom-path</literal> headers.</para>
+      <para>Ainda que o <command>svndumpfilter</command> possa ser
+        bem útil e economizar bastamte tempo, infelizmente ele também
+        pode representar uma porção de pegadinha.  Primeiro, este
+        utilitário é altamente sensível à semântica dos caminhos.  
+        Preste atenção se os caminhos em seu arquivo de despejo estão
+        especificados com ou sem uma barra final.  Você vai querer
+        checar os cabeçalhos <literal>Node-path</literal> e
+        <literal>Node-copyfrom-path</literal>.</para>
 
       <screen>
 &hellip;
@@ -2384,61 +2389,66 @@ Node-path: spreadsheet/Makefile
 &hellip;
 </screen>
 
-      <para>If the paths have leading slashes, you should
-        include leading slashes in the paths you pass to
-        <command>svndumpfilter include</command> and
-        <command>svndumpfilter exclude</command> (and if they don't,
-        you shouldn't).  Further, if your dump file has an inconsistent
-        usage of leading slashes for some reason,
+      <para>Se os caminhos tiverem uma barra final, você deveria incluir
+        barras nos caminhos que passar para o 
+        <command>svndumpfilter include</command> e
+        <command>svndumpfilter exclude</command> (e se a barra não
+        existir, você não deve incluí-la).  Além disso, se seu arquivo
+        de despejo, por alguma razão, estiver usando essas barras de
+        forma inconsistente,
         <footnote>
-          <para>While <command>svnadmin dump</command> has a
-            consistent leading slash policy&mdash;to not include
-            them&mdash;other programs which generate dump data might
-            not be so consistent.</para>
+          <para>Ainda que o <command>svnadmin dump</command> obedeça a
+            uma política de uso consistente de uso desse sinal de
+            barra&mdash;que é nunca incluí-la&mdash;outros programas que
+            geram dados de despejo podem não ter a mesma
+            consistência.</para>
         </footnote>
-        you should probably normalize those paths so they all
-        have, or lack, leading slashes.</para>
+        você provavelmente deveria normalizar estes caminhos de forma a
+        manter sempre, ou remover sempre, o sinal de barra final.</para>
 
-      <para>Also, copied paths can give you some trouble.
-        Subversion supports copy operations in the repository, where
-        a new path is created by copying some already existing path.
-        It is possible that at some point in the lifetime of your
-        repository, you might have copied a file or directory from
-        some location that <command>svndumpfilter</command> is
-        excluding, to a location that it is including.  In order to
-        make the dump data self-sufficient,
-        <command>svndumpfilter</command> needs to still show the
-        addition of the new path&mdash;including the contents of any
-        files created by the copy&mdash;and not represent that
-        addition as a copy from a source that won't exist in your
-        filtered dump data stream.  But because the Subversion
-        repository dump format only shows what was changed in each
-        revision, the contents of the copy source might not be
-        readily available.  If you suspect that you have any copies
-        of this sort in your repository, you might want to rethink
-        your set of included/excluded paths, perhaps including the
-        paths that served as sources of your troublesome copy
-        operations, too.</para>
+      <para>E também, caminhos copiados podem lhe dar algum problema.  O
+        Subversion suporta operações de cópia no repositório, sendo que
+        um novo caminho é criado copiando-se algum caminho já existente.
+        É possível que em algum ponto do ciclo de vida de seu
+        repositório, você pode ter copiado um arquivo ou diretório a
+        partir de algum local que o <command>svndumpfilter</command>
+        <!-- TODO: hummm.... rever esta tradução -->
+        desconsidere (um local excluído) para um local levado em conta
+        (um local incluído).  Para fazer com que os dados despejados
+        sejam auto-suficientes, o <command>svndumpfilter</command> ainda
+        precisa mostrar a adição do novo caminho&mdash;incluindo o
+        conteúdo de alguns arquivos criados pela cópia&mdash;e que não
+        signifiquem que a adição foi uma cópia a partir de uma origem
+        que não existia em seu fluxo de dados de despejo filtrados.  Mas
+        como o formato de despejo do repositório do Subversion apenas
+        contém o que foi modificado em cada uma das revisões, o conteúdo
+        de origem de sua cópia pode não estar prontamente disponível.  
+        Se você suspeitar que você tem cópias desse tipo em seu
+        repositório, você pode querer reconsiderar suas configurações de
+        caminhos incluídos/excluídos, talvez incluindo os caminhos 
+        usados como origens de suas operações de cópia problemáticas
+        também.</para>
 
-      <para>Finally, <command>svndumpfilter</command> takes path
-        filtering quite literally.  If you are trying to copy the
-        history of a project rooted at
-        <filename>trunk/my-project</filename> and move it into a
-        repository of its own, you would, of course, use the
-        <command>svndumpfilter include</command> command to keep all
-        the changes in and under
-        <filename>trunk/my-project</filename>.  But the resulting
-        dump file makes no assumptions about the repository into
-        which you plan to load this data.  Specifically, the dump
-        data might begin with the revision which added the
-        <filename>trunk/my-project</filename> directory, but it will
-        <emphasis>not</emphasis> contain directives which would
-        create the <filename>trunk</filename> directory itself
-        (because <filename>trunk</filename> doesn't match the
-        include filter).  You'll need to make sure that any
-        directories which the new dump stream expect to exist
-        actually do exist in the target repository before trying to
-        load the stream into that repository.</para>
+      <para>Por fim, o <command>svndumpfilter</command> realiza a
+        filtragem baseada em caminhos de forma quase que literal.  Se
+        você está tentando copiar o histórico de um projeto hospedado
+        sob <filename>trunk/my-project</filename> e movê-lo para dentro
+        de um repositório próprio, você deveria, obviamente, usar o
+        comando <command>svndumpfilter include</command> para incluir
+        todas as modificações dentro de
+        <filename>trunk/my-project</filename>.  Mas o arquivo de despejo
+        resultando não faz presunções sobre o repositório no qual você
+        planeja carregar estes dados.  Especificamente, os dados
+        despejados podem começar com o número de revisão no qual
+        foram adicionados no diretório
+        <filename>trunk/my-project</filename>, mas ainda 
+        <emphasis>não</emphasis> vão conter diretivas que poderiam
+        criar o diretório <filename>trunk</filename> em si (já que o
+        <filename>trunk</filename> não corresponde ao filtro de
+        inclusão).  Você precisará ter certeza de que quaisquer
+        diretórios os quais os novos fluxos de despejo esperam existir
+        atualmente existam no repositório destino antes de tentar
+        carregar o fluxo para dentro desse repositório.</para>
 
     </sect2>
 
