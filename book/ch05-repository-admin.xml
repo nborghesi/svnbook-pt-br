@@ -1838,69 +1838,77 @@ The latest repos revision is 19.
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.migrate">
-      <title>Migrating Repository Data Elsewhere</title>
+      <title>Migrando Dados do Repositório Para Outro Local</title>
 
-      <para>A Subversion filesystem has its data spread throughout
-        files in the repository, in a fashion generally
-        understood by (and of interest to) only the Subversion
-        developers themselves.  However, circumstances may arise that
-        call for all, or some subset, of that data to be copied or
-        moved into another repository.</para>
+      <para>Um sistema de arquivos do Subversion tem seus dados
+        espalhados em diversos arquivos no repositório, de uma forma
+        geralmente só compreendida pelos (e de interesse apenas dos)
+        próprios desenvolvedores do Subversion.  No entanto, podem
+        surgir circunstâncias que demandem para que todos, ou algum
+        subconjunto dos dados possam ser copiados ou movidos para outro
+        repositório.</para>
 
-      <para>Subversion provides such functionality by way of
-        repository dump streams.  A repository dump stream (often
-        referred to as a <quote>dumpfile</quote> when stored as a file
-        on disk) is a portable, flat file format that describes the
-        various revisions in your repository&mdash;what was changed,
-        by whom, when, and so on.  This dump stream is the primary
-        mechanism used to marshal versioned history&mdash;in whole or
-        in part, with or without modification&mdash;between
-        repositories.  And Subversion provides the tools necessary for
-        creating and loading these dump streams&mdash;the
-        <command>svnadmin dump</command> and <command>svnadmin
-        load</command> subcommands, respectively.</para>
+      <para>O Subversion oferece alguma funcionalidade para lidar com
+        fluxos de dados de despejo do repositório.  Um fluxo de despejo
+        do repositório (frequentemente referenciado como um arquivo
+        <quote>dumpfile</quote> quando armazenado como um arquivo no
+        disco) é um formato de arquivo plano, portável, que descreve as
+        várias revisões em seu repositório&mdash;o que foi modificado,
+        por quem, quando, e por aí vai.  Este fluxo de despejo é o 
+        principal mecanismo usado para administração do histórico
+        versionado&mdash;por completo ou em parte, com ou sem
+        modificações&mdash;entre repositórios.  E o Subversion fornece
+        as ferramentas necessárias para criar e carregar esses fluxos
+        de despejo&mdash;os subcomandos <command>svnadmin dump</command>
+        e <command>svnadmin load</command> subcommands,
+        respectivamente.</para>
 
       <warning>
-        <para>While the Subversion repository dump format contains
-          human-readable portions and a familiar structure (it
-          resembles an RFC-822 format, the same type of format used
-          for most email), it is <emphasis>not</emphasis> a plaintext
-          file format.  It is a binary file format, highly sensitive
-          to meddling.  For example, many text editors will corrupt
-          the file by automatically converting line endings.</para>
+        <para>Ainda que o formato do arquivo de despejo do Subversion
+          contenha partes legíveis por humanos e que tenham uma
+          estrutura de arquivo familiar (ele utiliza o formato da
+          RFC-822, o mesmo tipo de formato usado na maioria das
+          mensagens de e-mail), ele <emphasis>não</emphasis> é um
+          formato de arquivo de texto plano.  Mas sim, um formato de
+          arquivo binário, altamente sensível a intromissões.  Por
+          exemplo, muitos editores de texto irão corromper o arquivo
+          automaticamente ao converter o formato das quebras de
+          linha.</para>
       </warning>
 
-      <para>There are many reasons for dumping and loading Subversion
-        repository data.  Early in Subversion's life, the most common
-        reason was due to the evolution of Subversion itself.  As
-        Subversion matured, there were times when changes made to the
-        back-end database schema caused compatibility issues with
-        previous versions of the repository, so users had to dump
-        their repository data using the previous version of
-        Subversion, and load it into a freshly created repository with
-        the new version of Subversion.  Now, these types of schema
-        changes haven't occurred since Subversion's 1.0 release, and
-        the Subversion developers promise not to force users to dump
-        and load their repositories when upgrading between minor
-        versions (such as from 1.3 to 1.4) of Subversion.  But there
-        are still other reasons for dumping and loading, including
-        re-deploying a Berkeley DB repository on a new OS or CPU
-        architecture, switching between the Berkeley DB and FSFS
-        back-ends, or (as we'll cover in <xref
-        linkend="svn.reposadmin.maint.filtering" />) purging versioned
-        data from repository history.</para>
+      <para>Há muitas razões para realizar despejo e carga de dados do
+        repositório Subversion.  Na vida pregressa do Subversion, a
+        razão mais comum para isso era a própria evolução do Subversion.
+        Conforme o Subversion foi se tornando mais maduro, houve vezes
+        em que as modificações feitas no esquema da base de dados levou
+        a problemas de compatibilidade com versões anteriores do
+        repositório, então os usuários tinham que despejar os dados de
+        seus repositórios com a versão antiga do Subversion, e
+        carregá-los para dentro de um repositório recém criado com a
+        nova versão do Subversion.  Agora, estes tipos de modificações
+        de esquema não têm ocorrido desde a versão 1.0 do Subversion, e
+        os desenvolvedores do Subversion prometem não forçar os usuários
+        a ter de despejar seus repositórios para fazer atualizações para
+        versões menores (como da versão 1.3 para a 1.4) do Subversion.  
+        Mas ainda há outros motivos para realizar despejo e carga,
+        incluindo re-implementação de um repositório Berkeley DB em
+        um novo sistema operacional ou outra arquitatura de CPU, 
+        troca de repositórios baseados em Berkeley DB para FSFS, ou
+        (como veremos em <xref
+        linkend="svn.reposadmin.maint.filtering" />) remover
+        completamente dados do histórico de repositório.</para>
 
-      <para>Whatever your reason for migrating repository history,
-        using the <command>svnadmin dump</command> and
-        <command>svnadmin load</command> subcommands is
-        straightforward.  <command>svnadmin dump</command> will output
-        a range of repository revisions that are formatted using
-        Subversion's custom filesystem dump format.  The dump format
-        is printed to the standard output stream, while informative
-        messages are printed to the standard error stream.  This
-        allows you to redirect the output stream to a file while
-        watching the status output in your terminal window.  For
-        example:</para>
+      <para>Qualquer que seja a razão para migrar o histórico do
+        repositório, usar os subcomandos <command>svnadmin
+        dump</command> e <command>svnadmin load</command> é bem simples.
+        O <command>svnadmin dump</command> vai gerar na saída um
+        intervalo de revisões do repositório no formato específico de
+        despejo do sistema de arquivos do Subversion.  O formato de
+        despejo é exibido no fluxo da saída padrão, enquanto que
+        mensagens informativas são exibidas na saída de erro padrão.  
+        Isto lhe permite redirecionar o fluxo de saída para um arquivo
+        ao mesmo tempo em que visualiza o estado da saída em sua janela
+        de terminal.  Por exemplo:</para>
 
       <screen>
 $ svnlook youngest myrepos
@@ -1914,21 +1922,21 @@ $ svnadmin dump myrepos &gt; dumpfile
 * Dumped revision 26.
 </screen>
 
-      <para>At the end of the process, you will have a single file
-        (<filename>dumpfile</filename> in the previous example) that
-        contains all the data stored in your repository in the
-        requested range of revisions.  Note that <command>svnadmin
-        dump</command> is reading revision trees from the repository
-        just like any other <quote>reader</quote> process would
-        (<command>svn checkout</command>, for example), so it's safe
-        to run this command at any time.</para>
+      <para>Ao final do processo, você terá um único arquivo
+        (<filename>dumpfile</filename>, no exemplo anterior) que contém
+        todos os dados armazenados em seu repositório no intervalo de
+        revisões requisitado.  Note que o <command>svnadmin
+        dump</command> está lendo as árvores de revisões do repositório
+        tal como qualquer outro processo <quote>leitor</quote> (como o
+        <command>svn checkout</command>, por exemplo), então, é seguro
+        executar este comando a qualquer momento.</para>
 
-      <para>The other subcommand in the pair, <command>svnadmin
-        load</command>, parses the standard input stream as a
-        Subversion repository dump file, and effectively replays those
-        dumped revisions into the target repository for that
-        operation.  It also gives informative feedback, this time
-        using the standard output stream:</para>
+      <para>O outro subcomando do par, o <command>svnadmin
+        load</command>, analisa o fluxo de entrada padrão e toma como
+        entrada o arquivo no formato de despejo do Subversion, e 
+        efetivamente re-executa aquelas revisões nele presentes.  O
+        comando também provê informação de feedback, desta vez usando o
+        fluxo de saída padrão:</para>
 
       <screen>
 $ svnadmin load newrepos &lt; dumpfile
@@ -1959,95 +1967,102 @@ $ svnadmin load newrepos &lt; dumpfile
 
 </screen>
 
-      <para>The result of a load is new revisions added to a
-        repository&mdash;the same thing you get by making commits
-        against that repository from a regular Subversion client.  And
-        just as in a commit, you can use hook programs to perform
-        actions before and after each of the commits made during a
-        load process.  By passing the
-        <option>--use-pre-commit-hook</option> and
-        <option>--use-post-commit-hook</option> options to
-        <command>svnadmin load</command>, you can instruct Subversion
-        to execute the pre-commit and post-commit hook programs,
-        respectively, for each loaded revision.  You might use these,
-        for example, to ensure that loaded revisions pass through the
-        same validation steps that regular commits pass through.  Of
-        course, you should use these options with care&mdash;if your
-        post-commit hook sends emails to a mailing list for each new
-        commit, you might not want to spew hundreds or thousands of
-        commit emails in rapid succession at that list!  You can read more about the use of hook
-        scripts in <xref
+      <para>O resultado de uma carga são novas revisões adicionadas ao
+        ao repositório&mdash;a mesma coisa que se você tivesse submetido
+        as modificações diretamente no repositório com um cliente normal
+        do Subversion.  E tal como em uma operação de commit, você pode
+        usar scripts de hook para executar ações antes e depois de cada
+        uma das submissões realizadas durante o processo de carga.  ]
+        Passando as opções <option>--use-pre-commit-hook</option> e
+        <option>--use-post-commit-hook</option> para o 
+        <command>svnadmin load</command>, você pode instruir o
+        Subversion a executar os scripts de hook pre-commit e
+        post-commit, respectivamente, para cada uma das revisões
+        carregadas.  Você pode usar essas opções para, por exemplo, para
+        assegurar que as revisões carregadas passem pelos mesmos passos
+        de validação que as submissões normais tenham passado.  É claro,
+        você deveria usar estas opções com cuidado&mdash;se seus scripts
+        post-commit enviam e-mails para uma lista de discussão a cada
+        novo commit, você não deveria querer disparar centenas ou
+        milhares de e-mails para cada commit em sequência para essa
+        lista!  Você pode ler mais sobre o uso de scripts de hook no
+        Subversion em <xref
         linkend="svn.reposadmin.create.hooks"/>.</para>
 
-      <para>Note that because <command>svnadmin</command> uses
-        standard input and output streams for the repository dump and
-        load process, people who are feeling especially saucy can try
-        things like this (perhaps even using different versions of
-        <command>svnadmin</command> on each side of the pipe):</para>
+      <para>Note que como o <command>svnadmin</command> usa a entrada e
+        a saída padrão para os despejos e cargas do repositório,
+        especialmente aquelas pessoas que se acharem um pouco mais
+        danadas, podem tentar fazer coisas como isto (quem sabe usando
+        versões diferentes do <command>svnadmin</command> em cada um dos
+        lados do duto):</para>
 
       <screen>
 $ svnadmin create newrepos
 $ svnadmin dump oldrepos | svnadmin load newrepos
 </screen>
 
-      <para>By default, the dump file will be quite large&mdash;much
-        larger than the repository itself.  That's because by default
-        every version of every file is expressed as a full text in the
-        dump file.  This is the fastest and simplest behavior, and
-        nice if you're piping the dump data directly into some other
-        process (such as a compression program, filtering program, or
-        into a loading process).  But if you're creating a dump file
-        for longer-term storage, you'll likely want to save disk space
-        by using the <option>--deltas</option> option.  With this
-        option, successive revisions of files will be output as
-        compressed, binary differences&mdash;just as file revisions
-        are stored in a repository.  This option is slower, but
-        results in a dump file much closer in size to the original
-        repository.</para>
+      <para>Por padrão, o arquivo de despejo será um tanto
+        grande&mdash;muito maior que o repositório em si.  Isto é
+        porque, cada uma das versões de cada um dos arquivos está
+        representada com seu conteúdo textual completo no arquivo de
+        despejo.  Este é um comportamente mais rápido e mais simples, e
+        bom se você estiver canalizando os dados de despejo diretamente 
+        para outro processo (tal como um programa de compactação,
+        programa de filtragem, ou em um processo de carga).  Mas se você
+        estiver criando um arquivo de despejo para gravar numa mídia de
+        armazenamento de longo período, você pode querer economizar
+        espaço em disco usando a opção <option>--deltas</option>.  Com
+        esta opção, revisões sucessivas dos arquivos serão geradas na
+        saída como compactadas diferenças binárias dos arquivos&mdash;tal
+        como as revisões dos arquivos são armazenadas no repositório.  
+        Esta opção é mais lenta, mas resulta em um arquivo de despejo
+        muito próximo do tamanho do repositório original.</para>
 
-      <para>We mentioned previously that <command>svnadmin
-        dump</command> outputs a range of revisions.  Use the
-        <option>--revision (-r)</option> option to specify a single
-        revision to dump, or a range of revisions.  If you omit this
-        option, all the existing repository revisions will be
-        dumped.</para>
+      <para>Nós mencionamos anteriormente que o <command>svnadmin
+        dump</command> gera saídas com intervalos de revisões.  Use a
+        opção <option>--revision (-r)</option> para especificar uma
+        única revisão a ser despejada, ou um intervalo de revisões.  Se
+        você omitir esta opção, todas as revisões existentes no
+        repositório serão despejadas.</para>
 
       <screen>
 $ svnadmin dump myrepos -r 23 &gt; rev-23.dumpfile
 $ svnadmin dump myrepos -r 100:200 &gt; revs-100-200.dumpfile
 </screen>
 
-      <para>As Subversion dumps each new revision, it outputs only
-        enough information to allow a future loader to re-create that
-        revision based on the previous one.  In other words, for any
-        given revision in the dump file, only the items that were
-        changed in that revision will appear in the dump.  The only
-        exception to this rule is the first revision that is dumped
-        with the current <command>svnadmin dump</command>
-        command.</para>
+      <para>Como o Subversion despeja cada uma das novas revisões, ele
+        gera na saída apenas a informação suficiente para permitir que
+        um carregador futuro possa recriar uma dada revisão com base na
+        revisão anterior.  Em outras palavras, para qualquer dada
+        revisão no arquivo de despejo, apenas os ítens que tiverem sido
+        modificados naquela revisão irão aparecer no arquivo de despejo.
+        A única exceção a esta regra é a primeira revisão que é
+        despejada com o atual comando <command>svnadmin
+        dump</command>.</para>
 
-      <para>By default, Subversion will not express the first dumped
-        revision as merely differences to be applied to the previous
-        revision.  For one thing, there is no previous revision in the
-        dump file!  And secondly, Subversion cannot know the state of
-        the repository into which the dump data will be loaded (if it
-        ever is).  To ensure that the output of each
-        execution of <command>svnadmin dump</command> is
-        self-sufficient, the first dumped revision is by default a
-        full representation of every directory, file, and property in
-        that revision of the repository.</para>
+      <para>Por padrão, o Subversion não irá expressar a primeira
+        revisão despejada como meras diferenças aplicadas à revisão
+        anterior.  Por um lado, porque de fato não há revisão anterior
+        no arquivo de despejo!  E também, porque o Subversion não sabe
+        o estado do repositório dentro do qual os dados serão
+        carregados (se é que eles vão ser carregados).  Para garantir 
+        que a saída de cada execução do <command>svnadmin dump</command>
+        seja auto-suficiente, a primeira revisão despejada é, por
+        padrão, uma representação completa de cada diretório, arquivo, e
+        propriedades naquela revisão do repositório.</para>
 
-      <para>However, you can change this default behavior.  If you add
-        the <option>--incremental</option> option when you dump your
-        repository, <command>svnadmin</command> will compare the first
-        dumped revision against the previous revision in the
-        repository, the same way it treats every other revision that
-        gets dumped.  It will then output the first revision exactly
-        as it does the rest of the revisions in the dump
-        range&mdash;mentioning only the changes that occurred in that
-        revision.  The benefit of this is that you can create several
-        small dump files that can be loaded in succession, instead of
-        one large one, like so:</para>
+      <para>Entretanto, você pode modificar este comportamento padrão.
+        Se você adicionar a opção <option>--incremental</option> ao
+        efetuar o despejo de seu repositório, o
+        <command>svnadmin</command> irá comparar a primeira revisão
+        despejada com a revisão anterior no repositório, da mesma forma
+        que trata de cada revisão que é despejada.  Ele então vai gerar
+        a saída exatamente como faz com o resto das revisões no
+        intervalo de despejo&mdash;mencionando apenas as modificações
+        que ocorreram naquela revisão.  A vantagem disto é que você pode
+        criar diversos arquivos de despejo pequenos que podem ser
+        carregados seguidamente, ao invés de apenas um grande arquivo,
+        como:</para>
 
       <screen>
 $ svnadmin dump myrepos -r 0:1000 &gt; dumpfile1
@@ -2055,8 +2070,9 @@ $ svnadmin dump myrepos -r 1001:2000 --incremental &gt; dumpfile2
 $ svnadmin dump myrepos -r 2001:3000 --incremental &gt; dumpfile3
 </screen>
 
-      <para>These dump files could be loaded into a new repository
-        with the following command sequence:</para>
+      <para>Esses arquivos de despejo poderiam ser carregados para
+        dentro de um novo repositório com a seguinte sequência de
+        comandos:</para>
 
       <screen>
 $ svnadmin load newrepos &lt; dumpfile1
@@ -2064,37 +2080,40 @@ $ svnadmin load newrepos &lt; dumpfile2
 $ svnadmin load newrepos &lt; dumpfile3
 </screen>
 
-      <para>Another neat trick you can perform with this
-        <option>--incremental</option> option involves appending to an
-        existing dump file a new range of dumped revisions.  For
-        example, you might have a <literal>post-commit</literal> hook
-        that simply appends the repository dump of the single revision
-        that triggered the hook.  Or you might have a script that runs
-        nightly to append dump file data for all the revisions that
-        were added to the repository since the last time the script
-        ran.  Used like this, <command>svnadmin dump</command> can be
-        one way to back up changes to your repository over time in case
-        of a system crash or some other catastrophic event.</para>
+      <para>Outro truque efetivo que você pode executar com esta opção
+        <option>--incremental</option> envolve anexar um novo intervalo
+        de revisõe despejadas para um arquivo de despejo existente.  Por
+        exemplo, você pode ter um script de hook
+        <literal>post-commit</literal> que simplesmente anexe o despejo
+        do repositório de uma única revisão que senha disparado o
+        script.  Ou você pode ter um script que seja executado
+        diariamente para anexar dados de um arquivo de despejo para
+        todas as revisões que forem adicionadas ao repositório desde a
+        últimva ver que o script foi executado.  Usado desta forma, o
+        <command>svnadmin dump</command> pode ser uma forma de realizar
+        backups de modificações de seu repositório tempestivamente em
+        caso de uma pane no sistema ou de algum outro evento
+        catastrófico.</para>
 
-      <para>The dump format can also be used to merge the contents of
-        several different repositories into a single repository.  By
-        using the <option>--parent-dir</option> option of
-        <command>svnadmin load</command>, you can specify a new
-        virtual root directory for the load process.  That means if
-        you have dump files for three repositories, say
-        <filename>calc-dumpfile</filename>,
-        <filename>cal-dumpfile</filename>, and
-        <filename>ss-dumpfile</filename>, you can first create a new
-        repository to hold them all:</para>
+      <para>O formato de despejo também pode ser usado para mesclar o
+        conteúdo de diversos repositórios diferentes para um único
+        repositório.  Usando a opção <option>--parent-dir</option> de
+        <command>svnadmin load</command>, você pode especificar um novo
+        diretório virtual para o processo de carga.  Isso significa que
+        se você tiver arquivos de despejo para três repositórios,
+        digamos <filename>calc-dumpfile</filename>,
+        <filename>cal-dumpfile</filename>, e
+        <filename>ss-dumpfile</filename>, você pode primeiro criar um
+        novo repositório para armazenar a todos eles:</para>
 
       <screen>
 $ svnadmin create /path/to/projects
 $
 </screen>
 
-      <para>Then, make new directories in the repository which will
-        encapsulate the contents of each of the three previous
-        repositories:</para>
+      <para>Então, criar novos repositórios no repositório que irão
+        encapsular o conteúdo de cada um dos três repositórios
+        anteriores:</para>
 
       <screen>
 $ svn mkdir -m "Initial project roots" \
@@ -2105,8 +2124,8 @@ Committed revision 1.
 $
 </screen>
 
-      <para>Lastly, load the individual dump files into their
-        respective locations in the new repository:</para>
+      <para>Por fim, carregue os arquivos de despejo individuais para 
+        suas respectivas localizações dentro do novo repositório:</para>
 
       <screen>
 $ svnadmin load /path/to/projects --parent-dir calc &lt; calc-dumpfile
@@ -2118,17 +2137,18 @@ $ svnadmin load /path/to/projects --parent-dir spreadsheet &lt; ss-dumpfile
 $
 </screen>
 
-      <para>We'll mention one final way to use the Subversion
-        repository dump format&mdash;conversion from a different
-        storage mechanism or version control system altogether.
-        Because the dump file format is, for the most part,
-        human-readable, it should be relatively easy to describe
-        generic sets of changes&mdash;each of which should be treated
-        as a new revision&mdash;using this file format.  In fact, the
-        <command>cvs2svn</command> utility (see <xref
-        linkend="svn.forcvs.convert"/>) uses the dump format to
-        represent the contents of a CVS repository so that those
-        contents can be copied into a Subversion repository.</para>
+      <para>Vamos mencionar uma última maneira de usar o formato de 
+        despejo do Subversion&mdash;conversão de um mecanismo de
+        armazenamento ou sistema de controle de versão como um todo.  
+        Como o formato do arquivo de despejo é, em grande parte, legível
+        por humanos, deve ser relativamente simples descrever um
+        conjunto de modificações genéricas&mdash;cada uma das quais deve
+        ser tratada como uma nova revisão&mdash;usando este formato de
+        arquivo.  De fato, o utilitário <command>cvs2svn</command> (veja
+        <xref linkend="svn.forcvs.convert"/>) usa o formato do arquivo
+        de despejo para representar o conteúdo de um repositório CVS de
+        tal forma que seu conteúdo possa ser copiado para dentro de um
+        repositório do Subversion.</para>
 
     </sect2>
 
