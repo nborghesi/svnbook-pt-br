@@ -2454,31 +2454,33 @@ Node-path: spreadsheet/Makefile
 
     <!-- =============================================================== -->
     <sect2 id="svn.reposadmin.maint.replication">
-      <title>Repository Replication</title>
+      <title>Replicação do Repositório</title>
 
-      <para>There are several scenarios in which it is quite handy to
-        have a Subversion repository whose version history is exactly
-        the same as some other repository's.  Perhaps the most obvious
-        one is the maintenance of a simple backup repository, used
-        when the primary repository has become inaccessible due to a
-        hardware failure, network outage, or other such annoyance.
-        Other scenarios include deploying mirror repositories to
-        distribute heavy Subversion load across multiple servers, use
-        as a soft-upgrade mechanism, and so on.</para>
+      <para>Há diversos cenários nos quais é um bocado útil ter um
+        repositório do Subversion cujo histórico de versões seja
+        exatamente o mesmo que de algum outro repositório.  Talvez o
+        mais óbvio seja a manutenção de um simples repositório de
+        backup, a ser usado quando o repositório primário estiver
+        inacessível devido uma falha de hardware, problema de rede, ou
+        qualquer outro inconveniente.  Outros cenários incluem implantar
+        repositórios de espelho para distribuir o peso da carga do
+        Subversion por múltiplos servidores, uso como um mecanismo para
+        atualização fácil, e assim por diante.</para>
 
-      <para>As of version 1.4, Subversion provides a program for
-        managing scenarios like
-        these&mdash;<command>svnsync</command>.
-        <command>svnsync</command> works by essentially asking the
-        Subversion server to <quote>replay</quote> revisions, one at a
-        time.  It then uses that revision information to mimic a
-        commit of the same to another repository.  Neither repository
-        needs to be locally accessible to machine on which
-        <command>svnsync</command> is running&mdash;its parameters are
-        repository URLs, and it does all its work through Subversion's
-        repository access (RA) interfaces.  All it requires is read
-        access to the source repository and read/write access to the
-        destination repository.</para>
+      <para>Desde a versão 1.4, o Subversion dispõe de um programa para
+        gerenciamento de cenários como esses&mdash;o
+        <command>svnsync</command>.  Essencialmente o
+        <command>svnsync</command> trabalha solicitando ao servidor
+        Subversion que <quote>repita</quote> revisões, uma por vez.  E
+        então usa informações daquela revisão para imitar uma operação
+        de commit semelhante no outro repositório.  Nenhum dos
+        repositórios precisa ser acessível localmente à máquina na qual
+        o <command>svnsync</command> esteja executando&mdash;seus
+        parâmetros são URLs de repositório, e ele faz todo o seu 
+        trabalho com base nas interfaces de acesso ao repositório (RA)
+        do Subversion.  Tudo o que o comando precisa é de acesso de
+        leitura no repositório de origem e de acesso leitura/escrita no
+        repositório de destino.</para>
 
       <note>
         <para>When using <command>svnsync</command> against a remote
