@@ -152,7 +152,7 @@
       <title>Criando um Ramo</title>
 
       <para>Criar um ramo é realmente simples&mdash; você faz uma cópia
-		do projeto no repositório usando o comando<command>svn 
+		do projeto no repositório usando o comando <command>svn 
 		copy</command>. O Subversion copia não somente arquivos mas
 	    também diretórios completos. Neste caso, você quer fazer a cópia
 	    do diretório <filename>/calc/trunk</filename>. Onde deve ficar a 
