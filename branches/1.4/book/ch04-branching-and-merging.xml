@@ -1,0 +1,2669 @@
+<chapter id="svn.branchmerge">
+  <title>Fundir e Ramificar</title>
+
+  <blockquote>
+    <attribution>Confucio</attribution>
+    <para><quote>
+      (É sobre o 'Tronco' que trabalha um cavalheiro.)</quote></para>
+  </blockquote>
+
+
+  <para>Criar Ramos, Rótulos, e Fundir são conceitos comuns a quase 
+	todos os sistemas de controle de Versão. Caso você não esteja
+	familiarizado com estes conceitos, nós oferecemos uma boa
+	introdução a estes nesse capítulo. Se você já conhece estes 
+	conceitos, então você vai achar interessante conhecer a maneira
+	como o Subversion os implementa.</para>
+
+  <para>Criar Ramos é um item fundamental para Controle de Versão. Se
+	você vai usar o Subversion para gerenciar seus dados, então essa
+	é uma funcionalidade da qual você vai acaber dependendo. Este 
+	capítulo assume que você já esteja familiarizado com os conceitos
+	básicos do Subversion(<xref linkend="svn.basic"/>).</para>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.whatis">
+    <title>O que é um Ramo?</title>
+
+    <para>Suponha que o seu trabalho seja manter um documento de uma
+	  divisão de sua empresa, um livro de anotações por exemplo. Um
+	  dia, uma outra divisão lhe pede este mesmo livro, mas com 
+	  alguns <quote>ajustes</quote> para eles, uma vez que eles
+	  trabalham de uma forma um pouco diferente.</para>
+
+    <para>O que você faz nessa situação? Você faz o óbvio: faz uma
+	  segunda cópia do seu documento, e começa a controlar as duas
+	  cópias separadamente. Quando cada departamento lhe requisitar
+	  alterações, você as realizará em um cópia, ou na outra.</para>
+
+    <para>Em raros casos você vai precisar fazer alterações nos 
+	  dois documentos. Um exemplo, se você encontrar um erro em um
+	  dos arquivos, é muito provável que este erro exista na segunda 
+	  cópia. A final, os dois documentos são quase idênticos, eles
+	  têm apenas pequenas diferenças, em locais específicos.</para>
+
+    <para>Este é o conceito básico de 
+	  <firstterm>Ramo</firstterm>&mdash;isto é, uma linha de
+	  desenvolvimento que existe independente de outra linha, e ainda, 
+	  partilham um histórico em comum, se você olhar para trás na linha
+	  tempo. Um Ramo sempre se inicia como cópia de outra coisa, e segue
+	  rumo próprio a partir desse ponto, gerando seu próprio histórico.
+	  (veja <xref linkend="svn.branchmerge.whatis.dia-1"/>).</para>
+
+      <figure id="svn.branchmerge.whatis.dia-1">
+        <title>Ramos de desenvolvimento</title>
+        <graphic fileref="images/ch04dia1.png"/>
+      </figure>
+
+    <para>O Subversion tem comandos para ajudar a controlar Ramos
+	  paralelos de um arquivo ou diretório. Ele permite você criar
+	  ramos copiando seus dados, e ainda lembra que as cópias têm
+	  relação entre si. Ainda é possível duplicar cópias de um ramo 
+	  para outro. Finalmente, ele pode fazer com que partes de sua
+	  cópia de trabalho reflitam ramos diferentes, assim você pode
+	  <quote>misturar e combinar</quote> diferentes linhas de 
+	  desenvolvimento no seu trabalho de dia-a-dia.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.using">
+    <title>Usando Ramos</title>
+
+    <para>Até aqui, você já deve saber como cada commit cria uma nova
+	  árvore de arquivos (chamada de <quote>revisão</quote>) no 
+	  repositório. Caso não saiba, volte e leia sobre revisões em
+	  <xref linkend="svn.basic.in-action.revs"/>.</para>
+
+    <para>Neste capítulo, vamos usar o mesmo exemplo de antes:
+      <xref linkend="svn.basic"/>. Lembre-se que você e Sally estão
+	  compartilhando um repositório que contém dois projetos, 
+      <filename>paint</filename> e <filename>calc</filename>. 
+	  Note que em <xref linkend="svn.branchmerge.using.dia-1"/>,
+	  entretanto, cada diretório de projeto contém subdiretórios 
+	  chamados <filename>trunk</filename> 
+	  e <filename>branches</filename>. O motivo para isso logo ficará 
+	  mais claro.</para>
+
+      <figure id="svn.branchmerge.using.dia-1">
+        <title>Layout Inicial do Repositório</title>
+        <graphic fileref="images/ch04dia2.png"/>
+      </figure>
+
+    <para>Como antes, assuma que você e Sally possuem cópias de trabalho
+	  do projeto <quote>calc</quote>. Especificamente, cada um de vocês
+	  tem uma cópia de trabalho de <filename>/calc/trunk</filename>.
+	  Todos os arquivos deste projeto estão nesse diretório ao invés de
+	  estarem no <filename>/calc</filename>, porque a sua equipe decidiu
+	  que <filename>/calc/trunk</filename> é onde a 
+	  <quote>Linha Principal</quote> de desenvolvimento vai ficar.
+	  </para>
+
+    <para>Digamos que você recebeu a tarefa de implementar uma grande 
+	  funcionalidade nova no projeto. Isso vai requerer muito tempo para 
+	  escrever, e vai afetar todos os arquivos do projeto. O problema
+	  aqui é que você não quer interferir no trabalho de Sally, que está 
+	  corrigindo pequenos bugs aqui e ali. Ela depende de que a última
+	  versão do projeto (em <filename>/calc/trunk</filename>) esteja 
+	  sempre disponível. Se você começar a fazer commits de suas
+	  modificações pouco a pouco, com certeza você vai dificultar o trabalho
+	  de Sally.</para>
+
+    <para>Um estratégia é "se isolar": você e Sally podem parar de
+	  compartilhar informações por uma semana ou duas. Isto é, começar
+	  cortar e reorganizar todos os arquivos da sua cópia de trabalho, 
+	  mas não realizar commit ou update antes de ter terminado todo o 
+	  trabalho. Existem alguns problemas aqui. Primeiro, não é seguro.
+	  A maioria das pessoas gostam de salvar seu trabalho no repositório
+	  com frequência, caso algo ruim aconteça por acidente à cópia de
+	  trabalho. Segundo, não é nada flexível. Se você faz seu trabalho
+	  em computadores diferentes (talvez você tenha uma cópia de 
+	  trabalho de <filename>/calc/trunk</filename> em duas máquinas 
+	  diferentes), você terá que, manualmente, copiar suas alterações 
+	  de uma máquina para outra, ou simplesmente, realizar todo o 
+	  trabalho em um único computador. Por esse mesmo método, é difícil
+	  compartilhar suas constantes modificações com qualquer pessoa. Uma
+	  <quote>boa prática</quote> comum em desenvolvimento de software é
+	  permitir que outros envolvidos revisem seu trabalho enquanto sendo
+	  realizado.
+	  Se ninguém verificar seus commits intermediários, você perde um
+	  potencial feedback. E por fim, quando você terminar todas as
+	  modificações, você pode achar muito difícil fundir seu trabalho
+	  com o resto da linha principal de desenvolvimento da empresa. 
+	  Sally (ou outros) podem ter realizado muitas outras mudanças no 
+	  repositório que podem ser difíceis de incorporar na sua cópia de 
+	  trabalho&mdash; especialmente se você rodar um <command>svn 
+	  update</command> depois de semanas trabalhando sozinho.</para>
+
+    <para>A melhor solução é criar seu próprio ramo, ou linha de
+	  desenvolvimento, no repositório. Isso lhe permite salvar seu 
+	  trabalho ainda incompleto, sem interferir com outros, e ainda
+	  você pode escolher que informações compartilhar com seus 
+	  colaboradores. Você verá exatamente como isso funciona mais à
+	  frente.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.using.create">
+      <title>Criando um Ramo</title>
+
+      <para>Criar um ramo é realmente simples&mdash; você faz uma cópia
+		do projeto no repositório usando o comando <command>svn 
+		copy</command>. O Subversion copia não somente arquivos mas
+	    também diretórios completos. Neste caso, você quer fazer a cópia
+	    do diretório <filename>/calc/trunk</filename>. Onde deve ficar a 
+		nova cópia? Onde você quiser&mdash; isso depende da "política" 
+		do projeto. Digamos que sua equipe tem a política de criar novos
+		ramos na área <filename>/calc/branches</filename> do 
+		repositório, e você quer chamar o seu ramo de 
+		<literal>my-calc-branch</literal>. Você vai querer criar um novo
+		diretório, <filename>/calc/branches/my-calc-branch</filename>,
+		que inicia sua vida como cópia de 
+		<filename>/calc/trunk</filename>.</para>
+
+      <para>Há duas maneiras diferentes de fazer uma cópia. Vamos 
+		mostrar	primeiro a maneira complicada, apenas para deixar claro
+		o conceito. Para começar, faça um checkout do diretório raiz do
+		projeto, <filename>/calc</filename>:</para>
+
+      <screen>
+$ svn checkout http://svn.example.com/repos/calc bigwc
+A  bigwc/trunk/
+A  bigwc/trunk/Makefile
+A  bigwc/trunk/integer.c
+A  bigwc/trunk/button.c
+A  bigwc/branches/
+Checked out revision 340.
+</screen>
+
+      <para>Agora para fazer uma cópia basta passar dois caminhos
+			de cópia de trabalho ao comando <command>svn 
+			copy</command>:</para>
+
+      <screen>
+$ cd bigwc
+$ svn copy trunk branches/my-calc-branch
+$ svn status
+A  +   branches/my-calc-branch
+</screen>
+
+      <para>Neste caso, o comando <command>svn copy</command> faz uma
+		cópia recursiva do diretório <filename>trunk</filename> para um
+		novo diretório de trabalho, 
+		<filename>branches/my-calc-branch</filename>. Como você pode ver
+		pelo comando <command>svn status</command>, o novo diretório
+		está agendado para ser adicionado ao repositório. Note também
+		o sinal <quote>+</quote> próximo à letra A. Isso indica o item
+		adicionado é uma <emphasis>cópia</emphasis> de algo e não um
+		item novo. Quando você realizar o Commit das modificações, o
+		Subversion vai criar o diretório
+		<filename>/calc/branches/my-calc-branch</filename> no repositório
+		copiando <filename>/calc/trunk</filename>, ao invés de reenviar
+		todos os dados da cópia de trabalho pela rede:</para>
+
+      <screen>
+$ svn commit -m "Criando um ramo do diretório /calc/trunk."
+Adding         branches/my-calc-branch
+Committed revision 341.
+</screen>
+
+      <para>E aqui está o método mais fácil de criar um ramo, o qual nós
+		deveríamos ter lhe mostrado desde o início: o comando
+		<command>svn copy</command> é capaz de copiar diretamente duas
+		URLs.</para>
+
+      <screen>
+$ svn copy http://svn.example.com/repos/calc/trunk \
+           http://svn.example.com/repos/calc/branches/my-calc-branch \
+      -m "Criando um ramo do diretório /calc/trunk."
+
+Committed revision 341.
+</screen>
+
+      <para>Do ponto de vista do diretório, não há diferença entre estes
+		dois métodos. Ambos os processos criam um novo diretório na
+		revisão 341, e o novo diretório é uma cópia de 
+		<filename>/calc/trunk</filename>. Isso é mostrado em
+		<xref linkend="svn.branchmerge.using.create.dia-1"/>. Note que o
+		segundo método, entretanto, faz um commit 
+		<emphasis>imediato</emphasis> em tempo constante.
+
+        <footnote>
+        <para>O Subversion não suporta a cópia entre repositórios 
+		distintos. Quando usando URLs com os comandos
+		<command>svn copy</command> ou <command>svn move</command>, 
+		você pode apenas copiar itens dentro de um mesmo repositório.
+		</para> 
+        </footnote>
+        
+        Este é um procedimento mais fácil, uma vez que você não precisa
+		fazer o checkout de uma grande parte do repositório. Na verdade, 
+		para usar esta técnica você não precisa se quer ter uma cópia de
+		trabalho. Esta é a maneira que a maioria dos usuários criam 
+		ramos.</para>
+
+      <figure id="svn.branchmerge.using.create.dia-1">
+        <title>Repositório com uma nova cópia</title>
+        <graphic fileref="images/ch04dia3.png"/>
+      </figure>
+
+      <sidebar>
+        <title>Cópias Leves</title>
+
+        <para>O repositório do Subversion tem um design especial. Quando
+		  você copia um diretório, você não precisa se preocupar com o 
+		  repositório ficando gigante&mdash;O Subversion, na realidade, 
+		  não duplica dados. Ao invés disso, ele cria uma nova entrada
+		  de diretório que aponta para uma outra árvore de diretório
+		  <emphasis>já existente</emphasis>. Caso você seja um usuário
+		  Unix, esse é o mesmo conceito do hard-link. Enquanto as 
+		  modificações são feitas em pastas e arquivos no diretório 
+		  copiado, o Subversion continua aplicando esse conceito de
+		  hard-link enquanto for possível. Os dados somente serão 
+		  duplicados quando for necessário desambiguizar 
+		  diferentes versões de um objeto.</para>
+
+        <para>É por isso que você quase não vai ouvir os usuários do 
+		  Subversion reclamando de <quote>Cópias Leves</quote>
+		  (<foreignphrase>cheap copies</foreignphrase>). Não importa o 
+		  quão grande é o diretório&mdash; a cópia sempre será feita
+		  em um pequeno e constante espaço de tempo. Na verdade, essa
+		  funcionalidade é a base do funcionamento do commit no 
+		  Subversion: cada revisão é uma <quote>cópia leve</quote> da 
+		  revisão anterior, com algumas ligeiras modificações em alguns
+		  itens.(para ler mais sobre esse assunto, visite o website do 
+		  Subversion e leia o método <quote>bubble up</quote> nos 
+		  documentos de design do Subversion.)</para>
+
+        <para>Claro que estes mecanismos internos de copiar e 
+		  compartilhar dados estão escondidos do usuário, que vê apenas
+		  cópias das árvores de arquivos. O ponto principal aqui é que
+		  as cópias são leves, tanto em tempo quanto em tamanho. Se você
+		  criar um ramo inteiro dentro do repositório (usando o comando
+		  <command>svn copy URL1 URL2</command>), será uma operação 
+		  rápida, e de tempo constante. Crie ramos sempre que quiser.
+		</para>
+      </sidebar>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.using.work">
+      <title>Trabalhando com o seu Ramo</title> 
+
+      <para>Agora que você criou um ramo do projeto, você pode
+		fazer um Checkout para uma nova cópia de trabalho e 
+		usá-la.</para>
+
+      <screen>
+$ svn checkout http://svn.example.com/repos/calc/branches/my-calc-branch
+A  my-calc-branch/Makefile
+A  my-calc-branch/integer.c
+A  my-calc-branch/button.c
+Checked out revision 341.
+</screen>
+
+      <para>Não tem nada de especial nessa cópia de trabalho; ela
+		simplesmente aponta para um diretório diferente no 
+		repositório. Entretanto, quando você faz o commit de 
+		modificações, essas não ficarão visíveis para Sally quando
+	  	ela fizer Update, porque a cópia de trabalho dela aponta
+		para <filename>/calc/trunk</filename>. (Leia <xref
+        linkend="svn.branchmerge.switchwc"/> logo à frente neste
+		capítulo: o comando <command>svn switch</command> é uma 
+		forma alternativa de se criar uma cópia de trabalho de um
+		ramo.)</para>
+
+      <para>Vamos imaginar que tenha se passado uma semana, e o
+		seguinte commit é realizado:</para>
+
+      <itemizedlist>
+        <listitem><para>
+          Você faz uma modificação em
+          <filename>/calc/branches/my-calc-branch/button.c</filename>,
+          o que cria a revisão 342.</para>
+        </listitem>
+
+        <listitem><para>
+          Você faz uma modificação em
+          <filename>/calc/branches/my-calc-branch/integer.c</filename>,
+          o que cria a revisão 343.</para>
+        </listitem>
+
+        <listitem><para>
+          Sally faz uma modificação em
+          <filename>/calc/trunk/integer.c</filename>, o que cria a
+          revisão 344.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Exitem agora duas linhas independentes de desenvolvimento, 
+		mostrando em <xref linkend="svn.branchmerge.using.work.dia-1"/>,
+		afetando <filename>integer.c</filename>.</para>
+
+      <figure id="svn.branchmerge.using.work.dia-1">
+        <title>Ramificação do histórico de um arquivo</title>
+        <graphic fileref="images/ch04dia4.png"/>
+      </figure>
+
+      <para>As coisas ficam interessantes quando você olha o histórico
+		das alterações feitas na sua cópia de
+		<filename>integer.c</filename>:</para>
+
+      <screen>
+$ pwd
+/home/user/my-calc-branch
+
+$ svn log -v integer.c
+------------------------------------------------------------------------
+r343 | user | 2002-11-07 15:27:56 -0600 (Thu, 07 Nov 2002) | 2 lines
+Changed paths:
+   M /calc/branches/my-calc-branch/integer.c
+
+* integer.c:  frozzled the wazjub.
+
+------------------------------------------------------------------------
+r341 | user | 2002-11-03 15:27:56 -0600 (Thu, 07 Nov 2002) | 2 lines
+Changed paths:
+   A /calc/branches/my-calc-branch (from /calc/trunk:340)
+
+Creating a private branch of /calc/trunk.
+
+------------------------------------------------------------------------
+r303 | sally | 2002-10-29 21:14:35 -0600 (Tue, 29 Oct 2002) | 2 lines
+Changed paths:
+   M /calc/trunk/integer.c
+
+* integer.c:  changed a docstring.
+
+------------------------------------------------------------------------
+r98 | sally | 2002-02-22 15:35:29 -0600 (Fri, 22 Feb 2002) | 2 lines
+Changed paths:
+   M /calc/trunk/integer.c
+
+* integer.c:  adding this file to the project.
+
+------------------------------------------------------------------------
+</screen>
+
+      <para>Note que o Subversion está traçando o histórico do seu
+		ramo de <filename>integer.c</filename> pelo tempo, até o
+		momento em que ele foi copiado. Isso mostra o momento em que 
+		o ramo foi criado como um evento no histórico, já que
+		<filename>integer.c</filename> foi copiado implicitamente 
+		quando <filename>/calc/trunk/</filename> foi copiado. Agora
+		veja o que ocorre quando Sally executa o mesmo comando em
+		sua cópia do arquivo:</para>
+
+      <screen>
+$ pwd
+/home/sally/calc
+
+$ svn log -v integer.c
+------------------------------------------------------------------------
+r344 | sally | 2002-11-07 15:27:56 -0600 (Thu, 07 Nov 2002) | 2 lines
+Changed paths:
+   M /calc/trunk/integer.c
+
+* integer.c:  fix a bunch of spelling errors.
+
+------------------------------------------------------------------------
+r303 | sally | 2002-10-29 21:14:35 -0600 (Tue, 29 Oct 2002) | 2 lines
+Changed paths:
+   M /calc/trunk/integer.c
+
+* integer.c:  changed a docstring.
+
+------------------------------------------------------------------------
+r98 | sally | 2002-02-22 15:35:29 -0600 (Fri, 22 Feb 2002) | 2 lines
+Changed paths:
+   M /calc/trunk/integer.c
+
+* integer.c:  adding this file to the project.
+
+------------------------------------------------------------------------
+</screen>
+
+      <para>Sally vê suas próprias modificações na revisão 344, e não
+		as modificações que você fez na revisão 343. Até onde o 
+		Subversion sabe, esses dois commits afetaram arquivos 
+		diferentes em locais distintos no repositório. Entretanto
+		o Subversion <emphasis>mostra</emphasis> que os dois arquivos
+		têm um histórico em comum. Antes de ser feita a cópia/ramo na 
+		revisão 341, eles eram o mesmo arquivo. É por isso que você e
+		Sally podem ver as alterações feitas nas 
+		revisões 303 e 98.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.using.concepts">
+      <title>Os conceitos chave por trás de ramos</title> 
+
+      <para>Há duas lições importantes que você deve se lembrar desta
+		seção. Primeiro, o Subversion não tem um conceito interno de
+		ramos&mdash;ele apenas sabe fazer cópias. Quando você copia um	
+		diretório, o diretório resultante somente é um 
+		<quote>ramo</quote> porque <emphasis>você</emphasis> atribui
+		esse significado a ele. Você pode pensar de forma diferente
+		sobre esse diretório, ou tratá-lo de forma diferente, mas 
+		para o Subversion é apenas um diretório comum que carrega uma
+		informação extra de histórico. Segundo, devido a este mecanismo
+		de cópia, os ramos no Subversion existem como 
+		<emphasis>diretórios normais do sistema de arquivos</emphasis>
+		no repositório. Isso é diferente de outros sistemas de controle de
+		versão, onde ramos são criados ao adicionar <quote>rótulos</quote> 
+		extra-dimensionais aos arquivos.</para>
+
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.copychanges">
+    <title>Copiando Modificações Entre Ramos</title>
+
+    <para>Agora você e Sally estão trabalhando em ramos paralelos
+	  do projeto: você está trabalhando no seu próprio ramo, e
+	  Sally está trabalhando no <firstterm>tronco</firstterm>,
+	  ou linha principal de desenvolvimento.</para>
+
+    <para>Para projetos que tenham um grande numero de colaboradores, 
+	  é comum que cada um tenha sua cópia de trabalho do tronco. Sempre
+	  que  alguem precise fazer uma longa modificação que possa 
+	  corromper o tronco, o procedimento padrão é criar um ramo privado
+	  e fazer os commits neste ramo até que todo o trabalho esteja
+	  concluido.</para>
+
+    <para>Então, a boa notícia é que você não está interferindo no 
+	  trabalho de Sally, e vice-versa. A má notícia, é que é muito 
+	  fácil se <emphasis>distanciar</emphasis> do projeto. Lembre-se
+	  que um dos problemas com a estratégia do <quote>se isolar</quote>
+	  é que quando você terminar de trabalhar no seu ramo, pode ser bem
+	  perto de impossível de fundir suas modificações novamente com o
+	  tronco do projeto sem um grande numero de conflitos.</para>
+
+    <para>Ao invés disso, você e Sally devem continuamente compartilhar
+	  as modificações ao longo do seu trabalho. Depende de você para 
+	  decidir quais modificações devem ser compartilhadas; O Subversion
+	  lhe da a capacidade para selecionar o que <quote>copiar</quote>
+	  entre os ramos. E quando você terminar de trabalhar no seu ramo, 
+	  todas as modificações realizadas no seu ramo podem ser copiadas
+	  novamente para o tronco.</para>
+
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.copychanges.specific">
+      <title>Copiando modificações específicas</title>
+
+
+      <para>Na seção anterior, nos comentamos que tanto você quanto 
+		Sally fizeram alterações em <filename>integer.c</filename>
+		em ramos distintos.Se você olhar a mensagem de log de Sally
+		na revisão 344, você verá que ela corrigiu alguns erros de 
+		escrita. Sem duvida alguma, a sua cópia deste arquivo tem os
+		mesmo erros de escrita. É provável que suas futuras 
+		modificações a este arquivo vão afetar as mesmas áreas onde
+		foram feitas as correções de escrita, então você tem grandes
+		chances de ter vários conflitos quando for fundir o seu ramo,
+		eventualmente. Portanto, é melhor receber as modificações de
+		Sally agora, <emphasis>antes</emphasis> de você começar a 
+		trabalhar de forma massiva nessas áreas.</para>
+
+      <para>É hora de usar o comando <command>svn merge</command>.
+		Esse comando é um primo muito próximo do comando
+		<command>svn diff</command> (que você viu em
+		<xref linkend="svn.tour"/>). Os dois comando comparam dois 
+		objetos no repositório e mostram as diferenças. Por exemplo, 
+		você pode pedir com o comando <command>svn diff</command>
+		para ver com exatidão as mudanças feitas por Sally na 
+		revisão 344:</para>
+
+      <screen>
+$ svn diff -c 344 http://svn.example.com/repos/calc/trunk
+
+Index: integer.c
+===================================================================
+--- integer.c	(revision 343)
++++ integer.c	(revision 344)
+@@ -147,7 +147,7 @@
+     case 6:  sprintf(info-&gt;operating_system, "HPFS (OS/2 or NT)"); break;
+     case 7:  sprintf(info-&gt;operating_system, "Macintosh"); break;
+     case 8:  sprintf(info-&gt;operating_system, "Z-System"); break;
+-    case 9:  sprintf(info-&gt;operating_system, "CPM"); break;
++    case 9:  sprintf(info-&gt;operating_system, "CP/M"); break;
+     case 10:  sprintf(info-&gt;operating_system, "TOPS-20"); break;
+     case 11:  sprintf(info-&gt;operating_system, "NTFS (Windows NT)"); break;
+     case 12:  sprintf(info-&gt;operating_system, "QDOS"); break;
+@@ -164,7 +164,7 @@
+     low = (unsigned short) read_byte(gzfile);  /* read LSB */
+     high = (unsigned short) read_byte(gzfile); /* read MSB */
+     high = high &lt;&lt; 8;  /* interpret MSB correctly */
+-    total = low + high; /* add them togethe for correct total */
++    total = low + high; /* add them together for correct total */
+
+     info-&gt;extra_header = (unsigned char *) my_malloc(total);
+     fread(info-&gt;extra_header, total, 1, gzfile);
+@@ -241,7 +241,7 @@
+      Store the offset with ftell() ! */
+
+   if ((info-&gt;data_offset = ftell(gzfile))== -1) {
+-    printf("error: ftell() retturned -1.\n");
++    printf("error: ftell() returned -1.\n");
+     exit(1);
+   }
+
+@@ -249,7 +249,7 @@
+   printf("I believe start of compressed data is %u\n", info-&gt;data_offset);
+   #endif
+
+-  /* Set postion eight bytes from the end of the file. */
++  /* Set position eight bytes from the end of the file. */
+
+   if (fseek(gzfile, -8, SEEK_END)) {
+     printf("error: fseek() returned non-zero\n");
+</screen>
+
+      <para>O comando <command>svn merge</command> é quase que o 
+		mesmo. Ao invés de imprimir as diferenças no terminal, 
+		ele as aplica diretamente à cópia de trabalho classificando
+		como <emphasis>local modifications</emphasis>:</para>
+
+      <screen>
+$ svn merge -c 344 http://svn.example.com/repos/calc/trunk
+U  integer.c
+
+$ svn status
+M  integer.c
+</screen>
+
+      <para>A saída do comando <command>svn merge</command> mostra
+		a sua cópia de <filename>integer.c</filename> sofreu uma
+		correção. Agora ele contém as modificações feitas por
+		Sally&mdash; essas modificações foram <quote>copiadas</quote>
+		do tronco do repositório para a cópia de trabalho do seu ramo
+		privado, e agora existe como uma modificação local. A esta
+		altura, depende de você revisar essa modificação local e ter
+		certeza de funciona.</para>
+
+      <para>Em outra simulação, é possível que as coisas não tenham
+		ocorrido tão bem assim, e o arquivo 
+		<filename>integer.c</filename> tenha entrado em estado de 
+		conflito. Pode ser que você precise resolver o conflito usando
+		procedimentos padrão (veja <xref linkend="svn.tour"/>), ou se 
+		você decidir que fazer a fusão dos arquivos tenha sido uma má
+		idéia, desista e rode o comando <command>svn revert</command>
+		para retirar as modificações locais.</para>
+
+      <para>Partindo do pressuposto que você revisou as modificações 
+		do processo de fusão , então você pode fazer o <command>svn
+		commit</command> como de costume. A este ponto, a mudança foi
+		fusionada ao seu ramo no repositório. Em tecnologias de 
+		controle de versão, esse ato de copiar mudanças entre ramos 
+		recebe o nome de <firstterm>portar</firstterm> 
+		mudanças.</para>
+
+      <para>Quando você fizer o commit das modificações locais, não
+		esqueça de colocar na mensagem de log que você está portando
+		uma modificação especifica de um ramo para outro.Por 
+		exemplo:</para>
+
+      <screen>
+$ svn commit -m "integer.c: ported r344 (spelling fixes) from trunk."
+Sending        integer.c
+Transmitting file data .
+Committed revision 360.
+</screen>
+
+      <para>Como você verá nas próximas seções, essa é uma <quote>boa
+		pratica</quote> importantíssima a ser seguida.</para>
+
+      <sidebar>
+        <title>Porque não usar Patches?</title>
+
+        <para>Essa questão pode estar em sua mente, especialmente se
+		  você for um usuário de Unix: porque usar o comando 
+		  <command>svn merge</command>? Porque não simplesmente usar
+		  o comando do sistema <command>patch</command> para realizar
+		  esta tarefa? Por exemplo:</para>
+
+        <screen>
+$ svn diff -c 344 http://svn.example.com/repos/calc/trunk &gt; patchfile
+$ patch -p0  &lt; patchfile
+Patching file integer.c using Plan A...
+Hunk #1 succeeded at 147.
+Hunk #2 succeeded at 164.
+Hunk #3 succeeded at 241.
+Hunk #4 succeeded at 249.
+done
+</screen>
+
+        <para>Neste caso em particular, sim, realmente não há 
+		  diferença. Mas o comando <command>svn merge</command> tem
+		  habilidades especiais que superam o comando <command>
+		  patch</command>. O formato do arquivo usado pelo <command>
+		  patch</command> é bem limitado; é apenas capaz de mexer o
+		  conteúdo dos arquivos. Não há forma de representar mudanças
+		  em <emphasis>arvores</emphasis>, como o criar, remover e 
+		  renomear arquivos e diretórios. Tão pouco pode o comando
+		  <command>patch</command> ver mudanças de propriedades. Se
+		  nas modificações de Sally, um diretório tivesse sido criado, 
+		  a saída do comando <command>svn diff</command> não iria 
+		  fazer menção disso. <command>svn diff</command> somente 
+		  mostra forma limitada do patch, então existem coisa que ele
+		  simplesmente não irá mostrar. O comando <command>svn
+		  merge</command>, por sua vez, pode mostrar modificações
+		  em estrutura de árvores e propriedades aplicando estes 
+		  diretamente em sua cópia de trabalho.</para>
+
+      </sidebar>
+
+      <para>Um aviso: ainda que o comando <command>svn diff</command>
+		e o <command>svn merge</command> tem conceitos similares, eles
+		apresentam sintaxe diferente em vários casos.  Leia sobre isso
+		em <xref linkend="svn.ref"/> para mais detalhes, ou peça ajuda
+		ao comando <command>svn help</command>.  Por exemplo, o comando
+		<command>svn merge</command> precisa de uma cópia de trabalho
+		com destino, isto é, um local onde aplicar as modificações.  Se
+		um destino não for especificado, ele assume que você está 
+		tentando uma dessas operações:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Você quer fundir modificações de diretório no seu
+			diretório de trabalho atual.</para>
+        </listitem>
+        <listitem>
+          <para>Você quer fundir as modificações de um arquivo em 
+			específico, em outro arquivo de mesmo nome que existe no seu
+			diretório atual de trabalho.</para>
+        </listitem>
+      </orderedlist>
+
+      <para>Se você esta fundindo um diretório e não especificou um 
+		destino, <command>svn merge</command> assume o primeiro caso 
+		acima e tenta aplicar as modificações no seu diretório atual. Se
+		você está fundindo um arquivo, e este arquivo (ou arquivo de 
+		mesmo nome) existe no diretório atual, o <command>svn 
+		merge</command> assume o segundo caso, e tenta aplicar as
+		modificações no arquivo local de mesmo nome.</para>
+
+      <para>Se você quer que as modificações seja aplicadas em outro 
+		local, você vai precisar avisar. Por exemplo, se você está no
+		diretório pai de sua cópia de trabalho, você vai precisar 
+		especificar o diretório de destino a receber as 
+		modificações:</para>
+
+      <screen>
+$ svn merge -c 344 http://svn.example.com/repos/calc/trunk my-calc-branch
+U   my-calc-branch/integer.c
+</screen>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.copychanges.keyconcept">
+      <title>O conceito chave sobre fusão</title>
+
+      <para>Agora você viu um exemplo do comando <command>svn
+          merge</command>, e você está prestes a ver vários outros.
+		  Se você está se sentindo confuso sobre como a fusão funciona,
+		  saiba que você não está sozinho. Vários usuários ( especial os
+		  novos em controle de versão) ficam perplexos com a sintaxe
+		  do comando, e sobre como e quando deve ser usado. Mas não 
+		  temas, esse comando é muito mais simples do que você imagina!
+		  Existe uma técnica muito simples para entender exatamente 
+		  o comportamento do comando <command>svn merge</command>.
+		  </para>
+		  
+      <para>O principal motivo de confusão é o 
+		<emphasis>nome</emphasis> do comando. O termo 
+		<quote>fundir</quote> de alguma forma denota que se junta
+		ramos, ou que existe uma mistura misteriosa de código 
+		ocorrendo. Este não é o caso. O nome mais apropriado para o 
+		comando deveria ter sido <command>svn diff-and-apply</command>
+		, porque isso é o que acontece: duas árvores de repositório
+		são comparadas, e a diferença é aplicada a uma cópia de 
+		trabalho.</para>
+
+      <para>O comando recebe três argumentos:</para>
+
+      <orderedlist>
+
+        <listitem><para>Uma árvore de repositório inicial (geralmente
+		chamada de <firstterm>lado esquerdo</firstterm> da 
+		comparação),</para></listitem>
+
+        <listitem><para>Uma árvore de repositório final (geralmente
+		chamada de <firstterm>lado direito</firstterm> da 
+		comparação),</para></listitem>
+
+        <listitem><para>Uma cópia de trabalho para receber as diferenças
+		como modificação local (geralmente chamada de 
+		<firstterm>destino</firstterm> da fusão).</para></listitem>
+
+      </orderedlist>
+
+      <para>Uma vez especificados estes três argumentos, as duas
+		árvores são comparadas, e o resultado das diferenças são 
+		aplicadas sobre a cópia de trabalho de destino, como 
+		modificações locais. Uma vez executado o comando, o resultado
+		não é diferente do que se você tivesse editado manualmente os
+		arquivos, ou rodados vários comandos <command>svn
+        add</command> ou <command>svn delete</command>. Se você gostar 
+		do resultado você pode fazer o commit dele. Se você não gostar
+		do resultado, você pode simplesmente reverter as mudanças
+		com o comando <command>svn revert</command>.</para>
+
+      <para>A sintaxe do comando <command>svn merge</command> lhe 
+		permite especificar os três argumentos necessários de forma 
+		flexível. Veja aqui alguns exemplos:</para>
+
+      <screen>
+$ svn merge http://svn.example.com/repos/branch1@150 \
+            http://svn.example.com/repos/branch2@212 \
+            my-working-copy
+
+$ svn merge -r 100:200 http://svn.example.com/repos/trunk my-working-copy
+
+$ svn merge -r 100:200 http://svn.example.com/repos/trunk
+</screen>
+
+      <para>A primeira sintaxe usa explicitamente os três argumentos,
+		nomeando cada árvore na forma <emphasis>URL@REV</emphasis> e
+		nomeando a cópia de trabalho de destino. A segunda sintaxe pode
+		ser usada como um atalho em situações onde você esteja 
+		comparando duas revisões distintas de uma mesma URL. A ultima 
+		sintaxe mostra como o argumento da cópia de trabalho de destino
+		é opcional; se omitido, assume como padrão o diretório 
+		atual.</para>
+
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.copychanges.bestprac">
+      <title>Melhores práticas sobre Fusão</title>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.copychanges.bestprac.track">
+        <title>Rastreando Fusões manualmente</title>
+
+        <para>Fundir modificações parece simples, mas na prática
+		  pode se tornar uma dor de cabeça. O problema é que se 
+		  você repetidamente fundir as modificações de uma ramo com
+		  outro, você pode acidentalmente fundir a mesma modificação
+		  <emphasis>duas vezes</emphasis>. Quando isso ocorre, 
+		  algumas vezes as coisas vão funcionar corretamente. 
+		  Quando aplicando um patch em um arquivo, Subversion 
+		  verifica se o arquivo já possui aquelas modificações e 
+		  se tiver não faz nada. Mas se a modificações existentes
+		  já tiverem modificadas de alguma forma, você terá um
+		  conflito.</para>
+
+        <para>O ideal seria se o seu sistema de controle de versão
+		  prevenisse o aplicar-duas-vezes modificações a um ramo.
+		  Ele deveria lembrar automaticamente quais modificações
+		  um ramo já recebeu, e ser capaz de listá-los para você.
+		  Essa informação deveria ser usada para ajudar a 
+		  automatizar a Fusão o máximo possivel.</para>
+
+        <para>Infelizmente, o Subversion não é esse sistema; ele
+		  ainda não grava informações sobre as fusões realizadas.
+            <footnote><para>Entretanto, neste exato momento, essa
+             funcionalidade está sendo preparada!</para></footnote>
+          Quando você faz o commit das modificações locais, o 
+		  repositório não faz a menor idéia se as alterações vieram
+		  de um comando <command>svn merge</command>, ou de uma 
+		  edição manual no arquivo.</para>
+
+        <para>O que isso significa para você, o usuário? Significa
+		  que até que o Subversion tenha essa funcionalidade, você 
+		  terá que rastrear as informações de Fusão pessoalmente. A
+		  melhor maneira de fazer isso é com as mensagens de log do
+		  commit. Como mostrado nos exemplos anteriores, é 
+		  recomendável que sua mensagem de log informe especificamente
+		  o número da revisão (ou números das revisões) que serão 
+		  fundidas ao ramo. Depois, você pode rodar o comando 
+		  <command>svn log</command> para verificar quais modificações
+		  o seu ramo já recebeu. Isso vai lhe ajudar a construir um
+		  próximo comando <command>svn merge</command> que não será
+		  redundante com as modificações já aplicadas.</para>
+
+        <para>Na próxima seção, vamos mostrar alguns exemplos 
+		  dessa técnica na prática.</para>
+
+      </sect3>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.copychanges.bestprac.preview">
+        <title>Visualizando Fusões</title>
+
+        <para>Primeiro, lembre-se de fundir seus arquivos para a 
+		  cópia de trabalho quando esta <emphasis>não</emphasis> 
+		  tiver alterações locais e tenha sido atualizada 
+		  recentemente. Se a sua cópia de trabalho não estiver
+		  <quote>limpa</quote>, você pode ter alguns problemas.
+		  </para>
+
+        <para>Assumindo que a sua cópia de trabalho está no ponto, 
+	      fazer a fusão não será uma operação de alto risco. Se 
+		  você não fizer a primeira fusão de forma correta, rode
+		  o comando <command>svn revert</command> nas modificações
+		  e tente novamente.</para>
+
+        <para>Se você fez a fusão para uma cópia de trabalho que já
+		  possui modificações locais, a mudanças aplicadas pela fusão
+		  serão misturadas as pré existentes, e rodar o comando
+		  <command>svn revert</command> não é mais uma opção. Pode
+		  ser impossível de separar os dois grupos de 
+		  modificações.</para>
+
+        <para>Em casos como este, as pessoas se tranquilizam em 
+		  poder prever e examinar as fusões antes de ocorrerem. Uma 
+		  maneira simples de fazer isso é rodar o comando 
+		  <command>svn diff</command> com os mesmos argumentos
+		  que você quer passar para o comando <command>svn
+          merge</command>, como mostramos no primeiro exemplo de 
+		  fusão. Outro método de prever os impactos é passar a
+		  opção <option>--dry-run</option> para o comando de 
+		  fusão:</para>
+
+        <screen>
+$ svn merge --dry-run -c 344 http://svn.example.com/repos/calc/trunk
+U  integer.c
+
+$ svn status
+#  nothing printed, working copy is still unchanged.
+</screen>
+
+        <para>A opção <option>--dry-run</option> não aplica qualquer
+		  mudança para a copia de trabalho. Essa opção apenas exibe
+		  os códigos que <emphasis>seriam</emphasis> escritos em uma 
+		  situação real de fusão. É útil poder ter uma previsão de
+		  <quote>auto nível</quote> da potencial fusão, para aqueles
+		  momentos em que o comando <command>svn diff</command> dá 
+		  detalhes até demais.</para>
+
+      </sect3>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.copychanges.bestprac.merge">
+        <title>Fundir conflitos</title>
+
+        <para>Assim como no comando <command>svn update</command>,
+	  	  o comando <command>svn merge</command> aplica modificações à
+		  sua cópia de trabalho. E portanto também é capaz de criar
+		  conflitos. Entretanto, os conflitos criados pelo comando
+		  <command>svn merge</command> são um tanto diferentes, e essa
+		  seção explica essas diferenças.</para>
+
+        <para>Para começar, assuma que sua cópia de trabalho não 
+		  teve modificações locais. Quando você faz a atualização 
+		  com o comando <command>svn update</command> para um revisão
+		  específica, as modificações enviadas pelo servidor vão 
+		  ser sempre aplicadas à sua cópia de trabalho <quote>sem 
+		  erros</quote>. O servidor produz o delta a partir da 
+		  comparação de duas árvores: uma imagem virtual de sua cópia
+		  de trabalho, e a árvore da revisão na qual está interessado.
+		  Como o lado esquerdo da comparação é exatamente igual ao que
+		  você já possui, é garantido que o delta converterá 
+		  corretamente sua cópia de trabalho, para a revisão escolhida
+		  no lado direito da compração.</para>
+
+        <para>Entretanto, o comando <command>svn merge</command> não
+		  possui essa garantia e pode ser bem mais caótico: o usuário
+		  pode pedir ao servidor para comparar 
+		  <emphasis>qualquer</emphasis> árvore, até mesmo árvores que
+		  não tenham relação com a sua cópia de trabalho! Isso significa
+		  que existem uma grande margem para erro humano. Usuário vão
+		  acabar por compara duas árvores erradas, criando um delta que
+		  não se aplica sem conflitos. O comando <command>svn 
+		  merge</command> vai fazer o melhor possível para aplicar
+		  o delta o máximo possível, mas em algumas partes isso pode
+		  ser impossível. Assim como no comando Unix 
+		  <command>patch</command> que as vezes reclama sobre 
+		  <quote>failed hunks</quote>, o <command>svn merge</command>
+		  vai reclamar sobre <quote>alvos perdidos</quote>:</para>
+
+        <screen>
+$ svn merge -r 1288:1351 http://svn.example.com/repos/branch
+U  foo.c
+U  bar.c
+Skipped missing target: 'baz.c'
+U  glub.c
+C  glorb.h
+
+$
+</screen>
+
+        <para>O exemplo anterior pode ser um caso no qual o arquivo
+		  <filename>baz.c</filename> existe nas duas imagens dos 
+		  ramos que estão sendo comparados, e o delta resultante 
+		  quer modificar o conteúdo do arquivo, mas o arquivo não 
+		  existe na cópia de trabalho. Independente do caso, a 
+		  mensagem de <quote>skipped</quote> significa que o usuário
+		  está, muito provavelmente, comparando árvores incorretas;
+		  esse é o sinal clássico de erro do usuário. Quando isso 
+		  acontece, é fácil reverter recursivamente as modificações
+		  criadas pela fusão 
+		  (<command>svn revert --recursive</command>), delete qualquer
+		  arquivo não versionado deixado pelo revert, e rode novamente
+		  o comando <command>svn merge</command> usando outros
+		  argumentos.</para>
+
+        <para>Note também que o exemplo anterior mostra um conflito
+		  no arquivo <filename>glorb.h</filename>. Nós já mostramos
+		  que a cópia local não possui modificações:como um conflito
+		  pôde acontecer? Novamente, uma vez que o usuário pode usar
+		  o comando <command>svn merge</command> para definir e 
+		  aplicar qualquer delta antigo para a cópia de trabalho, o
+		  delta pode conter alterações que não se aplicam sem erros
+		  ao arquivo local, mesmo que o arquivo não tenha modificações
+		  locais.</para>
+
+        <para>Outra pequena diferença entre os comandos <command>svn 
+		  update</command> e <command>svn merge</command> é o nome
+		  dos arquivos de texto criados quando ocorre um conflito.
+		  Em <xref linkend="svn.tour.cycle.resolve"/>, vimos que um 
+		  update produz arquivos nomeados de
+		  <filename>filename.mine</filename>,
+          <filename>filename.rOLDREV</filename>, e
+          <filename>filename.rNEWREV</filename>. Entretanto, quando
+		  o comando <command>svn merge</command> produz um conflito,
+		  ele cria três arquivos nomeados como
+		  <filename>filename.working</filename>,
+          <filename>filename.left</filename>, e
+          <filename>filename.right</filename>. Neste caso, os termos
+		  <quote>left</quote> e <quote>right</quote> estão indicando
+		  de que lado da comparação vieram os arquivos. Em todo caso, 
+	  	  esses nomes vão ajuda-lo a diferenciar conflitos que são 
+		  resultado de um update ou de uma fusão.</para>
+
+      </sect3>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.copychanges.bestprac.ancestry">
+        <title>Percebendo ou Ignorando os Ancestrais</title>
+
+        <para>Ao conversar com um desenvolvedor do Subversion, você
+          frequentemente ouviria referências ao termo 
+          <firstterm>ancestral</firstterm>.  Esta palavra é usada para
+          descrever a relação entre dois objetos em um repositório: se
+          estiverem relacionados entre si, então um objeto é dito ser um
+          ancestral do outro.</para>
+
+        <para>Por exemplo, suponha que você submeta a revisão 100, a
+          qual inclui uma mudança num arquivo
+          <filename>foo.c</filename>.  Então,
+          <filename>foo.c@99</filename> é o ancestral de
+          <quote>ancestral</quote> de <filename>foo.c@100</filename>.
+          Por outro lado, suponha que você submeta a exclusão do arquivo 
+          <filename>foo.c</filename> na revisão 101, e então adicione um
+          novo arquivo com o mesmo nome na revisão 102.  Neste caso,
+          <filename>foo.c@99</filename> e
+          <filename>foo.c@102</filename> podem parecer estar
+          relacionados (afinal, eles têm o mesmo caminho), mas de fato
+          eles são objetos completamente diferentes no repositório.
+          Eles não compartilham histórico ou
+          <quote>ancestralidade</quote>.</para>
+
+        <para>A razão para abordar isto é destacar uma importante
+          diferença entre <command>svn diff</command> e
+          <command>svn merge</command>.  O primeiro comando ignora a
+          ancestralidade, enquanto que este último é bastante sensível a
+          ela.  Por exemplo, se você solicitar que o <command>svn
+          diff</command> compare as revisões 99 e 102 do arquivo
+          <filename>foo.c</filename>, você deveria ver diferenças
+          em termos de linhas do arquivo em cada revisão; o comando
+          <literal>diff</literal> é cego ao comparar dois caminhos.  Mas
+          se você solicitar ao <command>svn merge</command> para
+          comparar os mesmos dois objetos, o subcomando deve perceber
+          que estes dois objetos não estão relacionados e primeiro
+          tentará excluir o arquivo antigo, e então adicionar o arquivo
+          novo;  a saída deveria indicar uma exclusão seguida por uma
+          adição:</para>
+
+        <screen>
+D  foo.c
+A  foo.c
+</screen>
+
+        <para>A maioria das fusões envolve comparação de árvores
+          ancestralmente relacionadas umas às outras, e assim o
+          <command>svn merge</command> por padrão possui este
+          comportamento.  Ocasionalmente, no entanto, você pode querer
+          que o comando <literal>merge</literal> compare duas árvores
+          não relacionadas.  Por exemplo, você pode ter importado duas
+          árvores de código-fonte representando distribuições de
+          diferentes fornecedores de um projeto de software (veja <xref
+          linkend="svn.advanced.vendorbr"/>).  Se você solicitar que o
+          <command>svn merge</command> compare as duas árvores, você
+          deveria ver a exclusão da primeira árvore inteira, seguida da
+          adição da segunda árvore inteira!  Nessas situações, você vai
+          querer que o <command>svn merge</command> faça uma comparação
+          baseada apenas em caminhos, ignorando quaisquer relações entre
+          arquivos e diretórios.  Adicione a opção
+          <option>--ignore-ancestry</option> a seu comando merge, e ele
+          se comportará como o <command>svn diff</command>.  (E
+          reversalmente, a opção <option>--notice-ancestry</option> fará
+          com que o <command>svn diff</command> se comporte como o
+          comando <literal>merge</literal>.)</para>
+
+      </sect3>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.copychanges.bestprac.moves">
+        <title>Fusões e Movimentações</title>
+
+        <para>Um desejo comum é refatorar código-fonte, especialmente em
+          projetos de software na linguagem Java.  Arquivos e diretórios
+          são mexidos e renomeados, possivelmente provocando transtornos
+          a todos que estiverem trabalhando no projeto.  Parece um caso
+          perfeito para criar um ramo, não?  Apenas crie um ramo,
+          modifique as coisas inteiramente, e então mescle o ramo de
+          volta ao tronco principal, certo?</para>
+
+        <para>Infelizmente, no momento este cenário não funciona tão
+          bem, sendo algo considerado como um dos pontos fracos do
+          Subversion.  O problema é que o comando
+          <command>update</command> do Subversion não é tão robusto
+          quanto poderia ser, especialmente ao lidar com operações de
+          cópia e movimentações.</para>
+
+        <para>Quando você usa o <command>svn copy</command> para
+          duplicar um arquivo, o repositório se lembra de onde o novo
+          arquivo veio, mas falha ao transmitir essa informação para o
+          cliente que está executando um <command>svn update</command>
+          ou um <command>svn merge</command>.  Ao invés de dizer para o
+          cliente, <quote>Copie este arquivo que você já possui para
+          este novo local</quote>, ele envia informação acerca de um
+          arquivo completamente novo.  Isto pode levar a problemas,
+          especialmente pelo fato de que a mesma coisa acontece com
+          arquivos renomeados.  Um fato pouco conhecido pouco conhecido
+          sobre o Subversion é que ainda lhe falta um recurso para
+          <quote>renomeação efetiva</quote>&mdash;o comando <command>svn
+          move</command> nada mais é que uma combinação de <command>svn
+          copy</command> e <command>svn delete</command>.</para>
+
+        <para>Por exemplo, suponha que ao trabalhar em seu ramo
+          particular, você renomeie <filename>integer.c</filename> para 
+          <filename>whole.c</filename>.  Efetivamente você criou um novo
+          arquivo em seu ramo que é uma cópia do arquivo original e
+          excluiu o arquivo original.  Enquanto isso, de volta ao 
+          <filename>trunk</filename>, Sally submeteu algumas melhorias
+          em <filename>integer.c</filename>.  Agora você decide mesclar
+          seu ramo ao tronco:</para>
+
+        <screen>
+$ cd calc/trunk
+
+$ svn merge -r 341:405 http://svn.example.com/repos/calc/branches/my-calc-branch
+D   integer.c
+A   whole.c
+</screen>
+
+        <para>À primeira vista, isto não parece tão ruim, mas
+          provavelmente também não era o que você ou Sally esperavam.  A
+          operação de mesclagem excluiu a última versão do arquivo
+          <filename>integer.c</filename> (aquela que continha as últimas
+          alterações de Sally), e adicionou cegamente seu novo arquivo
+          <filename>whole.c</filename>&mdash;que é uma duplicata da
+          versão <emphasis>mais antiga</emphasis> de
+          <filename>integer.c</filename>.  O efeito em cascata é que
+          mesclar sua <quote>renomeação</quote> no ramo removeu as
+          modificações recentes de Sally para a última revisão!</para>
+
+        <para>Mas isto não é uma perda de dados real; as modificações de
+          Sally ainda estão no histórico do repositório, mas o que de
+          fato aconteceu pode não ser óbvio de imediato.  A moral dessa
+          história é que até que o Subversion evolua, tenha cuidado ao
+          mesclar cópias e renomeações a partir de um ramo para
+          outro.</para>
+
+      </sect3>
+
+    </sect2>
+
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.commonuses">
+    <title>Casos Comuns de Utilização</title>
+
+    <para>Há muitos usos diferentes para ramificações e para o
+      <command>svn merge</command>, e esta seção descreve os usos mais
+      comuns com os quais você provavelmente irá se deparar.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.commonuses.wholebr">
+      <title>Mesclando um Ramo Inteiro para Outro</title>
+
+      <para>Para completar nosso exemplo de execução, vamos avançar no
+        tempo.  Suponha que vários dias tenham se passado, e que muitas
+        alterações tenham acontecido tanto no tronco quanto em seu ramo
+        particular.  Suponha que você tenha terminado de trabalhar 
+        seu ramo particular; e que o recurso ou correção de bug tenha
+        finalmente terminado, e que agora você quer mesclar todas as
+        modificações de seu ramo de volta para o tronco principal para
+        que os outros usufruam.</para>
+
+      <para>Então como usamos o <command>svn merge</command> neste
+        cenário?  Lembre-se de que este comando compara duas árvores, e
+        aplica as diferenças em uma cópia de trabalho.  Então para
+        receber as modificações, você precisa ter uma cópia de trabalho
+        do tronco.  Vamos assumir que você ainda possua uma cópia
+        original (completamente atualizada), ou que você recentemente
+        tenha obtido uma nova cópia de trabalho de 
+        <filename>/calc/trunk</filename>.</para>
+
+      <para>Mas quais duas árvores deveriam ser comparadas?  À primeira
+        vista a resposta pode parecer óbvia: apenas compare a árvore
+        mais recente do tronco com sua árvore mais recente de seu ramo.
+        Mas cuidado&mdash;esta suposição está
+        <emphasis>errada</emphasis>, e isso costuma confundir muito os
+        novos usuários!  Como o <command>svn merge</command> opera como
+        o <command>svn diff</command>, comparar as últimas versões das
+        árvores do tronco e do ramo <emphasis>não</emphasis> descreve
+        apenas o conjunto de modificações que você fez em seu ramo.  Tal
+        comparação exibe muito mais mudanças: ele não apenas exibe o
+        efeito das modificações de seu ramo, mas também todas as
+        alterações de <emphasis>removação</emphasis> que nunca
+        aconteceram em seu ramo.</para>
+
+      <para>Para expressar apenas as modificações que aconteceram em seu
+        ramo, você precisa comparar o estado inicial de seu ramo com seu
+        estado final.  Usando um <command>svn log</command> em seu ramo,
+        você pode ver que seu ramo foi criado na revisão 341.  E o
+        estado final de seu ramo é simplesmente uma dada forma de uso da
+        revisão <literal>HEAD</literal>.  Isso significa que você deve
+        comparar as revisões 341 e <literal>HEAD</literal> do seu
+        diretório branch, e aplicar estas diferenças na cópia de
+        trabalho de trunk.</para>
+
+      <tip>
+        <para>Uma ótima maneira de encontrar a revisão na qual um ramo
+          foi criado (a <quote>base</quote> do ramo) é usar a opção
+          <option>--stop-on-copy</option> do comando <command>svn
+          log</command>.  O subcomando log normalmente irá mostrar cada
+          modificação feita no ramo, incluindo o rastreamento de volta
+          além da operação de cópia que criou o ramo.  Então,
+          normalmente, você irá ver o histórico do tronco também.  A
+          opção <option>--stop-on-copy</option> irá parar a saída do log
+          assim que o <command>svn log</command> detecte que seu alvo
+          foi copiado ou renomeado.</para>
+
+        <para>Assim, no caso de nosso exemplo,</para>
+
+        <screen>
+$ svn log -v --stop-on-copy \
+          http://svn.example.com/repos/calc/branches/my-calc-branch
+&hellip;
+------------------------------------------------------------------------
+r341 | user | 2002-11-03 15:27:56 -0600 (Thu, 07 Nov 2002) | 2 lines
+Changed paths:
+   A /calc/branches/my-calc-branch (from /calc/trunk:340)
+
+$
+</screen>
+
+        <para>Como esperado, a última revisão exibida por este comando é
+          é a revisão na qual o ramo <filename>my-calc-branch</filename>
+          foi criado por cópia.</para>
+      </tip>
+
+
+      <para>E então, aqui está o último procedimento para mesclagem:</para>
+
+      <screen>
+$ cd calc/trunk
+$ svn update
+At revision 405.
+
+$ svn merge -r 341:405 http://svn.example.com/repos/calc/branches/my-calc-branch
+U   integer.c
+U   button.c
+U   Makefile
+
+$ svn status
+M   integer.c
+M   button.c
+M   Makefile
+
+# ...examine os diffs, compilações, testes, etc...
+
+$ svn commit -m "Merged my-calc-branch changes r341:405 into the trunk."
+Sending        integer.c
+Sending        button.c
+Sending        Makefile
+Transmitting file data ...
+Committed revision 406.
+</screen>
+
+      <para>Novamente, perceba que a mensagem de log do commit menciona
+        bem especificamente o intervalo de modificações que foram
+        mescladas para o tronco.  Sempre se lembre de fazer isso, pois é
+        uma informação crítica de que você irá precisar depois.</para>
+
+      <para>Por exemplo, suponha que você decida continuar trabalhando
+        em seu ramo por mais uma semana, para concluir uma melhoria em
+        seu recurso original ou uma correção de bug.  A revisão
+        <literal>HEAD</literal> do repositório agora é a 480, e você
+        está pronto para fazer outra mesclagem de seu ramo particular
+        com o tronco principal.  Mas como já discutido em <xref
+        linkend="svn.branchmerge.copychanges.bestprac"/>, você não quer
+        mesclar as modificações que você já mesclou anteriormente; o que
+        você quer é mesclar todas as coisas <quote>novas</quote> em seu
+        ramo desde a última mesclagem que você fez.  O truque é conferir
+        exatamente quais são as coisas novas.</para>
+
+      <para>O primeiro passo é executar <command>svn log</command> no
+        tronco, e procurar por uma mensagem de log da última vez que
+        você mesclou um ramo:</para>
+
+      <screen>
+$ cd calc/trunk
+$ svn log
+&hellip;
+------------------------------------------------------------------------
+r406 | user | 2004-02-08 11:17:26 -0600 (Sun, 08 Feb 2004) | 1 line
+
+Merged my-calc-branch changes r341:405 into the trunk.
+------------------------------------------------------------------------
+&hellip;
+</screen>
+
+      <para>Aha!  Como todas as modificações no ramo que aconteceram
+        entre as revisões 341 e 408 já foram previamente mescladas para
+        o tronco gerando a revisão 406, você agora sabe que deve mesclar
+        apenas as alterações feitas depois disso&mdash;comparando as
+        revisões <literal>HEAD</literal>.</para>
+
+      <screen>
+$ cd calc/trunk
+$ svn update
+At revision 480.
+
+# Percebemos que atualmente HEAD está em 480, então usamos isso para fazer a mesclagem:
+
+$ svn merge -r 406:480 http://svn.example.com/repos/calc/branches/my-calc-branch
+U   integer.c
+U   button.c
+U   Makefile
+
+$ svn commit -m "Merged my-calc-branch changes r406:480 into the trunk."
+Sending        integer.c
+Sending        button.c
+Sending        Makefile
+Transmitting file data ...
+Committed revision 481.
+</screen>
+
+      <para>Agora o tronco contém a segunda leva completa de
+        modificações feitas no ramo.  Neste ponto, você pode tanto
+        excluir o seu ramo (falaremos mais sobre isso posteriormente),
+        ou continuar trabalhando em seu ramo e repetir este procedimento
+        para mesclagens subsequentes.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.commonuses.undo">
+      <title>Desfazendo Alterações</title>
+
+      <para>Outro uso comum do <command>svn merge</command> é para
+        desfazer uma modificação que já foi submetida ao repositório.
+        Suponha que você esteja trabalhando alegremente na cópia de
+        trabalho de <filename>/calc/trunk</filename>, e você descobre
+        que a modificação que havia sido feita na revisão 303, que
+        modificou o arquivo <filename>integer.c</filename>, está
+        completamente errada.  E que ela nunca deveria ter acontecido,
+        nem tampouco submetida.  Você pode usar o <command>svn
+        merge</command> para <quote>desfazer</quote> a modificação em
+        cópia de trabalho, e então submeter a modificação local para o
+        repositório.  Tudo o que você precisa fazer é especificar uma
+        diferença <emphasis>reversa</emphasis>.  (Você pode fazer isto
+        especificando <option>--revision 303:302</option>, ou também o
+        equivalente <option>--change -303</option>.)</para>
+
+
+      <screen>
+$ svn merge -c -303 http://svn.example.com/repos/calc/trunk
+U  integer.c
+
+$ svn status
+M  integer.c
+
+$ svn diff
+&hellip;
+# verify that the change is removed
+&hellip;
+
+$ svn commit -m "Undoing change committed in r303."
+Sending        integer.c
+Transmitting file data .
+Committed revision 350.
+</screen>
+
+      <para>Uma maneira de pensar o repositório é como um grupo
+        específico de modificações (alguns sistemas de controle de
+        versão chamam a isto de <firstterm>conjuntos de
+        mudanças</firstterm> ou
+        <foreignphrase>changesets</foreignphrase>).  Usando a opção
+        <option>-r</option>, você pode solicitar que o <command>svn
+        merge</command> aplique um conjunto de mudanças, ou um intervalo
+        inteiro de conjuntos de mudanças, à sua cópia de trabalho.  Em
+        nosso caso em questão, como queremos desfazer uma mudança,
+        estamos solicitando que o <command>svn merge</command> aplique o
+        conjunto de mudanças #303
+        <emphasis>retrospectivamente</emphasis> de volta à nossa cópia
+        de trabalho.</para>
+
+      <sidebar>
+        <title>Subversion e os Conjuntos de Mudanças</title>
+
+        <para>Cada um parece ter uma definição ligeiramente diferente do
+          que seja um <quote>conjunto de mudanças</quote>, ou ao menos
+          diferentes expectativas sobre o que significa um sistema de
+          controle de versão possuir <quote>recursos para lidar com
+          conjuntos de mudanças</quote>.  Para nosso propósito, digamos
+          que um conjunto de mudança seja apenas uma porção de
+          alterações associadas a um nome único.  As alterações podem
+          incluir modificações textuais ao conteúdo de arquivos,
+          mudanças em uma estrutura de árvore, ou ajustes em metadados.
+          Falando de uma forma mais geral, um conjunto de mudanças é
+          apenas um <foreignphrase>patch</foreignphrase> com um nome a
+          partir do qual você pode se referir.</para>
+
+        <para>No Subversion, um número global de revisão N nomeia uma
+          árvore no repositório: é a forma como o repositório se parece
+          após a N-ésima submissão.  É também o nome de um conjunto de
+          mudanças implícito: se você compara a árvore N com a árvore
+          N-1, você pode derivar o patch exato que foi submetido.  Por
+          esta razão, é fácil pensar que a <quote>revisão N</quote> não
+          é apenas uma árvore, mas um conjunto de mudanças também.  Se
+          você usar algum sistema de tíquetes (ou <foreignphrase>issue
+          tracker</foreignphrase>) para gerenciar bugs, você pode usar
+          os números de revisão para se referir a patches específicos
+          que corrigem determinados bugs&mdash;por exemplo, <quote>a
+          demanda deste tíquete foi corrigida na revisão 9238.</quote>.
+          Alguém pode então executar <command>svn log -r9238</command>
+          para ler exatamente sobre o conjunto de mudanças que
+          corrigiram o bug, e executar <command>svn diff -c
+          9238</command> para ver a correção em si.  E o comando
+          <literal>merge</literal> do Subversion também usa números de
+          revisão.  Você pode mesclar conjuntos de mudança específicos a
+          partir de um ramo para outro discriminando-os nos argumentos
+          do comando merge: <command>svn merge -r9237:9238</command>
+          deve incorporar o conjunto de mudanças #9238 à sua cópia de
+          trabalho.</para>
+      </sidebar>
+
+      <para>Tenha em mente que voltar uma mudança como neste caso é uma
+        operação de <command>svn merge</command> como outra qualquer,
+        então você deveria usar <command>svn status</command> e
+        <command>svn diff</command> para confirmar que seu trabalho
+        esteja no estado em que você quer que esteja, e então usar
+        <command>svn commit</command> para enviar a versão final para o
+        repositório.  Depois de submetido, este conjunto de mudanças em
+        particular não estará mais refletido na revisão
+        <literal>HEAD</literal>.</para>
+
+      <para>Novamente, você pode estar pensando: bem, isto não desfaz
+        exatamente a submissão, não é?  A modificação ainda existe na
+        revisão 303.  Se alguém obtiver uma versão do projeto
+        <filename>calc</filename> entre as revisões 303 e 349, elas
+        ainda conterão a tal modificação incorreta, certo?</para>
+
+      <para>Sim, isto é verdade.  Quando nós falamos sobre
+        <quote>remover</quote> uma modificação, estávamos realmente
+        falando sobre removê-la da revisão <literal>HEAD</literal>.  A
+        modificação original ainda existirá no histórico do repositório.
+        Na maioria das situações, isto é o suficiente.  Afinal, a
+        maioria das pessoas estão apenas interessadas em rastrear a
+        revisão <literal>HEAD</literal> de um projeto.  Porém, há alguns
+        casos especiais onde você realmente pode querer destruir todas
+        as evidências da submissão errônea.  (Talvez alguém submetido
+        acidentalmente um documento confidencial.)  Isto não é tão
+        fácil de se fazer, pois o Subversion foi desenvolvido
+        deliberadamente para nunca perder informação.  As revisões são
+        árvores imutáveis as quais são construídas umas a partir das
+        outras.  Remover uma revisão do histórico deveria causar um
+        efeito dominó, criando o caos em todas as revisões subsequentes
+        e possivelmente invalidando todas as cópias de trabalho.
+        <footnote>
+          <para>Entretanto, o projeto Subversion tem planos de, algum
+            dia, implementar um comando que possa cumprir a tarefa de
+            excluir permanentemente alguma informação.  Enquanto isso,
+            veja <xref linkend="svn.reposadmin.maint.tk.svndumpfilter"/>
+            para uma possível solução.</para>
+        </footnote>
+      </para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.commonuses.resurrect">
+      <title>Ressucitando Itens Excluídos</title>
+
+      <para>O grande ponto sobre sistemas de controle de versão é que a
+        informação nunca é perdida.  Mesmo quando você exclui um arquivo
+        ou diretório, ele pode até não estar mais presente na revisão
+        <literal>HEAD</literal>, mas o objeto ainda existe nas revisões
+        mais antigas.  Uma das questões mais comuns que novos usuários
+        se perguntam é, <quote>Como eu faço para obter meu arquivo ou
+        diretório antigo de volta?</quote>.</para>
+
+      <para>O primeiro passo é definir exatamente <emphasis
+        role="bold">qual</emphasis> ítem você está tentando ressucitar.
+        Aqui há uma metáfora útil: você pode pensar como se cada objeto
+        no repositório existisse em uma espécie de sistema
+        bi-dimensional.  A primeira coordenada é uma determinada árvore
+        de revisão, e a segunda coordenada é o caminho dentro daquela
+        árvore.  Assim cada versão de seu arquivo ou diretório pode ser
+        definida por um dado par de coordenadas.  (Lembre-se da sintaxe
+        de <quote>revisões
+        marcadoras</quote>&mdash;foo.c@224&mdash;apresentada em <xref
+        linkend="svn.advanced.pegrevs"/>.) </para>
+
+      <para>Primeiramente, você pode precisar usar um <command>svn
+        log</command> para descobrir o par de coordenadas exato que você
+        quer ressucitar.  Uma boa estratégia é executar <command>svn log
+        --verbose</command> em um diretório onde seu item excluído
+        costumava estar.  A opção <option>--verbose (-v)</option> exibe
+        uma lista de todos os itens que mudaram em cada revisão; tudo
+        que você precisa fazer é encontrar a revisão na qual você
+        excluir o arquivo ou diretório.  Você pode fazer isto
+        visualmente, ou usando outra ferramenta para examinar a saída
+        dos registros de log (usando <command>grep</command>, ou talvez
+        com uma busca incremental em um editor).</para>
+
+      <screen>
+$ cd parent-dir
+$ svn log -v
+&hellip;
+------------------------------------------------------------------------
+r808 | joe | 2003-12-26 14:29:40 -0600 (Fri, 26 Dec 2003) | 3 lines
+Changed paths:
+   D /calc/trunk/real.c
+   M /calc/trunk/integer.c
+
+Added fast fourier transform functions to integer.c.
+Removed real.c because code now in double.c.
+&hellip;
+</screen>
+
+      <para>No exemplo, estamos assumindo que você está procurando um
+        arquivo excluído chamado <filename>real.c</filename>.  Olhando
+        os logs de um diretório-pai, você percebeu que este arquivo foi
+        excluído na revisão 808.  Portanto, a última versão do arquivo
+        existia na revisão imediatamente anterior a essa.  Conclusão:
+        você quer ressucitar o caminho 
+        <filename>/calc/trunk/real.c</filename> a partir da revisão
+        807.</para>
+
+      <para>Esta foi a parte difícil&mdash;a pesquisa.  Agora que você
+        sabe o que você quer restaurar, você tem duas diferentes
+        escolhas.</para>
+
+      <para>Uma opção é usar <command>svn merge</command> para aplicar a
+        revisão 808 <quote>ao contrário</quote>.  (Nós já falamos sobre
+        como desfazer modificações, veja <xref
+        linkend="svn.branchmerge.commonuses.undo"/>.)  Isto teria o
+        efeito de re-adicionar o arquivo <filename>real.c</filename>
+        como uma modificação local.  O arquivo deveria ser agendado para
+        adição, e após ser submetido, o arquivo deve estar novamente
+        presente na revisão <literal>HEAD</literal>.</para>
+
+      <para>Neste exemplo em particular, no entanto, esta provavelmente
+        não é a melhor estratégia.  A aplicação reversa da revisão 808
+        não apenas agenda <filename>real.c</filename> para adição, mas a
+        mensagem de log indica que ele também deve desfazer certas
+        alterações em <filename>integer.c</filename>, o que você não
+        quer.  Certamente, você poderia fazer uma mesclagem reversa da
+        revisão 808 e então executar um  <command>svn revert</command>
+        nas modificações locais em <filename>integer.c</filename>, mas
+        esta técnica não é bem escalável.  E se tivéssemos 90 arquivos
+        modificados na revisão 808?</para>
+
+      <para>Uma segunda, e mais precisa estratégia envolve não usar o
+        <command>svn merge</command>, mas o comando <command>svn
+        copy</command> em seu lugar.  Simplesmente copie a revisão exata
+        e o caminho como <quote>par de coordenadas</quote> do
+        repositório para sua cópia de trabalho:</para>
+
+      <screen>
+$ svn copy -r 807 \
+           http://svn.example.com/repos/calc/trunk/real.c ./real.c
+
+$ svn status
+A  +   real.c
+
+$ svn commit -m "Resurrected real.c from revision 807, /calc/trunk/real.c."
+Adding         real.c
+Transmitting file data .
+Committed revision 1390.
+</screen>
+
+      <para>O sinal de mais na saída do comando status indica que o item
+        não está meramente agendado para adição, mas agendado para
+        adição <quote>com histórico</quote>.  O Subversion lembra de
+        onde ele foi copiado.  No futuro, executar <command>svn
+        log</command> neste arquivo irá percorrer até o arquivo
+        ressucitado e através do histórico que ele tinha antes da
+        revisão 807.  Em outras palavras, este novo
+        <filename>real.c</filename> não é realmente novo; é um
+        descendente direto do arquivo original que fora excluído.</para>
+
+      <para>Apesar de nosso exemplo nos mostrar uma ressurreição de
+        arquivo, veja que estas mesmas técnicas funcionam muito bem
+        também para ressucitar diretórios excluídos.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.commonuses.patterns">
+      <title>Padrões Comuns de Ramificação</title>
+
+      <para>Controle de versão é muito usado para desenvolvimento de
+        software, então aqui está uma rápida mostra de dois dos padrões
+        mais comuns de ramificação/fusão usados por equipes de
+        programadores.  Se você não estiver usando o Subversion para
+        desenvolvimento de software, fique à vontade para pular esta
+        seção.  Mas se você for um desenvolvedor de software usando
+        controle de versão pela primeira vez, preste bastante atenção,
+        já que estes padrões são frequentemente considerados como
+        melhores práticas por pessoas mais experientes.  Estes
+        procedimentos não são específicos para o Subversion; sendo
+        aplicáveis a qualquer sistema de controle de versão.  Além do
+        que pode ajudar ver tais padrões aplicados ao ambiente do
+        Subversion.</para>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.commonuses.patterns.release">
+        <title>Ramos para Distribuição (<foreignphrase>Releases</foreignphrase>)</title>
+
+        <para>A maioria dos softwares possuem um ciclo de vida típico:
+          codifique, teste, entregue, repita.  Há dois problemas com
+          este processo.  Primeiro, os desenvolvedores precisam
+          continuar implementando novos recursos enquanto as equipes de
+          garantia da qualidade se dedicam a testar as versões
+          supostamente estáveis do software.  Segundo, a equipe quase
+          sempre precisa dar suporte a versões mais antigas, já
+          entregues, do software; se um bug for descoberto no código
+          mais recente, ele provavelmente também está presente nas
+          outras versões já distribuídas, e os clientes vão querer
+          obter a correção sem ter que esperar pelo lançamento de uma
+          próxima versão.</para>
+
+        <para>É aqui que o controle de versão pode ajudar.  O
+          procedimento típico se parece com isto:</para>
+
+      <itemizedlist>
+
+        <listitem>
+          <para><emphasis>Desenvolvedores submetem todo o novo código
+              produzido para o tronco.</emphasis>
+
+              As modificações do dia-a-dia são submetidas para
+              <filename>/trunk</filename>: novos recursos, correções de
+              bugs, e por aí adiante.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis>O tronco é copiado para um ramo de
+              <quote>release</quote>.</emphasis>
+          
+              Quando a equipe achar que o software está pronto para o
+              lançamento de um novo release (digamos, uma versão 1.0),
+              então o <filename>/trunk</filename> pode ser copiado para
+              <filename>/branches/1.0</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis>As equipes continuam a trabalhar em
+              paralelo.</emphasis>  
+          
+              Uma equipe começa uma rigorosa etapa de testes no ramo do
+              release, enquanto outra equipe continua prosseguindo com o
+              trabalho (digamos, para uma futura versão 2.0) em
+              <filename>/trunk</filename>.  Se bugs forem descobertos em
+              algum local, correções são portadas adequadamente conforme
+              o necessário.  Em algum ponto, porém, mesmo esse processo
+              pára.  O ramo é então <quote>congelado</quote> para testes
+              finais imediatamente antes do lançamento do
+              release.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis>O ramo é rotulado e distribuído.</emphasis>
+
+              Quando os testes tiverem terminado, o conteúdo de
+              <filename>/branches/1.0</filename> é copiado para 
+              <filename>/tags/1.0.0</filename> como um registro
+              instantâneo de referência.  O rótulo é empacotado e
+              distribuído para os clientes.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis>O ramo é mantido ao longo do tempo.</emphasis>
+
+              Como o trabalho continua em <filename>/trunk</filename>
+              para uma versão 2.0, as correções de bugs continuam a ser
+              portadas de <filename>/trunk</filename> para
+              <filename>/branches/1.0</filename>.  Quando uma suficiente
+              quantidade de correções estiverem acumuladas, os gestores
+              do software pode decidir fazer uma versão 1.0.1:
+              <filename>/branches/1.0</filename> é copiado para
+              <filename>/tags/1.0.1</filename>, e o rótulo é empacotado
+              e distribuído.</para>
+        </listitem>
+
+        </itemizedlist>
+
+        <para>Este processo inteiro se repete enquanto o software
+          amadurece: quando a versão 2.0 estiver pronta, um novo ramo
+          para o release 2.0 é criado, testado, rotulado e eventualmente
+          distribuído.  Depois de alguns anos, o repositório acaba com
+          uma porção de ramos distribuídos em modo de
+          <quote>manutenção</quote>, e um conjunto de tags representando
+          as últimas versões entregues do software.</para>
+
+      </sect3>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      <sect3 id="svn.branchmerge.commonuses.patterns.feature">
+        <title>Ramos de Novos Recursos (<foreignphrase>Features</foreignphrase>)</title>
+
+        <para>Um <firstterm>ramo de novos recursos</firstterm> é o tipo
+          de ramo que tem sido o exemplo dominante neste capítulo,
+          aquele no qual você trabalhava enquanto Sally continuava seu
+          trabalho em <filename>/trunk</filename>.  É um ramo temporário
+          criado para lidar com uma modificação complexa sem interferir
+          na estabilidade de <filename>/trunk</filename>.
+          Diferentemente dos ramos de distribuição (os quais podem
+          continuar sendo mantidos para sempre), ramos de novos recursos
+          são criados, usados por um tempo, mesclados de volta ao
+          tronco, e finalmente excluídos.  Eles têm um escopo finito de
+          utilidade.</para>
+
+        <para>Novamente, as políticas de projeto variam enormemente ao
+          abordar sobre exatamente quando é adequado criar um ramo de
+          novos recursos.  Alguns projetos nunca usam ramos de recursos
+          como um todo: submissões de alterações em
+          <filename>/trunk</filename> são permitidas a todos.  A
+          vantagem deste sistema é sua simplicidade&mdash;ninguém
+          precisa aprender sobre fusões ou ramificações.  A desvantagem
+          é que o código no tronco está frequentemente instável ou
+          inutilizável.  Outros projetos usam ramos ao extremo: as
+          alterações <emphasis>nunca</emphasis> são submetidas
+          diretamente para o tronco.  Mesmo as modificações mais
+          triviais são criadas em um pequeno ramo de curta duração, são
+          cuidadosamente revistas e mescladas para o tronco.  Então o
+          ramo é excluído.  O sistema garante que o código presente no
+          tronco esteja excepcionalmente sempre estável e utilizável a
+          cada momento, mas a um curso de uma tremenda sobrecarga no
+          processo.</para>
+
+        <para>Muitos projetos utilizam uma abordagem meio-termo.  São
+          projetos que insistem que o código presente em
+          <filename>/trunk</filename> compile e passe em testes de
+          regressão a cada momento.  Um ramo de novos recursos só é
+          necessário quando uma modificação demanda um grande número de
+          submissões que possam desestabilizar o código.  Uma regra de
+          ouro é se perguntar: se o desenvolvedor trabalhou vários dias
+          isoladamente e então submeteu uma grande alteração toda de uma
+          só vez (de forma que <filename>/trunk</filename> nunca esteve
+          desestabilizada), tal modificação seria muito grande para uma
+          revisão?  Se a resposta a esta pergunta for
+          <quote>sim</quote>, então a modificação deveria ser
+          desenvolvida em um ramo de novos recursos.  Se o desenvolvedor
+          submeter modificações incrementais ao ramo, elas podem ser
+          facilmente revistas por seus colegas.</para>
+
+        <para>Finalmente, há a questão sobre o quão  
+          <quote>sincronizado</quote> se deve manter um ramo de novos
+          recursos com o tronco conforme o trabalho no código for
+          avançando.  Como já mencionado anteriormente, há um grande
+          risco de se permanecer trabalhando em um ramo por semanas ou
+          meses; modificações no tronco podem continuar a acontecer, até
+          o ponto em que as duas linhas de desenvolvimento possam
+          diferir tanto a ponto de que realizar a fusão do ramo de volta
+          para o tronco possa se tornar um grande pesadelo.</para>
+
+        <para>A melhor maneira de evitar essa situação é regularmente
+          mesclar as alterações do tronco para o ramo em
+          desenvolvimento.  Defina uma política: uma vez por semana,
+          realize a fusão das alterações da última semana feitas no
+          tronco para seu ramo.  Tome cuidado ao fazer isto; será 
+          necessário controle manual nas fusões visando evitar o
+          problema de se realizar repetidas fusões (como descrito em
+          <xref
+          linkend="svn.branchmerge.copychanges.bestprac.track"/>).  Você
+          precisará escrever cuidadosamente suas mensagens de log
+          detalhando quais intervalos de revisão já foram mesclados
+          (como demonstrado em <xref
+          linkend="svn.branchmerge.commonuses.wholebr"/>).  Pode parecer
+          assustador, mas atualmente é algo muito fácil de se
+          fazer.</para>
+
+        <para>Em algum ponto, você estará pronto para fazer a fusão de
+          seu ramo <quote>sincronizado</quote> de recursos de volta para
+          o tronco.  Para fazer isto, comece fazendo uma última fusão
+          das últimas alterações presentes no tronco para seu ramo.  Ao
+          terminar, as últimas versões do ramo e do tronco serão
+          absolutamente idênticas, exceto pelas suas próprias
+          alterações.  Assim, particularmente neste caso, você realizar
+          a fusão comparando seu ramo com o tronco:</para>
+
+        <screen>
+$ cd trunk-working-copy
+
+$ svn update
+At revision 1910.
+
+$ svn merge http://svn.example.com/repos/calc/trunk@1910 \
+            http://svn.example.com/repos/calc/branches/mybranch@1910
+U  real.c
+U  integer.c
+A  newdirectory
+A  newdirectory/newfile
+&hellip;
+</screen>
+
+        <para>Comparando a revisão <literal>HEAD</literal> do tronco com
+          a revisão revision <literal>HEAD</literal> do ramo, você está
+          definindo um delta que descreve apenas as alterações que você
+          fez no ramo; ambas as linhas de desenvolvimento já possuem
+          todas as alterações do tronco.</para>
+
+        <para>Outra forma de pensar sobre este padrão é que sua
+          sincronização semanal do tronco para o ramo é análoga à
+          execução de um <command>svn update</command> na cópia de
+          trabalho, ao passo que o passo da fusão final é análogo a
+          executar um <command>svn commit</command> a partir de sua
+          cópia de trabalho.  E no fim das contas, o que de fato 
+          <emphasis>é</emphasis> uma cópia de trabalho senão um rasteiro
+          ramo particular?  É um ramo que só é capaz de armazenar só uma
+          modificação por vez.</para>
+
+      </sect3>
+
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.switchwc">
+    <title>Atravessando Ramos</title>
+
+    <para>O comando <command>svn switch</command> transforma uma
+      cópia de trabalho existente para refletir um ramo diferente.  Enquanto este
+      comando não é estritamente necessário para trabalhar com ramos, ele
+      oferece um bom atalho.  Em nosso exemplo anterior,
+      depois de criar seu ramo pessoal, você obteve uma cópia de
+      trabalho atualizada do novo diretório do repositório.  Em vez disso, você pode
+      simplesmente pedir ao Subversion que mude sua cópia de trabalho de
+      <filename>/calc/trunk</filename> para espelhar o local do novo
+      ramo:</para>
+
+    <screen>
+$ cd calc
+
+$ svn info | grep URL
+URL: http://svn.example.com/repos/calc/trunk
+
+$ svn switch http://svn.example.com/repos/calc/branches/my-calc-branch
+U   integer.c
+U   button.c
+U   Makefile
+Updated to revision 341.
+
+$ svn info | grep URL
+URL: http://svn.example.com/repos/calc/branches/my-calc-branch
+</screen>
+
+    <para>Depois da <quote>comutação</quote> para o ramo, sua cópia de
+      trabalho não é diferente daquilo que você obteria fazendo uma cópia
+      atualizada do diretório.  E ainda é usualmente mais eficiente
+      usar este comando, porque muitas vezes os ramos diferem somente em poucos
+      detalhes.  O servidor envia somente o conjunto mínimo de mudanças
+      necessárias para fazer sua cópia de trabalho refletir o diretório
+      do ramo.</para>
+
+    <para>O comando <command>svn switch</command> também possui uma opção
+      <option>--revision</option> (<option>-r</option>), assim você
+      não precisa sempre mover sua cópia de trabalho para a revisão
+      <literal>HEAD</literal> do ramo.</para>
+
+    <para>Certamente, a maioria dos projetos são mais complicados que nosso
+      exemplo <filename>calc</filename>, contendo múltiplos
+      subdiretórios.  Os usuários do Subversion muitas vezes seguem um algoritmo
+      específico ao usar ramos:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Copiar todo o <quote>trunk</quote> do projeto para um
+            novo diretório de ramo.</para>
+        </listitem>
+        <listitem>
+          <para>Comutar somente <emphasis>parte</emphasis> do <quote>trunk</quote>
+            da cópia de trabalho para espelhar o ramo.</para>
+        </listitem>
+      </orderedlist>
+
+    <para>Em outras palavras, se um usuário sabe que o trabalho no ramo só
+      deve acontecer sobre um subdiretório específico, eles usam
+      <command>svn switch</command> para mover somente este subdiretório para
+      o ramo.  (Ou algumas vezes os usuários comutarão apenas um único
+      arquivo de trabalho para o ramo!)  Dessa forma, eles podem continuar a
+      receber normalmente as atualizações do <quote>trunk</quote> para a maior parte de
+      sua cópia de trabalho, mas as porções comutadas ficarão imunes
+      (a não ser que alguém submeta uma mudança em seu ramo).  Esta funcionalidade
+      adiciona uma completa nova dimensão ao conceito de uma <quote>cópia de
+      trabalho mista</quote>&mdash;podemos ter não apenas cópias de trabalho que
+      possuem uma mistura de revisões de trabalho, mas também uma mistura de locais
+      de repositório.</para>
+
+    <para>Se sua cópia de trabalho contém um número de sub-árvores comutadas
+      de diferentes locais do repositório, ela continua a funcionar
+      normalmente.  Quando você atualiza, você receberá as diferenças em cada sub-árvore
+      apropriadamente.  Quando você submete, suas mudanças locais ainda serão
+      aplicadas como uma única e atômica mudança para o repositório.</para>
+
+    <para>Note que enquanto está tudo certo para sua cópia de trabalho refletir uma
+      mistura de locais do repositório, estes locais devem estar todos
+      dentro do <emphasis>mesmo</emphasis> repositório.  Os repositórios
+      do Subversion ainda não são capazes de comunicarem entre si;
+      esta é uma funcionalidade planejada para o
+      futuro.
+      <footnote>
+        <para>Você <emphasis>pode</emphasis>, entretanto, usar <command>svn
+          switch</command> com a opção <option>--relocate</option>
+          se a URL de seu servidor mudar e você não quiser
+          abandonar uma cópia de trabalho existente.  Veja <xref
+          linkend="svn.ref.svn.c.switch"/> para mais informações e um
+          exemplo.</para>
+      </footnote></para>
+
+    <sidebar>
+      <title>Comutações e Atualizações</title>
+
+      <para>Você reparou que a saída dos comandos <command>svn
+        switch</command> e <command>svn update</command> possuem a
+        mesma aparência?  O comando <literal>switch</literal> é na verdade um
+        <quote>super-comando</quote> do comando <literal>update</literal>.</para>
+
+      <para>Quando você executa <command>svn update</command>, você está pedindo
+        ao repositório para comparar duas árvores.  O repositório assim faz,
+        e então envia uma descrição das diferenças de volta para o
+        cliente.  A única diferença entre <command>svn
+        switch</command> e <command>svn update</command> é que o comando
+        <literal>update</literal> sempre compara dois caminhos
+        idênticos.</para>
+
+      <para>Isto é, se sua cópia de trabalho é um espelho de
+        <filename>/calc/trunk</filename>, então <command>svn
+        update</command> comparará automaticamente sua cópia de trabalho
+        de <filename>/calc/trunk</filename> com
+        <filename>/calc/trunk</filename> na revisão
+        <literal>HEAD</literal>.  Se você está comutando sua
+        cópia de trabalho para um ramo, então <command>svn switch</command>
+        comparará sua cópia de trabalho de
+        <filename>/calc/trunk</filename> com algum
+        <emphasis>outro</emphasis> diretório de ramo na revisão
+        <literal>HEAD</literal>.</para>
+
+      <para>Em outras palavras, uma atualização move sua cópia de trabalho através
+        do tempo.  Uma comutação move sua cópia de trabalho através do tempo
+        <emphasis>e</emphasis> do espaço.</para>
+    </sidebar>
+
+    <para>Porque <command>svn switch</command> é essencialmente uma
+      variante de <command>svn update</command>, ele compartilha os mesmos
+      comportamentos; qualquer modificação local em sua cópia de trabalho é
+      preservada quando novos dados chegam do repositório.  Isso
+      lhe permite executar todos os tipos de truques engenhosos.</para>
+
+    <para>Por exemplo, suponha que você tem uma cópia de trabalho de
+      <filename>/calc/trunk</filename> e realizou um certo número de mudanças
+      nele.  Então você rapidamente constata que você pretendia fazer as
+      mudanças em um ramo.  Não tem problema!  Quando você executa <command>svn
+      switch</command> para um ramo de sua cópia de trabalho, as mudanças
+      locais permanecerão.  Você pode então testar e submeter elas para o
+      ramo.</para>
+
+  </sect1>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.tags">
+    <title>Rótulos</title>
+
+    <para>Outro conceito comum do controle de versão é <firstterm>ramo</firstterm>.
+	Um ramo é apenas uma <quote>foto</quote> do projeto no momento. No Subversion,
+	essa idéia parece estar em todo lugar. Cada revisão do repositório é 
+	exatamente isso&mdash;uma foto da estrutura depois de 
+	cada commit.</para>
+
+    <para>Entretanto, pessoas normalmente querem dar rótulos mais amigáveis
+	como nomes de tags, como <literal>versão-1.0</literal>. E querem
+	fazer <quote>fotos</quote> de pequenos sub-diretórios da estrutura.
+	Além do mais, não é fácil lembrar que versão-1.0 de um pedaço do
+	software é um particular sub-diretório da revisão 4822.</para>	
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.tags.mksimple">
+      <title>Criando um rótulo simples</title>
+
+      <para>Mais uma vez, <command>snv copy</command> vem para nos
+	  socorrer. Se você quer criar uma foto do <filename>/calc/trunk</filename>
+	  exatamente como ele está na revisão <literal>HEAD</literal>, 
+	  fazendo uma copia dela:</para>
+
+      <screen>
+$ svn copy http://svn.example.com/repos/calc/trunk \
+           http://svn.example.com/repos/calc/tags/release-1.0 \
+      -m "Rótulando a versão 1.0 do projeto 'calc'."
+
+Committed revision 351.
+</screen>
+
+    <para>Este exemplo assume que o diretório <filename>/calc/tags</filename> 
+    já existe.
+    (Se ele não existir, você pode criá-lo usando <command>svn mkdir</command>.)
+    Depois da copia completar, o novo diretório <filename>versão-1.0</filename>
+    será para sempre uma foto de como o projeto estava na revisão
+    <literal>HEAD</literal> no momento que a copia foi feita. Claro 
+    que você pode querer mais precisão em saber qual revisão a copia foi 
+    feita, em caso de alguém ter feito commit no projeto quando você não 
+    estava vendo. Então se você sabe que a revisão 350 do 
+    <filename>/calc/trunk</filename> é exatamente a foto que você quer,
+    você pode especificar isso passando <option>-r 350</option>
+    para o comando <command>svn copy</command>.</para> 
+
+    <para>Mas espere um pouco: não é essa criação do rótulo o mesmo procedimento
+    para criar um ramo? Sim, de fato, é. No Subversion, não há diferença
+    entre um rótulo e um ramo. Assim como com ramos, a única razão uma 
+    cópia é um <quote>rótulo</quote> é porque <emphasis>humanos</emphasis>
+    decidiram tratar isso desse jeito: desde que ninguém nunca faça commit
+    para esse diretório, ele permanecerá para sempre uma foto. Se as pessoas
+    começarem a fazer commit para ele, ele se transoforma num ramo.</para>
+
+    <para>Se você está administrando um repositório, existe duas maneiras
+	para gerenciar rótulos. A primeira é <quote>não toque</quote>:
+	como uma política do projeto, decida onde os rótulos vão morar,
+	e garanta que todos os usuários saibam como tratar os diretórios
+	que eles vão copiar para lá. (Isso quer dizer, garanta que 
+	eles saibam que não devem fazer neles.) A segunda é mais paranóica:
+	você pode usar um dos scripts de controle de acesso providos com 
+	o Subversion para previnir que alguém faça algo além de apenas
+	criar novas copias na área de rótulos (Veja <xref linkend="svn.serverconfig"/>.)
+	A maneira paranoica, entrentanto, não é necessária. Se algum
+	usuário acidentalmente fizer commit de alguam mudança
+	para o diretório de rótulo, você pode simplesmente desfazer
+	a mudança como discutido na revisção anterior. É um controle
+	de versão apesar de tudo.</para>
+
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.tags.mkcomplex">
+      <title>Criando um rótulo complexo</title>
+
+      <para>Algumas vezes você que sua <quote>foto</quote> seja mais 
+	  complicada que um simples diretório de uma única revisão.</para>
+
+      <para>Por exemplo, pense que seu projeto é muito maior que nosso
+	  exemplo <filename>calc</filename>: suponha que contém um 
+	  número de sub-diretórios e muitos outros arquivos. No curso 
+	  do seu trabalho, você pode decidir que você precisa criar um
+	  cópia de trabalho que é destinado para novos recursos e 
+	  correções de erros. Você pode conseguir isso selecionando
+	  arquivos e diretórios com datas anteriores em uma revisão
+	  particular (usando <command>svn update -r </command> livremente),
+	  ou mudando arquivos e diretórios para um ramo em particular
+	  (fazendo uso do <command>svn switch</command>). Quando estiver
+	  pronto, sua cópia de trabalho será uma mistura de diferentes 
+	  revisões. Mas depois de testes, você saberá que é exatamente
+	  a combinação que você precisa.</para>
+
+      <para>Hora de fazer a foto. Copiar uma URL para outra não vai 
+	  funcionar aqui. Nesse caso, você quer fazer uma foto exata
+	  da cópia de trabalho que você organizou e armazenar no 
+	  repositório. Felizmente, <command>svn copy</command> na verdade
+	  tem quatro diferentes maneiras de ser usado (você pode ler sobre
+	  em <xref linkend="svn.ref"/>), incluindo a habilidade de copiar
+	  uma árvore de cópia de trablho para o respositório:</para>
+
+      <screen>
+$ ls
+my-working-copy/
+
+$ svn copy my-working-copy http://svn.example.com/repos/calc/tags/mytag
+
+Committed revision 352.
+</screen>
+
+	<para>Agora existe um novo diretório no respositório
+	<filename>/calc/tags/mytag</filename>, que é uma foto exata
+	da sua cópia de trabalho&mdash;combinado revisões, URLs, e 
+	tudo mais.</para>
+
+    <para>Outros usuários tem encontrado usos interessantes para esse
+	recurso. Algumas vezes existe situações onde você tem um monte
+	de mudanças locais na sua cópia de trabalho, e você gostaria
+	que um colega de trabalho as visse. Ao invés de usar 
+	<command>svn diff</command> e enviar o arquivo patch (que 
+	não irá ter as informações de mudança na árvore de diretórios,
+	em symlink e mudanças nas propriedades), você pode usar 
+	<command>svn copy</command> para <quote>subir</quote> 
+	sua cópia local para uma área privada no repositório. Seu colega
+	pode verificar o nome de cópia da sua cópia de trabalho, ou
+	usar <command>svn merge</command> para receber as exatas
+	mudanças.</para>	
+
+    <para>Sendo isso um método legal para subir uma rápida foto do seu 
+	trabalho local, note que isso <emphasis>não</emphasis> é uma boa
+	maneira de iniciar um ramo. A criação de um ramo deve ser um
+	evento solitário, e esse método exige a criação de um ramo
+	com mudanças extras em arquivos, tudo em uma única revisão.
+	Isso dificulta muito (mais tarde) a identificar um número
+       	de uma revisão como um ponto de um ramo.</para>
+
+      <tip>
+	  <para>Já se encontrou fazendo edições complexas (no sua
+	      cópia de trabalho <filename>/trunk</filename>) e
+	      de repente percebe, <quote>Ei, estas mudanças deviam estar
+		  num ramo próprio?</quote> Uma ótima técnica para fazer isso
+      pode ser resumir em dois passos:</para>
+
+          <screen>
+$ svn copy http://svn.example.com/repos/calc/trunk \
+           http://svn.example.com/repos/calc/branches/newbranch
+Committed revision 353.
+
+$ svn switch http://svn.example.com/repos/calc/branches/newbranch
+At revision 353.
+</screen>
+
+	<para>O comando <command>svn switch</command>, 
+	    como <command>svn update</command>, preserva suas
+	    edições locais. Nesse ponto, sua cópia de trabablho
+	    é um reflexo do novo ramo criado, e seu próximo 
+	    <command>svn commit</command> ira enviar suas 
+	    mudanças para lá.</para></tip>
+
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.maint">
+    <title>Manutenção de Ramos</title>
+
+    <para>Você pode ter notado por agora que o Subversion é extremamente
+      flexível.  Como ele implementa ramos e rótulos usando o mesmo
+      mecanismo de suporte (cópias de diretório), e como ramos e rótulos
+      aparecem normalmente no espaço do sistema de arquivos, muitas
+      pessoas vêem o Subversion como algo intimidador.  Ele é realmente
+      <emphasis>muito</emphasis> flexível.  Nesta seçãi, vamos lhe dar
+      algumas sugestões sobre como arrajar e gerenciar seus dados ao
+      longo do tempo.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.maint.layout">
+      <title>Estrutura de Repositório</title>
+
+      <para>Há algumas formas padronizadas e recomendadas de se
+        organizar um repositório.  A maioria das pessoas criam um
+        diretório <filename>trunk</filename> para conter a <quote>linha
+        principal</quote> do desenvolvimento, um diretório 
+        <filename>branches</filename> para conter cópias ramificadas, e
+        um diretório <filename>tags</filename> para conter cópias
+        rotuladas.  Se um repositório for armazenar apenas um projeto,
+        então quase sempre as pessoas criam esses três diretórios de
+        alto nível:</para>
+
+      <screen>
+/trunk
+/branches
+/tags
+</screen>
+
+      <para>Se um repositório for conter múltiplos projetos, os
+        administradores frequentemente indexam tal estrutura por projeto
+        (veja <xref linkend="svn.reposadmin.projects.chooselayout"/>
+        para saber mais sobre <quote>diretórios raízes de
+        projetos</quote>):</para>
+
+      <screen>
+/paint/trunk
+/paint/branches
+/paint/tags
+/calc/trunk
+/calc/branches
+/calc/tags
+</screen>
+
+      <para>Mas é claro, você é livre para ignorar estes layouts comuns.
+        Você pode criar qualquer tipo de variação, que atenda melhor às
+        suas necessidades e de sua equipe.  Lembre que qualquer que seja
+        a estrutura que você escolha, não é uma definição permanente.
+        Você pode reorganizar seu repositório a qualquer momento.  Como
+        branches e tags são diretórios comuns, o comando <command>svn
+        move</command> pode movê-los ou renomeá-los como você queira.
+        Mudar de um layout para outro é apenas uma questão de executar
+        algumas movimentações no lado do servidor; se você não gostar da
+        forma como as coisas estiverem organizadas no repositório,
+        apenas manipule os diretórios com achar melhor.</para>
+
+      <para>Lembre-se, porém, que por mais que mover diretórios possa
+        ser algo fácil de se fazer, você precisa ter consideração com
+        seus usuários também.  Suas modificações no repositório podem
+        confundir os usuários que já tenham cópias de trabalho.  Se um
+        usuário já tem uma cópia de trabalho de um dado diretório do
+        repositório, executar <command>svn move</command> pode remover o
+        caminho na próxima revisão.  Da próxima vez que o usuário
+        executar <command>svn update</command>, ele será informado que
+        sua cópia de trabalho representa um caminho que não existe mais,
+        e o usuário será forçado a executar um <command>svn
+        switch</command> para o novo local.
+        </para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.branchmerge.maint.lifetime">
+      <title>Ciclo de Vida dos Dados</title>
+
+      <para>Outro bom recurso do modelo do Subversion é que os ramos e
+        rótulos podem ter ciclos de vida finitos, tal como qualquer
+        outro item versionado.  Por exemplo, suponha que você
+        eventualmente conclua todo o seu trabalho em seu ramo pessoal do
+        projeto <filename>calc</filename> project.  Depois de mesclar
+        todas as suas modificações de volta em
+        <filename>/calc/trunk</filename>, não é mais necessário manter o
+        diretório de seu ramo privado:</para>
+
+      <screen>
+$ svn delete http://svn.example.com/repos/calc/branches/my-calc-branch \
+             -m "Removing obsolete branch of calc project."
+
+Committed revision 375.
+</screen>
+
+      <para>E agora seu ramo se foi.  É claro que ele não se foi
+        realmente: o diretório foi simplesmente removido da revisão 
+        <literal>HEAD</literal> para não distrair mais ninguém.  Se você
+        executar <command>svn checkout</command>, <command>svn
+        switch</command>, ou <command>svn list</command> para verificar
+        uma revisão anterior, você ainda poderá ver seu antigo
+        ramo.</para>
+
+      <para>Se navegar em seu diretório excluído não for o bastante,
+        você sempre poderá trazê-lo de volta.  Ressuscitar dados é algo
+        muito fácil no Subversion.  Se houver um diretório (ou arquivo)
+        excluído que você gostaria de trazer de volta para a revisão
+        <literal>HEAD</literal>, simplesmente use <command>svn copy
+        -r</command> para copiá-lo a partir de sua revisão
+        antiga:</para>
+
+      <screen>
+$ svn copy -r 374 http://svn.example.com/repos/calc/branches/my-calc-branch \
+                  http://svn.example.com/repos/calc/branches/my-calc-branch
+
+Committed revision 376.
+</screen>
+
+      <para>Em nosso exemplo, seu ramo pessoal tinha um ciclo de vida
+        relativamente curto: você pode tê-lo criado para corrigir um bug
+        ou implementar um novo recurso.  Quando sua tarefa estiver
+        terminada, então o ramo também estará.  No desenvolvimento de
+        software, porém, também é comum ter dois ramos
+        <quote>principais</quote> executando lado-a-lado por longos
+        períodos.  Por exemplo, suponha que seja o momento de lançar uma
+        versão estável do projeto <filename>calc</filename> para o
+        público, e você sabe que irá levar mais alguns meses para
+        remover todos os bugs do software.  Você não quer que as pessoas
+        adicionem novos recursos ao projeto, mas você também não quer
+        dizer para que todos os desenvolvedores parem de trabalhar.
+        Assim, você cria um ramo <quote>estável</quote> do software, o
+        qual você não irá modificar muito:</para>
+
+      <screen>
+$ svn copy http://svn.example.com/repos/calc/trunk \
+         http://svn.example.com/repos/calc/branches/stable-1.0 \
+         -m "Creating stable branch of calc project."
+
+Committed revision 377.
+</screen>
+
+      <para>E agora os desenvolvedores estão livres para continuar
+        adicionando as novas funcionalidades planejadas (ou
+        experimentais) em <filename>/calc/trunk</filename>, e você pode
+        definir uma política de projeto que apenas correções de bugs
+        serão submetidas para
+        <filename>/calc/branches/stable-1.0</filename>.  Dessa forma,
+        como as pessoas continuam a trabalhar no tronco, uma pessoa
+        seleciona as correções de bugs a serem portadas para o ramo
+        estável.  Mesmo depois que o conteúdo do ramo estável tenha sido
+        distribuído, você provavelmente irá continuar mantendo o ramo
+        por um longo período&mdash;isto é, enquanto você continuar a dar
+        suporte àquele release de software para seus clientes.</para>
+
+    </sect2>
+
+  </sect1>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.vendorbr">
+    <title>Ramos de fornecedores</title>
+
+    <para>Como é especialmente o caso quando se trata de desenvolvimento de software, os dados
+      que você mantém sob controle de versão freqüentemente são intimamente relacionados
+      a, ou talvez dependentes de, dados alheios.  Geralmente,
+      as necessidades do seu projeto determinarão que você fique tão
+      atualizado quanto possível em relação aos dados fornecidos por essa entidade
+      externa sem sacrificar a estabilidade do seu próprio projeto.
+      Este cenário se repete o tempo todo&mdash;em qualquer lugar onde
+      a informação gerada por um grupo de pessoas tem um efeito
+      direto sobre o que é gerado por outro grupo.</para>
+
+    <para>Por exemplo, desenvolvedores de software podem estar trabalhando em um
+      aplicativo que faz uso de uma biblioteca de terceiros.
+      O Subversion tem tal relacionamento com a biblioteca Apache Portable
+      Runtime (ver <xref linkend="svn.developer.usingapi.apr" />). O
+      código fonte do Subversion depende da biblioteca APR para todas as suas 
+      necessidades de portabilidade. Em fases anteriores do desenvolvimento
+      do Subversion, o projeto seguiu de perto as mudanças na API da APR,
+      aderindo sempre ao <quote>estado da arte</quote> das
+      agitações no código da biblioteca. Agora que tanto a APR quanto o Subversion
+      amadureceram, o Subversion tenta sincronizar com a API da biblioteca APR
+      somente em liberações estáveis e bem testadas.</para>
+
+    <para>Agora, se seu projeto depende de informações de alguém,
+      existem várias maneiras pelas quais você poderia tentar sincronizar essas
+      informações com as suas próprias. Mais dolorosamente, você poderia emitir oral
+      instruções orais ou por escrito a todos os contribuintes do seu projeto,
+      dizendo-lhes para se certificar de que têm as versões específicas
+      dessa informação de terceiros de que seu projeto precisa. Se a
+      informação de terceiros é mantida em um repositório
+      Subversion, você também pode utilizar as definições externas
+      do Subversion para efetivamente <quote>imobilizar</quote> versões
+      específicas dessa informação em algum lugar no próprio diretório
+      da sua cópia de trabalho (ver <xref linkend="svn.advanced.externals" />).</para>
+
+    <para>Mas às vezes você quer manter modificações personalizadas de
+      dados de terceiros em seu próprio sistema de controle de versões. Retornando
+      ao exemplo do desenvolvimento de software, programadores poderiam precisar
+      fazer modificações naquela biblioteca de terceiros para seus próprios
+      propósitos.  Estas alterações poderiam incluir novas funcionalidades
+      ou correções de bugs, mantidas apenas internamente até se tornarem parte
+      de uma liberação oficial da biblioteca de terceiros. Ou as
+      mudanças poderiam nunca ser transmitidas de volta para os mantenedores da biblioteca,
+      existindo apenas como ajustes personalizados para fazer com que a biblioteca atenda
+      melhor as necessidades dos desenvolvedores de software.</para>
+
+    <para>Agora você enfrenta uma situação interessante. Seu projeto poderia
+      abrigar suas próprias modificação aos dados de terceiros de algum modo
+      desarticulado, tal como a utilização de <foreignphrase>patches</foreignphrase> ou versões
+      alternativas completas dos arquivos e diretórios. Mas estas rapidamente
+      tornam-se dores de cabeça para a manutenção, exigindo algum mecanismo
+      para aplicar suas alterações personalizadas aos dados de terceiros, e
+      necessitando de regeneração dessas mudanças a cada sucessiva
+      versão dos dados de terceiros que você acompanha.</para>
+
+    <para>A solução para este problema é usar <firstterm>ramos de
+      fornecedores</firstterm> (<foreignphrase>vendor branches</foreignphrase>).  Um ramo de fornecedor é uma árvore de diretórios no 
+      nosso próprio sistema de controle de versões que contém informações
+      fornecidas por uma entidade de terceiros, ou fornecedor. Cada versão dos
+      dados do fornecedor que você decidir absorver em seu projeto é
+      chamada <firstterm>pingo de fornecedor</firstterm> (<foreignphrase>vendor drop</foreignphrase>).</para> 
+
+    <para>Os ramos de fornecedor proporcionam dois benefícios.  Primeiro, por armazenar
+      o pingo de fornecedor atualmente suportado em seu próprio sistema de controle
+      de versão, os membros do seu projeto nunca precisam perguntar
+      se têm a versão correta dos dados do fornecedor. Eles
+      simplesmente recebem essa versão correta como parte de suas atualizações
+      regulares da cópia de trabalho.  Em segundo lugar, como os dados residem em seu
+      próprio repositório Subversion, você pode armazenar as alterações personalizadas feitas nele
+      no próprio local&mdash;você não precisa mais de um método automatizado
+      (ou pior, manual) para incluir no projeto suas personalizações.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.vendorbr.general">
+      <title>Procedimento Geral para Manutenção de Ramos de Fornecedores</title>
+
+      <para>Gerenciar ramos de fornecedores geralmente funciona assim. Você
+        cria um diretório de nível superior (tal como
+        <filename>/vendor</filename>) para conter os ramos de fornecedores.
+        Então você importa o código de terceiros em um subdiretório
+        desse diretório de nível superior. Em seguida copia esse subdiretório
+        para o seu ramo principal de desenvolvimento (por exemplo,
+        <filename>/trunk</filename>) no local apropriado. Você
+        sempre faz suas alterações locais no ramo principal de desenvolvimento.
+        A cada nova versão do código que você está acompanhando, você o traz
+        para o ramo de fornecedor e funde as alterações em
+        <filename>/trunk</filename>, resolvendo quaisquer conflitos
+        que ocorrerem entre suas alterações locais e as alterações da
+        nova versão.</para>
+
+      <para>Talvez um exemplo ajudará a esclarecer este algoritmo.
+        Usaremos um cenário onde a sua equipe de desenvolvimento está criando um
+        <foreignphrase>software</foreignphrase> de calculadora que referencia uma complexa biblioteca
+        de aritmética de terceiros, libcomplex.  Começaremos com a
+        criação inicial do ramo de fornecedor, e a importação do
+        primeiro pingo de fornecedor.  Iremos chamar o nosso diretório do ramo de fornecedor
+        de <filename>libcomplex</filename>, e nossos pingos de código irão
+        para um subdiretório do nosso ramo de fornecedor chamado
+        <filename>current</filename>.  E como <command>svn
+        import</command> cria todos os diretórios pais
+        intermediários de que precisa, nós podemos de fato realizar ambos os
+        os passos com um único comando.</para>
+
+      <screen>
+$ svn import /caminho/para/libcomplex-1.0 \
+             http://svn.exemplo.com/repos/vendor/libcomplex/current \
+             -m 'importando pingo de fornecedor 1.0 inicial'
+&hellip;
+</screen>
+
+      <para>Temos agora a versão atual do código fonte de libcomplex
+        em <filename>/vendor/libcomplex/current</filename>. Agora,
+        vamos rotular essa versão (ver <xref linkend="svn.branchmerge.tags" />)
+        e então copiá-la para o ramo principal de desenvolvimento.  Nosso cópia
+        criará um novo diretório chamado
+        <filename>libcomplex</filename> no nosso diretório de projeto
+        <filename>calc</filename> já existente. É nesta
+        versão copiada dos dados do fornecedor que nós vamos fazer nossas
+        personalizações.</para>
+
+      <screen>
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/current  \
+           http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+           -m 'rotulando libcomplex-1.0'
+&hellip;
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/1.0  \
+           http://svn.exemplo.com/repos/calc/libcomplex        \
+           -m 'trazendo libcomplex-1.0 para o ramo principal'
+&hellip;
+</screen>
+
+      <para>Nós obtemos uma cópia do ramo principal do nosso projeto&mdash;que agora
+        inclui uma cópia do primeiro pingo de fornecedor&mdash;e começamos a
+        trabalhar personalizando o código de libcomplex.  Antes que saibamos, nossa
+        versão modificada de libcomplex agora está completamente integrada
+        ao nosso programa da calculadora.
+        <footnote>
+          <para>E inteiramente livre de <foreignphrase>bugs</foreignphrase>, é claro!</para>
+        </footnote>
+      </para>
+
+      <para>Algumas semanas depois, os desenvolvedores da libcomplex lançam uma
+        nova versão da sua biblioteca&mdash;versão 1.1&mdash;que
+        contém algumas características e funcionalidades que nós queremos muito.
+        Nós gostaríamos de atualizar para esta nova versão, mas sem perder
+        as personalizações que fizemos na versão existente. O que nós
+        essencialmente gostaríamos de fazer é substituir nossa atual
+        versão base da libcomplex 1.0 por uma cópia da libcomplex
+        1.1 e, em seguida, voltar a aplicar as modificações que fizemos
+        anteriormente na biblioteca, desta vez para a nova versão.  Mas na prática nós
+        abordamos o problema na outra direção, aplicando as
+        alterações feitas em libcomplex entre as versões 1.0 e 1.1 diretamente na nossa
+        cópia personalizada dela.</para>
+
+      <para>Para executar esta atualização, nós obtemos uma cópia do nosso ramo
+        de fornecedor, e substituímos o código no diretório
+        <filename>current</filename> pelo novo código fonte da
+        libcomplex 1.1.  Nós literalmente copiamos novos arquivos sobre
+        os arquivos existentes, talvez descompactando a versão compactada da
+        libcomplex 1.1 sobre nossos arquivos e diretórios existentes.  A meta
+        aqui é fazer nosso diretório <filename>current</filename> 
+        conter apenas o código da libcomplex 1.1, e garantir que todo esse
+        código esteja sob controle de versão. Ah, e nós queremos fazer
+        isto com o mínimo possível de perturbação no histórico do controle de
+        versão.</para>
+
+      <para>Após substituir o código 1.0 pelo código 1.1, <command> svn
+        status</command> vai mostrar arquivos com modificações locais assim
+        como, talvez, alguns arquivos fora do controle de versão ou faltantes.  Se nós
+        fizemos o que deveríamos ter feito, os arquivos fora do controle de versão são
+        apenas os novos arquivos introduzidos na versão 1.1 da
+        libcomplex&mdash;nós executamos <command>svn add</command> sobre eles para
+        colocá-los sob controle versão.  Os arquivos faltantes são arquivos
+        que estavam em 1.0, mas não em 1.1, e sobre esses caminhos nós executamos
+        <command>svn delete</command>. Por fim, uma vez que nossa
+        cópia de trabalho <filename>current</filename> contém apenas o
+        código da libcomplex 1.1, nós submetemos as alterações que fizemos para
+        que ela ficasse desse jeito.</para>
+
+      <para>Nosso ramo <filename>current</filename> agora contém o
+         novo pingo de fornecedor. Nós rotulamos a nova versão (da mesma maneira que
+         anteriormente rotulamos o pingo de fornecedor da versão 1.0), e em seguida fundimos
+         as diferenças entre o rótulo da versão anterior e
+         a nova versão atual em nosso ramo principal de
+         desenvolvimento.</para>
+
+      <screen>
+$ cd working-copies/calc
+$ svn merge http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+            http://svn.exemplo.com/repos/vendor/libcomplex/current  \
+            libcomplex
+&hellip; # resolva todos os conflitos entre as alterações deles e as nossas
+$ svn commit -m 'fundindo libcomplex-1.1 com o ramo principal'
+&hellip;
+</screen>
+
+      <para>No caso de uso trivial, a nova versão da nossa
+        ferramenta de terceiros pareceria com a versão anterior,
+        de um ponto de vista de arquivos e diretórios.  Nenhum dos
+        arquivos fonte de libcomplex teria sido excluído, renomeado ou
+        movido para locais diferentes&mdash;a nova versão
+        conteria apenas alterações textuais em relação à anterior.
+        Em um mundo perfeito, nossas alterações seriam facilmente aplicadas
+        à nova versão da biblioteca, sem absolutamente nenhuma
+        complicação ou conflito.</para>
+
+      <para>Mas as coisas nem sempre são assim tão simples, e na verdade é
+        bastante comum que arquivos fonte sejam movidos de lugar entre
+        liberações de <foreignphrase>software</foreignphrase>. Isto dificulta o processo de
+        garantir que as nossas alterações ainda são válidas para a nova
+        versão do código, e pode degradar rapidamente em uma situação
+        onde teremos de recriar manualmente as nossas customizações na
+        nova versão.  Uma vez que o Subversion conhece a história de um
+        determinado arquivo fonte&mdash;incluindo todas as suas localizações
+        anteriores&mdash;o processo de fusão da nova versão da
+        biblioteca é bem simples.  Mas nós somos responsáveis por
+        dizer ao Subversion como a posição do arquivo fonte mudou entre
+        um pingo de fornecedor e outro.</para>
+
+    </sect2>
+
+    <!-- TODO: Try to clarify some of the steps for svn_load_dirs.pl
+         (Garrett sez they've been "glossed over".  Also, consider
+         another section on bypassing svn_load_dirs.pl altogether and
+         running with just svn merge, now that it ignores ancestry. -->
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.vendorbr.svn_load_dirs">
+      <title><command>svn_load_dirs.pl</command></title>
+
+      <para>Vendor drops that contain more than a few deletes,
+        additions and moves complicate the process of upgrading to
+        each successive version of the third-party data.  So
+        Subversion supplies the <command>svn_load_dirs.pl</command>
+        script to assist with this process.  This script automates the
+        importing steps we mentioned in the general vendor branch
+        management procedure to make sure that mistakes are minimized.
+        You will still be responsible for using the merge commands to
+        merge the new versions of the third-party data into your main
+        development branch, but <command>svn_load_dirs.pl</command>
+        can help you more quickly and easily arrive at that
+        stage.</para>
+
+      <para>In short, <command>svn_load_dirs.pl</command> is an
+        enhancement to <command>svn import</command> that has several
+        important characteristics:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>It can be run at any point in time to bring an existing
+            directory in the repository to exactly match an external
+            directory, performing all the necessary adds and deletes,
+            and optionally performing moves, too.</para>
+        </listitem>
+        <listitem>
+          <para>It takes care of complicated series of operations between
+            which Subversion requires an intermediate commit&mdash;such
+            as before renaming a file or directory twice.</para>
+        </listitem>
+        <listitem>
+          <para>It will optionally tag the newly imported directory.</para>
+        </listitem>
+        <listitem>
+          <para>It will optionally add arbitrary properties to files and
+            directories that match a regular expression.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para><command>svn_load_dirs.pl</command> takes three mandatory
+        arguments.  The first argument is the URL to the base
+        Subversion directory to work in.  This argument is followed by
+        the URL&mdash;relative to the first argument&mdash;into which the
+        current vendor drop will be imported.  Finally, the third
+        argument is the local directory to import.  Using our previous
+        example, a typical run of <command>svn_load_dirs.pl</command>
+        might look like:</para>
+
+      <screen>
+$ svn_load_dirs.pl http://svn.example.com/repos/vendor/libcomplex \
+                   current                                        \
+                   /path/to/libcomplex-1.1
+&hellip;
+</screen>
+
+      <para>You can indicate that you'd like
+        <command>svn_load_dirs.pl</command> to tag the new vendor drop
+        by passing the <option>-t</option> command-line option and
+        specifying a tag name.  This tag is another URL relative to
+        the first program argument.</para>
+
+      <screen>
+$ svn_load_dirs.pl -t libcomplex-1.1                              \
+                   http://svn.example.com/repos/vendor/libcomplex \
+                   current                                        \
+                   /path/to/libcomplex-1.1
+&hellip;
+</screen>
+
+      <para>When you run <command>svn_load_dirs.pl</command>, it
+        examines the contents of your existing <quote>current</quote>
+        vendor drop, and compares them with the proposed new vendor
+        drop.  In the trivial case, there will be no files that are in
+        one version and not the other, and the script will perform the
+        new import without incident.  If, however, there are
+        discrepancies in the file layouts between versions,
+        <command>svn_load_dirs.pl</command> will ask you how
+        to resolve those differences.  For example, you
+        will have the opportunity to tell the script that you know
+        that the file <filename>math.c</filename> in version 1.0 of
+        libcomplex was renamed to <filename>arithmetic.c</filename> in
+        libcomplex 1.1.  Any discrepancies not explained by moves
+        are treated as regular additions and deletions.</para>
+
+      <para>The script also accepts a separate configuration file for
+        setting properties on files and directories matching a regular
+        expression that are <emphasis>added</emphasis> to the
+        repository.  This configuration file is specified to
+        <command>svn_load_dirs.pl</command> using the
+        <option>-p</option> command-line option.  Each line of the
+        configuration file is a whitespace-delimited set of two or
+        four values: a Perl-style regular expression to match the
+        added path against, a control keyword (either
+        <literal>break</literal> or <literal>cont</literal>), and then
+        optionally a property name and value.</para>
+
+      <screen>
+\.png$              break   svn:mime-type   image/png
+\.jpe?g$            break   svn:mime-type   image/jpeg
+\.m3u$              cont    svn:mime-type   audio/x-mpegurl
+\.m3u$              break   svn:eol-style   LF
+.*                  break   svn:eol-style   native
+</screen>
+
+      <para>For each added path, the configured property changes whose
+        regular expression matches the path are applied in order,
+        unless the control specification is <literal>break</literal>
+        (which means that no more property changes should be applied
+        to that path).  If the control specification is
+        <literal>cont</literal>&mdash;an abbreviation for
+        <literal>continue</literal>&mdash;then matching will continue
+        with the next line of the configuration file.</para>
+
+      <para>Any whitespace in the regular expression, property name,
+        or property value must be surrounded by either single or
+        double quote characters.  You can escape quote characters that
+        are not used for wrapping whitespace by preceding them with a
+        backslash (<literal>\</literal>) character.  The backslash
+        escapes only quotes when parsing the configuration file, so do
+        not protect any other characters beyond what is necessary for
+        the regular expression.</para>
+
+    </sect2>
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.branchmerge.summary">
+    <title>Sumário</title>
+
+    <para>Nós cobrimos muito chão nesse capítulo. Nós discutimos
+	conceitos de rótulo<foreignphrase>tags</foreignphrase> e
+	ramos <foreignphrase>branches</foreignphrase>, e demonstramos
+	como Subversion implementa estes conceitos através da cópia de 
+	diretórios com o comando <command>svn copy</command>. Nós mostramos
+	como usar <command>svn merge</command> para copiar mudanças de um
+	ramo <foreignphrase>branch</foreignphrase> para outro, ou reverter
+	mudanças indesejadas. Nós passamos pelo uso do <command>svn switch</command>
+	para criar locais mistos de copias de trabalho. E nós falamos sobre como eles
+	podem gerenciar a organização e vida dos ramos <foreignphrase>branches</foreignphrase>
+	em um respositório.</para>
+
+    <para>Lembre-se do mantra do Subversion: ramos <foreignphrase>branches</foreignphrase>
+	e rótulos <foreignphrase>tags</foreignphrase> são baratos. Então use-os livremente!
+	Ao mesmo tempo, não esqueça de usar bons hábitos de fusão 
+	<foreignphrase>merge</foreignphrase>. Cópias baratas são úteis apenas quando você
+	é cuidadoso ao rastrear suas fusões <foreignphrase>merges</foreignphrase>.</para> 
+
+  </sect1>
+
+</chapter>
+
+<!--
+local variables:
+sgml-parent-document: ("book.xml" "chapter")
+end:
+-->
+
+

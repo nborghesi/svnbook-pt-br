@@ -1,0 +1,3252 @@
+<chapter id="svn.advanced">
+  <title>Tópicos Avançados</title>
+
+  <para>Se você está lendo este livro capítulo por capítulo, do
+    inicio ao fim, você deve agora ter adquirido conhecimentos
+    suficientes para usar o cliente Subversion para executar a operações
+    de controle de verão mais comuns.  Você entendeu como obter uma
+    cópia de trabalho de um repositório Subversion.  Você sente-se
+    confortável para submeter e receber mudanças usando as funções
+    <command>svn commit</command> e <command>svn update</command>.  Você
+    provavelmente desenvolveu um reflexo que lhe impele a executar o
+    comando <command>svn status</command> quase inconscientemente.  Para
+    todos os intentos e propósitos, você está pronto para usar o
+    Subversion em um ambiente típico.</para>
+
+  <para>Mas o conjunto de recursos do Subversion não para nas
+    <quote>operações de controle de versão comuns</quote>.  Ele tem
+    outras pequenas funcionalidades além de comunicar mudanças de
+    arquivos e diretórios para e a partir de um repositório
+    central.</para>
+
+  <para>Este capítulo destaca alguns dos recursos do Subversion que,
+    apesar de importantes, não fazem pare da rotina diária de um
+    usuário típico.  Ele assume que você está familiarizado com
+    capacidades básicas de controle de versão sobre arquivos e
+    diretórios.  Se não está, você vai querer ler primeiro o <xref
+    linkend="svn.basic" /> e <xref linkend="svn.tour" />.  Uma vez que
+    você tenha dominado estes fundamentos e terminado este capítulo,
+    você será um usuário avançado do Subversion!</para>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.tour.revs.specifiers">
+    <title>Especificadores de Revisão</title>
+
+    <para>Como você viu em <xref linkend="svn.basic.in-action.revs" />,
+      números de revisão no Subversion são bastante
+      simples&mdash;números inteiros que aumentam conforme você submete
+      mais alterações em seus dados versionados.  Assim, não demora
+      muito para que você não se lembre mais do que aconteceu exatamente
+      em toda uma dada revisão.  Felizmente, o típico ciclo de trabalho
+      no Subversion frequentemente não precisa que você informe números
+      de revisão arbitrários para as operações que você executa no
+      Subversion.  Para aquelas operações que
+      <emphasis>precisam</emphasis> de um especificador de revisão, você
+      geralmente informa um número de revisão que você viu em um e-mail
+      da submissão (e-mail de <foreignphrase>commit</foreignphrase>), na
+      saída de alguma outra operação do Subversion, ou em algum outro
+      contexto que poderia fazer sentido para aquele número em
+      particular.</para>
+
+    <para>Mas ocasionalmente, você precisa de um marco de um momento no
+      tempo para o qual você não tem ainda um número de revisão
+      memorizado ou em mãos.  Neste caso, além de números inteiros de
+      revisão, o <command>svn</command> permite como entrada algumas
+      formas de especificadores de revisão&mdash;<firstterm>termos de
+      revisão</firstterm>, e datas de revisão.</para>
+
+    <note>
+      <para>As várias formas de especificadores de revisão do Subversion
+        podem ser misturadas e correspondidas quando usadas para
+        especificar intervalos de revisão.  Por exemplo, você pode usar 
+        <option>-r
+        <replaceable>REV1</replaceable>:<replaceable>REV2</replaceable></option>
+        onde <replaceable>REV1</replaceable> seja um termo de revisão e 
+        <replaceable>REV2</replaceable> seja um número de revisão, onde 
+        <replaceable>REV1</replaceable> seja uma data e
+        <replaceable>REV2</replaceable>, um termo de revisão, e por aí
+        vai.  Especificadores de revisão individuais são avaliados
+        independentemente, então você pode pôr o que bem quiser junto
+        dos dois-pontos.</para>
+    </note>
+    
+    <!-- =============================================================== -->
+    <sect2 id="svn.tour.revs.keywords">
+      <title>Termos de Revisão</title>
+      
+      <indexterm>
+        <primary>revisões</primary>
+        <secondary>termos de revisão</secondary>
+      </indexterm>
+      <indexterm>
+        <primary>HEAD</primary>
+      </indexterm>
+      <indexterm>
+        <primary>BASE</primary>
+      </indexterm>
+      <indexterm>
+        <primary>COMMITTED</primary>
+      </indexterm>
+      <indexterm>
+        <primary>PREV</primary>
+      </indexterm>
+
+      <para>O cliente Subversion entende um conjunto de termos de
+        revisão.  Estes termos podem ser usados no lugar dos argumentos
+        inteiros para a opção <option>--revision (-r)</option>, e são
+        resolvidos para números de revisão específicos pelo
+        Subversion:</para>
+
+      <variablelist>
+        
+        <varlistentry>
+          <term>HEAD</term>
+          <listitem>
+            <para>A última (ou <quote>mais recente</quote>) revisão no
+              repositório.</para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>BASE</term>
+          <listitem>
+            <para>O número de revisão de um item em uma cópia de
+              trabalho.  Se o item tiver sido modificado localmente, a
+              <quote>versão BASE</quote> refere-se à forma como o item
+              estaria sem estas modificações locais.</para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>COMMITTED</term>
+          <listitem>
+            <para>A revisão mais recente anterior, ou igual a,
+              <literal>BASE</literal>, na qual o item foi modificado.</para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>PREV</term>
+          <listitem>
+            <para>A revisão imediatamente <emphasis>anterior</emphasis>
+              à última revisão na qual o item foi modificado.
+              Tecnicamente, isto se resume a
+              <literal>COMMITTED</literal>-1.</para>
+          </listitem>
+        </varlistentry>
+        
+      </variablelist>
+
+      <para>Como pode ser deduzido de suas descrições, os termos de
+        revisão <literal>PREV</literal>, <literal>BASE</literal>, e
+        <literal>COMMITTED</literal> são usados apenas quando se
+        referirem a um caminho numa cópia de trabalho&mdash;eles não se
+        aplicam a URLs do repositório.  <literal>HEAD</literal>, por
+        outro lado, pode ser usado em conjunto para qualquer um desses
+        tipos de caminho.</para>
+      
+      <para>Aqui estão alguns exemplos da utilização de termos de
+        revisão:</para>
+      
+      <screen>
+$ svn diff -r PREV:COMMITTED foo.c
+# exibe a última alteração submetida em foo.c
+
+$ svn log -r HEAD
+# mostra a mensagem de log do último registro no repositório
+
+$ svn diff -r HEAD
+# compara sua cópia de trabalho (com todas suas alterações locais) com a 
+# última versão na árvore do diretório
+
+$ svn diff -r BASE:HEAD foo.c
+# compara a versão inalterada de foo.c com a última versão de
+# foo.c no repositório
+
+$ svn log -r BASE:HEAD
+# mostra todos os logs das submissões para o diretório atual versionado
+# desde a última atualização que você fez em sua cópia de trabalho
+
+$ svn update -r PREV foo.c
+# retorna à última alteração feita em foo.c, reduzindo o número de
+# revisão de foo.c
+
+$ svn diff -r BASE:14 foo.c
+# compara a versão inalterada de foo.c com o conteúdo que foo.c tinha na
+# revisão 14
+</screen>
+      
+    </sect2>
+    
+    <!-- =============================================================== -->
+    <sect2 id="svn.tour.revs.dates">
+      <title>Datas de Revisão</title>
+      
+      <indexterm>
+        <primary>revisões</primary>
+        <secondary>especificadas como datas</secondary>
+      </indexterm>
+
+      <para>Números de revisão não revelam nada sobre o mundo fora do
+        sistema de controle de versão, mas algumas vezes você precisa
+        correlacionar um momento em tempo real com um momento no
+        histórico de revisões.  Para facilitar isto, a opção
+        <option>--revision (-r)</option> também pode aceitar
+        especificadores de data delimitados por chaves
+        (<literal>{</literal> e <literal>}</literal>) como entrada.  O
+        Subversion aceita datas e horas no padrão ISO-8601, além de
+        alguns poucos outros.  Aqui estão alguns exemplos.  (Lembre-se
+        de usar aspas para delimitar quaisquer datas que contenham
+        espaços.)</para>
+
+      <screen>
+$ svn checkout -r {2006-02-17}
+$ svn checkout -r {15:30}
+$ svn checkout -r {15:30:00.200000}
+$ svn checkout -r {"2006-02-17 15:30"}
+$ svn checkout -r {"2006-02-17 15:30 +0230"}
+$ svn checkout -r {2006-02-17T15:30}
+$ svn checkout -r {2006-02-17T15:30Z}
+$ svn checkout -r {2006-02-17T15:30-04:00}
+$ svn checkout -r {20060217T1530}
+$ svn checkout -r {20060217T1530Z}
+$ svn checkout -r {20060217T1530-0500}
+&hellip;
+</screen>
+      
+      <para>Quando você especifica uma data, o Subversion resolve aquela
+        data para a revisão mais recente do repositório com aquela data,
+        e então continua a operação usando o número de revisão
+        obtido:</para>
+        
+      <screen>
+$ svn log -r {2006-11-28}
+------------------------------------------------------------------------
+r12 | ira | 2006-11-27 12:31:51 -0600 (Mon, 27 Nov 2006) | 6 lines
+&hellip;
+</screen>
+        
+      <sidebar>
+        <title>O Subversion está um dia adiantado?</title>
+        
+        <para>Se você especificar uma única data como uma revisão sem
+          especificar uma hora do dia (por exemplo
+          <literal>2006-11-27</literal>), você pode pensar que o
+          Subversion deveria dar a você a última revisão que tivesse
+          ocorrido em 27 de novembro.  Entretanto, você vai obter uma
+          revisão do dia 26, ou mesmo anterior a isso.  Lembre-se de que
+          o Subversion vai procurar a <emphasis>revisão do repositório
+          mais recente</emphasis> que a da data que você informou.  Se
+          você informar uma data sem a parte de horário, como
+          <literal>2006-11-27</literal>, o Subversion assume um horário
+          de 00:00:00, então procurar pela revisão mais recente não vai
+          retornar nada do dia 27.</para>
+
+        <para>Se você quiser incluir o dia 27 em sua busca, você pode
+          tanto especificar o dia 27 com o horário
+          (<literal>{"2006-11-27 23:59"}</literal>), ou apenas
+          especificar o próximo dia
+          (<literal>{2006-11-28}</literal>).</para>
+        
+      </sidebar>
+      
+      <para>Você também pode usar intervalos de datas.  O Subversion vai
+        encontrar todas as revisões entre as datas, inclusive:</para>
+      
+      <screen>
+$ svn log -r {2006-11-20}:{2006-11-29}
+&hellip;
+</screen>
+        
+      <warning>
+        <para>Uma vez que a data e horário
+          (<foreignphrase>timestamp</foreignphrase>) de uma revisão é
+          armazenada como uma propriedade da revisão não-versionada e
+          passível de alteração (veja <xref
+          linkend="svn.advanced.props" />, essas informações de data e
+          horário podem ser modificadas para representar falsificações
+          completas da cronologia real, ou mesmo podem ser removidas
+          inteiramente.  A capacidade do Subversion de converter
+          corretamente datas de revisão em números de revisão depende da
+          manutenção da ordem seqüencial desta informação
+          temporal&mdash;quanto mais recente uma revisão, mais recente é
+          sua informação de data e horário.  Se esta ordenação não for
+          mantida, você perceberá que tentar usar datas para especificar
+          intervalos de revisão em seu repositório nem sempre retornará
+          os dados que você espera.</para>
+      </warning>
+        
+    </sect2>
+      
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.props">
+    <title>Propriedades</title>
+    <indexterm>
+      <primary>propriedades</primary>
+    </indexterm>
+
+    <para>Nós já abordamos em detalhes como o Subversion armazena e
+      recupera várias versões de arquivos e diretórios em seu
+      repositório.  Capítulos inteiros têm sido focados nesta parte mais
+      fundamental das funcionalidades providas pela ferramenta.  E se o
+      suporte a versionamento parar por aí, o Subversion ainda seria
+      completo do ponto de vista do controle de versão.</para>
+
+    <para>Mas não pára por aí.</para>
+
+    <para>Adicionalmente ao versionamento de seus arquivos e diretórios,
+      o Subversion permite interfaces para adição, modificação e remoção
+      de metadados versionados em cada um de seus arquivos e diretórios
+      sob controle de versão.  Chamamos estes metadados de
+      <firstterm>propriedades</firstterm>, e eles podem ser entendidos
+      como tabelas de duas colunas que mapeiam nomes de propriedades a
+      valores arbitrários anexados a cada item em sua cópia de trabalho.
+      Falando de uma forma geral, os nomes e valores das propriedades
+      podem ser quaisquer coisas que você queira, com a restrição de que
+      os nomes devem ser texto legível por humanos.  E a melhor parte
+      sobre estas propriedades é que elas, também, são versionadas, tal
+      como o conteúdo textual de seus arquivos.  Você pode modificar,
+      submeter, e reverter alterações em propriedades tão facilmente
+      como em qualquer alteração no conteúdo de arquivos.  E o envio e
+      recebimento das modificações em propriedades ocorrem como parte de
+      suas operações de submissão
+      (<foreignphrase>commit</foreignphrase>) e atualização
+      (<foreignphrase>update</foreignphrase>)&mdash;você não tem que
+      mudar seus procedimentos básicos para utilizá-los.</para>
+
+    <note>
+      <para>O Subversion reservou um conjunto de propriedades cujos
+        nomes começam com <literal>svn:</literal> para si próprio.
+        Ainda que haja apenas um conjunto útil de tais propriedades em
+        uso hoje em dia, você deve evitar criar suas propriedades
+        específicas com nomes que comecem com este prefixo.  Do
+        contrário, você corre o risco de que uma versão futura do
+        Subversion aumente seu suporte a recursos ou comportamentos a
+        partir de uma propriedade de mesmo nome, mas talvez com um
+        significado completamente diferente.</para>
+    </note>
+
+    <para>Propriedades aparecem em qualquer parte no Subversion, também.
+      Da mesma maneira que arquivos e diretórios podem ter nomes de
+      propriedades arbitrários e valores anexados a eles, cada revisão
+      como um todo pode ter propriedades arbitrárias anexadas a si
+      própria.  As mesmas restrições se aplicam;mdash;nomes que sejam
+      legíveis por humanos e valores com qualquer coisa que você queira,
+      inclusive dados binários.  A principal diferença é que as
+      propriedades de uma revisão não são versionadas.  Em outras
+      palavras, se você modificar o valor de, ou excluir uma propriedade
+      de uma revisão, não há uma forma de recuperar seu valor anterior
+      no Subversion.</para>
+
+    <para>O Subversion não tem nenhuma política em particular em relação
+      ao uso de propriedades.  Ele apenas solicita que você não use
+      nomes de propriedades que comecem com o prefixo
+      <literal>svn:</literal>.  Este é o espaço de nomes
+      (<foreignphrase>namespace</foreignphrase>) que ele reserva para
+      uso próprio.  E o Subversion, de fato, faz uso de propriedades,
+      tanto do tipo versionadas quando das não-versionadas.  Certas
+      propriedades versionadas têm um significado especial ou certos
+      efeitos quando encontradas em arquivos e diretórios, ou carregam
+      alguma pequena informação sobre a revisão na qual estes se
+      encontram.  Certas propriedades de revisão são automaticamente
+      anexadas às revisões pelo processo de submissão de alterações do
+      Subversion, e obtém informação sobre a revisão.  Muitas dessas
+      propriedades são mencionadas em algum lugar neste ou em outros
+      capítulos como parte de tópicos mais gerais aos quais estão
+      relacionadas.  Para uma lista exaustiva das propriedades
+      pré-definidas do Subversion, veja <xref 
+      linkend="svn.ref.properties"/>.</para>
+
+    <para>Nesta seção, vamos examinar a utilidade&mdash;tanto para os
+      usuários quanto para o próprio Subversion&mdash;do suporte a
+      propriedades.  Você vai aprender sobre os subcomandos de
+      <command>svn</command> que lidam com propriedades, e como
+      alterações nas propriedades afetam seu fluxo de trabalho normal no
+      Subversion.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.why">
+      <title>Por que Propriedades?</title>
+
+      <para>Como o Subversion usa propriedades para armazenar
+        informações extras sobre arquivos, diretórios, e revisões que as
+        contém, você também pode usar propriedades de forma semelhante.
+        Você poderia achar útil ter um lugar próximo de seus dados
+        versionados para pendurar metadados personalizados sobre estes
+        dados.</para>
+
+      <para>Digamos que você quer elaborar um website que armazene
+        muitas fotos digitais, e as exiba com legendas e a data e hora
+        em que foram tiradas.  Só que seu conjunto de fotos está mudando
+        constantemente, e você gostaria de automatizar este site tanto
+        quanto possível.  Estas fotos podem ser um pouco grandes, então,
+        como muito comum em sites desse tipo, você quer disponibilizar
+        prévias em miniatura de suas fotos para os visitantes de seu
+        site.</para>
+
+      <para>Agora, você pode ter esta funcionalidade usando arquivos
+        tradicionais.  Isto é, você pode ter seus arquivos 
+        <filename>image123.jpg</filename> e 
+        <filename>image123-thumbnail.jpg</filename> lado a lado em um
+        diretório.  Ou se você quiser manter os mesmos nomes de
+        arquivos, você poderia ter suas miniaturas em um diretório
+        diferente, como <filename>thumbnails/image123.jpg</filename>.
+        Você também pode armazenar suas legendas e datas e horários de
+        forma parecida, também separadas do arquivo da foto original.
+        Mas o problema aqui é que o conjunto de arquivos aumenta aos
+        múltiplos para cada nova foto adicionada ao site.</para>
+
+      <para>Agora considere o mesmo website desenvolvido de forma a
+        fazer uso das propriedades de arquivo do Subversion.  Imagine
+        ter um único arquivo de imagem,
+        <filename>image123.jpg</filename>, e então propriedades
+        definidas neste arquivo chamadas <literal>caption</literal>,
+        <literal>datestamp</literal>, ou mesmo
+        <literal>thumbnail</literal> (respectivamente para a legenda,
+        data e hora, e miniatura da imagem).  Agora sua cópia de
+        trabalho parece muito mais gerenciável&mdash;de fato, numa
+        primeira visualização, não parece haver nada mais além dos
+        arquivos de imagem lá dentro.  Mas seus scripts de automação
+        sabem mais.  Eles sabes que podem usar o <command>svn</command>
+        (ou melhor ainda, eles podem usar a linguagem incorporada ao
+        Subversion&mdash;veja <xref linkend="svn.developer.usingapi" />)
+        para para extrair as informações extras que seu site precisa
+        exibir sem ter que lê-las de um arquivo de índices nem precisar
+        de preocupar em estar manipulando caminhos dos arquivos.</para>
+
+      <para>As propriedades personalizadas de revisões também são
+        freqüentemente usadas.  Um de seus usos comuns é uma
+        propriedades cujo valor contém um recurso de ID de rastreamento
+        ao qual a revisão está associada, talvez pelo fato de a
+        alteração feita nesta revisão corrigir um problema relatado
+        externamente com aquele ID.  Outros usos incluem a inserção de
+        nomes mais amigáveis à revisão&mdash;pode ser difícil lembrar
+        que a revisão 1935 foi uma revisão testada completamente.  Mas
+        se houver, digamos, uma propriedade
+        <literal>resultado-dos-testes</literal> nesta revisão com o
+        valor <literal>todos passaram</literal>, esta á uma informação
+        bem mais significativa de se ter.</para>
+
+      <sidebar>
+        <title>Procurabilidade (ou, Porque <emphasis>Não</emphasis>
+          Usar Propriedades)</title>
+
+        <para>Para algo com tamanha , as propriedades do
+          Subversion&mdash;ou, mais precisamente, as interfaces
+          disponíveis para elas&mdash;têm uma grande falha:
+          apesar de ser simples <emphasis>criar</emphasis> uma
+          propriedade específica, <emphasis>procurar</emphasis> esta
+          propriedade posteriormente são outros quinhentos.</para>
+
+        <para>Tentar localizar uma propriedade específica de uma revisão
+          geralmente envolve executar uma busca linear ao longo de todas
+          as revisões do repositório, perguntando para cada revisão,
+          "Você tem a propriedade que eu estou procurando?"  Tentar
+          encontrar uma propriedade versionada é complicado, também, e
+          quase sempre envolve um recursivo <command>svn
+          propget</command> ao longo de toda a cópia de trabalho.  Esta
+          situação pode até não ser tão ruim quando uma busca linear
+          por todas as revisões.  Mas certamente deixa muito a desejar
+          tanto em termos de performance quanto mesmo da probabilidade
+          de sucesso, especialmente se o escopo de sua busca envolver
+          uma cópia de trabalho da raiz de seu repositório.</para>
+
+        <para>Por este motivo, você deve escolher&mdash;especialmente no
+          caso de propriedades de revisões&mdash;entre simplesmente
+          adicionar seus metadados na mensagem de log da revisão, usando
+          algum padrão de formatação (talvez até a partir de ferramentas
+          de programação) que permita uma filtragem rápida a partir da
+          saída do comando <command>svn log</command>.  É bastante comum
+          de se ver mensagens de log do Subversion parecidas com:</para>
+
+        <programlisting>
+Issue(s): IZ2376, IZ1919
+Reviewed by:  sally
+
+Isto corrige um erro de falha de segmentação no gerenciador de processos
+&hellip;
+</programlisting>
+
+        <para>Mas isto resulta em outra dificuldade.  O Subversion não
+          provê ainda uma mecanismo de modelos para mensagens de log,
+          que poderia ajudar bastante os usuários a manter
+          consistentemente o formato de seus metadados incluídos em
+          suas mensagens de log.</para>
+
+      </sidebar>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.manip">
+      <title>Manipulando Propriedades</title>
+
+      <para>O comando <command>svn</command> oferece algumas poucas
+        maneiras de se adicionar ou modificar propriedades de arquivos e
+        diretórios.  Para propriedades com valores pequenos, legíveis
+        por humanos, talvez a forma mais simples de se adicionar uma nova
+        propriedade é especificar o nome e o valor da propriedade na
+        linha de comando com o subcomando
+        <command>propset</command>.</para>
+
+      <screen>
+$ svn propset copyright '(c) 2006 Red-Bean Software' calc/button.c
+property 'copyright' set on 'calc/button.c'
+$
+</screen>
+       
+      <para>Mas sempre podemos contar com a flexibilidade que o
+        Subversion oferece para seus valores de propriedades.  E se você
+        está planejando ter texto com múltiplas linhas, ou mesmo valores
+        binários para o valor da propriedade, você provavelmente não vai
+        informar este valor pela linha de comando.  Então, o subcomando
+        <command>propset</command> leva uma opção <option>--file
+        (-F)</option> para especificar o nome de um arquivo que contém o
+        valor para a nova propriedade.</para>
+
+      <screen>
+$ svn propset license -F /path/to/LICENSE calc/button.c
+property 'license' set on 'calc/button.c'
+$
+</screen>
+
+      <para>Há algumas restrições sobre os nomes que você pode usar para
+        propriedades.  Um nome de propriedade deve começar com uma
+        letra, dois-pontos (<literal>:</literal>), ou um caractere
+        sublinha (<literal>_</literal>); e depois disso, você também
+        pode usar dígitos, hifens (<literal>-</literal>), e pontos
+        (<literal>.</literal>).
+          <footnote>
+            <para>Se você é familiarizado com XML, este é exatamente o
+            subconjunto ASCII da sintaxe de um "Nome" XML.</para>
+          </footnote>
+      </para>
+
+      <para>Além do <command>propset</command>, o programa
+        <command>svn</command> também oferece comando
+        <command>propedit</command>.  Este comando usa o editor de texto
+        configurado (veja <xref
+        linkend="svn.advanced.confarea.opts.config" />) para adicionar
+        ou modificar propriedades.  Quando você executa este comando, o
+        <command>svn</command> chama seu programa editor em um arquivo
+        temporário que contém o valor atual da propriedade (ou o qual é
+        vazio, se você estiver adicionando uma nova propriedade).
+        Então, você apenas modifica esse valor em seu editor até que ele
+        represente o novo valor que você quer armazenar para a
+        propriedade.  Se o Subversion identificar que no momento você
+        está modificando o valor da propriedade existente, ele irá
+        aceitá-lo como novo valor da propriedade.  Se você sair de seu
+        editor sem fazer qualquer alteração, nenhuma modificação irá
+        ocorrer:</para>
+
+      <screen>
+$ svn propedit copyright calc/button.c  ### sai do editor sem fazer nada
+No changes to property 'copyright' on 'calc/button.c'
+$
+</screen>
+
+      <para>Devemos notar que, como qualquer outro subcomando do
+        <command>svn</command>, estes que são relacionados a
+        propriedades podem agir em diversos caminhos de uma só vez.
+        Isto lhe permite modificar propriedades em todo um conjunto de
+        arquivos com um único comando.  Por exemplo, nós poderíamos ter
+        feito:</para>
+
+      <screen>
+$ svn propset copyright '(c) 2006 Red-Bean Software' calc/*
+property 'copyright' set on 'calc/Makefile'
+property 'copyright' set on 'calc/button.c'
+property 'copyright' set on 'calc/integer.c'
+&hellip;
+$
+</screen>
+
+      <para>Toda esta adição e alteração de propriedades não é realmente
+        muito útil se você não puder obter facilmente o valor armazenado
+        da propriedade.  Então o programa <command>svn</command> dispõe
+        de dois subcomando para exibição dos nomes e valores das
+        propriedades armazenadas nos arquivos e diretórios.  O comando
+        <command>svn proplist</command> vai listar os nomes das
+        propriedades que existem naquele caminho.  Uma vez que você
+        saiba os nomes das propriedades do nó, você pode verificar seus
+        valores individualmente usando <command>svn propget</command>.
+        Este comando mostrará, dado um nome de propriedade e um caminho
+        (ou conjunto de caminhos), o valor da propriedade para a saída
+        padrão.</para>
+
+      <screen>
+$ svn proplist calc/button.c
+Properties on 'calc/button.c':
+  copyright
+  license
+$ svn propget copyright calc/button.c
+(c) 2006 Red-Bean Software
+</screen>
+
+      <para>Há ainda uma variação do comando <command>proplist</command>
+        que lista tanto o nome quanto o valor de todas as propriedades.
+        Apenas informe a opção <option>--verbose</option>
+        (<option>-v</option>).</para>
+
+      <screen>
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+  license : ================================================================
+Copyright (c) 2006 Red-Bean Software.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions 
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions, and the recipe for Fitz's famous
+red-beans-and-rice.
+&hellip;
+</screen>
+
+      <para>O último subcomando relacionado a propriedades é o 
+        <command>propdel</command>.  Como o Subversion permite armazenar
+        propriedades com valores vazios, você não pode remover
+        uma propriedade usando <command>propedit</command> ou
+        <command>propset</command>.  Por exemplo, este comando
+        <emphasis>não</emphasis> vai surtir o efeito desejado:</para>
+
+      <screen>
+$ svn propset license '' calc/button.c
+property 'license' set on 'calc/button.c'
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+  license : 
+$
+</screen>
+
+      <para>Você precisa usar o subcomando <command>propdel</command>
+        para remover propriedades completamente.  A sintaxe é semelhante
+        a dos outros comandos de propriedades:</para>
+
+      <screen>
+$ svn propdel license calc/button.c
+property 'license' deleted from 'calc/button.c'.
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+$
+</screen>
+
+      <para>Lembra das propriedades não-versionadas de revisões?  Você
+        pode modificá-las, também, usando os mesmo subcomandos do
+        <command>svn</command> que acabamos de descrever.  Apenas
+        adicione o parâmetro <option>--revprop</option> na linha de
+        comando, e especifique a revisão cujas propriedades você quer
+        modificar.  Como as revisões são globais, você não precisa
+        especificar um caminho para para estes comandos relacionados a
+        propriedades enquanto estiver em uma cópia de trabalho do
+        repositório cuja propriedade de revisão você queira alterar.
+        Por outro lado, você pode apenas especificar a URL de qualquer
+        caminho de seu interesse no repositório (incluindo a URL raiz
+        do repositório).  Por exemplo, você pode querer trocar a
+        mensagem de log de um registro de alteração de uma revisão
+        existente.
+        <footnote>
+          <para>Correção de erros de ortografia, gramaticais
+            <quote>outros ajustes simples de texto</quote> nas mensagens
+            de log de uma registro talvez seja o uso mais comum da opção
+            <option>--revprop</option> option.</para>
+        </footnote>
+        Se seu diretório atual for parte da cópia de trabalho de seu
+        repositório, você pode simplesmente executar o comando 
+        <command>svn propset</command> sem nenhum caminho:</para>
+
+      <screen>
+$ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop
+property 'svn:log' set on repository revision '11'
+$
+</screen>
+
+      <para>Mas mesmo que você não tenha criado uma cópia de trabalho a
+        partir do repositório, você ainda assim pode proceder com
+        modificação de propriedades informando a URL raiz do
+        repositório:</para>
+
+      <screen>
+$ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop \
+              http://svn.example.com/repos/project
+property 'svn:log' set on repository revision '11'
+$
+</screen>
+
+      <para>Perceba que a permissão para se alterar estas propriedades
+        não-versionadas deve ser explicitamente concedida pelo
+        administrador do repositório (veja <xref
+        linkend="svn.reposadmin.maint.setlog" />).  Isto é porque as
+        propriedades não são versionadas, então você corre o risco de
+        perder informação se não for cuidadoso com suas alterações.  O
+        administrador do repositório pode definir formas de proteção
+        contra perda de dados, e por padrão, além de que as modificações
+        de propriedades não-versionadas são desabilitadas por padrão.</para>
+
+      <tip>
+        <para>Usuários poderia, quando possível, usar <command>svn
+          propedit</command> ao invés de <command>svn
+          propset</command>.  Ainda que o resultado da execução dos
+          comandos seja o mesmo, o primeiro vai lhes permitir visualizar
+          o valor atual da propriedade que querem modificar, o que ajuda
+          a conferir que estão, de fato, fazer a alteração que acham que
+          estão fazendo.  Isto é especialmente verdadeiro ao modificar
+          as propriedades não-versionadas de revisão.  E ainda, é
+          significativamente modificar valores de propriedades em
+          múltiplas linhas em um editor de texto do que pela linha de
+          comando.</para>
+      </tip>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.workflow">
+      <title>Propriedades e o Fluxo de Trabalho no Subversion</title>
+
+      <para>Agora que você está familiarizado com todos os subcomandos
+        <command>svn</command> relacionados a propriedades, vamos ver
+        como as modificações de propriedades afetam o fluxo de trabalho
+        usual do Subversion.  Como mencionado anteriormente, as
+        propriedades de arquivos e diretórios são versionadas, tal como
+        os conteúdos de arquivos.  Como resultado, o Subversion dispõe
+        dos mesmos recursos para mesclar&mdash;de forma limpa ou com
+        conflitos&mdash;alterações de terceiros às nossas
+        próprias.</para>
+
+      <para>E como com conteúdos de arquivos, suas mudanças de
+        propriedades são modificações locais, que são tornadas
+        permanentes apenas quando submetidas ao repositório com o
+        comando <command>svn commit</command>.  Suas alterações de
+        propriedades também podem ser facilmente desfeitas&mdash;o
+        comando <command>svn revert</command> vai restaurar seus
+        arquivos e diretórios para seus estados
+        inalterados&mdash;conteúdos, propriedades, e tudo.  Também, você
+        pode obter informações interessantes sobre o estado de suas
+        propriedades de arquivos e diretórios usando os comandos
+        <command>svn status</command> e
+        <command>svn diff</command>.</para>
+
+      <screen>
+$ svn status calc/button.c
+ M     calc/button.c
+$ svn diff calc/button.c
+Property changes on: calc/button.c
+___________________________________________________________________
+Name: copyright
+   + (c) 2006 Red-Bean Software
+
+$
+</screen>
+
+      <para>Note como o subcomando <command>status</command> exibe
+        <literal>M</literal> na segunda coluna ao invés de na primeira.
+        Isto é porque modificamos as propriedades de
+        <filename>calc/button.c</filename>, mas não seu conteúdo
+        textual.  Se tivéssemos modificado ambos, deveríamos ver um 
+        <literal>M</literal> na primeira coluna também (veja <xref
+        linkend="svn.tour.cycle.examine.status" />).</para>
+
+      <sidebar>
+        <title>Conflitos de Propriedades</title>
+
+        <para>Da mesma forma que para conteúdo de arquivos, modificações
+          de propriedades podem conflitar com alterações submetidas por
+          outros.  Se você atualizar sua cópia de trabalho e receber
+          alterações de propriedade em um objeto versionado que vão de
+          encontro às suas, o Subversion vai informar que o objeto está
+          em um estado conflituoso.</para>
+ 
+        <screen>
+% svn update calc
+M  calc/Makefile.in
+ C calc/button.c
+Updated to revision 143.
+$ 
+</screen>
+         
+        <para>O Subversion também vai criar, no mesmo diretório que o
+          objeto em conflito, um arquivo com a extensão
+          <filename>.prej</filename> contendo os detalhes do conflito.
+          Você deve examinar o conteúdo deste arquivo para decidir como
+          resolver o conflito.  Até que o conflito seja resolvido, você
+          verá um <literal>C</literal> na segunda coluna da saída do
+          <command>svn status</command> para o objeto em questão, e as
+          tentativas de submeter suas modificações locais irão
+          falhar.</para>
+
+        <screen>
+$ svn status calc
+ C     calc/button.c
+?      calc/button.c.prej
+$ cat calc/button.c.prej 
+prop 'linecount': user set to '1256', but update set to '1301'.
+$
+</screen>
+ 
+        <para>Para resolver conflitos de propriedades, apenas garanta
+          que as propriedades conflituosas contenham os valores que
+          deveriam conter, e então use o comando <command>svn
+          resolved</command> para informar ao Subversion que você
+          resolveu o problema manualmente.</para>
+
+      </sidebar>
+
+      <para>Você também deve ter notado a forma não-padrão como o
+        Subversion atualmente exibe diferenças de propriedades.  Você
+        ainda pode executar <command>svn diff</command> e redirecionar a
+        saída para criar um arquivo de patch usável.  O programa
+        <command>patch</command> vai ignorar patches de
+        propriedades&mdash;como regra, ele ignora qualquer coisa que não
+        consiga entender.  Isso significa, infelizmente, que para
+        aplicar completamente um patch gerado pelo <command>svn
+        diff</command>, quaisquer alterações em propriedades precisarão
+        ser aplicadas manualmente.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.auto">
+      <title>Definição Automática de Propriedades</title>
+
+      <para>Propriedades são um poderoso recurso do Subversion, agindo
+        como componentes chave em muitos outros recursos apresentados
+        neste e em outros capítulos&mdash;suporte a diferenciação e
+        mesclagem textual, substituição de palavras-chave, conversão de
+        delimitadores de linha, etc.  Mas para aproveitar plenamente as
+        propriedades, elas devem ser definidas nos arquivos e diretórios
+        certos.  Infelizmente, este passo é facilmente esquecido na
+        rotina de ações de usuário, especialmente pelo fato de que a não
+        atribuição de uma propriedade normalmente não resulta em nenhum
+        erro óbvio (ao menos quando comparado a, digamos, esquecer de
+        adicionar um arquivo ao controle de versão).  Para ajudar que
+        suas propriedades sejam aplicadas em seus devidos locais, o
+        Subversion dispõem de uma porção de recursos simples e
+        poderosos.</para>
+
+      <para>Sempre que você inclui um arquivo ao controle de versão
+        usando os comando <command>svn add</command> ou <command>svn
+        import</command>, o Subversion tenta ajudar criando algumas
+        propriedades de arquivo automaticamente.  Primeiramente, em
+        sistema operacionais cujos sistemas de arquivo suportem bits de
+        permissão de execução, o Subversion automaticamente vai definir
+        a propriedade <literal>svn:executable</literal> nos arquivos
+        recém adicionados ou importados nos quais o bit de execução
+        esteja ativo.  (Veja <xref
+        linkend="svn.advanced.props.special.executable" /> para mais
+        sobre esta propriedade.)  Em segundo lugar, ele executa uma
+        heurística bem básica para identificar se o arquivo contém
+        algum conteúdo que seja legível por humanos.  Se não, o
+        Subversion automaticamente vai definir a propriedade
+        <literal>svn:mime-type</literal> naquele arquivo para
+        <literal>application/octet-stream</literal> (o tipo MIME
+        genérico para <quote>isto é um conjunto de bytes</quote>).
+        Claro que se o Subversion identificou corretamente, ou se você
+        quiser definir a propriedade <literal>svn:mime-type</literal>
+        para algo mais preciso&mdash;talvez <literal>image/png</literal>
+        ou <literal>application/x-shockwave-flash</literal>&mdash;você
+        sempre pode remover ou editar esta propriedade.  (Para mais
+        sobre como o Subversion faz uso dos tipos MIME, veja <xref
+        linkend="svn.advanced.props.special.mime-type" />.)</para>
+
+      <para>O Subversion também oferece, através de seu sistema de
+        configuração em tempo de execução (veja <xref
+        linkend="svn.advanced.confarea" />), um mecanismo mais flexível
+        de definição automática de propriedades que permite a você criar
+        mapeamentos de padrões de nome de arquivos para nomes de
+        propriedades e valores.  Novamente, estes mapeamentos afetam
+        adições e importações e não apenas podem sobrescrever a
+        identificação sobre o tipo MIME padrão feita pelo Subversion
+        durante suas operações, como pode definir propriedades do
+        Subversion adicionais e personalizadas também.  Por exemplo,
+        você poderia criar um mapeamento que dissesse que sempre que
+        você adicionar arquivos JPEG&mdash;aqueles cujos nomes casem com
+        o padrão <literal>*.jpg</literal>&mdash;o Subversion deveria
+        automaticamente definir a propriedade
+        <literal>svn:mime-type</literal> destes arquivos para
+        <literal>image/jpeg</literal>.  Ou talvez quaisquer arquivos que
+        correspondam ao padrão <literal>*.cpp</literal> deveriam ter a
+        propriedade <literal>svn:eol-style</literal> definida para
+        <literal>native</literal>, e <literal>svn:keywords</literal>
+        atribuída para <literal>Id</literal>.  Suporte a propriedades
+        automáticas talvez seja a ferramenta mais prática no conjunto de
+        ferramentas do Subversion.  Veja <xref
+        linkend="svn.advanced.confarea.opts.config"/> para mais sobre a
+        configuração deste recurso.</para>
+
+    </sect2>     
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.props.file-portability">
+    <title>Portabilidade de Arquivo</title>
+
+    <para>Felizmente, para os usuários do Subversion que rotineiramente
+      se encontram em diferentes computadores, com diferentes sistemas
+      operacionais, o programa de linha de comando do Subversion comporta-se
+      quase que da mesma forma em todos os sistemas.  Se você sabe como usar
+      o <command>svn</command> em uma plataforma, você saberá como manuseá-lo
+      em qualquer outra.</para>
+
+    <para>Entretanto, o mesmo nem sempre é verdade em outras classes de software
+      em geral, ou nos atuais arquivos que você mantém no Subversion. Por
+      exemplo, em uma máquina Windows, a definição de um <quote>arquivo de
+      texto</quote> seria similar à usada em uma máquina Linux, porém
+      com uma diferença chave&mdash;os caracteres usados para marcar
+      o fim das linhas destes arquivos.  Existem outras diferenças
+      também.  As plataformas Unix têm (e o Subversion suporta) links
+      simbólicos; Windows não.  As plataformas Unix usam as permissões do
+      sistema de arquivos para determinar a executabilidade; Windows usa
+      as extensões no nome do arquivo.</para>
+
+    <para>Pela razão de que o Subversion não está em condição de unir o
+      mundo inteiro em definições comuns e implementações de todas estas
+      coisas, o melhor que podemos fazer é tentar ajudar a tornar sua vida
+      mais simples quando você precisar trabalhar com seus arquivos e
+      diretórios versionados em múltiplos computadores e sistemas operacionais.
+      Esta seção descreve alguns dos meios de como o Subversion faz isto.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.special.mime-type">
+      <title>Tipo de Conteúdo do Arquivo</title>
+      
+      <para>O Subversion combina a qualidade das muitas aplicações que
+        reconhecem e fazem uso dos tipos de conteúdo do <emphasis>Multipurpose
+        Internet Mail Extensions</emphasis> (MIME).  Além de ser um local
+        de armazenamento de propósito geral para um tipo de conteúdo do arquivo,
+        o valor da propriedade de arquivo <literal>svn:mime-type</literal>
+        determina algumas características comportamentais do próprio
+        Subversion.</para>
+
+      <sidebar>
+        <title>Identificando Tipos de Arquivo</title>
+    
+        <para>Vários programas nos sistemas operacionais mais modernos fazem
+          suposições sobre o tipo e formato do conteúdo de um arquivo
+          pelo nome do arquivo, especificamente por sua extensão.
+          Por exemplo, arquivos cujos nomes terminam em
+          <filename>.txt</filename> são, geralmente, supostos ser legíveis
+          por humanos, passíveis de serem compreendidos por simples leitura,
+          em vez dos que requerem processamento complexo para os decifrar.
+          Por outro lado, arquivos cujos nomes terminam em <filename>
+          .png</filename> assume-se serem do tipo <emphasis>Portable Network
+          Graphics</emphasis>&mdash; que não são legíveis por humanos, sendo
+          perceptíveis apenas quando interpretados pelo software que entende
+          o formato PNG, e pode tornar a informação neste formato como uma
+          imagem desenhada por linhas.</para>
+
+        <para>Infelizmente, algumas destas extensões têm seus significados
+          modificados ao longo do tempo.  Quando os computadores pessoais
+          apareceram pela primeira vez, um arquivo chamado
+          <filename>README.DOC</filename> certamente era um arquivo de
+          texto simples, como são hoje os arquivos <filename>.txt</filename>.
+          Porém, no meio dos anos de 1990, você poderia apostar que um arquivo
+          com este nome não seria mais um arquivo de texto simples, mas sim um
+          documento do Microsoft Word em um formato proprietário e humanamente
+          ilegível. Mas esta mudança não ocorreu da noite para o dia&mdash;houve
+          certamente um período de confusão para os usuário de computador sobre
+          o que exatamente eles tinham em mãos quando viam um arquivo
+          <filename>.DOC</filename>.
+          <footnote>
+            <para>Você acha que foi complicado?  Durante este mesmo período, o
+              WordPerfect também usou <filename>.DOC</filename> como extensão
+              para seu formato de arquivo proprietário!</para>
+          </footnote>
+        </para>
+
+        <para>A popularidade das redes de computadores lançou ainda mais
+          dúvidas sobre o mapeamento entre um nome de arquivo e seu conteúdo.
+          Com informações sendo servidas através das redes e geradas
+          dinamicamente por scripts no servidor, freqüentemente, observava-se
+          arquivos não reais e, portanto, sem nome. Os servidores
+          Web, por exemplo, precisavam de algum outro modo para dizer aos 
+          navegadores que eles estavam baixando um arquivo, assim o navegador
+          poderia fazer algo inteligente com esta informação, quer seja para
+          exibir os dados usando um programa registrado para lidar com este
+          tipo de dados, quer seja para solicitar ao usuário onde armazenar
+          os dados baixados.</para>
+
+        <para>Finalmente, um padrão surgiu para, entre outras coisas,
+          descrever o conteúdo de um fluxo de dados.  Em 1996, a RFC2045
+          foi publicada, a primeira de cinco RFC's descrevendo o MIME.
+          Esta RFC descreve o conceito de tipos e subtipos de mídia, e
+          recomenda uma sintaxe para a representação destes tipos.  Hoje,
+          os tipos de mídia MIME&mdash;ou <quote>tipos MIME</quote>&mdash;são
+		  usados quase que universalmente em todas as aplicações de e-mail,
+		  servidores Web e outros softwares como o mecanismo de fato
+		  para esclarecer a confusão do conteúdo de
+		  arquivo.</para>
+
+      </sidebar>
+    
+      <para>Por exemplo, um dos benefícios que o Subversion tipicamente
+        fornece é a fusão contextual, baseada nas linhas, das mudanças recebidas
+        do servidor durante uma atualização em seu arquivo de trabalho.  Mas,
+        para arquivos contendo dados não-textuais, muitas vezes não existe o
+        conceito de <quote>linha</quote>.  Assim, para os arquivos versionados
+        cuja propriedade <literal>svn:mime-type</literal> é definida com
+        um tipo MIME não-textual (geralmente, algo que não inicie com
+        <literal>text/</literal>, embora existam exceções), o Subversion
+        não tenta executar fusões contextuais durante as atualizações.
+        Em vez disso, quando você modifica localmente um arquivo binário
+        em sua cópia de trabalho, na momento da atualização, seu 
+        arquivo não é mexido, pois o Subversion cria dois novos arquivos.  Um
+        deles tem a extensão <filename>.oldrev</filename> e contém a
+        revisão BASE do arquivo.  O outro arquivo tem uma extensão
+        <filename>.newrev</filename> e contém o conteúdo
+        da revisão atualizada do arquivo.  Este comportamento
+        serve de proteção ao usuário contra falhas na tentativa
+        de executar fusões contextuais nos arquivos que simplesmente
+        não podem ser contextualmente fundidos.</para>
+
+      <para>Além disso, se a propriedade <literal>svn:mime-type</literal> 
+        estiver definida, então o módulo Apache do Subversion usará seu valor 
+        para preencher o cabeçalho HTTP <literal>Content-type:</literal> quando
+        responder a solicitações GET.  Isto oferece ao navegador web uma
+        dica crucial sobre como exibir um arquivo quando você o utiliza para
+        examinar o conteúdo de seu repositório Subversion.</para>
+
+    </sect2>
+  
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.special.executable">
+      <title>Executabilidade de Arquivo</title>
+ 
+      <para>Em muitos sistemas operacionais, a capacidade de executar um arquivo
+        como um comando é comandada pela presença de um bit de permissão
+        para execução.  Este bit, usualmente, vem desabilitado por padrão,
+        e deve ser explicitamente habilitado pelo usuário em cada arquivo que
+        seja necessário.  Mas seria um grande incômodo ter que lembrar,
+        exatamente, quais arquivos de uma cópia de trabalho verificada
+        recentemente estavam com seus bits de execução habilitados,
+        e, então, ter que trocá-los.  Por esta razão, o Subversion oferece
+        a propriedade <literal>svn:executable</literal>, que é um modo de
+        especificar que o bit de execução para o arquivo no qual esta
+        propriedade está definida deve ser habilitado, e o Subversion honra esta
+        solicitação ao popular cópias de trabalho com tais arquivos.</para>
+
+      <para>Esta propriedade não tem efeito em sistemas de arquivo que não possuem
+        o conceito de bit de permissão para executável, como, por exemplo,
+        FAT32 e NTFS.
+        <footnote>
+          <para>Os sistemas de arquivos do Windows usam extensões de arquivo 
+          (tais como <literal>.EXE</literal>, <literal>.BAT</literal>, e
+            <literal>.COM</literal>) para indicar arquivos
+            executáveis.</para>
+        </footnote>
+        Além disso, quando não houver valor definido, o Subversion forçará
+        o valor <literal>*</literal> ao definir esta propriedade.
+        Por fim, esta propriedade só é válido em arquivos, não em
+        diretórios.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.props.special.eol-style">
+      <title>Seqüência de Caracteres de Fim-de-Linha</title>
+
+      <para>A não você ser que esteja usando a propriedade
+        <literal>svn:mime-type</literal> em um arquivo sob controle de versão, o Subversion
+        assume que o arquivo contém dados humanamente legíveis.  De uma forma
+        geral, o Subversion somente usa esse conhecimento para determinar
+        se os relatórios de diferenças contextuais para este arquivo são
+        possíveis.  Ao contrário, para o Subversion, bytes são bytes.</para>
+      
+      <para>Isto significa que, por padrão, o Subversion não presta qualquer
+        atenção para o tipo de <firstterm>marcadores de fim-de-linha, ou <foreignphrase>end-of-line</foreignphrase>
+        (EOL)</firstterm> usados em seus arquivos.  Infelizmente,
+        diferentes sistemas operacionais possuem diferentes convenções sobre
+        qual seqüência de caracteres representa o fim de uma linha de texto
+        em um arquivo.  Por exemplo, a marca usual de término de linha usada por
+        softwares na plataforma Windows é um par de caracteres de controle
+        ASCII&mdash;um retorno de carro (<literal>CR</literal>) seguido
+        por um avanço de linha (<literal>LF</literal>).  Os softwares em
+        Unix, entretanto, utilizam apenas o caracter <literal>LF</literal>
+        para definir o término de uma linha.</para>
+
+      <para>Nem todas as ferramentas nestes sistemas operacionais
+        compreendem arquivos que contêm terminações de linha em um
+        formato que difere do <firstterm>estilo nativo de terminação
+        de linha</firstterm> do sistema operacional no qual estão
+        executando.  Assim, normalmente, programas Unix
+        tratam o caracter <literal>CR</literal>, presente em arquivos
+        Windows, como um caracter normal (usualmente representado como
+        <literal>^M</literal>), e programas Windows juntam todas
+        as linhas de um arquivo Unix dentro de uma linha enorme, porque
+        nenhuma combinação dos caracteres de retorno de carro e avanço de
+        linha (ou <literal>CRLF</literal>) foi encontrada para determinar
+        os términos das linhas.</para>
+
+      <para>Esta sensibilidade quanto aos marcadores EOL pode ser
+        frustrante para pessoas que compartilham um arquivo em diferentes
+        sistemas operacionais.  Por exemplo, considere um arquivo de
+        código-fonte, onde desenvolvedores que editam este arquivo em ambos os sistemas,
+        Windows e Unix.  Se todos os desenvolvedores sempre usarem ferramentas
+        que preservem o estilo de término de linha do arquivo, nenhum problema
+        ocorrerá.</para>
+
+      <para>Mas na prática, muitas ferramentas comuns, ou falham ao
+        ler um arquivo com marcadores EOL externos, ou convertem as
+        terminações de linha do arquivo para o estilo nativo quando o
+        arquivo é salvo.  Se o precedente é verdadeiro para um desenvolvedor,
+        ele deve usar um utilitário de conversão externo (tal como
+        <command>dos2unix</command> ou seu similar,
+        <command>unix2dos</command>) para preparar o arquivo para
+        edição.  O caso posterior não requer nenhuma preparação extra.
+        Mas ambos os casos resultam em um arquivo que difere do
+        original literalmente em cada uma das linhas!  Antes de submeter
+        suas alterações, o usuário tem duas opções.  Ou ele pode utilizar um
+        utilitário de conversão para restaurar o arquivo modificado para o mesmo
+        estilo de término de linha utilizado antes de suas edições serem feitas.
+        Ou ele pode simplesmente submeter o arquivo&mdash;as novas marcas EOL e
+        tudo mais.</para>
+
+      <para>O resultado de cenários como estes incluem perda de tempo
+        e modificações desnecessárias aos arquivos submetidos.  A perda de tempo
+        é suficientemente dolorosa.  Mas quando submissões mudam cada uma das linhas
+        em um arquivo, isso dificulta o trabalho de determinar quais dessas
+        linhas foram modificadas de uma forma não trivial.  Onde o bug
+        foi realmente corrigido?  Em qual linha estava o erro de sintaxe
+        introduzido?</para>
+
+      <para>A solução para este problema é a propriedade
+        <literal>svn:eol-style</literal>.  Quando esta propriedade
+        é definida com um valor válido, o Subversion a utiliza para
+        determinar que tratamento especial realizar sobre o arquivo de
+        modo que o estilo de término de linha do arquivo não fique
+        alternando a cada submissão vinda de um sistema operacional
+        diferente.  Os valores válidos são:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term><literal>native</literal></term>
+          <listitem>
+            <para>Isso faz com que o arquivo contenha as marcas EOL
+              que são nativas ao sistema operacional no qual o
+              Subversion foi executado.  Em outras palavras, se um
+              usuário em um computador Windows adquire uma cópia de trabalho
+              que contém um arquivo com a propriedade
+              <literal>svn:eol-style</literal> atribuída para
+              <literal>native</literal>, este arquivo conterá
+              <literal>CRLF</literal> como marcador EOL.  Um usuário Unix
+              adquirindo uma cópia de trabalho que contém o mesmo
+              arquivo verá <literal>LF</literal> como marcador EOL em sua
+              cópia do arquivo.</para>
+
+            <para>Note que o Subversion na verdade armazenará o arquivo
+              no repositório usando marcadores normalizados como
+              <literal>LF</literal> independentemente do sistema
+              operacional.  Isto, no entanto, será essencialmente transparente para
+              o usuário.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><literal>CRLF</literal></term>
+          <listitem>
+            <para>Isso faz com que o arquivo contenha seqüências
+              <literal>CRLF</literal> como marcadores EOL,
+              independentemente do sistema operacional em uso.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><literal>LF</literal></term>
+          <listitem>
+            <para>Isso faz com que o arquivo contenha caracteres
+              <literal>LF</literal> como marcadores EOL,
+              independentemente do sistema operacional em uso.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><literal>CR</literal></term>
+          <listitem>
+            <para>Isso faz com que o arquivo contenha caracteres
+              <literal>CR</literal> como marcadores EOL, independentemente
+                do sistema operacional em uso.  Este estilo de término
+                de linha não é muito comum.  Ele foi utilizado em antigas
+                plataformas Macintosh (nas quais o Subversion não executa
+                regularmente).</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      
+    </sect2>
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.props.special.ignore">
+    <title>Ignorando Itens Não-Versionados</title>
+
+    <para>Em qualquer cópia de trabalho obtida, há uma boa chance que
+      juntamente com todos os arquivos e diretórios versionados estão outros
+      arquivos e diretórios que não são versionados e nem pretendem
+      ser.  Editores de texto deixam diretórios com arquivos de backup.
+      Compiladores de software produzem arquivos intermediários&mdash;ou
+      mesmo definitivos&mdash;que você normalmente não faria controle de
+      versão.  E os próprios usuários deixam vários outros arquivos e
+      diretórios, sempre que acharem adequado, muitas vezes em cópias de
+      trabalho com controle de versão.</para>
+
+    <para>É ridículo esperar que cópias de trabalho do Subversion sejam
+      de algum modo impenetráveis a este tipo de resíduo e impureza.  De
+      fato, o Subversion os considera como um <emphasis>recurso</emphasis>
+      que suas cópias de trabalho estão apenas com diretórios normais, como
+      árvores não-versionadas.  Mas estes arquivos e diretórios que não deveriam
+      ser versionados podem causar algum incômodo aos usuários do Subversion.  Por
+      exemplo, pelo fato dos comandos <command>svn add</command> e <command>svn
+      import</command> agirem recursivamente por padrão, e não saberem
+      quais arquivos em uma dada árvore você deseja ou não versionar,
+      é acidentalmente fácil adicionar coisas ao controle de versão que
+      você não pretendia.  E pelo fato do comando <command>svn
+      status</command> reportar, por padrão, cada item de interesse em
+      uma cópia de trabalho&mdash;incluindo arquivos e diretórios não
+      versionados&mdash;sua saída pode ficar muito poluída, onde grande número
+      destas coisas aparecem.</para>
+
+    <para>Portanto, o Subversion oferece dois meios para dizer quais
+      arquivos você preferiria que ele simplesmente desconsiderasse.  Um dos
+      meios envolve o uso do sistema de configuração do ambiente de execução do
+      Subversion (veja <xref linkend="svn.advanced.confarea" />), e
+      conseqüentemente aplica-se a todas operações do Subversion que fazem
+      uso desta configuração do ambiente de execução, geralmente aquelas executadas
+      em um computador específico, ou por um usuário específico de um computador.
+      O outro meio faz uso do suporte de propriedade de diretório do
+      Subversion, é mais fortemente vinculado à própria árvore versionada e,
+      conseqüentemente, afeta todos aqueles que têm uma cópia de trabalho desta árvore.
+      Os dois mecanismos usam filtros de arquivo.</para>
+
+    <para>O sistema de configuração <foreignphrase>runtime</foreignphrase> do Subversion oferece uma
+      opção, <literal>global-ignores</literal>, cujo valor é uma coleção
+      de filtros de arquivo delimitados por espaços em branco (também conhecida com
+      <firstterm>globs</firstterm>).  O cliente do Subversion verifica
+      esses filtros em comparação com os nomes dos arquivos que são
+      candidatos para adição ao controle de versão, bem como os arquivos
+      não versionados os quais o comando <command>svn status</command>
+      notifica.  Se algum nome de arquivo coincidir com um dos
+      filtros, basicamente, o Subversion atuará como se o arquivo não
+      existisse.  Isto é realmente útil para os tipos de arquivos que
+      você raramente precisará controlar versão, tal como cópias de arquivos feitas por editores
+      como os arquivos <literal>*~</literal> e <literal>.*~</literal> do
+      <foreignphrase>Emacs</foreignphrase>.</para>
+
+    <para>Quando encontrada em um diretório versionado, a propriedade
+      <literal>svn:ignore</literal> espera que contenha uma lista de
+      filtros de arquivo delimitadas por quebras de linha que o Subversion deve
+      usar para determinar objetos ignoráveis neste mesmo diretório.
+      Estes filtros não anulam os encontrados na opção
+      <literal>global-ignores</literal> da configuração <foreignphrase>runtime</foreignphrase>,
+      porém, são apenas anexados a esta lista.  E é importante notar mais
+      uma vez que, ao contrário da opção <literal>global-ignores</literal>,
+      os filtros encontrados na propriedade <literal>svn:ignore</literal>
+      aplicam-se somente ao diretório no qual esta propriedade está
+      definida, e em nenhum de seus subdiretórios.  A propriedade
+      <literal>svn:ignore</literal> é uma boa maneira para dizer ao
+      Subversion ignorar arquivos que estão susceptíveis a estarem presentes em
+      todas as cópias de trabalho de usuário deste diretório, assim como as saídas
+      de compilador ou&mdash;para usar um exemplo mais apropriado para este
+      livro&mdash;os arquivos HTML, PDF, ou PostScript produzidos como o
+      resultado de uma conversão de alguns arquivos XML do fonte DocBook para um
+      formato de saída mais legível.</para>
+
+    <note>
+      <para>O suporte do Subversion para filtros de arquivos ignoráveis estende
+        somente até o processo de adicionar arquivos e diretórios
+        não versionados ao controle de versão.  Desde que um objeto está
+        sob o controle do Subversion, os mecanismos de filtro de ignoração já
+        não são mais aplicáveis a ele.  Em outras palavras, não espere que o Subversion
+        deixe de realizar a submissão de mudanças que você efetuou em arquivos versionados
+        simplesmente porque estes nomes de arquivo coincidem com um filtro de
+        ignoração&mdash;o Subversion <emphasis>sempre</emphasis> avisa quais
+        objetos foram versionados.</para>
+    </note>
+
+    <sidebar>
+      <title>Filtros de Rejeição para Usuários CVS</title>
+    
+      <para>A propriedade <literal>svn:ignore</literal> do Subversion é
+        muito similar em sintaxe e função ao arquivo
+        <filename>.cvsignore</filename> do CVS.  De fato, se você está
+        migrando de uma cópia de trabalho CVS para Subversion, você pode
+        migrar os filtros de rejeição, diretamente, pelo uso do arquivo
+        <filename>.cvsignore</filename> como arquivo de entrada para o
+        comando <command>svn propset</command>:</para>
+   
+      <screen>
+$ svn propset svn:ignore -F .cvsignore .
+property 'svn:ignore' set on '.'
+$
+</screen>        
+    
+      <para>Existem, entretanto, algumas diferenças nos meios que CVS
+        e Subversion manipulam filtros de rejeição.  Os dois sistemas usam
+        os filtros de rejeição em tempos um pouco diferentes, e existem
+        ligeiras discrepâncias na aplicação dos filtros de rejeição.
+        Além disso, o Subversion não reconhece o uso do filtro
+        <literal>!</literal> como uma redefinição que torna os filtros
+        seguintes como não-ignorados.</para>
+
+    </sidebar>
+
+    <para>A lista global de filtros de rejeição tende ser mais uma
+      questão de gosto pessoal, e vinculada mais estreitamente a uma série de
+      ferramentas específicas do usuário do que aos detalhes de qualquer
+      cópia de trabalho particular necessita.  Assim, o resto desta seção
+      focará na propriedade <literal>svn:ignore</literal> e seus
+      usos.</para>
+
+    <para>Digamos que você tenha a seguinte saída do <command>svn
+      status</command>:</para>
+
+    <screen>
+$ svn status calc
+ M     calc/button.c
+?      calc/calculator
+?      calc/data.c
+?      calc/debug_log
+?      calc/debug_log.1
+?      calc/debug_log.2.gz
+?      calc/debug_log.3.gz
+</screen>
+    
+    <para>Neste exemplo, você realizou algumas modificações no arquivo
+      <filename>button.c</filename>, mas em sua cópia de trabalho você
+      também possui alguns arquivos não-versionados: o mais recente programa
+      <filename>calculator</filename> que você compilou a partir
+      do seu código fonte, um arquivo fonte nomeado
+      <filename>data.c</filename>, e uma série de arquivos de registro da saída de
+      depuração.  Agora, você sabe que seu sistema de construção sempre resulta
+      no programa <filename>calculator</filename> como produto.
+      <footnote>
+        <para>Não é isso o resultado completo de um sistema de construção?</para>
+      </footnote>
+      E você sabe que sua ferramenta de testes sempre deixa aqueles arquivos de
+      registro de depuração alojando ao redor.  Estes fatos são verdadeiros para todas cópias
+      de trabalho deste projeto, não para apenas sua própria.  E você também
+      não está interessado em ver aquelas coisas toda vez que você executa
+      <command>svn status</command>, e bastante seguro que ninguém mais
+      está interessado em nenhuma delas.  Sendo assim, você executa <command>svn propedit
+      svn:ignore calc</command> para adicionar alguns filtros de rejeição para o
+      diretório <filename>calc</filename>.  Por exemplo, você pode adicionar
+      os filtros abaixo como o novo valor da propriedade
+      <literal>svn:ignore</literal>:</para>
+
+    <programlisting>
+calculator
+debug_log*
+</programlisting>
+    
+    <para>Depois de você adicionar esta propriedade, você terá agora uma modificação
+      de propriedade local no diretório <filename>calc</filename>.
+      Mas note que o restante da saída é diferente para o comando
+      <command>svn status</command>:</para>
+
+    <screen>
+$ svn status
+ M     calc
+ M     calc/button.c
+?      calc/data.c
+</screen>
+    
+    <para>Agora, todas aqueles resíduos não são apresentados nos resultados!  Certamente,
+      seu programa compilado <filename>calculator</filename> e todos aqueles
+      arquivos de registro estão ainda em sua cópia de trabalho.  O Subversion está
+      simplesmente não lembrando você que eles estão presentes e não-versionados.
+      E agora com todos os arquivos desinteressantes removidos dos resultados,
+      você visualizará somente os itens mais interessantes&mdash;assim como
+      o arquivo de código fonte <filename>data.c</filename> que você
+      provavelmente esqueceu de adicionar ao controle de versão.</para>
+
+    <para>Evidentemente, este relatório menos prolixo da situação de sua cópia
+      de trabalho não é a única disponível.  Se você realmente quiser ver
+      os arquivos ignorados como parte do relatório de situação, você pode passar
+      a opção <option>--no-ignore</option> para o Subversion:</para>
+
+    <screen>
+$ svn status --no-ignore
+ M     calc
+ M     calc/button.c
+I      calc/calculator
+?      calc/data.c
+I      calc/debug_log
+I      calc/debug_log.1
+I      calc/debug_log.2.gz
+I      calc/debug_log.3.gz
+</screen>
+    
+    <para>Como mencionado anteriormente, a lista de filtros de arquivos a ignorar
+      também é usada pelos comandos <command>svn add</command> e <command>svn
+      import</command>.  Estas duas operações implicam solicitar ao
+      Subversion iniciar o gerenciamento de algum conjunto de arquivos e diretórios.
+      Ao invés de forçar o usuário a escolher quais arquivos em uma
+      árvore ele deseja iniciar o versionamento, o Subversion usa os filtros de
+      rejeição&mdash;tanto a lista global quanto a por diretório
+      (<literal>svn-ignore</literal>)&mdash;para determinar quais arquivos não devem
+      ser varridos para o sistema de controle de versão como parte de uma operação
+      recursiva de adição ou importação.  E da mesma forma, você pode usar a opção
+      <option>--no-ignore</option> para indicar ao Subversion desconsiderar
+      suas listas de rejeição e operar em todos os arquivos e diretórios
+      presentes.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.props.special.keywords">
+    <title>Substituição de Palavra-Chave</title>
+
+    <para>O Subversion possui a capacidade de substituir
+      <firstterm>palavras-chave</firstterm>&mdash;pedaços de informação
+      úteis e dinâmicos sobre um arquivo versionado&mdash;dentro do
+      conteúdo do próprio arquivo.  As palavras-chave geralmente fornece
+      informação sobre a última modificação realizada no arquivo.
+      Pelo fato desta informação modificar toda vez que o arquivo
+      é modificado, e mais importante, apenas
+      <emphasis>depois</emphasis> que o arquivo é modificado, isto é um aborrecimento
+      para qualquer processo a não ser que o sistema de controle de versão mantenha
+      os dados completamente atualizados.  Se deixada para os autores humanos, a
+      informação se tornaria inevitavelmente obsoleta.</para>
+
+    <para>Por exemplo, digamos que você tem um documento no qual gostaria
+      de mostrar a última data em que ele foi modificado.  Você
+      poderia obrigar que cada autor deste documento que, pouco antes de
+      submeter suas alterações, também ajustasse a parte do
+      documento que descreve quando ele fez a última alteração.  Porém,
+      mais cedo ou mais tarde, alguém esqueceria de fazer isto.  Em vez disso,
+      basta solicitar ao Subversion que efetue a substituição da palavra-chave
+      <literal>LastChangedDate</literal> pelo valor adequado.  Você controla
+      onde a palavra-chave é inserida em seu documento colocando uma
+      <firstterm>âncora de palavra-chave</firstterm> no local desejado
+      dentro do arquivo.  Esta âncora é apenas uma sequência de texto
+      formatada como
+      <literal>$</literal><replaceable>NomeDaPalavraChave</replaceable><literal>$</literal>.</para>
+
+    <para>Todas as palavras-chave são sensíveis a minúsculas e maiúsculas onde aparecem como
+      âncoras em arquivos: você deve usar a capitalização correta para
+      que a palavra-chave seja expandida.  Você deve considerar que o
+      valor da propriedade <literal>svn:keywords</literal> esteja ciente da
+      capitalização também&mdash;certos nomes de palavras-chave serão reconhecidos,
+      independentemente do caso, mas este comportamento está desaprovado.</para>
+
+    <para>O Subversion define a lista de palavras-chave disponíveis para
+      substituição.  Esta lista contém as seguintes cinco palavras-chave, 
+      algumas das quais possuem apelidos que você pode também utilizar:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><literal>Date</literal></term>
+        <listitem>
+          <para>Esta palavra-chave descreve a última vez conhecida em
+            que o arquivo foi modificado no repositório, e
+            está na forma <literal>$Date:
+            2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006)
+            $</literal>.  Ela também pode ser especificada como
+            <literal>LastChangedDate</literal>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>Revision</literal></term>
+        <listitem>
+          <para>Esta palavra-chave descreve a última revisão conhecida em
+            que este arquivo foi modificado no repositório, e é apresentada
+            na forma <literal>$Revision: 144 $</literal>.  
+            Ela também pode ser especificada como
+            <literal>LastChangedRevision</literal> ou
+            <literal>Rev</literal>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>Author</literal></term>
+        <listitem>
+          <para>Esta palavra-chave descreve o último usuário conhecido que
+            modificou este arquivo no repositório, e é apresentada
+            na forma <literal>$Author: harry $</literal>.  
+            Ela também pode ser especificada como 
+            <literal>LastChangedBy</literal>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>HeadURL</literal></term>
+        <listitem>
+          <para>Esta palavra-chave descreve a URL completa para a versão
+            mais recente do arquivo no repositório, e é apresentada
+            na forma <literal>$HeadURL:
+            http://svn.collab.net/repos/trunk/README $</literal>.
+            Ela também pode ser abreviada como
+            <literal>URL</literal>.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><literal>Id</literal></term>
+        <listitem>
+          <para>Esta palavra-chave é uma combinação comprimida das
+            outras palavras-chave.  Sua substituição apresenta-se como
+            <literal>$Id: calc.c 148 2006-07-28 21:30:43Z sally
+            $</literal>, e é interpretada no sentido de que o arquivo
+            <filename>calc.c</filename> foi modificado pela última vez na revisão
+            148 na noite de 28 de julho de 2006 pelo usuário
+            <literal>sally</literal>.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Muitas das descrições anteriores usam a frase <quote>último
+      valor conhecido</quote> ou algo parecido.  Tenha em mente que
+      a expansão da palavra-chave é uma operação no lado do cliente, e seu cliente
+      somente <quote>conhece</quote> sobre mudanças que tenham ocorrido no
+      repositório quando você atualiza sua cópia de trabalho para incluir
+      essas mudanças.  Se você nunca atualizar sua cópia de trabalho, suas
+      palavras-chave nunca expandirão para valores diferentes, mesmo que esses
+      arquivos versionados estejam sendo modificados regularmente no
+      repositório.</para>
+
+    <para>Simplesmente adicionar texto da âncora de uma palavra-chave em seu
+      arquivo faz nada de especial.  O Subversion nunca tentará executar
+      substituições textuais no conteúdo de seu arquivo a não ser que
+      seja explicitamente solicitado.  Afinal, você pode estar escrevendo
+      um documento
+      <footnote>
+        <para>&hellip; ou até mesmo uma seção de um livro &hellip;</para>
+      </footnote> 
+      sobre como usar palavras-chave, e você não quer que o Subversion
+      substitua seus belos exemplos de âncoras de palavra-chave, permanecendo
+      não-substituídas!</para>
+
+    <para>Para dizer ao Subversion se substitui ou não as palavras-chave
+      em um arquivo particular, voltamos novamente aos subcomandos relacionados a
+      propriedades.  A propriedade <literal>svn:keywords</literal>,
+      quando definida em um arquivo versionado, controla quais palavras-chave serão
+      substituídas naquele arquivo.  O valor é uma lista delimitada por espaços
+      dos nomes ou apelidos de palavra-chave encontradas na tabela
+      anterior.</para>
+
+    <para>Por exemplo, digamos que você tenha um arquivo versionado nomeado
+      <filename>weather.txt</filename> que possui esta
+      aparência:</para>
+
+    <programlisting>
+Aqui está o mais recente relatório das linhas iniciais.
+$LastChangedDate$
+$Rev$
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
+</programlisting>
+        
+    <para>Sem definir a propriedade <literal>svn:keywords</literal>
+      neste arquivo, o Subversion fará nada especial.  Agora, vamos
+      permitir a substituição da palavra-chave
+      <literal>LastChangedDate</literal>.</para>
+
+    <screen>
+$ svn propset svn:keywords "Date Author" weather.txt
+property 'svn:keywords' set on 'weather.txt'
+$
+</screen>        
+    
+    <para>Agora você fez uma modificação local da propriedade no arquivo
+      <filename>weather.txt</filename>.  Você verá nenhuma
+      mudança no conteúdo do arquivo (ao menos que você tenha feito alguma
+      definição na propriedade anteriormente).  Note que o arquivo
+      continha uma âncora de palavra-chave para a palavra-chave <literal>Rev</literal>,
+      no entanto, não incluímos esta palavra-chave no valor da propriedade
+      que definimos.  Felizmente, o Subversion ignorará pedidos para
+      substituir palavras-chave que não estão presentes no arquivo, e
+      não substituirá palavras-chave que não estão presentes no valor
+      da propriedade <literal>svn:keywords</literal>.</para>
+
+    <para>Imediatamente depois de você submeter esta mudança de propriedade,
+      o Subversion atualizará seu arquivo de trabalho com o novo
+      texto substituto.  Em vez de ver a sua âncora da palavra-chave
+      <literal>$LastChangedDate$</literal>, você verá como resultado seu
+      valor substituído.  Este resultado também contém o nome da
+      palavra-chave, que continua sendo limitada pelos caracteres de
+      sinal de moeda (<literal>$</literal>).  E como prevíamos, a
+      palavra-chave <literal>Rev</literal> não foi substituída porque
+      não solicitamos que isto fosse realizado.</para>
+
+    <para>Note também, que definimos a propriedade <literal>svn:keywords</literal>
+      para <quote>Date Author</quote> e, no entanto, a âncora da
+      palavra-chave usou o apelido <literal>$LastChangedDate$</literal>
+      e ainda sim expandiu corretamente.</para>
+
+    <screen>
+Aqui está o mais recente relatório das linhas iniciais.
+$LastChangedDate: 2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006) $
+$Rev$
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
+</screen>
+        
+    <para>Se agora alguém submeter uma mudança para
+      <filename>weather.txt</filename>, sua cópia deste arquivo
+      continuará a mostrar o mesmo valor para a palavra-chave substituída
+      como antes&mdash;até que você atualize sua cópia de trabalho.  Neste
+      momento as palavras-chave em seu arquivo <filename>weather.txt</filename>
+      serão re-substituídas com a informação que
+      reflete a mais recente submissão conhecida para este arquivo.</para>
+
+    <sidebar>
+      <title>Onde está $GlobalRev$?</title>
+
+      <para>Novos usuários são freqüentemente confundidos pela forma que a
+        palavra-chave <literal>$Rev$</literal> trabalha.  Como o repositório
+        possui um número de revisão único, globalmente incrementado, muitas pessoas
+        assumem que este número está refletido no valor da palavra-chave
+        <literal>$Rev$</literal>.  Porém,
+        <literal>$Rev$</literal> reflete a última revisão na qual
+        o arquivo foi <emphasis>modificado</emphasis>, não a última
+        revisão para qual ele foi atualizado.  Compreender isto esclarece
+        a confusão, mas a frustração muitas vezes permanece&mdash;sem o
+        suporte de uma palavra-chave do Subversion para isso, como podemos
+        obter automaticamente o número de revisão global em seus
+        arquivos?</para>
+
+      <para>Para fazer isto, você precisa de processamento externo.  O Subversion
+        vem com uma ferramenta chamada <command>svnversion</command> que
+        foi projetada apenas para este propósito. O comando
+        <command>svnversion</command> rastreia sua cópia de trabalho e
+        produz como saída as revisões que encontra.  Você pode usar
+        este programa, mais algumas outras ferramentas, para embutir esta
+        informação sobre as revisões globais em seus arquivos.  Para mais informações sobre
+        <command>svnversion</command>, veja <xref
+        linkend="svn.ref.svnversion"/>.</para>
+
+    </sidebar>
+
+    <para>O Subversion 1.2 introduziu uma nova variante da sintaxe de
+      palavra-chave que trouxe funcionalidade adicional e útil&mdash;embora talvez
+      atípica.  Agora você pode dizer ao Subversion
+      para manter um tamanho fixo (em termos do número de bytes
+      consumidos) para a palavra-chave substituída.  Pelo uso de um
+      duplo dois pontos (<literal>::</literal>) após o nome da palavra-chave,
+      seguido por um número de caracteres de espaço, você define esta
+      largura fixa.  Quando o Subversion for substituir sua
+      palavra-chave para a palavra-chave e seu valor, ele substituirá
+      essencialmente apenas aqueles caracteres de espaço, deixando a largura
+      total do campo da palavra-chave inalterada.  Se o valor substituído
+      for menor que a largura definida para o campo, haverá caracteres
+      de enchimento extras (espaços) no final do campo
+      substituído; se for mais longo, será truncado com um
+      caractere de contenção especial (<literal>#</literal>) logo antes do
+      sinal de moeda delimitador de fim.</para>
+
+    <para>Por exemplo, digamos que você possui um documento em que temos
+      alguma seção com dados tabulares refletindo as palavras-chave do
+      Subversion sobre o documento.  Usando a sintaxe de substituição de palavra-chave
+      original do Subversion, seu arquivo pode parecer com alguma coisa
+      como:</para>
+
+    <screen>
+$Rev$:     Revisão da última submissão
+$Author$:  Autor da última submissão
+$Date$:    Data da última submissão
+</screen>
+    
+    <para>Neste momento, vemos tudo de forma agradável e tabular.  Mas quando
+      você em seguida submete este arquivo (com a substituição de palavra-chave
+      habilitada, certamente), vemos:</para>
+
+    <screen>
+$Rev: 12 $:     Revisão da última submissão
+$Author: harry $:  Autor da última submissão
+$Date: 2006-03-15 02:33:03 -0500 (Wed, 15 Mar 2006) $:    Data da última submissão
+</screen>
+    
+    <para>O resultado não é tão elegante.  E você pode ser
+      tentado a então ajustar o arquivo depois da substituição para
+      que pareça tabular novamente.  Mas isto apenas funciona quando
+      os valores da palavra-chave são da mesma largura.  Se a última
+      revisão submetida aumentar em uma casa decimal (ou seja, de
+      99 para 100), ou se uma outra pessoa com um nome de usuário maior
+      submete o arquivo, teremos tudo bagunçado novamente.  No entanto, se
+      você está usando o Subversion 1.2 ou superior, você pode usar a nova sintaxe
+      para palavra-chave com tamanho fixo, definir algumas larguras de campo que
+      sejam razoáveis, e agora seu arquivo pode ter esta aparência:</para>
+
+    <screen>
+$Rev::               $:  Revisão da última submissão
+$Author::            $:  Autor da última submissão
+$Date::              $:  Data da última submissão
+</screen>
+    
+    <para>Você submete esta mudança ao seu arquivo.  Desta vez,
+      o Subversion nota a nova sintaxe para palavra-chave com tamanho fixo, e
+      mantém a largura dos campos como definida pelo espaçamento que
+      você colocou entre o duplo dois pontos e o sinal de moeda
+      final.  Depois da substituição, a largura dos campos está
+      completamente inalterada&mdash;os curtos valores de
+      <literal>Rev</literal> e <literal>Author</literal> são
+      preenchidos com espaços, e o longo campo <literal>Date</literal>
+      é truncado com um caractere de contenção:</para>
+
+    <screen>
+$Rev:: 13            $:  Revisão da última submissão
+$Author:: harry      $:  Autor da última submissão
+$Date:: 2006-03-15 0#$:  Data da última submissão
+</screen>
+       
+    <para>O uso de palavras-chave de comprimento fixo é especialmente útil
+      quando executamos substituições em formatos de arquivo complexos que
+      por si mesmo usam campos de comprimento fixo nos dados, ou que o
+      tamanho armazenado de um determinado campo de dados é predominantemente
+      difícil de modificar fora da aplicação original do formato
+      (assim como para documentos do Microsoft Office).</para>
+
+    <warning>
+      <para>Esteja ciente que pelo fato da largura do campo de uma palavra-chave é
+        medida em bytes, o potencial de corrupção de valores de
+        multi-byte existe.  Por exemplo, um nome de usuário que
+        contém alguns caracteres multi-byte em UTF-8 pode sofrer
+        truncamento no meio da seqüência de bytes que compõem
+        um desses caracteres.  O resultado será um mero
+        truncamento quando visualizado à nível de byte, mas provavelmente
+        aparecerá como uma cadeia com um caractere adicional incorreto ou
+        ilegível quando exibido como texto em UTF-8.  É concebível que
+        certas aplicações, quando solicitadas a carregar o arquivo,
+        notariam o texto em UTF-8 quebrado e ainda considerem todo o arquivo
+        como corrompido, recusando-se a operar sobre o arquivo de um
+        modo geral.  Portanto, ao limitar palavras-chave para um tamanho fixo,
+        escolha um tamanho que permita este tipo de expansão ciente dos
+        bytes.</para> 
+    </warning>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.locking">
+    <title>Travamento</title>
+
+    <para>O modelo de controle de versão copiar-modificar-fundir do Subversion ganha e
+      perde sua utilidade em seus algoritmos de fusão de dados, especificamente sobre quão
+      bem esses algoritmos executam ao tentar resolver conflitos
+      causados por múltiplos usuários modificando o mesmo arquivo simultaneamente.
+      O próprio Subversion oferece somente um algoritmo, um algoritmo de diferenciação
+      de três meios, que é inteligente o suficiente para manipular dados até uma
+      granularidade de uma única linha de texto.  O Subversion também permite
+      que você complemente o processamento de fusão de conteúdo com utilitários de
+      diferenciação externos (como descrito em <xref
+      linkend="svn.advanced.externaldifftools.diff3" />), alguns dos
+      quais podem fazer um trabalho ainda melhor, talvez oferecendo granularidade
+      em nível de palavra ou em nível de caractere de texto.  Mas o comum entre esses
+      algoritmos é que eles geralmente trabalham apenas sobre arquivos de texto.  O
+      cenário começa a parecer consideravelmente rígido quando você começa a discursar
+      sobre fusões de conteúdo em formatos de arquivo não-textual.  E quando você não
+      pode encontrar uma ferramenta que possa manipular este tipo de fusão, você
+      começa a verificar os problemas com o modelo
+      copiar-modificar-fundir.</para>
+
+   <para>Vejamos um exemplo da vida real onde este modelo não trabalha
+      adequadamente.  Harry e Sally são ambos desenhistas gráficos trabalhando no
+      mesmo projeto, que faz parte do marketing paralelo para um
+      automóvel mecânico.  O núcleo da concepção de um determinado
+      cartaz é uma imagem de um carro que necessita de alguns reparos, armazenada em
+      um arquivo usando o formato de imagem PNG.  O leiaute do cartaz está
+      quase pronto, e tanto Harry quanto Sally estão satisfeitos com a
+      foto que eles escolheram para o carro danificado&mdash;um Ford Mustang
+      1967 azul bebê com uma parte infelizmente amassada no
+      pára-lama dianteiro esquerdo.</para>
+
+    <para>Agora, como é comum em trabalhos de desenho gráfico, existe uma mudança
+      de planos que faz da cor do carro uma preocupação.  Então, Sally
+      atualiza sua cópia de trabalho para a revisão <literal>HEAD</literal>, inicializa
+      seu software de edição de fotos, e realiza alguns ajustes na imagem de
+      modo que o carro está agora vermelho cereja.  Enquanto isso, Harry, sentindo-se
+      particularmente inspirado neste dia, decide que a imagem
+      teria mais impacto se o carro também apresentasse ter sofrido um
+      maior impacto.  Ele, também, atualiza para a revisão <literal>HEAD</literal>,
+      e então, desenha algumas rachaduras no pára-brisa do veículo.  Ele
+      conduz de forma a concluir seu trabalho antes de Sally terminar o dela, e depois,
+      admirando o fruto de seu inegável talento, submete a imagem
+      modificada.  Pouco tempo depois, Sally finaliza sua nova versão
+      do carro, e tenta submeter suas mudanças.  Porém, como
+      esperado, o Subversion falha na submissão, informando Sally que agora
+      sua versão da imagem está desatualizada.</para>
+
+    <para>Vejamos onde a dificuldade ocorre.  Se Harry e Sally estivessem
+      realizando mudanças em um arquivo de texto, Sally iria simplesmente atualizar sua
+      cópia de trabalho, recebendo as mudanças que Harry realizou.  No
+      pior caso possível, eles teriam modificado a mesma região do
+      arquivo, e Sally teria que realizar uma adequada
+      resolução do conflito.  Mas estes não são arquivos de
+      texto&mdash;são imagens binárias.  E enquanto seja uma simples
+      questão de descrever o que seria esperado como resultado desta
+      fusão de conteúdos, existe uma pequena chance preciosa de que qualquer
+      software existente seja inteligente o suficiente para examinar a imagem que
+      cada um dos artistas gráficos se basearam para realizarem seu
+      trabalho, as mudanças que Harry fez e as mudanças que Sally
+      faz, e produzir uma imagem de um Mustang vermelho degradado com um
+      pára-brisa trincado!</para>
+
+    <para>Obviamente, as coias teriam sido mais simples se Harry e
+      Sally tivessem seqüenciado suas modificações na imagem&mdash;se, digamos,
+      Harry aguardasse para desenhar seus trincados no pára-brisa no novo carro
+      vermelho de Sally, ou se Sally trocasse a cor de um carro cujo
+      pára-brisa já estivesse trincado.  Como é discutido em <xref
+      linkend="svn.basic.vsn-models.copy-merge" />, a maioria destes
+      tipos de problemas desaparecerão totalmente quando existir uma perfeita
+      comunicação entre Harry e Sally.
+      <footnote>
+        <para>A comunicação não teria sido algo tão ruim para os homônimos
+          de Harry e Sally em Hollywood, ainda que seja para nosso
+          caso.</para>
+      </footnote>
+      Porém, como um sistema de controle de versão é de fato uma forma de
+      comunicação, ter um software que facilita a
+      a serialização de esforços não passíveis de paralelamento não é
+      ruim.  É neste cenário que a implementação do Subversion do modelo
+      travar-modificar-destravar ganha maior destaque.  Este é o momento
+      que falamos sobre a característica  de <firstterm>travamento</firstterm>
+      do Subversion, a qual é similar aos mecanismos de <quote>obter cópias
+      reservadas</quote> de outros sistemas de controle de
+      versão.</para>
+
+    <para>A funcionalidade de travamento do Subversion serve dois propósitos
+      principais:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>Serializar o acesso a um objeto
+          versionado</emphasis>.  Ao permitir que um usuário requeira
+          programaticamente o direito exclusivo de modificar um
+          arquivo no repositório, este usuário pode estar razoavelmente
+          seguro de que os esforços investidos nas mudanças não-mescláveis não
+          serão desperdiçados&mdash;a submissão de suas alterações será bem sucedida.</para>
+      </listitem>
+      
+      <listitem>
+        <para><emphasis>Ajudar a comunicação</emphasis>.  Ao alertar
+          outros usuários que a serialização está em vigor para um determinado
+          objeto versionado, estes outros usuários podem razoavelmente esperar
+          que o objeto está prestes de ser modificado por outra pessoa,
+          e eles, também, podem evitar o desperdício de seu tempo e energia em
+          mudanças não-mescláveis que não serão submetidas adequadamente e ocasionando
+          possível perda de dados.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Quando nos referimos à funcionalidade de travamento do Subversion, estaremos
+      também falando sobre uma coleção de comportamentos bastante diversificada
+      que incluem a capacidade de travar um arquivo
+      <footnote>
+        <para>Atualmente o Subversion does não permite travas em diretórios.</para>
+      </footnote>
+      versionado (requerendo o direito exclusivo de modificar o arquivo), de destravar
+      este arquivo (cedendo este direito exclusivo de modificar), de ver
+      relatórios sobre quais arquivos estão travados e por quem, de marcar
+      arquivos para os quais o travamento antes da edição é fortemente aconselhado, e
+      assim por diante.  Nesta seção, cobriremos todas destas facetas da ampla
+      funcionalidade de travamento.</para>
+
+    <sidebar id="svn.advanced.locking.meanings">
+      <title>Os três significados de <quote>trava</quote></title>
+
+      <para>Nesta seção, e em quase todas neste livro, as
+        palavras <quote>trava</quote> e <quote>travamento</quote> representam
+        um mecanismo para exclusão mútua entre os usuários para evitar
+        submissões conflitantes. Infelizmente, existem dois outros tipos
+        de <quote>trava</quote> com os quais o Subversion, e portanto
+        este livro, algumas vezes precisam se preocupar.</para>
+
+      <para>O primeiro tipo são as <firstterm>travas da cópia de trabalho</firstterm>,
+        usadas internamente pelo Subversion para prevenir conflitos entre
+        múltiplos clientes Subversion operando na mesma cópia de
+        trabalho.  Este é o tipo de trava indicada por um
+        <computeroutput>L</computeroutput> na terceira coluna da saída produzida por
+        <command>svn status</command>, e removida pelo comando
+        <command>svn cleanup</command>, como especificado em <xref
+        linkend="svn.tour.cleanup"/>.</para>
+
+      <para>Em segundo lugar, existem as <firstterm>travas do banco de dados</firstterm>,
+        usadas internamente pelo sistema Berkeley DB para prevenir conflitos
+        entre múltiplos programas tentando acessar o banco de dados.  Este
+        é o tipo de trava cuja indesejável persistência após um erro
+        pode fazer com que um repositório seja <quote>corrompido</quote>, como
+        descrito em <xref linkend="svn.reposadmin.maint.recovery"/>.</para> 
+
+      <para>Você pode geralmente esquecer destes outros tipos de travas
+        até que algo de errado ocorra e requeira seus cuidados sobre
+        eles.  Neste livro, <quote>trava</quote> possui o significado do primeiro tipo
+        ao menos que o contrário esteja claro pelo contexto ou explicitamente
+        indicado.</para>
+
+    </sidebar>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.locking.creation">
+      <title>Criando travas</title>
+      
+      <para>No repositório Subversion, uma
+        <firstterm>trava</firstterm> é um pedaço de metadados que
+        concede acesso exclusivo para um usuário modificar um arquivo.  Este
+        usuário é chamado de <firstterm>proprietário da trava</firstterm>.
+        Cada trava também tem um identificador único, tipicamente uma longa
+        cadeia de caracteres, conhecida como o <firstterm>sinal de
+        trava</firstterm>.  O repositório gerencia as travas, basicamente
+        manipulando sua criação, aplicação e remoção.  Se qualquer
+        transação de submissão tenta modificar ou excluir um arquivo travado
+        (ou excluir um dos diretórios pais do arquivo), o
+        repositório exigirá dois pedaços de informação&mdash;que
+        o cliente executante da submissão esteja autenticado como o proprietário
+        da trava, e que o sinal de trava tenha sido fornecido como parte do
+        processo de submissão como um tipo de prova que o cliente conhece qual
+        trava ele está usando.</para>
+      
+      <para>Para demonstrar a criação de uma trava, vamos voltar ao nosso
+        exemplo de múltiplos desenhistas gráficos trabalhando sobre os mesmos
+        arquivos binários de imagem.  Harry decidiu modificar uma imagem JPEG.
+        Para prevenir que outras pessoas submetessem mudanças no arquivo
+        enquanto ele está modificando-o (bem como alertando-os que ele está
+        prestes a mudá-lo), ele trava o arquivo no repositório usando o
+        comando <command>svn lock</command>.</para>
+
+      <screen>
+$ svn lock banana.jpg -m "Editando arquivo para a liberação de amanhã."
+'banana.jpg' locked by user 'harry'.
+$
+</screen>
+
+      <para>Existe uma série de novas coisas demonstradas no
+        exemplo anterior.  Primeiro, note que Harry passou a opção
+        <option>--message (-m)</option> para o comando <command>svn
+        lock</command>.  Similar ao <command>svn commit</command>, o
+        comando <command>svn lock</command> pode receber comentários (seja
+        via <option>--message (-m)</option> ou <option>--file
+        (-F)</option>) para descrever a razão do travamento do arquivo.
+        Ao contrário do <command>svn commit</command>, entretanto, o <command>svn
+        lock</command> não exigirá uma mensagem executando seu editor
+        de texto preferido.  Os comentários de trava são opcionais, mas ainda
+        recomendados para ajudar na comunicação.</para>
+
+      <para>Em segundo lugar, a trava foi bem sucedida.  Isto significa que o
+        arquivo não estava travado, e que Harry tinha a mais recente
+        versão do arquivo.  Se o arquivo da cópia de trabalho de Harry estivesse
+        desatualizado, o repositório teria rejeitado a
+        requisição, forçando Harry a executar <command>svn update</command> e
+        tentar o comando de travamento novamente.  O comando de travamento também
+        teria falhado se o arquivo já estivesse travado por outro
+        usuário.</para>
+
+      <para>Como você pode ver, o comando <command>svn lock</command>
+        imprime a confirmação do sucesso no travamento.  A partir deste ponto,
+        o fato de que o arquivo está travado torna-se aparente na
+        saída dos relatórios dos subcomandos <command>svn status</command>
+        e <command>svn info</command>.</para>
+
+      <screen>
+$ svn status
+     K banana.jpg
+
+$ svn info banana.jpg
+Path: banana.jpg
+Name: banana.jpg
+URL: http://svn.example.com/repos/project/banana.jpg
+Repository UUID: edb2f264-5ef2-0310-a47a-87b0ce17a8ec
+Revision: 2198
+Node Kind: file
+Schedule: normal
+Last Changed Author: frank
+Last Changed Rev: 1950
+Last Changed Date: 2006-03-15 12:43:04 -0600 (Wed, 15 Mar 2006)
+Text Last Updated: 2006-06-08 19:23:07 -0500 (Thu, 08 Jun 2006)
+Properties Last Updated: 2006-06-08 19:23:07 -0500 (Thu, 08 Jun 2006)
+Checksum: 3b110d3b10638f5d1f4fe0f436a5a2a5
+Lock Token: opaquelocktoken:0c0f600b-88f9-0310-9e48-355b44d4a58e
+Lock Owner: harry
+Lock Created: 2006-06-14 17:20:31 -0500 (Wed, 14 Jun 2006)
+Lock Comment (1 line):
+Editando arquivo para a liberação de amanhã.
+
+$
+</screen>
+
+      <para>O comando <command>svn info</command>, o qual não
+        consulta o repositório quando executa sobre caminhos de uma cópia
+        de trabalho, pode mostrar o sinal de trava e revela um importante fato
+        sobre o sinal de trava&mdash;que eles são colocados em cache na cópia
+        de trabalho.  A presença do sinal de trava é crítica.  Ele dá
+        à cópia de trabalho a autorização para fazer uso da trava mais
+        tarde.  Além disso, o comando <command>svn status</command> mostra um
+        <literal>K</literal> próximo ao arquivo (abreviação para <foreignphrase>locKed</foreignphrase>),
+        indicando que o sinal de trava está presente.</para>
+
+      <sidebar>
+        <title>Em relação aos sinais de trava</title>
+
+        <para>Um sinal de trava não é um sinal de autenticação, tanto como
+          um sinal de <emphasis>autorização</emphasis>.  O sinal
+          não é um segredo protegido.  De fato, um sinal de trava exclusivo é
+          descoberto por qualquer pessoa que execute <command>svn info
+          URL</command>.  Um sinal de trava é especial somente quando reside
+          dentro de uma cópia de trabalho.  Ele é prova de que a trava foi criada
+          em uma cópia de trabalho específica, e não noutra qualquer por algum
+          outro cliente.  Apenas se autenticando como o proprietário da trava
+          não é suficiente para prevenir acidentes.</para>
+
+        <para>Por exemplo, suponha que você travou um arquivo usando um computador em
+          seu escritório, mas deixou o trabalho antes de concluir
+          suas modificações para esse arquivo.  Não deveria ser possível
+          acidentalmente submeter mudanças para esse mesmo arquivo do seu
+          computador de casa mais tarde da noite, simplesmente porque você está
+          autenticado como o proprietário da trava.  Em outras palavras, o sinal de
+          trava previne uma parte do software relacionado ao Subversion de
+          invadir o trabalho do outro.  (Em nosso exemplo, se você
+          realmente precisa modificar o arquivo de uma cópia de trabalho alternativa,
+          você precisaria <firstterm>parar</firstterm> a trava e retravar o
+          arquivo.)</para>
+
+      </sidebar>
+
+      <para>Agora que Harry tem o arquivo <filename>banana.jpg</filename> travado,
+        Sally não poderá modificar ou excluir esse arquivo:</para>
+
+      <screen>
+$ svn delete banana.jpg
+D         banana.jpg
+$ svn commit -m "Excluir arquivo sem uso."
+Deleting       banana.jpg
+svn: Commit failed (details follow):
+svn: DELETE of
+'/repos/project/!svn/wrk/64bad3a9-96f9-0310-818a-df4224ddc35d/banana.jpg':
+423 Locked (http://svn.example.com)
+$
+</screen>
+
+      <para>Porém Harry, após retocar a tonalidade amarela da banana,
+        é capaz de submeter suas mudanças no arquivo.  Isso porque ele
+        se autenticou como o proprietário da trava, e também porque sua cópia de
+        trabalho possui o sinal de trava correto:</para>
+
+      <screen>
+$ svn status
+M    K banana.jpg
+$ svn commit -m "Torna a banana mais amarela"
+Sending        banana.jpg
+Transmitting file data .
+Committed revision 2201.
+$ svn status
+$
+</screen>
+
+      <para>Note que após a submissão ser concluída, <command>svn
+        status</command> mostra que o sinal de trava não está mais
+        presente na cópia de trabalho.  Este é o comportamento padrão de
+        <command>svn commit</command>&mdash;ele procura na cópia de
+        trabalho (ou lista de alvos, se você fornecer uma lista desse tipo) por
+        modificações locais, e envia todos os sinalizadores de trava
+        encontrados durante esta caminhada para o servidor como parte da
+        transação de submissão.  Após a submissão concluir com sucesso,
+        todas as travas do repositório que forem mencionadas são
+        liberadas&mdash;<emphasis>até mesmo em arquivos que não foram
+        submetidos</emphasis>.  Isto é utilizado para que os usuários não
+        sejam desleixados com os travamentos, ou segurem travas por muito
+        tempo.  Se Harry trava de forma desorganizada trinta arquivos em um diretório
+        nomeado <filename>images</filename> porque não tem certeza de quais
+        arquivos ele precisa modificar, por ora apenas modifica quatro destes
+        arquivos, quando ele executar <command>svn commit images</command>, o
+        processo mesmo assim liberará todas as trinta travas.</para>
+
+      <para>Este comportamento de liberar as travas automaticamente pode ser
+        evitado com a passagem da opção <option>--no-unlock</option> ao
+        comando <command>svn commit</command>.  Isso tem melhor uso para aqueles
+        casos quando você quer submeter mudanças, mas ainda planeja fazer
+        mais mudanças e, portanto, precisa conservar as travas existentes.  Você
+        também pode fazer este seu comportamento padrão configurando a opção
+        <literal>no-unlock</literal> do seu ambiente de execução (veja
+        <xref linkend="svn.advanced.confarea" />).</para>
+
+      <para>Evidentemente, travar um arquivo não o obriga a submeter uma
+        mudança para ele.  A trava pode ser liberada a qualquer tempo com um
+        simples comando <command>svn unlock</command>:</para>
+
+      <screen>
+$ svn unlock banana.c
+'banana.c' unlocked.
+</screen>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.locking.discovery">
+      <title>Descobrindo as travas</title>
+
+      <para>Quando uma submissão falha devido a um trava que outra pessoa criou, é
+        bastante fácil ver os detalhes sobre ela.  A forma mais fácil delas
+        é <command>svn status --show-updates</command>:</para>
+
+      <screen>
+$ svn status -u
+M              23   bar.c
+M    O         32   raisin.jpg
+       *       72   foo.h
+Status against revision:     105
+$
+</screen>
+
+      <para>Neste exemplo, Sally pode ver não somente que sua cópia de
+        <filename>foo.h</filename> está desatualizada, mas que um dos
+        dois arquivos modificados que ela planeja submeter está travado no
+        repositório.  O símbolo <literal>O</literal> corresponde a
+        <quote>Other</quote>, significando que existe uma trava sobre o arquivo,
+        e foi criada por outra pessoa.  Se ela vier a tentar uma
+        submissão, a trava sobre <filename>raisin.jpg</filename> a
+        impediria.  Sally deve estar imaginando quem fez a trava, quando,
+        e porquê.  Mais uma vez, <command>svn info</command> tem as
+        respostas:</para>
+
+      <screen>
+$ svn info http://svn.example.com/repos/project/raisin.jpg
+Path: raisin.jpg
+Name: raisin.jpg
+URL: http://svn.example.com/repos/project/raisin.jpg
+Repository UUID: edb2f264-5ef2-0310-a47a-87b0ce17a8ec
+Revision: 105
+Node Kind: file
+Last Changed Author: sally
+Last Changed Rev: 32
+Last Changed Date: 2006-01-25 12:43:04 -0600 (Sun, 25 Jan 2006)
+Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Lock Owner: harry
+Lock Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
+Lock Comment (1 line):
+Necessidade de fazer um ajuste rápido nesta imagem.
+$
+</screen>
+
+      <para>Assim como <command>svn info</command> pode ser usado para examinar
+        objetos na cópia de trabalho, ele também pode ser usado para examinar
+        objetos no repositório.  Se o argumento principal para
+        <command>svn info</command> é um caminho de uma cópia de trabalho, então todas
+        informações em cache da cópia de trabalho são exibidas; qualquer
+        menção a uma trava significa que a cópia de trabalho está mantendo um
+        sinal de trava (se um arquivo é travado por outro usuário ou em outra
+        cópia de trabalho, <command>svn info</command> em um caminho de cópia de
+        trabalho não mostrará qualquer informação da trava).  Se o argumento
+        principal para <command>svn info</command> é uma URL, então as
+        informações refletem a mais recente versão de um objeto no
+        repositório, e qualquer menção a uma trava descreve a atual
+        trava sobre o objeto.</para>
+
+      <para>Portanto, neste exemplo particular, Sally pode ver que Harry
+        travou o arquivo em 16 de Fevereiro para <quote>fazer um ajuste
+        rápido</quote>.  Já estando em Junho, ela suspeita que ele provavelmente
+        se esqueceu totalmente da trava.  Ela poderia ligar para Harry para reclamar
+        e lhe pedir que libere a trava.  Se ele estiver indisponível, ela
+        poderá tentar quebrar a trava a força ou solicitar um
+        administrador para o fazer.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.locking.break-steal">
+      <title>Quebrando e roubando travas</title>
+
+      <para>Uma trava no repositório não é algo sagrado&mdash;na configuração
+        padrão do Subversion, as travas podem ser liberadas não somente pela
+        pessoa que a criou, mas por qualquer outra também.  Quando
+        alguém que são seja o criador original da trava a destrói,
+        referimos a isto como <firstterm>quebrar</firstterm> a
+        trava.</para>
+
+      <para>Para o administrador é simples quebrar
+        travas.  Os programas <command>svnlook</command>
+        e <command>svnadmin</command> possuem a habilidade de
+        mostrar e remover travas diretamente do repositório.  (Para
+        mais informações sobre estas ferramentas, veja
+        <xref linkend="svn.reposadmin.maint.tk"/>.)</para>
+
+      <screen>
+$ svnadmin lslocks /usr/local/svn/repos
+Path: /project2/images/banana.jpg
+UUID Token: opaquelocktoken:c32b4d88-e8fb-2310-abb3-153ff1236923
+Owner: frank
+Created: 2006-06-15 13:29:18 -0500 (Thu, 15 Jun 2006)
+Expires: 
+Comment (1 line):
+Ainda melhorando a cor amarela.
+
+Path: /project/raisin.jpg
+UUID Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Owner: harry
+Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
+Expires: 
+Comment (1 line):
+Necessidade de fazer um ajuste rápido nesta imagem.
+
+$ svnadmin rmlocks /usr/local/svn/repos /project/raisin.jpg
+Removed lock on '/project/raisin.jpg'.
+$
+</screen>
+
+      <para>Uma opção mais interessante é permitir que usuários quebrem
+        as travas de outros através da rede.  Para fazer isto, Sally simplesmente
+        precisa passar a opção <option>--force</option> para o comando de
+        destravamento:</para>
+
+      <screen>
+$ svn status -u
+M              23   bar.c
+M    O         32   raisin.jpg
+       *       72   foo.h
+Status against revision:     105
+$ svn unlock raisin.jpg
+svn: 'raisin.jpg' is not locked in this working copy
+$ svn info raisin.jpg | grep URL
+URL: http://svn.example.com/repos/project/raisin.jpg
+$ svn unlock http://svn.example.com/repos/project/raisin.jpg
+svn: Unlock request failed: 403 Forbidden (http://svn.example.com)
+$ svn unlock --force http://svn.example.com/repos/project/raisin.jpg
+'raisin.jpg' unlocked.
+$
+</screen>
+
+      <para>Agora, a tentativa inicial de Sally para destravar falhou porque ela
+        executou <command>svn unlock</command> diretamente em sua cópia de trabalho
+        do arquivo, e nenhum sinal de trava estava presente.  Para remover a
+        trava diretamente do repositório, ela precisa passar uma URL
+        para <command>svn unlock</command>.  Sua primeira tentativa para destravar
+        a URL falhou, porque ela não pode autenticar como a proprietária
+        da trava (nem ela possui o sinal de trava).  Mas quando ela
+        passa <option>--force</option>, os requisitos de autenticação e
+        autorização são ignorados, e a trava remota agora está
+        quebrada.</para>
+        
+      <para>Simplesmente quebrar uma trava pode não ser suficiente.  No
+        exemplo atual, Sally pode não somente querer quebrar a trava esquecida
+        a longo prazo por Harry, mas também retravar o arquivo para seu próprio uso.
+        Ela pode realizar isto executando <command>svn unlock
+        --force</command> e então <command>svn lock</command>
+        logo em seguida, mas existe uma pequena chance de que outra pessoa
+        possa travar o arquivo entre os dois comandos.  Uma coisa mais simples
+        é <firstterm>roubar</firstterm> a trava, que envolve
+        quebrar e retravar o arquivo em um passo atômico.  Para
+        fazer isto, Sally passa a opção <option>--force</option>
+        para <command>svn lock</command>:</para>
+
+      <screen>
+$ svn lock raisin.jpg
+svn: Lock request failed: 423 Locked (http://svn.example.com)
+$ svn lock --force raisin.jpg
+'raisin.jpg' locked by user 'sally'.
+$
+</screen>
+
+      <para>Em qualquer caso, se a trava é quebrada ou roubada, Harry
+        terá uma surpresa.  A cópia de trabalho de Harry ainda contém
+        o sinal original da trava, mas esta trava não existe mais.  O
+        sinal da trava está agora <firstterm>extinto</firstterm>.  A
+        trava representada pelo sinal de trava, ou terá sido quebrada (não
+        está mais no repositório), ou roubada (substituída por uma
+        trava diferente).  De qualquer forma, Harry pode ver isto pedindo para
+        <command>svn status</command> verificar o
+        repositório:</para>
+
+      <screen>
+$ svn status
+     K raisin.jpg
+$ svn status -u
+     B         32   raisin.jpg
+$ svn update
+  B  raisin.jpg
+$ svn status
+$
+</screen>
+
+      <para>Se a trava foi quebrada no repositório, então <command>svn
+        status --show-updates</command> exibe um símbolo
+        <literal>B</literal> (<foreignphrase>Broken</foreignphrase>) próximo ao arquivo.  Se uma
+        nova trava existe no lugar da anterior, então um símbolo
+        <literal>T</literal> (<foreignphrase>sTolen</foreignphrase>) é mostrado.  Finalmente,
+        <command>svn update</command> relata os sinais de trava existentes
+        e os remove da cópia de trabalho.</para>
+
+      <sidebar>
+        <title>Políticas de Travamento</title>
+        
+        <para>Diferentes sistemas possuem diferentes noções de como rigorosa uma
+          trava deve ser.  Algumas pessoas afirmam que travas devem ser
+          estritamente aplicadas a todo custo, liberáveis somente pelo
+          criador original ou administrador.  Eles argumentam que se
+          qualquer um pode quebrar uma trava, então o caos corre galopante e
+          toda circunstância de travamento é derrotada.  O outro lado afirma
+          que travas são, antes de mais nada, uma ferramenta de comunicação.  Se
+          usuários estão constantemente quebrando as travas de outros, então ele
+          representa um fracasso cultural dentro da equipe e o
+          problema sai fora do escopo da aplicação de software.</para>
+
+        <para>Por padrão o Subversion possui uma abordagem <quote>branda</quote>,
+          mas ainda permite que administradores criem políticas de aplicação
+          mais rigorosas através da utilização de scripts de gancho.  Em
+          particular, os ganchos <filename>pre-lock</filename> e
+          <filename>pre-unlock</filename> permitem aos administradores
+          decidir quando a criação e liberação de travas são autorizadas
+          a acontecer.  Dependendo se uma trava já existe ou não,
+          estes dois ganchos podem decidir se permitem ou não que um
+          certo usuário pode quebrar ou roubar uma trava.  Os ganchos
+          <filename>post-lock</filename> e
+          <filename>post-unlock</filename> também estão disponíveis,
+          e podem ser usados para enviar e-mail após ações de travamento.  Para
+          aprender mais sobre ganhos de repositório, veja <xref
+          linkend="svn.reposadmin.create.hooks" />.</para>
+
+      </sidebar>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.advanced.locking.lock-communication">
+      <title>Comunicação de Travas</title>
+
+      <para>Vimos como <command>svn lock</command>
+        e <command>svn unlock</command> podem ser usados para criar,
+        liberar, quebrar, e roubar travas.  Isso satisfaz o objetivo de
+        serializar o acesso a submissões de um arquivo.  Mas o que aconteceu
+        com o maior problema da prevenção de perda de tempo?</para>
+
+      <para>Por exemplo, suponha que Harry trave um arquivo de imagem e, em seguida,
+        inicie sua edição.  Entretanto, a milhas de distância, Sally deseja fazer
+        a mesma coisa.  Ela não pensa em executar <command>svn status
+        --show-updates</command>, portanto ele não tem idéia de que Harry já
+        tenha travado o arquivo.  Ela gasta horas editando o arquivo,
+        e quando ela tenta submeter sua mudança, ela descobre que
+        ou o arquivo está travado ou que ela está desatualizada.
+        Indiferente disso, suas alterações não são mescláveis com as de Harry.  Uma
+        destas duas pessoas tem que jogar fora seu trabalho, e um monte de
+        tempo foi perdido.</para>
+      
+      <para>A solução do Subversion para este problema é oferecer um
+        mecanismo para avisar aos usuários que um arquivo deve ser travado
+        <emphasis>antes</emphasis> de iniciar sua edição.  O mecanismo
+        é uma propriedade especial, <literal>svn:needs-lock</literal>.  Se
+        esta propriedade está anexada a um arquivo (indiferente de seu valor,
+        o qual é irrelevante), então o Subversion tentará utilizar
+        permissões a nível de sistema de arquivo para tornar o arquivo somente leitura&mdash;exceto,
+        claro, o usuário tiver explicitamente travado o arquivo.
+        Quando um sinal de trava está presente (como resultado de executar
+        <command>svn lock</command>), o arquivo fica como leitura e escrita.
+        Quando a trava é liberada, o arquivo fica como somente leitura
+        novamente.</para>
+
+      <para>A teoria, então, é que se o arquivo de imagem tem esta
+        propriedade anexada, então Sally iria verificar imediatamente que
+        alguma coisa está estranho quando ela abrir o arquivo para edição:
+        muitas aplicações avisam os usuários imediatamente quando um arquivo somente
+        leitura é aberto para edição, e quase todos impedem
+        que alterações sejam salvas no arquivo.  Isto
+        lembra ela para travar o arquivo antes de editá-lo, e então ela
+        descobre a trava já existente:</para>
+
+      <screen>
+$ /usr/local/bin/gimp raisin.jpg
+gimp: error: file is read-only!
+$ ls -l raisin.jpg
+-r--r--r--   1 sally   sally   215589 Jun  8 19:23 raisin.jpg
+$ svn lock raisin.jpg
+svn: Lock request failed: 423 Locked (http://svn.example.com)
+$ svn info http://svn.example.com/repos/project/raisin.jpg | grep Lock
+Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Lock Owner: harry
+Lock Created: 2006-06-08 07:29:18 -0500 (Thu, 08 June 2006)
+Lock Comment (1 line):
+Fazendo alguns ajustes.  Travando para as próximas duas horas.
+$
+</screen>
+
+      <tip>
+        <para>Tanto usuários e administradores são encorajados a anexar
+          a propriedade <literal>svn:needs-lock</literal> em qualquer arquivo
+          que não possa ser contextualmente mesclado.  Esta é a principal
+          técnica para incentivar bons hábitos de travamento e evitar
+          desperdício de esforços.</para>
+      </tip>
+
+      <para>Note que esta propriedade é um instrumento de comunicação que
+        trabalha independentemente do sistema de travamento.  Em outras palavras,
+        qualquer arquivo pode ser travado, estando esta propriedade presente
+        ou não.  E reciprocamente, a presença desta propriedade
+        não faz com que o repositório requeira uma trava quando for
+        submeter as mudanças.</para>
+
+      <para>Infelizmente, o sistema não é perfeito.  É possível
+        que mesmo quando um arquivo possua a propriedade, a advertência de somente leitura
+        nem sempre funcione.  Algumas vezes as aplicações comportam-se mal e
+        <quote>adulteram</quote> o arquivo somente leitura, silenciosamente permitindo aos
+        usuários editar e salvar o arquivo de qualquer forma.  Não há muito que o
+        Subversion possa fazer nesta situação&mdash;de qualquer maneira,
+        simplesmente não há substituição para uma boa comunicação
+        entre as pessoas.
+        <footnote>
+          <para>Exceto, talvez, uma mente-lógica do clássico Vulcaniano.</para>
+        </footnote>
+      </para>
+
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.externals">
+    <title>Definições Externas</title>
+
+    <para>Às vezes, é útil construir uma cópia de trabalho que é
+      composta por diferentes <foreignphrase>checkouts</foreignphrase>.
+      Por exemplo, talvez você queira que diferentes subdiretórios venham
+      de diferentes locais em um repositório, ou até mesmo de diferentes
+      repositórios. Você poderia configurar tal cenário manualmente&mdash;
+      usando <command>svn checkout</command> para criar o tipo de estrutura
+      aninhada de cópia de trabalho que você está tentando construir.
+      Mas, se essa estrutura é importante para todos os que usam seu
+      repositório, todos os outros usuários precisarão realizar
+      as mesmas operações de <foreignphrase>checkout</foreignphrase> que
+      você fez.</para>
+
+    <para>Felizmente, o Subversion provê suporte para
+      <firstterm>definições externas</firstterm>.  Uma definição
+      externa é um mapeamento de um diretório local para a URL&mdash;e,
+      idealmente, uma determinada revisão&mdash;de um diretório sob
+      controle de versão.  No Subversion, você declara definições
+      externas em conjunto usando a propriedade <literal>svn:externals</literal>.
+      Você pode criar ou modificar essa propriedade usando
+      <command>svn propset</command> ou <command>svn
+      propedit</command> (veja <xref linkend="svn.advanced.props.manip"/>).
+      Essa propriedade pode ser configurada em qualquer diretório sob
+      controle de versão, e seu valor é uma tabela multilinha de
+      subdiretórios (relativos ao diretório sob controle de versão no
+      qual a propriedade está configurada), opções de revisão, e URLs
+      absolutas (totalmente qualificadas) de repositórios Subversion.</para>
+
+    <screen>
+$ svn propget svn:externals calc
+third-party/sounds             http://sounds.red-bean.com/repos
+third-party/skins              http://skins.red-bean.com/repositories/skinproj
+third-party/skins/toolkit -r21 http://svn.red-bean.com/repos/skin-maker
+</screen>
+
+    <para>A conveniência da propriedade <literal>svn:externals</literal>
+      é que, uma vez configurada em um diretório sob controle de versão,
+      qualquer pessoa que obtém uma cópia de trabalho desse diretório
+      também é beneficiada pelas definições externas.  Em outras palavras,
+      uma vez que alguém investiu tempo e esforço para definir essa cópia
+      de trabalho feita de <foreignphrase>checkouts</foreignphrase> aninhados,
+      ninguém mais precisa se incomodar&mdash;o Subversion, através do
+      <foreignphrase>checkout</foreignphrase> da cópia de trabalho
+      original, também obterá as cópias de trabalho externas.</para>
+
+    <warning>
+      <para>Os subdiretórios alvos relativos das definições
+        externas <emphasis>não podem</emphasis> existir no seu sistema
+        de arquivos nem no de outros usuários&mdash;o Subversion irá criá-los
+        quando obter a cópia de trabalho externa.</para>
+    </warning>
+
+    <para>Note o exemplo anterior de definições externas.  Quando
+      alguém obtém uma cópia de trabalho do diretório
+      <filename>calc</filename>, o Subversion também obtém os itens
+      encontrados nas suas definições externas.</para>
+
+    <screen>
+$ svn checkout http://svn.example.com/repos/calc
+A  calc
+A  calc/Makefile
+A  calc/integer.c
+A  calc/button.c
+Checked out revision 148.
+
+Fetching external item into calc/third-party/sounds
+A  calc/third-party/sounds/ding.ogg
+A  calc/third-party/sounds/dong.ogg
+A  calc/third-party/sounds/clang.ogg
+&hellip;
+A  calc/third-party/sounds/bang.ogg
+A  calc/third-party/sounds/twang.ogg
+Checked out revision 14.
+
+Fetching external item into calc/third-party/skins
+&hellip;
+</screen>
+
+    <para>Se você precisar mudar as definições externas, você pode fazer isso
+      usando os subcomandos para modificação de propriedades normalmente.
+      Quando você submeter uma alteração na propriedade
+      <literal>svn:externals</literal>, o Subversion irá sincronizar os itens
+      submetidos com as definições externas na próxima vez que você executar um
+      <command>svn update</command>.  A mesma coisa irá acontecer quando outros
+      atualizarem suas cópias de trabalho e recebam as suas modificações nas
+      definições externas.</para>
+
+    <tip>
+      <para>Como o valor da propriedade <literal>svn:externals</literal> é um
+        conteúdo de múltiplas linhas, nós recomendamos fortemente que você use
+        o <command>svn propedit</command> ao invés do <command>svn
+        propset</command>.</para>
+    </tip>
+
+    <tip>
+      <para>Você deveria considerar seriamente o uso de um número de revisão
+        explícito em todas as suas definições externas.  Fazer isso significa
+        que você tem que decidir quando trazer um diferente registro
+        instantâneo de uma informação externa, e exatamente qual instantâneo
+        trazer.  Além de evitar a surpresa de obter mudanças de repositórios de
+        terceiros sobre as quais você pode não ter nenhum controle, usar número
+        de revisão explícitos também significa que conforme você voltar no
+        tempo sua cópia de trabalho para uma revisão anterior, suas definições
+        externas também serão revertidas para a forma como estavam na revisão
+        passada, o que por sua vez significa que as cópias de trabalho serão
+        atualizadas de volta para corresponder à forma como
+        <emphasis>elas</emphasis> se pareciam quando seu repositório estava
+        naquela revisão anterior.  Para projetos de software, isso poderia ser
+        a diferença entre uma compilação de sucesso ou uma falha em um momento
+        passado de sua complexa base de código.</para> 
+    </tip>
+
+    <para>O comando <command>svn status</command> também reconhece definições
+      externas, exibindo um código de status <literal>X</literal> para
+      subdiretórios desmembrados nos quais as externas foram obtidas, e então
+      varrer recursivamente dentro destes subdiretórios para mostrar o status
+      dos próprios itens externos.</para>
+
+    <para>O suporte que existe para definições externas no Subversion ainda
+      está abaixo do ideal.  Primeiro, uma definição externa pode apenas
+      apontar para diretórios, não para arquivos.  Segundo, as definições
+      externas não podem apontar para caminhos relativos (tais como
+      <filename>../../skins/myskin</filename>).  Terceiro, o suporte a cópias
+      de trabalho criadas por meio de definições externas ainda está
+      desconectado da cópia de trabalho primária (na qual a propriedade
+      <literal>svn:externals</literal> dos diretórios versionados foi
+      atualmente definida).  E o Subversion ainda só pode operar
+      verdadeiramente em cópias de trabalho não-desmembradas.  Então, por
+      exemplo, se você quiser submeter as alterações que você tenha feito em um
+      ou mais destas cópias de trabalho externas, você deve executar um
+      <command>svn commit</command> explicitamente nessas cópias de
+      trabalho&mdash;submeter alterações numa cópia de trabalho não irá
+      implicar numa recursão dentro de nenhuma das externas.</para>
+
+    <para>E também, como as definições externas em si usam URLs absolutas, a
+      movimentação ou cópia de um diretório ao qual elas estejam anexadas não
+      afetará aquela obtida como uma externa (ainda que o subdiretório local de
+      destino relativo seja, é claro, movido com o diretório renomeado).  Isto
+      pode ser confuso&mdash;ou mesmo frustrante&mdash;em certas situações.
+      Por exemplo, digamos que você tenha um diretório de alto nível chamado
+      <filename>my-project</filename>, e que você tenha criado uma definição
+      externa em um de seus subdiretórios
+      (<filename>my-project/some-dir</filename>) que acompanha a última revisão
+      de outro de seus subdiretórios 
+      (<filename>my-project/external-dir</filename>).</para>
+
+    <screen>
+$ svn checkout http://svn.example.com/projects .
+A    my-project
+A    my-project/some-dir
+A    my-project/external-dir
+&hellip;
+Fetching external item into 'my-project/some-dir/subdir'
+Checked out external at revision 11.
+
+Checked out revision 11.
+$ svn propget svn:externals my-project/some-dir
+subdir http://svn.example.com/projects/my-project/external-dir
+
+$
+</screen>
+
+    <para>Agora você executa <command>svn move</command> para renomear o
+      diretório <filename>my-project</filename> directory.  Neste ponto, sua
+      definição externa ainda vai se referir ao caminho relacionado ao
+      diretório <filename>my-project</filename>, muito embora esse diretório
+      não exista mais.</para>
+
+    <screen>
+$ svn move -q my-project renamed-project
+$ svn commit -m "Rename my-project to renamed-project."
+Deleting       my-project
+Adding         my-renamed-project
+
+Committed revision 12.
+$ svn update
+
+Fetching external item into 'renamed-project/some-dir/subdir'
+svn: Target path does not exist
+$
+</screen>
+
+    <para>E também, as URLs absolutas que as definições externas usam podem
+      causar problemas com repositórios que estejam disponíveis a partir de
+      múltiplos esquemas de URL.  Por exemplo, se seu servidor Subversion
+      estiver configurado para permitir que qualquer um obtenha o conteúdo do
+      repositório por meio de <literal>http://</literal> ou
+      <literal>https://</literal>, mas que apenas possam submeter alterações
+      através de <literal>https://</literal>, você tem um interessante problema
+      em mãos.  Se suas definições externas usam o formato
+      <literal>http://</literal> para URLs do repositório, você não será capaz
+      de submeter nada a partir das cópias de trabalho criadas por definições
+      externas.  Por outro lado, se elas usam o formato
+      <literal>https://</literal> para URLs, qualquer pessoa que tenha obtido a
+      cópia através de <literal>http://</literal> por não ter um cliente com
+      suporte a <literal>https://</literal> estará impossibilitado de buscar
+      itens externos.  Atente também que se você precisar realocar sua cópia de
+      trabalho (usando <command>svn switch --relocate</command>), suas
+      definições externas <emphasis>não</emphasis> serão realocadas.</para>
+
+    <para>Finalmente, pode ser que algumas vezes você prefira que os
+      subcomandos não reconheçam <command>svn</command>, ou mesmo não operem
+      sobre cópias de trabalhos externas.  Nesses casos, você pode passar a
+      opção <option>--ignore-externals</option> para o subcomando.</para>
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.advanced.pegrevs">
+    <title>Revisões Marcadoras e Revisões Operativas</title>
+
+    <para>Nós copiamos, movemos, renomeamos, e substituímos
+      completamente arquivos e diretórios em nossos computadores a todo
+      tempo.  E seu sistema de controle de versão não deveria basear
+      em seu modo e fazer estas coisas com seus arquivos e diretórios
+      com versões controladas.  O suporte a gerenciamento de arquivos
+      do Subversion é bastante aberto, proporcionando quase tanta
+      flexibilidade para arquivos versionados quanto você desejaria ao
+      manipular os seus não-versionados.  Mas essa flexibilidade significa
+      que durante o tempo de vida de seu repositório, um dado objeto
+      versionado pode ter muitos caminhos, e um dado caminho pode representar
+      vários objetos versionados inteiramente diferentes.  E isto
+      introduz um certo nível de complexidade em suas interações
+      com esses caminhos e objetos.</para>
+
+    <para>O Subversion é muito esperto ao perceber quando uma versão do
+      histórico do objeto inclui tais <quote>mudanças de endereço</quote>.
+      Por exemplo, se você pedir pelo registro do histórico de revisão de um
+      arquivo específico que foi renomeado na última semana, o Subversion felizmente
+      oferece todos estes registros&mdash;a revisão na qual a renomeação
+      aconteceu, mais os registros de revisões relevantes tanto antes
+      como depois que foi renomeado.  Assim, a maioria das vezes, você não terá
+      que pensar sobre estas coisas.  Mas ocasionalmente, o Subversion
+      precisará de sua ajuda para esclarecer ambigüidades.</para>
+
+    <para>O exemplo mais simples disto ocorre quando um diretório ou arquivo
+      é excluído do controle de versão, e então um novo diretório ou
+      arquivo é criado com o mesmo nome e adicionado ao controle de versão.
+      Obviamente o que você exclui e o que você depois adicionou
+      não são a mesma coisa.  Estas coisas meramente possuíram o mesmo
+      caminho, <filename>/trunk/object</filename> por exemplo.  Então,
+      o que significa solicitar ao Subversion o histórico de
+      <filename>/trunk/object</filename>?  Você está pedindo sobre o
+      objeto atualmente neste local, ou o antigo objeto que você excluiu
+      deste local?  Você está pedindo sobre as operações que
+      aconteceram em <emphasis>todos</emphasis> os objetos que alguma
+      vez existiu neste caminho?  Obviamente, o Subversion precisa de uma dica
+      do que você realmente quer.</para>
+
+    <para>Devido a mudanças regulares, o histórico de um objeto versionado
+      pode ser mais misturado do que isto.  Por exemplo, você pode ter um
+      diretório nomeado <filename>concept</filename>, contendo algum
+      projeto de software pessoal em que você esteja brincando.  Eventualmente,
+      porém, este projeto amadurece a tal ponto que a idéia parece
+      realmente poder decolar, assim você faz o impensável e decide
+      dar um nome ao projeto.
+      <footnote>
+        <para><quote>Você não pretendia dar um nome a ele.  Depois que você dá um nome,
+          você começa a ficar ligado a ele.</quote>&mdash;Mike
+          Wazowski</para>
+      </footnote>
+      Vamos dizer que você chamou seu software de Frabnaggilywort.  Neste
+      ponto, faz sentido renomear o diretório para refletir o novo
+      nome do projeto, assim <filename>concept</filename> é renomeado
+      para <filename>frabnaggilywort</filename>.  A vida continua,
+      Frabnaggilywort lança uma versão 1.0, e está sendo baixado e
+      usado diariamente por uma multidão de pessoas que pretendem melhorar
+      suas vidas.</para>
+    
+    <para>É uma bela história, realmente, mas não termina aqui.  Como
+      empreendedor que você é, você já está com novas idéias em mente.  Então
+      você cria um novo diretório, <filename>concept</filename>, e o ciclo
+      começa outra vez.  De fato, o ciclo recomeça muitas vezes ao longo dos
+      anos, cada vez começando com o antigo diretório
+      <filename>concept</filename>, então algumas vezes vendo esse diretório
+      ser renomeado como você bem o quiser, algumas vezes vendo esse diretório
+      ser excluído quando você descarta a idéia.  Ou, para complicar de vez,
+      algumas vezes talvez você <filename>concept</filename> para qualquer
+      outra coisa por algum tempo, mas depois renomei-o de volta para
+      <filename>concept</filename> por alguma razão.</para>
+
+    <para>Em cenários como este, tentar instruir o Subversion para trabalhar
+      com estes caminhos reutilizados pode ser um pouco como instruir um
+      motorista dos subúrbios da Chicago ocidental a dirigir sempre a leste na
+      estrada Roosevelt Road e então virar à esquerda na Main Street.  Em meros
+      vinte minutos, você pode cruzar com a tal <quote>Main Street</quote> ao
+      andar pela Wheaton, Glen Ellyn ou Lombard.  E não, elas não são a mesma
+      rua.  Nosso motorista&mdash;e o nosso Subversion&mdash;precisa de um
+      pouco mais de detalhes para poder fazer a coisa certa.</para>
+
+    <para>Na versão 1.1, o Subversion introduziu uma maneira para você dizer
+      exatamente à que Main Street você se refere.  É chamada de
+      <firstterm>revisão marcadora</firstterm>, e é uma revisão disponibilizada pelo
+      Subversion apenas com propósito de identificar uma linha única de
+      histórico.  Como no máximo um objeto versionado pode ocupar um caminho em
+      um dado instante&mdash;ou, mais precisamente, em uma dada revisão&mdash;a
+      combinação de um caminho e uma revisão marcadora é tudo o que é
+      necessário para se referenciar a uma linha específica de histórico.
+      Revisões marcadoras são especificadas pelo cliente de linha de comando do
+      Subversion usando <firstterm>sintaxe de arroba</firstterm><footnote><para>N.T.:
+      Em inglês, o símbolo de arroba é lido como <quote>at</quote>, que tem o
+      sentido de <emphasis>em</emphasis> ou <emphasis>naquele
+      lugar</emphasis>.</para></footnote>, assim chamada porque envolve anexar-se um
+      <quote>sinal de arroba</quote> (<literal>@</literal>) e a revisão
+      marcadora ao final do caminho com o qual a revisão está associada.</para>
+
+    <para>Mas e sobre as revisões dadas por <option>--revision (-r)</option>,
+      as quais falamos tanto neste livro?  Essas revisões (ou conjuntos de
+      revisões) são chamadas de <firstterm>revisões operativas</firstterm> (ou
+      <firstterm>intervalos de revisões operativas</firstterm>).  Uma vez que
+      uma linha em particular do histórico tenha sido identificada usando-se um
+      caminho e uma revisão marcadora, o Subversion executa a operação
+      requisitada usando a(s) revisão(ões) operativa(s).  Para relacionar isto
+      com nossa analogia às ruas de Chicago, se nos disserem para irmos para
+      até a Main Street em Wheaton 606 N.,
+      <footnote>
+        <para>Main Street, Wheaton, 606 N., Illinois, é o endereço do Wheaton
+          History Center.  Sacou&mdash;<quote>History
+          Center</quote>?  Parece apropriado&hellip;.</para>
+      </footnote>
+      poderíamos pensar na <quote>Main Street</quote> como nosso caminho e em
+      <quote>Wheaton</quote> como nossa revisão marcadora.  Estes dois pedaços
+      de informação identificam um único caminho que pode ser percorrido (em
+      sentido sul ou sentido norte na Main Street), e que nos permitir andar
+      para cima e para baixo na Main Street ao acaso na busca pelo nosso
+      destino.  Agora temos <quote>606 N.</quote> como nossa revisão operativa,
+      de sorte que sabemos <emphasis>exatamente</emphasis> aonde temos que
+      ir.</para>
+
+    <sidebar>
+      <title>O algoritmo de revisões marcadoras</title>
+      
+      <para>O Subversion em linha de comando executa o algoritmo de revisões
+        marcadora a qualquer momento em que precise resolver possíveis
+        ambigüidades nos caminhos e revisões por ele providos.  Aqui está um
+        exemplo de execução:</para>
+
+      <screen>
+$ svn <replaceable>command</replaceable> -r <replaceable>OPERATIVE-REV</replaceable> item@<replaceable>PEG-REV</replaceable>
+</screen>
+      
+      <para>Se <replaceable>OPERATIVE-REV</replaceable> for mais antiga que
+        <replaceable>PEG-REV</replaceable>, então o algoritmo será o
+        seguinte:</para>
+
+      <itemizedlist>
+        
+        <listitem>
+          <para>Localize o <replaceable>item</replaceable> na revisão
+            identificada por <replaceable>PEG-REV</replaceable>.  Deve ser
+            encontrado apenas um único objeto.</para>
+        </listitem>
+
+        <listitem>
+          <para>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão 
+            <replaceable>OPERATIVE-REV</replaceable>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Execute a ação requisitada naquele ancestral, onde quer que ele
+            se encontre, ou qualquer que seja o nome que ele tenha ou que tenha
+            tido ao longo do tempo.</para>
+        </listitem>
+
+      </itemizedlist>
+
+      <para>Mas e se <replaceable>OPERATIVE-REV</replaceable> for 
+        <emphasis>mais recente</emphasis> que
+        <replaceable>PEG-REV</replaceable>?  Bem, isso adiciona alguma
+        complexidade ao problema teórico de localização do caminho em 
+        <replaceable>OPERATIVE-REV</replaceable>, pois o histórico do caminho
+        pode ter sido ramificado várias vezes (graças a operações de cópia)
+        entre <replaceable>PEG-REV</replaceable> e
+        <replaceable>OPERATIVE-REV</replaceable>.  E isso não é tudo&mdash;de
+        qualquer maneira, o Subversion não armazena informação o suficiente
+        para traçar eficientemente o histórico das revisões à frente para um
+        objeto.  Assim, o algoritmo neste caso é um pouco diferente:</para>
+
+      <itemizedlist>
+        
+        <listitem>
+          <para>Localize o <replaceable>item</replaceable> na revisão
+            identificada por <replaceable>OPERATIVE-REV</replaceable>.  Deve
+            ser encontrado apenas um único objeto.</para>
+        </listitem>
+
+        <listitem>
+          <para>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão
+            <replaceable>PEG-REV</replaceable>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Verifique se a localização do objeto (caminho) em
+              <replaceable>PEG-REV</replaceable> é a mesma que o era na revisão
+            <replaceable>OPERATIVE-REV</replaceable>.  Se for este o caso,
+            então sabe-se que pelo menos dois locais estão diretamente
+            relacionados, e então execute a ação requisitada na localização em
+            <replaceable>OPERATIVE-REV</replaceable>.  Caso contrário, nenhuma
+            relação pôde ser estabelecida, então exiba uma mensagem de erro
+            detalhando que nenhuma localização viável foi encontrada.  (Algum
+            dia esperamos que o Subversion será capaz de lidar com este cenário
+            de uso com mais graça e flexibilidade.)</para>
+        </listitem>
+
+      </itemizedlist>
+
+      <para>Note que mesmo quando você não informa uma revisão marcadora ou uma
+        revisão operativa, elas ainda estarão presentes.  Para sua
+        conveniência, <literal>BASE</literal> é tida como revisão marcadora
+        padrão para itens em sua cópia de trabalho e <literal>HEAD</literal> o
+        é para URLs do repositório.  E quando nenhuma revisão operativa for
+        informada, por padrão será usada a mesma que a da revisão marcadora.</para>
+        
+    </sidebar>
+
+    <para>Digamos que tenhamos criado nosso repositório muito tempo atrás, e
+      que na revisão 1 adicionamos nosso primeiro diretório
+      <filename>concept</filename>, além de um arquivo
+      <filename>IDEA</filename> nesse diretório contendo as idéias relacionadas
+      ao conceito.  Depois de algumas revisões nas quais códigos reais foram
+      adicionados e manipulados, nós, na revisão 20, renomeamos este diretório
+      para <filename>frabnaggilywort</filename>.  Lá pela revisão 27, temos um
+      novo conceito, e criamos um novo diretório <filename>concept</filename>
+      para armazená-lo, e um novo arquivo <filename>IDEA</filename> para
+      descrevê-lo.  E assim, cinco anos e vinte mil revisões se passaram, tal
+      como seria em qualquer história de romance que se preze.</para>
+
+    <para>Agora, anos depois, nos questionamos como seria ter de volta o
+      arquivo <filename>IDEA</filename> tal como na revisão 1.  Mas o
+      Subversion precisa saber se nós estamos querendo saber sobre como o
+      <emphasis>atual</emphasis> arquivo se pareceria na revisão 1, ou se
+      estamos solicitando o conteúdo de qualquer que fosse o arquivo que
+      estivava como <filename>concepts/IDEA</filename> na revisão 1.
+      Certamente estas questões têm respostas diferentes, e devido as revisões
+      marcadoras, é possível obter ambas as respostas.  Para ver como o arquivo
+      <filename>IDEA</filename> atual era naquela revisão antiga, você
+      executa:</para>
+
+    <screen>
+$ svn cat -r 1 concept/IDEA 
+svn: Unable to find repository location for 'concept/IDEA' in revision 1
+</screen>
+
+    <para>É claro, neste exemplo, o atual arquivo <filename>IDEA</filename> não
+      existia ainda na revisão 1, então o Subversion lhe exibe um erro.  O
+      comando acima é uma versão resumida para uma notação mais longa que
+      relaciona explicitamente uma revisão marcadora.  A notação expandida
+      é:</para>
+
+    <screen>
+$ svn cat -r 1 concept/IDEA@BASE
+svn: Unable to find repository location for 'concept/IDEA' in revision 1
+</screen>
+
+    <para>E quando executada, ela dá os mesmos resultados esperados.</para>
+
+    <para>Neste ponto, provavelmente o leitor mais atento está se perguntando
+      se a sintaxe de revisões marcadoras causa problemas em caminhos na c[opia
+      de trabalho ou em URLs que atualmente tenham sinais em si mesmas.  Depois
+      de tudo, como o <command>svn</command> sabe se 
+      <literal>news@11</literal> é o nome de um diretório em minha árvore, ou
+      se é apenas uma sintaxe para a <quote>revisão 11 de
+      <filename>news</filename></quote>?  Felizmente, ainda que o 
+      <command>svn</command> considere sempre esta última opção, existe uma
+      regra trivial.  Você só precisa adicionar um sinal de arroba ao final do
+      caminho, como em <literal>news@11@</literal>.  O <command>svn</command>
+      só irá se importar com o último sinal de arroba no argumento, e que não
+      seja considerado ilegal omitir um especificador do número da revisão
+      marcadora depois desse arroba.  Esta regra também se aplica a caminhos
+      que terminal com um sinal de arroba&mdash;você poderia usar
+      <literal>filename@@</literal> para se referir a um arquivo chamado 
+      <filename>filename@</filename>.</para>
+
+    <para>Vamos considerar a outra questão, então&mdash;na revisão 1, como era
+      estava o conteúdo de qualquer que seja o arquivo que estava ocupando o
+      endereço <filename>concepts/IDEA</filename> naquele momento?  Vamos usar
+      explicitamente uma revisão marcadora para nos ajudar.</para>
+
+    <screen>
+$ svn cat concept/IDEA@1
+The idea behind this project is to come up with a piece of software
+that can frab a naggily wort.  Frabbing naggily worts is tricky
+business, and doing it incorrectly can have serious ramifications, so
+we need to employ over-the-top input validation and data verification
+mechanisms.
+</screen>
+
+    <para>Perceba que nós não informamos uma revisão operativa neste momento.
+      Isso se deve porque quando uma revisão operativa não é especificada, o
+      Subversion assume como padrão uma revisão operativa que é a mesma da
+      revisão marcadora.</para>
+
+    <para>Como você pode ver, a saída da execução de nosso comando parece estar
+      correta.  O texto ainda menciona <foreignphrase>frabbing naggily
+      worts</foreignphrase>, então isto é certamente o arquivo que descreve o
+      software agora chamado de Frabnaggilywort.  De fato, podemos verificar
+      isto usando a combinação de uma revisão marcadora e uma revisão
+      operativa.  Nós sabemos que em <literal>HEAD</literal>, o projeto
+      Frabnaggilywort está localizado no diretório
+      <filename>frabnaggilywort</filename>.  Então nós especificamos que
+      queremos ver como a linha de histórico identificada em 
+      <literal>HEAD</literal> como o caminho
+      <filename>frabnaggilywort/IDEA</filename> se parecia na revisão 1.</para>
+
+    <screen>
+$ svn cat -r 1 frabnaggilywort/IDEA@HEAD
+The idea behind this project is to come up with a piece of software
+that can frab a naggily wort.  Frabbing naggily worts is tricky
+business, and doing it incorrectly can have serious ramifications, so
+we need to employ over-the-top input validation and data verification
+mechanisms.
+</screen>
+
+    <para>E as revisões marcadora e operativa nem precisam ser tão triviais.
+      Por exemplo, digamos que <filename>frabnaggilywort</filename> esteja
+      removido na revisão <literal>HEAD</literal>, mas nós sabemos que esse
+      diretório existia na revisão 20, e nós queremos ver as diferenças de seu
+      arquivo <filename>IDEA</filename> entre as revisões 4 e 10.  Nós podemos
+      usar a revisão marcadora 20 em conjunto com a URL que deveria conter o
+      diretório <filename>IDEA</filename> do diretório Frabnaggilywort na
+      revisão 20, e então usar 4 e 10 como nosso intervalo de revisões
+      operativas.</para>
+
+    <screen>
+$ svn diff -r 4:10 http://svn.red-bean.com/projects/frabnaggilywort/IDEA@20
+Index: frabnaggilywort/IDEA
+===================================================================
+--- frabnaggilywort/IDEA	(revision 4)
++++ frabnaggilywort/IDEA	(revision 10)
+@@ -1,5 +1,5 @@
+-The idea behind this project is to come up with a piece of software
+-that can frab a naggily wort.  Frabbing naggily worts is tricky
+-business, and doing it incorrectly can have serious ramifications, so
+-we need to employ over-the-top input validation and data verification
+-mechanisms.
++The idea behind this project is to come up with a piece of
++client-server software that can remotely frab a naggily wort.
++Frabbing naggily worts is tricky business, and doing it incorrectly
++can have serious ramifications, so we need to employ over-the-top
++input validation and data verification mechanisms.
+</screen>
+
+    <para>Felizmente, a maioria das pessoas não se deparam com situações tão
+      complexas desse tipo.  Mas se um dia você se deparar, lembre-se que
+      revisões marcadoras são um recurso extra de que o Subversion precisa para
+      reslver ambiguidades.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.serverconfig.netmodel">
+
+    <title>Modelo de Rede</title>
+
+    <para>Em algum momento, será necessário compreender como seu
+      cliente Subversion comunica com seu servidor.  A camada de rede
+      do Subversion é abstrata, significando que os clientes Subversion
+      apresentam o mesmo comportamento geral não importando com que tipo de
+      servidor eles estão operando.  Seja comunicando no protocolo HTTP
+      (<literal>http://</literal>) com o Servidor HTTP Apache ou
+      comunicando no protocolo personalizado do Subversion
+      (<literal>svn://</literal>) com <command>svnserve</command>,
+      o modelo de rede básico é o mesmo.  Nesta seção, vamos
+      explicar os princípios básicos deste modelo de rede, incluindo como
+      o Subversion gerencia as questões de autenticação e
+      autorização.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.serverconfig.netmodel.reqresp">
+      <title>Solicitações e Respostas</title>
+
+      <para>O cliente Subversion passa a maior parte de seu tempo gerenciando
+        cópias de trabalho.  Quando ele precisa de informações de um repositório
+        remoto, entretanto, ele efetua uma solicitação de rede, e o
+        servidor responde com uma resposta apropriada.  Os detalhes do
+        protocolo de rede estão escondidos do usuário&mdash;o cliente
+        tenta acessar uma URL, e dependendo do esquema na URL, um
+        protocolo específico é usado para comunicar com o servidor (veja <xref
+        linkend="svn.basic.in-action.wc.sb-1"/>).</para>
+
+      <tip><para>Execute <command>svn --version</command> para ver
+        quais esquemas de URL e protocolos que o cliente sabe como
+        usar.</para>
+      </tip>
+
+      <para>Quando o processo servidor recebe uma requisição do cliente,
+        ele quase sempre solicita que o cliente se identifique.  Ele
+        lança um desafio de autenticação para o cliente, e o cliente
+        responde enviando de volta suas
+        <firstterm>credenciais</firstterm> ao servidor.  Quando a
+        autenticação for concluída, o servidor responde com a informação
+        original a qual o cliente requisitou.  Perceba que este sistema
+        é diferente de sistemas como o CVS em que o cliente oferece
+        credenciais preemptivamente (<quote>efetua um login</quote>) ao
+        servidor antes de fazer uma requisição.  No Subversion, o
+        servidor é que <quote>pega</quote> as credenciais desafiando o
+        cliente no momento adequado, ao invés de o cliente ter de
+        <quote>inserí-las</quote>.  Isto torna certas operações mais
+        elegantes.  Por exemplo, se um servidor estiver configurado para
+        permitir globalmente que qualquer um leia o repositório, então
+        o servidor nunca vai emitir um desafio de autenticação quando o
+        cliente executar um <command>svn checkout</command>.</para>
+
+      <para>Se uma dada requisição de rede feita pelo cliente resultar
+        em uma nova revisão sendo criada no repositório (p.ex.
+        <command>svn commit</command>), então o Subversion usa o nome de
+        usuário autenticado associado a essas requisições como autor da
+        revisão.  Isto é, o nome do usuário autenticado é armazenado
+        como o valor da propriedade <literal>svn:author</literal> na
+        nova revisão (veja <xref linkend="svn.ref.properties"/>).  Se o
+        cliente não estava autenticado (em outras palavras, se o
+        servidor nunca lançara um desafio de autenticação),
+        então a propriedade <literal>svn:author</literal> será vazia.
+      </para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.serverconfig.netmodel.credcache">
+      <title>Armazenando Credenciais no Cliente</title>
+
+      <para>Muitos servidores estão configurados para exigir autenticação em
+        todas solicitações.  Isto seria um grande incomodo para os usuários, se
+        eles forem forçados a digitar suas senhas várias vezes.
+        Felizmente, o cliente Subversion possui um remédio para
+        isto&mdash;um sistema embutido para armazenamento das credenciais
+        de autenticação em disco.  Por padrão, se o cliente de linha de
+        comando responde com sucesso a um desafio de autenticação do
+        servidor, ele salva as credenciais na área privada de configuração
+        de execução do usuário
+        (<filename>~/.subversion/auth/</filename> em sistemas baseado em Unix
+        ou <filename>%APPDATA%/Subversion/auth/</filename> em Windows;
+        veja <xref linkend="svn.advanced.confarea" /> para maiores detalhes
+        sobre o sistema de configuração de execução).  As credenciais
+        aprovadas são armazenadas em disco, chaveadas com uma combinação do
+        nome do servidor, porta, e o domínio de autenticação.</para>
+
+      <para>Quando o cliente recebe um desafio de autenticação, ele
+        primeiro procura pelas credenciais apropriadas na cache em disco do
+        usuário.  Se aparentemente nenhuma credencial apta está presente, ou
+        se em último caso a credencial armazenada falhar ao autenticar,
+        então o cliente, por padrão, voltará a solicitar ao
+        usuário pela informação necessária.</para>
+
+      <para>O leitor consciente de segurança suspeitará imediatamente
+        que há motivo para preocupação aqui.  <quote>Armazenar
+        senhas em disco?  Isto é terrível!  Você nunca deve fazer
+        isto!</quote></para>
+
+      <para>Os desenvolvedores do Subversion reconhecem a legitimidade de tais
+        preocupações, e por esta razão o Subversion trabalha com os mecanismos disponíveis
+        fornecidos pelo sistema e ambiente operacional para tentar
+        minimizar o risco de vazamento destas informações.  Aqui está uma
+        descrição de que isto significa para os usuários nas plataformas mais
+        comuns:</para>
+
+      <itemizedlist>
+
+        <listitem>
+          <para>No Windows 2000 e posteriores, o cliente Subversion utiliza
+            os serviços de criptografia padrão do Windows para criptografar a
+            senha no disco.  Devido a chave de criptografia ser gerenciada
+            pelo Windows e ser vinculada às credenciais de <foreignphrase>login</foreignphrase> do próprio
+            usuário, somente o usuário pode descriptografar a senha
+            armazenada.  (Note que se a senha da conta Windows do usuário
+            é redefinida por um administrador, todas as senhas armazenadas
+            se tornam indecifráveis.  O cliente Subversion se comportará
+            como se elas não existissem, solicitando pelas senhas quando
+            requeridas.)</para>
+        </listitem>
+
+        <listitem>
+          <para>Similarmente, no Mac OS X, o cliente Subversion armazena
+            todas as senha de repositório na coleção de chaves de <foreignphrase>login</foreignphrase> (gerenciada pelo
+            serviço <foreignphrase>Keychain</foreignphrase>), o qual é protegida pela senha da
+            conta do usuário.  As configurações de preferências do usuário podem impor
+            políticas adicionais, como exigir que a senha da conta do usuário
+            seja fornecida cada vez que o Subversion utilize a
+            senha.</para>
+        </listitem>
+
+        <listitem>
+          <para>Para outros sistemas operacionais baseado em Unix, nenhum serviço
+            de <quote>keychain</quote> existe.  No entanto,
+            a área de armazenamento <filename>auth/</filename> ainda é
+            protegida por permissão para que somente o usuário (proprietário) possa
+            ler dados dela, não todos em geral.  As permissões de arquivo do
+            próprio sistema operacional protege as senhas.</para>
+        </listitem>
+
+      </itemizedlist>
+
+      <para>Claro que, para o paranóico de verdade, nenhum destes
+        mecanismos satisfaz o teste de perfeição.  Então, para aqueles
+        dispostos a sacrificar a conveniência pela segurança extrema,
+        o Subversion oferece vários meios de desabilitar seu sistema de
+        armazenamento de credenciais completamente.</para>
+
+      <para>Para desabilitar o armazenamento para um único comando, passe a
+        opção <option>--no-auth-cache</option>:</para>
+
+      <screen>
+$ svn commit -F log_msg.txt --no-auth-cache
+Authentication realm: &lt;svn://host.example.com:3690&gt; example realm
+Username:  joe
+Password for 'joe':
+
+Adding         newfile
+Transmitting file data .
+Committed revision 2324.
+
+# password was not cached, so a second commit still prompts us
+
+$ svn delete newfile
+$ svn commit -F new_msg.txt
+Authentication realm: &lt;svn://host.example.com:3690&gt; example realm
+Username:  joe
+&hellip;
+</screen>
+
+      <para>Ou, se você quiser desabilitar o armazenamento de credencial permanentemente,
+        você pode editar o arquivo <filename>config</filename> em sua
+        área de configuração do ambiente de execução, e defina a opção
+        <option>store-auth-creds</option> para
+        <literal>no</literal>.  Isso evitará o armazenamento de
+        credenciais usadas em qualquer interação que você efetuar com o Subversion
+        no computador afetado.  Isso pode ser estendido a todos os
+        usuários no computador, também, ao modificar a área de
+        configuração do sistema como um todo (descrito em <xref
+        linkend="svn.advanced.confarea.layout" />).</para>
+
+      <screen>
+[auth]
+store-auth-creds = no
+</screen>
+
+      <para>Algumas vezes os usuários poderão querer remover credenciais específicas
+        da cache em disco.  Para fazer isso, você precisa ir até
+        a área <filename>auth/</filename> e excluir manualmente o
+        arquivo de cache apropriado.  As credenciais são armazenadas em arquivos
+        individuais;  se você olhar dentro de cada arquivo, você verá chaves e
+        valores.  A chave <literal>svn:realmstring</literal> descreve
+        o domínio do servidor específico ao qual o arquivo está
+        associado:</para>
+
+      <screen>
+$ ls ~/.subversion/auth/svn.simple/
+5671adf2865e267db74f09ba6f872c28
+3893ed123b39500bca8a0b382839198e
+5c3c22968347b390f349ff340196ed39
+
+$ cat ~/.subversion/auth/svn.simple/5671adf2865e267db74f09ba6f872c28
+
+K 8
+username
+V 3
+joe
+K 8
+password
+V 4
+blah
+K 15
+svn:realmstring
+V 45
+&lt;https://svn.domain.com:443&gt; Joe's repository
+END
+</screen>
+
+      <para>Assim que você localizar o respectivo arquivo de cache, apenas o
+        exclua.</para>
+
+      <para>Uma última palavra sobre o comportamento de autenticação do
+        <command>svn</command>, especificamente em relação às opções
+        <option>--username</option> e <option>--password</option>.
+        Muitos dos subcomandos do cliente aceitam estas opções, mas
+        é importante entender que o uso dessas opções
+        <emphasis>não</emphasis> envia as credenciais automaticamente ao
+        servidor.  Conforme discutido anteriormente, o servidor <quote>puxa</quote>
+        as credenciais do cliente quando julgar necessário; o
+        cliente não pode <quote>empurrá</quote>-las à vontade.  Se um nome de usuário
+        e/ou senha são passados como opções, elas somente serão
+        apresentadas ao servidor se o servidor solicitar elas.
+        <footnote>
+         <para>Novamente, um erro comum é deixar um servidor mal
+           configurado de forma que ele nunca exija a autenticação do usuário.
+           Quando os usuários passam as opções <option>--username</option> e
+           <option>--password</option> para o cliente, eles ficam
+           surpresos ao ver que elas nunca foram usadas, ou seja, novas
+           revisões parecem ter sido submetidas
+           anonimamente!</para>
+        </footnote>
+
+        Estas opções são normalmente utilizadas para autenticar como um
+        usuário diferente daquele que o Subversion teria optado por padrão
+        (como seu nome de usuário no sistema), ou quando tenta-se evitar
+        as perguntas interativas (como nas chamadas ao comando
+        <command>svn</command> a partir de um script).</para>
+
+      <para>Aqui está um resumo final que descreve como um cliente
+        Subversion se comporta quando ele recebe um desafio de
+        autenticação.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Primeiro, o cliente verifica se o usuário especificou
+            alguma credencial na linda de comando com as opções
+            (<option>--username</option> e/ou
+            <option>--password</option>).  Se não, ou se essas opções
+            não conseguem autenticar com sucesso, então</para> 
+        </listitem>
+
+        <listitem>
+          <para>o cliente procura pelo nome, porta e domínio do servidor na
+            área <filename>auth/</filename> do ambiente de execução, para ver se o
+            usuário já possui as credenciais em cache.  Se
+            não, ou se as credenciais em cache não conseguem autenticar,
+            então</para>
+        </listitem>
+
+        <listitem>
+          <para>finalmente, o cliente solicita as credenciais ao usuário
+            (a menos que seja instruído a não fazer isso através da
+            opção <option>--non-interactive</option> ou suas
+            equivalentes específicas do cliente).</para>
+        </listitem>
+
+      </orderedlist>
+
+      <para>Se o cliente autentica-se com sucesso por qualquer dos
+        métodos listados acima, ele tentará armazenar as credenciais
+        em disco (a menos que o usuário tenha desabilitado este comportamento,
+        como mencionado anteriormente).</para>
+
+    </sect2>
+
+  </sect1>
+
+</chapter>
+
+<!--
+local variables: 
+sgml-parent-document: ("book.xml" "chapter")
+end:
+-->
