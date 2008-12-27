@@ -1,0 +1,977 @@
+<preface id="svn.preface">
+  <title>Prefácio</title>
+
+  <blockquote>
+    <attribution>Greg Hudson</attribution>
+    <para><quote>É importante não deixar que o perfeito se torne inimigo
+      do bom, mesmo quando você puder estar certo sobre o que o perfeito
+      é.  Duvide quando você não puder.  Como é desagradável ser
+      aprisionado pelos erros passados, você não pode fazer qualquer
+      progresso tendo medo de sua própria sombra durante a
+      ação.</quote></para>
+  </blockquote>
+
+  <para>
+    <indexterm>
+      <primary>Concurrent Versions System (CVS)</primary>
+    </indexterm>
+
+    No mundo dos softwares open-source, o Concurrent Versions System
+    (CVS) foi a ferramenta escolhida para controle de versão por muitos
+    anos.  E com razão.  O próprio CVS é um software open-source também,
+    e seu modus operandi não-restritivo e o suporte a operações de rede
+    permitiram que diversos programadores distribuídos geograficamente
+    compartilhassem seus trabalhos.  Ele atende à natureza colaborativa
+    do mundo open-source como um todo.  O CVS e seu modelo de
+    desenvolvimento semi-caótico se tornou um marco da cultura
+    open-source.</para>
+
+  <para>Mas o CVS também tinha seus defeitos, e simplesmente corrigir
+    estes defeitos prometia ser um enorme esforço.  Chega o Subversion.
+    Desenvolvido para ser um sucessor do CVS, os criadores do Subversion
+    pretendiam ganhar a simpatia dos usuários CVS de duas
+    maneiras&mdash;criando um sistema open-source com o projeto (e a
+    <quote>aparência</quote>) semelhante ao do CVS, e tentando evitar
+    muitos de seus conhecidos defeitos.  Por mais que o resultado não
+    seja necessariamente a próxima grande evolução no projeto de controle
+    de versão, o Subversion <emphasis>é</emphasis> muito poderoso, muito
+    usável, e muito flexível.  E agora muitos projetos open-source, quase
+    todos recém-iniciados, preferem agora o Subversion ao CVS.</para>
+
+  <para>Este livro foi escrito para documentar a série 1.4 do sistema de
+    controle de versão Subversion.  Nós tentamos ser bem profundos em
+    nossa abordagem.  Entretanto, o Subversion possui uma comunidade
+    de desenvolvedores próspera e cheia de energia, então eles já têm um
+    conjunto de recursos e melhorias planejadas para futuras versões do
+    Subversion que podem mudar alguns dos comandos e notas específicas
+    deste livro.</para>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.audience">
+
+    <title>Público-Alvo</title>
+    
+    <para>Este livro foi escrito para pessoas habituadas com computadores
+      que desejam usar o Subversion para gerenciar seus dados.  Ainda que
+      o Subversion rode em vários sistemas operacionais diferentes, a sua
+      interface de usuário primária é baseada em linha de comando.  Essa
+      ferramenta de linha de comando (<command>svn</command>), e alguns
+      programas auxiliares, são o foco deste livro.</para>
+
+    <para>Por motivo de consistência, os exemplos neste livro presumem que
+      o leitor esteja usando um sistema operacional baseado em Unix e se sinta
+      relativamente confortável com Unix e com interfaces de linha de comando.
+      Dito isto, o programa <command>svn</command> também roda em plataformas
+      não-Unix, como o Microsoft Windows.  Com poucas exceções, como o uso de
+      barras invertidas (<literal>\</literal>) em lugar de barras regulares
+      (<literal>/</literal>) para separadores de caminho, a entrada e a saída
+      desta ferramenta, quando executada no Windows, são idênticas às do seu
+      companheiro Unix.</para>
+
+    <para>Muitos leitores são provavelmente programadores ou administradores de
+      sistemas que necessitam rastrear alterações em código-fonte.  Essa é a
+      finalidade mais comum para o Subversion, e por isso é o cenário por trás
+      de todos os exemplos deste livro.  Entretanto, o Subversion pode ser usado
+      para gerenciar qualquer tipo de informação&mdash;imagens, músicas, bancos
+      de dados, documentação, etc.  Para o Subversion, dados são apenas dados.</para>
+    
+    <para>Enquanto que este livro presume que o leitor nunca usou um
+      sistema de controle de versão, nós também tentamos facilitar para
+      os usuários do CVS (e outros sistemas) a migração para o Subversion.
+      Ocasionalmente, notas especiais poderão mencionar outros controles
+      de versão. Há também um apêndice que resume muitas das diferenças entre
+      CVS e Subversion.</para>
+
+    <para>Note também que os exemplos de código-fonte usados ao longo
+      do livro são apenas exemplos.  Ainda que eles compilem com os
+      truques apropriados do compilador, seu propósito é ilustrar um
+      cenário em particular, não necessariamente servir como exemplos
+      de boas práticas de programação.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.howread">
+    <title>Como Ler Este Livro</title>
+
+    <para>Livros técnicos sempre enfrentam um certo dilema: se os leitores devem
+      fazer uma leitura <firstterm>top-down</firstterm> (do início ao fim)
+      ou <firstterm>bottom-up</firstterm> (do fim ao começo).  
+      Um leitor top-down
+      prefere ler ou folhear toda a documentação antes, ter uma visão geral de 
+      como o sistema funciona e apenas, então, é que que ele inicia o uso do 
+      software.  Já um leitor bottom-up <quote>aprende fazendo</quote>, ele é 
+      alguém que mergulha no software e o esmiuça, voltando às seções do livro 
+      quando necessário. Muitos livros são escritos para um ou outro tipo de
+      pessoa, e esse livro é, sem dúvida, indicado para o leitor top-down. (Se
+      você está lendo esta seção, provavelmente você já é um leitor top-down
+      nato). No entanto, se você é um leitor bottom-up, não se desespere.  
+      Mesmo que este livro pode ser definido como um apanhado geral sobre o 
+      Subversion, o conteúdo de cada seção tende a aprofundar com exemplos 
+      específicos nos quais você pode aprender fazendo.  
+      As pessoas impacientes
+      que já querem ir fazendo, podem pular direto para o  
+      <xref linkend="svn.intro"/>.</para>
+
+    <para>Independente do seu estilo de aprendizado, este livro pretende ser
+      útil para os mais diversos tipos de pessoas &mdash; os que não possuem 
+      nenhuma experiência com controle de versão até 
+      os administradores de sistema mais experientes.  
+      Dependendo do seu conhecimento, certos  
+      capítulos podem ser mais ou menos importantes para você. A lista abaixo 
+      é uma <quote>recomendação de leitura</quote> para os diversos tipos de 
+      leitores:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Administradores de Sistemas Experientes</term>
+        <listitem>
+          <para>Supõe-se aqui que você, provavelmente, já tenha usado 
+            controle de versão anteriormente, e está morrendo de vontade de usar
+            um servidor Subversion o quanto antes. O
+            <xref linkend="svn.reposadmin"/> e o
+            <xref linkend="svn.serverconfig"/> irão mostrar como criar seu
+            primeiro repositório e torná-lo disponível na rede. Depois disso, o
+            <xref linkend="svn.tour"/> e o
+            <xref linkend="svn.forcvs"/> vão mostrar o caminho mais rápido para
+            se aprender a usar o cliente 
+            Subversion.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Novos usuário</term>
+        <listitem>
+          <para>Seu administrador provavelmente já disponibilizou um servidor  
+            Subversion, e você precisa aprender a usar o cliente. Se você nunca 
+            utilizou um sistema de controle de versão, então o 
+            <xref linkend="svn.basic"/> será vital para introduzir e mostrar as 
+            idéias por trás do controle de versão.  O <xref linkend="svn.tour"/> 
+            é um guia do cliente do Subversion.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Usuários avançados</term>
+        <listitem>
+          <para>Seja você um usuário ou um administrador, eventualmente seu 
+            projeto irá crescer muito.  Você irá querer aprender a fazer 
+            coisas avançadas com o Subversion, como usar ramos e fazer fusões
+            (<xref linkend="svn.branchmerge"/>), como usar as propriedades de  
+            suporte do Subversion (<xref linkend="svn.advanced"/>), como
+            configurar as opções de tempo de execu  o 
+            (<xref linkend="svn.customization"/>), 
+            entre outras coisas.  
+            Estes capítulos não são críticos no início, porém não deixe de 
+            lê-los quando estiver familiarizado com o básico.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Desenvolvedores</term>
+        <listitem>
+          <para>Presumidamente, você já está familiarizado com o Subversion,
+            e quer ou extendê-lo ou construir um novo software baseado nas
+            suas diversas APIs.  O <xref linkend="svn.developer"/> foi feito
+            justamente pra pra você.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>O livro termina com um material de referência &mdash; o <xref
+      linkend="svn.ref"/> é um guia de referência para todos os comandos do 
+      Subversion, e os apêndices cobrem um número considerável de tópicos úteis. 
+      Estes capítulos serão os que você irá voltar com mais freqüência depois 
+      que terminar de ler o livro.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.conventions">
+    <title>Convenções Usadas Neste Livro</title>
+    
+    <para>Esta seção cobre as várias convenções usadas neste 
+    livro.</para>
+    
+    <!-- =============================================================== -->
+    <sect2 id="svn.preface.conventions.typo">
+      <title>Convenções tipográficas</title>
+      
+      <variablelist>
+        
+        <varlistentry>
+          <term><command>Largura constante</command></term>
+          <listitem>
+            <para>Comandos usados, comando de saída, e opções</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><replaceable>Largura constante em itálico</replaceable></term>
+          <listitem>
+            <para>Usado para substituir itens no código e texto</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><filename>Itálico</filename></term>
+          <listitem>
+            <para>Usado para nomes de arquivo e diretório</para>
+          </listitem>
+        </varlistentry>
+        
+      </variablelist>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.preface.conventions.icons">
+      <title>Ícones</title>
+
+      <note>
+        <para>Este ícone representa uma nota relacionada ao texto 
+        citado.</para>
+      </note>
+
+      <tip>
+        <para>Este ícone representa uma dica útil relacionada ao texto 
+        citado.</para>
+      </tip>
+
+      <warning>
+        <para>Este ícone representa um aviso relacionado ao texto 
+        citado.</para>
+      </warning>
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.organization">
+    <title>Organização Deste Livro</title>
+
+    <para>Abaixo estão listados os capítulos e seus conteúdos estão listados: 
+      </para>
+
+      <variablelist>
+        
+        <varlistentry>
+          <term><xref linkend="svn.preface"/></term>
+          <listitem>
+            <para>Cobre a história do Subversion bem como suas 
+              características, arquitetura e compomentes.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.basic"/></term>
+          <listitem>
+            <para>Explica o básico sobre controle de versão e os diferentes
+              modelos de versionamento, o repositório do Subversion,
+              cópias de trabalho e revisões.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.tour"/></term>
+          <listitem>
+            <para>Faz um tour por um dia na vida de um usuário do Subversion.
+              Demonstra como usar o cliente do Subversion para
+              obter, modificar e submeter dados.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.advanced"/></term>
+          <listitem>
+            <para>Cobre as características mais complexas que os usuários 
+              regulares irão encontrar eventualmente, como metadados, travamento
+               de arquivo(<foreignphrase>locking</foreignphrase>) e rotulagem de revisões.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.branchmerge"/></term>
+          <listitem>
+            <para>Discute sobre ramos, fusões, e rotulagem, 
+              incluindo as melhores práticas para a criação de ramos e fusões,
+              casos de uso comuns, como desfazer alterações, e como facilitar 
+              a troca de um ramo para o outro.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.reposadmin"/></term>
+          <listitem>
+            <para>Descreve o básico de um repositório Subversion,
+              como criar, configurar, e manter um repositório, e
+              as ferramentas que podem ser usadas para isso.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.serverconfig"/></term>
+          <listitem>
+            <para>Explica como configurar um servidor Subversion e os
+              diferentes caminhos para acessar seu repositório:
+              <literal>HTTP</literal>, o protocolo<literal>svn</literal>
+              e o acesso local pelo disco.  Também cobre os detalhes de 
+              autenticação, autorização e acesso 
+              anônimo.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.customization"/></term>
+          <listitem>
+            <para>Explora os arquivos de configuração do cliente Subversion,
+              a internacionalização de texto, e como fazer com que
+              ferramentas externas trabalhem com o subversion.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.developer"/></term>
+          <listitem>
+            <para>Descreve as partes internas do Subversion, o sistema de
+              arquivos do Subversion, e a cópia de trabalho da área 
+              administrativa do ponto de vista de um programador.
+              Demonstra como usar as APIs públicas para escrever um programa
+              que usa o Subversion, e o mais importante, como contribuir para
+              o desenvolvimento do Subversion.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.ref"/></term>
+          <listitem>
+            <para>Explica em detalhes todos os subcomandos do
+              <command>svn</command>, <command>svnadmin</command>, e
+              <command>svnlook</command> com abundância de exemplos para toda
+              a família!</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.intro"/></term>
+          <listitem>
+            <para>Para os impacientes, uma rápida explicação de como 
+              instalar o Subversion e iniciar seu uso imediatamente. Você foi
+              avisado.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.forcvs"/></term>
+          <listitem>
+            <para>Cobre as similaridades e diferenças entre o 
+              Subversion e o CVS, com numerosas sugestões de como fazer para
+              quebrar todos os maus hábitos que você adquiriu ao longo dos anos
+              com o uso do CVS.  Inclui a descrição de número de revisão
+              do Subversion, versionamento de diretórios, operações offline,
+              <command>update</command>
+              vs. <command>status</command>, ramos, rótulos, 
+              resolução de conflitos e autenticação.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.webdav"/></term>
+          <listitem>
+            <para>Descreve os detalhes do WebDAV e DeltaV, e como você pode
+              configurar e montar seu repositório Subversion em modo de
+              leitura/escrita em um compartilhamento DAV.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><xref linkend="svn.3rdparty"/></term>
+          <listitem>
+            <para>Discute as ferramentas que suportam ou usam o Subversion,
+              incluindo programas clientes alternativos, ferramentas para 
+              navegação no repositório, e muito mais.</para>
+          </listitem>
+        </varlistentry>
+
+    </variablelist>
+
+  </sect1>
+
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.free">
+    <title>Este Livro é Livre</title>
+
+    <para>Este livro teve início com a documentação escrita pelos desenvolvedores
+      do projeto Subversion, a qual foi reunida em um único trabalho e 
+      reescrito.  Assim, ele sempre esteve sob uma licença livre.
+      (Veja <xref linkend="svn.copyright"/>.)  De fato,
+      o livro foi escrito sob uma visão pública, originalmente como parte do
+      próprio projeto Subversion.  Isto significa duas coisas:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Você sempre irá encontrar a última versão deste livro no próprio
+          repositório Subversion do livro.</para>
+      </listitem>
+
+      <listitem>
+        <para>Você pode fazer alterações neste livro e redistribuí-lo, 
+          entretanto você deve fazê-lo&mdash;sob uma licença livre.  Sua 
+          única obrigação é manter o créditos originais dos autores.
+          É claro que, ao invés de distribuir sua própria versão deste 
+          livro, gostaríamos muito mais que você enviasse seu feedback
+          e correções para a comunidade de desenvolvimento do Subversion.</para>
+      </listitem>
+    </itemizedlist>
+    
+    <!-- O'REILLY SHOULD TWEAK THIS PARAGRAPH -->
+    <para>O site deste livro está em desenvolvimento, e muitos dos tradutores 
+      voluntários estão se reunindo no site
+      <ulink url="http://svnbook.red-bean.com"/>.  Lá você pode encontrar
+      links para as últimas versões lançadas e versões compiladas deste livro 
+      em diversos formatos, bem como as instruções de acesso ao repositório 
+      Subversion do livro(onde está o código-fonte em formato DocBook XML)
+      Um feedback é bem vindo&mdash;e encorajado também.  Por favor,
+      envie todos os seus comentários, reclamações, e retificações dos fontes
+      do livro para o e-mail <email>svnbook-dev@red-bean.com</email>.</para>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.preface.acks">
+    <title>Agradecimentos</title>
+
+    <para>Este livro não existiria (nem seria útil) se o
+      Subversion não existisse.  Assim, os autores gostariam de agradecer ao 
+      Brian Behlendorf e à CollabNet, pela visão em acreditar em um arriscado 
+      e ambicioso projeto de Código Aberto; Jim Blandy pelo nome e projeto
+      original do Subversion&mdash;nós amamos você, Jim;
+      Karl Fogel, por ser um excelente amigo e grande líder na comunidade,
+      nesta ordem.<footnote><para>Oh, e agradecemos ao Karl, por ter dedicado
+      muito trabalho ao escrever este livro sozinho.</para>
+      </footnote></para>
+
+    <para>Agradecimentos a O'Reilly e nossos editores, Linda Mui e Tatiana
+      Diaz por sua paciente e apoio.</para>
+
+    <para>Finalmente, agrademos às inúmeras pessoas que contribuíram para
+      este livro com suas revisões informais, sugestões e retificações.
+      Certamente, esta não é uma lista completa, mas este livro estaria 
+      incompleto e incorreto sem a ajuda de: David Anderson,
+      Jani Averbach, Ryan Barrett, Francois Beausoleil, Jennifer
+      Bevan, Matt Blais, Zack Brown, Martin Buchholz, Brane Cibej,
+      John R. Daily, Peter Davis, Olivier Davy, Robert P. J. Day, Mo
+      DeJong, Brian Denny, Joe Drew, Nick Duffek, Ben Elliston, Justin
+      Erenkrantz, Shlomi Fish, Julian Foad, Chris Foote, Martin
+      Furter, Dave Gilbert, Eric Gillespie, David Glasser, Matthew
+      Gregan, Art Haas, Eric Hanchrow, Greg Hudson, Alexis Huxley,
+      Jens B. Jorgensen, Tez Kamihira, David Kimdon, Mark Benedetto
+      King, Andreas J. Koenig, Nuutti Kotivuori, Matt Kraai, Scott
+      Lamb, Vincent Lefevre, Morten Ludvigsen, Paul Lussier, Bruce
+      A. Mah, Philip Martin, Feliciano Matias, Patrick Mayweg, Gareth
+      McCaughan, Jon Middleton, Tim Moloney, Christopher Ness, Mats
+      Nilsson, Joe Orton, Amy Lyn Pilato, Kevin Pilch-Bisson, Dmitriy
+      Popkov, Michael Price, Mark Proctor, Steffen Prohaska, Daniel
+      Rall, Jack Repenning, Tobias Ringstrom, Garrett Rooney, Joel
+      Rosdahl, Christian Sauer, Larry Shatzer, Russell Steicke, Sander
+      Striker, Erik Sjoelund, Johan Sundstroem, John Szakmeister,
+      Mason Thomas, Eric Wadsworth, Colin Watson, Alex Waugh, Chad
+      Whitacre, Josef Wolf, Blair Zajac e a comunidade inteira do
+      Subversion.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.preface.acks.sussman">
+      <title>Agradecimentos de Ben Collins-Sussman</title>
+
+      <para>Agradeço a minha esposa Frances, quem, por vários meses, começou a
+        ouvir, <quote>Mas docinho, eu estou trabalhando no livro</quote>,
+        ao invés do habitual, <quote>Mas docinho, eu estou escrevendo um
+        e-mail.</quote>  Eu não sei onde ela arruma tanta paciência!
+        Ela é meu equilíbrio perfeito.</para>
+
+      <para>Agradeço à minha extensa família e amigos por seus sinceros votos
+        de encorajamento, apesar de não terem qualquer interesse no assunto.
+        (Você sabe, tem uns que dizem: <quote>Você escreveu um 
+        livro?</quote>, e então quando você diz que é um livro de 
+        computador, eles te olham torto.)</para>
+
+      <para>Agradeço aos meus amigos mais próximos, que me fazem um rico, rico 
+        homem.  Não me olhem assim&mdash;vocês sabem quem são.</para>
+
+      <para>Agradeço aos meus pais pela minha perfeita formação básica, e pelos
+        inacreditáveis conselhos.  Agradeço ao meu filho pela oportunidade de
+        passar isto adiante.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.preface.acks.fitz">
+      <title>Agradecimentos de Brian W. Fitzpatrick</title>
+
+      <!-- ### TODO(fitz):  update this? -->
+
+      <para>Um grande obrigado à minha esposa Marie por sua inacreditável
+        compreensão, apoio, e acima de tudo, paciência.  Obrigado ao meu irmão
+        Eric, quem primeiro me apresentou à programação voltada para UNIX.
+        Agradeço à minha mãe e minha avó por seu
+        apoio, sem falar nas longas férias de Natal, quando eu chegava em casa
+        e mergulhava minha cabeça no
+        laptop para trabalhar no livro.</para>
+
+      <para>Mike e Ben, foi um prazer trabalhar com vocês neste
+        livro.  Heck, é um prazer trabalhar com você nesta obra!</para>
+
+      <para>Para todos da comunidade Subversion e a Apache
+        Software Foundation, agradeço por me receberem.  Não há um dia onde eu
+        não aprenda algo com pelo menos um de vocês.
+      </para>
+
+      <para>Finalmente, agradeço ao meu avô que sempre me disse
+        <quote>Liberdade é igual responsabilidade.</quote> Eu não
+        poderia estar mais de acordo.</para>
+
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.preface.acks.cmpilato">
+      <title>Agradecimentos de C. Michael Pilato</title>
+
+      <para>Um obrigado especial a Amy, minha melhor amiga e esposa por
+        inacreditáveis nove anos, por seu amor e apoio paciente, por me 
+        tolerar até tarde da noite, e por agüentar o duro processo de controle
+        de versão que impus a ela.  Não se preocupe,  
+        querida&mdash;você será um assistente do TortoiseSVN  
+        logo!</para>
+
+      <para>Gavin, provavelmente não há muitas palavras neste livro que
+        você possa, com sucesso, <quote>pronunciar</quote> nesta fase de sua vida,
+        mas quando você, finalmente, aprender a forma escrita desta louca língua
+        que falamos, espero que você esteja tão orgulhoso de seu pai quanto
+        ele de você.</para>
+
+      <para>Aidan, Daddy luffoo et ope Aiduh yike contootoo as much as
+        Aiduh yike batetball, base-ball, et bootball.
+        <footnote>
+          <para>Tradução: Papai te ama e espera que você goste de computadores
+            assim como você irá gostar de basquete, basebol e 
+            futebol.  (Isso seria óbvio?)</para>
+        </footnote>
+      </para>
+
+      <para>Mãe e Pai, agraço pelo apoio e entusiasmo 
+        constante.  Sogra e Sogro, agradeço por tudo da mesma forma e 
+        <emphasis>mais</emphasis> um pouco por sua fabulosa filha.</para>
+
+      <para>Tiro o chapéu para Shep Kendall, foi através dele que o mundo
+        dos computadores foi aberto pela primeira vez a mim; Ben Collins-Sussman, 
+        meu orientador pelo mundo do código-aberto; Karl Fogel&mdash; você
+        <emphasis>é</emphasis> meu <filename>.emacs</filename>; Greg
+        Stein, o difusor da programação prática como-fazer; Brian
+        Fitzpatrick&mdash;por compartilhar esta experiência de escrever 
+        junto comigo.  Às muitas pessoas com as quais eu estou constantemente
+        aprendendo&mdash;e continuo aprendendo!</para>
+
+      <para>Finalmente, agradeço a alguém que demonstra ser perfeitamente 
+        criativo em sua excelência&mdash;você.</para>
+
+    </sect2>
+
+  </sect1>
+
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <!-- ================================================================= -->
+  <sect1 id="svn.intro.whatis">
+
+    <title>O Que é o Subversion?</title>
+      
+    <para>Subversion é um sistema de controle de versão
+      livre/open-source.  Isto é, o Subversion gerencia arquivos e
+      diretórios, e as modificações feitas neles ao longo do tempo.
+      Isto permite que você recupere versões antigas de seus dados, ou
+      que examine o histórico de suas alterações.  Devido a isso, muitas
+      pessoas tratam um sistema de controle de versão como uma espécie
+      de <quote>máquina do tempo</quote>.</para>
+    
+    <para>O Subversion pode funcionar em rede, o que lhe possibilita ser
+      usado por pessoas em diferentes computadores.  Em certo nível, a
+      capacidade de várias pessoas modificarem e gerenciarem o mesmo
+      conjunto de dados de seus próprios locais é o que fomenta a
+      colaboração.  Progressos podem ocorrer muito mais rapidamente
+      quando não há um gargalo único por onde todas as modificações
+      devam acontecer.  E como o trabalho está versionado, você não
+      precisa ter medo de que seu trabalho perca qualidade por não ter
+      essa via única para modificações&mdash;se os dados sofrerem alguma
+      modificação indevida, apenas desfaça tal modificação.</para>
+
+    <para>Alguns sistemas de controle de versão também são sistema de
+      gerenciamento de configuração (GC).  Estes sistemas são
+      especificamente desenvolvimento para gerenciar árvores de
+      código-fonte, e possuem muitos recursos específicos para o
+      desenvolvimento de software&mdash;como identificação nativa de
+      linguagens de programação, ou ferramentas de apoio para compilação
+      de software.  O Subversion, no entanto, não é um sistema desse
+      tipo.  É um sistema de caráter geral que pode ser usado para
+      gerenciar <emphasis>quaisquer</emphasis> conjuntos de arquivos.
+      Para você, estes arquivos podem ser código-fonte&mdash;para
+      outros, podem ser qualquer coisa desde listas de compras de
+      supermercado a arquivos de edição de vídeo, e muito mais.</para>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.intro.history">
+  
+      <title>Histórico do Subversion</title>
+  
+      <para>
+        <indexterm>
+          <primary>Subversion</primary>
+          <secondary>histórico do</secondary>
+        </indexterm>
+
+        No começo do ano 2000, a CollabNet, Inc. (<ulink
+        url="http://www.collab.net"/>) começou a procurar
+        desenvolvedores para desenvolver um substituto para o CVS.  A
+        CollabNet já tinha uma suite colaborativa chamada CollabNet
+        Enterprise Edition (CEE) cujo um de seus componentes era o
+        controle de versão.  Apesar de o CEE usar o CVS como seu sistema
+        de controle de versão inicial, as limitações do CVS ficaram
+        evidentes desde o princípio, e a CollabNet sabia que
+        eventualmente teria que procurar por algo melhor.  Infelizmente,
+        o CVS havia se firmado como um padrão de fact no mundo open
+        source principalmente porque <emphasis>não havia</emphasis> nada
+        melhor, pelo menos sob licença livre.  Então a CollabNet decidiu
+        desenvolver um novo sistema de controle de versão a partir do
+        zero, mantendo as idéias básicas do CVS, mas sem os bugs e seus
+        inconvenientes.</para>
+  
+      <para>Em Fevereiro de 2000, eles contactaram Karl Fogel, o autor
+        de <citetitle>Open Source Development with CVS</citetitle>
+        (Coriolis, 1999), e perguntaram se ele gostaria de trabalhar
+        neste novo projeto.  Coincidentemente, no momento Karl já estava
+        discutindo o projeto para um novo sistema de controle de versão
+        com seu amigo Jim Blandy.  Em 1995, os dois iniciaram a Cyclic
+        Software, uma empresa que mantinha contratos de suporte para o
+        CVS, e apesar de terem vendido a empresa posteriormente, eles
+        ainda usavam o CVS todos os dias em seus trabalhos.  Suas
+        frustrações com o CVS levou Jim a pensar cuidadosamente sobre
+        melhores maneiras para gerenciar dados versionados, no que ele
+        não apenas já tinha pensado no nome <quote>Subversion</quote>,
+        mas também com o projeto básico para armazenamento de dados do
+        Subversion.  Quando a CollabNet chamou, Karl concordou
+        imediatamente em trabalhar no projeto, e Jim sugeriu à empresa
+        em que trabalhava, Red Hat Software, essencialmente a cedê-lo
+        para o projeto por um período de tempo indefinido.  A CollabNet
+        contratou Karl e Ben Collins-Sussman, e um projeto detalhado de
+        trabalho começou em Maio.  Com a ajuda e o bem-vindo incentivo
+        de Brian Behlendorf e Jason Robbins da CollabNet, e de Greg
+        Stein (à época, um desenvolvedor independente trabalhando no
+        processo de especificação do WebDAV/DeltaV), o Subversion
+        rapidamente atraiu uma comunidade ativa de desenvolvedores.
+        Detectou-se que muitas pessoas também tinham as mesmas
+        experiências frustrantes com o CVS, agora satisfeitas com a
+        oportunidade de finalmente fazer algo sobre isso.</para>
+  
+      <para>A equipe do projeto original determinou alguns objetivos
+        simples.  Eles não queriam romper com a metodologia existente
+        para controle de versão, eles apenas queriam corrigir o CVS.
+        Eles decidiram que o Subversion deveria ser compatível com as
+        características do CVS, e manter o mesmo modelo de
+        desenvolvimento, mas não reproduzir as falhas mais óbvias do
+        CVS.  E mesmo que o novo sistema não fosse um substituto
+        definitivo para o CVS, ele deveria ser suficientemente
+        semelhante a este para que qualquer usuário do CVS pudesse
+        migrar de sistema com pouco esforço.</para>
+  
+      <para>Depois de quatorze meses de desenvolvimento, o Subversion
+        tornou-se <quote>auto-gerenciável</quote> em 31 de Agosto de
+        2001.  Ou seja, os desenvolvedores do Subversion pararam de usar
+        o CVS para gerir seu próprio código-fonte, e começaram a usar o
+        próprio Subversion no lugar.</para>
+  
+      <para>Embora a CollabNet tenha iniciado o projeto, e ainda
+        patrocine uma grande parte dos trabalhos (ela paga os salários
+        de alguns poucos desenvolvedores do Subversion em tempo
+        integral), o Subversion é mantido como a maioria dos projetos
+        open source, gerenciado por um conjunto de regras transparentes
+        e de senso-comum, fundamentadas na meritocracia.  A licença
+        adotada pela CollabNet é perfeitamente compatível com Definição
+        Debian de Software Livre (DFSG).  Em outras palavras, qualquer
+        pessoa é livre para baixar o código do Subversion, modificá-lo,
+        e redistribuí-lo conforme lhe convier; não é necessário pedir
+        permissão à CollabNet ou a quem quer que seja.</para>
+  
+    </sect2>
+  
+    <!-- =============================================================== -->
+    <sect2 id="svn.intro.features">
+  
+      <title>Características do Subversion</title>
+  
+      <para>Ao discutir sobre que recursos o Subversion traz para o
+        âmbito do controle de versão, frequentemente é útil falar deles
+        em termos de que avanços eles representam aos recursos do CVS.
+        Se você não está familiarizado com o CVS, você pode não
+        compreender todas essas características.  E se você não estiver
+        familiarizado com controle de versão como um todo, você pode
+        ficar bem confuso a menos que você leia antes <xref 
+        linkend="svn.basic"/>, onde apresentamos uma suave introdução ao
+        controle de versão.</para>
+  
+      <para>O Subversion proporciona:</para>
+  
+      <variablelist>
+        <varlistentry>
+          <term>Versionamento de diretórios</term>
+          <listitem>
+            <para>O CVS apenas rastreia o histórico de arquivos
+              individuais, já o Subversion implementa um sistema de
+              arquivos <quote>virtual</quote> sob controle de versão que
+              rastreia modificações a toda a árvore de diretório ao
+              longo do tempo.  Os arquivos <emphasis>e</emphasis> os
+              diretórios são versionados.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Histórico de versões efetivo</term>
+          <listitem>
+            <para>Como o CVS é limitado apenas ao versionamento de
+              arquivos, operações como cópia e renomeação&mdash;que
+              podem ocorrer com arquivos também, mas que são realmente
+              alterações no conteúdo de algum diretório
+              continente&mdash;não são suportadas no CVS.
+              Adicionalmente, no CVS você não pode substituir um arquivo
+              versionado por alguma outra coisa com o mesmo nome sem que
+              o novo item deixe de herdar o histórico do arquivo
+              antigo&mdash;que talvez seja até algo com o qual não
+              mantenha nenhuma correlação.  Com o Subversion, você pode
+              adicionar, excluir, copiar, e renomear ambos os arquivos
+              ou diretórios.  E cada novo arquivo adicionado começa com
+              um histórico próprio e completamente novo.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Commits atômicos</term>
+          <listitem>
+            <para>Um conjunto de modificações ou é inteiramente
+              registrado no repositório, ou não é registrado de forma
+              nenhuma.  Isto possibilita aos desenvolvedores criarem e
+              registrarem alterações como blocos lógicos, e também evita
+              problemas que possam ocorrer quando apenas uma parte de um
+              conjunto de alterações seja enviada com sucesso ao
+              repositório.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Versionamento de metadados</term>
+          <listitem>
+            <para>Cada arquivo e diretório tem um conjunto de
+              propriedades&mdash;chaves e seus valores&mdash;associados
+              consigo.  Você pode criar e armazenar quaisquer pares
+              chave/valor que quiser.  As propriedades são versionadas
+              ao longo do tempo, tal como os conteúdos de
+              arquivo.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Escolha das camadas de rede</term>
+          <listitem>
+            <para>O Subversion tem uma noção abstrata do acesso ao
+              repositório, tornando-o mais fácil para as pessoas
+              implementarem novos mecanismos de rede.  O Subversion pode
+              se associar ao servidor Apache HTTP como um módulo de
+              extensão.  Isto dá ao Subversion uma grande vantagem em
+              estabilidade e interoperabilidade, além de acesso
+              instantâneo aos recursos existentes oferecidos por este
+              servidor&mdash;autenticação, autorização, compactação
+              online, dentre outros.  Um servidor Subversion mais leve e 
+              independente também está disponível.  Este servidor
+              utiliza um protocolo específico o qual pode ser facilmente
+              ser tunelado sobre SSH.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Manipulação consistente de dados</term>
+          <listitem>
+            <para>O Subversion exprime as diferenças de arquivo usando
+              um algoritmo diferenciado, o qual funciona de maneira
+              idêntica tanto em arquivos texto (compreensível para
+              humanos) quanto em arquivos binários (incompreensível para
+              humanos).  Ambos os tipos de arquivos são igualmente
+              armazenados de forma compactada no repositório, e as
+              diferenças são enviadas em ambas as direções pela
+              rede.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>Ramificações e rotulagem eficiente</term>
+          <listitem>
+            <para>O custo de se fazer ramificações
+              (<foreignphrase>branching</foreignphrase>) e de rotulagem
+              (<foreignphrase>tagging</foreignphrase>) não precisa ser
+              proporcional ao tamanho do projeto.  O Subversion cria
+              ramos e rótulos simplesmente copiando o projeto, usando um
+              mecanismo semelhante a um hard-link.  Assim essas
+              operações levam apenas uma pequena e constante quantidade
+              de tempo.</para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Hackability</term>
+          <listitem>
+            <para>O Subversion não tem qualquer bagagem histórica; ele é
+              implementado como um conjunto de bibliotecas C
+              compartilhadas com APIs bem definidas.  Isto torna o
+              Subversion extremamente manutenível e usável por outras
+              aplicações e linguagens.</para>
+          </listitem>
+        </varlistentry>
+  
+      </variablelist>
+  
+    </sect2>
+  
+    <!-- =============================================================== -->
+    <sect2 id="svn.intro.architecture">
+  
+      <title>Arquitetura do Subversion</title>
+  
+      <para><xref linkend="svn.intro.architecture.dia-1"/> ilustra 
+        uma visão em <quote>alto nível</quote> da estrutura do
+        Subversion.</para>
+      
+      <figure id="svn.intro.architecture.dia-1">
+        <title>Arquitetura do Subversion</title>
+        <graphic fileref="images/ch01dia1.png"/>
+      </figure>
+  
+      <para>Em uma ponta encontra-se um repositório do Subversion que
+        mantém todos os seus dados versionados.  No outro extremo está o
+        seu programa cliente Subversion, que gerencia cópias locais de
+        partes desses dados versionados (chamadas de <quote>cópias de
+        trabalho</quote>).  Entre esses dois extremos estão múltiplas
+        rotas por entre várias camadas de Acesso ao Repositório (RA).
+        Algumas dessas rotas partem das redes de computadores até os
+        servidores de rede, de onde então acessam o repositório.  Outras
+        desconsideram a rede completamente e acessam diretamente o
+        repositório.</para>
+  
+    </sect2>
+
+    <!-- =============================================================== -->
+    <sect2 id="svn.intro.components">
+  
+      <title>Componentes do Subversion</title>
+      
+      <para>Uma vez instalado, o Subversion consiste num conjunto de
+        diversas partes.  Uma breve visão geral sobre tudo o que você
+        dispõe é mostrada a seguir.  Não se preocupe se as breves
+        descrições acabarem fundindo a sua cuca&mdash;há
+        <emphasis>muito</emphasis> mais páginas neste livro para acabar
+        com essa confusão.</para>
+  
+      <variablelist>
+        <varlistentry>
+          <term>svn</term>
+          <listitem>
+            <para>O programa cliente de linha de comando.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>svnversion</term>
+          <listitem>
+            <para>Um programa para informar o estado (em termos das
+              revisões dos itens presentes) da cópia de trabalho.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>svnlook</term>
+          <listitem>
+            <para>Uma ferramenta para inspecionar um repositório
+              Subversion diretamente.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>svnadmin</term>
+          <listitem>
+            <para>Uma ferramenta para criação, ajuste e manutenção de um
+              repositório Subversion.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>svndumpfilter</term>
+          <listitem>
+            <para>Um programa para filtragem de fluxos de um repositório
+              Subversion.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>mod_dav_svn</term>
+          <listitem>
+            <para>Um módulo plugin para o servidor Apache HTTP, usado
+              para disponibilizar seu repositório a outros através da
+              rede.</para>
+          </listitem>
+        </varlistentry>
+  
+        <varlistentry>
+          <term>svnserve</term>
+          <listitem>
+            <para>Um específico programa servidor independente,
+              executável como um processo daemon ou invocável via SSH;
+              uma outra forma de disponibilizar seu repositório a outros
+              através da rede.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>svnsync</term>
+          <listitem>
+            <para>Um programa para fazer espelhamento incremental de um 
+              repositório para outro através da rede.</para>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+  
+      <para>Uma vez que você tenha instalado o Subversion corretamente,
+        você já deve estar pronto para iniciar.  Os próximos dois
+        capítulos vão guiá-lo pela uso do <command>svn</command>, o
+        programa cliente de linha de comando do Subversion.</para>
+  
+    </sect2>
+
+  </sect1>
+
+</preface>
+
+<!--
+local variables: 
+sgml-parent-document: ("book.xml" "chapter")
+end:
+-->
