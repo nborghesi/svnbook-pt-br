@@ -3,16 +3,6 @@
 the best solution for now, even though there's also a real preface in
 ch00.xml. -->
 
-<!--
-There is a difference between the words foreword and preface. 
-A foreword is an introductory statement written by someone other
-than the book's author.
-A preface is an introductory statement written by the book's author.
-So I think that "Apresentação" it would be a nice translation from Foreword.
-
-Herrera
--->
-
 <preface id="svn.foreword">
 
   <prefaceinfo>
@@ -20,126 +10,118 @@ Herrera
       <firstname>Karl</firstname>
       <surname>Fogel</surname>
     </author>
-    <pubdate>Chicago, 14 de Março de 2004</pubdate>
+    <pubdate>Chicago, March 14, 2004.</pubdate>
   </prefaceinfo>
 
-  <title>Apresentação</title>
+  <title>Foreword</title>
 
-  <para>Uma base ruim de Perguntas Freqüentes (FAQ), é aquela que é
-    composta não de perguntas que as pessoas realmente fizeram, mas
-    de perguntas que o autor da FAQ <emphasis>desejou</emphasis> que
-    as pessoas tivessem feito.  Talvez você já tenha visto isto
-    antes:</para>
+  <para>A bad Frequently Asked Questions (FAQ) sheet is one that is
+    composed not of the questions people actually ask, but of the
+    questions the FAQ's author <emphasis>wishes</emphasis> people
+    would ask.  Perhaps you've seen the type before:</para>
 
   <blockquote>
-    <para>P: De que forma posso utilizar o Glorbosoft XYZ para
-      maximizar a produtividade da equipe?</para>
+    <para>Q: How can I use Glorbosoft XYZ to maximize team
+      productivity?</para>
   </blockquote>
 
   <blockquote>
-    <para>R: Muitos dos nossos clientes desejam saber como podem
-      maximizar a produtividade através de nossas inovações
-      patenteadas de groupware para escritórios.  A resposta é
-      simples: primeiro, clique no menu 
-      <quote><literal>Arquivo</literal></quote>. Desça até a opção
-      <quote><literal>Aumentar&nbsp;Produtividade</literal></quote>,
-      então&hellip;</para>
+    <para>A: Many of our customers want to know how they can
+      maximize productivity through our patented office groupware
+      innovations.  The answer is simple.  First, click on the
+      <literal>File</literal> menu, scroll down to
+      <literal>Increase&nbsp;Productivity</literal>,
+      then&hellip;</para>
   </blockquote>
 
-<!-- Nesta seção tinha um termo "Field Naturalist" que eh uma espécie de 
-     cientista biólogo. Achei melhor ficar só com o termo cientista.
--->
+  <para>The problem with such FAQs is that they are not, in a
+    literal sense, FAQs at all.  No one ever called the tech support
+    line and asked, <quote>How can we maximize
+    productivity?</quote>  Rather, people asked highly specific
+    questions, such as <quote>How can we change the calendaring system
+    to send reminders two days in advance instead of one?</quote>
+    and so on.  But it's a lot easier to make up imaginary
+    Frequently Asked Questions than it is to discover the real ones.
+    Compiling a true FAQ sheet requires a sustained, organized
+    effort: over the lifetime of the software, incoming questions
+    must be tracked, responses monitored, and all gathered into a
+    coherent, searchable whole that reflects the collective
+    experience of users in the wild.  It calls for the patient,
+    observant attitude of a field naturalist.  No grand
+    hypothesizing, no visionary pronouncements here&mdash;open eyes
+    and accurate note-taking are what's needed most.</para>
 
-  <para>O problema com estas bases de FAQ é que eles não são,
-    propriamente ditas, FAQ.  Ninguém nunca liga para o suporte
-    técnico e pergunta <quote>Como nós podemos maximizar a
-    produtividade?</quote>.  Em vez disso, as pessoas fazem perguntas
-    muito mais específicas, como: <quote>Como podemos alterar o
-    sistema de calendário para enviar lembretes dois dias antes ao
-    invés de um?</quote>, etc.  Mas é muito mais fácil forjar
-    Perguntas Freqüentes imaginárias do que descobrir as
-    verdadeiras.  Compilar uma verdadeira base de FAQ exige um
-    esforço contínuo e organizado: através do ciclo de vida do
-    software, as questões que chegam devem ser rastreadas, respostas
-    monitoradas, e tudo deve ser reunido em um todo coerente,
-    pesquisável que reflete a experiência coletiva dos usuários
-    em seu mundo.  Isto requer a paciência e a atitude observadora de
-    um cientista.  Nenhuma grande teoria ou pronunciamentos visionários
-    aqui&mdash;olhos abertos e anotações precisas são o principal.</para>
+  <para>What I love about this book is that it grew out of just such
+    a process, and shows it on every page.  It is the direct result
+    of the authors' encounters with users.  It began with Ben
+    Collins-Sussman's observation that people were asking the same
+    basic questions over and over on the Subversion mailing lists:
+    what are the standard workflows to use with Subversion?  Do
+    branches and tags work the same way as in other version control
+    systems?  How can I find out who made a particular change?</para>
 
-  <para>O que eu amo neste livro é que ele surgiu deste processo, e
-    isto é evidenciado em cada página.  Ele é o resultado direto dos
-    encontros entre os autores e usuários.  Ele começou quando Ben
-    Collins-Sussman observou que as pessoas estavam fazendo as mesmas
-    perguntas básicas diversas vezes nas listas de discussão
-    do Subversion, como por exemplo: Quais são os
-    procedimentos-padrão para se utilizar o Subversion?
-    Branches e tags funcionam do mesmo modo como em outros sistemas
-    de controle de versão?  Como eu posso saber quem realizou uma
-    alteração em particular?</para>
+  <para>Frustrated at seeing the same questions day after day, Ben
+    worked intensely over a month in the summer of 2002 to write
+    <citetitle>The Subversion Handbook</citetitle>, a 60-page
+    manual that covered all the basics of using Subversion.  The
+    manual made no pretense of being complete, but it was
+    distributed with Subversion and got users over that initial hump
+    in the learning curve.  When O'Reilly decided to
+    publish a full-length Subversion book, the path of least
+    resistance was obvious: just expand the Subversion
+    handbook.</para>
 
-  <para>Frustrado em ver as mesmas questões dia após dia, Ben
-    trabalhou intensamente durante um mês no verão de 2002 para
-    escrever <citetitle>The Subversion Handbook</citetitle>, um
-    manual de sessenta páginas cobrindo todas as funcionalidades
-    básicas do Subversion.  O manual não tinha a pretensão de ser
-    completo, mas ele foi distribuído com o Subversion e auxiliou os
-    usuários a ultrapassarem as dificuldades iniciais na curva de
-    aprendizado.  Quando a O'Reilly and Associates decidiu publicar
-    um livro completo sobre o Subversion, o caminho menos crítico
-    estava óbvio: apenas estender o manual.</para>
+  <para>The three coauthors of the new book were thus presented
+    with an unusual opportunity.  Officially, their task was to
+    write a book top-down, starting from a table of contents and an
+    initial draft.  But they also had access to a steady
+    stream&mdash;indeed, an uncontrollable geyser&mdash;of bottom-up
+    source material.  Subversion was already in the hands of
+    thousands of early adopters, and those users were giving tons of
+    feedback, not only about Subversion, but also about its existing
+    documentation.</para>
 
-  <para>Para os três co-autores do novo livro então lhes foi dada uma
-    oportunidade ímpar.  Oficialmente, sua tarefa era escrever um
-    livro numa abordagem top-down, começando pelo sumário e seu esboço
-    inicial.  Mas eles também tinham acesso a um fluxo constante&mdash;de
-    fato, um gêiser incontrolável&mdash; de conteúdo de origem bottom-up.
-    O Subversion já esteve nas mãos de centenas de usuários anteriores,
-    que geraram toneladas de feedback, não apenas sobre o Subversion, mas
-    também sobre sua documentação existente.</para>
+  <para>During the entire time they wrote this book, Ben, Mike, and
+    Brian haunted the Subversion mailing lists and chat rooms
+    incessantly, carefully noting the problems users were having in
+    real-life situations.  Monitoring such feedback was part of their
+    job descriptions at CollabNet anyway, and it gave them a huge
+    advantage when they set out to document Subversion.  The book
+    they produced is grounded firmly in the bedrock of experience,
+    not in the shifting sands of wishful thinking; it combines the
+    best aspects of user manual and FAQ sheet.  This duality might
+    not be noticeable on a first reading.  Taken in order, front to
+    back, the book is simply a straightforward description of a
+    piece of software.  There's the overview, the obligatory guided
+    tour, the chapter on administrative configuration, some advanced
+    topics, and of course, a command reference and troubleshooting
+    guide.  Only when you come back to it later, seeking the
+    solution to some specific problem, does its authenticity shine
+    out: the telling details that can only result from encounters
+    with the unexpected, the examples honed from genuine use cases,
+    and most of all the sensitivity to the user's needs and the
+    user's point of view.</para>
 
-  <para>Durante todo o tempo em que eles escreveram o livro, Ben,
-    Mike, e Brian habitaram as listas de discussão e salas de
-    bate-papo do Subversion, registrando cuidadosamente os problemas
-    que os usuário estavam tendo em situações na vida-real.
-    Monitorar este feedback, fazia parte da descrição de sua função
-    na CollabNet, e isto lhes deu uma enorme vantagem quando
-    começaram a documentar o Subversion.  O livro que eles produziram
-    é solidamente fundamentado na rocha da experiência, não nas
-    areias mutáveis da ilusão; ele combina os melhores aspectos de um
-    manual de usuário e uma base de FAQ.  Esta dualidade talvez não
-    seja perceptível numa primeira leitura.  Lido na ordem, de frente
-    para trás, o livro é uma descrição bem direta de uma peça de
-    software.  Existe a visão geral, o obrigatório tour, o capítulo
-    sobre configuração administrativa, alguns tópicos avançados, e é
-    claro uma referência de comandos e um guia de resolução de
-    problemas.  Somente quando você o ler novamente mais tarde,
-    procurando a solução para um problema específico, é que sua
-    autenticidade reluzirá: os detalhes telling que só podem advir de um
-    encontro com o inusitado, os exemplos surgidos de casos de utilização
-    reais, e muito de toda a sensibilidade das necessidades e dos pontos
-    de vista do usuário.</para>
+  <para>Of course, no one can promise that this book will answer
+    every question you have about Subversion.  Sometimes the
+    precision with which it anticipates your questions will seem
+    eerily telepathic; yet occasionally, you will stumble into a
+    hole in the community's knowledge and come away empty-handed.
+    When this happens, the best thing you can do is email
+    <email>users@subversion.tigris.org</email> and present your
+    problem.  The authors are still there and still watching, and the
+    authors include not just the three listed on the cover, but many others
+    who contributed corrections and original material.  From the
+    community's point of view, solving your problem is merely a
+    pleasant side effect of a much larger project&mdash;namely,
+    slowly adjusting this book, and ultimately Subversion itself, to
+    more closely match the way people actually use it.  They are
+    eager to hear from you, not only because they can help you, but
+    because you can help them.  With Subversion, as with all active
+    free software projects, <emphasis>you are not
+    alone</emphasis>.</para>
 
-  <para>É claro, que ninguém pode prometer que este livro responderá
-    todas as dúvidas que você tem sobre o Subversion.  Certas vezes,
-    a precisão com que ele antecipa suas perguntas parecerá
-    assustadoramente telepática; ainda sim, ocasionalmente, você vai
-    tropeçar em alguma falha no conhecimento da comunidade, e sairá de
-    mão vazias.  Quando isto acontecer, a melhor coisa que você pode
-    fazer é enviar um email para
-    <email>users@subversion.tigris.org</email> e apresentar seu problema.
-    Os autores ainda estão lá, continuam observando, e não somente os
-    três listados na capa, mas muitos outros que contribuíram com
-    correções e materiais originais.  Do ponto de vista da comunidade,
-    resolver o seu problema é meramente um agradável efeito de um projeto
-    muito maior&mdash;realmente, o ajuste paulatino deste livro, e em
-    último caso, do próprio Subversion, para ver mais de perto como as
-    pessoas o utilizam.  Eles estão ansiosos para ouvir você não apenas
-    porque eles querem ajudá-lo, mas porque você também os ajuda.  Com o
-    Subversion, assim como em todo projeto ativo de software livre,
-    <emphasis>você não está sozinho</emphasis>.</para>
-
-  <para>Que este livro seja seu primeiro companheiro.</para>
+  <para>Let this book be your first companion.</para>
 
 </preface>
 

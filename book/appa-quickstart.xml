@@ -1,20 +1,19 @@
 <appendix id="svn.intro">
 
-  <title>Guia Rápido de Introdução ao Subversion</title>
+  <title>Subversion Quick-Start Guide</title>
 
 
-  <para>Se você está ansioso para ter o Subversion configurado e
-    funcionando (e se você é daqueles que gostam de aprender fazendo),
-    este capítulo vai lhe mostrar como criar um repositório, importar
-    código, e então obtê-lo de volta como uma cópia de trabalho.  Ao
-    longo do caminho, damos referências aos capítulos relevantes deste
-    livro.</para>
+  <para>If you're eager to get Subversion up and running (and you
+    enjoy learning by experimentation), this appendix will show you how
+    to create a repository, import code, and then check it back out
+    again as a working copy.  Along the way, we give links to the
+    relevant chapters of this book.</para>
 
   <warning>
-  <para>Se os conceitos de controle de versão ou o modelo
-    <quote>copiar-modificar-mesclar</quote> usado tanto pelo CVS quanto
-    pelo Subversion, então você deveria ler <xref linkend="svn.basic"/>
-    antes de seguir em frente.</para>
+  <para>If you're new to the entire concept of version control or to
+    the <quote>copy-modify-merge</quote> model used by both CVS and
+    Subversion, you should read <xref linkend="svn.basic"/>
+    before going any further.</para>
   </warning>
 
 
@@ -23,75 +22,67 @@
   <!-- ================================================================= -->
   <sect1 id="svn.intro.install">
 
-    <title>Instalando o Subversion</title>
+    <title>Installing Subversion</title>
 
-    <para>O Subversion é construído sobre uma camada de portabilidade
-      chamada APR&mdash;a biblioteca Apache Portable Runtime.  A
-      biblioteca APR provê todas as interfaces de que o Subversion
-      precisa para funcionar em diferentes sistemas operacionais: acesso
-      a disco, acesso à rede, gerência de memória, e por aí vai.  Ainda
-      que o Subversion seja capaz de usar o Apache como um de seus
-      programas servidores de rede, sua dependência da APR
-      <emphasis>não</emphasis> significa que o Apache seja um componente
-      requerido.  APR é uma biblioteca independente e que pode ser usada
-      por qualquer aplicação.  Isso significa, entretanto, que como o
-      Apache, os clientes Subversion e servidores executam em quaisquer
-      sistemas operacionais em que o servidor Apache httpd execute:
-      Windows, Linux, todos os tipos de BSD, Mac OS X, Netware, e
-      outros.</para>
+    <para>Subversion is built on a portability layer called
+      APR&mdash;the Apache Portable Runtime library.  The APR library
+      provides all the interfaces that Subversion needs to function on
+      different operating systems: disk access, network access, memory
+      management, and so on.  While Subversion is able to use Apache
+      as one of its network server programs, its dependence on APR
+      <emphasis>does not</emphasis> mean that Apache is a required
+      component.  APR is a standalone library usable by any
+      application.  It does mean, however, that like Apache,
+      Subversion clients and servers run on any operating system that
+      the Apache <command>httpd</command> server runs on: Windows,
+      Linux, all flavors of BSD, Mac OS X, NetWare, and others.</para>
 
-    <para>A maneira mais fácil de obter o Subversion é fazendo o
-      download do pacote binário construído para seu sistema
-      operacional.  O site do Subversion
-      (<ulink url="http://subversion.tigris.org"/>) quase sempre terá
-      estes pacotes disponíveis para download, submetidos por
-      voluntários.  O site comumente contém pacotes de instaladores
-      gráficos para os usuários de sistemas operacionais Microsoft.  Se
-      você tem um sistema operacional Unix-like, você pode usar o
-      sistema de pacotes nativo de sua distribuição (RPMs, DEBs, a
-      árvore de ports, etc.) para obter o Subversion.</para>
+    <para>The easiest way to get Subversion is to download a binary
+      package built for your operating system.  Subversion's web site
+      (<ulink url="http://subversion.tigris.org"/>) often has these
+      packages available for download, posted by volunteers.  The site
+      usually contains graphical installer packages for users of
+      Microsoft operating systems.  If you run a Unix-like operating
+      system, you can use your system's native package distribution
+      system (RPMs, DEBs, the ports tree, etc.) to get
+      Subversion.</para>
 
-    <para>Como alternativa, você também pode compilar o Subversion
-      diretamente a partir do código-fonte, ainda que esta não seja
-      sempre uma tarefa fácil.  (Se você não tem experiência em compilar
-      pacotes de software de código aberto, ao invés disso,
-      provavelmente seria melhor que você fizesse o download da
-      distribuição binária!)  Do site do Subversion, baixe a última
-      versão do código-fonte.  Depois de descompactá-lo, siga as
-      instruções no arquivo <filename>INSTALL</filename> para
-      compilá-lo.  Note que um pacote com os fontes pode não conter tudo
-      o que você precisa para compilar um cliente de linha de comando
-      capaz de se comunicar com um repositório remoto.  Desde o
-      Subversion 1.4 e posteriores, as bibliotecas de que o Subversion
-      depende (apr, apr-util, e neon) são distribuídas em um pacote de
-      fontes em separado com o sufixo <filename>-deps</filename>.  Estas
-      bibliotecas, no entanto, são bastante comuns hoje em dia e é
-      possível que já estejam instaladas em seu sistema.  Se não, você
-      precisará descompactar o pacote de dependências no mesmo diretório
-      em que descompactou os fontes principais do Subversion.  Além
-      disso, porém, é possível que você queira obter outras dependências
-      opcionais tais como Berkeley DB e possivelmente o servidor Apache
-      httpd.  Se você quiser uma compilação completa, certifique-se de
-      ter todos os pacotes relacionados no arquivo
-      <filename>INSTALL</filename>.</para>
+    <para>Alternatively, you can build Subversion directly from source
+      code, though it's not always an easy task. (If you're not
+      experienced at building open source software packages, you're
+      probably better off downloading a binary distribution instead!)
+      From the Subversion web site, download the latest source code
+      release.  After unpacking it, follow the instructions in
+      the <filename>INSTALL</filename> file to build it.  Note that a
+      released source package may not contain everything you need to
+      build a command-line client capable of talking to a remote
+      repository.  Starting with Subversion 1.4 and later, the
+      libraries Subversion depends on (apr, apr-util, and neon) are
+      distributed in a separate source package suffixed
+      with <filename>-deps</filename>.  These libraries are now common
+      enough that they may already be installed on your system.  If
+      not, you'll need to unpack the dependency package into the same
+      directory where you unpacked the main Subversion source.
+      Regardless, it's possible that you may want to fetch other
+      optional dependencies such as Berkeley DB and possibly Apache
+      <command>httpd</command>.  If you want to do a complete build,
+      make sure you have all of the packages documented in
+      the <filename>INSTALL</filename> file.</para>
 
-    <para>Se você é uma daquelas pessoas que gosta de usar software
-      ainda em desenvolvimento, você também pode obter o código-fonte do
-      Subversion a partir do repositório Subversion onde ele se
-      encontra.  Obviamente, você precisa já ter um cliente Subversion
-      em mãos para fazer isso.  Mas uma vez que você o faça, você pode
-      obter uma cópia de trabalho do repositório dos fontes do
-      Subversion em
-      <ulink url="http://svn.collab.net/repos/svn/trunk/"/>:
+    <para>If you're one of those folks that likes to use bleeding-edge
+      software, you can also get the Subversion source code from the
+      Subversion repository in which it lives.  Obviously, you'll need
+      to already have a Subversion client on hand to do this.  But
+      once you do, you can check out a working copy of the Subversion source
+      repository from <ulink url="http://svn.collab.net/repos/svn/trunk/"/>:
       <footnote>
-        <para>Perceba que a URL mencionada no exemplo acima não termina
-          com <literal>svn</literal>, mas com um subdiretório chamado
-          de <literal>trunk</literal>.  Veja nossa discussão sobre o
-          modelo de ramificação
-          (<foreignphrase>branching</foreignphrase>) e rotulagem
-          (<foreignphrase>branching</foreignphrase>) para entender as
-          razões por trás disto.</para>
-      </footnote></para>
+        <para>Note that the URL checked out in the example ends not
+          with <literal>svn</literal>, but with a subdirectory thereof
+          called <literal>trunk</literal>.  See our discussion of
+          Subversion's branching and tagging model for the reasoning
+          behind this.</para>
+      </footnote>
+    </para>
 
     <screen>
 $ svn checkout http://svn.collab.net/repos/svn/trunk subversion
@@ -103,17 +94,16 @@ A    subversion/build.conf
 &hellip;
 </screen>
 
-    <para>O comando acima vai criar uma cópia de trabalho da última
-      versão (ainda não distribuída) do código-fonte do Subversion em
-      um diretório chamado <filename>subversion</filename> no diretório
-      de trabalho atual.  Você pode ajustar o último argumento como
-      quiser.  Independentemente de que nome você dê ao diretório de sua
-      nova cópia de trabalho, porém, quando esta operação concluir,
-      você agora terá o código-fonte do Subversion.  É claro que você
-      ainda vai precisar obter algumas poucas bibliotecas auxiliares
-      (apr, apr-util, etc.)&mdash;consulte o arquivo
-      <filename>INSTALL</filename> na raiz de sua cópia de trabalho para
-      mais detalhes.</para>
+    <para>The preceding command will create a working copy of the
+      latest (unreleased) Subversion source code into a subdirectory
+      named <filename>subversion</filename> in your current working
+      directory.  You can adjust that last argument as you see fit.
+      Regardless of what you call the new working copy directory,
+      though, after this operation completes, you will now have the
+      Subversion source code.  Of course, you will still need to fetch
+      a few helper libraries (apr, apr-util, etc.)&mdash;see the
+      <filename>INSTALL</filename> file in the top level of the
+      working copy for details.</para>
 
   </sect1>
 
@@ -122,178 +112,165 @@ A    subversion/build.conf
   <!-- ================================================================= -->
   <sect1 id="svn.intro.quickstart">
 
-    <title>Tutorial "Alta Velocidade"</title>
+    <title>High-Speed Tutorial</title>
 
     <blockquote>
-      <para><quote>Por favor, retorne o encosto de sua poltrona para a
-        posição vertical, e verifique o travamento da mesinha à sua
-        frente.  Tripulação, preparar para
-        decolagem&hellip;.</quote></para>
-    </blockquote>
+      <para><quote>Please make sure your seat backs are in their full,
+        upright position and that your tray tables are stored.  Flight
+        attendants, prepare for take-off&hellip;.</quote></para>
+        </blockquote>
 
-    <para>A seguir, você confere um breve tutorial que vai lhe conduzir
-      pela configuração e utilização básica do Subversion.  Ao final,
-      você deve ter uma compreensão básica do uso típico do
-      Subversion.</para>
+    <para>What follows is a quick tutorial that walks you through some
+      basic Subversion configuration and operation.  When you finish
+      it, you should have a general understanding of Subversion's
+      typical usage.</para>
 
     <note>
-      <para>Os exemplos usados neste apêndice assumem que você tem o 
-        <command>svn</command>, o cliente de linha de comando do
-        Subversion, e o <command>svnadmin</command>, a ferramenta
-        administrativa, prontas para usar em um sistema operacional
-        Unix-like.  (Este tutorial também funciona para o prompt de
-        comando do Windows, assumindo que você faça algumas devidas
-        adaptações.)  Também assumimos que você está usando o Subversion
-        1.2 ou posterior (execute <command>svn --version</command>
-        para conferir.)</para>
+      <para>The examples used in this appendix assume that you have
+        <command>svn</command>, the Subversion command-line client,
+        and <command>svnadmin</command>, the administrative tool,
+        ready to go on a Unix-like operating system.  (This tutorial
+        also works at the Windows command-line prompt, assuming you
+        make some obvious tweaks.)  We also assume you are using
+        Subversion 1.2 or later (run <userinput>svn --version</userinput>
+        to check.)</para>
     </note>
 
-    <para>O Subversion armazena todos os dados versionados em um
-      repositório central.  Para começar, crie um novo
-      repositório:</para>
+    <para>Subversion stores all versioned data in a central
+      repository.  To begin, create a new repository:</para>
 
     <screen>
-$ svnadmin create /caminho/do/repositorio
-$ ls /caminho/do/repositorio
+$ svnadmin create /var/svn/repos
+$ ls /var/svn/repos
 conf/  dav/  db/  format  hooks/  locks/  README.txt
 </screen>
 
-    <para>Este comando cria um novo diretório em
-      <filename>/caminho/do/repositorio</filename> que contém um
-      repositório do Subversion.  Este diretório contém (entre outras
-      coisas) um conjunto de arquivos de base de dados.  Você não verá
-      seus arquivos versionados olhando seu conteúdo.  Para mais
-      informações sobre criação e manutenção de repositórios, veja 
-      <xref linkend="svn.reposadmin"/>.</para>
+    <para>This command creates a new directory,
+      <filename>/var/svn/repos</filename>, which contains a Subversion
+      repository.  This new directory contains (among other things) a
+      collection of database files.  You won't see your versioned
+      files if you peek inside.  For more information about repository
+      creation and maintenance, see <xref
+      linkend="svn.reposadmin"/>.</para>
 
-    <para>O Subversion não tem o conceito de <quote>projeto</quote>.  O
-      repositório é apenas um sistema de arquivo virtual sob controle de
-      versão, uma grande árvore que pode conter qualquer coisa que você
-      quiser.  Alguns administradores preferem armazenar apenas um
-      projeto em um repositório, enquanto outros preferem armazenas
-      múltiplos projetos em um repositório colocando-os em diretórios
-      separados.  Os méritos de cada abordagem são discutidos em
-      <xref linkend="svn.reposadmin.projects.chooselayout"/>.  De
-      qualquer forma, o repositório apenas gerencia arquivos e
-      diretórios, então é intuitivo interpretar diretórios específicos
-      como <quote>projetos</quote>.  Assim, quando você vir referências
-      a projetos ao longo deste livro, tenha em mente que estamos apenas
-      falando sobre algum dado diretório (ou conjunto de diretórios)
-      dentro do repositório.</para>
+    <para>Subversion has no concept of a <quote>project.</quote> The
+      repository is just a virtual versioned filesystem, a large tree
+      that can hold anything you wish.  Some administrators prefer to
+      store only one project in a repository, and others prefer to
+      store multiple projects in a repository by placing them into
+      separate directories.  We discuss the merits of each approach
+      in <xref linkend="svn.reposadmin.projects.chooselayout"/>.
+      Either way, the repository manages only files and directories,
+      so it's up to humans to interpret particular directories as
+      <quote>projects.</quote>  So while you might see references to
+      projects throughout this book, keep in mind that we're only ever
+      talking about some directory (or collection of directories) in
+      the repository.</para>
 
-    <para>Neste exemplo, assumimos que que você já tem algum tipo de
-      projeto (um conjunto de arquivos de diretórios) que você quer
-      importar para dentro de seu repositório Subversion recém-criado.
-      Comece organizando seus dados dentro de um único diretório chamado
-      <filename>meuprojeto</filename> (ou qualquer outro nome de sua
-      preferência).  Por motivos que ficarão mais claros posteriormente
-      (veja <xref linkend="svn.branchmerge"/>), a estrutura da árvore de
-      seu projeto deve conter três diretórios internos chamados de
-      <filename>branches</filename>, <filename>tags</filename>, e
-      <filename>trunk</filename>.  O diretório
-      <filename>trunk</filename> deve conter todos os seus dados,
-      enquanto que os diretórios <filename>branches</filename> e
-      <filename>tags</filename> são vazios:</para>
+    <para>In this example, we assume you already have some sort
+      of project (a collection of files and directories) that you wish
+      to import into your newly created Subversion repository.  Begin
+      by organizing your data into a single directory called
+      <filename>myproject</filename> (or whatever you wish).  For
+      reasons explained in <xref linkend="svn.branchmerge"/>, your
+      project's tree structure should contain three top-level
+      directories named <filename>branches</filename>,
+      <filename>tags</filename>, and <filename>trunk</filename>.  The
+      <filename>trunk</filename> directory should contain all of your
+      data, and the <filename>branches</filename> and
+      <filename>tags</filename> directories should be empty:</para>
 
     <screen>
-/tmp/meuprojeto/branches/
-/tmp/meuprojeto/tags/
-/tmp/meuprojeto/trunk/
+/tmp/myproject/branches/
+/tmp/myproject/tags/
+/tmp/myproject/trunk/
                      foo.c
                      bar.c
                      Makefile
                      &hellip;
 </screen>
 
-    <para>Os subdiretórios <filename>branches</filename>,
-      <filename>tags</filename>, e <filename>trunk</filename> não são
-      atualmente requeridos pelo subversion.  São meramente uma
-      convenção que você provavelmente também vai querer seguir daqui
-      para a frente.</para>
+    <para>The <filename>branches</filename>, <filename>tags</filename>,
+      and <filename>trunk</filename> subdirectories aren't actually
+      required by Subversion.  They're merely a popular convention
+      that you'll most likely want to use later on.</para>
 
-    <para>Uma vez você sua árvore de dados esteja pronta, importe os
-      dados para dentro do repositório com o comando
-      <command>svn import</command> (veja
-      <xref linkend="svn.tour.importing"/>):</para>
+    <para>Once you have your tree of data ready to go, import it into
+      the repository with the <command>svn import</command> command
+      (see <xref linkend="svn.tour.importing"/>):</para>
 
     <screen>
-$ svn import /tmp/meuprojeto file:///caminho/do/repositorio/meuprojeto -m "importação inicial"
-Adding         /tmp/meuprojeto/branches
-Adding         /tmp/meuprojeto/tags
-Adding         /tmp/meuprojeto/trunk
-Adding         /tmp/meuprojeto/trunk/foo.c
-Adding         /tmp/meuprojeto/trunk/bar.c
-Adding         /tmp/meuprojeto/trunk/Makefile
+$ svn import /tmp/myproject file:///var/svn/repos/myproject -m "initial import"
+Adding         /tmp/myproject/branches
+Adding         /tmp/myproject/tags
+Adding         /tmp/myproject/trunk
+Adding         /tmp/myproject/trunk/foo.c
+Adding         /tmp/myproject/trunk/bar.c
+Adding         /tmp/myproject/trunk/Makefile
 &hellip;
 Committed revision 1.
 $ 
 </screen>
 
-    <para>Agora o repositório contém esta árvore de dados.  Como
-      mencionado anteriormente, você não verá seus dados ao listar
-      diretamente o conteúdo do repositório; os dados estão todos
-      armazenados dentro de uma base de dados.  Mas o sistema de
-      arquivos imaginário do repositório agora contém um diretório de
-      alto nível chamado <filename>meuprojeto</filename>, que por sua
-      vez contém seus dados.</para>
+    <para>Now the repository contains this tree of data.  As mentioned
+      earlier, you won't see your files by directly peeking into the
+      repository;  they're all stored within a database.  But the
+      repository's imaginary filesystem now contains a top-level
+      directory named <filename>myproject</filename>, which in turn
+      contains your data.</para>
 
-    <para>Veja que o diretório <filename>/tmp/meuprojeto</filename>
-      original não é alterado; o Subversion sequer tem conhecimento
-      dele.  (De fato, você pode até excluir esse diretório se quiser.)
-      Para começar a manipular os dados do repositório, você precisa
-      criar uma nova <quote>cópia de trabalho</quote> dos dados, que são
-      uma espécie de espaço de trabalho particular.  Solicite que o
-      Subversion lhe entregue
-      (<quote><foreignphrase>check out</foreignphrase></quote>) uma
-      cópia de trabalho do diretório
-      <filename>meuprojeto/trunk</filename> no repositório:</para>
+    <para>Note that the original <filename>/tmp/myproject</filename>
+      directory is unchanged; Subversion is unaware of it.  (In fact,
+      you can even delete that directory if you wish.)  To
+      start manipulating repository data, you need to create a new
+      <quote>working copy</quote> of the data, a sort of private
+      workspace.  Ask Subversion to <quote>check out</quote> a working
+      copy of the <filename>myproject/trunk</filename> directory in
+      the repository:</para>
 
     <screen>
-$ svn checkout file:///caminho/do/repositorio/meuprojeto/trunk meuprojeto
-A  meuprojeto/foo.c
-A  meuprojeto/bar.c
-A  meuprojeto/Makefile
+$ svn checkout file:///var/svn/repos/myproject/trunk myproject
+A  myproject/foo.c
+A  myproject/bar.c
+A  myproject/Makefile
 &hellip;
 Checked out revision 1.
 </screen>
 
-    <para>Agora você tem uma cópia pessoal de uma parte do repositório
-      em um novo diretório chamado <filename>meuprojeto</filename>.
-      Você pode alterar os arquivos em sua cópia de trabalho e então
-      submeter essas alterações de volta para o repositório.</para>
+    <para>Now you have a personal copy of part of the repository in a
+      new directory named <filename>myproject</filename>.  You can edit
+      the files in your working copy and then commit those changes
+      back into the repository.</para>
 
     <itemizedlist>
       <listitem>
-        <para>Entre em sua cópia de trabalho e modifique o conteúdo de
-          algum arquivo.</para>
+        <para>Enter your working copy and edit a file's
+          contents.</para>
       </listitem>
       <listitem>
-        <para>Execute <command>svn diff</command> para ver uma saída
-          unificada de suas alterações.</para>
+        <para>Run <userinput>svn diff</userinput> to see unified diff
+          output of your changes.</para>
       </listitem>
       <listitem>
-        <para>Execute <command>svn commit</command> para submeter a nova
-          versão de seu arquivo ao repositório.</para>
+        <para>Run <userinput>svn commit</userinput> to commit the new
+          version of your file to the repository.</para>
       </listitem>
       <listitem>
-        <para>Execute <command>svn update</command> para deixar sua 
-          cópia de trabalho <quote>atualizada</quote> com o
-          repositório.</para>
+        <para>Run <userinput>svn update</userinput> to bring your working
+          copy <quote>up to date</quote> with the repository.</para>
       </listitem>
     </itemizedlist>
 
-    <para>Para conhecer todas as coisas que você pode fazer com sua
-      cópia de trabalho, leia <xref linkend="svn.tour"/>.</para>
+    <para>For a full tour of all the things you can do with your
+      working copy, read <xref linkend="svn.tour"/>.</para>
 
-    <para>Neste ponto, você tem a opção de tornar seu repositório
-      disponível a outras pessoas através de uma rede.  Consulte <xref
-      linkend="svn.serverconfig"/> para aprender sobre os diferentes
-      tipos de processos servidores e sobre como configurá-los.</para>
+    <para>At this point, you have the option of making your repository
+      available to others over a network.  See <xref
+      linkend="svn.serverconfig"/> to learn about the different sorts of
+      server processes available and how to configure them.</para>
 
-    <!--
-    <para>### TODO: Vamos tornar este um tutorial completo, ao invés de
-              simplesmente ficar referenciando outras seções. ###</para>
-      -->
+    <!-- ### TODO: Let's make this into a full tutorial, rather than
+             simply referring off to other sections. ### -->
 
   </sect1>
 

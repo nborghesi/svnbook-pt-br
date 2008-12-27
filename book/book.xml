@@ -17,23 +17,22 @@
 <!ENTITY appa     SYSTEM "appa-quickstart.xml">
 <!ENTITY appb     SYSTEM "appb-svn-for-cvs-users.xml">
 <!ENTITY appc     SYSTEM "appc-webdav.xml">
-<!ENTITY appd     SYSTEM "appd-third-party-tools.xml">
 <!ENTITY license  SYSTEM "copyright.xml">
 <!ENTITY index    SYSTEM "index.xml">
 ]>
 
-<book id="svn" lang="pt_br">
-  <title>Controle de Versão com Subversion</title>
+<book id="svn">
+  <title>Version Control with Subversion</title>
 
   <bookinfo>
 
-    <subtitle>Para Subversion 1.4</subtitle>
+    <subtitle>For Subversion 1.5</subtitle>
 
     <!-- Using revnumber would be more appropriate, but our stylesheets -->
     <!-- don't seem to render it. -->
-    <subtitle>(Compilado da &svn.l10n_revision; &svn.version;)</subtitle>
+    <subtitle>(Compiled from &svn.l10n_revision;&svn.version;)</subtitle>
 
-    <edition>Segunda</edition>
+    <edition>Second</edition>
     <isbn>?-?????-???-?</isbn>
     <authorgroup>
 
@@ -69,15 +68,16 @@
       <year>2005</year>
       <year>2006</year>
       <year>2007</year>
+      <year>2008</year>
       <holder>Ben Collins-Sussman</holder>
       <holder>Brian W. Fitzpatrick</holder>
       <holder>C. Michael Pilato</holder>
     </copyright>
 
-    <legalnotice><para>Este trabalho está licenciado sob a licença Creative
-      Commons Attribution License.  Para obter uma cópia dessa licença,
-      visite <ulink url="http://creativecommons.org/licenses/by/2.0/"/>
-      ou envie uma carta para Creative Commons, 559 Nathan Abbott Way,
+    <legalnotice><para>This work is licensed under the Creative
+      Commons Attribution License.  To view a copy of this license,
+      visit <ulink url="http://creativecommons.org/licenses/by/2.0/"/>
+      or send a letter to Creative Commons, 559 Nathan Abbott Way,
       Stanford, California 94305, USA.</para></legalnotice>
 
   </bookinfo>
@@ -98,7 +98,6 @@
   &appa;
   &appb;
   &appc;
-  &appd;
   &license;
   &index;
 

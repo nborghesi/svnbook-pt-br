@@ -1,23 +1,25 @@
-/************************************************************************/
-/* Custom style-sheet stuffs for the Subversion book in HTML form.      */
-/************************************************************************/
-
-/*
- * Copyright (c) 2003-2007
- * Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato.  
- * 
- * This work is licensed under the Creative Commons Attribution License.
- * To view a copy of this license, visit
- * http://creativecommons.org/licenses/by/2.0/ or send a letter to
- * Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
- * USA.
- */
+/****************************************************************************
+ *                                                                          *
+ *     CUSTOM STYLE-SHEET STUFFS FOR THE SUBVERSION BOOK IN HTML FORM       *
+ *                                                                          *
+ ****************************************************************************
+ *                                                                          *
+ *   Copyright (c) 2003-2008                                                *
+ *   Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato.          *
+ *                                                                          *
+ *   This work is licensed under the Creative Commons Attribution License.  *
+ *   To view a copy of this license, visit                                  *
+ *   http://creativecommons.org/licenses/by/2.0/ or send a letter to        *
+ *   Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,   *
+ *   USA.                                                                   *
+ *                                                                          *
+ ****************************************************************************/
 
 body
 {
     background: white;
-    margin: 0.5in;
-    font-family: arial,helvetica,sans-serif;
+    margin: 1in;
+    font-family: serif;
 }
 
 p, li, ul, ol, dd, dt
@@ -29,7 +31,7 @@ p, li, ul, ol, dd, dt
 
 tt, pre
 {
-    font-family: courier new,courier,fixed;
+    font-family: monospace;
 }
 
 a
@@ -95,30 +97,59 @@ h4.title
     color: black;
 }
 
+strong
+{
+    font-weight: normal;
+}
+
 .toc b
 {
-    font-size: 125%;
+    font-family: sans-serif;
+    font-size: 120%;
     font-style: normal;
     font-weight: bold;
     color: black;
 }
 
-.command, .screen, .programlisting, .structname
+.title
 {
-    font-family: courier new,courier,fixed;
+    font-family: sans-serif;
+}
+
+.screen, .programlisting, .structname
+{
+    font-family: monospace;
     font-style: normal;
     font-weight: normal;
 }
 
+.userinput
+{
+    font-weight: normal;
+}
+
+.command
+{
+    font-style: italic;
+}
+
 .filename
 {
-    font-family: arial,helvetica,sans-serif;
+    font-family: serif;
     font-style: italic;
 }
 
 .figure, .example, .table
 {
     margin: 0.125in 0.25in;
+}
+
+.figure p.title b, .example p.title b, .table p.title b
+{
+    font-family: serif;
+    font-size: 80%;
+    font-style: italic;
+    font-weight: normal;
 }
 
 .table table
@@ -193,28 +224,27 @@ h4.title
     font-size: 125%;
 }
 
-.note
+.note, .tip, .warning
 {
     border: black solid 1px;
-    background: url(./images/note.png) no-repeat rgb(252,246,220);
     margin: 0.125in 0;
     padding: 0 55px;
+    font-size: 90%;
+}
+
+.note
+{
+    background: url(./images/note.png) no-repeat rgb(252,246,220);
 }
 
 .tip
 {
-    border: black solid 1px;
     background: url(./images/tip.png) no-repeat rgb(224,244,255);
-    margin: 0.125in 0;
-    padding: 0 55px;
 }
 
 .warning
 {
-    border: black solid 1px;
     background: url(./images/warning.png) no-repeat rgb(255,210,210);
-    margin: 0.125in 0;
-    padding: 0 55px;
 }
 
 .note .title, .tip .title, .warning .title
@@ -244,4 +274,37 @@ h4.title
 .navheader hr, .navfooter hr
 {
     display: none;
+}
+
+#svn-footer
+{
+    font-size: 80%;
+    text-align: center;
+}
+
+#svn-footer hr
+{
+    display: none;
+}
+
+/* --------------------- */
+/* PRINT MEDIA OVERRIDES */
+/* --------------------- */
+
+@media print
+{
+    body 
+    {
+        margin: 0;
+    }
+
+    .navheader, .navfooter
+    {
+        display: none;
+    }
+
+    #svn-footer hr
+    {
+        display: block;
+    }
 }
