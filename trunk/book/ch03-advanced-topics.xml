@@ -660,7 +660,7 @@ $
           <para>Correção de erros de ortografia, gramaticais
             <quote>outros ajustes simples de texto</quote> nas mensagens
             de log de uma registro talvez seja o uso mais comum da opção
-            <option>--revprop</option> option.</para>
+            <option>--revprop</option>.</para>
         </footnote>
         Se seu diretório atual for parte da cópia de trabalho de seu
         repositório, você pode simplesmente executar o comando 
@@ -695,7 +695,7 @@ $
         de propriedades não-versionadas são desabilitadas por padrão.</para>
 
       <tip>
-        <para>Usuários poderia, quando possível, usar <command>svn
+        <para>Os usuários poderiam, quando possível, usar <command>svn
           propedit</command> ao invés de <command>svn
           propset</command>.  Ainda que o resultado da execução dos
           comandos seja o mesmo, o primeiro vai lhes permitir visualizar
@@ -1841,7 +1841,7 @@ $Date:: 2006-03-15 0#$:  Data da última submissão
       também falando sobre uma coleção de comportamentos bastante diversificada
       que incluem a capacidade de travar um arquivo
       <footnote>
-        <para>Atualmente o Subversion does não permite travas em diretórios.</para>
+        <para>Atualmente o Subversion não permite travas em diretórios.</para>
       </footnote>
       versionado (requerendo o direito exclusivo de modificar o arquivo), de destravar
       este arquivo (cedendo este direito exclusivo de modificar), de ver
