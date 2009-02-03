@@ -415,7 +415,7 @@ conf/  dav/  db/  format  hooks/  locks/  README.txt
     <sect2 id="svn.reposadmin.basics.backends">
       <title>Escolhendo uma Base de Dados</title>
 
-      <para>A partir da versão 1.1, o Subversion oferece duas opções de
+      <para>O Subversion oferece duas opções de
         tipos de base de dados&mdash;frequentemente referenciada como o
         <quote>back-end</quote> ou, de uma maneira que causa confusão,
         <quote>o sistema de arquivos (versionado)</quote>&mdash;que
