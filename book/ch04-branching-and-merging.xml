@@ -1953,8 +1953,8 @@ URL: http://svn.example.com/repos/calc/branches/my-calc-branch
   <sect1 id="svn.branchmerge.tags">
     <title>Rótulos</title>
 
-    <para>Outro conceito comum do controle de versão é <firstterm>ramo</firstterm>.
-	Um ramo é apenas uma <quote>foto</quote> do projeto no momento. No Subversion,
+    <para>Outro conceito comum do controle de versão é <firstterm>rótulo</firstterm>.
+	Um rótulo é apenas uma <quote>foto</quote> do projeto de um determinado momento. No Subversion,
 	essa idéia parece estar em todo lugar. Cada revisão do repositório é 
 	exatamente isso&mdash;uma foto da estrutura depois de 
 	cada commit.</para>
