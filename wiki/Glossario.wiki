@@ -1,6 +1,6 @@
-#summary Glossário tradução de termos técnicos
+#summary Glossário para Tradução de Termos Técnicos
 
-*Quando adicionar um novo termo nesta lista?*
+==Quando adicionar um novo termo nesta lista?==
 
 Quando você encontrar-se pensando "este termo fica melhor deste jeito ou daquele?".  Termos cuja tradução não é óbvia ou trivial tendem a ser traduzidos de diferentes formas por diferentes tradutores.  Nesse caso, apresente o termo à equipe (através da lista de discussão) para discutir qual a melhor tradução para o termo, verificando antes se o termo encontra-se no [http://svn.collab.net/repos/svn/trunk/subversion/po/pt_BR.po arquivo de tradução do svn] ou no [http://tortoisesvn.tigris.org/svn/tortoisesvn/trunk/Languages/Tortoise_pt_BR.po do TortoiseSVN].
 
@@ -8,11 +8,20 @@ Na primeira ocorrência de cada termo traduzido, deverá ser incluído o termo o
 
 Frase original:
 
- "For this reason, Subversion 1.2 and later offers a feature known as *locking*, often known as (...)"
+{{{
+<para>
+  For this reason, Subversion 1.2 and later offers a feature known as locking, often known as...
+</para>
+}}}
 
 Frase traduzida:
 
- "Por essa razão, o Subversion 1.2 e versões superiores oferecem um recurso conhecido como travamento *(<foreignphrase>locking</foreignphrase>)*, freqüentemente chamado de (...)"
+{{{
+<para>
+  Por essa razão, o Subversion 1.2 e versões superiores oferecem um recurso conhecido como travamento
+  (<foreignphrase>locking</foreignphrase>), muitas vezes conhecido como...
+</para>
+}}}
 
 Eis a lista, em ordem alfabética.
 
