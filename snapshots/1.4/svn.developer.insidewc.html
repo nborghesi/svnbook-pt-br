@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Por dentro da Área de Administração da Cópia de Trabalho</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.developer.html" title="Capítulo 8. Incorporando o Subversion" /><link rel="prev" href="svn.developer.layerlib.html" title="Projeto da Biblioteca em Camadas" /><link rel="next" href="svn.developer.usingapi.html" title="Usando as APIs" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Por dentro da Área de Administração da Cópia de Trabalho</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.developer.layerlib.html">Anterior</a> </td><th width="60%" align="center">Capítulo 8. Incorporando o Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.developer.usingapi.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.developer.insidewc"></a>Por dentro da Área de Administração da Cópia de Trabalho</h2></div></div></div><p>Como mencionamos anteriormente, cada diretório de uma cópia de trabalho
+      do Subversion contém um sub-diretório especial chamado
+      <code class="filename">.svn</code> que hospeda dados administrativos sobre
+      este diretório da cópia de trabalho.  O Subversion usa a informação em
+      <code class="filename">.svn</code> para rastrear coisas como:</p><div class="itemizedlist"><ul type="disc"><li><p>Quais locais do repositório são representados pelos
+          arquivos e subdiretórios no diretório da cópia de
+          trabalho.</p></li><li><p>Que revisão de cada um destes arquivos e diretórios está
+          atualmente presente na sua cópia de trabalho.</p></li><li><p>Todas propriedades definidas pelo usuário que possam estar
+          anexadas a esses arquivos e diretórios.</p></li><li><p>Cópias intactas (não alteradas) de arquivos da cópia de
+          trabalho.</p></li></ul></div><p>A estrutura e o conteúdo da área de administração da cópia de trabalho
+      do Subversion são considerados detalhes de implementação realmente não
+      planejados para consumo humano.  Os desenvolvedores são encorajados a
+      usar as APIs públicas do Subversion, ou as ferramentas oferecidas pelo Subversion, para acessar e
+      manipular os dados da cópia de trabalho, em vez de ler ou modificar
+      esses arquivos diretamente.  Os formatos de arquivo empregados pela biblioteca
+      de cópia local para seus dados administrativos mudam de tempos em
+      tempos—um fato em que as APIs públicas fazem um bom trabalho ao
+      esconder do usuário comum.  Nesta seção, vamos
+      expor alguns destes detalhes de implementação para satisfazer
+      sua imensa curiosidade.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.developer.insidewc.entries"></a>Os Arquivos de Entrada</h3></div></div></div><p>Talvez o mais importante arquivo no
+        diretório <code class="filename">.svn</code> seja o
+        arquivo <code class="filename">entries</code>.  Ele
+        contém a maior parte das informações administrativas
+        sobre os ítens versionados em um diretório da cópia de
+        trabalho.  É este único arquivo que registra as URLs do repositório,
+        revisão inalterada, <span class="foreignphrase"><em class="foreignphrase">checksum</em></span> dos arquivos, textos inalterados e
+        <span class="foreignphrase"><em class="foreignphrase">timestamp</em></span> das propriedades, informações de agendamento e
+        conflitos, últimas informações conhecida de submissão (autor, revisão,
+        <span class="foreignphrase"><em class="foreignphrase">timestamp</em></span>), histórico da cópia local—praticamente tudo
+        que um cliente Subversion tem interesse em saber sobre um
+        recurso versionado (ou a ser versionado)!</p><p>Pessoas familiares com os diretórios administrativos do CVS
+        terão reconhecido neste ponto que o arquivo
+        <code class="filename">.svn/entries</code> do Subversion serve o propósito,
+        entre outras coisas, dos arquivos <code class="filename">CVS/Entries</code>,
+        <code class="filename">CVS/Root</code> e
+        <code class="filename">CVS/Repository</code> do CSV combinados.</p><p>O formato do arquivo <code class="filename">.snv/entries</code>
+        tem mudado ao longo do tempo.  Originalmente um arquivo XML, ele agora usa um
+        formato de arquivo customizado—apesar de ainda legível a humanos.
+        Enquanto o XML foi uma boa escolha no início para os desenvolvedores do
+        Subversion que foram freqüentemente depurando o conteúdo do arquivo
+        (e o comportamento do Subversion em função dele), a necessidade
+        de uma depuração fácil no desenvolvimento foi se reduzindo com a maturidade do
+        Subversion, e vem sendo substituída pela necessidade de desempenho do
+        usuário.  Fique ciente que a biblioteca de cópia de trabalho do Subversion
+        atualiza automaticamente as cópias de trabalho de um formato para
+        outro—ela lê os formatos antigos, e escreve os
+        novos—o que salva você do problema de verificar uma nova
+        cópia de trabalho, mas pode complicar em situações onde
+        diferentes versões do Subversion podem estar tentando usar a
+        mesma cópia de trabalho.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.developer.insidewc.base-and-props"></a>Cópias Inalteradas e Propriedade de Arquivos</h3></div></div></div><p>Como mencionado antes, o diretório <code class="filename">.svn</code>
+        também mantém as versões “<span class="quote">text-base</span>” intactas
+        dos arquivos.  Eles podem ser encontrados em
+        <code class="filename">.svn/text-base</code>.  Os benefícios destas
+        cópias inalteradas são muitas—checagens de modificações locais
+        e avisos de diferenças livres de rede, reversão de arquivos
+        modificados ou perdidos livre de rede, maior eficiência na transmissão
+        das mudanças para o servidor—mas tem o custo de possuir
+        cada arquivo versionado armazenado duas vezes no disco.  Nos dias
+        de hoje, isso parece ser uma penalidade inofensiva para a maioria dos arquivos.
+        Entretanto, a situação fica feia quando o tamanho de seus
+        arquivos versionados aumenta.  Uma atenção vem sendo dada para
+        tornar opcional a presença do “<span class="quote">text-base</span>”.
+        Ironicamente, é quando o tamanho dos seus arquivos versionados fica
+        maior que a existência do “<span class="quote">text-base</span>”
+        se torna mais crucial—quem quer transmitir um arquivo enorme
+        através de uma rede apenas porque precisa submeter uma pequena
+        mudança para ele?</p><p>Com propósito similar aos arquivos “<span class="quote">text-base</span>”
+        estão os arquivos de propriedade e suas cópias
+        “<span class="quote">prop-base</span>” intactas, localizadas em
+        <code class="filename">.svn/props</code> e
+        <code class="filename">.svn/prop-base</code> respectivamente.  Já que
+        diretórios podem ter propriedades, também existem os arquivos
+        <code class="filename">.svn/dir-props</code> e
+        <code class="filename">.svn/dir-prop-base</code>.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.developer.layerlib.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.developer.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.developer.usingapi.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Projeto da Biblioteca em Camadas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Usando as APIs</td></tr></table></div></body></html>

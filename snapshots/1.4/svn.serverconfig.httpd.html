@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>httpd, o servidor HTTP Apache</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor" /><link rel="prev" href="svn.serverconfig.svnserve.html" title="svnserve, um servidor especializado" /><link rel="next" href="svn.serverconfig.pathbasedauthz.html" title="Autorização Baseada em Caminhos" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">httpd, o servidor HTTP Apache</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.serverconfig.svnserve.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Configuração do Servidor</th><td width="20%" align="right"> <a accesskey="n" href="svn.serverconfig.pathbasedauthz.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.serverconfig.httpd"></a>httpd, o servidor HTTP Apache</h2></div></div></div><p>O servidor Apache HTTP é um servidor de rede
+      “<span class="quote">robusto</span>” do qual o Subversion pode tirar proveito.
+      Por meio de um módulo específico, o <span class="command"><strong>httpd</strong></span>
+      torna os repositórios Subversion disponíveis aos clientes por
+      meio do protocolo WebDAV/DeltaV, que é uma extensão ao HTTP 1.1
+      (consulte <a class="ulink" href="http://www.webdav.org/" target="_top">http://www.webdav.org/</a> para mais
+      informações).  Este protocolo usa o onipresente protocolo HTTP,
+      que é o coração da World Wide Web, e adiciona capacidades de
+      escrita—especificamente, escrita sob controle de versão.
+      O resultado é um sistema robusto, padronizado e que está
+      convenientemente empacotado como uma parte do software Apache
+      2.0, é suportado por vários sistemas operacionais e produtos de
+      terceiros, e não requer administradores de rede para abrir
+      nenhuma outra porta específica.
+      <sup>[<a id="id2614978" href="#ftn.id2614978" class="footnote">45</a>]</sup>
+      Apesar de o servidor Apache-Subversion ter mais recursos que o
+      <span class="command"><strong>svnserve</strong></span>, ele também é um pouco mais difícil
+      de configurar.  Um pouco mais de complexidade é o preço a se
+      pagar por um pouco mais de flexibilidade.</p><p>Muitas das discussões a seguir incluem referências a
+      diretivas de configuração do Apache.  Por mais que sejam dados
+      exemplos de uso destas diretivas, descrevê-las por completo está
+      fora do escopo deste capítulo.  A equipe do Apache mantém
+      excelente documentação, disponível publicamente no seu website
+      em <a class="ulink" href="http://httpd.apache.org" target="_top">http://httpd.apache.org</a>.  Por exemplo, uma
+      referência geral das diretivas de configuração está localizada
+      em <a class="ulink" href="       http://httpd.apache.org/docs-2.0/mod/directives.html" target="_top">       http://httpd.apache.org/docs-2.0/mod/directives.html</a>.</p><p>Além disso, quando você faz alteração na configuração do seu
+      Apache, é bem provável que erros sejam cometidos em algum ponto.
+      Se você ainda não está ambientado com o subsistema de logs do
+      Apache, você deveria familiarizar-se com ele.  Em seu arquivo
+      <code class="filename">httpd.conf</code> estão as diretivas que
+      especificam os caminhos em disco dos logs de acesso e de erros
+      gerados pelo Apache (as diretivas <code class="literal">CustomLog</code> e
+      <code class="literal">ErrorLog</code>, respectivamente).  O módulo
+      mod_dav_svn do Subversion também usa a interface de logs de erro
+      do Apache.  A qualquer momento você pode verificar o conteúdo
+      destes arquivos, buscando informação que pode revelar a causa de
+      um problema que não seria claramente percebido de outra
+      forma.</p><div class="sidebar"><p class="title"><b>Por que o Apache 2?</b></p><p>Se você é um administrador de sistemas, é bem provável que
+        você já esteja rodando o servidor web Apache e tenha alguma
+        experiência anterior com ele.  No momento em que este livro
+        era escrito, o Apache 1.3 é de longe a versão mais popular do
+        Apache.  O mundo tem sido um tanto lento para atualizar para o
+        Apache da série 2.X por várias razões: algumas pessoas têm
+        medo da mudança, especialmente mudança em algo tão crítico
+        como um servidor web.  Outras pessoas dependem de módulos de
+        plug-in que só funcionam sobre a API do Apache 1.3, e estão
+        aguardando que estes sejam portados para a 2.X.  Qualquer que
+        seja a razão, muitas pessoas começam a se preocupar quando
+        descobrem que o módulo Apache do Subversion é escrito
+        especificamente para a API do Apache 2.</p><p>A resposta adequada a este problema é: não se preocupe com
+        isto.  É fácil executar o Apache 1.3 e o Apache 2 lado a lado;
+        simplesmente instale-os em locais separados, e use o Apache 2
+        como um servidor Subversion dedicado que execute em outra
+        porta que não a 80.  Os clientes podem acessar o repositório
+        inserindo o número da porta na URL:</p><pre class="screen">
+$ svn checkout http://host.example.com:7382/repos/project
+…
+</pre></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.httpd.prereqs"></a>Pré-requisitos</h3></div></div></div><p>Para disponibilizar seus repositórios em rede via HTTP,
+        você basicamente necessita de quatro componentes, disponíveis
+        em dois pacotes.  Você vai precisar do Apache
+        <span class="command"><strong>httpd</strong></span> 2.0, do módulo DAV
+        <span class="command"><strong>mod_dav</strong></span> que já vem com ele, do Subversion,
+        e do <span class="command"><strong>mod_dav_svn</strong></span>, módulo que provê acesso
+        ao sistema de arquivos distribuído junto com o Subversion.
+        Uma vez que você tenha todos estes componentes, o processo de
+        disponibilizar seus repositórios em rede é tão simples
+        quanto:</p><div class="itemizedlist"><ul type="disc"><li><p>executar o httpd 2.0 com o módulo mod_dav,</p></li><li><p>instalar o plugin mod_dav_svn no mod_dav, que utiliza
+            as bibliotecas do Subversion para acessar o repositório
+            e</p></li><li><p>configurar seu arquivo <code class="filename">httpd.conf</code>
+            para exportar (ou expor) o repositório.</p></li></ul></div><p>Você pode realizar os primeiros dois passos tanto
+        compilando o <span class="command"><strong>httpd</strong></span> e o Subversion a partir
+        do código-fonte, ou instalando os pacotes binários
+        pré-construídos para o seu sistema.  Para informações mais
+        atualizadas sobre como compilar o Subversion para uso com o
+        servidor Apache HTTP, além de como compilar e configurar o
+        próprio Apache para este propósito, veja o arquivo
+        <code class="filename">INSTALL</code> na pasta de mais alto nível na
+        árvore do código-fonte do Subversion.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.httpd.basic"></a>Configuração Básica do Apache</h3></div></div></div><p>Tendo instalado todos os componentes necessários em seu
+        sistema, tudo o que resta é a configuração do Apache por meio
+        de seu arquivo <code class="filename">httpd.conf</code>.  Indique ao
+        Apache para carregar o módulo mod_dav_svn usando a diretiva
+        <code class="literal">LoadModule</code>.  Esta diretiva deve preceder a
+        qualquer outro item de configuração relacionado ao Subversion.
+        Se seu Apache foi instalado usando sua estrutura padrão, seu
+        módulo <span class="command"><strong>mod_dav_svn</strong></span> deve estar instalado no
+        subdiretório <code class="filename">modules</code> do local de
+        instalação do Apache (comumente em
+        <code class="filename">/usr/local/apache2</code>).  A diretiva
+        <code class="literal">LoadModule</code> tem uma sintaxe simples,
+        mapeando um nome de módulo ao local em disco da correspondente
+        biblioteca compartilhada:</p><pre class="screen">
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+</pre><p>Note que se o <span class="command"><strong>mod_dav</strong></span> foi compilado
+        como um objeto compartilhado (ao invés de ter sido lincado
+        diretamente ao binário <span class="command"><strong>httpd</strong></span>), você vai
+        precisar de uma declaração <code class="literal">LoadModule</code> para
+        ele, também.  Assegure-se de que sua declaração venha antes da
+        linha <span class="command"><strong>mod_dav_svn</strong></span>:</p><pre class="screen">
+LoadModule dav_module         modules/mod_dav.so
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+</pre><p>Em outra parta de seu arquivo de configuração, você agora
+        vai dizer ao Apache onde você mantém seu repositório (ou
+        repositórios) Subversion.  A diretiva
+        <code class="literal">Location</code> tem uma notação parecida com a de
+        XML, começando com uma tag de abertura, e terminando com uma
+        tag de fechamento, com várias outras diretivas de configuração
+        no meio.  O propósito da diretiva <code class="literal">Location</code>
+        é instruir o Apache a fazer algo especial quando manipular
+        requisições que sejam direcionadas a uma certa URL ou uma de
+        suas filhas.  No caso do Subversion, quer que o Apache
+        simplesmente desconsidere URLs que apontem para recursos sob
+        controle de versão na camada DAV.  Você pode instruir o Apache
+        a delegar a manipulação de todas as URL em que cuja parte do
+        caminho (a parte da URL após o nome do servidor e do número de
+        porta opcional) comece com <code class="filename">/repos/</code> para
+        um provedor DAV cujo repositório está localizado em
+        <code class="filename">/caminho/absoluto/do/repositorio</code> usando a
+        seguinte sintaxe do <code class="filename">httpd.conf</code>:</p><pre class="screen">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNPath /caminho/absoluto/do/repositório
+&lt;/Location&gt;
+</pre><p>Se você pretende disponibilizar múltiplos repositórios
+        Subversion que se encontrem sob um mesmo diretório-pai em seu
+        disco local, você pode usar uma diretiva alternativa, a
+        diretiva <code class="literal">SVNParentPath</code>, para indicar este
+        diretório-pai comum.  Por exemplo, se você sabe que você vai
+        criar múltiplos repositórios Subversion num diretório
+        <code class="filename">/usr/local/svn</code> que poderia ser acessado
+        a partir de URLs como
+        <code class="uri">http://my.server.com/svn/repos1</code>,
+        <code class="uri">http://my.server.com/svn/repos2</code>, e assim por diante,
+        você pode usar a sintaxe de configuração do
+        <code class="filename">httpd.conf</code> do exemplo a seguir:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+
+  # qualquer URL "/svn/foo" vai mapear para um repositório /usr/local/svn/foo
+  SVNParentPath /usr/local/svn
+&lt;/Location&gt;
+</pre><p>Usando a sintaxe anterior, o Apache vai delegar a
+        manipulação de todas as URLs cuja a parte do caminho comece
+        com <code class="filename">/svn/</code> para o provedor DAV do
+        Subversion, que então vai assumir que quaisquer itens no
+        diretório especificado pela diretiva
+        <code class="literal">SVNParentPath</code> atualmente são repositórios
+        Subversion.  Esta é uma sintaxe particularmente conveniente
+        para isto, ao contrário do uso da diretiva
+        <code class="literal">SVNPath</code>, você não tem que reiniciar o
+        Apache para criar e acessar via rede os novos
+        repositórios.</p><p>Certifique-se de que ao definir seu novo 
+        <code class="literal">Location</code>, este não se sobreponha a outros
+        Locations exportados.  Por exemplo, se seu
+        <code class="literal">DocumentRoot</code> principal estiver exportado para
+        <code class="filename">/www</code>, não exporta um repositório Subversion
+        em <code class="literal">&lt;Location /www/repos&gt;</code>.  Se vier uma
+        requisição para a URL <code class="filename">/www/repos/foo.c</code>, o
+        Apache não vai saber se deve procurar pelo arquivo
+        <code class="filename">repos/foo.c</code> no
+        <code class="literal">DocumentRoot</code>, ou se delega ao
+        <span class="command"><strong>mod_dav_svn</strong></span> para que este retorne
+        <code class="filename">foo.c</code> a partir do repositório Subversion.
+        O resultado quase sempre é um erro de servidor no formato
+        <code class="literal">301 Moved Permanently</code>.</p><div class="sidebar"><p class="title"><b>Nomes de Servidores e a Requisição COPY</b></p><p>Subversion faz uso da requisição do tipo
+          <code class="literal">COPY</code> para executar cópias de arquivos e
+          diretórios do lado do servidor.  Como parte da verificação
+          de integridade é feita pelos módulos do Apache, espera-se
+          que a origem da cópia esteja localizada na mesma máquina que
+          o destino da cópia.  Para satisfazer este requisito, você
+          vai precisar dizer ao mod_dav o nome do hostname usado em
+          seu servidor.  Geralmente, você pode usar a diretiva
+          <code class="literal">ServerName</code> no
+          <code class="filename">httpd.conf</code> para fazer isto.</p><pre class="screen">
+ServerName svn.example.com
+</pre><p>Se você está usando o suporte a hosts virtuais do Apache
+          através da diretiva <code class="literal">NameVirtualHost</code>, você
+          pode precisar usar a diretiva <code class="literal">ServerAlias</code>
+          para especificar nomes adicionais pelos quais seu servidor
+          também é conhecido.  Mais uma vez, verifique a documentação
+          do Apache para mais detalhes.</p></div><p>Neste estágio, você deve considerar maciçamente a questão
+        das permissões.  Se você já estiver executando o Apache há
+        algum tempo como seu servidor web regular, você provavelmente
+        já tem uma porção de conteúdos—páginas web, scripts e
+        similares.  Estes itens já devem ter sido configurados com um
+        conjunto de permissões que lhes possibilitam trabalhar com o
+        Apache, ou mais adequadamente, que permite ao Apache trabalhar
+        com estes arquivos.  O Apache, quando usado como um servidor
+        Subversion, também vai precisar das permissões corretas para
+        ler e escrever em seu repositório Subversion.</p><p>Você vai precisar determinar uma configuração do sistema
+        de permissões que satisfaça os requisitos do Subversion sem
+        causar problemas em nenhuma página ou script previamente
+        instalado.  Isto pode significar alterar as permissões de seu
+        repositório Subversion para corresponder àquelas em uso por
+        outras coisas que o Apache lhe serve, ou pode significar usar
+        as diretivas <code class="literal">User</code> e
+        <code class="literal">Group</code> no <code class="filename">httpd.conf</code>
+        para especificar que o Apache deve executar como o usuário e
+        grupo de que seja dono do seu repositório Subversion.  Não há
+        apenas uma maneira correta de configurar suas permissões, e
+        cada administrador vai ter diferentes razões para fazer as
+        coisas de uma dada maneira.  Apenas tenha cuidado pois
+        problemas de permissão são talvez a falha mais comum ao se
+        configurar o repositório Subversion para uso com o
+        Apache.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.httpd.authn"></a>Opções de Autenticação</h3></div></div></div><p>Neste ponto, se você configurou o
+        <code class="filename">httpd.conf</code> para conter algo como</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+&lt;/Location&gt;
+</pre><p>…então seu repositório está
+        “<span class="quote">anonimamente</span>” acessível ao mundo.  Até que você
+        configure algumas políticas de autenticação e autorização, os
+        repositórios Subversion que você disponibilizar através da
+        diretiva <code class="literal">Location</code> vão estar globalmente
+        acessíveis a qualquer um.  Em outras palavras,</p><div class="itemizedlist"><ul type="disc"><li><p>qualquer pessoa pode usar seu cliente Subversion para
+            dar checkout numa cópia de trabalho de uma URL do
+            repositório (ou qualquer de seus subdiretórios),</p></li><li><p>qualquer pessoa pode navegar interativamente pela última 
+            revisão do repositório, simplesmente direcionando seu
+            navegador web para a URL do repositório, e</p></li><li><p>qualquer pessoa pode dar commit no repositório.</p></li></ul></div><p>Certamente, você pode já ter definido um hook script para
+        prevenir commits (veja <a class="xref" href="svn.reposadmin.create.html#svn.reposadmin.create.hooks" title="Implementando Ganchos de Repositório">“Implementando Ganchos de Repositório”</a>).  Mas conforme você for
+        lendo, verá que também é possível usar os métodos inerentes ao
+        Apache para restringir o acesso de maneiras específicas.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.authn.basic"></a>Autenticação HTTP Básica</h4></div></div></div><p>A maneira mais fácil de autenticar um cliente é através do
+          mecanismo de autenticação HTTP Basic, o qual simplesmente usa
+          um nome de usuário e senha para verificar se o usuário é quem
+          ele diz ser.  O Apache provê um utilitário
+          <span class="command"><strong>htpasswd</strong></span> para gerenciar a lista de nomes de
+          usuários e senhas aceitáveis.  Vamos permitir o acesso a
+          commit a Sally e Harry.  Primeiro, precisamos adicioná-los ao
+          arquivo de senhas.</p><pre class="screen">
+$ ### Primeira vez: use -c para criar o arquivo
+$ ### Use -m para usar criptografia MD5 na senha, o que é mais seguro
+$ htpasswd -cm /etc/svn-auth-file harry
+New password: *****
+Re-type new password: *****
+Adding password for user harry
+$ htpasswd -m /etc/svn-auth-file sally
+New password: *******
+Re-type new password: *******
+Adding password for user sally
+$
+</pre><p>A seguir, você precisa adicionar mais algumas diretivas
+          do <code class="filename">httpd.conf</code> dentro de seu bloco
+          <code class="literal">Location</code> para indicar ao Apache o que
+          fazer com seu novo arquivo de senhas.  A diretiva
+          <code class="literal">AuthType</code> especifica o tipo de sistema de
+          autenticação a usar.  Neste caso, vamos especificar o
+          sistema de autenticação <code class="literal">Basic</code>.
+          <code class="literal">AuthName</code> é um nome arbitrário que você dá
+          para o domínio da autenticação.  A maioria dos navegadores
+          web vai mostrar este nome da caixa de diálogo quando o
+          navegador estiver perguntando ao usuário por seu nome e
+          senha.  Finalmente, use a diretiva
+          <code class="literal">AuthUserFile</code> para especificar a
+          localização do arquivo de senhas que você criou usando o
+          comando <span class="command"><strong>htpasswd</strong></span>.</p><p>Depois de adicionar estas três diretivas, seu bloco
+          <code class="literal">&lt;Location&gt;</code> deve ser algo parecido
+          com isto:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /etc/svn-auth-file
+&lt;/Location&gt;
+</pre><p>Este bloco <code class="literal">&lt;Location&gt;</code> ainda não
+          está completo, e não fará nada de útil.  Está meramente
+          dizendo ao Apache que sempre que uma autorização for
+          requerida, o Apache deve obter um nome de usuário e senha do
+          cliente Subversion.  O que está faltando aqui, entretanto,
+          são diretivas que digam ao Apache <span class="emphasis"><em>quais</em></span>
+          tipos de requisições do cliente necessitam de autorização.
+          Toda vez que uma autorização for requerida, o Apache também
+          irá exigir uma autorização.  A coisa mais simples a se fazer
+          é proteger todas as requisições.  Adicionar <code class="literal">Require
+          valid-user</code> indica ao Apache que todas as
+          requisições requerem um usuário autenticado:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /etc/svn-auth-file
+  Require valid-user
+&lt;/Location&gt;
+</pre><p>Não deixe de ler a próxima seção (<a class="xref" href="svn.serverconfig.httpd.html#svn.serverconfig.httpd.authz" title="Opções de Autorização">“Opções de Autorização”</a>) para mais detalhes
+          sobre a diretiva <code class="literal">Require</code> e outras formas
+          de definir políticas de autorização.</p><p>Uma palavra de alerta: senhas de autenticação HTTP Basic
+          trafegam na rede de forma bem parecida com texto plano, e
+          portanto são extremamente inseguras.  Se você está
+          preocupado com a privacidade de suas senhas, pode ser melhor
+          usar algum tipo de criptografia SSL para que o cliente se
+          autentique através de <code class="literal">https://</code> ao invés
+          de <code class="literal">http://</code>; no mínimo, você pode
+          configurar o Apache para usar um certificado de servidor
+          auto-assinado.
+          <sup>[<a id="id2616194" href="#ftn.id2616194" class="footnote">46</a>]</sup>
+          Consulte a documentação do Apache (e a documentação do
+          OpenSSL) sobre como fazê-lo.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.authn.sslcerts"></a>Gerência de Certificados SSL</h4></div></div></div><p>Negócios que precisam expor seus repositórios para
+          acesso por fora do firewall corporativos devem estar
+          conscientes da possibilidade de que pessoas não autorizadas
+          podem “<span class="quote">vasculhar</span>” seu tráfego de rede.  SSL faz
+          com que esse tipo de análise indesejada tenha menor
+          possibilidade de resultar na exposição de dados
+          sensíveis.</p><p>Se um cliente Subversion é compilado para usar OpenSSL,
+          então ele ganha a habilidade de falar com um servidor Apache
+          através de URLs <code class="literal">https://</code>.  A biblioteca
+          Neon usada pelo cliente Subversion não é apenas capaz de
+          verificar certificados de servidor, mas também de prover
+          certificados de cliente quando necessário.  Quando cliente e
+          o servidor trocam certificados SSL e se autenticam
+          mutuamente com sucesso, toda a comunicação subseqüente é
+          criptografada por meio de uma chave de sessão.</p><p>Está fora do escopo deste livro descrever como gerar
+          certificados de cliente e de servidor, e como configurar o
+          Apache para usá-los.  Muitos outros livros, incluindo a
+          própria documentação do Apache, descrevem esta tarefa.  Mas
+          o que <span class="emphasis"><em>pode</em></span> ser coberto aqui é como
+          gerenciar os certificados de cliente e servidor a partir de
+          um cliente Subversion ordinário.</p><p>Ao se comunicar com o Apache através de
+        <code class="literal">https://</code>, um cliente Subversion pode
+          receber dois diferentes tipos de informação:</p><div class="itemizedlist"><ul type="disc"><li><p>um certificado de servidor</p></li><li><p>uma demanda por um certificado de cliente</p></li></ul></div><p>Se o cliente recebe um certificado de servidor, ele
+          precisa verificar se confia no certificado: o servidor é
+          quem ele realmente diz ser?  A biblioteca OpenSSL faz isto
+          examinando o assinador do certificado de servidor ou
+          <em class="firstterm">autoridade certificadora</em> (AC).  Se o
+          OpenSSL for incapaz de confiar automaticamente na AC, ou se
+          algum outro problema ocorrer (como o certificado ter
+          expirado ou o hostname não corresponder), o cliente de linha
+          de comando do Subversion vai lhe perguntar se você quer
+          confiar no certificado do servidor de qualquer
+          maneira:</p><pre class="screen">
+$ svn list https://host.example.com/repos/project
+
+Error validating server certificate for 'https://host.example.com:443':
+ - The certificate is not issued by a trusted authority. Use the
+   fingerprint to validate the certificate manually!
+Certificate information:
+ - Hostname: host.example.com
+ - Valid: from Jan 30 19:23:56 2004 GMT until Jan 30 19:23:56 2006 GMT
+ - Issuer: CA, example.com, Sometown, California, US
+ - Fingerprint: 7d:e1:a9:34:33:39:ba:6a:e9:a5:c4:22:98:7b:76:5c:92:a0:9c:7b
+
+(R)eject, accept (t)emporarily or accept (p)ermanently?
+</pre><p>Este diálogo deve parecer familiar: é essencialmente a
+          mesma pergunta que você provavelmente já tenha visto vindo
+          de seu navegador web (o qual é apenas outro cliente HTTP
+          como o cliente Subversion).  Se você escolher a opção
+          (p)ermanente, o certificado do servidor será armazenado em
+          cache em sua área privativa de tempo de execução,
+          <code class="filename">auth/</code>, da mesma forma que
+          seu nome de usuário e senha são armazenados (veja <a class="xref" href="svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache" title="Armazenando Credenciais no Cliente">“Armazenando Credenciais no Cliente”</a>).  Uma vez
+          armazenado, o Subversion automaticamente lembrará de confiar
+          neste certificado em negociações futuras.</p><p>Seu arquivo em tempo de execução
+          <code class="filename">servers</code> também lhe possibilita fazer
+          seu cliente Subversion confiar automaticamente em ACs
+          específicas, tanto de forma global quanto discriminadamente
+          por <code class="literal">ssl-authority-files</code> para uma lista de
+          certificados das ACs com codificação PEM separados por ponto
+          e vírgula:</p><pre class="screen">
+[global]
+ssl-authority-files = /caminho/do/CAcert1.pem;/caminho/do/CAcert2.pem
+</pre><p>Muitas instalações OpenSSL também possuem um conjunto
+          pré-definido de ACs “<span class="quote">padrão</span>” que são quase que
+          universalmente confiáveis.  Para fazer o cliente Subversion
+          confiar automaticamente nestas autoridades padrão, atribua o
+          valor da variável <code class="literal">ssl-trust-default-ca</code>
+          para <code class="literal">true</code>.</p><p>Ao conversar com o Apache, o cliente Subversion pode
+          também receber um desafio para um certificado de cliente.  O
+          Apache está solicitando que o cliente identifique a si
+          próprio: o cliente é quem ele realmente diz ser?  Se tudo
+          prosseguir corretamente, o cliente Subversion manda de volta
+          um certificado privativo assinado por uma AC na qual o
+          Apache confia.  O certificado do cliente é comumente
+          armazenado em disco num formato criptografado, protegido por
+          uma senha local.  Quando o Subversion recebe este desafio,
+          ele solicitará a você tanto o caminho do certificado quando
+          a senha que o protege:</p><pre class="screen">
+$ svn list https://host.example.com/repos/project
+
+Authentication realm: https://host.example.com:443
+Client certificate filename: /caminho/do/meu/cert.p12
+Passphrase for '/caminho/do/meu/cert.p12':  ********
+…
+</pre><p>Note que o certificado do cliente é um arquivo no
+          formato “<span class="quote">p12</span>”.  Para usar um certificado de
+          cliente com o Subversion, este deve estar no formato
+          PKCS#12, que é um padrão portável.  A maioria dos
+          navegadores já são capazes de importar e exportar
+          certificados neste formato.  Outra opção é usar as
+          ferramentas de linha de comando do OpenSSL para converter
+          certificados existentes para PKCS#12.</p><p>Novamente, o arquivo em tempo de execução
+          <code class="filename">servers</code> permite a você automatizar este
+          desafio numa configuração baseada em host.  Qualquer um ou
+          mesmo os dois tipos de informação podem estar descritos em
+          variáveis em tempo de execução:</p><pre class="screen">
+[groups]
+examplehost = host.example.com
+
+[examplehost]
+ssl-client-cert-file = /caminho/do/meu/cert.p12
+ssl-client-cert-password = somepassword
+</pre><p>Uma vez que você tenha definido as variáveis
+          <code class="literal">ssl-client-cert-file</code> e
+          <code class="literal">ssl-client-cert-password</code>, o cliente
+          Subversion pode automaticamente responder a um desafio de
+          certificado de cliente sem solicitar nada a você.
+          <sup>[<a id="id2616561" href="#ftn.id2616561" class="footnote">47</a>]</sup>
+        </p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.httpd.authz"></a>Opções de Autorização</h3></div></div></div><p>Até este ponto, você configurou a autenticação, mas não a
+        autorização.  O Apache é capaz de desafiar cliente e confirmar
+        identidades, mas não está sendo dito como permitir ou
+        restringir acesso a clientes que possuam estas identidades.
+        Esta seção descreve duas estratégias para controle de acesso
+        de seus repositórios.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.authz.blanket"></a>Controle de Acesso Geral</h4></div></div></div><p>A maneira mais simples de controle de acesso é autorizar
+          certos usuários ou para acesso somente leitura a um
+          repositório, ou acesso leitura/escrita a um repositório.</p><p>The simplest form of access control is to authorize
+          certain users for either read-only access to a repository,
+          or read/write access to a repository.</p><p>Você pode restringir acesso em todas as operações de
+          repositório adicionando a diretiva
+          <code class="literal">Require valid-user</code> ao seu bloco
+          <code class="literal">&lt;Location&gt;</code>.  Usando nosso exemplo
+          anterior, isto significa que apenas aos clientes que afirmaram
+          ser <code class="literal">harry</code> ou <code class="literal">sally</code>, e
+          forneceram a senha correta para seus respectivos nomes de
+          usuário será permitido fazer qualquer coisa com o repositório
+          Subversion:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # como autenticar um usuário
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /caminho/do/arquivo/users
+
+  # apenas usuários autenticados podem acessar o repositório
+  Require valid-user
+&lt;/Location&gt;
+</pre><p>Algumas vezes você não precisa de regras tão rígidas.  Por
+          exemplo, o próprio repositório do código-fonte do Subversion
+          em <a class="ulink" href="http://svn.collab.net/repos/svn" target="_top">http://svn.collab.net/repos/svn</a> permite a
+          qualquer um no mundo executar tarefas somente-leitura no
+          repositório (como verificar cópias de trabalho e navegar pelo
+          repositório com um navegador web), mas restringe todas as
+          operações de escrita a usuários autenticados.  Para fazer este
+          tipo de restrição seletiva, você pode usar as diretivas de
+          configuração <code class="literal">Limit</code> e
+          <code class="literal">LimitExcept</code>.  Como a diretiva
+          <code class="literal">Location</code>, estes blocos possuem tags de
+          abertura e de fechamento, e você deve inserí-las dentro de seu
+          bloco <code class="literal">&lt;Location&gt;</code>.</p><p>Os parâmetros presentes nas diretivas
+          <code class="literal">Limit</code> e <code class="literal">LimitExcept</code> são
+          tipos de requisições HTTP que são afetadas por aquele bloco.
+          Por exemplo, se você quiser desabilitar todo o acesso a seu
+          repositório exceto as operações somente-leitura atualmente
+          suportadas, você deve usar a diretiva
+          <code class="literal">LimitExcept</code>, passando os tipos de
+          requisição <code class="literal">GET</code>, <code class="literal">PROPFIND</code>,
+          <code class="literal">OPTIONS</code>, e <code class="literal">REPORT</code> como
+          parâmetros.  Então a já mencionada diretiva <code class="literal">Require
+          valid-user</code> deve ser colocada dentro do bloco
+          <code class="literal">&lt;LimitExcept&gt;</code> ao invés de apenas
+          dentro do bloco <code class="literal">&lt;Location&gt;</code>.</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # como autenticar um usuário
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /caminho/do/arquivo/users
+
+  # Para quaisquer operações além destas, requeira um usuário autenticado
+  &lt;LimitExcept GET PROPFIND OPTIONS REPORT&gt;
+    Require valid-user
+  &lt;/LimitExcept&gt;
+&lt;/Location&gt;
+</pre><p>Estes são apenas uns poucos exemplos simples.  Para
+          informação mais aprofundada sobre controle de acesso e a
+          diretiva <code class="literal">Require</code>, dê uma olhada na seção
+          <code class="literal">Security</code> da coleção de tutoriais da
+          documentação do Apache em <a class="ulink" href="http://httpd.apache.org/docs-2.0/misc/tutorials.html" target="_top">http://httpd.apache.org/docs-2.0/misc/tutorials.html</a>.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.authz.perdir"></a>Controle de Acesso por Diretório</h4></div></div></div><p>É possível configurar permissões mais granularizadas
+          usando um segundo módulo do Apache httpd,
+          <span class="command"><strong>mod_authz_svn</strong></span>.  Este módulo captura várias
+          URLs opacas passando do cliente para o servidor, pede ao
+          <span class="command"><strong>mod_dav_svn</strong></span> para decodificá-las, e então
+          possivelmente restringe requisições baseadas em políticas de
+          acesso definidas em um arquivo de configuração.</p><p>Se você compilou o Subversion a partir do código-fonte, o
+          <span class="command"><strong>mod_authz_svn</strong></span> é construído automaticamente
+          e instalado juntamente com o <span class="command"><strong>mod_dav_svn</strong></span>.
+          Muitas distribuições binárias também o instalam
+          automaticamente.  Para verificar se está instalado corretamente,
+          assegure-se de que ele venha logo depois da diretiva
+          <code class="literal">LoadModule</code> do
+          <span class="command"><strong>mod_dav_svn</strong></span> no
+          <code class="filename">httpd.conf</code>:</p><pre class="screen">
+LoadModule dav_module         modules/mod_dav.so
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+</pre><p>Para ativar este módulo, você precisa configurar seu bloco
+          <code class="literal">Location</code> para usar a diretiva 
+          <code class="literal">AuthzSVNAccessFile</code>, a qual especifica um
+          arquivo contendo políticas de permissões para caminhos dentro
+          de seus repositórios.  (Logo, logo, vamos discutir o formato
+          deste arquivo.)</p><p>O Apache é flexível, então você tem a opção de configurar
+          seu bloco em um destes três padrões gerais.  Para começar,
+          escolha um destes três padrões de configuração.  (Os exemplos
+          abaixo são muito simples; consulte a documentação do próprio
+          Apache para ter muito mais detalhes sobre as opções de
+          autenticação e autorização do Apache.)</p><p>O bloco mais simples é permitir acesso abertamente a todo
+          mundo.  Neste cenário, o Apache nunca envia desafios de
+          autenticação, então todos os usuários são tratados como
+          “<span class="quote">anonymous</span>”.</p><div class="example"><a id="svn.serverconfig.httpd.authz.perdir.ex-1"></a><p class="title"><b>Exemplo 6.1. Um exemplo de configuração para acesso anônimo.</b></p><div class="example-contents"><pre class="programlisting">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # nossa política de controle de acesso
+  AuthzSVNAccessFile /caminho/do/arquivo/access
+&lt;/Location&gt;
+          </pre></div></div><br class="example-break" /><p>No outro extremo da escala de paranóia, você pode
+          configurar seu bloco para requisitar autenticação de todo
+          mundo.  Todos os clientes devem prover suas credenciais para
+          se identificarem.  Seu bloco requer autenticação incondicional
+          através da diretiva <code class="literal">Require valid-user</code>, e
+          define meios para autenticação.</p><div class="example"><a id="svn.serverconfig.httpd.authz.perdir.ex-2"></a><p class="title"><b>Exemplo 6.2. Um exemplo de configuração para acesso autenticado.</b></p><div class="example-contents"><pre class="programlisting">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # nossa política de controle de acesso
+  AuthzSVNAccessFile /caminho/do/arquivo/access
+
+  # apenas usuários autenticados podem acessar o repositório
+  Require valid-user
+
+  # como autenticar um usuário
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /caminho/do/arquivo/users
+&lt;/Location&gt;
+          </pre></div></div><br class="example-break" /><p>Um terceiro padrão bem popular é permitir uma combinação
+          de acesso autenticado e anônimo.  Por exemplo, muitos
+          administradores querem permitir usuários anônimos a ler certos
+          diretórios do repositório, mas querem que apenas usuários
+          autenticados leiam (ou escrevam) em áreas mais sensíveis.
+          Nesta configuração, todos os usuários começam acessando o
+          repositório anonimamente.  Se sua política de controle de
+          acesso solicitar um nome de usuário real em algum ponto, o
+          Apache vai solicitar autenticação para o cliente.  Para fazer
+          isto, você usa ambas as diretivas <code class="literal">Satisfy
+          Any</code> e <code class="literal">Require valid-user</code> em
+          conjunto.</p><div class="example"><a id="svn.serverconfig.httpd.authz.perdir.ex-3"></a><p class="title"><b>Exemplo 6.3. Um exemplo de configuração para acesso misto
+            autenticado/anônimo.</b></p><div class="example-contents"><pre class="programlisting">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # nossa política de controle de acesso
+  AuthzSVNAccessFile /caminho/do/arquivo/access
+
+  # tente o acesso anônimo primeiro, ajuste para autenticação
+  # real se necessário
+  Satisfy Any
+  Require valid-user
+
+  # como autenticar um usuário
+  AuthType Basic
+  AuthName "Subversion repository"
+  AuthUserFile /caminho/do/arquivo/users
+&lt;/Location&gt;
+          </pre></div></div><br class="example-break" /><p>Tendo se decidido por um destes três modelos básicos de 
+          <code class="filename">httpd.conf</code>, você então precisa criar seu
+          arquivo contendo regras de acesso para determinados caminhos
+          dentro do repositório.  Isto é descrito em <a class="xref" href="svn.serverconfig.pathbasedauthz.html" title="Autorização Baseada em Caminhos">“Autorização Baseada em Caminhos”</a>.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.authz.pathauthzoff"></a>Desabilitando Verificação baseada em Caminhos</h4></div></div></div><p>O módulo <span class="command"><strong>mod_dav_svn</strong></span> realiza bastante
+          trabalho para se assegurar de que os dados que você marcou
+          como “<span class="quote">unreadable</span>” não sejam corrompidos
+          acidentalmente.  Isto significa que ele precisa monitorar de
+          perto todos os caminhos e conteúdos de arquivos retornados
+          por comandos como <span class="command"><strong>svn checkout</strong></span> ou
+          <span class="command"><strong>svn update</strong></span>.  Se estes comandos encontram
+          um caminho que não seja legível de acordo com alguma
+          política de autorização, então, tipicamente, o caminho como
+          um todo é omitido.  No caso de histórico ou acompanhamento
+          de renomeações—p.ex. ao se executar um comando como
+          <span class="command"><strong>svn cat -r OLD foo.c</strong></span> em um arquivo que
+          foi renomeado há bastante tempo—o acompanhamento da
+          renomeação irá simplesmente parar se um dos nomes anteriores
+          do objeto for determinado como sendo de leitura
+          restrita.</p><p>Toda esta verificação de caminhos algumas vezes pode ser
+          um pouco custosa, especialmente no caso do <span class="command"><strong>svn
+          log</strong></span>.  Ao obter uma lista de revisões, o servidor
+          olha para cada caminho alterado em cada revisão e verifica
+          sua legibilidade.  Se um caminho ilegível é descoberto,
+          então ele é omitido da lista de caminhos alterados da
+          revisão (normalmente vista com a opção
+          <code class="option">--verbose</code>), e a mensagem de log completa é
+          suprimida.  Desnecessário dizer que isto pode consumir
+          bastante tempo em revisões que afetam um grande número de
+          arquivos.  Este é o custo da segurança: mesmo se você ainda
+          nunca tiver configurado um módulo como
+          <span class="command"><strong>mod_authz_svn</strong></span>, o módulo
+          <span class="command"><strong>mod_dav_svn</strong></span> ainda fica solicitando para
+          que o Apache <span class="command"><strong>httpd</strong></span> execute verificações
+          de autorização em cada caminho.  O módulo
+          <span class="command"><strong>mod_dav_svn</strong></span> não faz idéia de que módulos
+          de autorização estão instalados, então tudo o que ele pode
+          fazer é solicitar que o Apache invoque todos os que podem
+          estar presentes.</p><p>Por outro lado, também há um recurso de válvula de
+          escape, o qual permite a você troque características de
+          segurança por velocidade.  Se você não estiver impondo
+          nenhum tipo de autorização por diretório (i.e. não está
+          usando o módulo <span class="command"><strong>mod_authz_svn</strong></span> ou
+          similar), então você pode desabilitar toda esta checagem de
+          caminhos.  Em seu arquivo <code class="filename">httpd.conf</code>,
+          use a diretiva <code class="literal">SVNPathAuthz</code>:</p><div class="example"><a id="svn.serverconfig.httpd.authz.pathauthzoff.ex-1"></a><p class="title"><b>Exemplo 6.4. Desabilitando verificações de caminho como um todo</b></p><div class="example-contents"><pre class="programlisting">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  SVNPathAuthz off
+&lt;/Location&gt;
+          </pre></div></div><br class="example-break" /><p>A diretiva <code class="literal">SVNPathAuthz</code> é definida
+          como “<span class="quote">on</span>” por padrão.  Quando definida para
+          “<span class="quote">off</span>”, toda a checagem de autorização baseada
+          em caminhos é desabilitada; o <span class="command"><strong>mod_dav_svn</strong></span>
+          pára de solicitar checagem de autorização em cada caminho
+          que ele descobre.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.httpd.extra"></a>Facilidades Extras</h3></div></div></div><p>Cobrimos a maior parte das opções de autenticação e
+        autorização para o Apache e o mod_dav_svn.  Mas há alguns
+        outros poucos bons recursos que o Apache provê.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.extra.browsing"></a>Navegação de Repositório</h4></div></div></div><p>Um dos mais úteis benefícios de uma configuração do
+          Apache/WebDAV para seu repositório Subversion é que as
+          revisões mais recentes de seus arquivos e diretórios sob
+          controle de versão ficam imediatamente disponíveis para
+          visualização por meio de um navegador web comum.  Como o
+          Subversion usa URLs para identificar recursos sob controle
+          de versão, estas URLs usadas para acesso ao repositório
+          baseado em HTTP podem ser digitadas diretamente num
+          navegador Web.  Seu navegador vai emitir uma requisição
+          HTTP <code class="literal">GET</code> para aquela URL, e se aquela URL
+          representar um diretório ou arquivo sobre controle de
+          versão, o mod_dav_svn irá responder com uma listagem de
+          diretório ou com o conteúdo do arquivo.</p><p>Já que as URLs não contém nenhuma informação sobre quais
+          versões do recurso você quer ver, o mod_dav_svn sempre irá
+          responder com a versão mais recente.  Esta funcionalidade
+          tem um maravilhoso efeito colateral que é a possibilidade de
+          informar URLs do Subversion a seus parceiros como
+          referências aos documentos, e estas URLs sempre vão apontar
+          para a versão mais recente do documento.  É claro, você
+          ainda pode usar URLs como hiperlinks em outros web sites,
+          também.</p><div class="sidebar"><p class="title"><b>Posso ver revisões antigas?</b></p><p>Com um navegador web comum?  Em uma palavra: não.  Ao
+            menos, não com o <span class="command"><strong>mod_dav_svn</strong></span> como sua
+            única ferramenta.</p><p>Seu navegador web entende apenas HTTP padrão.  Isso
+            significa que ele apenas sabe como obter (GET) URLs
+            públicas, as quais representam as últimas versões dos
+            arquivos e diretórios.  De acordo com a especificação
+            WebDAV/DeltaV, cada servidor define uma sintaxe de URL
+            particular para versões mais antigas dos recursos, e esta
+            sintaxe é opaca aos clientes.  Para encontrar uma versão
+            mais antiga de um arquivo, um cliente deve seguir um
+            processo específico para “<span class="quote">descobrir</span>” a URL
+            adequada; o procedimento envolve um conjunto de requisições
+            PROPFIND do WebDAV e a compreensão de conceitos do DeltaV.
+            Isto é algo que seu navegador web simplesmente não consegue
+            fazer.</p><p>Então para responder à pergunta, a maneira óbvia de
+            ver revisões antigas de arquivos e diretórios é pela
+            passagem do argumento <code class="option">--revision (-r)</code> para
+            os comando <span class="command"><strong>svn list</strong></span> e <span class="command"><strong>svn
+            cat</strong></span>.  Para navegar em revisões antigas com seu
+            navegador web, entretanto, você precisar usar software de
+            terceiros.  Um bom exemplo disto é o ViewVC 
+            (<a class="ulink" href="http://viewvc.tigris.org/" target="_top">http://viewvc.tigris.org/</a>).  Originalmente o
+            ViewVC foi escrito para exibir repositórios CVS pela web,
+            <sup>[<a id="id2617601" href="#ftn.id2617601" class="footnote">48</a>]</sup>
+            mas as versões mais recentes trabalham com repositórios
+            Subversion, também.</p></div><div class="sect4" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h5 class="title"><a id="svn.serverconfig.httpd.extra.browsing.mimetype"></a>Tipo MIME Adequado</h5></div></div></div><p>Ao navegar em um repositório Subversion, o navegador web
+            obtém um indício sobre como renderizar o conteúdo do arquivo
+            consultando o cabeçalho <code class="literal">Content-Type:</code>
+            retornado na resposta da requisição HTTP
+            <code class="literal">GET</code>.  O valor deste cabeçalho é o valor
+            de um tipo MIME.  Por padrão, o Apache vai indicar aos
+            navegadores web que todos os arquivos do repositório são do
+            tipo MIME “<span class="quote">default</span>”, usualmente o tipo
+            <code class="literal">text/plain</code>.  Isto pode ser frustrante,
+            entretanto, se um usuário quiser que os arquivos do
+            repositório sejam renderizados como algo com mais
+            significado—por exemplo, seria ótimo que um arquivo
+            <code class="filename">foo.html</code> pudesse ser renderizado como
+            HTML na navegação.</p><p>Para fazer isto acontecer, você só precisa garantir que
+            seus arquivos tenham o <code class="literal">svn:mime-type</code>
+            adequadamente configurado.  Isto é discutido em mais
+            detalhes em <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a>, a você
+            ainda pode configurar seu cliente para anexar as
+            propriedades <code class="literal">svn:mime-type</code>
+            automaticamente aos arquivos que estejam entrando no
+            repositório pela primeira vez; veja <a class="xref" href="svn.advanced.props.html#svn.advanced.props.auto" title="Definição Automática de Propriedades">“Definição Automática de Propriedades”</a>.</p><p>Assim, em nosso exemplo, se alguém definiu a propriedade
+            <code class="literal">svn:mime-type</code> para
+            <code class="literal">text/html</code> no arquivo
+            <code class="filename">foo.html</code>, então o Apache deve avisar
+            adequadamente para que seu navegador web renderize o arquivo
+            como HTML.  Alguém também poderia anexar propriedades 
+            <code class="literal">image/*</code> de tipos mime para imagens, e
+            fazendo isso, no final das contas obter um site web completo
+            podendo ser visualizado diretamente do repositório!
+            Geralmente não há problema em se fazer isto, desde que o
+            website não contenha nenhum conteúdo gerado
+            dinamicamente.</p></div><div class="sect4" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h5 class="title"><a id="svn.serverconfig.httpd.extra.browsing.xslt"></a>Personalizando a Aparência</h5></div></div></div><p>Você normalmente vai fazer mais uso das URLs para
+            arquivos versionados—afinal, é onde o conteúdo
+            interessante tende a estar.  Mas pode haver certas situações
+            você pode precisar navegar na listagem de diretórios, no que
+            você rapidamente irá notar que o HTML gerado para exibir
+            estas listagens é muito básico, e certamente não pretende
+            ser esteticamente agradável (ou mesmo interessante).  Para
+            possibilitar a personalização destas exibições de diretório,
+            o Subversion provê um recurso de índice em XML.  Uma única
+            diretiva <code class="literal">SVNIndexXSLT</code> no bloco
+            <code class="literal">Location</code> do seu
+            <code class="filename">httpd.conf</code> vai orientar o mod_dav_svn a
+            gerar saída XML ao exibir uma listagem de diretório, e
+            referenciar uma folha de estilos XSLT à sua escolha:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+  SVNIndexXSLT "/svnindex.xsl"
+  …
+&lt;/Location&gt;
+</pre><p>Usando a diretiva <code class="literal">SVNIndexXSLT</code> e uma
+           folha de estilos criativa, você pode fazer com que suas
+           listagens de diretórios sigam os esquemas de cores e imagens
+           usados em outras partes de seu website.  Ou, se você
+           preferir, você pode usar folhas de estilo de exemplo que já
+           vêm no diretório <code class="filename">tools/xslt</code> dos fontes
+           do Subversion.  Tenha em mente que o caminho informado para o
+           diretório em <code class="literal">SVNIndexXSLT</code> atualmente é um
+           caminho de URL—os navegadores precisam conseguir ler
+           suas folhas de estilo para que possam fazer uso delas!</p></div><div class="sect4" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h5 class="title"><a id="svn.serverconfig.httpd.extra.browsing.reposlisting"></a>Listando Repositórios</h5></div></div></div><p>Se você está servindo um conjunto de repositórios a
+            partir de uma única URL por meio da diretiva
+            <code class="literal">SVNParentPath</code>, então também é possível
+            fazer o Apache exibir todos os repositórios disponíveis para
+            o navegador web.  Apenas ative a diretiva 
+            <code class="literal">SVNListParentPath</code>:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /usr/local/svn
+  SVNListParentPath on
+  …
+&lt;/Location&gt;
+</pre><p>Se um usuário agora apontar seu navegador web para a URL 
+            <code class="literal">http://host.example.com/svn/</code>, ele irá ver
+            uma lista de todos os repositórios Subversion situados em
+            <code class="filename">/usr/local/svn</code>.  É claro que isto pode
+            representar um problema de segurança, por isso este recurso
+            é desabilitado por padrão.</p></div></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.extra.logging"></a>Logs do Apache</h4></div></div></div><p>Pelo fato de o Apache ser um servidor HTTP por vocação, ele
+          possui recursos para log fantasticamente flexíveis.  Está além
+          do escopo deste livro discutir todas as formas de log que podem
+          ser configuradas, mas ressaltamos que mesmo o arquivo
+          <code class="filename">httpd.conf</code> mais genérico vai fazer com que
+          o Apache produza dois arquivos de log:
+          <code class="filename">error_log</code>
+          e <code class="filename">access_log</code>.  Estes logs podem ficar em
+          diferentes lugares, mas comumente são criados na área de logs
+          de sua instalação do Apache.  (No Unix, eles frequentemente
+          ficam em <code class="filename">/usr/local/apache2/logs/</code>.)</p><p>O <code class="filename">error_log</code> descreve quaisquer erros
+          internos que ocorram com o Apache durante sua execução.  Já o
+          arquivo <code class="filename">access_log</code> faz um registro de cada
+          requisição recebida pelo Apache.  Com isto fica fácil de ver,
+          por exemplo, quais endereços IP dos clientes Subversion que
+          estão se conectando, com que frequência os clientes acessam o
+          servidor, quais usuários estão devidamente autenticados, e
+          quantas requisições tiveram sucesso ou falharam.</p><p>Infelizmente, como o HTTP é um protocolo sem informação de
+          estado, mesmo a mais simples operação de um cliente Subversion
+          gera múltiplas requisições de rede.  É muito difícil olhar o
+          arquivo <code class="filename">access_log</code> e deduzir o que o
+          cliente estava fazendo—muitas operações se parecem uma
+          série de obscuras requisições <code class="literal">PROPPATCH</code>,
+          <code class="literal">GET</code>, <code class="literal">PUT</code>, e
+          <code class="literal">REPORT</code>.  Para piorar as coisas, muitas
+          operações dos clientes enviam conjuntos de requisições quase
+          idênticas, então é ainda mais difícil diferenciá-las.</p><p>O <code class="literal">mod_dav_svn</code>, entretanto, pode ajudar.
+          Ativando um recurso de “<span class="quote">log operacional</span>”, você pode
+          pode instruir o <code class="literal">mod_dav_svn</code> a criar arquivos
+          de log separados os tipos de operações em alto nível que os
+          clientes estão executando.</p><p>Para fazer isso, você precisa usar a diretiva
+          <code class="literal">CustomLog</code> do Apache (a qual é explicada em
+          mais detalhes na própria documentação do Apache).  Cuide para
+          invocar esta diretiva <span class="emphasis"><em>fora</em></span> do seu bloco
+          <code class="literal">Location</code> do Subversion:</p><pre class="screen">
+&lt;Location /svn&gt;
+  DAV svn
+  …
+&lt;/Location&gt;
+
+CustomLog logs/svn_logfile "%t %u %{SVN-ACTION}e" env=SVN-ACTION
+</pre><p>Neste exemplo, solicitamos ao Apache que crie um arquivo de
+          log especial <code class="filename">svn_logfile</code> no diretório de
+          <code class="filename">logs</code> padrão do Apache.  As variáveis
+          <code class="literal">%t</code> e <code class="literal">%u</code> são substituídas,
+          respectivamente, pela hora e pelo nome do usuário da
+          requisição.  A parte realmente importante aqui são as duas
+          instâncias de <code class="literal">SVN-ACTION</code>.  Quando o Apache
+          vê esta variável, ele substitui o valor da variável de ambiente
+          <code class="literal">SVN-ACTION</code>, que é atribuída automaticamente
+          pelo <code class="literal">mod_dav_svn</code> sempre que ele detecta uma
+          ação do cliente em alto nível.</p><p>Assim, ao invés de ter de interpretar um 
+          <code class="filename">access_log</code> tradicional como este:</p><pre class="screen">
+[26/Jan/2007:22:25:29 -0600] "PROPFIND /svn/calc/!svn/vcc/default HTTP/1.1" 207 398
+[26/Jan/2007:22:25:29 -0600] "PROPFIND /svn/calc/!svn/bln/59 HTTP/1.1" 207 449
+[26/Jan/2007:22:25:29 -0600] "PROPFIND /svn/calc HTTP/1.1" 207 647
+[26/Jan/2007:22:25:29 -0600] "REPORT /svn/calc/!svn/vcc/default HTTP/1.1" 200 607
+[26/Jan/2007:22:25:31 -0600] "OPTIONS /svn/calc HTTP/1.1" 200 188
+[26/Jan/2007:22:25:31 -0600] "MKACTIVITY /svn/calc/!svn/act/e6035ef7-5df0-4ac0-b811-4be7c823f998 HTTP/1.1" 201 227
+…
+</pre><p>… você pode examinar um
+          <code class="filename">svn_logfile</code> bem mais inteligível como
+          este:</p><pre class="screen">
+[26/Jan/2007:22:24:20 -0600] - list-dir '/'
+[26/Jan/2007:22:24:27 -0600] - update '/'
+[26/Jan/2007:22:25:29 -0600] - remote-status '/'
+[26/Jan/2007:22:25:31 -0600] sally commit r60
+</pre></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.serverconfig.httpd.extra.other"></a>Outros Recursos</h4></div></div></div><p>Vários recursos já providos pelo Apache como um servidor
+          Web robusto que é também podem ser aproveitadas para aprimorar
+          as funcionalidades ou a segurança do Subversion.  O Subversion
+          se comunica com o Apache usando o Neon, que é uma biblioteca
+          HTTP/WebDAV genérica com suporte a alguns mecanismos como o SSL
+          (<span class="foreignphrase"><em class="foreignphrase">Secure Socket Layer</em></span>, discutida
+          anteriormente).  Se seu cliente Subversion tiver sido compilado
+          com suporte a SSL, então ele pode acessar seu servidor Apache
+          usando <code class="literal">https://</code>.</p><p>Igualmente útil são outros recursos da relação entre o
+          Apache e o Subversion, como a capacidade de se especificar uma
+          porta específica (ao invés da porta 80, padrão HTTP) ou um nome
+          de domínio virtual a partir do qual um repositório Subversion
+          pode ser acessado, ou a capacidade de se acessar o repositório
+          através de um proxy HTTP.  Tudo isto é suportado pelo Neon,
+          então, por tabela, o Subversion tem suporte a tudo isto
+          também.</p><p>Finalmente, como o <span class="command"><strong>mod_dav_svn</strong></span> está
+          falando um subconjunto do protocolo WebDAV/DeltaV, é possível
+          acessar o repositório por meio de clientes DAV de terceiros.  A
+          maioria dos sistemas operacionais modernos (Win32, OS X, e
+          Linux) têm a capacidade de montar um servidor DAV como um
+          compartilhamento de rede.  Este é um assunto complicado; para
+          mais detalhes, leia <a class="xref" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento">Apêndice C, <i>WebDAV e Autoversionamento</i></a>.</p></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2614978" href="#id2614978" class="para">45</a>] </sup>Eles realmente detestam fazer isso.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2616194" href="#id2616194" class="para">46</a>] </sup>Por mais que certificados auto-assinados ainda sejam
+              vulneráveis ao “<span class="quote">ataque do homem do meio</span>”, tal
+              ataque é muito mais difícil de ser executado por um
+              observador casual, do que o comparado a vasculhar senhas
+              desprotegidas.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2616561" href="#id2616561" class="para">47</a>] </sup>Pessoas mais preocupadas com segurança podem não
+              querer armazenar a senha do certificado de cliente no 
+              arquivo <code class="filename">servers</code> em tempo de
+              execução.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2617601" href="#id2617601" class="para">48</a>] </sup>No início, ele chamava-se “<span class="quote">ViewCVS</span>”.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.serverconfig.svnserve.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.serverconfig.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.serverconfig.pathbasedauthz.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnserve, um servidor especializado </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Autorização Baseada em Caminhos</td></tr></table></div></body></html>

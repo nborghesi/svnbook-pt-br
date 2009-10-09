@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnlook proplist</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnlook.html#svn.ref.svnlook.c" title="Sub-comandos do svnlook" /><link rel="prev" href="svn.ref.svnlook.c.propget.html" title="svnlook propget" /><link rel="next" href="svn.ref.svnlook.c.tree.html" title="svnlook tree" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnlook proplist</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.propget.html">Anterior</a> </td><th width="60%" align="center">Sub-comandos do svnlook </th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.tree.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnlook.c.proplist"></a><div class="titlepage"></div><a id="id2651289" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnlook proplist — Exibe os nomes e valores de propriedades de
+            arquivos e diretórios versionados.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2651318"></a><h2>Sinopse</h2><pre class="programlisting">svnlook proplist REPOS_PATH [PATH_IN_REPOS]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2651332"></a><h2>Descrição</h2><p>Lista as propriedades de um caminho no repositório.  Com
+            <code class="option">--verbose</code>, também exibe os valores das
+            propriedades.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2651350"></a><h2>Nomes Alternativos</h2><p>pl, plist</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2651360"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--transaction (-t)
+--verbose (-v)
+--revprop
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2651374"></a><h2>Exemplos</h2><p>Isto mostra os nomes das propriedades definidas para o
+            arquivo <code class="filename">/trunk/README</code> na revisão 
+            <code class="literal">HEAD</code>:</p><pre class="screen">
+$ svnlook proplist /usr/local/svn/repos /trunk/README
+  original-author
+  svn:mime-type
+</pre><p>Este é o mesmo comando do exemplo anterior, mas desta
+            vez mostrando os valores das propriedades também:</p><pre class="screen">
+$ svnlook --verbose proplist /usr/local/svn/repos /trunk/README
+  original-author : fitz
+  svn:mime-type : text/plain
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.propget.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnlook.html#svn.ref.svnlook.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.tree.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnlook propget </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnlook tree</td></tr></table></div></body></html>

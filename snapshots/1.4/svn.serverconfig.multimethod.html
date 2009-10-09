@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Dando Suporte a Múltiplos Métodos de Acesso ao Repositório</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor" /><link rel="prev" href="svn.serverconfig.pathbasedauthz.html" title="Autorização Baseada em Caminhos" /><link rel="next" href="svn.customization.html" title="Capítulo 7. Customizando sua Experiência com Subversion" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Dando Suporte a Múltiplos Métodos de Acesso ao
+      Repositório</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.serverconfig.pathbasedauthz.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Configuração do Servidor</th><td width="20%" align="right"> <a accesskey="n" href="svn.customization.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.serverconfig.multimethod"></a>Dando Suporte a Múltiplos Métodos de Acesso ao
+      Repositório</h2></div></div></div><p>Você viu como um repositório pode ser acessado de diferentes
+      maneiras.  Mas também é possível—ou seguro—que seu
+      repositório seja acessado por meio de diferentes métodos ao mesmo
+      tempo?  A resposta é sim, desde que você seja um pouco
+      previdente.</p><p>A qualquer momento, estes processos podem demandar acesso de
+      leitura e escrita ao seu repositório:</p><div class="itemizedlist"><ul type="disc"><li><p>usuários regulares do sistema, usando um cliente
+          Subversion (como si próprios) para acessar o repositório
+          diretamente por meio de URLs 
+          <code class="literal">file://</code>;</p></li><li><p>usuários regulares do sistema se conectando a processos
+          <span class="command"><strong>svnserve</strong></span> particulares (executando como si
+          próprios) que acessam o repositório;</p></li><li><p>um processo <span class="command"><strong>svnserve</strong></span>—seja um
+          daemon ou disparado pelo
+          <span class="command"><strong>inetd</strong></span>—executando como um determinado
+          usuário em particular;</p></li><li><p>um processo Apache <span class="command"><strong>httpd</strong></span>, executando
+          como um usuário em particular.</p></li></ul></div><p>O problema mais comum que os administradores enfrentam diz
+      respeito a propriedade e a permissões do repositório.  Cada um dos
+      processos (ou usuários) da lista anterior tem direito de ler e
+      escrever nos arquivos Berkeley DB da base de dados?  Assumindo que
+      você esteja num sistema operacional Unix-like, uma abordagem
+      simples poderia ser colocar cada usuário do repositório em
+      potencial em um novo grupo <code class="literal">svn</code>, e fazer com que
+      o repositório inteiro pertença a este grupo.  Mas isso ainda não é
+      o suficiente, porque um processo pode escrever nos arquivos da base
+      de dados usando um valor de umask problemático—que
+      impossibilite o acesso de outros usuários.</p><p>Então além de definir um grupo comum para os usuários do
+      repositório, o próximo passo é forçar que cada processo que acesse
+      o repositório use um valor adequado de umask.  Para usuários que
+      acessam o repositório diretamente, você pode transformar o
+      programa <span class="command"><strong>svn</strong></span> em um script que primeiro defina
+      <span class="command"><strong>umask 002</strong></span> e então execute o programa cliente
+      <span class="command"><strong>svn</strong></span> real.  Você pode escrever um script
+      semelhante para o programa <span class="command"><strong>svnserve</strong></span>, e adicionar
+      um comando <span class="command"><strong>umask 002</strong></span> ao próprio script de
+      script de inicialização do Apache, <code class="filename">apachectl</code>.
+      Por exemplo:</p><pre class="screen">
+$ cat /usr/bin/svn
+
+#!/bin/sh
+
+umask 002
+/usr/bin/svn-real "$@"
+
+</pre><p>Outro problema comum é frequentemente encontrado em sistemas
+      Unix-like.  Conforme um repositório é usado, o Berkeley DB
+      ocasionalmente cria novos arquivos de log para registrar suas
+      ações.  Mesmo num repositório que pertença inteiramente ao grupo
+      <span class="command"><strong>svn</strong></span>, estes novos arquivos criados não
+      pertencerão necessariamente a este grupo, o que então cria mais
+      problemas de permissão para seus usuários.  Uma boa forma de
+      contornar isto é definir o bit SUID dos diretórios
+      <code class="filename">db</code> do repositório.  Isto faz com que todos os
+      arquivos recém-criados pertençam ao mesmo grupo de seu diretório
+      pai.</p><p>Uma vez realizados estes passos, seu repositório deve ser
+      acessível para todos os processos necessários.  Pode parecer um
+      pouco confuso e complicado, mas os problemas de ter múltiplos
+      usuários compartilhando acesso de escrita a arquivos comuns são
+      problemas clássicos e que muitas vezes não são resolvidos de
+      maneira muito elegante.</p><p>Felizmente, muitos administradores de repositórios nunca irão
+      <span class="emphasis"><em>precisar</em></span> realizar tão complexa configuração.
+      Os usuários que querem acessar repositórios que estejam na mesma
+      máquina não estão limitados a usar URLs <code class="literal">file://</code>
+      para acesso—eles normalmente podem contactar um servidor
+      Apache HTTP ou <span class="command"><strong>svnserve</strong></span> usando
+      <code class="literal">localhost</code> como nome do servidor em suas URLs 
+      <code class="literal">http://</code> ou <code class="literal">svn://</code>.  E manter
+      múltiplos processos servidores para seus repositórios Subversion é
+      estar propenso a mais dor de cabeça que o necessário.  Nós
+      recomendamos que você escolha o servidor que melhor atenda às suas
+      necessidades e siga firme com ele!</p><div class="sidebar"><p class="title"><b>Um checklist para o servidor svn+ssh://</b></p><p>Pode ser um pouco complicado fazer com que uma porção de
+        usuários com contas SSH existentes compartilhem um repositório
+        sem problemas de permissão.  Se você está confuso sobre todas as
+        coisas que você (como um administrador) precisa fazer em um
+        sistema Unix-like, aqui está um breve checklist que resume
+        algumas das coisas discutidas nesta seção:</p><div class="itemizedlist"><ul type="disc"><li><p>Todos os seus usuários SSH precisam ser capazes de ler e
+            escrever no repositório, então: ponha todos os usuários SSH
+            em um mesmo grupo.</p></li><li><p>Faça com que o repositório inteiro pertença a esse
+            grupo.</p></li><li><p>Defina as permissões de grupo para
+            leitura/escrita.</p></li><li><p>Seus usuários precisar usar um valor de umask adequado ao
+            acessar o repositório, então: confirme que o
+            <span class="command"><strong>svnserve</strong></span>
+            (<code class="filename">/usr/bin/svnserve</code>), ou onde quer que
+            ele esteja no <code class="literal">$PATH</code>) seja atualmente um
+            script que encapsule <span class="command"><strong>umask 002</strong></span> e execute o
+            binário <span class="command"><strong>svnserve</strong></span> real.</p></li><li><p>Tome medidas similares ao usar
+            <span class="command"><strong>svnlook</strong></span> e 
+            <span class="command"><strong>svnadmin</strong></span>.  Ou execute-os com um umask
+            adequado, ou encapsule-os conforme descrito acima.</p></li></ul></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.serverconfig.pathbasedauthz.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.serverconfig.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.customization.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Autorização Baseada em Caminhos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Capítulo 7. Customizando sua Experiência com Subversion</td></tr></table></div></body></html>

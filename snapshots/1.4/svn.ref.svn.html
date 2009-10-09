@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>O Cliente de Linha de Comando do Subversion: svn</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="prev" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="next" href="svn.ref.svn.c.add.html" title="svn add" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">O Cliente de Linha de Comando do Subversion:
+      svn</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.html">Anterior</a> </td><th width="60%" align="center">Capítulo 9. Referência Completa do Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.add.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.ref.svn"></a>O Cliente de Linha de Comando do Subversion:
+      <span class="command"><strong>svn</strong></span></h2></div></div></div><p>Para usar o cliente de linha de comando, você digita 
+      <span class="command"><strong>svn</strong></span>, o subcomando que você quer usar 
+      <sup>[<a id="id2637533" href="#ftn.id2637533" class="footnote">59</a>]</sup>, e quaisquer opções ou argumentos de
+      destino sobre os quais você quer realizar a operação—não há
+      uma ordem específica na qual o subcomando e as opções devam
+      aparecer.  Por exemplo, todos os comandos a seguir são formas
+      válidas de se usar um <span class="command"><strong>svn status</strong></span>:</p><pre class="screen">
+$ svn -v status
+$ svn status -v 
+$ svn status -v meuarquivo
+</pre><p>Você pode encontrar muitos exemplos de como usar a maioria dos 
+      comandos do cliente Subversion <a class="xref" href="svn.tour.html" title="Capítulo 2. Uso Básico">Capítulo 2, <i>Uso Básico</i></a> e dos
+      comandos para gerenciamento de propriedades em <a class="xref" href="svn.advanced.props.html" title="Propriedades">“Propriedades”</a>.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svn.sw"></a>Opções do <span class="command"><strong>svn</strong></span></h3></div></div></div><p>Ainda que o Subversion tenha diferentes opções para seus
+        subcomandos, todas as opções são globais—isto é,
+        garante-se que cada opção signifique a mesma coisa
+        independentemente do subcomando que você use com ela.  Por
+        exemplo, <code class="option">--verbose</code> (<code class="option">-v</code>) sempre
+        significa “<span class="quote">saída verbosa</span>”, qualquer que seja o
+        subcomando que você utilizar com ela.</p><div class="variablelist"><dl><dt><span class="term"><code class="option">--auto-props</code></span></dt><dd><p>Habilita auto-props, sobrescrevendo a diretiva 
+              <code class="literal">enable-auto-props</code> no arquivo 
+              <code class="filename">config</code>.</p></dd><dt><span class="term"><code class="option">--change</code> (<code class="option">-c</code>)
+            <em class="replaceable"><code>ARG</code></em></span></dt><dd><p>Usado como uma forma de se referir a uma
+              “<span class="quote">mudança</span>” (leia-se uma revisão), esta opção é
+              sintaticamente equivalente a “<span class="quote">-r
+              ARG-1:ARG</span>”.</p></dd><dt><span class="term"><code class="option">--config-dir</code>
+            <em class="replaceable"><code>DIR</code></em></span></dt><dd><p>Diz para o Subversion ler a informação de configuração
+              a partir do diretório especificado ao invés de seu local
+              padrão (<code class="filename">.subversion</code> no diretório home
+              do usuário).</p></dd><dt><span class="term"><code class="option">--diff-cmd</code>
+            <em class="replaceable"><code>CMD</code></em></span></dt><dd><p>Especifica um programa externo a ser usado para exibir
+              diferenças entre arquivos.  Quando <span class="command"><strong>svn
+              diff</strong></span> é invocado sem esta opção, ele usa o
+              mecanismo de diff interno do Subversion, que exibe diffs
+              unificados por padrão.  Se você quiser usar um programa
+              diff externo, use <code class="option">--diff-cmd</code>.  Você pode
+              passar opções para o programa diff com a opção 
+              <code class="option">--extensions</code> (mais detalhes sobre isso
+              mais adiante nesta seção).</p></dd><dt><span class="term"><code class="option">--diff3-cmd</code>
+            <em class="replaceable"><code>CMD</code></em></span></dt><dd><p>Especifica um programa externo a ser usado para
+              mesclar arquivos.</p></dd><dt><span class="term"><code class="option">--dry-run</code></span></dt><dd><p>Faz menção de todos os passos de execução de um
+              comando, mas sem efetuar qualquer alteração—tanto no
+              disco quanto no repositório.</p></dd><dt><span class="term"><code class="option">--editor-cmd</code>
+            <em class="replaceable"><code>CMD</code></em></span></dt><dd><p>Especifica um programa externo a ser usado para editar
+              mensagens de log ou valores de propriedades.  Consulte a
+              seção <code class="literal">editor-cmd</code> em <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a> para ver as
+              formas de especificar um editor padrão.</p></dd><dt><span class="term"><code class="option">--encoding</code> <em class="replaceable"><code>ENC</code></em></span></dt><dd><p>Informa ao Subversion que sua mensagem de submissão
+              está codificada com o charset dado.  O padrão é o locale
+              nativo de seu sistema operacional, e você deve especificar
+              a codificação se sua mensagem de commit estiver em alguma
+              codificação diferente.</p></dd><dt><span class="term"><code class="option">--extensions</code> (<code class="option">-x</code>)
+          <em class="replaceable"><code>ARGS</code></em></span></dt><dd><p>Especifica um argumento ou argumentos que o Subversion
+              deve passar para um comando diff externo.  Esta opção é
+              valida apenas quando usada com os comando <span class="command"><strong>svn
+              diff</strong></span> ou <span class="command"><strong>svn merge</strong></span>, com a
+              opção <code class="option">--diff-cmd</code>.  Se você quiser passar
+              argumentos múltiplos, você deve delimitá-los todos entre
+              aspas duplas (por exemplo, <span class="command"><strong>svn diff --diff-cmd
+              /usr/bin/diff -x "-b -E"</strong></span>).</p></dd><dt><span class="term"><code class="option">--file</code> (<code class="option">-F</code>)
+            <em class="replaceable"><code>FILENAME</code></em>
+          </span></dt><dd><p>Usa o conteúdo do arquivo especificado para o
+              subcomando em questão, sendo que subcomandos diferentes
+              fazem coisas diferentes com este conteúdo.  Por exemplo, o
+              <span class="command"><strong>svn commit</strong></span> usa o conteúdo como uma
+              mensagem de log do commit, ao passo que o <span class="command"><strong>svn
+              propset</strong></span> o utiliza como um valor de
+              propriedade.</p></dd><dt><span class="term"><code class="option">--force</code></span></dt><dd><p>Força a execução de um comando ou operação
+              específicos.  Há algumas operações em que o Subversion irá
+              impedi-lo de prosseguir, em sua utilização normal, mas você
+              pode passar a opção force para dizer ao Subversion
+              “<span class="quote">Eu sei o que estou fazendo, bem como as possíveis
+              consequências disto, então deixe-me fazê-lo</span>”.  Esta
+              opção seria o equivalente a fazer você mesmo um reparo
+              elétrico com a energia ligada—se você não souber o
+              que está fazendo, é provável que tome um choque
+              desagradável.</p></dd><dt><span class="term"><code class="option">--force-log</code></span></dt><dd><p>Força que um parâmetro suspeito passado para às opções
+              <code class="option">--message</code> (<code class="option">-m</code>) ou
+              <code class="option">--file</code> (<code class="option">-F</code>) seja aceito
+              como válido.  Por padrão, o Subversion irá produzir um
+              erro se os parâmetros destas opções parecerem com
+              argumentos de destino do subcomando.  Por exemplo, se você
+              passar um caminho de um arquivo versionado para a opção 
+              <code class="option">--file</code> (<code class="option">-F</code>), o
+              Subversion irá assumir que você cometeu um engano, que
+              caminho informado pretendia ser o objeto alvo da operação,
+              e que você simplesmente esqueceu de informar algum
+              outro arquivo—não-versionado—contendo sua
+              mensagem de log.  Para confirmar sua intenção e
+              sobrescrever esse tipo de erro, passe a opção
+              <code class="option">--force-log</code> para os subcomandos que
+              aceitam mensagens de log.</p></dd><dt><span class="term"><code class="option">--help</code> (<code class="option">-h</code> or
+                <code class="option">-?</code>)
+          </span></dt><dd><p>Se usado com um ou mais subcomandos, mostra o texto de
+              ajuda preexistente para cada subcomando.  Se usado
+              sozinho, exibe o texto de ajuda geral para o cliente
+              Subversion.</p></dd><dt><span class="term"><code class="option">--ignore-ancestry</code></span></dt><dd><p>Diz para o Subversion ignorar ancestrais (diretórios
+              acima) ao determinar diferenças (baseia-se apenas em
+              conteúdos dos caminhos).</p></dd><dt><span class="term"><code class="option">--ignore-externals</code></span></dt><dd><p>Diz para o Subversion ignorar definições externas e
+              cópias de trabalho externas gerenciadas por elas.</p></dd><dt><span class="term"><code class="option">--incremental</code></span></dt><dd><p>Exibe saída em um formado adequado para
+              concatenação.</p></dd><dt><span class="term"><code class="option">--limit</code>
+            <em class="replaceable"><code>NUM</code></em></span></dt><dd><p>Exibe apenas as primeiras
+              <em class="replaceable"><code>NUM</code></em> mensagens de log.</p></dd><dt><span class="term"><code class="option">--message</code> (<code class="option">-m</code>)
+            <em class="replaceable"><code>MESSAGE</code></em>
+          </span></dt><dd><p>Indica que você irá especificar seja uma mensagem de
+              log ou seja um comentário de uma trava na linha de
+              comando, depois desta opção.  Por exemplo:</p><pre class="screen">
+$ svn commit -m "Eles não fazem isso no domingo."
+</pre></dd><dt><span class="term"><code class="option">--new</code> <em class="replaceable"><code>ARG</code></em></span></dt><dd><p>Utiliza <em class="replaceable"><code>ARG</code></em> como objeto
+              alvo novo (para uso com <span class="command"><strong>svn
+              diff</strong></span>).</p></dd><dt><span class="term"><code class="option">--no-auth-cache</code></span></dt><dd><p>Evita cache de informação de autenticação (p.ex. nome
+              de usuário e senha) nos diretórios administrativos do
+              Subversion.</p></dd><dt><span class="term"><code class="option">--no-auto-props</code></span></dt><dd><p>Desabilita auto-props, sobrescrevendo a diretiva
+              <code class="literal">enable-auto-props</code> no arquivo
+              <code class="filename">config</code>.</p></dd><dt><span class="term"><code class="option">--no-diff-added</code></span></dt><dd><p>Evita que o Subversion exiba diferenças para arquivos
+            adicionados.  O comportamento padrão ao adicionar um arquivo
+            é que o <span class="command"><strong>svn diff</strong></span> exiba as mesmas
+            diferenças que você veria se tivesse adicionado todo o
+            conteúdo a um arquivo (vazio) existente.</p></dd><dt><span class="term"><code class="option">--no-diff-deleted</code></span></dt><dd><p>Evita que o Subversion exiba diferenças para arquivos
+              excluídos.  O comportamento padrão ao remover um arquivo é
+              que o <span class="command"><strong>svn diff</strong></span> exiba as mesmas
+              diferenças que você veria se tivesse mantido o arquivo mas
+              removido todo o seu conteúdo.</p></dd><dt><span class="term"><code class="option">--no-ignore</code></span></dt><dd><p>Mostra arquivos na listagem de status que normalmente
+              seriam omitidos por corresponderem a um padrão na opção de
+              configuração <code class="literal">global-ignores</code> ou na
+              propriedade <code class="literal">svn:ignore</code>.  Veja <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a> e <a class="xref" href="svn.advanced.props.special.ignore.html" title="Ignorando Itens Não-Versionados">“Ignorando Itens Não-Versionados”</a> para mais
+              informações.</p></dd><dt><span class="term"><code class="option">--no-unlock</code></span></dt><dd><p>Não destrava arquivos automaticamente (o comportamento
+              padrão é destravar todos os arquivos listados como parte
+              de um commit).  Veja <a class="xref" href="svn.advanced.locking.html" title="Travamento">“Travamento”</a> para mais
+              informações.</p></dd><dt><span class="term"><code class="option">--non-interactive</code></span></dt><dd><p>No caso de uma falha de autenticação, ou credenciais
+              insuficientes, evita a outra solicitação de credenciais
+              (p.ex. nome de usuário ou senha).  É útil se você estiver
+              executando o Subversion dentro de um script automatizado e
+              for mais adequado ter uma falha de autenticação do
+              Subversion do que um prompt solicitando mais
+              informação.</p></dd><dt><span class="term"><code class="option">--non-recursive</code> (<code class="option">-N</code>)</span></dt><dd><p>Evita a recursão de um subcomando dentro de
+              subdiretórios.  Muitos subcomandos fazem recursão por
+              padrão, mas alguns subcomandos—usualmente aqueles
+              com potencial de remover ou desfazer suas alterações
+              locais—não.</p></dd><dt><span class="term"><code class="option">--notice-ancestry</code></span></dt><dd><p>Leva os ancestrais (diretórios acima) em consideração
+              ao determinar diferenças.</p></dd><dt><span class="term"><code class="option">--old</code> <em class="replaceable"><code>ARG</code></em></span></dt><dd><p>Utiliza <em class="replaceable"><code>ARG</code></em> como objeto
+              alvo antigo (para uso com <span class="command"><strong>svn
+              diff</strong></span>).</p></dd><dt><span class="term"><code class="option">--password</code>
+            <em class="replaceable"><code>PASS</code></em></span></dt><dd><p>Indica que você está informando sua senha para
+              autenticação na linha de comando—do contrário, se
+              for preciso, o Subversion irá solicitá-la
+              interativamente.</p></dd><dt><span class="term"><code class="option">--quiet</code> (<code class="option">-q</code>)</span></dt><dd><p>Solicita que o cliente exiba apenas as informações
+              mais essenciais ao executar uma dada operação.</p></dd><dt><span class="term"><code class="option">--recursive</code> (<code class="option">-R</code>)</span></dt><dd><p>Faz um subcomando executar recursivamente dentro dos
+              subdiretórios.  A maioria dos subcomandos já executam
+              recursivamente por padrão.</p></dd><dt><span class="term"><code class="option">--relocate</code> <em class="replaceable"><code>FROM TO
+          [PATH...]</code></em></span></dt><dd><p>Usado com o subcomando <span class="command"><strong>svn switch</strong></span>,
+              troca o local do repositório ao qual sua cópia de trabalho
+              se refere.  Isto é útil se o local de seu repositório muda
+              e você tem uma cópia de trabalho existente que gostaria de
+              continuar a usar.  Consulte <span class="command"><strong>svn switch</strong></span>
+              para conferir um exemplo.</p></dd><dt><span class="term"><code class="option">--revision</code> (<code class="option">-r</code>)
+            <em class="replaceable"><code>REV</code></em>
+          </span></dt><dd><p>Indica que você estará informando uma revisão (ou
+              intervalo de revisões) para uma dada operação.  Você pode
+              informar números de revisão, termos de revisão ou datas
+              (entre chaves) como argumentos para a opção de revisão.
+              Se você quiser fornecer um intervalo de revisões, você
+              pode informar duas revisões separadas por dois-pontos.
+              Por exemplo:</p><pre class="screen">
+$ svn log -r 1729
+$ svn log -r 1729:HEAD
+$ svn log -r 1729:1744
+$ svn log -r {2001-12-04}:{2002-02-17}
+$ svn log -r 1729:{2002-02-17}
+</pre><p>Veja <a class="xref" href="svn.tour.revs.specifiers.html#svn.tour.revs.keywords" title="Termos de Revisão">“Termos de Revisão”</a> para
+              informações.</p></dd><dt><span class="term"><code class="option">--revprop</code></span></dt><dd><p>Opera em uma propriedade de revisão ao invés de uma
+              propriedade específica de um arquivo ou diretório.  Esta
+              opção requer que você também informe uma revisão com a
+              opção <code class="option">--revision</code>
+              (<code class="option">-r</code>).</p></dd><dt><span class="term"><code class="option">--show-updates</code> (<code class="option">-u</code>)</span></dt><dd><p>Faz com que o cliente exiba informação sobre quais
+              arquivos em sua cópia de trabalho estão desatualizados.
+              Isto não atualiza nenhum de seus arquivos—apenas
+              mostra a você quais arquivos serão atualizados se você
+              executar um <span class="command"><strong>svn update</strong></span>.
+            </p></dd><dt><span class="term"><code class="option">--stop-on-copy</code></span></dt><dd><p>Faz com que um subcomando do Subversion que está
+              varrendo o histórico de um recurso versionado pare de
+              vasculhar essas informações históricas quando uma
+              cópia—isto é, um local no histórico em que o recurso
+              foi copiado de outro local no repositório—seja
+              encontrada.</p></dd><dt><span class="term"><code class="option">--strict</code></span></dt><dd><p>Faz com que o Subversion use semântica estrita, um
+              conceito que é um pouco vago a não ser quando aplicado a
+              subcomandos específicos (especificamente ao <span class="command"><strong>svn
+              propget</strong></span>).</p></dd><dt><span class="term"><code class="option">--targets</code>
+            <em class="replaceable"><code>FILENAME</code></em></span></dt><dd><p>Diz para o Subversion obter a lista de arquivos em que
+              você quer executar uma operação a partir de um nome de
+              arquivo informado ao invés de ter de listar todos os
+              arquivos na linha de comando.
+            </p></dd><dt><span class="term"><code class="option">--username</code>
+            <em class="replaceable"><code>NAME</code></em></span></dt><dd><p>Indica que você está informando seu nome de usuário
+              para autenticação na linha de comando—de outra
+              forma, se for necessário, o Subversion irá solicitá-lo a
+              você interativamente.</p></dd><dt><span class="term"><code class="option">--verbose</code> (<code class="option">-v</code>)</span></dt><dd><p>Solicita que o cliente exibe o máximo de informação
+              que puder ao executar qualquer subcomando.  Isto pode
+              fazer com que o Subversion exiba campos adicionais,
+              informações detalhadas sobre cada arquivo, ou informações
+              extras sobre suas ações em execução.</p></dd><dt><span class="term"><code class="option">--version</code></span></dt><dd><p>Exibe informação da versão do cliente.  Esta
+              informação não apenas inclui o número de versão do
+              cliente, mas também uma listagem de todos os módulos de
+              acesso ao repositório que o cliente pode usar para acessar
+              um repositório Subversion.  Com <code class="option">--quiet</code>
+              (<code class="option">-q</code>) ele exibe apenas o número de versão
+              de forma compacta.</p></dd><dt><span class="term"><code class="option">--xml</code></span></dt><dd><p>Exibe a saída em um formato XML.</p></dd></dl></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svn.c"></a>Subcomandos <span class="command"><strong>svn</strong></span></h3></div></div></div><p>Aqui temos vários subcomandos:</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2637533" href="#id2637533" class="para">59</a>] </sup>Sim, sim, você não precisa de um subcomando para
+      usar a opção <code class="option">--version</code>, mas vamos falar disso num
+      instante.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.add.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 9. Referência Completa do Subversion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn add</td></tr></table></div></body></html>

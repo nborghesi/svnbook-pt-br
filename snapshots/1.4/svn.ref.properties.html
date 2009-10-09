@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Propriedades do Subversion</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="prev" href="svn.ref.mod_dav_svn.conf.html" title="Diretivas de Configuração do mod_dav_svn" /><link rel="next" href="svn.ref.reposhooks.html" title="Ganchos do Repositório" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Propriedades do Subversion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.mod_dav_svn.conf.html">Anterior</a> </td><th width="60%" align="center">Capítulo 9. Referência Completa do Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.reposhooks.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.ref.properties"></a>Propriedades do Subversion</h2></div></div></div><p>O Subversion permite que os usuários inventem propriedades versionadas com
+      nomes arbitrários em arquivos e diretórios, bem como
+      propriedades não-versionadas em revisões.  A única restrição está nas
+      propriedades cujos nomes iniciam com <code class="literal">svn:</code> (esses
+      são reservados para uso do próprio Subversion).  Enquanto estas propriedades
+      podem ser definidas pelos usuários para controlar o comportamento do Subversion, os usuários não
+      podem inventar novas propriedades <code class="literal">svn:</code>.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.properties.versioned-props"></a>Propriedades Versionadas</h3></div></div></div><div class="variablelist"><dl><dt><span class="term"><code class="literal">svn:executable</code></span></dt><dd><p>Se presente em um arquivo, o cliente tornará o
+              arquivo executável em cópias de trabalho hospedadas em Unix.  Veja
+              <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.executable" title="Executabilidade de Arquivo">“Executabilidade de Arquivo”</a>.</p></dd><dt><span class="term"><code class="literal">svn:mime-type</code></span></dt><dd><p>Se presente em um arquivo, o valor indica o
+              mime-type do arquivo.  Esta propriedade permite ao cliente decidir
+              se a mesclagem contextual baseada em linhas é segura para
+              ser realizada durante as atualizações, e também pode afetar como o
+              arquivo comporta-se quando renderizado por um navegador web.  Veja
+              <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a>. </p></dd><dt><span class="term"><code class="literal">svn:ignore</code></span></dt><dd><p>Se presente em um diretório, o valor é uma lista de
+              filtros de arquivos <span class="emphasis"><em>não-versionados</em></span> a serem ignorados
+              por <span class="command"><strong>svn status</strong></span> e outros
+              subcomandos.  veja
+              <a class="xref" href="svn.advanced.props.special.ignore.html" title="Ignorando Itens Não-Versionados">“Ignorando Itens Não-Versionados”</a></p></dd><dt><span class="term"><code class="literal">svn:keywords</code></span></dt><dd><p>Se presente em um arquivo, o valor diz ao cliente
+              como expandir determinadas palavras-chave dentro do arquivo.
+              Veja
+              <a class="xref" href="svn.advanced.props.special.keywords.html" title="Substituição de Palavra-Chave">“Substituição de Palavra-Chave”</a>.</p></dd><dt><span class="term"><code class="literal">svn:eol-style</code></span></dt><dd><p>Se presente em um arquivo, o valor diz ao cliente como
+              manipular as quebras de linha do arquivo na cópia de
+              trabalho e em árvores exportadas.  Veja <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.eol-style" title="Seqüência de Caracteres de Fim-de-Linha">“Seqüência de Caracteres de Fim-de-Linha”</a> e
+              <a class="xref" href="svn.ref.svn.c.export.html" title="svn export">svn export</a>.</p></dd><dt><span class="term"><code class="literal">svn:externals</code></span></dt><dd><p>Se presente em um diretório, o valor é uma
+              lista de várias linhas com outros caminhos e URLs que o cliente
+              deve verificar.  Veja
+              <a class="xref" href="svn.advanced.externals.html" title="Definições Externas">“Definições Externas”</a>.</p></dd><dt><span class="term"><code class="literal">svn:special</code></span></dt><dd><p>Se presente em um arquivo, indica que o arquivo não é
+              um arquivo normal, mas uma ligação simbólica ou outro objeto
+              especial<sup>[<a id="id2654094" href="#ftn.id2654094" class="footnote">61</a>]</sup>.</p></dd><dt><span class="term"><code class="literal">svn:needs-lock</code></span></dt><dd><p>Se presente em um arquivo, diz ao cliente para tornar o
+              arquivo somente de leitura na cópia de trabalho, como um lembrete de que
+              o arquivo deve ser travado antes de iniciar sua edição.  Veja
+              <a class="xref" href="svn.advanced.locking.html#svn.advanced.locking.lock-communication" title="Comunicação de Travas">“Comunicação de Travas”</a>.</p></dd></dl></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.properties.unversioned-props"></a>Propriedades Não-Versionadas</h3></div></div></div><div class="variablelist"><dl><dt><span class="term"><code class="literal">svn:author</code></span></dt><dd><p>Se presente, contém o nome de usuário autenticado da
+              pessoa que criou a revisão.  (Se não presente,
+              então a revisão foi submitida anonimamente.)</p></dd><dt><span class="term"><code class="literal">svn:date</code></span></dt><dd><p>Contém a data e hora em UTC em que a revisão foi criada, no
+              formato ISO 8601.  O valor vem do relógio do
+              computador <span class="emphasis"><em>servidor</em></span>, não do
+              cliente.</p></dd><dt><span class="term"><code class="literal">svn:log</code></span></dt><dd><p>Contém a mensagem de log descrevendo a
+              revisão.</p></dd><dt><span class="term"><code class="literal">svn:autoversioned</code></span></dt><dd><p>Se presente, a revisão foi criada por meio do
+              recurso de autoversionamento.  Veja
+              <a class="xref" href="svn.webdav.autoversioning.html" title="Autoversionamento">“Autoversionamento”</a>.</p></dd></dl></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2654094" href="#id2654094" class="para">61</a>] </sup>Até o momento, ligações simbólicas
+              são, na verdade, apenas objetos “<span class="quote">especiais</span>”.  Mas
+              poderão existir mais outros em versões futuras
+              do Subversion.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.mod_dav_svn.conf.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.reposhooks.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Diretivas de Configuração do <code class="literal">mod_dav_svn</code>
+         </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Ganchos do Repositório</td></tr></table></div></body></html>

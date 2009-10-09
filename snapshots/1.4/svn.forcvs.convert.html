@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Convertendo um Repositório de CVS para Subversion</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.auth.html" title="Autenticação" /><link rel="next" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Convertendo um Repositório de CVS para Subversion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.auth.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.webdav.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.convert"></a>Convertendo um Repositório de CVS para Subversion</h2></div></div></div><p>Talvez a forma mais importante de familiarizar usuários de CVS com o
+      Subversion é deixá-los continuar trabalhando em seus projetos
+      usando o novo sistema.  E mesmo que isso possa de certa forma ser
+      conseguido usando uma importação simples em um repositório Subversion de
+      um repositório CVS exportado, a solução mais completa envolve
+      transferir não apenas o estado mais recente dos seus dados, mas toda 
+      a história atrás dele também, de um sistema para o outro.  Isto
+      é um problema extremamente difícil de resolver, que envolve
+      deduzir conjuntos de mudanças na falta de atomicidade, e traduzir
+      entre as políticas de ramificação completamente ortogonais dos dois sistemas,
+      entre outras complicações.  Todavia, há um punhado de ferramentas
+      prometendo suportar ao menos parcialmente a habilidade de converter
+      repositórios CVS em repositórios Subversion.</p><p>A mais popular (e provavelmente a mais madura) ferramenta de
+      conversão é cvs2svn (<a class="ulink" href="http://cvs2svn.tigris.org/" target="_top">http://cvs2svn.tigris.org/</a>), um
+      script Python originalmente criado por membros da própria comunidade de
+      desenvolvimento do Subversion.  Esta ferramenta é destinada a ser executada exatamente
+      uma vez:  ela examina seu repositório CVS diversas vezes e tenta
+      deduzir submissões, ramos e rótulos da melhor forma que consegue.  Quando
+      termina, o resultado é ou um repositório Subversion ou um
+      arquivo de despejo portável representando a história do seu código.
+      Veja o website para instruções detalhadas e advertências.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.auth.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.webdav.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Autenticação </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Apêndice C. WebDAV e Autoversionamento</td></tr></table></div></body></html>

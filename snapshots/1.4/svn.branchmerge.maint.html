@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Manutenção de Ramos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /><link rel="prev" href="svn.branchmerge.tags.html" title="Rótulos" /><link rel="next" href="svn.advanced.vendorbr.html" title="Ramos de fornecedores" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Manutenção de Ramos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.branchmerge.tags.html">Anterior</a> </td><th width="60%" align="center">Capítulo 4. Fundir e Ramificar</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.vendorbr.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.branchmerge.maint"></a>Manutenção de Ramos</h2></div></div></div><p>Você pode ter notado por agora que o Subversion é extremamente
+      flexível.  Como ele implementa ramos e rótulos usando o mesmo
+      mecanismo de suporte (cópias de diretório), e como ramos e rótulos
+      aparecem normalmente no espaço do sistema de arquivos, muitas
+      pessoas vêem o Subversion como algo intimidador.  Ele é realmente
+      <span class="emphasis"><em>muito</em></span> flexível.  Nesta seçãi, vamos lhe dar
+      algumas sugestões sobre como arrajar e gerenciar seus dados ao
+      longo do tempo.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.maint.layout"></a>Estrutura de Repositório</h3></div></div></div><p>Há algumas formas padronizadas e recomendadas de se
+        organizar um repositório.  A maioria das pessoas criam um
+        diretório <code class="filename">trunk</code> para conter a “<span class="quote">linha
+        principal</span>” do desenvolvimento, um diretório 
+        <code class="filename">branches</code> para conter cópias ramificadas, e
+        um diretório <code class="filename">tags</code> para conter cópias
+        rotuladas.  Se um repositório for armazenar apenas um projeto,
+        então quase sempre as pessoas criam esses três diretórios de
+        alto nível:</p><pre class="screen">
+/trunk
+/branches
+/tags
+</pre><p>Se um repositório for conter múltiplos projetos, os
+        administradores frequentemente indexam tal estrutura por projeto
+        (veja <a class="xref" href="svn.reposadmin.planning.html#svn.reposadmin.projects.chooselayout" title="Planejando a Organização do Repositório">“Planejando a Organização do Repositório”</a>
+        para saber mais sobre “<span class="quote">diretórios raízes de
+        projetos</span>”):</p><pre class="screen">
+/paint/trunk
+/paint/branches
+/paint/tags
+/calc/trunk
+/calc/branches
+/calc/tags
+</pre><p>Mas é claro, você é livre para ignorar estes layouts comuns.
+        Você pode criar qualquer tipo de variação, que atenda melhor às
+        suas necessidades e de sua equipe.  Lembre que qualquer que seja
+        a estrutura que você escolha, não é uma definição permanente.
+        Você pode reorganizar seu repositório a qualquer momento.  Como
+        branches e tags são diretórios comuns, o comando <span class="command"><strong>svn
+        move</strong></span> pode movê-los ou renomeá-los como você queira.
+        Mudar de um layout para outro é apenas uma questão de executar
+        algumas movimentações no lado do servidor; se você não gostar da
+        forma como as coisas estiverem organizadas no repositório,
+        apenas manipule os diretórios com achar melhor.</p><p>Lembre-se, porém, que por mais que mover diretórios possa
+        ser algo fácil de se fazer, você precisa ter consideração com
+        seus usuários também.  Suas modificações no repositório podem
+        confundir os usuários que já tenham cópias de trabalho.  Se um
+        usuário já tem uma cópia de trabalho de um dado diretório do
+        repositório, executar <span class="command"><strong>svn move</strong></span> pode remover o
+        caminho na próxima revisão.  Da próxima vez que o usuário
+        executar <span class="command"><strong>svn update</strong></span>, ele será informado que
+        sua cópia de trabalho representa um caminho que não existe mais,
+        e o usuário será forçado a executar um <span class="command"><strong>svn
+        switch</strong></span> para o novo local.
+        </p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.maint.lifetime"></a>Ciclo de Vida dos Dados</h3></div></div></div><p>Outro bom recurso do modelo do Subversion é que os ramos e
+        rótulos podem ter ciclos de vida finitos, tal como qualquer
+        outro item versionado.  Por exemplo, suponha que você
+        eventualmente conclua todo o seu trabalho em seu ramo pessoal do
+        projeto <code class="filename">calc</code> project.  Depois de mesclar
+        todas as suas modificações de volta em
+        <code class="filename">/calc/trunk</code>, não é mais necessário manter o
+        diretório de seu ramo privado:</p><pre class="screen">
+$ svn delete http://svn.example.com/repos/calc/branches/my-calc-branch \
+             -m "Removing obsolete branch of calc project."
+
+Committed revision 375.
+</pre><p>E agora seu ramo se foi.  É claro que ele não se foi
+        realmente: o diretório foi simplesmente removido da revisão 
+        <code class="literal">HEAD</code> para não distrair mais ninguém.  Se você
+        executar <span class="command"><strong>svn checkout</strong></span>, <span class="command"><strong>svn
+        switch</strong></span>, ou <span class="command"><strong>svn list</strong></span> para verificar
+        uma revisão anterior, você ainda poderá ver seu antigo
+        ramo.</p><p>Se navegar em seu diretório excluído não for o bastante,
+        você sempre poderá trazê-lo de volta.  Ressuscitar dados é algo
+        muito fácil no Subversion.  Se houver um diretório (ou arquivo)
+        excluído que você gostaria de trazer de volta para a revisão
+        <code class="literal">HEAD</code>, simplesmente use <span class="command"><strong>svn copy
+        -r</strong></span> para copiá-lo a partir de sua revisão
+        antiga:</p><pre class="screen">
+$ svn copy -r 374 http://svn.example.com/repos/calc/branches/my-calc-branch \
+                  http://svn.example.com/repos/calc/branches/my-calc-branch
+
+Committed revision 376.
+</pre><p>Em nosso exemplo, seu ramo pessoal tinha um ciclo de vida
+        relativamente curto: você pode tê-lo criado para corrigir um bug
+        ou implementar um novo recurso.  Quando sua tarefa estiver
+        terminada, então o ramo também estará.  No desenvolvimento de
+        software, porém, também é comum ter dois ramos
+        “<span class="quote">principais</span>” executando lado-a-lado por longos
+        períodos.  Por exemplo, suponha que seja o momento de lançar uma
+        versão estável do projeto <code class="filename">calc</code> para o
+        público, e você sabe que irá levar mais alguns meses para
+        remover todos os bugs do software.  Você não quer que as pessoas
+        adicionem novos recursos ao projeto, mas você também não quer
+        dizer para que todos os desenvolvedores parem de trabalhar.
+        Assim, você cria um ramo “<span class="quote">estável</span>” do software, o
+        qual você não irá modificar muito:</p><pre class="screen">
+$ svn copy http://svn.example.com/repos/calc/trunk \
+         http://svn.example.com/repos/calc/branches/stable-1.0 \
+         -m "Creating stable branch of calc project."
+
+Committed revision 377.
+</pre><p>E agora os desenvolvedores estão livres para continuar
+        adicionando as novas funcionalidades planejadas (ou
+        experimentais) em <code class="filename">/calc/trunk</code>, e você pode
+        definir uma política de projeto que apenas correções de bugs
+        serão submetidas para
+        <code class="filename">/calc/branches/stable-1.0</code>.  Dessa forma,
+        como as pessoas continuam a trabalhar no tronco, uma pessoa
+        seleciona as correções de bugs a serem portadas para o ramo
+        estável.  Mesmo depois que o conteúdo do ramo estável tenha sido
+        distribuído, você provavelmente irá continuar mantendo o ramo
+        por um longo período—isto é, enquanto você continuar a dar
+        suporte àquele release de software para seus clientes.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.branchmerge.tags.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.branchmerge.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.vendorbr.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Rótulos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Ramos de fornecedores</td></tr></table></div></body></html>

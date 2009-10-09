@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnadmin dump</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c" title="Subcomandos do svnadmin" /><link rel="prev" href="svn.ref.svnadmin.c.deltify.html" title="svnadmin deltify" /><link rel="next" href="svn.ref.svnadmin.c.help.html" title="svnadmin help" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnadmin dump</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.deltify.html">Anterior</a> </td><th width="60%" align="center">Subcomandos do svnadmin</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.help.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnadmin.c.dump"></a><div class="titlepage"></div><a id="id2648003" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnadmin dump — Despeja o conteúdo do sistema de arquivos para o stdout.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2648031"></a><h2>Sinopse</h2><pre class="programlisting">svnadmin dump REPOS_PATH [-r LOWER[:UPPER]] [--incremental]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2648044"></a><h2>Descrição</h2><p>Despeja o conteúdo do sistema de arquivos para o stdout 
+            em um formato portável de “<span class="quote">dumpfile</span>”, enviando
+            mensagens de feedback para stderr.  Despeja as revisões de
+            <em class="replaceable"><code>LOWER</code></em> rev até 
+            <em class="replaceable"><code>UPPER</code></em> rev.  Se revisões não forem
+            informadas, despeja todas as árvores de revisões.  Se
+            somente <em class="replaceable"><code>LOWER</code></em> for informada, 
+            então essa árvore de revisão será despejada.  Veja <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.migrate" title="Migrando Dados do Repositório Para Outro Local">“Migrando Dados do Repositório Para Outro Local”</a> para exemplos
+            práticos de uso.</p><p>Por padrão, o fluxo do arquivo de despejo do Subversion
+            contém uma única revisão (a primeira revisão no intervalo de
+            revisões) em que cada arquivo e diretório no repositório
+            naquela revisão está presente tal como se a árvore completa
+            tivesse sido adicionada de uma só vez, seguido de outras
+            revisões (o restante das revisões no intervalo informado) as
+            quais contém somente os arquivos e diretório que foram
+            modificados nessas revisões.  Para um arquivo não
+            modificado, a representação completa de seu conteúdo, bem
+            como todas as suas propriedades, são apresentadas no arquivo
+            de despejo; para um diretório, todas as suas propriedades
+            são apresentadas.</p><p>Há duas opções úteis que modificam o comportamento do
+            gerador do arquivo de despejo.  A primeira é a opção 
+            <code class="option">--incremental</code>, a qual simplesmente faz com
+            que a primeira revisão no fluxo do arquivo contenha apenas
+            os arquivos e diretórios modificados naquela revisão, ao
+            invés de serem apresentadas como adições de uma nova árvore,
+            e exatamente da mesma maneira que qualquer outra revisão no
+            arquivo de despejo é apresentada.  Isto é útil para gerar
+            arquivos de despejo relativamente pequenos para serem
+            carregados em outro repositório que já possua os arquivos e
+            diretórios existentes no repositório original.</p><p>A segunda opção útil é <code class="option">--deltas</code>.  Esta
+            opção faz com que o <span class="command"><strong>svnadmin dump</strong></span>, ao
+            invés de emitir representações completas dos conteúdos de
+            arquivos e listas de propriedades, emita apenas as
+            diferenças desses itens relativas a suas versões anteriores.
+            Isto reduz (em alguns casos, drasticamente) o tamanho do
+            arquivo de despejo criado pelo <span class="command"><strong>svnadmin
+            dump</strong></span>.  Há, porém, algumas desvantagens em se usar
+            esta opção—arquivos de despejo deltificados precisam
+            de mais processamento de CPU para serem criados, não podem
+            ser utilizados com <span class="command"><strong>svndumpfilter</strong></span> e
+            tendem a não serem compactados tão bem quanto seus
+            correspondentes normais quando ferramentas de compactação
+            externas, como o <span class="command"><strong>gzip</strong></span> e o
+            <span class="command"><strong>bzip2</strong></span>, são usadas.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2648210"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--incremental
+--quiet (-q)
+--deltas
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2648223"></a><h2>Exemplos</h2><p>Despeja todo o seu repositório:</p><pre class="screen">
+$ svnadmin dump /usr/local/svn/repos
+SVN-fs-dump-format-version: 1
+Revision-number: 0
+* Dumped revision 0.
+Prop-content-length: 56
+Content-length: 56
+…
+</pre><p>Despeja incrementalmente uma única transação a partir de
+            seu repositório:</p><pre class="screen">
+$ svnadmin dump /usr/local/svn/repos -r 21 --incremental 
+* Dumped revision 21.
+SVN-fs-dump-format-version: 1
+Revision-number: 21
+Prop-content-length: 101
+Content-length: 101
+…
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.deltify.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.help.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnadmin deltify </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnadmin help</td></tr></table></div></body></html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Criando e Configurando Seu Repositório</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.reposadmin.html" title="Capítulo 5. Administração do Repositório" /><link rel="prev" href="svn.reposadmin.planning.html" title="Estratégias para Implementação de Repositórios" /><link rel="next" href="svn.reposadmin.maint.html" title="Manutenção do Repositório" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Criando e Configurando Seu Repositório</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.reposadmin.planning.html">Anterior</a> </td><th width="60%" align="center">Capítulo 5. Administração do Repositório</th><td width="20%" align="right"> <a accesskey="n" href="svn.reposadmin.maint.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.reposadmin.create"></a>Criando e Configurando Seu Repositório</h2></div></div></div><p>Em <a class="xref" href="svn.reposadmin.planning.html" title="Estratégias para Implementação de Repositórios">“Estratégias para Implementação de Repositórios”</a> foram vistas
+      algumas decisões importantes que devem ser feitas antes de criar e
+      configurar o seu repositório Subversion. Agora finalmente vamos sujar
+      nossas mãos! Nessa seção nós veremos como criar um repositório 
+      Subversion e configurá-lo para executar ações customizadas quando
+      eventos especiais ocorrerem.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.basics.creating"></a>Criando o Repositório</h3></div></div></div><p>A criação de um repositório Subversion é uma tarefa
+        inacreditavelmente simples. O utilitário <span class="command"><strong>svnadmin</strong></span>,
+        que vem com Subversion, oferece um subcomando 
+        (<code class="literal">create</code>) para fazer isso.</p><pre class="screen">
+$ svnadmin create /path/to/repos
+</pre><p>Esse comando cria um novo repositório no diretório 
+        <code class="filename">/path/to/repos</code>, com o sistema de armazenamento
+        padrão. Antes do Subversion 1.2, o padrão foi o Berkeley DB; agora
+        o padrão é o FSFS. Você pode escolher o sistema de armazenamento
+        usando a opção <code class="option">--fs-type</code> que aceita como parâmetro
+        <code class="literal">fsfs</code> ou <code class="literal">bdb</code>.</p><pre class="screen">
+$ # Cria um repositório FSFS
+$ svnadmin create --fs-type fsfs /path/to/repos
+$
+</pre><pre class="screen">
+# Cria um repositório Berkeley-DB
+$ svnadmin create --fs-type bdb /path/to/repos
+$
+</pre><p>Depois de executar esse simples comando você obtém um 
+        repositório Subversion.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>O parâmetro de caminho para <span class="command"><strong>svnadmin</strong></span>
+          é um caminho comum no sistema de arquivos e não uma URL como
+          programa cliente <span class="command"><strong>svn</strong></span> usa quando faz
+          referência para um repositório. Ambos os comandos
+          <span class="command"><strong>svnadmin</strong></span> e <span class="command"><strong>svnlook</strong></span> são
+          considerados utilitários de servidor—eles são usados na
+          máquina onde o repositório está armazenado para examinar ou
+          modificar aspectos do repositório, e não têm a capacidade de
+          executar tarefas sobre uma rede. Um erro comum cometido pelos
+          novatos no Subversion é tentar utilizar URLs (mesmo 
+          <code class="literal">file://</code> para “<span class="quote">locais</span>”) nesses
+          dois programas.</p></div><p>Dentro do subdiretório <code class="filename">db/</code> do seu 
+        repositório está a implementação do sistema de arquivos versionado.
+        Seu novo sistema de arquivos versionado do repositório começa sua
+        vida na revisão 0, que consiste apenas do diretório raiz de mais
+        alto nível (<code class="filename">/</code>). Inicialmente a revisão 0
+        também tem uma única propriedadede revisão 
+        <code class="literal">svn:date</code>, configurada com o dia/hora em que o
+        repositório foi criado.</p><p>Agora que você tem um repositório, é hora de customizá-lo
+      </p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Enquanto algumas partes de um repositório—como seus 
+          arquivos de configuração e scripts de gancho—são
+          passíveis de serem examinados e modificados manualmente, você
+          não deve (e não deveria precisar) modificar outras partes
+          “<span class="quote">manualmente</span>”. O comando 
+          <span class="command"><strong>svnadmin</strong></span> deve ser suficiente para qualquer
+          alteração no seu repositório, ou você pode procurar por
+          ferramentas de terceiros (como a suíte de ferramentas para o
+          Berkeley DB) para ajustar subseções relevantes do repositório.
+          <span class="emphasis"><em>Não</em></span> tente manipular manualmente o histórico
+          do seu controle de versões mexendo nos arquivos de armazenamento!
+          </p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.create.hooks"></a>Implementando Ganchos de Repositório</h3></div></div></div><p>Um <em class="firstterm">gancho</em> é um programa disparado por
+        um evento ocorrido no repositório, como a criação de uma nova revisão
+        ou a modificação de uma propriedade não-versionada. Alguns ganchos
+        (os chamados “<span class="quote">pre hooks</span>”) são executados antes da 
+        ocorrência de uma operação no repositório e provêm um meio tanto de 
+        reportar o que está acontecendo quanto de previnir o acontecimento. 
+        Outros ganchos (os “<span class="quote">posto hooks</span>”) são executados depois 
+        que algum evento ocorre e, são úteis para executar tarefas que
+        examinam—mas não modificam—o repositório. Cada gancho 
+        é acompanhado de informações que dizem que evento é (ou foi), as 
+        modificações propostas (ou completadas) e o nome de usuário da
+        pessa que disparou o evento.</p><p>O subdiretório <code class="filename">hooks</code> contém, por padrão, 
+        vários modelos de ganchos.</p><pre class="screen">
+$ ls repos/hooks/
+post-commit.tmpl      post-unlock.tmpl  pre-revprop-change.tmpl
+post-lock.tmpl        pre-commit.tmpl   pre-unlock.tmpl
+post-revprop-change.tmpl  pre-lock.tmpl     start-commit.tmpl
+</pre><p>Existe um modelo para cada gancho que o repositório 
+        Subversion suporta, e examinando o conteúdo desses scripts 
+        você pode observar o que dispara cada script e que inforamções
+        são passadas para o script. Também são apresentados, em muitos 
+        desses modelos, exemplos de como alguém pode usar o script em
+        conjunto com outros programas disponibilizados pelo Subversion
+        para desempenhar tarefas úteis e rotineiras. Para instalar um
+        gancho você somente precisa colocar algum programa executável
+        ou script no diretório <code class="filename">repos/hooks</code> que
+        pode ser executado pelo nome do gancho (como 
+        <span class="command"><strong>start-commit</strong></span> ou <span class="command"><strong>post-commit</strong></span>)
+        </p><p>Na plataforma Unix, isso significa fornecer um script ou
+        programa (que pode ser um script shell, um programa Python, um
+        binário C compilado, ou qualquer outra coisa semelhante) com o 
+        nome exato do gancho. É claro que os arquivos modelos são 
+        apresentados para serem terem uma função maior do que 
+        simplesmente serem informativos—a forma mais fácil de
+        instalar um gancho na plataforma Unix é simplesmente copiar o
+        arquivo modelo apropriado para um novo arquivo que leva a 
+        extensão <code class="literal">tmpl</code>, personalizar o seu conteúdo
+        e se assegurar de que o script é executável. Entretanto, o
+        Windos utiliza extensões de arquivos para determinar se um
+        arquivo é executável ou não. Assim, você precisa fornecer um
+        programa cujo o nome seja o mesmo do gancho e cuja extensão
+        seja uma das extensões especiais reconhecidas pelo Windows
+        como um programa executável, como por exemplo
+        <code class="filename">.exe</code> para programas, e
+        <code class="filename">.bat</code> para arquivos de lote.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Por motivo de segurança o repositório Subversion
+          executa programas de gancho com um ambiente vazio—
+          o que significa que nenhuma variável de ambiente contém
+          valores, nem mesmo <code class="literal">$PATH</code> (ou 
+          <code class="literal">%PATH%</code>, no Windows). Por causa disso
+          muitos administradores são surpreendidos com o fato de
+          que seus ganchos funcionam perfeitamente quando executados
+          "na mão", mas não funcionam quando executados pelo Subversion.
+          Tenha certeza de configurar explicitamente qualquer variável
+          de ambiente que seja necessária no seu programa de gancho e/ou
+          use caminhos absolutos para os programas</p></div><p>O Subversion executa os scripts de
+        <span class="foreignphrase"><em class="foreignphrase">hooks</em></span> como o mesmo usuário que
+        executa o processo que estiver acessando o repositório do
+        Subversion.  Na maioria dos casos, o repositórios estará sendo
+        acessado por um servidor Subersion, então tal usuário é o mesmo
+        usuário com o qual o servidor é executado no sistema.  Os
+        scripts em si precisarão ser configurados em nível de sistema
+        operacional para permitir que esse usuário execute-os.  Também,
+        isto quer dizer que quaisquer arquivos ou programas (incluindo o
+        próprio repositório do Subversion) que forem acessados direta ou
+        indiretamente pelos scripts serão executados como um mesmo
+        usuário.  Em outras palavras, esteja atento para potenciais
+        problemas relacionados a permissões e que podem acabar impedindo
+        os scripts de hook de executar adequadamente as devidas tarefas
+        para as quais foram programados.</p><p>Existem nove scripts de hook já implementados pelo
+        repositório do Subversion, e você pode ver mais detalhes sobre
+        cada um em <a class="xref" href="svn.ref.reposhooks.html" title="Ganchos do Repositório">“Ganchos do Repositório”</a>.  Como um
+        administrador de repositório. você vai precisar decidir sobre
+        quais scripts você vai querer implementar e como.  Quando você
+        tomar esta decisão, tenha em mente a visão geral de como seu
+        repositório está implantado.  Por exemplo, se você estiver
+        usando uma configuração de servidor para determinar que usuários
+        têm permissão para submeter alterações no repositório, então
+        você não precisa fazer fazer este tipo de controle de acesso por
+        meio do sistema de scripts de hook.</p><p>Há uma abundância de programas e scripts de hook livremente
+        disponíveis pela comunidade do Subversion em si ou em geral na
+        Internet.  Esses scripts constituem uma ampla gama de
+        utilitários—controle de acesso básico, verificação de
+        aderência de políticas, integração com sistemas de demandas,
+        notificações por e-mail ou sindicação de alterações submetidas,
+        e muito mais.  Veja <a class="xref" href="svn.3rdparty.html" title="Apêndice D. Ferramentas de Terceiros">Apêndice D, <i>Ferramentas de Terceiros</i></a> para uma
+        discussão de alguns dos programas de hook mais comumente usados.
+        Ou, se você quiser escrever seu próprio, veja <a class="xref" href="svn.developer.html" title="Capítulo 8. Incorporando o Subversion">Capítulo 8, <i>Incorporando o Subversion</i></a>.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Ainda que muitos scripts de hook possam fazer muita coisa,
+          há uma dimensão na qual os autores de scripts devem se
+          restringir: <span class="emphasis"><em>nunca</em></span> modificar uma transação
+          de commit utilizando scripts de hook.  Por mais que possa
+          parecer tentador utilizar scripts para automatizar correções
+          de erros ou deficiências ou ainda violações de políticas
+          presentes nos arquivos a serem submetidos, fazer isso resulta
+          em problemas.  O Subversion mantém caches de certas porções de
+          dados do repositório no lado do cliente, e se você modificar
+          uma transação de commit desta forma, estes caches ficarão
+          inutilizáveis de uma maneira difícil de ser detectada.  Essa
+          inconsistência pode levar a comportamentos errôneos e
+          inesperados.  Ao invés de modificá-la, você deveria
+          simplesmente <span class="emphasis"><em>validar</em></span> a transação em um
+          script <code class="filename">pre-commit</code> e rejeitar a submissão
+          se os requisitos em questão desejados não forem cumpridos.  
+          Como um bônus, seus usuários irão aprender o valor de hábitos
+          de trabalho cuidadosos e adequadamente.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.create.bdb"></a>Configuração do Berkeley DB</h3></div></div></div><p>Um ambiente DB environment é um encapsulamento de uma ou
+        mais bases de dados, arquivos de log, arquivos de região e
+        arquivos de configuração.  O ambiente Berkeley DB possui seu
+        próprio conjunto de valores de configuração padrão para coisas
+        como o número de travas de base de dados possíveis a cada
+        instante, ou o tamanho máximo de arquivos de log, etc.  A lógica
+        do sistema de arquivos do Subversion adicionalmente escolhe
+        valores padrão para algumas das opções de configuração do
+        Berkeley DB.  No entanto, algumas vezes seu repositório 
+        específico, o qual é uma coleção única de dados e padrões de 
+        acesso, pode requerer um conjunto diferente de valores para
+        opções de configuração.</p><p>Os criadores do Berkeley DB compreendem que aplicações
+        diferentes e ambientes de bases de dados possuem requisitos
+        diferentes, e assim eles deixaram disponível um mecanismo para
+        sobrescrever muitos dos valores de configuração em tempo de 
+        execução no ambiente do Berkeley DB:  BDB verifica a presença
+        de um arquivo chamado <code class="filename">DB_CONFIG</code> no 
+        diretório do ambiente (no caso, o subdiretório
+        <code class="filename">db</code> do repositório), e considera as opções
+        encontradas nesse arquivo.  O próprio Subversion cria este
+        arquivo ao criar o restante do repositório.  O arquivo
+        inicialmente contém algumas opções padrão, bem como ponteiros
+        para a documentação online do Berkeley DB para que você possa
+        ler sobre o que as opções em questão fazem.  É claro, você é
+        livre para adicionar quaisquer opções suportadas pelo Berkeley
+        DB em seu arquivo <code class="filename">DB_CONFIG</code>.  Apenas atente
+        que por mais que este o Subversion nunca tente ler ou
+        interpretar o conteúdo desse arquivo, e que  não utiliza
+        diretamente as opções de configuração presentes nele, você não
+        vai querer modificar quaisquer configurações que podem fazer com
+        que o Berkeley DB se comporte de uma forma diferente do que que
+        o Subversion espera.  Além disso, modificar o arquivo 
+        <code class="filename">DB_CONFIG</code> não fará efeito até que você
+        recupere o ambiente da base de dados (usando <span class="command"><strong>svnadmin
+        recover</strong></span>).</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.reposadmin.planning.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.reposadmin.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.reposadmin.maint.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Estratégias para Implementação de Repositórios </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Manutenção do Repositório</td></tr></table></div></body></html>

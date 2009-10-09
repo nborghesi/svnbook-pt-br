@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnlook changed</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnlook.html#svn.ref.svnlook.c" title="Sub-comandos do svnlook" /><link rel="prev" href="svn.ref.svnlook.c.cat.html" title="svnlook cat" /><link rel="next" href="svn.ref.svnlook.c.date.html" title="svnlook date" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnlook changed</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.cat.html">Anterior</a> </td><th width="60%" align="center">Sub-comandos do svnlook </th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.date.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnlook.c.changed"></a><div class="titlepage"></div><a id="id2650139" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnlook changed — Mostra os caminhos que foram mudados.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650165"></a><h2>Sinopse</h2><pre class="programlisting">svnlook changed REPOS_PATH</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650177"></a><h2>Descrição</h2><p>Mostra os caminhos que foram mudados em uma revisão ou
+            transação particular, assim como “<span class="quote">svn
+            update-style</span>” as letras de estatus nas duas primeiras
+            colunas:</p><div class="variablelist"><dl><dt><span class="term">'<code class="literal">A </code>'</span></dt><dd><p>Item adicionado ao repositório.</p></dd><dt><span class="term">'<code class="literal">D </code>'</span></dt><dd><p>Item apagado do respostório.</p></dd><dt><span class="term">'<code class="literal">U </code>'</span></dt><dd><p>Conteúdo do arquivo foi mudado.</p></dd><dt><span class="term">'<code class="literal"> U</code>'</span></dt><dd><p>Propriedades do tem mudados.--FIXME Note the leading space.--</p></dd><dt><span class="term">'<code class="literal">UU</code>'</span></dt><dd><p>Conteudo e propriedades mudados.</p></dd></dl></div><p>Arquivos e diretórios podem ser distinguidos, como os
+	    caminhos dos diretórios são mostrados com caracter
+	    '<code class="literal">/</code>'.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650308"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--transaction (-t)
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650322"></a><h2>Exemplos</h2><p>Isto mostra a lista de todos os diretórios e arquivos
+            mudados na revisão 39 em um diretório de teste.  Note
+            que a primeira mudança é um diretório, como evidenciado pela
+            <code class="literal">/</code>:</p><pre class="screen">
+$ svnlook changed -r 39 /usr/local/svn/repos
+A   trunk/vendors/deli/
+A   trunk/vendors/deli/chips.txt
+A   trunk/vendors/deli/sandwich.txt
+A   trunk/vendors/deli/pickle.txt
+U   trunk/vendors/baker/bagel.txt
+ U  trunk/vendors/baker/croissant.txt
+UU  trunk/vendors/baker/pretzel.txt
+D   trunk/vendors/baker/baguette.txt
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.cat.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnlook.html#svn.ref.svnlook.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.date.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnlook cat </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnlook date</td></tr></table></div></body></html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn propget</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.propedit.html" title="svn propedit" /><link rel="next" href="svn.ref.svn.c.proplist.html" title="svn proplist" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn propget</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.propedit.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.proplist.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.propget"></a><div class="titlepage"></div><a id="id2644546" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn propget — Exibe o valor de uma propriedade.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644572"></a><h2>Sinopse</h2><pre class="programlisting">svn propget PROPNAME [TARGET[@REV]...]</pre><pre class="programlisting">svn propget PROPNAME --revprop -r REV [URL]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644591"></a><h2>Descrição</h2><p>Exibe o valor de uma propriedade de arquivos, diretórios
+            ou revisões.  A primeira forma exibe a propriedade
+            versionada de um item ou itens em sua cópia de trabalho,
+            enquanto que a segunda exibe propriedades remotas
+            não-versionadas em uma revisão de repositório.  Veja <a class="xref" href="svn.advanced.props.html" title="Propriedades">“Propriedades”</a> para mais informações sobre
+            propriedades.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644620"></a><h2>Nomes Alternativos</h2><p>pget, pg</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644630"></a><h2>Altera</h2><p>Cópia de trabalho, repositório apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644642"></a><h2>Acessa o Repositório</h2><p>Apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644653"></a><h2>Opções</h2><pre class="screen">
+--recursive (-R)
+--revision (-r) REV
+--revprop
+--strict
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644668"></a><h2>Exemplos</h2><p>Examina uma propriedade de um arquivo em sua cópia de
+            trabalho:</p><pre class="screen">
+$ svn propget svn:keywords foo.c
+Author
+Date
+Rev
+</pre><p>O mesmo para revisões de propriedades:</p><pre class="screen">
+$ svn propget svn:log --revprop -r 20 
+Began journal.
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.propedit.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.proplist.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn propedit </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn proplist</td></tr></table></div></body></html>

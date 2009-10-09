@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Distinção Entre Status e Update</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.disconnected.html" title="Mais Operações Desconectadas" /><link rel="next" href="svn.forcvs.branches-and-tags.html" title="Ramos e Rótulos" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Distinção Entre Status e Update</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.disconnected.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.forcvs.branches-and-tags.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.status-vs-update"></a>Distinção Entre Status e Update</h2></div></div></div><p>No Subversion, nós tentamos dirimir boa parte da confusão
+      entre os comandos <span class="command"><strong>cvs status</strong></span> e
+      <span class="command"><strong>cvs update</strong></span>.</p><p>O comando <span class="command"><strong>cvs status</strong></span> tem dois propósitos:
+      primeiro, mostrar ao usuário qualquer modificação local na cópia de
+      trabalho, e, segundo, mostrar ao usuário quais arquivos estão desatualizados.
+      Infelizmente, devido à dificuldade para ler a saída produzida pelo status no CVS, muitos
+      usuários de CVS não tiram nenhuma vantagem deste comando.  Em vez disso,
+      eles desenvolveram um hábito de executar <span class="command"><strong>cvs
+      update</strong></span> ou <span class="command"><strong> cvs -n update</strong></span> para ver rapidamente
+      suas mudanças.  Se os usuários se esquecem de usar
+      a opção <code class="option">-n</code>, isto tem o efeito colateral de
+      fundir alterações no repositório com as quais eles podem não estar preparados para
+      lidar.</p><p>Com o Subversion, nós tentamos eliminar esta confusão tornando
+      a saída do <span class="command"><strong>svn status</strong></span> fácil de ler
+      tanto para humanos quanto para programas analisadores.  Além disso, <span class="command"><strong>svn update</strong></span>
+      só imprime informação sobre arquivos que estão atualizados, e
+      <span class="emphasis"><em>não</em></span> modificações locais.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.forcvs.status-vs-update.status"></a>Status</h3></div></div></div><p><span class="command"><strong>svn status</strong></span> imprime todos os arquivos que têm
+        modificações locais. Por padrão, o repositório não é
+        contatado.  Embora este subcomando aceite um bom número de
+        opções, as seguintes são as mais comumente usadas:</p><div class="variablelist"><dl><dt><span class="term"><code class="option">-u</code></span></dt><dd><p>Contatar o repositório para determinar, e então mostrar,
+              informações sobre desatualização.</p></dd><dt><span class="term"><code class="option">-v</code></span></dt><dd><p>Mostrar <span class="emphasis"><em>todas</em></span> as entradas sob
+              controle de versão.</p></dd><dt><span class="term"><code class="option">-N</code></span></dt><dd><p>Executar não-recursivamente (não descer para os
+              subdiretórios).</p></dd></dl></div><p>O comando <span class="command"><strong>status</strong></span> tem dois formatos
+        de saída.  No formato “<span class="quote">curto</span>” padrão, modificações
+        locais parecem com isto:</p><pre class="screen">
+$ svn status
+M      foo.c
+M      bar/baz.c
+</pre><p>Se você especificar a opção <code class="option">--show-updates</code>
+        (<code class="option">-u</code>), um formato mais longo de saída é
+        usado:</p><pre class="screen">
+$ svn status -u
+M            1047   foo.c
+       *     1045   faces.html
+       *            bloo.png
+M            1050   bar/baz.c
+Status against revision:   1066
+</pre><p>Neste caso, duas novas colunas aparecem.  A segunda coluna
+        contém um asterisco se o arquivo ou diretório está desatualizado.
+        A terceira coluna mostra o número de revisão da cópia de trabalho
+        do item.  No exemplo acima, o asterisco indica que
+        <code class="filename">faces.html</code> seria alterado se nós atualizássemos,
+        e que <code class="filename">bloo.png</code> é um arquivo recém-adicionado
+        ao repositório.  (A falta de qualquer número de revisão próximo a
+        <code class="filename">bloo.png</code> significa que ele ainda não existe na
+        cópia de trabalho.)</p><p>A esta altura, você deve dar uma rápida olhada na lista de 
+        todos os códigos de status possíveis em
+        <a class="xref" href="svn.ref.svn.c.status.html" title="svn status">svn status</a>.  Aqui estão alguns dos
+        códigos de status mais comuns que você verá:</p><pre class="screen">
+A    O recurso está programado para Adição
+D    O recurso está programado para exclusão
+M    O recurso tem Modificações locais
+C    O recurso tem Conflitos (as mudanças não foram completamente fundidas
+       entre o repositório e a versão da cópia de trabalho)
+X    O recurso é eXterno a esta cópia de trabalho (pode vir de outro
+       repositório).  Veja <a class="xref" href="svn.advanced.externals.html" title="Definições Externas">“Definições Externas”</a>
+?    O recurso não está sob controle de versão
+!    O recurso está faltando ou incompleto (removido por outra ferramenta que
+       não Subversion)
+</pre><p>Para uma discussão mais detalhada de <span class="command"><strong>svn
+        status</strong></span>, veja <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.examine.status" title="Obtendo uma visão geral de suas alterações">“Obtendo uma visão geral de suas alterações”</a>.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.forcvs.status-vs-update.update"></a>Update</h3></div></div></div><p><span class="command"><strong>svn update</strong></span> atualiza sua cópia de trabalho,
+        e só imprime informação sobre arquivos que ele atualiza.</p><p>O Subversion combinou os códigos <code class="literal">P</code> e
+        <code class="literal">U</code> do CVS em apenas <code class="literal">U</code>.  Quando
+        ocorre uma fusão ou conflito, o Subversion simplesmente imprime
+        <code class="literal">G</code> ou <code class="literal">C</code>, em vez de uma
+        sentença inteira.</p><p>Para uma discussão mais detalhada de <span class="command"><strong>svn
+        update</strong></span>, veja <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.update" title="Atualizando Sua Cópia de Trabalho">“Atualizando Sua Cópia de Trabalho”</a>.
+        </p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.disconnected.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.forcvs.branches-and-tags.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Mais Operações Desconectadas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Ramos e Rótulos</td></tr></table></div></body></html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Rótulos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /><link rel="prev" href="svn.branchmerge.switchwc.html" title="Atravessando Ramos" /><link rel="next" href="svn.branchmerge.maint.html" title="Manutenção de Ramos" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Rótulos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.branchmerge.switchwc.html">Anterior</a> </td><th width="60%" align="center">Capítulo 4. Fundir e Ramificar</th><td width="20%" align="right"> <a accesskey="n" href="svn.branchmerge.maint.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.branchmerge.tags"></a>Rótulos</h2></div></div></div><p>Outro conceito comum do controle de versão é <em class="firstterm">ramo</em>.
+	Um ramo é apenas uma “<span class="quote">foto</span>” do projeto no momento. No Subversion,
+	essa idéia parece estar em todo lugar. Cada revisão do repositório é 
+	exatamente isso—uma foto da estrutura depois de 
+	cada commit.</p><p>Entretanto, pessoas normalmente querem dar rótulos mais amigáveis
+	como nomes de tags, como <code class="literal">versão-1.0</code>. E querem
+	fazer “<span class="quote">fotos</span>” de pequenos sub-diretórios da estrutura.
+	Além do mais, não é fácil lembrar que versão-1.0 de um pedaço do
+	software é um particular sub-diretório da revisão 4822.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.tags.mksimple"></a>Criando um rótulo simples</h3></div></div></div><p>Mais uma vez, <span class="command"><strong>snv copy</strong></span> vem para nos
+	  socorrer. Se você quer criar uma foto do <code class="filename">/calc/trunk</code>
+	  exatamente como ele está na revisão <code class="literal">HEAD</code>, 
+	  fazendo uma copia dela:</p><pre class="screen">
+$ svn copy http://svn.example.com/repos/calc/trunk \
+           http://svn.example.com/repos/calc/tags/release-1.0 \
+      -m "Rótulando a versão 1.0 do projeto 'calc'."
+
+Committed revision 351.
+</pre><p>Este exemplo assume que o diretório <code class="filename">/calc/tags</code> 
+    já existe.
+    (Se ele não existir, você pode criá-lo usando <span class="command"><strong>svn mkdir</strong></span>.)
+    Depois da copia completar, o novo diretório <code class="filename">versão-1.0</code>
+    será para sempre uma foto de como o projeto estava na revisão
+    <code class="literal">HEAD</code> no momento que a copia foi feita. Claro 
+    que você pode querer mais precisão em saber qual revisão a copia foi 
+    feita, em caso de alguém ter feito commit no projeto quando você não 
+    estava vendo. Então se você sabe que a revisão 350 do 
+    <code class="filename">/calc/trunk</code> é exatamente a foto que você quer,
+    você pode especificar isso passando <code class="option">-r 350</code>
+    para o comando <span class="command"><strong>svn copy</strong></span>.</p><p>Mas espere um pouco: não é essa criação do rótulo o mesmo procedimento
+    para criar um ramo? Sim, de fato, é. No Subversion, não há diferença
+    entre um rótulo e um ramo. Assim como com ramos, a única razão uma 
+    cópia é um “<span class="quote">rótulo</span>” é porque <span class="emphasis"><em>humanos</em></span>
+    decidiram tratar isso desse jeito: desde que ninguém nunca faça commit
+    para esse diretório, ele permanecerá para sempre uma foto. Se as pessoas
+    começarem a fazer commit para ele, ele se transoforma num ramo.</p><p>Se você está administrando um repositório, existe duas maneiras
+	para gerenciar rótulos. A primeira é “<span class="quote">não toque</span>”:
+	como uma política do projeto, decida onde os rótulos vão morar,
+	e garanta que todos os usuários saibam como tratar os diretórios
+	que eles vão copiar para lá. (Isso quer dizer, garanta que 
+	eles saibam que não devem fazer neles.) A segunda é mais paranóica:
+	você pode usar um dos scripts de controle de acesso providos com 
+	o Subversion para previnir que alguém faça algo além de apenas
+	criar novas copias na área de rótulos (Veja <a class="xref" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor">Capítulo 6, <i>Configuração do Servidor</i></a>.)
+	A maneira paranoica, entrentanto, não é necessária. Se algum
+	usuário acidentalmente fizer commit de alguam mudança
+	para o diretório de rótulo, você pode simplesmente desfazer
+	a mudança como discutido na revisção anterior. É um controle
+	de versão apesar de tudo.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.tags.mkcomplex"></a>Criando um rótulo complexo</h3></div></div></div><p>Algumas vezes você que sua “<span class="quote">foto</span>” seja mais 
+	  complicada que um simples diretório de uma única revisão.</p><p>Por exemplo, pense que seu projeto é muito maior que nosso
+	  exemplo <code class="filename">calc</code>: suponha que contém um 
+	  número de sub-diretórios e muitos outros arquivos. No curso 
+	  do seu trabalho, você pode decidir que você precisa criar um
+	  cópia de trabalho que é destinado para novos recursos e 
+	  correções de erros. Você pode conseguir isso selecionando
+	  arquivos e diretórios com datas anteriores em uma revisão
+	  particular (usando <span class="command"><strong>svn update -r </strong></span> livremente),
+	  ou mudando arquivos e diretórios para um ramo em particular
+	  (fazendo uso do <span class="command"><strong>svn switch</strong></span>). Quando estiver
+	  pronto, sua cópia de trabalho será uma mistura de diferentes 
+	  revisões. Mas depois de testes, você saberá que é exatamente
+	  a combinação que você precisa.</p><p>Hora de fazer a foto. Copiar uma URL para outra não vai 
+	  funcionar aqui. Nesse caso, você quer fazer uma foto exata
+	  da cópia de trabalho que você organizou e armazenar no 
+	  repositório. Felizmente, <span class="command"><strong>svn copy</strong></span> na verdade
+	  tem quatro diferentes maneiras de ser usado (você pode ler sobre
+	  em <a class="xref" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion">Capítulo 9, <i>Referência Completa do Subversion</i></a>), incluindo a habilidade de copiar
+	  uma árvore de cópia de trablho para o respositório:</p><pre class="screen">
+$ ls
+my-working-copy/
+
+$ svn copy my-working-copy http://svn.example.com/repos/calc/tags/mytag
+
+Committed revision 352.
+</pre><p>Agora existe um novo diretório no respositório
+	<code class="filename">/calc/tags/mytag</code>, que é uma foto exata
+	da sua cópia de trabalho—combinado revisões, URLs, e 
+	tudo mais.</p><p>Outros usuários tem encontrado usos interessantes para esse
+	recurso. Algumas vezes existe situações onde você tem um monte
+	de mudanças locais na sua cópia de trabalho, e você gostaria
+	que um colega de trabalho as visse. Ao invés de usar 
+	<span class="command"><strong>svn diff</strong></span> e enviar o arquivo patch (que 
+	não irá ter as informações de mudança na árvore de diretórios,
+	em symlink e mudanças nas propriedades), você pode usar 
+	<span class="command"><strong>svn copy</strong></span> para “<span class="quote">subir</span>” 
+	sua cópia local para uma área privada no repositório. Seu colega
+	pode verificar o nome de cópia da sua cópia de trabalho, ou
+	usar <span class="command"><strong>svn merge</strong></span> para receber as exatas
+	mudanças.</p><p>Sendo isso um método legal para subir uma rápida foto do seu 
+	trabalho local, note que isso <span class="emphasis"><em>não</em></span> é uma boa
+	maneira de iniciar um ramo. A criação de um ramo deve ser um
+	evento solitário, e esse método exige a criação de um ramo
+	com mudanças extras em arquivos, tudo em uma única revisão.
+	Isso dificulta muito (mais tarde) a identificar um número
+       	de uma revisão como um ponto de um ramo.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Já se encontrou fazendo edições complexas (no sua
+	      cópia de trabalho <code class="filename">/trunk</code>) e
+	      de repente percebe, “<span class="quote">Ei, estas mudanças deviam estar
+		  num ramo próprio?</span>” Uma ótima técnica para fazer isso
+      pode ser resumir em dois passos:</p><pre class="screen">
+$ svn copy http://svn.example.com/repos/calc/trunk \
+           http://svn.example.com/repos/calc/branches/newbranch
+Committed revision 353.
+
+$ svn switch http://svn.example.com/repos/calc/branches/newbranch
+At revision 353.
+</pre><p>O comando <span class="command"><strong>svn switch</strong></span>, 
+	    como <span class="command"><strong>svn update</strong></span>, preserva suas
+	    edições locais. Nesse ponto, sua cópia de trabablho
+	    é um reflexo do novo ramo criado, e seu próximo 
+	    <span class="command"><strong>svn commit</strong></span> ira enviar suas 
+	    mudanças para lá.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.branchmerge.switchwc.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.branchmerge.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.branchmerge.maint.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Atravessando Ramos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Manutenção de Ramos</td></tr></table></div></body></html>

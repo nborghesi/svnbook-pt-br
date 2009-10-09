@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Revisões Marcadoras e Revisões Operativas</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.externals.html" title="Definições Externas" /><link rel="next" href="svn.serverconfig.netmodel.html" title="Modelo de Rede" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Revisões Marcadoras e Revisões Operativas</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.externals.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.serverconfig.netmodel.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.pegrevs"></a>Revisões Marcadoras e Revisões Operativas</h2></div></div></div><p>Nós copiamos, movemos, renomeamos, e substituímos
+      completamente arquivos e diretórios em nossos computadores a todo
+      tempo.  E seu sistema de controle de versão não deveria basear
+      em seu modo e fazer estas coisas com seus arquivos e diretórios
+      com versões controladas.  O suporte a gerenciamento de arquivos
+      do Subversion é bastante aberto, proporcionando quase tanta
+      flexibilidade para arquivos versionados quanto você desejaria ao
+      manipular os seus não-versionados.  Mas essa flexibilidade significa
+      que durante o tempo de vida de seu repositório, um dado objeto
+      versionado pode ter muitos caminhos, e um dado caminho pode representar
+      vários objetos versionados inteiramente diferentes.  E isto
+      introduz um certo nível de complexidade em suas interações
+      com esses caminhos e objetos.</p><p>O Subversion é muito esperto ao perceber quando uma versão do
+      histórico do objeto inclui tais “<span class="quote">mudanças de endereço</span>”.
+      Por exemplo, se você pedir pelo registro do histórico de revisão de um
+      arquivo específico que foi renomeado na última semana, o Subversion felizmente
+      oferece todos estes registros—a revisão na qual a renomeação
+      aconteceu, mais os registros de revisões relevantes tanto antes
+      como depois que foi renomeado.  Assim, a maioria das vezes, você não terá
+      que pensar sobre estas coisas.  Mas ocasionalmente, o Subversion
+      precisará de sua ajuda para esclarecer ambigüidades.</p><p>O exemplo mais simples disto ocorre quando um diretório ou arquivo
+      é excluído do controle de versão, e então um novo diretório ou
+      arquivo é criado com o mesmo nome e adicionado ao controle de versão.
+      Obviamente o que você exclui e o que você depois adicionou
+      não são a mesma coisa.  Estas coisas meramente possuíram o mesmo
+      caminho, <code class="filename">/trunk/object</code> por exemplo.  Então,
+      o que significa solicitar ao Subversion o histórico de
+      <code class="filename">/trunk/object</code>?  Você está pedindo sobre o
+      objeto atualmente neste local, ou o antigo objeto que você excluiu
+      deste local?  Você está pedindo sobre as operações que
+      aconteceram em <span class="emphasis"><em>todos</em></span> os objetos que alguma
+      vez existiu neste caminho?  Obviamente, o Subversion precisa de uma dica
+      do que você realmente quer.</p><p>Devido a mudanças regulares, o histórico de um objeto versionado
+      pode ser mais misturado do que isto.  Por exemplo, você pode ter um
+      diretório nomeado <code class="filename">concept</code>, contendo algum
+      projeto de software pessoal em que você esteja brincando.  Eventualmente,
+      porém, este projeto amadurece a tal ponto que a idéia parece
+      realmente poder decolar, assim você faz o impensável e decide
+      dar um nome ao projeto.
+      <sup>[<a id="id2576204" href="#ftn.id2576204" class="footnote">18</a>]</sup>
+      Vamos dizer que você chamou seu software de Frabnaggilywort.  Neste
+      ponto, faz sentido renomear o diretório para refletir o novo
+      nome do projeto, assim <code class="filename">concept</code> é renomeado
+      para <code class="filename">frabnaggilywort</code>.  A vida continua,
+      Frabnaggilywort lança uma versão 1.0, e está sendo baixado e
+      usado diariamente por uma multidão de pessoas que pretendem melhorar
+      suas vidas.</p><p>É uma bela história, realmente, mas não termina aqui.  Como
+      empreendedor que você é, você já está com novas idéias em mente.  Então
+      você cria um novo diretório, <code class="filename">concept</code>, e o ciclo
+      começa outra vez.  De fato, o ciclo recomeça muitas vezes ao longo dos
+      anos, cada vez começando com o antigo diretório
+      <code class="filename">concept</code>, então algumas vezes vendo esse diretório
+      ser renomeado como você bem o quiser, algumas vezes vendo esse diretório
+      ser excluído quando você descarta a idéia.  Ou, para complicar de vez,
+      algumas vezes talvez você <code class="filename">concept</code> para qualquer
+      outra coisa por algum tempo, mas depois renomei-o de volta para
+      <code class="filename">concept</code> por alguma razão.</p><p>Em cenários como este, tentar instruir o Subversion para trabalhar
+      com estes caminhos reutilizados pode ser um pouco como instruir um
+      motorista dos subúrbios da Chicago ocidental a dirigir sempre a leste na
+      estrada Roosevelt Road e então virar à esquerda na Main Street.  Em meros
+      vinte minutos, você pode cruzar com a tal “<span class="quote">Main Street</span>” ao
+      andar pela Wheaton, Glen Ellyn ou Lombard.  E não, elas não são a mesma
+      rua.  Nosso motorista—e o nosso Subversion—precisa de um
+      pouco mais de detalhes para poder fazer a coisa certa.</p><p>Na versão 1.1, o Subversion introduziu uma maneira para você dizer
+      exatamente à que Main Street você se refere.  É chamada de
+      <em class="firstterm">revisão marcadora</em>, e é uma revisão disponibilizada pelo
+      Subversion apenas com propósito de identificar uma linha única de
+      histórico.  Como no máximo um objeto versionado pode ocupar um caminho em
+      um dado instante—ou, mais precisamente, em uma dada revisão—a
+      combinação de um caminho e uma revisão marcadora é tudo o que é
+      necessário para se referenciar a uma linha específica de histórico.
+      Revisões marcadoras são especificadas pelo cliente de linha de comando do
+      Subversion usando <em class="firstterm">sintaxe de arroba</em><sup>[<a id="id2576317" href="#ftn.id2576317" class="footnote">19</a>]</sup>, assim chamada porque envolve anexar-se um
+      “<span class="quote">sinal de arroba</span>” (<code class="literal">@</code>) e a revisão
+      marcadora ao final do caminho com o qual a revisão está associada.</p><p>Mas e sobre as revisões dadas por <code class="option">--revision (-r)</code>,
+      as quais falamos tanto neste livro?  Essas revisões (ou conjuntos de
+      revisões) são chamadas de <em class="firstterm">revisões operativas</em> (ou
+      <em class="firstterm">intervalos de revisões operativas</em>).  Uma vez que
+      uma linha em particular do histórico tenha sido identificada usando-se um
+      caminho e uma revisão marcadora, o Subversion executa a operação
+      requisitada usando a(s) revisão(ões) operativa(s).  Para relacionar isto
+      com nossa analogia às ruas de Chicago, se nos disserem para irmos para
+      até a Main Street em Wheaton 606 N.,
+      <sup>[<a id="id2576397" href="#ftn.id2576397" class="footnote">20</a>]</sup>
+      poderíamos pensar na “<span class="quote">Main Street</span>” como nosso caminho e em
+      “<span class="quote">Wheaton</span>” como nossa revisão marcadora.  Estes dois pedaços
+      de informação identificam um único caminho que pode ser percorrido (em
+      sentido sul ou sentido norte na Main Street), e que nos permitir andar
+      para cima e para baixo na Main Street ao acaso na busca pelo nosso
+      destino.  Agora temos “<span class="quote">606 N.</span>” como nossa revisão operativa,
+      de sorte que sabemos <span class="emphasis"><em>exatamente</em></span> aonde temos que
+      ir.</p><div class="sidebar"><p class="title"><b>O algoritmo de revisões marcadoras</b></p><p>O Subversion em linha de comando executa o algoritmo de revisões
+        marcadora a qualquer momento em que precise resolver possíveis
+        ambigüidades nos caminhos e revisões por ele providos.  Aqui está um
+        exemplo de execução:</p><pre class="screen">
+$ svn <em class="replaceable"><code>command</code></em> -r <em class="replaceable"><code>OPERATIVE-REV</code></em> item@<em class="replaceable"><code>PEG-REV</code></em>
+</pre><p>Se <em class="replaceable"><code>OPERATIVE-REV</code></em> for mais antiga que
+        <em class="replaceable"><code>PEG-REV</code></em>, então o algoritmo será o
+        seguinte:</p><div class="itemizedlist"><ul type="disc"><li><p>Localize o <em class="replaceable"><code>item</code></em> na revisão
+            identificada por <em class="replaceable"><code>PEG-REV</code></em>.  Deve ser
+            encontrado apenas um único objeto.</p></li><li><p>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão 
+            <em class="replaceable"><code>OPERATIVE-REV</code></em>.</p></li><li><p>Execute a ação requisitada naquele ancestral, onde quer que ele
+            se encontre, ou qualquer que seja o nome que ele tenha ou que tenha
+            tido ao longo do tempo.</p></li></ul></div><p>Mas e se <em class="replaceable"><code>OPERATIVE-REV</code></em> for 
+        <span class="emphasis"><em>mais recente</em></span> que
+        <em class="replaceable"><code>PEG-REV</code></em>?  Bem, isso adiciona alguma
+        complexidade ao problema teórico de localização do caminho em 
+        <em class="replaceable"><code>OPERATIVE-REV</code></em>, pois o histórico do caminho
+        pode ter sido ramificado várias vezes (graças a operações de cópia)
+        entre <em class="replaceable"><code>PEG-REV</code></em> e
+        <em class="replaceable"><code>OPERATIVE-REV</code></em>.  E isso não é tudo—de
+        qualquer maneira, o Subversion não armazena informação o suficiente
+        para traçar eficientemente o histórico das revisões à frente para um
+        objeto.  Assim, o algoritmo neste caso é um pouco diferente:</p><div class="itemizedlist"><ul type="disc"><li><p>Localize o <em class="replaceable"><code>item</code></em> na revisão
+            identificada por <em class="replaceable"><code>OPERATIVE-REV</code></em>.  Deve
+            ser encontrado apenas um único objeto.</p></li><li><p>Trace o histórico pregresso do objeto (através de eventuais
+            renomeações ocorridas) até seu ancestral na revisão
+            <em class="replaceable"><code>PEG-REV</code></em>.</p></li><li><p>Verifique se a localização do objeto (caminho) em
+              <em class="replaceable"><code>PEG-REV</code></em> é a mesma que o era na revisão
+            <em class="replaceable"><code>OPERATIVE-REV</code></em>.  Se for este o caso,
+            então sabe-se que pelo menos dois locais estão diretamente
+            relacionados, e então execute a ação requisitada na localização em
+            <em class="replaceable"><code>OPERATIVE-REV</code></em>.  Caso contrário, nenhuma
+            relação pôde ser estabelecida, então exiba uma mensagem de erro
+            detalhando que nenhuma localização viável foi encontrada.  (Algum
+            dia esperamos que o Subversion será capaz de lidar com este cenário
+            de uso com mais graça e flexibilidade.)</p></li></ul></div><p>Note que mesmo quando você não informa uma revisão marcadora ou uma
+        revisão operativa, elas ainda estarão presentes.  Para sua
+        conveniência, <code class="literal">BASE</code> é tida como revisão marcadora
+        padrão para itens em sua cópia de trabalho e <code class="literal">HEAD</code> o
+        é para URLs do repositório.  E quando nenhuma revisão operativa for
+        informada, por padrão será usada a mesma que a da revisão marcadora.</p></div><p>Digamos que tenhamos criado nosso repositório muito tempo atrás, e
+      que na revisão 1 adicionamos nosso primeiro diretório
+      <code class="filename">concept</code>, além de um arquivo
+      <code class="filename">IDEA</code> nesse diretório contendo as idéias relacionadas
+      ao conceito.  Depois de algumas revisões nas quais códigos reais foram
+      adicionados e manipulados, nós, na revisão 20, renomeamos este diretório
+      para <code class="filename">frabnaggilywort</code>.  Lá pela revisão 27, temos um
+      novo conceito, e criamos um novo diretório <code class="filename">concept</code>
+      para armazená-lo, e um novo arquivo <code class="filename">IDEA</code> para
+      descrevê-lo.  E assim, cinco anos e vinte mil revisões se passaram, tal
+      como seria em qualquer história de romance que se preze.</p><p>Agora, anos depois, nos questionamos como seria ter de volta o
+      arquivo <code class="filename">IDEA</code> tal como na revisão 1.  Mas o
+      Subversion precisa saber se nós estamos querendo saber sobre como o
+      <span class="emphasis"><em>atual</em></span> arquivo se pareceria na revisão 1, ou se
+      estamos solicitando o conteúdo de qualquer que fosse o arquivo que
+      estivava como <code class="filename">concepts/IDEA</code> na revisão 1.
+      Certamente estas questões têm respostas diferentes, e devido as revisões
+      marcadoras, é possível obter ambas as respostas.  Para ver como o arquivo
+      <code class="filename">IDEA</code> atual era naquela revisão antiga, você
+      executa:</p><pre class="screen">
+$ svn cat -r 1 concept/IDEA 
+svn: Unable to find repository location for 'concept/IDEA' in revision 1
+</pre><p>É claro, neste exemplo, o atual arquivo <code class="filename">IDEA</code> não
+      existia ainda na revisão 1, então o Subversion lhe exibe um erro.  O
+      comando acima é uma versão resumida para uma notação mais longa que
+      relaciona explicitamente uma revisão marcadora.  A notação expandida
+      é:</p><pre class="screen">
+$ svn cat -r 1 concept/IDEA@BASE
+svn: Unable to find repository location for 'concept/IDEA' in revision 1
+</pre><p>E quando executada, ela dá os mesmos resultados esperados.</p><p>Neste ponto, provavelmente o leitor mais atento está se perguntando
+      se a sintaxe de revisões marcadoras causa problemas em caminhos na c[opia
+      de trabalho ou em URLs que atualmente tenham sinais em si mesmas.  Depois
+      de tudo, como o <span class="command"><strong>svn</strong></span> sabe se 
+      <code class="literal">news@11</code> é o nome de um diretório em minha árvore, ou
+      se é apenas uma sintaxe para a “<span class="quote">revisão 11 de
+      <code class="filename">news</code></span>”?  Felizmente, ainda que o 
+      <span class="command"><strong>svn</strong></span> considere sempre esta última opção, existe uma
+      regra trivial.  Você só precisa adicionar um sinal de arroba ao final do
+      caminho, como em <code class="literal">news@11@</code>.  O <span class="command"><strong>svn</strong></span>
+      só irá se importar com o último sinal de arroba no argumento, e que não
+      seja considerado ilegal omitir um especificador do número da revisão
+      marcadora depois desse arroba.  Esta regra também se aplica a caminhos
+      que terminal com um sinal de arroba—você poderia usar
+      <code class="literal">filename@@</code> para se referir a um arquivo chamado 
+      <code class="filename">filename@</code>.</p><p>Vamos considerar a outra questão, então—na revisão 1, como era
+      estava o conteúdo de qualquer que seja o arquivo que estava ocupando o
+      endereço <code class="filename">concepts/IDEA</code> naquele momento?  Vamos usar
+      explicitamente uma revisão marcadora para nos ajudar.</p><pre class="screen">
+$ svn cat concept/IDEA@1
+The idea behind this project is to come up with a piece of software
+that can frab a naggily wort.  Frabbing naggily worts is tricky
+business, and doing it incorrectly can have serious ramifications, so
+we need to employ over-the-top input validation and data verification
+mechanisms.
+</pre><p>Perceba que nós não informamos uma revisão operativa neste momento.
+      Isso se deve porque quando uma revisão operativa não é especificada, o
+      Subversion assume como padrão uma revisão operativa que é a mesma da
+      revisão marcadora.</p><p>Como você pode ver, a saída da execução de nosso comando parece estar
+      correta.  O texto ainda menciona <span class="foreignphrase"><em class="foreignphrase">frabbing naggily
+      worts</em></span>, então isto é certamente o arquivo que descreve o
+      software agora chamado de Frabnaggilywort.  De fato, podemos verificar
+      isto usando a combinação de uma revisão marcadora e uma revisão
+      operativa.  Nós sabemos que em <code class="literal">HEAD</code>, o projeto
+      Frabnaggilywort está localizado no diretório
+      <code class="filename">frabnaggilywort</code>.  Então nós especificamos que
+      queremos ver como a linha de histórico identificada em 
+      <code class="literal">HEAD</code> como o caminho
+      <code class="filename">frabnaggilywort/IDEA</code> se parecia na revisão 1.</p><pre class="screen">
+$ svn cat -r 1 frabnaggilywort/IDEA@HEAD
+The idea behind this project is to come up with a piece of software
+that can frab a naggily wort.  Frabbing naggily worts is tricky
+business, and doing it incorrectly can have serious ramifications, so
+we need to employ over-the-top input validation and data verification
+mechanisms.
+</pre><p>E as revisões marcadora e operativa nem precisam ser tão triviais.
+      Por exemplo, digamos que <code class="filename">frabnaggilywort</code> esteja
+      removido na revisão <code class="literal">HEAD</code>, mas nós sabemos que esse
+      diretório existia na revisão 20, e nós queremos ver as diferenças de seu
+      arquivo <code class="filename">IDEA</code> entre as revisões 4 e 10.  Nós podemos
+      usar a revisão marcadora 20 em conjunto com a URL que deveria conter o
+      diretório <code class="filename">IDEA</code> do diretório Frabnaggilywort na
+      revisão 20, e então usar 4 e 10 como nosso intervalo de revisões
+      operativas.</p><pre class="screen">
+$ svn diff -r 4:10 http://svn.red-bean.com/projects/frabnaggilywort/IDEA@20
+Index: frabnaggilywort/IDEA
+===================================================================
+--- frabnaggilywort/IDEA	(revision 4)
++++ frabnaggilywort/IDEA	(revision 10)
+@@ -1,5 +1,5 @@
+-The idea behind this project is to come up with a piece of software
+-that can frab a naggily wort.  Frabbing naggily worts is tricky
+-business, and doing it incorrectly can have serious ramifications, so
+-we need to employ over-the-top input validation and data verification
+-mechanisms.
++The idea behind this project is to come up with a piece of
++client-server software that can remotely frab a naggily wort.
++Frabbing naggily worts is tricky business, and doing it incorrectly
++can have serious ramifications, so we need to employ over-the-top
++input validation and data verification mechanisms.
+</pre><p>Felizmente, a maioria das pessoas não se deparam com situações tão
+      complexas desse tipo.  Mas se um dia você se deparar, lembre-se que
+      revisões marcadoras são um recurso extra de que o Subversion precisa para
+      reslver ambiguidades.</p><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2576204" href="#id2576204" class="para">18</a>] </sup>“<span class="quote">Você não pretendia dar um nome a ele.  Depois que você dá um nome,
+          você começa a ficar ligado a ele.</span>”—Mike
+          Wazowski</p></div><div class="footnote"><p><sup>[<a id="ftn.id2576317" href="#id2576317" class="para">19</a>] </sup>N.T.:
+      Em inglês, o símbolo de arroba é lido como “<span class="quote">at</span>”, que tem o
+      sentido de <span class="emphasis"><em>em</em></span> ou <span class="emphasis"><em>naquele
+      lugar</em></span>.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2576397" href="#id2576397" class="para">20</a>] </sup>Main Street, Wheaton, 606 N., Illinois, é o endereço do Wheaton
+          History Center.  Sacou—“<span class="quote">History
+          Center</span>”?  Parece apropriado….</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.externals.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.serverconfig.netmodel.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Definições Externas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Modelo de Rede</td></tr></table></div></body></html>

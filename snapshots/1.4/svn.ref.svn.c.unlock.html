@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn unlock</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.switch.html" title="svn switch" /><link rel="next" href="svn.ref.svn.c.update.html" title="svn update" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn unlock</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.switch.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.update.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.unlock"></a><div class="titlepage"></div><a id="id2646842" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn unlock — Destrava caminhos na cópia de trabalho ou URLs.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646869"></a><h2>Sinopse</h2><pre class="programlisting">svn unlock TARGET...</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646881"></a><h2>Descrição</h2><p>Destrava cada <em class="replaceable"><code>TARGET</code></em>.  Se
+            algum <em class="replaceable"><code>TARGET</code></em> estiver ou travado
+            por outro usuário ou se nenhum token de travamento válido
+            existir na cópia de trabalho, exibe um aviso e continua
+            destravando os demais <em class="replaceable"><code>TARGET</code></em>s.
+            Use <code class="option">--force</code> para quebrar uma trava que
+            pertença a outro usuário na cópia de trabalho.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646916"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646927"></a><h2>Altera</h2><p>Cópia de trabalho, Repositório</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646938"></a><h2>Acessa o Repositório</h2><p>Sim</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646948"></a><h2>Opções</h2><pre class="screen">
+--targets FILENAME
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+--force
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646962"></a><h2>Exemplos</h2><p>Destrava dois arquivos em sua cópia de trabalho:</p><pre class="screen">
+
+$ svn unlock tree.jpg house.jpg
+'tree.jpg' unlocked.
+'house.jpg' unlocked.
+</pre><p>Destrava um arquivo em sua cópia de trabalho que já está
+            travado por outro usuário:</p><pre class="screen">
+$ svn unlock tree.jpg
+svn: 'tree.jpg' is not locked in this working copy
+$ svn unlock --force tree.jpg
+'tree.jpg' unlocked.
+</pre><p>Destrava um arquivo sem ter uma cópia de trabalho:</p><pre class="screen">
+$ svn unlock http://svn.red-bean.com/repos/test/tree.jpg
+'tree.jpg unlocked.
+</pre><p>Para mais detalhes, veja <a class="xref" href="svn.advanced.locking.html" title="Travamento">“Travamento”</a>.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.switch.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.update.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn switch </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn update</td></tr></table></div></body></html>

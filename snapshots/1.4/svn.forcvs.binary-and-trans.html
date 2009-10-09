@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Arquivos Binários e Tradução</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.conflicts.html" title="Resolução de Conflitos" /><link rel="next" href="svn.forcvs.modules.html" title="Módulos sob Controle de Versão" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Arquivos Binários e Tradução</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.conflicts.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.forcvs.modules.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.binary-and-trans"></a>Arquivos Binários e Tradução</h2></div></div></div><p>No sentido mais geral, o Subversion lida com arquivos binários
+      de forma mais elegante que o CVS.  Por usar RCS, o CVS só pode
+      armazenar sucessivas cópias inteiras de um arquivo binário que está sendo alterado.
+      O Subversion, entretanto, expressa as diferenças entre arquivos usando um
+      algoritmo de diferenciação binária, não importando se eles
+      contêm dados textuais ou binários.  Isso significa que todos os arquivos são
+      armazenados diferencialmente (comprimidos) no repositório.</p><p>Os usuários de CVS têm que marcar arquivos binários com
+      flags <code class="option">-kb</code>, para prevenir que os dados sejam corrompidos
+      (devido a expansão de palavras-chave e tradução de quebras de linha).  Eles
+      algumas vezes se esquecem de fazer isso.</p><p>O Subversion segue a rota mais paranóica—primeiro, nunca
+      realiza nenhum tipo de tradução de palavra-chave ou de quebra de linha, a menos que
+      você explicitamente o instrua a fazê-lo (veja <a class="xref" href="svn.advanced.props.special.keywords.html" title="Substituição de Palavra-Chave">“Substituição de Palavra-Chave”</a> e <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.eol-style" title="Seqüência de Caracteres de Fim-de-Linha">“Seqüência de Caracteres de Fim-de-Linha”</a> para mais detalhes). Por padrão,
+      o Subversion trata todos os dados do arquivo como cadeias de bytes literais, e os
+      arquivos sempre são armazenados no repositório em estado
+      não-traduzido.</p><p>Segundo, o Subversion mantém uma noção interna de se um
+      arquivo contém dados “<span class="quote">de texto</span>” ou “<span class="quote">binários</span>”, mas
+      esta noção existe <span class="emphasis"><em>apenas</em></span> na cópia de
+      trabalho.  Durante um <span class="command"><strong>svn update</strong></span>, o Subversion 
+      realizará fusões contextuais em arquivos de texto modificados localmente, mas
+      não tentará fazer o mesmo com arquivos binários.</p><p>Para determinar se uma fusão contextual é possível, o
+      Subversion examina a propriedade <code class="literal">svn:mime-type</code>.
+      Se o arquivo não tem a propriedade <code class="literal">svn:mime-type</code>,
+      ou tem um mime-type que é textual (por exemplo,
+      <code class="literal">text/*</code>),
+      o Subversion supõe que ele é texto.  Caso contrário, o Subversion supõe
+      que o arquivo é binário.  O Subversion também ajuda os usuários executando um
+      algoritmo para detectar arquivos binários nos comandos <span class="command"><strong>svn import</strong></span>
+      e <span class="command"><strong>svn add</strong></span>.  Estes comandos
+      farão uma boa suposição e então (possivelmente) colocarão uma propriedade
+      <code class="literal">svn:mime-type</code> binária no arquivo que está sendo
+      adicionado.  (Se o Subversion fizer uma suposição errada, o usuário sempre pode remover
+      ou editar manualmente a propriedade.)</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.conflicts.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.forcvs.modules.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Resolução de Conflitos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Módulos sob Controle de Versão</td></tr></table></div></body></html>

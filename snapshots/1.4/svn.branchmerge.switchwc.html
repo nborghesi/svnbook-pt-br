@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Atravessando Ramos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /><link rel="prev" href="svn.branchmerge.commonuses.html" title="Casos Comuns de Utilização" /><link rel="next" href="svn.branchmerge.tags.html" title="Rótulos" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Atravessando Ramos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.branchmerge.commonuses.html">Anterior</a> </td><th width="60%" align="center">Capítulo 4. Fundir e Ramificar</th><td width="20%" align="right"> <a accesskey="n" href="svn.branchmerge.tags.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.branchmerge.switchwc"></a>Atravessando Ramos</h2></div></div></div><p>O comando <span class="command"><strong>svn switch</strong></span> transforma uma
+      cópia de trabalho existente para refletir um ramo diferente.  Enquanto este
+      comando não é estritamente necessário para trabalhar com ramos, ele
+      oferece um bom atalho.  Em nosso exemplo anterior,
+      depois de criar seu ramo pessoal, você obteve uma cópia de
+      trabalho atualizada do novo diretório do repositório.  Em vez disso, você pode
+      simplesmente pedir ao Subversion que mude sua cópia de trabalho de
+      <code class="filename">/calc/trunk</code> para espelhar o local do novo
+      ramo:</p><pre class="screen">
+$ cd calc
+
+$ svn info | grep URL
+URL: http://svn.example.com/repos/calc/trunk
+
+$ svn switch http://svn.example.com/repos/calc/branches/my-calc-branch
+U   integer.c
+U   button.c
+U   Makefile
+Updated to revision 341.
+
+$ svn info | grep URL
+URL: http://svn.example.com/repos/calc/branches/my-calc-branch
+</pre><p>Depois da “<span class="quote">comutação</span>” para o ramo, sua cópia de
+      trabalho não é diferente daquilo que você obteria fazendo uma cópia
+      atualizada do diretório.  E ainda é usualmente mais eficiente
+      usar este comando, porque muitas vezes os ramos diferem somente em poucos
+      detalhes.  O servidor envia somente o conjunto mínimo de mudanças
+      necessárias para fazer sua cópia de trabalho refletir o diretório
+      do ramo.</p><p>O comando <span class="command"><strong>svn switch</strong></span> também possui uma opção
+      <code class="option">--revision</code> (<code class="option">-r</code>), assim você
+      não precisa sempre mover sua cópia de trabalho para a revisão
+      <code class="literal">HEAD</code> do ramo.</p><p>Certamente, a maioria dos projetos são mais complicados que nosso
+      exemplo <code class="filename">calc</code>, contendo múltiplos
+      subdiretórios.  Os usuários do Subversion muitas vezes seguem um algoritmo
+      específico ao usar ramos:</p><div class="orderedlist"><ol type="1"><li><p>Copiar todo o “<span class="quote">trunk</span>” do projeto para um
+            novo diretório de ramo.</p></li><li><p>Comutar somente <span class="emphasis"><em>parte</em></span> do “<span class="quote">trunk</span>”
+            da cópia de trabalho para espelhar o ramo.</p></li></ol></div><p>Em outras palavras, se um usuário sabe que o trabalho no ramo só
+      deve acontecer sobre um subdiretório específico, eles usam
+      <span class="command"><strong>svn switch</strong></span> para mover somente este subdiretório para
+      o ramo.  (Ou algumas vezes os usuários comutarão apenas um único
+      arquivo de trabalho para o ramo!)  Dessa forma, eles podem continuar a
+      receber normalmente as atualizações do “<span class="quote">trunk</span>” para a maior parte de
+      sua cópia de trabalho, mas as porções comutadas ficarão imunes
+      (a não ser que alguém submeta uma mudança em seu ramo).  Esta funcionalidade
+      adiciona uma completa nova dimensão ao conceito de uma “<span class="quote">cópia de
+      trabalho mista</span>”—podemos ter não apenas cópias de trabalho que
+      possuem uma mistura de revisões de trabalho, mas também uma mistura de locais
+      de repositório.</p><p>Se sua cópia de trabalho contém um número de sub-árvores comutadas
+      de diferentes locais do repositório, ela continua a funcionar
+      normalmente.  Quando você atualiza, você receberá as diferenças em cada sub-árvore
+      apropriadamente.  Quando você submete, suas mudanças locais ainda serão
+      aplicadas como uma única e atômica mudança para o repositório.</p><p>Note que enquanto está tudo certo para sua cópia de trabalho refletir uma
+      mistura de locais do repositório, estes locais devem estar todos
+      dentro do <span class="emphasis"><em>mesmo</em></span> repositório.  Os repositórios
+      do Subversion ainda não são capazes de comunicarem entre si;
+      esta é uma funcionalidade planejada para o
+      futuro.
+      <sup>[<a id="id2589599" href="#ftn.id2589599" class="footnote">25</a>]</sup></p><div class="sidebar"><p class="title"><b>Comutações e Atualizações</b></p><p>Você reparou que a saída dos comandos <span class="command"><strong>svn
+        switch</strong></span> e <span class="command"><strong>svn update</strong></span> possuem a
+        mesma aparência?  O comando <code class="literal">switch</code> é na verdade um
+        “<span class="quote">super-comando</span>” do comando <code class="literal">update</code>.</p><p>Quando você executa <span class="command"><strong>svn update</strong></span>, você está pedindo
+        ao repositório para comparar duas árvores.  O repositório assim faz,
+        e então envia uma descrição das diferenças de volta para o
+        cliente.  A única diferença entre <span class="command"><strong>svn
+        switch</strong></span> e <span class="command"><strong>svn update</strong></span> é que o comando
+        <code class="literal">update</code> sempre compara dois caminhos
+        idênticos.</p><p>Isto é, se sua cópia de trabalho é um espelho de
+        <code class="filename">/calc/trunk</code>, então <span class="command"><strong>svn
+        update</strong></span> comparará automaticamente sua cópia de trabalho
+        de <code class="filename">/calc/trunk</code> com
+        <code class="filename">/calc/trunk</code> na revisão
+        <code class="literal">HEAD</code>.  Se você está comutando sua
+        cópia de trabalho para um ramo, então <span class="command"><strong>svn switch</strong></span>
+        comparará sua cópia de trabalho de
+        <code class="filename">/calc/trunk</code> com algum
+        <span class="emphasis"><em>outro</em></span> diretório de ramo na revisão
+        <code class="literal">HEAD</code>.</p><p>Em outras palavras, uma atualização move sua cópia de trabalho através
+        do tempo.  Uma comutação move sua cópia de trabalho através do tempo
+        <span class="emphasis"><em>e</em></span> do espaço.</p></div><p>Porque <span class="command"><strong>svn switch</strong></span> é essencialmente uma
+      variante de <span class="command"><strong>svn update</strong></span>, ele compartilha os mesmos
+      comportamentos; qualquer modificação local em sua cópia de trabalho é
+      preservada quando novos dados chegam do repositório.  Isso
+      lhe permite executar todos os tipos de truques engenhosos.</p><p>Por exemplo, suponha que você tem uma cópia de trabalho de
+      <code class="filename">/calc/trunk</code> e realizou um certo número de mudanças
+      nele.  Então você rapidamente constata que você pretendia fazer as
+      mudanças em um ramo.  Não tem problema!  Quando você executa <span class="command"><strong>svn
+      switch</strong></span> para um ramo de sua cópia de trabalho, as mudanças
+      locais permanecerão.  Você pode então testar e submeter elas para o
+      ramo.</p><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2589599" href="#id2589599" class="para">25</a>] </sup>Você <span class="emphasis"><em>pode</em></span>, entretanto, usar <span class="command"><strong>svn
+          switch</strong></span> com a opção <code class="option">--relocate</code>
+          se a URL de seu servidor mudar e você não quiser
+          abandonar uma cópia de trabalho existente.  Veja <a class="xref" href="svn.ref.svn.c.switch.html" title="svn switch">svn switch</a> para mais informações e um
+          exemplo.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.branchmerge.commonuses.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.branchmerge.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.branchmerge.tags.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Casos Comuns de Utilização </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Rótulos</td></tr></table></div></body></html>

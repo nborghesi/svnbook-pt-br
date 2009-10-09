@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn commit</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.cleanup.html" title="svn cleanup" /><link rel="next" href="svn.ref.svn.c.copy.html" title="svn copy" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn commit</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.cleanup.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.copy.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.commit"></a><div class="titlepage"></div><a id="id2640077" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn commit — Envia as alterações de sua cópia de trabalho para
+            o repositório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640105"></a><h2>Sinopse</h2><pre class="programlisting">svn commit [PATH...]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640117"></a><h2>Descrição</h2><p>Envia as alterações de sua cópia de trabalho para o
+            repositório.  Se você não informar uma mensagem de log de
+            registro usando seja a opção <code class="option">--file</code> ou a
+            opção <code class="option">--message</code>, o <span class="command"><strong>svn</strong></span>
+            vai executar seu editor de texto para que você escreva uma
+            mensagem de commit.  Veja a seção
+            <code class="literal">editor-cmd</code> em <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a>.</p><p><span class="command"><strong>svn commit</strong></span> vai enviar quaisquer
+            marcadores de trava que encontrar e irá liberar as travas em
+            todos os caminhos <em class="replaceable"><code>PATHS</code></em>
+            submetidos (recursivamente), a menos que
+            <code class="option">--no-unlock</code> seja passado.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Se você começar um commit e o Subversion executar seu
+              editor para que você componha a mensagem de registro, você
+              ainda pode abortar sem submeter suas alterações.  Se você
+              quiser cancelar a operação, apenas feche o editor sem
+              salvar sua mensagem de log e o Subversion irá lhe
+              perguntar se você quer cancelar a operação, prosseguir sem
+              uma mensagem de log, ou editar a mensagem
+              novamente.</p></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640202"></a><h2>Nomes Alternativos</h2><p>ci (abreviação para “<span class="quote">check in</span>”; e não 
+            “<span class="quote">co</span>”, que é a abreviação para 
+            “<span class="quote">checkout</span>”)</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640226"></a><h2>Altera</h2><p>Cópia de trabalho, repositório</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640237"></a><h2>Acessa o Repositório</h2><p>Sim</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640247"></a><h2>Opções</h2><pre class="screen">
+--message (-m) TEXT
+--file (-F) FILE
+--quiet (-q)
+--no-unlock
+--non-recursive (-N)
+--targets FILENAME
+--force-log
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--encoding ENC
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640263"></a><h2>Exemplos</h2><p>Submete uma modificação simples em um arquivo com a
+            mensagem de log na linha de comando e um alvo implícito de
+            seu diretório atual
+            (“<span class="quote"><code class="filename">.</code></span>”):</p><pre class="screen">
+$ svn commit -m "added howto section."
+Sending        a
+Transmitting file data .
+Committed revision 3.
+</pre><p>Submete uma modificação no arquivo
+            <code class="filename">foo.c</code> (explicitamente especificado na
+            linha de comando) com a mensagem de log contida em um
+            arquivo chamado <code class="literal">msg</code>:</p><pre class="screen">
+$ svn commit -F msg foo.c
+Sending        foo.c
+Transmitting file data .
+Committed revision 5.
+</pre><p>Se você quiser usar um arquivo que está sob controle de
+            versão para sua mensagem de log com <code class="option">--file</code>,
+            você precisa passar a opção
+            <code class="option">--force-log</code>:</p><pre class="screen">
+$ svn commit --file file_under_vc.txt foo.c
+svn: The log message file is under version control
+svn: Log message file is a versioned file; use '--force-log' to override
+
+$ svn commit --force-log --file file_under_vc.txt foo.c
+Sending        foo.c
+Transmitting file data .
+Committed revision 6.
+</pre><p>Para efetivar a remoção de um arquivo agendado para
+            exclusão:</p><pre class="screen">
+$ svn commit -m "removed file 'c'."
+Deleting       c
+
+Committed revision 7.
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.cleanup.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.copy.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn cleanup </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn copy</td></tr></table></div></body></html>

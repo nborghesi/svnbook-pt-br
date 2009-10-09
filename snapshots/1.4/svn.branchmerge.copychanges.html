@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Copiando Modificações Entre Ramos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /><link rel="prev" href="svn.branchmerge.using.html" title="Usando Ramos" /><link rel="next" href="svn.branchmerge.commonuses.html" title="Casos Comuns de Utilização" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Copiando Modificações Entre Ramos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.branchmerge.using.html">Anterior</a> </td><th width="60%" align="center">Capítulo 4. Fundir e Ramificar</th><td width="20%" align="right"> <a accesskey="n" href="svn.branchmerge.commonuses.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.branchmerge.copychanges"></a>Copiando Modificações Entre Ramos</h2></div></div></div><p>Agora você e Sally estão trabalhando em ramos paralelos
+	  do projeto: você está trabalhando no seu próprio ramo, e
+	  Sally está trabalhando no <em class="firstterm">tronco</em>,
+	  ou linha principal de desenvolvimento.</p><p>Para projetos que tenham um grande numero de colaboradores, 
+	  é comum que cada um tenha sua cópia de trabalho do tronco. Sempre
+	  que  alguem precise fazer uma longa modificação que possa 
+	  corromper o tronco, o procedimento padrão é criar um ramo privado
+	  e fazer os commits neste ramo até que todo o trabalho esteja
+	  concluido.</p><p>Então, a boa notícia é que você não está interferindo no 
+	  trabalho de Sally, e vice-versa. A má notícia, é que é muito 
+	  fácil se <span class="emphasis"><em>distanciar</em></span> do projeto. Lembre-se
+	  que um dos problemas com a estratégia do “<span class="quote">se isolar</span>”
+	  é que quando você terminar de trabalhar no seu ramo, pode ser bem
+	  perto de impossível de fundir suas modificações novamente com o
+	  tronco do projeto sem um grande numero de conflitos.</p><p>Ao invés disso, você e Sally devem continuamente compartilhar
+	  as modificações ao longo do seu trabalho. Depende de você para 
+	  decidir quais modificações devem ser compartilhadas; O Subversion
+	  lhe da a capacidade para selecionar o que “<span class="quote">copiar</span>”
+	  entre os ramos. E quando você terminar de trabalhar no seu ramo, 
+	  todas as modificações realizadas no seu ramo podem ser copiadas
+	  novamente para o tronco.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.copychanges.specific"></a>Copiando modificações específicas</h3></div></div></div><p>Na seção anterior, nos comentamos que tanto você quanto 
+		Sally fizeram alterações em <code class="filename">integer.c</code>
+		em ramos distintos.Se você olhar a mensagem de log de Sally
+		na revisão 344, você verá que ela corrigiu alguns erros de 
+		escrita. Sem duvida alguma, a sua cópia deste arquivo tem os
+		mesmo erros de escrita. É provável que suas futuras 
+		modificações a este arquivo vão afetar as mesmas áreas onde
+		foram feitas as correções de escrita, então você tem grandes
+		chances de ter vários conflitos quando for fundir o seu ramo,
+		eventualmente. Portanto, é melhor receber as modificações de
+		Sally agora, <span class="emphasis"><em>antes</em></span> de você começar a 
+		trabalhar de forma massiva nessas áreas.</p><p>É hora de usar o comando <span class="command"><strong>svn merge</strong></span>.
+		Esse comando é um primo muito próximo do comando
+		<span class="command"><strong>svn diff</strong></span> (que você viu em
+		<a class="xref" href="svn.tour.html" title="Capítulo 2. Uso Básico">Capítulo 2, <i>Uso Básico</i></a>). Os dois comando comparam dois 
+		objetos no repositório e mostram as diferenças. Por exemplo, 
+		você pode pedir com o comando <span class="command"><strong>svn diff</strong></span>
+		para ver com exatidão as mudanças feitas por Sally na 
+		revisão 344:</p><pre class="screen">
+$ svn diff -c 344 http://svn.example.com/repos/calc/trunk
+
+Index: integer.c
+===================================================================
+--- integer.c	(revision 343)
++++ integer.c	(revision 344)
+@@ -147,7 +147,7 @@
+     case 6:  sprintf(info-&gt;operating_system, "HPFS (OS/2 or NT)"); break;
+     case 7:  sprintf(info-&gt;operating_system, "Macintosh"); break;
+     case 8:  sprintf(info-&gt;operating_system, "Z-System"); break;
+-    case 9:  sprintf(info-&gt;operating_system, "CPM"); break;
++    case 9:  sprintf(info-&gt;operating_system, "CP/M"); break;
+     case 10:  sprintf(info-&gt;operating_system, "TOPS-20"); break;
+     case 11:  sprintf(info-&gt;operating_system, "NTFS (Windows NT)"); break;
+     case 12:  sprintf(info-&gt;operating_system, "QDOS"); break;
+@@ -164,7 +164,7 @@
+     low = (unsigned short) read_byte(gzfile);  /* read LSB */
+     high = (unsigned short) read_byte(gzfile); /* read MSB */
+     high = high &lt;&lt; 8;  /* interpret MSB correctly */
+-    total = low + high; /* add them togethe for correct total */
++    total = low + high; /* add them together for correct total */
+
+     info-&gt;extra_header = (unsigned char *) my_malloc(total);
+     fread(info-&gt;extra_header, total, 1, gzfile);
+@@ -241,7 +241,7 @@
+      Store the offset with ftell() ! */
+
+   if ((info-&gt;data_offset = ftell(gzfile))== -1) {
+-    printf("error: ftell() retturned -1.\n");
++    printf("error: ftell() returned -1.\n");
+     exit(1);
+   }
+
+@@ -249,7 +249,7 @@
+   printf("I believe start of compressed data is %u\n", info-&gt;data_offset);
+   #endif
+
+-  /* Set postion eight bytes from the end of the file. */
++  /* Set position eight bytes from the end of the file. */
+
+   if (fseek(gzfile, -8, SEEK_END)) {
+     printf("error: fseek() returned non-zero\n");
+</pre><p>O comando <span class="command"><strong>svn merge</strong></span> é quase que o 
+		mesmo. Ao invés de imprimir as diferenças no terminal, 
+		ele as aplica diretamente à cópia de trabalho classificando
+		como <span class="emphasis"><em>local modifications</em></span>:</p><pre class="screen">
+$ svn merge -c 344 http://svn.example.com/repos/calc/trunk
+U  integer.c
+
+$ svn status
+M  integer.c
+</pre><p>A saída do comando <span class="command"><strong>svn merge</strong></span> mostra
+		a sua cópia de <code class="filename">integer.c</code> sofreu uma
+		correção. Agora ele contém as modificações feitas por
+		Sally— essas modificações foram “<span class="quote">copiadas</span>”
+		do tronco do repositório para a cópia de trabalho do seu ramo
+		privado, e agora existe como uma modificação local. A esta
+		altura, depende de você revisar essa modificação local e ter
+		certeza de funciona.</p><p>Em outra simulação, é possível que as coisas não tenham
+		ocorrido tão bem assim, e o arquivo 
+		<code class="filename">integer.c</code> tenha entrado em estado de 
+		conflito. Pode ser que você precise resolver o conflito usando
+		procedimentos padrão (veja <a class="xref" href="svn.tour.html" title="Capítulo 2. Uso Básico">Capítulo 2, <i>Uso Básico</i></a>), ou se 
+		você decidir que fazer a fusão dos arquivos tenha sido uma má
+		idéia, desista e rode o comando <span class="command"><strong>svn revert</strong></span>
+		para retirar as modificações locais.</p><p>Partindo do pressuposto que você revisou as modificações 
+		do processo de fusão , então você pode fazer o <span class="command"><strong>svn
+		commit</strong></span> como de costume. A este ponto, a mudança foi
+		fusionada ao seu ramo no repositório. Em tecnologias de 
+		controle de versão, esse ato de copiar mudanças entre ramos 
+		recebe o nome de <em class="firstterm">portar</em> 
+		mudanças.</p><p>Quando você fizer o commit das modificações locais, não
+		esqueça de colocar na mensagem de log que você está portando
+		uma modificação especifica de um ramo para outro.Por 
+		exemplo:</p><pre class="screen">
+$ svn commit -m "integer.c: ported r344 (spelling fixes) from trunk."
+Sending        integer.c
+Transmitting file data .
+Committed revision 360.
+</pre><p>Como você verá nas próximas seções, essa é uma “<span class="quote">boa
+		pratica</span>” importantíssima a ser seguida.</p><div class="sidebar"><p class="title"><b>Porque não usar Patches?</b></p><p>Essa questão pode estar em sua mente, especialmente se
+		  você for um usuário de Unix: porque usar o comando 
+		  <span class="command"><strong>svn merge</strong></span>? Porque não simplesmente usar
+		  o comando do sistema <span class="command"><strong>patch</strong></span> para realizar
+		  esta tarefa? Por exemplo:</p><pre class="screen">
+$ svn diff -c 344 http://svn.example.com/repos/calc/trunk &gt; patchfile
+$ patch -p0  &lt; patchfile
+Patching file integer.c using Plan A...
+Hunk #1 succeeded at 147.
+Hunk #2 succeeded at 164.
+Hunk #3 succeeded at 241.
+Hunk #4 succeeded at 249.
+done
+</pre><p>Neste caso em particular, sim, realmente não há 
+		  diferença. Mas o comando <span class="command"><strong>svn merge</strong></span> tem
+		  habilidades especiais que superam o comando <span class="command"><strong>
+		  patch</strong></span>. O formato do arquivo usado pelo <span class="command"><strong>
+		  patch</strong></span> é bem limitado; é apenas capaz de mexer o
+		  conteúdo dos arquivos. Não há forma de representar mudanças
+		  em <span class="emphasis"><em>arvores</em></span>, como o criar, remover e 
+		  renomear arquivos e diretórios. Tão pouco pode o comando
+		  <span class="command"><strong>patch</strong></span> ver mudanças de propriedades. Se
+		  nas modificações de Sally, um diretório tivesse sido criado, 
+		  a saída do comando <span class="command"><strong>svn diff</strong></span> não iria 
+		  fazer menção disso. <span class="command"><strong>svn diff</strong></span> somente 
+		  mostra forma limitada do patch, então existem coisa que ele
+		  simplesmente não irá mostrar. O comando <span class="command"><strong>svn
+		  merge</strong></span>, por sua vez, pode mostrar modificações
+		  em estrutura de árvores e propriedades aplicando estes 
+		  diretamente em sua cópia de trabalho.</p></div><p>Um aviso: ainda que o comando <span class="command"><strong>svn diff</strong></span>
+		e o <span class="command"><strong>svn merge</strong></span> tem conceitos similares, eles
+		apresentam sintaxe diferente em vários casos.  Leia sobre isso
+		em <a class="xref" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion">Capítulo 9, <i>Referência Completa do Subversion</i></a> para mais detalhes, ou peça ajuda
+		ao comando <span class="command"><strong>svn help</strong></span>.  Por exemplo, o comando
+		<span class="command"><strong>svn merge</strong></span> precisa de uma cópia de trabalho
+		com destino, isto é, um local onde aplicar as modificações.  Se
+		um destino não for especificado, ele assume que você está 
+		tentando uma dessas operações:</p><div class="orderedlist"><ol type="1"><li><p>Você quer fundir modificações de diretório no seu
+			diretório de trabalho atual.</p></li><li><p>Você quer fundir as modificações de um arquivo em 
+			específico, em outro arquivo de mesmo nome que existe no seu
+			diretório atual de trabalho.</p></li></ol></div><p>Se você esta fundindo um diretório e não especificou um 
+		destino, <span class="command"><strong>svn merge</strong></span> assume o primeiro caso 
+		acima e tenta aplicar as modificações no seu diretório atual. Se
+		você está fundindo um arquivo, e este arquivo (ou arquivo de 
+		mesmo nome) existe no diretório atual, o <span class="command"><strong>svn 
+		merge</strong></span> assume o segundo caso, e tenta aplicar as
+		modificações no arquivo local de mesmo nome.</p><p>Se você quer que as modificações seja aplicadas em outro 
+		local, você vai precisar avisar. Por exemplo, se você está no
+		diretório pai de sua cópia de trabalho, você vai precisar 
+		especificar o diretório de destino a receber as 
+		modificações:</p><pre class="screen">
+$ svn merge -c 344 http://svn.example.com/repos/calc/trunk my-calc-branch
+U   my-calc-branch/integer.c
+</pre></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.copychanges.keyconcept"></a>O conceito chave sobre fusão</h3></div></div></div><p>Agora você viu um exemplo do comando <span class="command"><strong>svn
+          merge</strong></span>, e você está prestes a ver vários outros.
+		  Se você está se sentindo confuso sobre como a fusão funciona,
+		  saiba que você não está sozinho. Vários usuários ( especial os
+		  novos em controle de versão) ficam perplexos com a sintaxe
+		  do comando, e sobre como e quando deve ser usado. Mas não 
+		  temas, esse comando é muito mais simples do que você imagina!
+		  Existe uma técnica muito simples para entender exatamente 
+		  o comportamento do comando <span class="command"><strong>svn merge</strong></span>.
+		  </p><p>O principal motivo de confusão é o 
+		<span class="emphasis"><em>nome</em></span> do comando. O termo 
+		“<span class="quote">fundir</span>” de alguma forma denota que se junta
+		ramos, ou que existe uma mistura misteriosa de código 
+		ocorrendo. Este não é o caso. O nome mais apropriado para o 
+		comando deveria ter sido <span class="command"><strong>svn diff-and-apply</strong></span>
+		, porque isso é o que acontece: duas árvores de repositório
+		são comparadas, e a diferença é aplicada a uma cópia de 
+		trabalho.</p><p>O comando recebe três argumentos:</p><div class="orderedlist"><ol type="1"><li><p>Uma árvore de repositório inicial (geralmente
+		chamada de <em class="firstterm">lado esquerdo</em> da 
+		comparação),</p></li><li><p>Uma árvore de repositório final (geralmente
+		chamada de <em class="firstterm">lado direito</em> da 
+		comparação),</p></li><li><p>Uma cópia de trabalho para receber as diferenças
+		como modificação local (geralmente chamada de 
+		<em class="firstterm">destino</em> da fusão).</p></li></ol></div><p>Uma vez especificados estes três argumentos, as duas
+		árvores são comparadas, e o resultado das diferenças são 
+		aplicadas sobre a cópia de trabalho de destino, como 
+		modificações locais. Uma vez executado o comando, o resultado
+		não é diferente do que se você tivesse editado manualmente os
+		arquivos, ou rodados vários comandos <span class="command"><strong>svn
+        add</strong></span> ou <span class="command"><strong>svn delete</strong></span>. Se você gostar 
+		do resultado você pode fazer o commit dele. Se você não gostar
+		do resultado, você pode simplesmente reverter as mudanças
+		com o comando <span class="command"><strong>svn revert</strong></span>.</p><p>A sintaxe do comando <span class="command"><strong>svn merge</strong></span> lhe 
+		permite especificar os três argumentos necessários de forma 
+		flexível. Veja aqui alguns exemplos:</p><pre class="screen">
+$ svn merge http://svn.example.com/repos/branch1@150 \
+            http://svn.example.com/repos/branch2@212 \
+            my-working-copy
+
+$ svn merge -r 100:200 http://svn.example.com/repos/trunk my-working-copy
+
+$ svn merge -r 100:200 http://svn.example.com/repos/trunk
+</pre><p>A primeira sintaxe usa explicitamente os três argumentos,
+		nomeando cada árvore na forma <span class="emphasis"><em>URL@REV</em></span> e
+		nomeando a cópia de trabalho de destino. A segunda sintaxe pode
+		ser usada como um atalho em situações onde você esteja 
+		comparando duas revisões distintas de uma mesma URL. A ultima 
+		sintaxe mostra como o argumento da cópia de trabalho de destino
+		é opcional; se omitido, assume como padrão o diretório 
+		atual.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.branchmerge.copychanges.bestprac"></a>Melhores práticas sobre Fusão</h3></div></div></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.branchmerge.copychanges.bestprac.track"></a>Rastreando Fusões manualmente</h4></div></div></div><p>Fundir modificações parece simples, mas na prática
+		  pode se tornar uma dor de cabeça. O problema é que se 
+		  você repetidamente fundir as modificações de uma ramo com
+		  outro, você pode acidentalmente fundir a mesma modificação
+		  <span class="emphasis"><em>duas vezes</em></span>. Quando isso ocorre, 
+		  algumas vezes as coisas vão funcionar corretamente. 
+		  Quando aplicando um patch em um arquivo, Subversion 
+		  verifica se o arquivo já possui aquelas modificações e 
+		  se tiver não faz nada. Mas se a modificações existentes
+		  já tiverem modificadas de alguma forma, você terá um
+		  conflito.</p><p>O ideal seria se o seu sistema de controle de versão
+		  prevenisse o aplicar-duas-vezes modificações a um ramo.
+		  Ele deveria lembrar automaticamente quais modificações
+		  um ramo já recebeu, e ser capaz de listá-los para você.
+		  Essa informação deveria ser usada para ajudar a 
+		  automatizar a Fusão o máximo possivel.</p><p>Infelizmente, o Subversion não é esse sistema; ele
+		  ainda não grava informações sobre as fusões realizadas.
+            <sup>[<a id="id2586618" href="#ftn.id2586618" class="footnote">23</a>]</sup>
+          Quando você faz o commit das modificações locais, o 
+		  repositório não faz a menor idéia se as alterações vieram
+		  de um comando <span class="command"><strong>svn merge</strong></span>, ou de uma 
+		  edição manual no arquivo.</p><p>O que isso significa para você, o usuário? Significa
+		  que até que o Subversion tenha essa funcionalidade, você 
+		  terá que rastrear as informações de Fusão pessoalmente. A
+		  melhor maneira de fazer isso é com as mensagens de log do
+		  commit. Como mostrado nos exemplos anteriores, é 
+		  recomendável que sua mensagem de log informe especificamente
+		  o número da revisão (ou números das revisões) que serão 
+		  fundidas ao ramo. Depois, você pode rodar o comando 
+		  <span class="command"><strong>svn log</strong></span> para verificar quais modificações
+		  o seu ramo já recebeu. Isso vai lhe ajudar a construir um
+		  próximo comando <span class="command"><strong>svn merge</strong></span> que não será
+		  redundante com as modificações já aplicadas.</p><p>Na próxima seção, vamos mostrar alguns exemplos 
+		  dessa técnica na prática.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.branchmerge.copychanges.bestprac.preview"></a>Visualizando Fusões</h4></div></div></div><p>Primeiro, lembre-se de fundir seus arquivos para a 
+		  cópia de trabalho quando esta <span class="emphasis"><em>não</em></span> 
+		  tiver alterações locais e tenha sido atualizada 
+		  recentemente. Se a sua cópia de trabalho não estiver
+		  “<span class="quote">limpa</span>”, você pode ter alguns problemas.
+		  </p><p>Assumindo que a sua cópia de trabalho está no ponto, 
+	      fazer a fusão não será uma operação de alto risco. Se 
+		  você não fizer a primeira fusão de forma correta, rode
+		  o comando <span class="command"><strong>svn revert</strong></span> nas modificações
+		  e tente novamente.</p><p>Se você fez a fusão para uma cópia de trabalho que já
+		  possui modificações locais, a mudanças aplicadas pela fusão
+		  serão misturadas as pré existentes, e rodar o comando
+		  <span class="command"><strong>svn revert</strong></span> não é mais uma opção. Pode
+		  ser impossível de separar os dois grupos de 
+		  modificações.</p><p>Em casos como este, as pessoas se tranquilizam em 
+		  poder prever e examinar as fusões antes de ocorrerem. Uma 
+		  maneira simples de fazer isso é rodar o comando 
+		  <span class="command"><strong>svn diff</strong></span> com os mesmos argumentos
+		  que você quer passar para o comando <span class="command"><strong>svn
+          merge</strong></span>, como mostramos no primeiro exemplo de 
+		  fusão. Outro método de prever os impactos é passar a
+		  opção <code class="option">--dry-run</code> para o comando de 
+		  fusão:</p><pre class="screen">
+$ svn merge --dry-run -c 344 http://svn.example.com/repos/calc/trunk
+U  integer.c
+
+$ svn status
+#  nothing printed, working copy is still unchanged.
+</pre><p>A opção <code class="option">--dry-run</code> não aplica qualquer
+		  mudança para a copia de trabalho. Essa opção apenas exibe
+		  os códigos que <span class="emphasis"><em>seriam</em></span> escritos em uma 
+		  situação real de fusão. É útil poder ter uma previsão de
+		  “<span class="quote">auto nível</span>” da potencial fusão, para aqueles
+		  momentos em que o comando <span class="command"><strong>svn diff</strong></span> dá 
+		  detalhes até demais.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.branchmerge.copychanges.bestprac.merge"></a>Fundir conflitos</h4></div></div></div><p>Assim como no comando <span class="command"><strong>svn update</strong></span>,
+	  	  o comando <span class="command"><strong>svn merge</strong></span> aplica modificações à
+		  sua cópia de trabalho. E portanto também é capaz de criar
+		  conflitos. Entretanto, os conflitos criados pelo comando
+		  <span class="command"><strong>svn merge</strong></span> são um tanto diferentes, e essa
+		  seção explica essas diferenças.</p><p>Para começar, assuma que sua cópia de trabalho não 
+		  teve modificações locais. Quando você faz a atualização 
+		  com o comando <span class="command"><strong>svn update</strong></span> para um revisão
+		  específica, as modificações enviadas pelo servidor vão 
+		  ser sempre aplicadas à sua cópia de trabalho “<span class="quote">sem 
+		  erros</span>”. O servidor produz o delta a partir da 
+		  comparação de duas árvores: uma imagem virtual de sua cópia
+		  de trabalho, e a árvore da revisão na qual está interessado.
+		  Como o lado esquerdo da comparação é exatamente igual ao que
+		  você já possui, é garantido que o delta converterá 
+		  corretamente sua cópia de trabalho, para a revisão escolhida
+		  no lado direito da compração.</p><p>Entretanto, o comando <span class="command"><strong>svn merge</strong></span> não
+		  possui essa garantia e pode ser bem mais caótico: o usuário
+		  pode pedir ao servidor para comparar 
+		  <span class="emphasis"><em>qualquer</em></span> árvore, até mesmo árvores que
+		  não tenham relação com a sua cópia de trabalho! Isso significa
+		  que existem uma grande margem para erro humano. Usuário vão
+		  acabar por compara duas árvores erradas, criando um delta que
+		  não se aplica sem conflitos. O comando <span class="command"><strong>svn 
+		  merge</strong></span> vai fazer o melhor possível para aplicar
+		  o delta o máximo possível, mas em algumas partes isso pode
+		  ser impossível. Assim como no comando Unix 
+		  <span class="command"><strong>patch</strong></span> que as vezes reclama sobre 
+		  “<span class="quote">failed hunks</span>”, o <span class="command"><strong>svn merge</strong></span>
+		  vai reclamar sobre “<span class="quote">alvos perdidos</span>”:</p><pre class="screen">
+$ svn merge -r 1288:1351 http://svn.example.com/repos/branch
+U  foo.c
+U  bar.c
+Skipped missing target: 'baz.c'
+U  glub.c
+C  glorb.h
+
+$
+</pre><p>O exemplo anterior pode ser um caso no qual o arquivo
+		  <code class="filename">baz.c</code> existe nas duas imagens dos 
+		  ramos que estão sendo comparados, e o delta resultante 
+		  quer modificar o conteúdo do arquivo, mas o arquivo não 
+		  existe na cópia de trabalho. Independente do caso, a 
+		  mensagem de “<span class="quote">skipped</span>” significa que o usuário
+		  está, muito provavelmente, comparando árvores incorretas;
+		  esse é o sinal clássico de erro do usuário. Quando isso 
+		  acontece, é fácil reverter recursivamente as modificações
+		  criadas pela fusão 
+		  (<span class="command"><strong>svn revert --recursive</strong></span>), delete qualquer
+		  arquivo não versionado deixado pelo revert, e rode novamente
+		  o comando <span class="command"><strong>svn merge</strong></span> usando outros
+		  argumentos.</p><p>Note também que o exemplo anterior mostra um conflito
+		  no arquivo <code class="filename">glorb.h</code>. Nós já mostramos
+		  que a cópia local não possui modificações:como um conflito
+		  pôde acontecer? Novamente, uma vez que o usuário pode usar
+		  o comando <span class="command"><strong>svn merge</strong></span> para definir e 
+		  aplicar qualquer delta antigo para a cópia de trabalho, o
+		  delta pode conter alterações que não se aplicam sem erros
+		  ao arquivo local, mesmo que o arquivo não tenha modificações
+		  locais.</p><p>Outra pequena diferença entre os comandos <span class="command"><strong>svn 
+		  update</strong></span> e <span class="command"><strong>svn merge</strong></span> é o nome
+		  dos arquivos de texto criados quando ocorre um conflito.
+		  Em <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.resolve" title="Resolvendo Conflitos (Combinando Alterações de Outros)">“Resolvendo Conflitos (Combinando Alterações de Outros)”</a>, vimos que um 
+		  update produz arquivos nomeados de
+		  <code class="filename">filename.mine</code>,
+          <code class="filename">filename.rOLDREV</code>, e
+          <code class="filename">filename.rNEWREV</code>. Entretanto, quando
+		  o comando <span class="command"><strong>svn merge</strong></span> produz um conflito,
+		  ele cria três arquivos nomeados como
+		  <code class="filename">filename.working</code>,
+          <code class="filename">filename.left</code>, e
+          <code class="filename">filename.right</code>. Neste caso, os termos
+		  “<span class="quote">left</span>” e “<span class="quote">right</span>” estão indicando
+		  de que lado da comparação vieram os arquivos. Em todo caso, 
+	  	  esses nomes vão ajuda-lo a diferenciar conflitos que são 
+		  resultado de um update ou de uma fusão.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.branchmerge.copychanges.bestprac.ancestry"></a>Percebendo ou Ignorando os Ancestrais</h4></div></div></div><p>Ao conversar com um desenvolvedor do Subversion, você
+          frequentemente ouviria referências ao termo 
+          <em class="firstterm">ancestral</em>.  Esta palavra é usada para
+          descrever a relação entre dois objetos em um repositório: se
+          estiverem relacionados entre si, então um objeto é dito ser um
+          ancestral do outro.</p><p>Por exemplo, suponha que você submeta a revisão 100, a
+          qual inclui uma mudança num arquivo
+          <code class="filename">foo.c</code>.  Então,
+          <code class="filename">foo.c@99</code> é o ancestral de
+          “<span class="quote">ancestral</span>” de <code class="filename">foo.c@100</code>.
+          Por outro lado, suponha que você submeta a exclusão do arquivo 
+          <code class="filename">foo.c</code> na revisão 101, e então adicione um
+          novo arquivo com o mesmo nome na revisão 102.  Neste caso,
+          <code class="filename">foo.c@99</code> e
+          <code class="filename">foo.c@102</code> podem parecer estar
+          relacionados (afinal, eles têm o mesmo caminho), mas de fato
+          eles são objetos completamente diferentes no repositório.
+          Eles não compartilham histórico ou
+          “<span class="quote">ancestralidade</span>”.</p><p>A razão para abordar isto é destacar uma importante
+          diferença entre <span class="command"><strong>svn diff</strong></span> e
+          <span class="command"><strong>svn merge</strong></span>.  O primeiro comando ignora a
+          ancestralidade, enquanto que este último é bastante sensível a
+          ela.  Por exemplo, se você solicitar que o <span class="command"><strong>svn
+          diff</strong></span> compare as revisões 99 e 102 do arquivo
+          <code class="filename">foo.c</code>, você deveria ver diferenças
+          em termos de linhas do arquivo em cada revisão; o comando
+          <code class="literal">diff</code> é cego ao comparar dois caminhos.  Mas
+          se você solicitar ao <span class="command"><strong>svn merge</strong></span> para
+          comparar os mesmos dois objetos, o subcomando deve perceber
+          que estes dois objetos não estão relacionados e primeiro
+          tentará excluir o arquivo antigo, e então adicionar o arquivo
+          novo;  a saída deveria indicar uma exclusão seguida por uma
+          adição:</p><pre class="screen">
+D  foo.c
+A  foo.c
+</pre><p>A maioria das fusões envolve comparação de árvores
+          ancestralmente relacionadas umas às outras, e assim o
+          <span class="command"><strong>svn merge</strong></span> por padrão possui este
+          comportamento.  Ocasionalmente, no entanto, você pode querer
+          que o comando <code class="literal">merge</code> compare duas árvores
+          não relacionadas.  Por exemplo, você pode ter importado duas
+          árvores de código-fonte representando distribuições de
+          diferentes fornecedores de um projeto de software (veja <a class="xref" href="svn.advanced.vendorbr.html" title="Ramos de fornecedores">“Ramos de fornecedores”</a>).  Se você solicitar que o
+          <span class="command"><strong>svn merge</strong></span> compare as duas árvores, você
+          deveria ver a exclusão da primeira árvore inteira, seguida da
+          adição da segunda árvore inteira!  Nessas situações, você vai
+          querer que o <span class="command"><strong>svn merge</strong></span> faça uma comparação
+          baseada apenas em caminhos, ignorando quaisquer relações entre
+          arquivos e diretórios.  Adicione a opção
+          <code class="option">--ignore-ancestry</code> a seu comando merge, e ele
+          se comportará como o <span class="command"><strong>svn diff</strong></span>.  (E
+          reversalmente, a opção <code class="option">--notice-ancestry</code> fará
+          com que o <span class="command"><strong>svn diff</strong></span> se comporte como o
+          comando <code class="literal">merge</code>.)</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.branchmerge.copychanges.bestprac.moves"></a>Fusões e Movimentações</h4></div></div></div><p>Um desejo comum é refatorar código-fonte, especialmente em
+          projetos de software na linguagem Java.  Arquivos e diretórios
+          são mexidos e renomeados, possivelmente provocando transtornos
+          a todos que estiverem trabalhando no projeto.  Parece um caso
+          perfeito para criar um ramo, não?  Apenas crie um ramo,
+          modifique as coisas inteiramente, e então mescle o ramo de
+          volta ao tronco principal, certo?</p><p>Infelizmente, no momento este cenário não funciona tão
+          bem, sendo algo considerado como um dos pontos fracos do
+          Subversion.  O problema é que o comando
+          <span class="command"><strong>update</strong></span> do Subversion não é tão robusto
+          quanto poderia ser, especialmente ao lidar com operações de
+          cópia e movimentações.</p><p>Quando você usa o <span class="command"><strong>svn copy</strong></span> para
+          duplicar um arquivo, o repositório se lembra de onde o novo
+          arquivo veio, mas falha ao transmitir essa informação para o
+          cliente que está executando um <span class="command"><strong>svn update</strong></span>
+          ou um <span class="command"><strong>svn merge</strong></span>.  Ao invés de dizer para o
+          cliente, “<span class="quote">Copie este arquivo que você já possui para
+          este novo local</span>”, ele envia informação acerca de um
+          arquivo completamente novo.  Isto pode levar a problemas,
+          especialmente pelo fato de que a mesma coisa acontece com
+          arquivos renomeados.  Um fato pouco conhecido pouco conhecido
+          sobre o Subversion é que ainda lhe falta um recurso para
+          “<span class="quote">renomeação efetiva</span>”—o comando <span class="command"><strong>svn
+          move</strong></span> nada mais é que uma combinação de <span class="command"><strong>svn
+          copy</strong></span> e <span class="command"><strong>svn delete</strong></span>.</p><p>Por exemplo, suponha que ao trabalhar em seu ramo
+          particular, você renomeie <code class="filename">integer.c</code> para 
+          <code class="filename">whole.c</code>.  Efetivamente você criou um novo
+          arquivo em seu ramo que é uma cópia do arquivo original e
+          excluiu o arquivo original.  Enquanto isso, de volta ao 
+          <code class="filename">trunk</code>, Sally submeteu algumas melhorias
+          em <code class="filename">integer.c</code>.  Agora você decide mesclar
+          seu ramo ao tronco:</p><pre class="screen">
+$ cd calc/trunk
+
+$ svn merge -r 341:405 http://svn.example.com/repos/calc/branches/my-calc-branch
+D   integer.c
+A   whole.c
+</pre><p>À primeira vista, isto não parece tão ruim, mas
+          provavelmente também não era o que você ou Sally esperavam.  A
+          operação de mesclagem excluiu a última versão do arquivo
+          <code class="filename">integer.c</code> (aquela que continha as últimas
+          alterações de Sally), e adicionou cegamente seu novo arquivo
+          <code class="filename">whole.c</code>—que é uma duplicata da
+          versão <span class="emphasis"><em>mais antiga</em></span> de
+          <code class="filename">integer.c</code>.  O efeito em cascata é que
+          mesclar sua “<span class="quote">renomeação</span>” no ramo removeu as
+          modificações recentes de Sally para a última revisão!</p><p>Mas isto não é uma perda de dados real; as modificações de
+          Sally ainda estão no histórico do repositório, mas o que de
+          fato aconteceu pode não ser óbvio de imediato.  A moral dessa
+          história é que até que o Subversion evolua, tenha cuidado ao
+          mesclar cópias e renomeações a partir de um ramo para
+          outro.</p></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2586618" href="#id2586618" class="para">23</a>] </sup>Entretanto, neste exato momento, essa
+             funcionalidade está sendo preparada!</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.branchmerge.using.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.branchmerge.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.branchmerge.commonuses.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Usando Ramos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Casos Comuns de Utilização</td></tr></table></div></body></html>

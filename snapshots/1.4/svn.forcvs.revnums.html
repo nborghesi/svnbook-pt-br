@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Os Números de Revisão Agora São Diferentes</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="next" href="svn.forcvs.directories.html" title="Versões de Diretório" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Os Números de Revisão Agora São Diferentes</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.forcvs.directories.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.revnums"></a>Os Números de Revisão Agora São Diferentes</h2></div></div></div><p>No CVS, os números de revisão são por arquivo.  Isso porque o CVS
+      armazena seus dados em arquivos RCS; cada arquivo tem um arquivo RCS
+      correspondente no repositório, e o repositório é organizado aproximadamente
+      de acordo com a estrutura da árvore do seu projeto.</p><p>No Subversion, o repositório parece um sistema de arquivos
+      único.  Cada submissão resulta em uma árvore de sistema de arquivos inteiramente
+      nova; em essência, o repositório é um conjunto ordenado de árvores.  Cada uma
+      dessas árvores é rotulada com um número de revisão único.  Quando
+      alguém fala sobre a “<span class="quote">revisão 54</span>”, está falando
+      sobre uma árvore em particular (e, indiretamente, sobre a forma que o sistema de arquivos
+      apresentava após a 54ª submissão).</p><p>Tecnicamente, não é válido falar sobre a “<span class="quote">revisão 5
+      de <code class="filename">foo.c</code></span>”.  Em vez disso, diria-se
+      “<span class="quote"><code class="filename">foo.c</code> como aparece na revisão
+      5</span>”.  Também seja cuidadoso ao fazer suposições sobre a
+      evolução de um arquivo.  No CVS, as revisões 5 e 6 de
+      <code class="filename">foo.c</code> são sempre diferentes.  No Subversion,
+      é mais provável que <code class="filename">foo.c</code>
+      <span class="emphasis"><em>não</em></span> tenha mudado entre as revisões 5 e
+      6.</p><p>Similarmente, no CVS um rótulo ou ramo é uma anotação no
+      arquivo, ou na informação de versão para aquele arquivo individual,
+      enquanto no Subversion um rótulo ou ramo é uma cópia de uma árvore
+      inteira (por convenção, nos diretórios <code class="filename">/branches</code>
+      ou <code class="filename">/tags</code> que aparecem no nível
+      superior do repositório, ao lado de <code class="filename">/trunk</code>). No
+      repositório como um todo, muitas versões de cada arquivo podem estar
+      visíveis: a última versão em cada ramo, cada versão
+      rotulada, e, claro, a última versão no próprio
+      tronco. Assim, para refinar ainda mais os termos, poderia-se freqüentemente
+      dizer “<span class="quote"><code class="filename">foo.c</code> como aparece em
+      <code class="filename">/branches/REL1</code> na revisão
+      5.</span>”</p><p>Para mais detalhes sobre este tópico, veja <a class="xref" href="svn.basic.in-action.html#svn.basic.in-action.revs" title="Revisões">“Revisões”</a>.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.forcvs.directories.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Apêndice B. Subversion para Usuários de CVS </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Versões de Diretório</td></tr></table></div></body></html>

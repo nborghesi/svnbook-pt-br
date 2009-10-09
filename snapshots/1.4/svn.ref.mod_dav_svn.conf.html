@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Diretivas de Configuração do mod_dav_svn</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.mod_dav_svn.html" title="mod_dav_svn" /><link rel="prev" href="svn.ref.mod_dav_svn.html" title="mod_dav_svn" /><link rel="next" href="svn.ref.properties.html" title="Propriedades do Subversion" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Diretivas de Configuração do <code class="literal">mod_dav_svn</code>
+        </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.mod_dav_svn.html">Anterior</a> </td><th width="60%" align="center">mod_dav_svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.properties.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.mod_dav_svn.conf"></a><div class="titlepage"></div><div class="refnamediv"><h2>Nome</h2><p>Diretivas de Configuração do <code class="literal">mod_dav_svn</code>
+         — As diretivas de configuração do Apache
+        para servir repositórios do Subversion através de um Servidor
+        HTTP Apache.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.mod_dav_svn.conf.desc"></a><h2>Descrição</h2><p>Esta seção descreve brevemente cada um das diretivas de
+          configuração do Subversion no Apache.  Para uma descrição
+          mais detalhada da configuração do Apache com Subversion, veja <a class="xref" href="svn.serverconfig.httpd.html" title="httpd, o servidor HTTP Apache">“httpd, o servidor HTTP Apache”</a>.)</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.mod_dav_svn.conf.directives"></a><h2>Diretivas</h2><div class="variablelist"><dl><dt><span class="term"><code class="literal">DAV svn</code></span></dt><dd><p>Esta diretiva deve ser incluída em qualquer
+                bloco <code class="literal">Directory</code> ou
+                <code class="literal">Location</code> para um repositório do
+                Subversion.  Ela diz ao httpd usar o módulo base do
+                Subversion para que o mod_dav manipule todas as requisições.</p></dd><dt><span class="term"><code class="literal">SVNAutoversioning On</code></span></dt><dd><p>Esta diretiva permite que requisições de clientes
+                WebDAV resultem em submissões automáticas.  Uma mensagem de log
+                genérica é gerada automaticamente e anexada a cada
+                revisão.  Se você habilitar o Auto-versionamento, é provável que
+                você queira definir <code class="literal">ModMimeUsePathInfo On</code>
+                de forma que <code class="literal">mod_mime</code> pode definir a propriedade
+                <code class="literal">svn:mime-type</code> para o mime-type
+                correto automaticamente (e <code class="literal">mod_mime</code>
+                 é capaz de fazer isto muito bem, naturalmente).
+                Para mais informações, veja <a class="xref" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento">Apêndice C, <i>WebDAV e Autoversionamento</i></a></p></dd><dt><span class="term"><code class="literal">SVNPath</code></span></dt><dd><p>Esta diretiva especifica o local no sistema de
+                arquivo para os arquivos do repositório do Subversion.  Em um
+                bloco de configuração para um repositório Subversion,
+                ou esta diretiva ou
+                <code class="literal">SVNParentPath</code> deve estar presente, mas
+                não ambas.</p></dd><dt><span class="term"><code class="literal">SVNSpecialURI</code></span></dt><dd><p>Especifica o componente URI (espaço de nome) para
+                recursos especiais do Subversion.  O padrão é
+                “<span class="quote"><code class="literal">!svn</code></span>”, e a maioria
+                dos administradores nunca usarão esta diretiva.  Somente
+                defina ela se houver uma necessidade premente de ter um arquivo
+                chamado <code class="filename">!svn</code> em seu repositório.  Se
+                você mudar ela em um servidor já em uso, ele
+                quebrará todas as cópias de trabalho existentes e seus
+                usuários caçarão você com garfões e tochas
+                de fogo.</p></dd><dt><span class="term"><code class="literal">SVNReposName</code></span></dt><dd><p>Especifica o nome de um repositório Subversion a ser
+                usado nas respostas <code class="literal">HTTP GET</code>.  Este
+                valor será colocado no início do título de todas as listagens
+                de diretório (as quais são servidas quando você navega em um
+                repositório Subversion com um navegador web).  Esta
+                diretiva é opcional.</p></dd><dt><span class="term"><code class="literal">SVNIndexXSLT</code></span></dt><dd><p>Especifica a URI de uma transformação XSL para os
+                índices de diretório.  Esta diretiva é opcional.</p></dd><dt><span class="term"><code class="literal">SVNParentPath</code></span></dt><dd><p>Especifica o local no sistema de arquivo de um
+                diretório pai, cujos diretórios filhos são
+                repositórios do Subversion.  Em um bloco de configuração para
+                um repositório Subversion, ou esta diretiva ou
+                <code class="literal">SVNPath</code> deve estar presente, mas não
+                ambas.</p></dd><dt><span class="term"><code class="literal">SVNPathAuthz</code></span></dt><dd><p>Controla a autorização baseada em caminho ao habilitar ou
+                desabilitar sub-requisições.  Veja <a class="xref" href="svn.serverconfig.httpd.html#svn.serverconfig.httpd.authz.pathauthzoff" title="Desabilitando Verificação baseada em Caminhos">“Desabilitando Verificação baseada em Caminhos”</a> para detalhes.</p></dd></dl></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.mod_dav_svn.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.mod_dav_svn.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.properties.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">mod_dav_svn </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Propriedades do Subversion</td></tr></table></div></body></html>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>O Que é o Subversion?</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.preface.html" title="Prefácio" /><link rel="prev" href="svn.preface.acks.html" title="Agradecimentos" /><link rel="next" href="svn.basic.html" title="Capítulo 1. Conceitos Fundamentais" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">O Que é o Subversion?</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.preface.acks.html">Anterior</a> </td><th width="60%" align="center">Prefácio</th><td width="20%" align="right"> <a accesskey="n" href="svn.basic.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.intro.whatis"></a>O Que é o Subversion?</h2></div></div></div><p>Subversion é um sistema de controle de versão
+      livre/open-source.  Isto é, o Subversion gerencia arquivos e
+      diretórios, e as modificações feitas neles ao longo do tempo.
+      Isto permite que você recupere versões antigas de seus dados, ou
+      que examine o histórico de suas alterações.  Devido a isso, muitas
+      pessoas tratam um sistema de controle de versão como uma espécie
+      de “<span class="quote">máquina do tempo</span>”.</p><p>O Subversion pode funcionar em rede, o que lhe possibilita ser
+      usado por pessoas em diferentes computadores.  Em certo nível, a
+      capacidade de várias pessoas modificarem e gerenciarem o mesmo
+      conjunto de dados de seus próprios locais é o que fomenta a
+      colaboração.  Progressos podem ocorrer muito mais rapidamente
+      quando não há um gargalo único por onde todas as modificações
+      devam acontecer.  E como o trabalho está versionado, você não
+      precisa ter medo de que seu trabalho perca qualidade por não ter
+      essa via única para modificações—se os dados sofrerem alguma
+      modificação indevida, apenas desfaça tal modificação.</p><p>Alguns sistemas de controle de versão também são sistema de
+      gerenciamento de configuração (GC).  Estes sistemas são
+      especificamente desenvolvimento para gerenciar árvores de
+      código-fonte, e possuem muitos recursos específicos para o
+      desenvolvimento de software—como identificação nativa de
+      linguagens de programação, ou ferramentas de apoio para compilação
+      de software.  O Subversion, no entanto, não é um sistema desse
+      tipo.  É um sistema de caráter geral que pode ser usado para
+      gerenciar <span class="emphasis"><em>quaisquer</em></span> conjuntos de arquivos.
+      Para você, estes arquivos podem ser código-fonte—para
+      outros, podem ser qualquer coisa desde listas de compras de
+      supermercado a arquivos de edição de vídeo, e muito mais.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.intro.history"></a>Histórico do Subversion</h3></div></div></div><p>
+        <a id="id2526157" class="indexterm"></a>
+
+        No começo do ano 2000, a CollabNet, Inc. (<a class="ulink" href="http://www.collab.net" target="_top">http://www.collab.net</a>) começou a procurar
+        desenvolvedores para desenvolver um substituto para o CVS.  A
+        CollabNet já tinha uma suite colaborativa chamada CollabNet
+        Enterprise Edition (CEE) cujo um de seus componentes era o
+        controle de versão.  Apesar de o CEE usar o CVS como seu sistema
+        de controle de versão inicial, as limitações do CVS ficaram
+        evidentes desde o princípio, e a CollabNet sabia que
+        eventualmente teria que procurar por algo melhor.  Infelizmente,
+        o CVS havia se firmado como um padrão de fact no mundo open
+        source principalmente porque <span class="emphasis"><em>não havia</em></span> nada
+        melhor, pelo menos sob licença livre.  Então a CollabNet decidiu
+        desenvolver um novo sistema de controle de versão a partir do
+        zero, mantendo as idéias básicas do CVS, mas sem os bugs e seus
+        inconvenientes.</p><p>Em Fevereiro de 2000, eles contactaram Karl Fogel, o autor
+        de <em class="citetitle">Open Source Development with CVS</em>
+        (Coriolis, 1999), e perguntaram se ele gostaria de trabalhar
+        neste novo projeto.  Coincidentemente, no momento Karl já estava
+        discutindo o projeto para um novo sistema de controle de versão
+        com seu amigo Jim Blandy.  Em 1995, os dois iniciaram a Cyclic
+        Software, uma empresa que mantinha contratos de suporte para o
+        CVS, e apesar de terem vendido a empresa posteriormente, eles
+        ainda usavam o CVS todos os dias em seus trabalhos.  Suas
+        frustrações com o CVS levou Jim a pensar cuidadosamente sobre
+        melhores maneiras para gerenciar dados versionados, no que ele
+        não apenas já tinha pensado no nome “<span class="quote">Subversion</span>”,
+        mas também com o projeto básico para armazenamento de dados do
+        Subversion.  Quando a CollabNet chamou, Karl concordou
+        imediatamente em trabalhar no projeto, e Jim sugeriu à empresa
+        em que trabalhava, Red Hat Software, essencialmente a cedê-lo
+        para o projeto por um período de tempo indefinido.  A CollabNet
+        contratou Karl e Ben Collins-Sussman, e um projeto detalhado de
+        trabalho começou em Maio.  Com a ajuda e o bem-vindo incentivo
+        de Brian Behlendorf e Jason Robbins da CollabNet, e de Greg
+        Stein (à época, um desenvolvedor independente trabalhando no
+        processo de especificação do WebDAV/DeltaV), o Subversion
+        rapidamente atraiu uma comunidade ativa de desenvolvedores.
+        Detectou-se que muitas pessoas também tinham as mesmas
+        experiências frustrantes com o CVS, agora satisfeitas com a
+        oportunidade de finalmente fazer algo sobre isso.</p><p>A equipe do projeto original determinou alguns objetivos
+        simples.  Eles não queriam romper com a metodologia existente
+        para controle de versão, eles apenas queriam corrigir o CVS.
+        Eles decidiram que o Subversion deveria ser compatível com as
+        características do CVS, e manter o mesmo modelo de
+        desenvolvimento, mas não reproduzir as falhas mais óbvias do
+        CVS.  E mesmo que o novo sistema não fosse um substituto
+        definitivo para o CVS, ele deveria ser suficientemente
+        semelhante a este para que qualquer usuário do CVS pudesse
+        migrar de sistema com pouco esforço.</p><p>Depois de quatorze meses de desenvolvimento, o Subversion
+        tornou-se “<span class="quote">auto-gerenciável</span>” em 31 de Agosto de
+        2001.  Ou seja, os desenvolvedores do Subversion pararam de usar
+        o CVS para gerir seu próprio código-fonte, e começaram a usar o
+        próprio Subversion no lugar.</p><p>Embora a CollabNet tenha iniciado o projeto, e ainda
+        patrocine uma grande parte dos trabalhos (ela paga os salários
+        de alguns poucos desenvolvedores do Subversion em tempo
+        integral), o Subversion é mantido como a maioria dos projetos
+        open source, gerenciado por um conjunto de regras transparentes
+        e de senso-comum, fundamentadas na meritocracia.  A licença
+        adotada pela CollabNet é perfeitamente compatível com Definição
+        Debian de Software Livre (DFSG).  Em outras palavras, qualquer
+        pessoa é livre para baixar o código do Subversion, modificá-lo,
+        e redistribuí-lo conforme lhe convier; não é necessário pedir
+        permissão à CollabNet ou a quem quer que seja.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.intro.features"></a>Características do Subversion</h3></div></div></div><p>Ao discutir sobre que recursos o Subversion traz para o
+        âmbito do controle de versão, frequentemente é útil falar deles
+        em termos de que avanços eles representam aos recursos do CVS.
+        Se você não está familiarizado com o CVS, você pode não
+        compreender todas essas características.  E se você não estiver
+        familiarizado com controle de versão como um todo, você pode
+        ficar bem confuso a menos que você leia antes <a class="xref" href="svn.basic.html" title="Capítulo 1. Conceitos Fundamentais">Capítulo 1, <i>Conceitos Fundamentais</i></a>, onde apresentamos uma suave introdução ao
+        controle de versão.</p><p>O Subversion proporciona:</p><div class="variablelist"><dl><dt><span class="term">Versionamento de diretórios</span></dt><dd><p>O CVS apenas rastreia o histórico de arquivos
+              individuais, já o Subversion implementa um sistema de
+              arquivos “<span class="quote">virtual</span>” sob controle de versão que
+              rastreia modificações a toda a árvore de diretório ao
+              longo do tempo.  Os arquivos <span class="emphasis"><em>e</em></span> os
+              diretórios são versionados.</p></dd><dt><span class="term">Histórico de versões efetivo</span></dt><dd><p>Como o CVS é limitado apenas ao versionamento de
+              arquivos, operações como cópia e renomeação—que
+              podem ocorrer com arquivos também, mas que são realmente
+              alterações no conteúdo de algum diretório
+              continente—não são suportadas no CVS.
+              Adicionalmente, no CVS você não pode substituir um arquivo
+              versionado por alguma outra coisa com o mesmo nome sem que
+              o novo item deixe de herdar o histórico do arquivo
+              antigo—que talvez seja até algo com o qual não
+              mantenha nenhuma correlação.  Com o Subversion, você pode
+              adicionar, excluir, copiar, e renomear ambos os arquivos
+              ou diretórios.  E cada novo arquivo adicionado começa com
+              um histórico próprio e completamente novo.</p></dd><dt><span class="term">Commits atômicos</span></dt><dd><p>Um conjunto de modificações ou é inteiramente
+              registrado no repositório, ou não é registrado de forma
+              nenhuma.  Isto possibilita aos desenvolvedores criarem e
+              registrarem alterações como blocos lógicos, e também evita
+              problemas que possam ocorrer quando apenas uma parte de um
+              conjunto de alterações seja enviada com sucesso ao
+              repositório.</p></dd><dt><span class="term">Versionamento de metadados</span></dt><dd><p>Cada arquivo e diretório tem um conjunto de
+              propriedades—chaves e seus valores—associados
+              consigo.  Você pode criar e armazenar quaisquer pares
+              chave/valor que quiser.  As propriedades são versionadas
+              ao longo do tempo, tal como os conteúdos de
+              arquivo.</p></dd><dt><span class="term">Escolha das camadas de rede</span></dt><dd><p>O Subversion tem uma noção abstrata do acesso ao
+              repositório, tornando-o mais fácil para as pessoas
+              implementarem novos mecanismos de rede.  O Subversion pode
+              se associar ao servidor Apache HTTP como um módulo de
+              extensão.  Isto dá ao Subversion uma grande vantagem em
+              estabilidade e interoperabilidade, além de acesso
+              instantâneo aos recursos existentes oferecidos por este
+              servidor—autenticação, autorização, compactação
+              online, dentre outros.  Um servidor Subversion mais leve e 
+              independente também está disponível.  Este servidor
+              utiliza um protocolo específico o qual pode ser facilmente
+              ser tunelado sobre SSH.</p></dd><dt><span class="term">Manipulação consistente de dados</span></dt><dd><p>O Subversion exprime as diferenças de arquivo usando
+              um algoritmo diferenciado, o qual funciona de maneira
+              idêntica tanto em arquivos texto (compreensível para
+              humanos) quanto em arquivos binários (incompreensível para
+              humanos).  Ambos os tipos de arquivos são igualmente
+              armazenados de forma compactada no repositório, e as
+              diferenças são enviadas em ambas as direções pela
+              rede.</p></dd><dt><span class="term">Ramificações e rotulagem eficiente</span></dt><dd><p>O custo de se fazer ramificações
+              (<span class="foreignphrase"><em class="foreignphrase">branching</em></span>) e de rotulagem
+              (<span class="foreignphrase"><em class="foreignphrase">tagging</em></span>) não precisa ser
+              proporcional ao tamanho do projeto.  O Subversion cria
+              ramos e rótulos simplesmente copiando o projeto, usando um
+              mecanismo semelhante a um hard-link.  Assim essas
+              operações levam apenas uma pequena e constante quantidade
+              de tempo.</p></dd><dt><span class="term">Hackability</span></dt><dd><p>O Subversion não tem qualquer bagagem histórica; ele é
+              implementado como um conjunto de bibliotecas C
+              compartilhadas com APIs bem definidas.  Isto torna o
+              Subversion extremamente manutenível e usável por outras
+              aplicações e linguagens.</p></dd></dl></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.intro.architecture"></a>Arquitetura do Subversion</h3></div></div></div><p><a class="xref" href="svn.intro.whatis.html#svn.intro.architecture.dia-1" title="Figura 1. Arquitetura do Subversion">Figura 1, “Arquitetura do Subversion”</a> ilustra 
+        uma visão em “<span class="quote">alto nível</span>” da estrutura do
+        Subversion.</p><div class="figure"><a id="svn.intro.architecture.dia-1"></a><p class="title"><b>Figura 1. Arquitetura do Subversion</b></p><div class="figure-contents"><div><img src="images/ch01dia1.png" alt="Arquitetura do Subversion" /></div></div></div><br class="figure-break" /><p>Em uma ponta encontra-se um repositório do Subversion que
+        mantém todos os seus dados versionados.  No outro extremo está o
+        seu programa cliente Subversion, que gerencia cópias locais de
+        partes desses dados versionados (chamadas de “<span class="quote">cópias de
+        trabalho</span>”).  Entre esses dois extremos estão múltiplas
+        rotas por entre várias camadas de Acesso ao Repositório (RA).
+        Algumas dessas rotas partem das redes de computadores até os
+        servidores de rede, de onde então acessam o repositório.  Outras
+        desconsideram a rede completamente e acessam diretamente o
+        repositório.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.intro.components"></a>Componentes do Subversion</h3></div></div></div><p>Uma vez instalado, o Subversion consiste num conjunto de
+        diversas partes.  Uma breve visão geral sobre tudo o que você
+        dispõe é mostrada a seguir.  Não se preocupe se as breves
+        descrições acabarem fundindo a sua cuca—há
+        <span class="emphasis"><em>muito</em></span> mais páginas neste livro para acabar
+        com essa confusão.</p><div class="variablelist"><dl><dt><span class="term">svn</span></dt><dd><p>O programa cliente de linha de comando.</p></dd><dt><span class="term">svnversion</span></dt><dd><p>Um programa para informar o estado (em termos das
+              revisões dos itens presentes) da cópia de trabalho.</p></dd><dt><span class="term">svnlook</span></dt><dd><p>Uma ferramenta para inspecionar um repositório
+              Subversion diretamente.</p></dd><dt><span class="term">svnadmin</span></dt><dd><p>Uma ferramenta para criação, ajuste e manutenção de um
+              repositório Subversion.</p></dd><dt><span class="term">svndumpfilter</span></dt><dd><p>Um programa para filtragem de fluxos de um repositório
+              Subversion.</p></dd><dt><span class="term">mod_dav_svn</span></dt><dd><p>Um módulo plugin para o servidor Apache HTTP, usado
+              para disponibilizar seu repositório a outros através da
+              rede.</p></dd><dt><span class="term">svnserve</span></dt><dd><p>Um específico programa servidor independente,
+              executável como um processo daemon ou invocável via SSH;
+              uma outra forma de disponibilizar seu repositório a outros
+              através da rede.</p></dd><dt><span class="term">svnsync</span></dt><dd><p>Um programa para fazer espelhamento incremental de um 
+              repositório para outro através da rede.</p></dd></dl></div><p>Uma vez que você tenha instalado o Subversion corretamente,
+        você já deve estar pronto para iniciar.  Os próximos dois
+        capítulos vão guiá-lo pela uso do <span class="command"><strong>svn</strong></span>, o
+        programa cliente de linha de comando do Subversion.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.preface.acks.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.preface.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.basic.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Agradecimentos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Capítulo 1. Conceitos Fundamentais</td></tr></table></div></body></html>

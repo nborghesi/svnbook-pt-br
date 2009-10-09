@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Área de Configuração do Tempo de Execução</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.customization.html" title="Capítulo 7. Customizando sua Experiência com Subversion" /><link rel="prev" href="svn.customization.html" title="Capítulo 7. Customizando sua Experiência com Subversion" /><link rel="next" href="svn.advanced.l10n.html" title="Localização" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Área de Configuração do Tempo de Execução</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.customization.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Customizando sua Experiência com Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.l10n.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.confarea"></a>Área de Configuração do Tempo de Execução</h2></div></div></div><p>O Subversion oferece muitos comportamentos opcionais que podem ser
+      controlados pelo usuário.  Muitas dessas opções são do tipo
+      que um usuário desejaria aplicar a todas as operações do Subversion.
+      Então, em vez de obrigar os usuários lembrar de argumentos de linha de comando
+      para especificar essas opções, e usá-las para toda
+      operação que ele realizar, o Subversion usa arquivos de configuração,
+      segregadas em uma área de configuração do Subversion.</p><p>A  <em class="firstterm">área de configuração</em> do Subversion é
+      uma hierarquia de opções com nomes e seus valores, em dois níveis.
+      Normalmente, isto resume-se a um diretório especial que contém
+      <em class="firstterm">arquivos de configuração</em> (o primeiro nível),
+      os quais são apenas arquivos de texto no formato padrão INI (com
+      “<span class="quote">seções</span>” provendo o segundo nível).  Estes arquivos
+      podem ser facilmente editados usando seu editor de texto favorito (como
+      Emacs ou vi), e contém diretivas que são lidas pelo cliente para
+      determinar quais dos vários comportamentos opcionais o usuário
+      prefere.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.confarea.layout"></a>Estrutura da Área de Configuração</h3></div></div></div><p>A primeira vez que o cliente de linha de comando
+        <span class="command"><strong>svn</strong></span> é executado, ele cria uma área de
+        configuração por usuário.  Em sistemas Unix, esta área aparece
+        como um diretório chamado <code class="filename">.subversion</code> no
+        diretório pessoal do usuário.  Em sistemas Win32, o Subversion cria uma
+        pasta chamada <code class="filename">Subversion</code>, geralmente dentro
+        da área <code class="filename">Application Data</code> do diretório do
+        perfil do usuário (que, por padrão, é normalmente um diretório
+        oculto).  No entanto, nesta plataforma o local exato
+        difere de sistema para sistema e é definido pelo Registro do
+        Windows.
+        <sup>[<a id="id2626302" href="#ftn.id2626302" class="footnote">50</a>]</sup>
+        Nós referiremos à área de configuração por usuário usando seu nome em
+        Unix, <code class="filename">.subversion</code>.</p><p>Além da área de configuração por usuário, o Subversion
+        também reconhece a existência de uma área de configuração a nível
+        de sistema.  Isto oferece aos administradores de sistema a habilidade de
+        estabelecer padrões para todos usuários em uma determinada máquina.  Note
+        que a área de configuração a nível de sistema não define uma
+        política obrigatória—as definições na área de configuração
+        do usuário substitui as de nível de sistema, e os
+        argumentos de linha de comando passados ao programa <span class="command"><strong>svn</strong></span>
+        possuem a palavra final no comportamento realizado.  Em plataformas
+        Unix, espera-se que a área de configuração do sistema
+        esteja no diretório <code class="filename">/etc/subversion</code>;
+        em máquinas Windows, ela aparece em um diretório
+        <code class="filename">Subversion</code> dentro do local
+        <code class="filename">Application Data</code> do sistema (novamente, como
+        especificado pelo Registro do Windows).  Diferentemente do caso
+        por usuário, o programa <span class="command"><strong>svn</strong></span> não tenta
+        criar a área de configuração a nível de sistema.</p><p>A área de configuração por usuário atualmente contém três
+        arquivos—dois arquivos de configuração (<code class="filename">config</code> e
+        <code class="filename">servers</code>), e um arquivo <code class="filename">README.txt</code> 
+        que descreve o formato INI.  Quando são criados,
+        os arquivos contém valores padrão para cada uma das
+        opções suportadas pelo Subversion, a maioria comentadas e agrupadas
+        com descrições textuais sobre como os valores para as chaves
+        afetam o comportamento do Subversion.  Para mudar um certo comportamento,
+        você apenas precisa carregar o arquivo de configuração apropriado em
+        um editor de texto, e modificar o valor da opção desejada.  Se, a
+        qualquer momento, você desejar ter as definições da configuração padrão
+        restauradas, você pode simplesmente remover (ou renomear) seu diretório de
+        configuração e então executar algum comando <span class="command"><strong>svn</strong></span>
+        inofensivo, como o <span class="command"><strong>svn --version</strong></span>.  Um novo
+        diretório de configuração com o conteúdo padrão será
+        criado.</p><p>A área de configuração por usuário também contém uma cache dos
+        dados de autenticação.  O diretório <code class="filename">auth</code>
+        possui um conjunto de subdiretórios que contém pedaços das informações
+        armazenadas e usadas pelos vários métodos de autenticação suportados
+        pelo Subversion.  Este diretório é criado de tal forma
+        que somente o próprio usuário possui permissão para ler seu
+        conteúdo.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.confarea.windows-registry"></a>Configuração e o Registro do Windows</h3></div></div></div><p>Além da usual área de configuração baseada em arquivos INI,
+        clientes Subversion que executam sob plataformas Windows podem
+        também podem usar o registro do Windows para armazenar dados de
+        configuração.  Os nomes das opções e seus valores são os mesmos
+        que os dos arquivos INI.  A hierarquia
+        “<span class="quote">arquivo/seção</span>” também é preservada, ainda que
+        abordada de maneira ligeiramente diferente—neste esquema,
+        arquivos são apenas níveis na árvore de chaves do
+        registro.</p><p>O Subversion procura por valores de configuração globais em
+        nível de sistema sob a chave
+        <code class="literal">HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion</code>.
+        Por exemplo, a opção <code class="literal">global-ignores</code>, a qual
+        está está na seção <code class="literal">miscellany</code> do arquivo 
+        <code class="filename">config</code>, poderia ser encontrada em 
+        <code class="literal">HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Config\Miscellany\global-ignores</code>.
+        Valores de configuração por usuário devem estar armazenados
+        abaixo de 
+        <code class="literal">HKEY_CURRENT_USER\Software\Tigris.org\Subversion</code>.
+      </p><p>Opções de configuração baseadas em registro são analisadas 
+        <span class="emphasis"><em>antes</em></span> do que suas contrapartes em arquivo,
+        assim elas são sobrescritas pelos valores encontrados nos
+        arquivos de configuração.  Em outras palavras, o Subversion
+        procura por informação de configuração nos seguintes locais em
+        um sistema Windows; a relação abaixo organiza os locais em ordem
+        dos de maior para os de menor precedência:</p><div class="orderedlist"><ol type="1"><li><p>Opções de linha de comando</p></li><li><p>Arquivos INI por usuário</p></li><li><p>Valores de registro por usuário</p></li><li><p>Arquivos INI globais em nível de sistema</p></li><li><p>Valores de registro em nível de sistema</p></li></ol></div><p>Adicionalmente, o registro do Windows não suporta a noção de
+        algo sendo “<span class="quote">comentado</span>”.  No entanto, o Subversion
+        irá ignorar quaisquer opções cujos nome da chave comece com um
+        caractere de cerquilha (<code class="literal">#</code>).  Na prática,
+        efetivamente isto permite que você comente uma opção do
+        Subversion sem remover a chave inteira do registro, o que
+        obviamente simplifica o processo de restaurar tal opção.</p><p>O cliente de linha de comando, <span class="command"><strong>svn</strong></span>, tenta
+        escrever no registro do Windows, e então não tentará escrever
+        uma área de configuração padrão.  Você pode criar as chaves que
+        você precisa usando o programa <span class="command"><strong>REGEDIT</strong></span>.
+        Alternativamente, você pode criar um arquivo 
+        <code class="filename">.reg</code>, e então dar um duplo clique nele a
+        partir do Windows Explorer, o que irá fazer com que os dados
+        sejam mesclados ao seu registro.</p><div class="example"><a id="svn.advanced.confarea.windows-registry.ex-1"></a><p class="title"><b>Exemplo 7.1. Arquivo (.reg) com Entradas de Registro de Exemplo.</b></p><div class="example-contents"><pre class="programlisting">
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Servers\groups]
+
+[HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Servers\global]
+"#http-proxy-host"=""
+"#http-proxy-port"=""
+"#http-proxy-username"=""
+"#http-proxy-password"=""
+"#http-proxy-exceptions"=""
+"#http-timeout"="0"
+"#http-compression"="yes"
+"#neon-debug-mask"=""
+"#ssl-authority-files"=""
+"#ssl-trust-default-ca"=""
+"#ssl-client-cert-file"=""
+"#ssl-client-cert-password"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\auth]
+"#store-passwords"="yes"
+"#store-auth-creds"="yes"
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\helpers]
+"#editor-cmd"="notepad"
+"#diff-cmd"=""
+"#diff3-cmd"=""
+"#diff3-has-program-arg"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\tunnels]
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\miscellany]
+"#global-ignores"="*.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store"
+"#log-encoding"=""
+"#use-commit-times"=""
+"#no-unlock"=""
+"#enable-auto-props"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\auto-props]
+
+</pre></div></div><br class="example-break" /><p>O exemplo anterior mostra o conteúdo de um arquivo 
+        <code class="filename">.reg</code> que contém algumas das opções de
+        configuração mais comuns e seus valores padrão.  Note a presença
+        tanto de configurações em nível de sistema (para opções
+        relacionadas a proxies de rede) e configurações específicas por
+        usuário (programa editor de texto e armazenamento de senhas,
+        entre outras).  Também note que todas as opções estão
+        efetivamente comentadas.  Você precisa apenas remover o caractere
+        de cerquilha (<code class="literal">#</code>) do começo dos nomes das
+        opções, e definir os valores como você quiser.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.confarea.opts"></a>Opções de Configuração</h3></div></div></div><p>Nesta seção, vamos discutir as opções de configuração
+        específicas de tempo de execução que são atualmente suportadas
+        pelo Subversion.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.advanced.confarea.opts.servers"></a>Servidores</h4></div></div></div><p>O arquivo <code class="filename">servers</code> contém opções de
+          configuração relacionadas à camada de rede.  Há dois nomes de
+          seção neste arquivo—<code class="literal">groups</code> e
+          <code class="literal">global</code>.  A seção <code class="literal">groups</code>
+          é essencialmente uma tabela de referência cruzada.  As chaves
+          nesta seção são os nomes de outras seções no arquivo; seus
+          valores são <em class="firstterm">globs</em>—indicadores
+          textuais que possivelmente podem conter caracteres
+          coringa—que são comparados com os nomes de hosts das
+          máquinas às quais as requisições do Subversion são
+          enviadas.</p><pre class="programlisting">
+[groups]
+beanie-babies = *.red-bean.com
+collabnet = svn.collab.net
+
+[beanie-babies]
+…
+
+[collabnet]
+…
+</pre><p>Quando o Subversion é usado em rede, ele tenta casar o
+          nome do servidor ao qual está tentando alcançar com o nome do
+          grupo na seção <code class="literal">groups</code>.  Se encontrar uma
+          correspondência, o Subversion então procura por uma seção no
+          arquivo <code class="filename">servers</code> com o mesmo nome do grupo
+          em questão.  A partir dessa seção, ele lê as configurações de
+          rede atuais.</p><p>A seção <code class="literal">global</code> contém as configurações
+          que são feitas para todos os servidores para os quais não haja
+          correspondência na seção <code class="literal">groups</code>.  As opções
+          disponíveis nesta seção são exatamente as mesmas que aquelas
+          válidas para outras seções de servidores no arquivo (exceto, é
+          claro, a seção especial <code class="literal">groups</code>), e são como
+          o que se segue:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">http-proxy-exceptions</code></span></dt><dd><p>Isto especifica uma lista de padrões de nomes de
+                hosts separados por vírgulas e que devem ser acessados
+                diretamente, sem que seja por meio de uma máquina de
+                proxy.  A sintaxe desses padrões é a mesma que utilizada
+                no shell do Unix para nomes de arquivos.  Um nome de
+                host de um repositório que corresponda a qualquer desses
+                padrões não será acessado através de um proxy.</p></dd><dt><span class="term"><code class="literal">http-proxy-host</code></span></dt><dd><p>Isto especifica o nome do host do computador proxy
+                através do qual suas requisições HTTP para o Subversion
+                devem passar.  Seu padrão é um valor vazio, o que
+                significa que o Subversion não tentará rotear
+                requisições HTTP através de um computador proxy, ao
+                invés disso tentando acessar a máquina de destino
+                diretamente.</p></dd><dt><span class="term"><code class="literal">http-proxy-port</code></span></dt><dd><p>Isto especifica o número de porta a ser usada no
+                host proxy.  Seu valor padrão também é vazio.</p></dd><dt><span class="term"><code class="literal">http-proxy-username</code></span></dt><dd><p>Isto especifica o nome de usuário a ser informado
+                para a máquina proxy.  Seu valor padrão é vazio.</p></dd><dt><span class="term"><code class="literal">http-proxy-password</code></span></dt><dd><p>Isto especifica a senha do usuário a ser informada
+                para a máquina proxy.  Seu valor padrão é vazio.</p></dd><dt><span class="term"><code class="literal">http-timeout</code></span></dt><dd><p>Isto especifica o total de tempo, em segundos, a
+                aguardar por uma resposta do servidor.  Se você tiver
+                problemas com uma conexão de rede lenta e que façam com
+                que as operações do Subversion terminem por expiração do
+                limite de tempo, você deveria aumentar o valor desta
+                opção.  O valor padrão é <code class="literal">0</code>, o que
+                instrui a biblioteca HTTP da camada inferior, a Neon,
+                para usar sua própria configuração de limite de
+                tempo.</p></dd><dt><span class="term"><code class="literal">http-compression</code></span></dt><dd><p>Isto especifica se o Subversion deve ou não tentar
+                compactar as requisições de rede feitas a servidores
+                compatíveis com DAV.  O valor padrão é
+                <code class="literal">yes</code> (ainda que a compactação só irá
+                ocorrer se o suporte a este recurso estiver compilado na
+                camada de rede).  Atribua a esta opção o valor 
+                <code class="literal">no</code> para desabilitar compactação, por
+                exemplo ao depurar transmissões de rede.</p></dd><dt><span class="term"><code class="literal">neon-debug-mask</code></span></dt><dd><p>Isto é uma máscara inteira que a biblioteca HTTP da
+                camada inferior, a Neon, utiliza para escolher que tipo
+                de saída de depuração ela deve gerar.  O valor padrão é 
+                <code class="literal">0</code>, que irá silenciar toda a saída de
+                depuração.  Para mais informações sobre como o
+                Subversion faz uso da biblioteca Neon, veja <a class="xref" href="svn.developer.html" title="Capítulo 8. Incorporando o Subversion">Capítulo 8, <i>Incorporando o Subversion</i></a>.</p></dd><dt><span class="term"><code class="literal">ssl-authority-files</code></span></dt><dd><p>Isto é uma lista de caminhos delimitada por
+                pontos-e-vírgulas, para os arquivos que contenham
+                certificados das autoridades certificadoras (as ACs) que
+                são aceitas pelo cliente Subversion quando acessando
+                repositórios sob HTTPS.</p></dd><dt><span class="term"><code class="literal">ssl-trust-default-ca</code></span></dt><dd><p>Defina esta variável para <code class="literal">yes</code> se
+                você quer que o Subversion confie automaticamente no
+                conjunto padrão de ACs que vêm com o OpenSSL.</p></dd><dt><span class="term"><code class="literal">ssl-client-cert-file</code></span></dt><dd><p>Se um host (ou um conjunto de hosts) necessitar de
+                um certificado SSL de cliente, você provavelmente será
+                solicitado a informar um caminho para seu certificado.
+                Ao definir esta variável para o mesmo caminho, o
+                Subversion será capaz de encontrar seu certificado de
+                cliente automaticamente sem precisa lhe solicitar esta
+                informação.  Não há um local padronizado para armazenar
+                seu certificado de cliente no disco; o Subversion
+                conseguirá lê-lo a partir de qualquer caminho que você
+                especificar.</p></dd><dt><span class="term"><code class="literal">ssl-client-cert-password</code></span></dt><dd><p>Se seu arquivo do certificado de cliente SSL estiver
+                criptografado com uma frase-senha, o Subversion irá lhe
+                pedir que você forneça a frase-senha toda vez que 
+                certificado for usado.  Se você achar isto um estorvo (e
+                se não se importa em deixar a senha armazenada no
+                arquivo <code class="filename">servers</code>), então você pode
+                definir esta variável para a frase-senha do certificado.
+                Assim, esta informação não mais lhe será
+                solicitada.</p></dd></dl></div></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.advanced.confarea.opts.config"></a>Configuração</h4></div></div></div><p>O arquivo <code class="filename">config</code> contém as demais
+          opções em tempo de execução atualmente disponíveis no
+          Subversion, estas não relacionadas à conexão de rede.  Há
+          apenas algumas poucas opções em uso até o momento em que este
+          livro estava sendo escrito, mas elas ainda são agrupadas em
+          seções na expectativa para adições futuras.</p><p>A seção <code class="literal">auth</code> contém configurações
+          relacionadas à autenticação e autorização no Subversion no
+          repositório.  Ela contém:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">store-passwords</code></span></dt><dd><p>Isto orienta o Subversion a armazenar, ou não, em
+                cache as senhas que são informadas pelo usuário em
+                resposta a desafios de autenticação do servidor.  O valor
+                padrão é <code class="literal">yes</code>.  Altere seu valor para
+                <code class="literal">no</code> para desabilitar este recurso de
+                cache de senhas em disco.  Você pode sobrescrever esta
+                opção para uma única instância do comando
+                <span class="command"><strong>svn</strong></span> usando o parâmetro
+                <code class="option">--no-auth-cache</code> de linha de comando
+                (para os subcomandos que dêem suporte a ele).  Para mais
+                informações, veja <a class="xref" href="svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache" title="Armazenando Credenciais no Cliente">“Armazenando Credenciais no Cliente”</a>.</p></dd><dt><span class="term"><code class="literal">store-auth-creds</code></span></dt><dd><p>Esta configuração é idêntica a 
+                <code class="literal">store-passwords</code>, exceto que ela
+                habilita ou desabilita o cache em disco de
+                <span class="emphasis"><em>todas</em></span> as informações de
+                autenticação: nomes de usuário, senhas, certificados de
+                servidor, e quaisquer outros tipos de credenciais
+                armazenáveis.</p></dd></dl></div><p>A seção <code class="literal">helpers</code> controla quais
+          aplicações externas o Subversion usa como suporte na execução
+          de suas tarefas.  Opções válidas nesta seção são:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">editor-cmd</code></span></dt><dd><p>Isto especifica o programa que o Subversion irá usar
+                para solicitar uma mensagem longa ao usuário durante uma
+                operação de submissão, como ao usar <span class="command"><strong>svn
+                commit</strong></span> sem as opções <code class="option">--message</code>
+                (<code class="option">-m</code>) ou <code class="option">--file</code>
+                (<code class="option">-F</code>).  Este programa também é usado com
+                o comando <span class="command"><strong>svn propedit</strong></span>—um
+                arquivo temporário é preenchido com o valor atual da
+                propriedade que o usuário pretende editar, e permite que
+                o usuário realize as modificações neste programa editor
+                (veja <a class="xref" href="svn.advanced.props.html" title="Propriedades">“Propriedades”</a>).  O valor
+                padrão para esta opção é vazio.  A ordem de prioridade
+                para determinar o comando editor (em ordem crescente de
+                precedência) é:</p><div class="orderedlist"><ol type="1"><li><p>A opção de linha de comando <code class="literal">--editor-cmd</code></p></li><li><p>A variável de ambiente <code class="literal">SVN_EDITOR</code></p></li><li><p>A opção de configuração <code class="literal">editor-cmd</code></p></li><li><p>A variável de ambiente <code class="literal">VISUAL</code></p></li><li><p>A variável de ambiente <code class="literal">EDITOR</code></p></li><li><p>Possivelmente, um valor padrão já embutido no
+                    Subversion (ausente em distribuições oficiais do
+                    Subversion)</p></li></ol></div><p>O valor de quaisquer dessas opções ou variáveis
+                (diferentemente do <code class="literal">diff-cmd</code>) é o
+                começo de uma linha de comando a ser executada pelo
+                shell.  O Subversion concatena um espaço a o caminho do
+                arquivo temporário a ser editado.  O editor deve
+                modificar o arquivo temporário e retornar um código zero
+                como saída para indicar sucesso.</p></dd><dt><span class="term"><code class="literal">diff-cmd</code></span></dt><dd><p>Isto especifica o caminho absoluto para um programa
+                de diferenciação, usado quando o Subversion gera saída em
+                formato “<span class="quote">diff</span>” (como ao usar o comando
+                <span class="command"><strong>svn diff</strong></span>).  Por padrão, o Subversion
+                usa uma biblioteca interna de
+                diferenciação—atribuir um valor a esta opção irá
+                fazer com que o Subversion realize essa tarefa executando
+                um programa externo.  Veja <a class="xref" href="svn.advanced.externaldifftools.html" title="Usando Ferramentas Externas de Diferenciação">“Usando Ferramentas Externas de Diferenciação”</a> para mais
+                detalhes sobre como usar tais programas.</p></dd><dt><span class="term"><code class="literal">diff3-cmd</code></span></dt><dd><p>Isto especifica o caminho absoluto para um programa
+                de diferenciação em três vias.  O Subversion usa este
+                programa para mesclar alterações feitas pelo usuário com
+                aquelas recebidas do repositório.  Por padrão, o
+                Subversion usa uma biblioteca interna de
+                diferenciação—atribuir um valor a esta opção irá
+                fazer com que o Subversion execute esta tarefa usando um
+                programa externo.  Veja <a class="xref" href="svn.advanced.externaldifftools.html" title="Usando Ferramentas Externas de Diferenciação">“Usando Ferramentas Externas de Diferenciação”</a> para mais
+                detalhes sobre como usar tais programas.</p></dd><dt><span class="term"><code class="literal">diff3-has-program-arg</code></span></dt><dd><p>Esta opção deve ser atribuída para
+                <code class="literal">true</code> se o programa especificado pela
+                opção <code class="literal">diff3-cmd</code> aceitar um parâmetro 
+                <code class="option">--diff-program</code> de linha de
+                comando.</p></dd></dl></div><p>A seção <code class="literal">tunnels</code> permite que você defina
+          um novo esquema de túnel para uso com o
+          <span class="command"><strong>svnserve</strong></span> e clientes de conexões
+          <code class="literal">svn://</code>.  Para mais detalhes, veja <a class="xref" href="svn.serverconfig.svnserve.html#svn.serverconfig.svnserve.sshauth" title="Tunelamento sobre SSH">“Tunelamento sobre SSH”</a>.</p><p>A seção <code class="literal">miscellany</code> é onde se encontram
+          todas aquelas opções que não pertençam a nenhuma das outras
+          seções.
+          <sup>[<a id="id2627835" href="#ftn.id2627835" class="footnote">51</a>]</sup>
+          Nesta seção, você pode encontrar:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">global-ignores</code></span></dt><dd><p>Ao executar o comando <span class="command"><strong>svn status</strong></span>,
+                o Subversion lista arquivos e diretórios não-versionados
+                juntamente com os versionados, marcando-os com um
+                caractere <code class="literal">?</code> (veja <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.examine.status" title="Obtendo uma visão geral de suas alterações">“Obtendo uma visão geral de suas alterações”</a>).  Algumas
+                vezes, pode ser chato ficar sempre vendo itens
+                não-versionados, desinteressantes—por exemplo,
+                arquivos objeto que resultantes da compilação de um
+                programa—na tela.  A opção
+                <code class="literal">global-ignores</code> é uma lista de campos
+                delimitados por espaços e que descrevem os nomes de
+                arquivos e diretórios que o Subversion não deveria exibir
+                a não ser apenas quando versionados.  Seu valor padrão é
+                <code class="literal">*.o *.lo *.la #*# .*.rej *.rej .*~ *~
+                .#* .DS_Store</code>.</p><p>Bem como o <span class="command"><strong>svn status</strong></span>, os comandos
+                <span class="command"><strong>svn add</strong></span> e <span class="command"><strong>svn
+                import</strong></span> também ignoram arquivos que correspondam
+                com esta lista quando estão escaneando um diretório.
+                Você pode sobrescrever este comportamento para uma única
+                instância de qualquer desses comandos especificando
+                explicitamente o nome do arquivo ou usando a opção 
+                <code class="option">--no-ignore</code> em linha de comando.</p><p>Para mais informação sobre controle granularizado de
+                itens ignorados, veja <a class="xref" href="svn.advanced.props.special.ignore.html" title="Ignorando Itens Não-Versionados">“Ignorando Itens Não-Versionados”</a>.</p></dd><dt><span class="term"><code class="literal">enable-auto-props</code></span></dt><dd><p>Isto faz com que o Subversion defina propriedades
+                automaticamente em novos arquivos adicionados ou
+                importados.  Seu valor padrão é <code class="literal">no</code>,
+                altere-o para <code class="literal">yes</code> para habilitar
+                propriedades automáticas.  A seção
+                <code class="literal">auto-props</code> deste arquivo especifica
+                quais propriedades serão definidas em quais arquivos.</p></dd><dt><span class="term"><code class="literal">log-encoding</code></span></dt><dd><p>Esta variável define a codificação de caracteres
+                padrão para mensagens de log de submissões.  É uma versão
+                permanente da opção <code class="option">--encoding</code> (veja
+                <a class="xref" href="svn.ref.svn.html#svn.ref.svn.sw" title="Opções do svn">“Opções do svn”</a>).  O repositório
+                Subversion armazena mensagens de log em UTF-8, e assume
+                que suas mensagens de log sejam escritas usando a
+                localização nativa do sistema operacional.  Você deve
+                especificar uma codificação diferente se suas mensagens
+                de commit forem escritas em um outro conjunto de
+                caracteres.</p></dd><dt><span class="term"><code class="literal">use-commit-times</code></span></dt><dd><p>Normalmente, os arquivos de sua cópia de trabalho têm
+                registros de tempo que refletem o momento da última vez
+                em que eles foram referenciados ou alterados por algum
+                processo, que pode ser seu próprio editor ou mesmo algum
+                subcomando do <span class="command"><strong>svn</strong></span>.  Isto geralmente é
+                conveniente para pessoas que desenvolvem software, porque
+                sistemas de compilação quase sempre verificam registros
+                de tempo como uma forma de decidir quais arquivos
+                precisam ser recompilados.</p><p>Em outras situações, porém, algumas vezes é bom ter
+                registros de tempo de arquivos na cópia de trabalho que
+                reflitam a última vez em que eles foram modificados no
+                repositório.  O comando <span class="command"><strong>svn export</strong></span>
+                sempre põe estes “<span class="quote">registros de tempo do último
+                commit</span>” nas árvores geradas por ele.  Ao definir
+                esta variável de configuração para
+                <code class="literal">yes</code>, os comandos <span class="command"><strong>svn
+                checkout</strong></span>, <span class="command"><strong>svn update</strong></span>,
+                <span class="command"><strong>svn switch</strong></span>, e <span class="command"><strong>svn
+                revert</strong></span> passarão a registrar momentos de tempo
+                dos comandos de último commit nos arquivos que
+                manipularem.</p></dd></dl></div><p>A seção <code class="literal">auto-props</code> controla a capacidade
+          de um cliente Subversion de atribuir propriedades
+          automaticamente em arquivos quando eles forem adicionados ou
+          importados.  Ela contém um conjunto de pares chave-valor no
+          formato <code class="literal">PATTERN = PROPNAME=PROPVALUE</code> onde
+          <code class="literal">PATTERN</code> é um padrão que corresponde a um
+          conjunto de nomes de arquivo e o restante da linha é a
+          propriedade e seu valor.  Múltiplas correspondências para um
+          arquivo irão resultar em múltiplas propriedades definidas para
+          aquele arquivo; no entanto, não há garantia de que essas
+          propriedades automáticas serão aplicadas na ordem na qual
+          estiverem listadas no arquivo de configuração, então você não
+          pode fazer com que uma regra “<span class="quote">sobrescreva</span>”.  Você
+          pode encontrar diversos exemplos do uso de propriedades
+          automáticas no arquivo <code class="filename">config</code>.  E por
+          último, não se esqueça de atribuir
+          <code class="literal">enable-auto-props</code> para
+          <code class="literal">yes</code> na seção <code class="literal">miscellany</code>
+          se você quiser habilitar propriedades automáticas.</p></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2626302" href="#id2626302" class="para">50</a>] </sup>A variável de ambiente <code class="literal">APPDATA</code>
+            aponta para a área <code class="filename">Application Data</code>,
+            assim você sempre pode referir a esta pasta como
+            <code class="filename">%APPDATA%\Subversion</code>.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2627835" href="#id2627835" class="para">51</a>] </sup>Alguém para um jantar improvisado?</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.customization.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.customization.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.l10n.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 7. Customizando sua Experiência com Subversion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Localização</td></tr></table></div></body></html>

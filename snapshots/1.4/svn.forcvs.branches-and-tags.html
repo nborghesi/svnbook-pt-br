@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Ramos e Rótulos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.status-vs-update.html" title="Distinção Entre Status e Update" /><link rel="next" href="svn.forcvs.properties.html" title="Propriedades de Metadados" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Ramos e Rótulos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.status-vs-update.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.forcvs.properties.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.branches-and-tags"></a>Ramos e Rótulos</h2></div></div></div><p>O Subversion não distingue entre espaço do sistema de arquivos 
+      e espaço do “<span class="quote">ramo</span>”; ramos e rótulos são diretórios
+      normais dentro do sistema de arquivos.  Esta é provavelmente o único
+      maior obstáculo mental que um usuário de CVS precisará escalar.  Leia tudo
+      sobre isso em <a class="xref" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar">Capítulo 4, <i>Fundir e Ramificar</i></a>.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Visto que o Subversion trata ramos e rótulos como diretórios
+        normais, sempre se lembre de efetuar checkout do
+        <code class="literal">tronco</code>
+        (<code class="literal">http://svn.example.com/repos/calc/trunk/</code>)
+        do seu projeto, e não do projeto em si
+        (<code class="literal">http://svn.example.com/repos/calc/</code>).  Se
+        você cometer o erro de efetuar checkout do projeto em si,
+        vai terminar com uma cópia de trabalho que contém uma cópia
+        do seu projeto para cada ramo e rótulo que você
+        tem.<sup>[<a id="id2675300" href="#ftn.id2675300" class="footnote">63</a>]</sup></p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2675300" href="#id2675300" class="para">63</a>] </sup>Isto é, desde que o espaço em disco não acabe 
+        antes de o seu checkout
+        terminar.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.status-vs-update.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.forcvs.properties.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Distinção Entre Status e Update </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Propriedades de Metadados</td></tr></table></div></body></html>

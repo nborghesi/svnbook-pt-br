@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Examinando o Histórico</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.tour.html" title="Capítulo 2. Uso Básico" /><link rel="prev" href="svn.tour.cycle.html" title="Ciclo Básico de Trabalho" /><link rel="next" href="svn.tour.cleanup.html" title="Às Vezes Você Só Precisa Limpar" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Examinando o Histórico</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.cycle.html">Anterior</a> </td><th width="60%" align="center">Capítulo 2. Uso Básico</th><td width="20%" align="right"> <a accesskey="n" href="svn.tour.cleanup.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.history"></a>Examinando o Histórico</h2></div></div></div><p>O seu repositório Subversion é como uma máquina do tempo.  Ele
+      mantém um registro de cada modificação submetida, e permite a você
+      explorar este histórico examinando versões anteriores de seus
+      arquivos e diretórios bem como os metadados a eles relacionados.
+      Com apenas um comando do Subversion, você pode deixar o
+      repositório (ou restaurar uma cópia de trabalho existente)
+      exatamente como ele era em uma certa data ou em um número de
+      revisão no passado.  Porém, algumas vezes você só quer
+      <span class="emphasis"><em>revisitar</em></span> o passado ao invés de
+      <span class="emphasis"><em>retornar</em></span> ao passado.</p><p>Há uma série de comandos que podem lhe mostrar dados
+      históricos do repositório:</p><div class="variablelist"><dl><dt><span class="term"><span class="command"><strong>svn log</strong></span></span></dt><dd><p>Exibe bastante informação: mensagens de log com
+              informações de data e autor anexadas às revisões, e quais
+              caminhos mudaram em cada revisão.</p></dd><dt><span class="term"><span class="command"><strong>svn diff</strong></span></span></dt><dd><p>Exibe detalhes a nível das linhas de uma alteração em
+              particular.</p></dd><dt><span class="term"><span class="command"><strong>svn cat</strong></span></span></dt><dd><p>Recupera um arquivo como ele era em uma dada revisão e
+              exibe seu conteúdo na tela.</p></dd><dt><span class="term"><span class="command"><strong>svn list</strong></span></span></dt><dd><p>Exibe os arquivos em um diretório para uma dada
+              revisão.</p></dd></dl></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.history.log"></a>Gerando uma lista de alterações históricas</h3></div></div></div><p>Para encontrar informação acerca do histórico de um arquivo
+        ou diretório, use o comando <span class="command"><strong>svn log</strong></span>.  O
+        <span class="command"><strong>svn log</strong></span> vai lhe dar um registro de quem fez
+        alterações em um arquivo ou diretório, em qual revisão houve a
+        mudança, a data e hora daquela revisão, e, se for informada, a
+        mensagem de log associada a esse registro.</p><pre class="screen">
+$ svn log
+------------------------------------------------------------------------
+r3 | sally | Mon, 15 Jul 2002 18:03:46 -0500 | 1 line
+
+Added include lines and corrected # of cheese slices.
+------------------------------------------------------------------------
+r2 | harry | Mon, 15 Jul 2002 17:47:57 -0500 | 1 line
+
+Added main() methods.
+------------------------------------------------------------------------
+r1 | sally | Mon, 15 Jul 2002 17:40:08 -0500 | 1 line
+
+Initial import
+------------------------------------------------------------------------
+</pre><p>Veja que as mensagens de log são exibidas em <span class="emphasis"><em>ordem
+        cronológica inversa</em></span> por padrão.  Se você quiser ver
+        um intervalo de revisões em uma ordem específica, ou apenas uma
+        única revisão, utilize a opção <code class="option">--revision
+        (-r)</code>:</p><pre class="screen">
+$ svn log -r 5:19    # exibe os logs de 5 a 19 em ordem cronológica
+
+$ svn log -r 19:5    # exibe os logs de 5 a 19 na order inversa
+
+$ svn log -r 8       # mostra o log para a revisão 8
+</pre><p>Você também pode examinar o histórico de logs de um único
+        arquivo ou diretório.  Por exemplo:</p><pre class="screen">
+$ svn log foo.c
+…
+$ svn log http://foo.com/svn/trunk/code/foo.c
+…
+</pre><p>Isto vai exibir as mensagens de log
+        <span class="emphasis"><em>apenas</em></span> para aquelas revisões nas quais o
+        arquivo de trabalho (ou a URL) mudaram.</p><p>Se você quiser ainda mais informação sobre um arquivo ou
+        diretório, o <span class="command"><strong>svn log</strong></span> também aceita uma opção 
+        <code class="option">--verbose (-v)</code>.  Como o Subversion lhe permite
+        mover e copiar arquivos e diretórios, é importante ser capaz de
+        rastrear alterações de caminhos no sistema de arquivos, então no
+        modo verboso, o <span class="command"><strong>svn log</strong></span> vai incluir na sua
+        saída uma lista dos caminhos alterados em uma revisão:</p><pre class="screen">
+$ svn log -r 8 -v
+------------------------------------------------------------------------
+r8 | sally | 2002-07-14 08:15:29 -0500 | 1 line
+Changed paths:
+M /trunk/code/foo.c
+M /trunk/code/bar.h
+A /trunk/code/doc/README
+
+Frozzled the sub-space winch.
+
+------------------------------------------------------------------------
+</pre><p>O <span class="command"><strong>svn log</strong></span> também aceita uma opção
+        <code class="option">--quiet</code> (<code class="option">-q</code>), que suprime o
+        corpo da mensagem de log.  Quando combinada com a opção
+        <code class="option">--verbose</code>, ela apresentará apenas os nomes dos
+        arquivos mudados.</p><div class="sidebar"><p class="title"><b>Por Que o <span class="command"><strong>svn log</strong></span> Me Deu Uma Resposta
+          em Branco?</b></p><p>Após trabalhar um pouco com o Subversion, muitos usuários
+          vão se deparar com algo como:</p><pre class="screen">
+$ svn log -r 2
+------------------------------------------------------------------------
+$
+</pre><p>À primeira vista, isto parece ser um erro.  Mas lembre-se
+          de que as revisões se aplicam a todo o repositório, ao passo
+          que o <span class="command"><strong>svn log</strong></span> atua em um caminho no
+          repositório.  Se você não informar um caminho, o Subversion
+          usa o diretório atual como argumento padrão.  Como resultado,
+          se você estiver em um subdiretório de sua cópia de trabalho e
+          tentar ver o log de uma revisão em que nem o diretório nem
+          qualquer item nele contido mudou, o Subversion vai lhe mostrar
+          um log vazio.  Se você quiser ver o que mudou naquela revisão,
+          experimente chamar o <span class="command"><strong>svn log</strong></span> diretamente na
+          URL de mais alto nível de seu repositório, como em
+          <span class="command"><strong>svn log -r 2
+          http://svn.collab.net/repos/svn</strong></span>.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.history.diff"></a>Examinando os detalhes das alterações históricas</h3></div></div></div><p>Nós já vimos o <span class="command"><strong>svn diff</strong></span> antes—ele
+        exibe as diferenças de arquivo no formato diff unificado; ele
+        foi usado para mostrar as modificações locais feitas em nossa
+        cópia de trabalho antes de serem registradas no
+        repositório.</p><p>Na realidade, tem-se que existem <span class="emphasis"><em>três</em></span>
+        usos distintos para o <span class="command"><strong>svn diff</strong></span>:</p><div class="itemizedlist"><ul type="disc"><li><p>Examinar alterações locais</p></li><li><p>Comparar sua cópia de trabalho com o repositório</p></li><li><p>Comparar o repositório com o repositório</p></li></ul></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.history.diff.local"></a>Examinando Alterações Locais</h4></div></div></div><p>Como já vimos, executar <span class="command"><strong>svn diff</strong></span> sem
+          opções vai resultar numa comparação de seus arquivos de
+          trabalho com as cópias “<span class="quote">intactas</span>” na área 
+          <code class="filename">.svn</code>:</p><pre class="screen">
+$ svn diff
+Index: rules.txt
+===================================================================
+--- rules.txt	(revision 3)
++++ rules.txt	(working copy)
+@@ -1,4 +1,5 @@
+ Be kind to others
+ Freedom = Responsibility
+ Everything in moderation
+-Chew with your mouth open
++Chew with your mouth closed
++Listen when others are speaking
+$
+</pre></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.history.diff.wcrepos"></a>Comparando a Cópia de Trabalho com o Repositório</h4></div></div></div><p>Se um único número de revisão for passado para a opção
+          <code class="option">--revision</code> (<code class="option">-r</code>), então sua
+          cópia de trabalho será comparada com a revisão especificada no
+          repositório.</p><pre class="screen">
+$ svn diff -r 3 rules.txt
+Index: rules.txt
+===================================================================
+--- rules.txt	(revision 3)
++++ rules.txt	(working copy)
+@@ -1,4 +1,5 @@
+ Be kind to others
+ Freedom = Responsibility
+ Everything in moderation
+-Chew with your mouth open
++Chew with your mouth closed
++Listen when others are speaking
+$
+</pre></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.history.diff.reposrepos"></a>Comparando o Repositório com o Repositório</h4></div></div></div><p>Se dois números de revisão, separados por dois-pontos,
+          forem informados em <code class="option">--revision (-r)</code>, então as
+          duas revisões serão comparadas diretamente.</p><pre class="screen">
+$ svn diff -r 2:3 rules.txt
+Index: rules.txt
+===================================================================
+--- rules.txt	(revision 2)
++++ rules.txt	(revision 3)
+@@ -1,4 +1,4 @@
+ Be kind to others
+-Freedom = Chocolate Ice Cream
++Freedom = Responsibility
+ Everything in moderation
+ Chew with your mouth open
+$
+</pre><p>Uma forma mais conveniente de se comparar uma revisão com
+          sua anterior é usando <code class="option">--change (-c)</code>:
+          </p><pre class="screen">
+$ svn diff -c 3 rules.txt
+Index: rules.txt
+===================================================================
+--- rules.txt	(revision 2)
++++ rules.txt	(revision 3)
+@@ -1,4 +1,4 @@
+ Be kind to others
+-Freedom = Chocolate Ice Cream
++Freedom = Responsibility
+ Everything in moderation
+ Chew with your mouth open
+$
+</pre><p>Por último, você pode comparar revisões no repositório
+          até quando você não tem uma cópia de trabalho em sua máquina
+          local, apenas incluindo a URL apropriada na linha de
+          comando:</p><pre class="screen">
+$ svn diff -c 5 http://svn.example.com/repos/example/trunk/text/rules.txt
+…
+$
+</pre></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.history.browsing"></a>Navegando pelo repositório</h3></div></div></div><p>Usando <span class="command"><strong>svn cat</strong></span> e <span class="command"><strong>svn
+        list</strong></span>, você pode ver várias revisões de arquivos e
+        diretórios sem precisar mexer nas alterações que estiver fazendo
+        em sua cópia de trabalho.  De fato, você nem mesmo precisa de
+        uma cópia de trabalho para usar esses comandos.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.history.browsing.cat"></a><span class="command"><strong>svn cat</strong></span></h4></div></div></div><p>Se você quiser visualizar uma versão antiga de um arquivo
+          e não necessariamente as diferenças entre dois arquivos, você
+          pode usar o <span class="command"><strong>svn cat</strong></span>:</p><pre class="screen">
+$ svn cat -r 2 rules.txt
+Be kind to others
+Freedom = Chocolate Ice Cream
+Everything in moderation
+Chew with your mouth open
+$
+</pre><p>Você também pode redirecionar a saída diretamente para um
+          arquivo:</p><pre class="screen">
+$ svn cat -r 2 rules.txt &gt; rules.txt.v2
+$
+</pre></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.history.browsing.list"></a><span class="command"><strong>svn list</strong></span></h4></div></div></div><p>O comando <span class="command"><strong>svn list</strong></span> lhe mostra que
+          arquivos estão no repositório atualmente sem carregá-los para
+          sua máquina local:</p><pre class="screen">
+$ svn list http://svn.collab.net/repos/svn
+README
+branches/
+clients/
+tags/
+trunk/
+</pre><p>Se você preferir uma listagem mais detalhada, inclua a
+          opção <code class="option">--verbose (-v)</code> para ter uma saída desta
+          forma:</p><pre class="screen">
+$ svn list -v http://svn.collab.net/repos/svn
+  20620 harry            1084 Jul 13  2006 README
+  23339 harry                 Feb 04 01:40 branches/
+  21282 sally                 Aug 27 09:41 developer-resources/
+  23198 harry                 Jan 23 17:17 tags/
+  23351 sally                 Feb 05 13:26 trunk/
+</pre><p>As colunas lhe dizem a revisão na qual o arquivo ou
+          diretório sofreu a última (mais recente) modificação, o
+          usuário que o modificou, seu tamanho, se for um arquivo, a
+          data desta última modificação, e o nome do item.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Um <span class="command"><strong>svn list</strong></span> sem argumentos vai se
+          referir à <span class="emphasis"><em>URL do repositório</em></span> associada
+          ao diretório atual da cópia de trabalho, e
+          <span class="emphasis"><em>não</em></span> ao diretório local da cópia de
+          trabalho.  Afinal, se você quer listar o conteúdo de seu
+          diretório local, você pode usar um simples
+          <span class="command"><strong>ls</strong></span> (ou comando equivalente em seu sistema
+          não-Unix).</p></div></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.history.snapshots"></a>Retornando o repositório a momentos antigos</h3></div></div></div><p>Além de todos os comandos acima, você pode usar o
+        <span class="command"><strong>svn update</strong></span> e o <span class="command"><strong>svn
+        checkout</strong></span> com a opção <code class="option">--revision</code> para
+        fazer com que toda a sua cópia de trabalho “<span class="quote">volte no
+        tempo</span>” <sup>[<a id="id2565078" href="#ftn.id2565078" class="footnote">8</a>]</sup>:</p><pre class="screen">
+$ svn checkout -r 1729 # Obtém uma nova cópia de trabalho em r1729
+…
+$ svn update -r 1729 # Atualiza a cópia de trabalho existente para r1729
+…
+</pre><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Muitos novatos no Subversion tentam usar o <span class="command"><strong>svn
+          update</strong></span> deste exemplo para “<span class="quote">desfazer</span>”
+          modificações submetidas, mas isso não funciona já que você não
+          pode não pode submeter alterações que você obteve voltando uma
+          cópia de trabalho se seus arquivos modificados tiverem novas
+          revisões.  Veja <a class="xref" href="svn.branchmerge.commonuses.html#svn.branchmerge.commonuses.resurrect" title="Ressucitando Itens Excluídos">“Ressucitando Itens Excluídos”</a> para uma
+          descrição de como “<span class="quote">desfazer</span>” um commit.</p></div><p>Finalmente, se você estiver criando uma versão final e
+        quiser empacotar seus arquivos do Subversion mas não gostaria
+        de incluir os incômodos diretórios <code class="filename">.svn</code> de
+        forma nenhuma, então você pode usar o comando <span class="command"><strong>svn 
+        export</strong></span> para criar uma cópia local de todo o conteúdo
+        de seu repositório mas sem os diretórios
+        <code class="filename">.svn</code>.  Da mesma forma que com o
+        <span class="command"><strong>svn update</strong></span> e <span class="command"><strong>svn checkout</strong></span>,
+        você também pode incluir a opção <code class="option">--revision</code> ao
+        <span class="command"><strong>svn export</strong></span>:</p><pre class="screen">
+$ svn export http://svn.example.com/svn/repos1 # Exports latest revision
+…
+$ svn export http://svn.example.com/svn/repos1 -r 1729
+# Exports revision r1729
+…
+</pre></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2565078" href="#id2565078" class="para">8</a>] </sup>Viu?  Nós dissemos que o
+        Subversion era uma máquina do tempo.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.cycle.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.tour.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.tour.cleanup.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Ciclo Básico de Trabalho </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Às Vezes Você Só Precisa Limpar</td></tr></table></div></body></html>

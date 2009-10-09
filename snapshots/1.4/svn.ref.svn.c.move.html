@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn move</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.mkdir.html" title="svn mkdir" /><link rel="next" href="svn.ref.svn.c.propdel.html" title="svn propdel" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn move</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.mkdir.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.propdel.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.move"></a><div class="titlepage"></div><a id="id2644006" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn move — Move um arquivo ou diretório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644033"></a><h2>Sinopse</h2><pre class="programlisting">svn move SRC DST</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644045"></a><h2>Descrição</h2><p>Este comando move um arquivo ou diretório em sua cópia
+            de trabalho ou no repositório.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Este comando é equivalente a um <span class="command"><strong>svn
+              copy</strong></span> seguido de um <span class="command"><strong>svn
+              delete</strong></span>.</p></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>O Subversion não movimentação entre cópias de trabalho
+              e URLs.  Além disso, você só pode mover arquivos dentro
+              de um único repositório—o Subversion não suporta
+              movimentação entre repositórios.</p></div><div class="variablelist"><dl><dt><span class="term">WC  -&gt; WC</span></dt><dd><p>Move e agenda um arquivo ou diretório para adição
+                  (com histórico).</p></dd><dt><span class="term">URL -&gt; URL</span></dt><dd><p>Renomeação inteiramente no lado do servidor.</p></dd></dl></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644128"></a><h2>Nomes Alternativos</h2><p>mv, rename, ren</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644138"></a><h2>Altera</h2><p>Cópia de trabalho, repositório se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644150"></a><h2>Acessa o Repositório</h2><p>Apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644161"></a><h2>Opções</h2><pre class="screen">
+--message (-m) TEXT
+--file (-F) FILE
+--revision (-r) REV (<span class="emphasis"><em>Obsoleto</em></span>)
+--quiet (-q)
+--force
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--editor-cmd EDITOR
+--encoding ENC
+--force-log
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644181"></a><h2>Exemplos</h2><p>Move um arquivo em sua cópia de trabalho:</p><pre class="screen">
+$ svn move foo.c bar.c
+A         bar.c
+D         foo.c
+</pre><p>Move um arquivo no repositório (commit imediato,
+            necessitando, então, de uma mensagem de log):</p><pre class="screen">
+$ svn move -m "Move a file" http://svn.red-bean.com/repos/foo.c \
+                            http://svn.red-bean.com/repos/bar.c
+
+Committed revision 27.
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.mkdir.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.propdel.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn mkdir </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn propdel</td></tr></table></div></body></html>

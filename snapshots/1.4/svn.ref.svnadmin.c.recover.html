@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnadmin recover</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c" title="Subcomandos do svnadmin" /><link rel="prev" href="svn.ref.svnadmin.c.lstxns.html" title="svnadmin lstxns" /><link rel="next" href="svn.ref.svnadmin.c.rmlocks.html" title="svnadmin rmlocks" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnadmin recover</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.lstxns.html">Anterior</a> </td><th width="60%" align="center">Subcomandos do svnadmin</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.rmlocks.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnadmin.c.recover"></a><div class="titlepage"></div><a id="id2649004" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnadmin recover — Traz uma base de dados de repositório de volta a
+          um estado consistente (se aplica apenas a repositórios
+          baseados em <code class="literal">bdb</code>).  Além disso, se 
+          <code class="filename">repos/conf/passwd</code> não existir, ele vai
+          criar um arquivo de senhas padrão.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649049"></a><h2>Sinopse</h2><pre class="programlisting">svnadmin recover REPOS_PATH</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649061"></a><h2>Descrição</h2><p>Execute este comando se você obtiver uma indicação de
+            erro dizendo que seu repositório precisa ser recuperado.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649076"></a><h2>Opções</h2><pre class="screen">
+--wait
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649089"></a><h2>Exemplos</h2><p>Recupera um repositório problemático:</p><pre class="screen">
+$ svnadmin recover /usr/local/svn/repos/ 
+Repository lock acquired.
+Please wait; recovering the repository may take some time...
+
+Recovery completed.
+The latest repos revision is 34.
+</pre><p>Recuperar a base de dados precisa de uma trava exclusiva
+            no repositório. (Esta é uma “<span class="quote">trava da base de dados</span>”;
+            veja <a class="xref" href="svn.advanced.locking.html#svn.advanced.locking.meanings" title="Os três significados de trava">Os três significados de trava</a>.)
+            Se outro processo estiver acessando o repositório, então o
+            <span class="command"><strong>svnadmin recover</strong></span> irá falhar:</p><pre class="screen">
+$ svnadmin recover /usr/local/svn/repos
+svn: Failed to get exclusive repository access; perhaps another process
+such as httpd, svnserve or svn has it open?
+
+$
+</pre><p>A opção <code class="option">--wait</code>, entretanto, vai fazer
+            com que o <span class="command"><strong>svnadmin recover</strong></span> aguarde
+            indefinidamente até que os outros processo se
+            desconectem:</p><pre class="screen">
+$ svnadmin recover /usr/local/svn/repos --wait
+Waiting on repository lock; perhaps another process has it open?
+
+### time goes by…
+
+Repository lock acquired.
+Please wait; recovering the repository may take some time...
+
+Recovery completed.
+The latest repos revision is 34.
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.lstxns.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.rmlocks.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnadmin lstxns </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnadmin rmlocks</td></tr></table></div></body></html>

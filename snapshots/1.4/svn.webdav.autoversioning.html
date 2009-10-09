@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Autoversionamento</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento" /><link rel="prev" href="svn.webdav.basic.html" title="O que é WebDAV?" /><link rel="next" href="svn.webdav.clients.html" title="Interoperabilidade com Softwares Clientes" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Autoversionamento</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.webdav.basic.html">Anterior</a> </td><th width="60%" align="center">Apêndice C. WebDAV e Autoversionamento</th><td width="20%" align="right"> <a accesskey="n" href="svn.webdav.clients.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.webdav.autoversioning"></a>Autoversionamento</h2></div></div></div><p>Ainda que o cliente Subversion não seja um cliente DeltaV
+      completo, e que nem mesmo o servidor Subversion serja um servidor
+      DeltaV completo, ainda há um lampejo de interoperabilidade com o
+      WebDAV com o qual se contentar: é o chamado autoversionamento.</p><p>Autoversionamento é um recurso opcional definido no padrão
+      DeltaV.  Um servidor DeltaV típico irá rejeitar um cliente WebDAV
+      ignorante que tente fazer um <code class="literal">PUT</code> em um arquivo
+      que esteja sob controle de versão.  Para alterar um arquivo
+      versionado, o servidor espera uma série de requisições próprias
+      relacionadas a versionamento: algo como
+      <code class="literal">MKACTIVITY</code>, <code class="literal">CHECKOUT</code>,
+      <code class="literal">PUT</code>, <code class="literal">CHECKIN</code>.  Mas se o
+      servidor DeltaV suportar autoversionamento, então as requisições
+      de escrita a partir de clientes WebDAV básicos são aceitas.  O
+      servidor se comporta como se o cliente
+      <span class="emphasis"><em>tivesse</em></span> feito o conjunto de requisições
+      próprias relacionadas ao versionamento adequadas, executando uma
+      submissão (<span class="foreignphrase"><em class="foreignphrase">commit</em></span>) por debaixo dos
+      panos.  Em outras palavras, ele permite a um servidor DeltaV
+      interoperar com clientes WebDAV ordinários que não entendam
+      versionamento.</p><p>Pelo fato de que muitos sistemas operacionais já têm clientes
+      WebDAV integrados, o caso de uso para este recurso pode ser
+      incrivelmente interessante a administradores que estejam
+      trabalhando com usuários não-técnicos: imagine um escritório de
+      usuários comuns executando Microsoft Windows ou Mac OS.  Cada
+      usuário “<span class="quote">monta</span>” o repositório Subversion, o qual
+      aparece como uma pasta de rede normal.  Eles usam a pasta
+      compartilhada como estão acostumados: abrem arquivos, fazem
+      modificações, salvam.  Enquanto isso, o servidor está
+      automaticamente versionando tudo.  Qualquer administrador (ou
+      usuário com conhecimento adequado) ainda pode usar um cliente
+      Subversion para pesquisar num histórico e obter versões mais
+      antigas dos dados.</p><p>Este cenário não é fictício: é real e funciona, sendo o
+      Subversion versão 1.2 ou posterior.  Para ativar o
+      autoversionamento no <span class="command"><strong>mod_dav_svn</strong></span>, use a
+      diretiva <code class="literal">SVNAutoversioning</code> dentro do bloco
+      Location no <code class="filename">httpd.conf</code>, mais ou menos
+      assim:</p><pre class="screen">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNPath /path/to/repository
+  SVNAutoversioning on
+&lt;/Location&gt;
+</pre><p>Quando o SVNAutoversioning está ativa, requisições de escrita
+      a partir de clientes WebDAV resultam em submissões automáticas.
+      Uma mensagem de log genérica é gerada automaticamente e anexada a
+      cada revisão.</p><p>Antes de ativar este recurso, no entanto, entenda no que você
+      está se metendo.  Clientes WebDAV tendem a fazer
+      <span class="emphasis"><em>muitas</em></span> requisições de escrita, resultando em
+      um número enorme de revisões submetidas automaticamente.  Por
+      exemplo, ao salvar dados, muitos clientes farão um
+      <code class="literal">PUT</code> de um arquivo de zero bytes (como uma forma
+      de reservar um nome) seguida de outro <code class="literal">PUT</code> com
+      os dados do arquivo real.  Um único salvamento de arquivo resulta
+      em duas submissões em separado.  Também considere que muitas
+      aplicações realizam salvamento automático em intervalos definidos,
+      resultando em ainda mais submissões de rede.</p><p>Se você tiver um script de hook post-commit que envie um
+      e-mail, você pode querer desabilitar a geração de e-mail como um
+      todo, ou em certas seções do repositório; depende de como você
+      acha que o fluxo de e-mails resultante ainda sejam notificações
+      importantes ou não.  Ainda, um script de hook post-commit esperto
+      pode diferenciar entre uma transação criada a partir de
+      autoversionamento e uma criada a partir de um <span class="command"><strong>svn
+      commit</strong></span> normal.  O truque é olhar para uma propriedade da
+      revisão chamada <code class="literal">svn:autoversioned</code>.  Se existir,
+      o commit foi feito por um cliente WebDAV genérico.</p><p>Outro recurso que pode ser um útil complemento para o
+      <code class="literal">SVNAutoversioning</code> vem do módulo
+      <code class="literal">mod_mime</code> do Apache.  Se um cliente WebDAV
+      adicionar um novo arquivo ao repositório, não haverá uma
+      oportunidade para que o usuário defina a propriedade
+      <code class="literal">svn:mime-type</code>.  Isto pode fazer com que o
+      arquivo apareça como um ícone genérico quando visto em uma pasta
+      WebDAV compartilhada, não associado a nenhuma aplicação.  Uma
+      solução é ter um administrador de sistema (ou outra pessoa com
+      conhecimento do Subversion) que obtenha uma cópia de trabalho e
+      defina manualmente a propriedade <code class="literal">svn:mime-type</code>
+      nos arquivos necessários.  Mas potencialmente essas tarefas de
+      limpeza potencialmente não têm fim.  Ao invés disso, você pode
+      usar a diretiva <code class="literal">ModMimeUsePathInfo</code> no bloco
+      <code class="literal">&lt;Location&gt;</code> de seu Subversion:</p><pre class="screen">
+&lt;Location /repos&gt;
+  DAV svn
+  SVNPath /path/to/repository
+  SVNAutoversioning on
+
+  ModMimeUsePathInfo on
+
+&lt;/Location&gt;
+</pre><p>Esta diretiva permite que o <code class="literal">mod_mime</code> para
+      tentar deduzir automaticamente o tipo mime em novos arquivos
+      adicionados ao repositório pelo autoversionamento.  O módulo
+      verifica a extensão do nome do arquivo e possivelmente seu
+      conteúdo também; se o arquivo corresponder a alguns padrões
+      comuns, então a propriedade <code class="literal">svn:mime-type</code> será
+      definida automaticamente.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.webdav.basic.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.webdav.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.webdav.clients.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">O que é WebDAV? </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Interoperabilidade com Softwares Clientes</td></tr></table></div></body></html>

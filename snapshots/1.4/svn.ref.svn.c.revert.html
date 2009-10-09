@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn revert</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.resolved.html" title="svn resolved" /><link rel="next" href="svn.ref.svn.c.status.html" title="svn status" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn revert</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.resolved.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.status.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.revert"></a><div class="titlepage"></div><a id="id2645380" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn revert — Desfaz todas as edições locais.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645407"></a><h2>Sinopse</h2><pre class="programlisting">svn revert PATH...</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645420"></a><h2>Descrição</h2><p>Reverte quaisquer alterações feitas em um arquivo ou
+            diretório e resolve quaisquer estados de conflito.
+            <span class="command"><strong>svn revert</strong></span> não apenas irá reverter o
+            conteúdo de um item em sua cópia de trabalho mas também
+            quaisquer modificação de propriedades.  Finalmente, você
+            pode usá-lo para desfazer qualquer operação de agendamento
+            que você possa ter feito (p.ex., arquivos agendados para
+            adição ou remoção podem ser
+            “<span class="quote">desagendados</span>”).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645454"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645464"></a><h2>Altera</h2><p>Cópia de trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645475"></a><h2>Acessa o Repositório</h2><p>Não</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645485"></a><h2>Opções</h2><pre class="screen">
+--targets FILENAME
+--recursive (-R)
+--quiet (-q)
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645499"></a><h2>Exemplos</h2><p>Descarta as alterações em um arquivo:</p><pre class="screen">
+$ svn revert foo.c
+Reverted foo.c
+</pre><p>Se você quiser reverter um diretório inteiro de arquivos, use a
+            opção <code class="option">--recursive</code>:</p><pre class="screen">
+$ svn revert --recursive .
+Reverted newdir/afile
+Reverted foo.c
+Reverted bar.txt
+</pre><p>Por último, você pode desfazer quaisquer operações de
+            agendamento:</p><pre class="screen">
+$ svn add mistake.txt whoops
+A         mistake.txt
+A         whoops
+A         whoops/oopsie.c
+
+$ svn revert mistake.txt whoops
+Reverted mistake.txt
+Reverted whoops
+
+$ svn status
+?      mistake.txt
+?      whoops
+</pre><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>O <span class="command"><strong>svn revert</strong></span> intrinsecamente
+              perigoso, já que todo o seu propósito é descartar
+              dados—especificamente, modificações não submetidas
+              ao repositório.  Uma vez que você tenha feito uma
+              reversão, o Subversion <span class="emphasis"><em>não disponibiliza nenhuma
+              forma</em></span> de obter estes dados de suas alterações
+              não submetidas.</p><p>Se você não informar um alvo para o <span class="command"><strong>svn
+              revert</strong></span>, ele não fará nada—para protegê-lo
+              de perder suas alterações acidentalmente em sua cópia de
+              trabalho, o <span class="command"><strong>svn revert</strong></span> requer que você
+              informe pelo menos um alvo.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.resolved.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.status.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn resolved </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn status</td></tr></table></div></body></html>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Portabilidade de Arquivo</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.props.html" title="Propriedades" /><link rel="next" href="svn.advanced.props.special.ignore.html" title="Ignorando Itens Não-Versionados" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Portabilidade de Arquivo</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.props.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.props.special.ignore.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.props.file-portability"></a>Portabilidade de Arquivo</h2></div></div></div><p>Felizmente, para os usuários do Subversion que rotineiramente
+      se encontram em diferentes computadores, com diferentes sistemas
+      operacionais, o programa de linha de comando do Subversion comporta-se
+      quase que da mesma forma em todos os sistemas.  Se você sabe como usar
+      o <span class="command"><strong>svn</strong></span> em uma plataforma, você saberá como manuseá-lo
+      em qualquer outra.</p><p>Entretanto, o mesmo nem sempre é verdade em outras classes de software
+      em geral, ou nos atuais arquivos que você mantém no Subversion. Por
+      exemplo, em uma máquina Windows, a definição de um “<span class="quote">arquivo de
+      texto</span>” seria similar à usada em uma máquina Linux, porém
+      com uma diferença chave—os caracteres usados para marcar
+      o fim das linhas destes arquivos.  Existem outras diferenças
+      também.  As plataformas Unix têm (e o Subversion suporta) links
+      simbólicos; Windows não.  As plataformas Unix usam as permissões do
+      sistema de arquivos para determinar a executabilidade; Windows usa
+      as extensões no nome do arquivo.</p><p>Pela razão de que o Subversion não está em condição de unir o
+      mundo inteiro em definições comuns e implementações de todas estas
+      coisas, o melhor que podemos fazer é tentar ajudar a tornar sua vida
+      mais simples quando você precisar trabalhar com seus arquivos e
+      diretórios versionados em múltiplos computadores e sistemas operacionais.
+      Esta seção descreve alguns dos meios de como o Subversion faz isto.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.special.mime-type"></a>Tipo de Conteúdo do Arquivo</h3></div></div></div><p>O Subversion combina a qualidade das muitas aplicações que
+        reconhecem e fazem uso dos tipos de conteúdo do <span class="emphasis"><em>Multipurpose
+        Internet Mail Extensions</em></span> (MIME).  Além de ser um local
+        de armazenamento de propósito geral para um tipo de conteúdo do arquivo,
+        o valor da propriedade de arquivo <code class="literal">svn:mime-type</code>
+        determina algumas características comportamentais do próprio
+        Subversion.</p><div class="sidebar"><p class="title"><b>Identificando Tipos de Arquivo</b></p><p>Vários programas nos sistemas operacionais mais modernos fazem
+          suposições sobre o tipo e formato do conteúdo de um arquivo
+          pelo nome do arquivo, especificamente por sua extensão.
+          Por exemplo, arquivos cujos nomes terminam em
+          <code class="filename">.txt</code> são, geralmente, supostos ser legíveis
+          por humanos, passíveis de serem compreendidos por simples leitura,
+          em vez dos que requerem processamento complexo para os decifrar.
+          Por outro lado, arquivos cujos nomes terminam em <code class="filename">
+          .png</code> assume-se serem do tipo <span class="emphasis"><em>Portable Network
+          Graphics</em></span>— que não são legíveis por humanos, sendo
+          perceptíveis apenas quando interpretados pelo software que entende
+          o formato PNG, e pode tornar a informação neste formato como uma
+          imagem desenhada por linhas.</p><p>Infelizmente, algumas destas extensões têm seus significados
+          modificados ao longo do tempo.  Quando os computadores pessoais
+          apareceram pela primeira vez, um arquivo chamado
+          <code class="filename">README.DOC</code> certamente era um arquivo de
+          texto simples, como são hoje os arquivos <code class="filename">.txt</code>.
+          Porém, no meio dos anos de 1990, você poderia apostar que um arquivo
+          com este nome não seria mais um arquivo de texto simples, mas sim um
+          documento do Microsoft Word em um formato proprietário e humanamente
+          ilegível. Mas esta mudança não ocorreu da noite para o dia—houve
+          certamente um período de confusão para os usuário de computador sobre
+          o que exatamente eles tinham em mãos quando viam um arquivo
+          <code class="filename">.DOC</code>.
+          <sup>[<a id="id2571672" href="#ftn.id2571672" class="footnote">11</a>]</sup>
+        </p><p>A popularidade das redes de computadores lançou ainda mais
+          dúvidas sobre o mapeamento entre um nome de arquivo e seu conteúdo.
+          Com informações sendo servidas através das redes e geradas
+          dinamicamente por scripts no servidor, freqüentemente, observava-se
+          arquivos não reais e, portanto, sem nome. Os servidores
+          Web, por exemplo, precisavam de algum outro modo para dizer aos 
+          navegadores que eles estavam baixando um arquivo, assim o navegador
+          poderia fazer algo inteligente com esta informação, quer seja para
+          exibir os dados usando um programa registrado para lidar com este
+          tipo de dados, quer seja para solicitar ao usuário onde armazenar
+          os dados baixados.</p><p>Finalmente, um padrão surgiu para, entre outras coisas,
+          descrever o conteúdo de um fluxo de dados.  Em 1996, a RFC2045
+          foi publicada, a primeira de cinco RFC's descrevendo o MIME.
+          Esta RFC descreve o conceito de tipos e subtipos de mídia, e
+          recomenda uma sintaxe para a representação destes tipos.  Hoje,
+          os tipos de mídia MIME—ou “<span class="quote">tipos MIME</span>”—são
+		  usados quase que universalmente em todas as aplicações de e-mail,
+		  servidores Web e outros softwares como o mecanismo de fato
+		  para esclarecer a confusão do conteúdo de
+		  arquivo.</p></div><p>Por exemplo, um dos benefícios que o Subversion tipicamente
+        fornece é a fusão contextual, baseada nas linhas, das mudanças recebidas
+        do servidor durante uma atualização em seu arquivo de trabalho.  Mas,
+        para arquivos contendo dados não-textuais, muitas vezes não existe o
+        conceito de “<span class="quote">linha</span>”.  Assim, para os arquivos versionados
+        cuja propriedade <code class="literal">svn:mime-type</code> é definida com
+        um tipo MIME não-textual (geralmente, algo que não inicie com
+        <code class="literal">text/</code>, embora existam exceções), o Subversion
+        não tenta executar fusões contextuais durante as atualizações.
+        Em vez disso, quando você modifica localmente um arquivo binário
+        em sua cópia de trabalho, na momento da atualização, seu 
+        arquivo não é mexido, pois o Subversion cria dois novos arquivos.  Um
+        deles tem a extensão <code class="filename">.oldrev</code> e contém a
+        revisão BASE do arquivo.  O outro arquivo tem uma extensão
+        <code class="filename">.newrev</code> e contém o conteúdo
+        da revisão atualizada do arquivo.  Este comportamento
+        serve de proteção ao usuário contra falhas na tentativa
+        de executar fusões contextuais nos arquivos que simplesmente
+        não podem ser contextualmente fundidos.</p><p>Além disso, se a propriedade <code class="literal">svn:mime-type</code> 
+        estiver definida, então o módulo Apache do Subversion usará seu valor 
+        para preencher o cabeçalho HTTP <code class="literal">Content-type:</code> quando
+        responder a solicitações GET.  Isto oferece ao navegador web uma
+        dica crucial sobre como exibir um arquivo quando você o utiliza para
+        examinar o conteúdo de seu repositório Subversion.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.special.executable"></a>Executabilidade de Arquivo</h3></div></div></div><p>Em muitos sistemas operacionais, a capacidade de executar um arquivo
+        como um comando é comandada pela presença de um bit de permissão
+        para execução.  Este bit, usualmente, vem desabilitado por padrão,
+        e deve ser explicitamente habilitado pelo usuário em cada arquivo que
+        seja necessário.  Mas seria um grande incômodo ter que lembrar,
+        exatamente, quais arquivos de uma cópia de trabalho verificada
+        recentemente estavam com seus bits de execução habilitados,
+        e, então, ter que trocá-los.  Por esta razão, o Subversion oferece
+        a propriedade <code class="literal">svn:executable</code>, que é um modo de
+        especificar que o bit de execução para o arquivo no qual esta
+        propriedade está definida deve ser habilitado, e o Subversion honra esta
+        solicitação ao popular cópias de trabalho com tais arquivos.</p><p>Esta propriedade não tem efeito em sistemas de arquivo que não possuem
+        o conceito de bit de permissão para executável, como, por exemplo,
+        FAT32 e NTFS.
+        <sup>[<a id="id2571908" href="#ftn.id2571908" class="footnote">12</a>]</sup>
+        Além disso, quando não houver valor definido, o Subversion forçará
+        o valor <code class="literal">*</code> ao definir esta propriedade.
+        Por fim, esta propriedade só é válido em arquivos, não em
+        diretórios.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.special.eol-style"></a>Seqüência de Caracteres de Fim-de-Linha</h3></div></div></div><p>A não você ser que esteja usando a propriedade
+        <code class="literal">svn:mime-type</code> em um arquivo sob controle de versão, o Subversion
+        assume que o arquivo contém dados humanamente legíveis.  De uma forma
+        geral, o Subversion somente usa esse conhecimento para determinar
+        se os relatórios de diferenças contextuais para este arquivo são
+        possíveis.  Ao contrário, para o Subversion, bytes são bytes.</p><p>Isto significa que, por padrão, o Subversion não presta qualquer
+        atenção para o tipo de <em class="firstterm">marcadores de fim-de-linha, ou <span class="foreignphrase"><em class="foreignphrase">end-of-line</em></span>
+        (EOL)</em> usados em seus arquivos.  Infelizmente,
+        diferentes sistemas operacionais possuem diferentes convenções sobre
+        qual seqüência de caracteres representa o fim de uma linha de texto
+        em um arquivo.  Por exemplo, a marca usual de término de linha usada por
+        softwares na plataforma Windows é um par de caracteres de controle
+        ASCII—um retorno de carro (<code class="literal">CR</code>) seguido
+        por um avanço de linha (<code class="literal">LF</code>).  Os softwares em
+        Unix, entretanto, utilizam apenas o caracter <code class="literal">LF</code>
+        para definir o término de uma linha.</p><p>Nem todas as ferramentas nestes sistemas operacionais
+        compreendem arquivos que contêm terminações de linha em um
+        formato que difere do <em class="firstterm">estilo nativo de terminação
+        de linha</em> do sistema operacional no qual estão
+        executando.  Assim, normalmente, programas Unix
+        tratam o caracter <code class="literal">CR</code>, presente em arquivos
+        Windows, como um caracter normal (usualmente representado como
+        <code class="literal">^M</code>), e programas Windows juntam todas
+        as linhas de um arquivo Unix dentro de uma linha enorme, porque
+        nenhuma combinação dos caracteres de retorno de carro e avanço de
+        linha (ou <code class="literal">CRLF</code>) foi encontrada para determinar
+        os términos das linhas.</p><p>Esta sensibilidade quanto aos marcadores EOL pode ser
+        frustrante para pessoas que compartilham um arquivo em diferentes
+        sistemas operacionais.  Por exemplo, considere um arquivo de
+        código-fonte, onde desenvolvedores que editam este arquivo em ambos os sistemas,
+        Windows e Unix.  Se todos os desenvolvedores sempre usarem ferramentas
+        que preservem o estilo de término de linha do arquivo, nenhum problema
+        ocorrerá.</p><p>Mas na prática, muitas ferramentas comuns, ou falham ao
+        ler um arquivo com marcadores EOL externos, ou convertem as
+        terminações de linha do arquivo para o estilo nativo quando o
+        arquivo é salvo.  Se o precedente é verdadeiro para um desenvolvedor,
+        ele deve usar um utilitário de conversão externo (tal como
+        <span class="command"><strong>dos2unix</strong></span> ou seu similar,
+        <span class="command"><strong>unix2dos</strong></span>) para preparar o arquivo para
+        edição.  O caso posterior não requer nenhuma preparação extra.
+        Mas ambos os casos resultam em um arquivo que difere do
+        original literalmente em cada uma das linhas!  Antes de submeter
+        suas alterações, o usuário tem duas opções.  Ou ele pode utilizar um
+        utilitário de conversão para restaurar o arquivo modificado para o mesmo
+        estilo de término de linha utilizado antes de suas edições serem feitas.
+        Ou ele pode simplesmente submeter o arquivo—as novas marcas EOL e
+        tudo mais.</p><p>O resultado de cenários como estes incluem perda de tempo
+        e modificações desnecessárias aos arquivos submetidos.  A perda de tempo
+        é suficientemente dolorosa.  Mas quando submissões mudam cada uma das linhas
+        em um arquivo, isso dificulta o trabalho de determinar quais dessas
+        linhas foram modificadas de uma forma não trivial.  Onde o bug
+        foi realmente corrigido?  Em qual linha estava o erro de sintaxe
+        introduzido?</p><p>A solução para este problema é a propriedade
+        <code class="literal">svn:eol-style</code>.  Quando esta propriedade
+        é definida com um valor válido, o Subversion a utiliza para
+        determinar que tratamento especial realizar sobre o arquivo de
+        modo que o estilo de término de linha do arquivo não fique
+        alternando a cada submissão vinda de um sistema operacional
+        diferente.  Os valores válidos são:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">native</code></span></dt><dd><p>Isso faz com que o arquivo contenha as marcas EOL
+              que são nativas ao sistema operacional no qual o
+              Subversion foi executado.  Em outras palavras, se um
+              usuário em um computador Windows adquire uma cópia de trabalho
+              que contém um arquivo com a propriedade
+              <code class="literal">svn:eol-style</code> atribuída para
+              <code class="literal">native</code>, este arquivo conterá
+              <code class="literal">CRLF</code> como marcador EOL.  Um usuário Unix
+              adquirindo uma cópia de trabalho que contém o mesmo
+              arquivo verá <code class="literal">LF</code> como marcador EOL em sua
+              cópia do arquivo.</p><p>Note que o Subversion na verdade armazenará o arquivo
+              no repositório usando marcadores normalizados como
+              <code class="literal">LF</code> independentemente do sistema
+              operacional.  Isto, no entanto, será essencialmente transparente para
+              o usuário.</p></dd><dt><span class="term"><code class="literal">CRLF</code></span></dt><dd><p>Isso faz com que o arquivo contenha seqüências
+              <code class="literal">CRLF</code> como marcadores EOL,
+              independentemente do sistema operacional em uso.</p></dd><dt><span class="term"><code class="literal">LF</code></span></dt><dd><p>Isso faz com que o arquivo contenha caracteres
+              <code class="literal">LF</code> como marcadores EOL,
+              independentemente do sistema operacional em uso.</p></dd><dt><span class="term"><code class="literal">CR</code></span></dt><dd><p>Isso faz com que o arquivo contenha caracteres
+              <code class="literal">CR</code> como marcadores EOL, independentemente
+                do sistema operacional em uso.  Este estilo de término
+                de linha não é muito comum.  Ele foi utilizado em antigas
+                plataformas Macintosh (nas quais o Subversion não executa
+                regularmente).</p></dd></dl></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2571672" href="#id2571672" class="para">11</a>] </sup>Você acha que foi complicado?  Durante este mesmo período, o
+              WordPerfect também usou <code class="filename">.DOC</code> como extensão
+              para seu formato de arquivo proprietário!</p></div><div class="footnote"><p><sup>[<a id="ftn.id2571908" href="#id2571908" class="para">12</a>] </sup>Os sistemas de arquivos do Windows usam extensões de arquivo 
+          (tais como <code class="literal">.EXE</code>, <code class="literal">.BAT</code>, e
+            <code class="literal">.COM</code>) para indicar arquivos
+            executáveis.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.props.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.props.special.ignore.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Propriedades </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Ignorando Itens Não-Versionados</td></tr></table></div></body></html>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Propriedades</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.tour.revs.specifiers.html" title="Especificadores de Revisão" /><link rel="next" href="svn.advanced.props.file-portability.html" title="Portabilidade de Arquivo" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Propriedades</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.revs.specifiers.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.props.file-portability.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.props"></a>Propriedades</h2></div></div></div><a id="id2570020" class="indexterm"></a><p>Nós já abordamos em detalhes como o Subversion armazena e
+      recupera várias versões de arquivos e diretórios em seu
+      repositório.  Capítulos inteiros têm sido focados nesta parte mais
+      fundamental das funcionalidades providas pela ferramenta.  E se o
+      suporte a versionamento parar por aí, o Subversion ainda seria
+      completo do ponto de vista do controle de versão.</p><p>Mas não pára por aí.</p><p>Adicionalmente ao versionamento de seus arquivos e diretórios,
+      o Subversion permite interfaces para adição, modificação e remoção
+      de metadados versionados em cada um de seus arquivos e diretórios
+      sob controle de versão.  Chamamos estes metadados de
+      <em class="firstterm">propriedades</em>, e eles podem ser entendidos
+      como tabelas de duas colunas que mapeiam nomes de propriedades a
+      valores arbitrários anexados a cada item em sua cópia de trabalho.
+      Falando de uma forma geral, os nomes e valores das propriedades
+      podem ser quaisquer coisas que você queira, com a restrição de que
+      os nomes devem ser texto legível por humanos.  E a melhor parte
+      sobre estas propriedades é que elas, também, são versionadas, tal
+      como o conteúdo textual de seus arquivos.  Você pode modificar,
+      submeter, e reverter alterações em propriedades tão facilmente
+      como em qualquer alteração no conteúdo de arquivos.  E o envio e
+      recebimento das modificações em propriedades ocorrem como parte de
+      suas operações de submissão
+      (<span class="foreignphrase"><em class="foreignphrase">commit</em></span>) e atualização
+      (<span class="foreignphrase"><em class="foreignphrase">update</em></span>)—você não tem que
+      mudar seus procedimentos básicos para utilizá-los.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>O Subversion reservou um conjunto de propriedades cujos
+        nomes começam com <code class="literal">svn:</code> para si próprio.
+        Ainda que haja apenas um conjunto útil de tais propriedades em
+        uso hoje em dia, você deve evitar criar suas propriedades
+        específicas com nomes que comecem com este prefixo.  Do
+        contrário, você corre o risco de que uma versão futura do
+        Subversion aumente seu suporte a recursos ou comportamentos a
+        partir de uma propriedade de mesmo nome, mas talvez com um
+        significado completamente diferente.</p></div><p>Propriedades aparecem em qualquer parte no Subversion, também.
+      Da mesma maneira que arquivos e diretórios podem ter nomes de
+      propriedades arbitrários e valores anexados a eles, cada revisão
+      como um todo pode ter propriedades arbitrárias anexadas a si
+      própria.  As mesmas restrições se aplicam;mdash;nomes que sejam
+      legíveis por humanos e valores com qualquer coisa que você queira,
+      inclusive dados binários.  A principal diferença é que as
+      propriedades de uma revisão não são versionadas.  Em outras
+      palavras, se você modificar o valor de, ou excluir uma propriedade
+      de uma revisão, não há uma forma de recuperar seu valor anterior
+      no Subversion.</p><p>O Subversion não tem nenhuma política em particular em relação
+      ao uso de propriedades.  Ele apenas solicita que você não use
+      nomes de propriedades que comecem com o prefixo
+      <code class="literal">svn:</code>.  Este é o espaço de nomes
+      (<span class="foreignphrase"><em class="foreignphrase">namespace</em></span>) que ele reserva para
+      uso próprio.  E o Subversion, de fato, faz uso de propriedades,
+      tanto do tipo versionadas quando das não-versionadas.  Certas
+      propriedades versionadas têm um significado especial ou certos
+      efeitos quando encontradas em arquivos e diretórios, ou carregam
+      alguma pequena informação sobre a revisão na qual estes se
+      encontram.  Certas propriedades de revisão são automaticamente
+      anexadas às revisões pelo processo de submissão de alterações do
+      Subversion, e obtém informação sobre a revisão.  Muitas dessas
+      propriedades são mencionadas em algum lugar neste ou em outros
+      capítulos como parte de tópicos mais gerais aos quais estão
+      relacionadas.  Para uma lista exaustiva das propriedades
+      pré-definidas do Subversion, veja <a class="xref" href="svn.ref.properties.html" title="Propriedades do Subversion">“Propriedades do Subversion”</a>.</p><p>Nesta seção, vamos examinar a utilidade—tanto para os
+      usuários quanto para o próprio Subversion—do suporte a
+      propriedades.  Você vai aprender sobre os subcomandos de
+      <span class="command"><strong>svn</strong></span> que lidam com propriedades, e como
+      alterações nas propriedades afetam seu fluxo de trabalho normal no
+      Subversion.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.why"></a>Por que Propriedades?</h3></div></div></div><p>Como o Subversion usa propriedades para armazenar
+        informações extras sobre arquivos, diretórios, e revisões que as
+        contém, você também pode usar propriedades de forma semelhante.
+        Você poderia achar útil ter um lugar próximo de seus dados
+        versionados para pendurar metadados personalizados sobre estes
+        dados.</p><p>Digamos que você quer elaborar um website que armazene
+        muitas fotos digitais, e as exiba com legendas e a data e hora
+        em que foram tiradas.  Só que seu conjunto de fotos está mudando
+        constantemente, e você gostaria de automatizar este site tanto
+        quanto possível.  Estas fotos podem ser um pouco grandes, então,
+        como muito comum em sites desse tipo, você quer disponibilizar
+        prévias em miniatura de suas fotos para os visitantes de seu
+        site.</p><p>Agora, você pode ter esta funcionalidade usando arquivos
+        tradicionais.  Isto é, você pode ter seus arquivos 
+        <code class="filename">image123.jpg</code> e 
+        <code class="filename">image123-thumbnail.jpg</code> lado a lado em um
+        diretório.  Ou se você quiser manter os mesmos nomes de
+        arquivos, você poderia ter suas miniaturas em um diretório
+        diferente, como <code class="filename">thumbnails/image123.jpg</code>.
+        Você também pode armazenar suas legendas e datas e horários de
+        forma parecida, também separadas do arquivo da foto original.
+        Mas o problema aqui é que o conjunto de arquivos aumenta aos
+        múltiplos para cada nova foto adicionada ao site.</p><p>Agora considere o mesmo website desenvolvido de forma a
+        fazer uso das propriedades de arquivo do Subversion.  Imagine
+        ter um único arquivo de imagem,
+        <code class="filename">image123.jpg</code>, e então propriedades
+        definidas neste arquivo chamadas <code class="literal">caption</code>,
+        <code class="literal">datestamp</code>, ou mesmo
+        <code class="literal">thumbnail</code> (respectivamente para a legenda,
+        data e hora, e miniatura da imagem).  Agora sua cópia de
+        trabalho parece muito mais gerenciável—de fato, numa
+        primeira visualização, não parece haver nada mais além dos
+        arquivos de imagem lá dentro.  Mas seus scripts de automação
+        sabem mais.  Eles sabes que podem usar o <span class="command"><strong>svn</strong></span>
+        (ou melhor ainda, eles podem usar a linguagem incorporada ao
+        Subversion—veja <a class="xref" href="svn.developer.usingapi.html" title="Usando as APIs">“Usando as APIs”</a>)
+        para para extrair as informações extras que seu site precisa
+        exibir sem ter que lê-las de um arquivo de índices nem precisar
+        de preocupar em estar manipulando caminhos dos arquivos.</p><p>As propriedades personalizadas de revisões também são
+        freqüentemente usadas.  Um de seus usos comuns é uma
+        propriedades cujo valor contém um recurso de ID de rastreamento
+        ao qual a revisão está associada, talvez pelo fato de a
+        alteração feita nesta revisão corrigir um problema relatado
+        externamente com aquele ID.  Outros usos incluem a inserção de
+        nomes mais amigáveis à revisão—pode ser difícil lembrar
+        que a revisão 1935 foi uma revisão testada completamente.  Mas
+        se houver, digamos, uma propriedade
+        <code class="literal">resultado-dos-testes</code> nesta revisão com o
+        valor <code class="literal">todos passaram</code>, esta á uma informação
+        bem mais significativa de se ter.</p><div class="sidebar"><p class="title"><b>Procurabilidade (ou, Porque <span class="emphasis"><em>Não</em></span>
+          Usar Propriedades)</b></p><p>Para algo com tamanha , as propriedades do
+          Subversion—ou, mais precisamente, as interfaces
+          disponíveis para elas—têm uma grande falha:
+          apesar de ser simples <span class="emphasis"><em>criar</em></span> uma
+          propriedade específica, <span class="emphasis"><em>procurar</em></span> esta
+          propriedade posteriormente são outros quinhentos.</p><p>Tentar localizar uma propriedade específica de uma revisão
+          geralmente envolve executar uma busca linear ao longo de todas
+          as revisões do repositório, perguntando para cada revisão,
+          "Você tem a propriedade que eu estou procurando?"  Tentar
+          encontrar uma propriedade versionada é complicado, também, e
+          quase sempre envolve um recursivo <span class="command"><strong>svn
+          propget</strong></span> ao longo de toda a cópia de trabalho.  Esta
+          situação pode até não ser tão ruim quando uma busca linear
+          por todas as revisões.  Mas certamente deixa muito a desejar
+          tanto em termos de performance quanto mesmo da probabilidade
+          de sucesso, especialmente se o escopo de sua busca envolver
+          uma cópia de trabalho da raiz de seu repositório.</p><p>Por este motivo, você deve escolher—especialmente no
+          caso de propriedades de revisões—entre simplesmente
+          adicionar seus metadados na mensagem de log da revisão, usando
+          algum padrão de formatação (talvez até a partir de ferramentas
+          de programação) que permita uma filtragem rápida a partir da
+          saída do comando <span class="command"><strong>svn log</strong></span>.  É bastante comum
+          de se ver mensagens de log do Subversion parecidas com:</p><pre class="programlisting">
+Issue(s): IZ2376, IZ1919
+Reviewed by:  sally
+
+Isto corrige um erro de falha de segmentação no gerenciador de processos
+…
+</pre><p>Mas isto resulta em outra dificuldade.  O Subversion não
+          provê ainda uma mecanismo de modelos para mensagens de log,
+          que poderia ajudar bastante os usuários a manter
+          consistentemente o formato de seus metadados incluídos em
+          suas mensagens de log.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.manip"></a>Manipulando Propriedades</h3></div></div></div><p>O comando <span class="command"><strong>svn</strong></span> oferece algumas poucas
+        maneiras de se adicionar ou modificar propriedades de arquivos e
+        diretórios.  Para propriedades com valores pequenos, legíveis
+        por humanos, talvez a forma mais simples de se adicionar uma nova
+        propriedade é especificar o nome e o valor da propriedade na
+        linha de comando com o subcomando
+        <span class="command"><strong>propset</strong></span>.</p><pre class="screen">
+$ svn propset copyright '(c) 2006 Red-Bean Software' calc/button.c
+property 'copyright' set on 'calc/button.c'
+$
+</pre><p>Mas sempre podemos contar com a flexibilidade que o
+        Subversion oferece para seus valores de propriedades.  E se você
+        está planejando ter texto com múltiplas linhas, ou mesmo valores
+        binários para o valor da propriedade, você provavelmente não vai
+        informar este valor pela linha de comando.  Então, o subcomando
+        <span class="command"><strong>propset</strong></span> leva uma opção <code class="option">--file
+        (-F)</code> para especificar o nome de um arquivo que contém o
+        valor para a nova propriedade.</p><pre class="screen">
+$ svn propset license -F /path/to/LICENSE calc/button.c
+property 'license' set on 'calc/button.c'
+$
+</pre><p>Há algumas restrições sobre os nomes que você pode usar para
+        propriedades.  Um nome de propriedade deve começar com uma
+        letra, dois-pontos (<code class="literal">:</code>), ou um caractere
+        sublinha (<code class="literal">_</code>); e depois disso, você também
+        pode usar dígitos, hifens (<code class="literal">-</code>), e pontos
+        (<code class="literal">.</code>).
+          <sup>[<a id="id2570611" href="#ftn.id2570611" class="footnote">9</a>]</sup>
+      </p><p>Além do <span class="command"><strong>propset</strong></span>, o programa
+        <span class="command"><strong>svn</strong></span> também oferece comando
+        <span class="command"><strong>propedit</strong></span>.  Este comando usa o editor de texto
+        configurado (veja <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a>) para adicionar
+        ou modificar propriedades.  Quando você executa este comando, o
+        <span class="command"><strong>svn</strong></span> chama seu programa editor em um arquivo
+        temporário que contém o valor atual da propriedade (ou o qual é
+        vazio, se você estiver adicionando uma nova propriedade).
+        Então, você apenas modifica esse valor em seu editor até que ele
+        represente o novo valor que você quer armazenar para a
+        propriedade.  Se o Subversion identificar que no momento você
+        está modificando o valor da propriedade existente, ele irá
+        aceitá-lo como novo valor da propriedade.  Se você sair de seu
+        editor sem fazer qualquer alteração, nenhuma modificação irá
+        ocorrer:</p><pre class="screen">
+$ svn propedit copyright calc/button.c  ### sai do editor sem fazer nada
+No changes to property 'copyright' on 'calc/button.c'
+$
+</pre><p>Devemos notar que, como qualquer outro subcomando do
+        <span class="command"><strong>svn</strong></span>, estes que são relacionados a
+        propriedades podem agir em diversos caminhos de uma só vez.
+        Isto lhe permite modificar propriedades em todo um conjunto de
+        arquivos com um único comando.  Por exemplo, nós poderíamos ter
+        feito:</p><pre class="screen">
+$ svn propset copyright '(c) 2006 Red-Bean Software' calc/*
+property 'copyright' set on 'calc/Makefile'
+property 'copyright' set on 'calc/button.c'
+property 'copyright' set on 'calc/integer.c'
+…
+$
+</pre><p>Toda esta adição e alteração de propriedades não é realmente
+        muito útil se você não puder obter facilmente o valor armazenado
+        da propriedade.  Então o programa <span class="command"><strong>svn</strong></span> dispõe
+        de dois subcomando para exibição dos nomes e valores das
+        propriedades armazenadas nos arquivos e diretórios.  O comando
+        <span class="command"><strong>svn proplist</strong></span> vai listar os nomes das
+        propriedades que existem naquele caminho.  Uma vez que você
+        saiba os nomes das propriedades do nó, você pode verificar seus
+        valores individualmente usando <span class="command"><strong>svn propget</strong></span>.
+        Este comando mostrará, dado um nome de propriedade e um caminho
+        (ou conjunto de caminhos), o valor da propriedade para a saída
+        padrão.</p><pre class="screen">
+$ svn proplist calc/button.c
+Properties on 'calc/button.c':
+  copyright
+  license
+$ svn propget copyright calc/button.c
+(c) 2006 Red-Bean Software
+</pre><p>Há ainda uma variação do comando <span class="command"><strong>proplist</strong></span>
+        que lista tanto o nome quanto o valor de todas as propriedades.
+        Apenas informe a opção <code class="option">--verbose</code>
+        (<code class="option">-v</code>).</p><pre class="screen">
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+  license : ================================================================
+Copyright (c) 2006 Red-Bean Software.  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions 
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions, and the recipe for Fitz's famous
+red-beans-and-rice.
+…
+</pre><p>O último subcomando relacionado a propriedades é o 
+        <span class="command"><strong>propdel</strong></span>.  Como o Subversion permite armazenar
+        propriedades com valores vazios, você não pode remover
+        uma propriedade usando <span class="command"><strong>propedit</strong></span> ou
+        <span class="command"><strong>propset</strong></span>.  Por exemplo, este comando
+        <span class="emphasis"><em>não</em></span> vai surtir o efeito desejado:</p><pre class="screen">
+$ svn propset license '' calc/button.c
+property 'license' set on 'calc/button.c'
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+  license : 
+$
+</pre><p>Você precisa usar o subcomando <span class="command"><strong>propdel</strong></span>
+        para remover propriedades completamente.  A sintaxe é semelhante
+        a dos outros comandos de propriedades:</p><pre class="screen">
+$ svn propdel license calc/button.c
+property 'license' deleted from 'calc/button.c'.
+$ svn proplist -v calc/button.c
+Properties on 'calc/button.c':
+  copyright : (c) 2006 Red-Bean Software
+$
+</pre><p>Lembra das propriedades não-versionadas de revisões?  Você
+        pode modificá-las, também, usando os mesmo subcomandos do
+        <span class="command"><strong>svn</strong></span> que acabamos de descrever.  Apenas
+        adicione o parâmetro <code class="option">--revprop</code> na linha de
+        comando, e especifique a revisão cujas propriedades você quer
+        modificar.  Como as revisões são globais, você não precisa
+        especificar um caminho para para estes comandos relacionados a
+        propriedades enquanto estiver em uma cópia de trabalho do
+        repositório cuja propriedade de revisão você queira alterar.
+        Por outro lado, você pode apenas especificar a URL de qualquer
+        caminho de seu interesse no repositório (incluindo a URL raiz
+        do repositório).  Por exemplo, você pode querer trocar a
+        mensagem de log de um registro de alteração de uma revisão
+        existente.
+        <sup>[<a id="id2570880" href="#ftn.id2570880" class="footnote">10</a>]</sup>
+        Se seu diretório atual for parte da cópia de trabalho de seu
+        repositório, você pode simplesmente executar o comando 
+        <span class="command"><strong>svn propset</strong></span> sem nenhum caminho:</p><pre class="screen">
+$ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop
+property 'svn:log' set on repository revision '11'
+$
+</pre><p>Mas mesmo que você não tenha criado uma cópia de trabalho a
+        partir do repositório, você ainda assim pode proceder com
+        modificação de propriedades informando a URL raiz do
+        repositório:</p><pre class="screen">
+$ svn propset svn:log '* button.c: Fix a compiler warning.' -r11 --revprop \
+              http://svn.example.com/repos/project
+property 'svn:log' set on repository revision '11'
+$
+</pre><p>Perceba que a permissão para se alterar estas propriedades
+        não-versionadas deve ser explicitamente concedida pelo
+        administrador do repositório (veja <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.setlog" title="Corrigindo Mensagens de Log Submetidas">“Corrigindo Mensagens de Log Submetidas”</a>).  Isto é porque as
+        propriedades não são versionadas, então você corre o risco de
+        perder informação se não for cuidadoso com suas alterações.  O
+        administrador do repositório pode definir formas de proteção
+        contra perda de dados, e por padrão, além de que as modificações
+        de propriedades não-versionadas são desabilitadas por padrão.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Usuários poderia, quando possível, usar <span class="command"><strong>svn
+          propedit</strong></span> ao invés de <span class="command"><strong>svn
+          propset</strong></span>.  Ainda que o resultado da execução dos
+          comandos seja o mesmo, o primeiro vai lhes permitir visualizar
+          o valor atual da propriedade que querem modificar, o que ajuda
+          a conferir que estão, de fato, fazer a alteração que acham que
+          estão fazendo.  Isto é especialmente verdadeiro ao modificar
+          as propriedades não-versionadas de revisão.  E ainda, é
+          significativamente modificar valores de propriedades em
+          múltiplas linhas em um editor de texto do que pela linha de
+          comando.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.workflow"></a>Propriedades e o Fluxo de Trabalho no Subversion</h3></div></div></div><p>Agora que você está familiarizado com todos os subcomandos
+        <span class="command"><strong>svn</strong></span> relacionados a propriedades, vamos ver
+        como as modificações de propriedades afetam o fluxo de trabalho
+        usual do Subversion.  Como mencionado anteriormente, as
+        propriedades de arquivos e diretórios são versionadas, tal como
+        os conteúdos de arquivos.  Como resultado, o Subversion dispõe
+        dos mesmos recursos para mesclar—de forma limpa ou com
+        conflitos—alterações de terceiros às nossas
+        próprias.</p><p>E como com conteúdos de arquivos, suas mudanças de
+        propriedades são modificações locais, que são tornadas
+        permanentes apenas quando submetidas ao repositório com o
+        comando <span class="command"><strong>svn commit</strong></span>.  Suas alterações de
+        propriedades também podem ser facilmente desfeitas—o
+        comando <span class="command"><strong>svn revert</strong></span> vai restaurar seus
+        arquivos e diretórios para seus estados
+        inalterados—conteúdos, propriedades, e tudo.  Também, você
+        pode obter informações interessantes sobre o estado de suas
+        propriedades de arquivos e diretórios usando os comandos
+        <span class="command"><strong>svn status</strong></span> e
+        <span class="command"><strong>svn diff</strong></span>.</p><pre class="screen">
+$ svn status calc/button.c
+ M     calc/button.c
+$ svn diff calc/button.c
+Property changes on: calc/button.c
+___________________________________________________________________
+Name: copyright
+   + (c) 2006 Red-Bean Software
+
+$
+</pre><p>Note como o subcomando <span class="command"><strong>status</strong></span> exibe
+        <code class="literal">M</code> na segunda coluna ao invés de na primeira.
+        Isto é porque modificamos as propriedades de
+        <code class="filename">calc/button.c</code>, mas não seu conteúdo
+        textual.  Se tivéssemos modificado ambos, deveríamos ver um 
+        <code class="literal">M</code> na primeira coluna também (veja <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.examine.status" title="Obtendo uma visão geral de suas alterações">“Obtendo uma visão geral de suas alterações”</a>).</p><div class="sidebar"><p class="title"><b>Conflitos de Propriedades</b></p><p>Da mesma forma que para conteúdo de arquivos, modificações
+          de propriedades podem conflitar com alterações submetidas por
+          outros.  Se você atualizar sua cópia de trabalho e receber
+          alterações de propriedade em um objeto versionado que vão de
+          encontro às suas, o Subversion vai informar que o objeto está
+          em um estado conflituoso.</p><pre class="screen">
+% svn update calc
+M  calc/Makefile.in
+ C calc/button.c
+Updated to revision 143.
+$ 
+</pre><p>O Subversion também vai criar, no mesmo diretório que o
+          objeto em conflito, um arquivo com a extensão
+          <code class="filename">.prej</code> contendo os detalhes do conflito.
+          Você deve examinar o conteúdo deste arquivo para decidir como
+          resolver o conflito.  Até que o conflito seja resolvido, você
+          verá um <code class="literal">C</code> na segunda coluna da saída do
+          <span class="command"><strong>svn status</strong></span> para o objeto em questão, e as
+          tentativas de submeter suas modificações locais irão
+          falhar.</p><pre class="screen">
+$ svn status calc
+ C     calc/button.c
+?      calc/button.c.prej
+$ cat calc/button.c.prej 
+prop 'linecount': user set to '1256', but update set to '1301'.
+$
+</pre><p>Para resolver conflitos de propriedades, apenas garanta
+          que as propriedades conflituosas contenham os valores que
+          deveriam conter, e então use o comando <span class="command"><strong>svn
+          resolved</strong></span> para informar ao Subversion que você
+          resolveu o problema manualmente.</p></div><p>Você também deve ter notado a forma não-padrão como o
+        Subversion atualmente exibe diferenças de propriedades.  Você
+        ainda pode executar <span class="command"><strong>svn diff</strong></span> e redirecionar a
+        saída para criar um arquivo de patch usável.  O programa
+        <span class="command"><strong>patch</strong></span> vai ignorar patches de
+        propriedades—como regra, ele ignora qualquer coisa que não
+        consiga entender.  Isso significa, infelizmente, que para
+        aplicar completamente um patch gerado pelo <span class="command"><strong>svn
+        diff</strong></span>, quaisquer alterações em propriedades precisarão
+        ser aplicadas manualmente.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.props.auto"></a>Definição Automática de Propriedades</h3></div></div></div><p>Propriedades são um poderoso recurso do Subversion, agindo
+        como componentes chave em muitos outros recursos apresentados
+        neste e em outros capítulos—suporte a diferenciação e
+        mesclagem textual, substituição de palavras-chave, conversão de
+        delimitadores de linha, etc.  Mas para aproveitar plenamente as
+        propriedades, elas devem ser definidas nos arquivos e diretórios
+        certos.  Infelizmente, este passo é facilmente esquecido na
+        rotina de ações de usuário, especialmente pelo fato de que a não
+        atribuição de uma propriedade normalmente não resulta em nenhum
+        erro óbvio (ao menos quando comparado a, digamos, esquecer de
+        adicionar um arquivo ao controle de versão).  Para ajudar que
+        suas propriedades sejam aplicadas em seus devidos locais, o
+        Subversion dispõem de uma porção de recursos simples e
+        poderosos.</p><p>Sempre que você inclui um arquivo ao controle de versão
+        usando os comando <span class="command"><strong>svn add</strong></span> ou <span class="command"><strong>svn
+        import</strong></span>, o Subversion tenta ajudar criando algumas
+        propriedades de arquivo automaticamente.  Primeiramente, em
+        sistema operacionais cujos sistemas de arquivo suportem bits de
+        permissão de execução, o Subversion automaticamente vai definir
+        a propriedade <code class="literal">svn:executable</code> nos arquivos
+        recém adicionados ou importados nos quais o bit de execução
+        esteja ativo.  (Veja <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.executable" title="Executabilidade de Arquivo">“Executabilidade de Arquivo”</a> para mais
+        sobre esta propriedade.)  Em segundo lugar, ele executa uma
+        heurística bem básica para identificar se o arquivo contém
+        algum conteúdo que seja legível por humanos.  Se não, o
+        Subversion automaticamente vai definir a propriedade
+        <code class="literal">svn:mime-type</code> naquele arquivo para
+        <code class="literal">application/octet-stream</code> (o tipo MIME
+        genérico para “<span class="quote">isto é um conjunto de bytes</span>”).
+        Claro que se o Subversion identificou corretamente, ou se você
+        quiser definir a propriedade <code class="literal">svn:mime-type</code>
+        para algo mais preciso—talvez <code class="literal">image/png</code>
+        ou <code class="literal">application/x-shockwave-flash</code>—você
+        sempre pode remover ou editar esta propriedade.  (Para mais
+        sobre como o Subversion faz uso dos tipos MIME, veja <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a>.)</p><p>O Subversion também oferece, através de seu sistema de
+        configuração em tempo de execução (veja <a class="xref" href="svn.advanced.confarea.html" title="Área de Configuração do Tempo de Execução">“Área de Configuração do Tempo de Execução”</a>), um mecanismo mais flexível
+        de definição automática de propriedades que permite a você criar
+        mapeamentos de padrões de nome de arquivos para nomes de
+        propriedades e valores.  Novamente, estes mapeamentos afetam
+        adições e importações e não apenas podem sobrescrever a
+        identificação sobre o tipo MIME padrão feita pelo Subversion
+        durante suas operações, como pode definir propriedades do
+        Subversion adicionais e personalizadas também.  Por exemplo,
+        você poderia criar um mapeamento que dissesse que sempre que
+        você adicionar arquivos JPEG—aqueles cujos nomes casem com
+        o padrão <code class="literal">*.jpg</code>—o Subversion deveria
+        automaticamente definir a propriedade
+        <code class="literal">svn:mime-type</code> destes arquivos para
+        <code class="literal">image/jpeg</code>.  Ou talvez quaisquer arquivos que
+        correspondam ao padrão <code class="literal">*.cpp</code> deveriam ter a
+        propriedade <code class="literal">svn:eol-style</code> definida para
+        <code class="literal">native</code>, e <code class="literal">svn:keywords</code>
+        atribuída para <code class="literal">Id</code>.  Suporte a propriedades
+        automáticas talvez seja a ferramenta mais prática no conjunto de
+        ferramentas do Subversion.  Veja <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a> para mais sobre a
+        configuração deste recurso.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2570611" href="#id2570611" class="para">9</a>] </sup>Se você é familiarizado com XML, este é exatamente o
+            subconjunto ASCII da sintaxe de um "Nome" XML.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2570880" href="#id2570880" class="para">10</a>] </sup>Correção de erros de ortografia, gramaticais
+            “<span class="quote">outros ajustes simples de texto</span>” nas mensagens
+            de log de uma registro talvez seja o uso mais comum da opção
+            <code class="option">--revprop</code> option.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.revs.specifiers.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.props.file-portability.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Especificadores de Revisão </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Portabilidade de Arquivo</td></tr></table></div></body></html>

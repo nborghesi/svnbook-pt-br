@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Checkout Inicial</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.tour.html" title="Capítulo 2. Uso Básico" /><link rel="prev" href="svn.tour.importing.html" title="Colocando dados em seu Repositório" /><link rel="next" href="svn.tour.cycle.html" title="Ciclo Básico de Trabalho" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Checkout Inicial</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.importing.html">Anterior</a> </td><th width="60%" align="center">Capítulo 2. Uso Básico</th><td width="20%" align="right"> <a accesskey="n" href="svn.tour.cycle.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.initial"></a>Checkout Inicial</h2></div></div></div><p>Na maioria das vezes, você começa a usar um repositório
+      Subversion fazendo um <em class="firstterm">checkout</em> de seu
+      projeto.  Fazer um checkout de um repositório cria uma “<span class="quote">cópia de
+      trabalho</span>” em sua máquina local.  Esta cópia contém
+      o <code class="literal">HEAD</code> (revisão mais recente) do repositório
+      Subversion que você especificou na linha de comando:</p><pre class="screen">
+$ svn checkout http://svn.collab.net/repos/svn/trunk
+A    trunk/Makefile.in
+A    trunk/ac-helpers
+A    trunk/ac-helpers/install.sh
+A    trunk/ac-helpers/install-sh
+A    trunk/build.conf
+…
+Gerado cópia de trabalho para revisão 8810.
+</pre><div class="sidebar"><p class="title"><b>O que há em um Nome?</b></p><p>O Subversion tenta arduamente não limitar o tipo de dado que você
+        pode colocar sob controle de versão.  O conteúdo dos arquivos e
+        valores de propriedades são armazenados e transmitidos como dados binários, e
+        a seção <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a>
+        diz-lhe como dar ao Subversion uma dica de que operações
+        “<span class="quote">textuais</span>” não têm sentido para um
+        arquivo em particular.  Há umas poucas ocasiões, porém, onde o
+        Subversion coloca restrições sobre as informações nele
+        armazenadas.</p><p>O Subversion manipula internamente determinados fragmentos de
+        dados—por exemplo, nomes de propriedades, nomes de caminhos, e mensagens
+        de log—como Unicode codificado em UTF-8.  Porém, isto não quer dizer
+        que todas suas interações com o Subversion devam envolver UTF-8.
+        Como uma regra geral, os clientes Subversion graciosa
+        e transparentemente manipularão as conversões entre UTF-8 e o
+        sistema de codificação em uso em seu computador, caso tal conversão
+        possa ser feita de forma que faça sentido (o que é o caso das codificações
+        mais comuns em uso hoje).</p><p>Adicionalmente, caminhos de arquivos são usados como valores de atributos XML
+        nas trocas WebDAV, bem como em alguns arquivos internamente mantidos pelo 
+        Subversion.  Isto significa que os caminhos de arquivos podem somente
+        conter caracteres aceitos no XML (1.0).  Subversion também proíbe
+        os caracteres TAB, CR, e LF em nomes de caminhos para prevenir que caminhos
+        sejam quebrados nos diffs, ou em saídas de comandos como 
+        <a class="xref" href="svn.ref.svn.c.log.html" title="svn log">svn log</a> ou <a class="xref" href="svn.ref.svn.c.status.html" title="svn status">svn status</a>.</p><p>Embora pareça que há muito o que recordar, na prática
+        estas limitações raramente são um problema.  Enquanto suas
+        configurações regionais são compatíveis com UTF-8, e você não usar
+        caracteres de controle nos nomes dos caminhos, você não terá problemas na
+        comunicação com o Subversion.  O cliente de linha de comando dá um pouco
+        de ajuda extra—ele automaticamente adiciona informações de escape
+        para os caracteres ilegais nos caminhos em URLs que você digita,
+        para criar versões “<span class="quote">legalmente corretas</span>” para uso
+        interno quando necessário.</p></div><p>Embora os exemplos acima efetuem o checkout do diretório trunk,
+      você pode facilmente efetuar o checkout em qualquer nível de subdiretórios de um
+      repositório especificando o subdiretório na URL do
+      checkout:</p><pre class="screen">
+$ svn checkout \
+      http://svn.collab.net/repos/svn/trunk/subversion/tests/cmdline/
+A    cmdline/revert_tests.py
+A    cmdline/diff_tests.py
+A    cmdline/autoprop_tests.py
+A    cmdline/xmltests
+A    cmdline/xmltests/svn-test.sh
+…
+Gerado cópia de trabalho para revisão 8810.
+</pre><p>Uma vez que o Subversion usa um modelo “<span class="quote">copiar-modificar-fundir</span>”
+      ao invés de “<span class="quote">travar-modificar-destravar</span>” (veja <a class="xref" href="svn.basic.vsn-models.html" title="Modelos de Versionamento">“Modelos de Versionamento”</a>), você pode iniciar por
+      fazer alterações nos arquivos e diretórios em sua cópia de
+      trabalho.  Sua cópia de trabalho é igual a qualquer outra coleção de
+      arquivos e diretórios em seu sistema.  Você pode editá-los,
+      alterá-los e movê-los, você pode até mesmos apagar toda sua cópia
+      de trabalho e esquecê-la.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Apesar de sua cópia de trabalho ser “<span class="quote">igual a qualquer outra
+          coleção de arquivos e diretórios em seu sistema</span>”,
+          você pode editar os arquivos a vontade, mas tem que informar o Subversion
+          sobre <span class="emphasis"><em>tudo o mais</em></span> que você fizer.  Por
+          exemplo, se você quiser copiar ou mover um item em uma cópia de
+          trabalho, você deve usar os comandos <span class="command"><strong>svn copy</strong></span> or
+          <span class="command"><strong>svn move</strong></span> em vez dos comandos copiar e mover
+          fornecidos por ser sistema operacional.  Nós falaremos mais
+          sobre eles posteriormente neste capítulo.</p></div><p>A menos que você esteja pronto para submeter a adição de novos arquivos ou
+      diretórios, ou modificações nos já existentes, não há necessidade de
+      continuar a notificar o servidor Subversion que você tenha feito
+      algo.</p><div class="sidebar"><p class="title"><b>O que há no diretório <code class="filename">.svn</code>?</b></p><p>Cada diretório em uma cópia de trabalho contém uma
+        área administrativa, um subdiretório nomeado
+        <code class="filename">.svn</code>.  Normalmente, comandos de listagem de
+        diretórios não mostrarão este subdiretório, mas este é
+        um diretório importante.  Faça o que fizer, não apague ou
+        modifique nada nesta área administrativa!  O Subversion
+        depende dela para gerenciar sua cópia de trabalho.</p><p>Se você remover o subdiretório <code class="filename">.svn</code>
+        acidentalmente, o modo mais fácil de resolver o problema é remover
+        todo o conteúdo do diretório (uma exclusão normal pelo sistema,
+        não <span class="command"><strong>svn delete</strong></span>), então executar <span class="command"><strong>svn
+        update</strong></span> a partir do diretório pai.  O cliente Subversion
+        fará novamente o download do diretório que você excluiu, bem como
+        uma nova área <code class="filename">.svn</code>.</p></div><p>Além de você certamente poder obter uma cópia de trabalho com a
+      URL do repositório como único argumento, você também pode especificar
+      um diretório após a URL do repositório.  Isto coloca sua cópia de
+      trabalho no novo diretório que você informou.  Por exemplo:</p><pre class="screen">
+$  svn checkout http://svn.collab.net/repos/svn/trunk subv
+A    subv/Makefile.in
+A    subv/ac-helpers
+A    subv/ac-helpers/install.sh
+A    subv/ac-helpers/install-sh
+A    subv/build.conf
+…
+Gerado cópia de trabalho para revisão 8810.
+</pre><p>Isto colocará sua cópia de trabalho em um diretório chamado
+      <code class="literal">subv</code> em vez de um diretório chamado
+      <code class="literal">trunk</code> como fizemos anteriormente.  O diretório
+      <code class="literal">subv</code> será criado se ele não existir.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.initial.disabling-password-caching"></a>Desabilitando o Cache de Senhas</h3></div></div></div><p>Quando você realiza uma operação no Subversion
+        que requer autenticação, por padrão o Subversion
+        mantém suas credenciais de autenticação num cache em disco.
+        Isto é feito por conveniência, para que você não precise
+        continuamente ficar redigitando sua senha em operações
+        futuras. Se você estiver preocupado com o fato de o Subversion
+        manter um cache de suas senhas, <sup>[<a id="id2561285" href="#ftn.id2561285" class="footnote">3</a>]</sup>
+        você pode desabilitar o cache de forma permanente ou analisando
+        caso a caso.</p><p>Para desabilitar o cache de senhas para um comando específico
+        uma vez, passe a opção <code class="option">--no-auth-cache</code> na
+        linha de comando. Para desabilitar permanentemente o cache, você pode
+        adicionar a linha <code class="literal">store-passwords = no</code> no arquivo
+        de configuração local do seu Subversion. Veja <a class="xref" href="svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache" title="Armazenando Credenciais no Cliente">“Armazenando Credenciais no Cliente”</a> para maiores
+        detalhes.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.initial.different-user"></a>Autenticando como um Usuário Diferente</h3></div></div></div><p>Uma vez que por padrão o Subversion mantém um cache com as credenciais
+        de autenticação (tanto usuário quanto senha), ele convenientemente se lembra
+        que era você estava ali na última vez que você modificou sua cópia de trabalho.
+        Mas algumas vezes isto não é útil — particularmente se você estava
+        trabalhando numa cópia de trabalho compartilhada, como um diretório de
+        configuração do sistema ou o documento raiz de um servidor web. Neste caso,
+        apenas passe a opção <code class="option">--username</code> na linha de comando e o
+        Subversion tentará autenticar como aquele usuário, pedindo uma senha se
+        necessário.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2561285" href="#id2561285" class="para">3</a>] </sup>É claro, você
+        não está terrivelmente preocupado — primeiro porque você
+        sabe que você não pode <span class="emphasis"><em>realmente</em></span> deletar
+        nada do Subversion e, em segundo lugar, porque sua senha do
+        Subversion não é a mesma que as outras três milhões de senhas
+        que você tem, certo? Certo?</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.importing.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.tour.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.tour.cycle.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Colocando dados em seu Repositório </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Ciclo Básico de Trabalho</td></tr></table></div></body></html>

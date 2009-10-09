@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn export</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.diff.html" title="svn diff" /><link rel="next" href="svn.ref.svn.c.help.html" title="svn help" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn export</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.diff.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.help.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.export"></a><div class="titlepage"></div><a id="id2641661" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn export — Exporta uma árvore de diretórios limpa.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641688"></a><h2>Sinopse</h2><pre class="programlisting">svn export [-r REV] URL[@PEGREV] [PATH]</pre><pre class="programlisting">svn export [-r REV] PATH1[@PEGREV] [PATH2]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641707"></a><h2>Descrição</h2><p>A primeira forma exporta uma árvore de diretórios limpa
+            a partir do repositório especificado pela URL, na revisão
+            <em class="replaceable"><code>REV</code></em> se esta for dada, ou de
+            <code class="literal">HEAD</code> em caso contrário, para o caminho
+            dado por <em class="replaceable"><code>PATH</code></em>.  Se 
+            <em class="replaceable"><code>PATH</code></em> for omitido, o último
+            componente da <em class="replaceable"><code>URL</code></em> é usado como
+            nome do diretório local.</p><p>A segunda forma exporta uma árvore de diretórios limpa a
+            partir da cópia de trabalho especificada por
+            <em class="replaceable"><code>PATH1</code></em> para o caminho dado por 
+            <em class="replaceable"><code>PATH2</code></em>.  Todas as modificações
+            locais serão preservadas, mas arquivos que não estiverem sob
+            controle de versão não serão copiados.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641769"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641779"></a><h2>Altera</h2><p>Disco local</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641789"></a><h2>Acessa o Repositório</h2><p>Apenas se exportando a partir de uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641801"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--quiet (-q)
+--force
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--non-recursive (-N)
+--config-dir DIR
+--native-eol EOL
+--ignore-externals
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641816"></a><h2>Exemplos</h2><p>Exporta a partir de sua cópia de trabalho (não exibe
+            nenhum arquivo ou diretório):</p><pre class="screen">
+$ svn export a-wc my-export
+Export complete.
+</pre><p>Exporta diretamente a partir do repositório (exibe cada
+            arquivo e diretório):</p><pre class="screen">
+$ svn export file:///tmp/repos my-export
+A  my-export/test
+A  my-export/quiz
+…
+Exported revision 15.
+</pre><p>Ao distribuir pacotes de seus repositório específicos
+            para um determinado sistema operacional, pode ser útil
+            exportar uma árvore que use o marcador de fim de linha (EOL)
+            específico.  A opção <code class="option">--native-eol</code> fará
+            isso, mas ela afeta apenas os arquivos que tenham a
+            propriedade <code class="literal">svn:eol-style = native</code>
+            anexada a si.  Por exemplo, para exportar uma árvore com
+            todas as terminações de linhas dadas do tipo CRLF
+            (possivelmente para distribuição de arquivos .zip para
+            Windows):</p><pre class="screen">
+$ svn export file:///tmp/repos my-export --native-eol CRLF
+A  my-export/test
+A  my-export/quiz
+…
+Exported revision 15.
+</pre><p>Você pode especificar <code class="literal">LR</code>,
+            <code class="literal">CR</code>, ou <code class="literal">CRLF</code> como tipos
+            de marcadores de fim de linha com esta opção
+            <code class="option">--native-eol</code>.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.diff.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.help.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn diff </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn help</td></tr></table></div></body></html>

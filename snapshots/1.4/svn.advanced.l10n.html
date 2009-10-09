@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Localização</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.customization.html" title="Capítulo 7. Customizando sua Experiência com Subversion" /><link rel="prev" href="svn.advanced.confarea.html" title="Área de Configuração do Tempo de Execução" /><link rel="next" href="svn.advanced.externaldifftools.html" title="Usando Ferramentas Externas de Diferenciação" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Localização</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.confarea.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Customizando sua Experiência com Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.externaldifftools.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.l10n"></a>Localização</h2></div></div></div><p><em class="firstterm">Localização</em> é o ato de fazer com que
+      programas comportem-se de um modo específico de região.  Quando um programa
+      formata números ou datas em um modo específico para sua parte do
+      mundo, ou imprime mensagens (ou aceita uma entrada) em sua linguagem
+      nativa, o programa é dito
+      ser <em class="firstterm">localizado</em>.  Esta seção descreve os
+      passos que o Subversion tem feito a respeito de localização.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.l10n.understanding"></a>Compreendendo localidades</h3></div></div></div><p>A maioria dos sistemas operacionais modernos têm uma noção da
+        “<span class="quote">localidade atual</span>”—isto é, a região ou
+        país cujas convenções de localização são aplicadas.  Estas
+        convenções—normalmente escolhidas por algum mecanismo de
+        configuração de execução no computador—afetam a forma
+        como os programas apresentam dados para o usuário, bem como a forma
+        como eles aceitam dados fornecidos pelo usuário.</p><p>Na maioria dos sistemas Unix, você pode verificar os valores das
+        opções de configuração relacionadas à localidade pela execução do
+        comando <span class="command"><strong>locale</strong></span>:</p><pre class="screen">
+$ locale
+LANG=
+LC_COLLATE="C"
+LC_CTYPE="C"
+LC_MESSAGES="C"
+LC_MONETARY="C"
+LC_NUMERIC="C"
+LC_TIME="C"
+LC_ALL="C"
+</pre><p>A saída é uma lista de variáveis de ambiente, relacionadas com
+        a localidade, e seus valores atuais.  Neste exemplo, as
+        variáveis estão todas definidas com o local padrão <code class="literal">C</code>,
+        mas os usuários podem definir estas variáveis para especificar
+        combinações de código país/idioma.  Por exemplo, se alguém quisesse
+        definir a variável <code class="literal">LC_TIME</code> com o valor
+        <code class="literal">fr_CA</code>, então os programas saberiam apresentar
+        informações de data e hora formatadas de acordo com a
+        expectativa de um Canadense que fala Francês.  E se alguém quisesse
+        definir a variável <code class="literal">LC_MESSAGES</code> com o valor
+        <code class="literal">zh_TW</code>, então os programas saberiam apresentar
+        mensagens legíveis em Chinês Tradicional.  Configurar a
+        variável <code class="literal">LC_ALL</code> tem o efeito de modificar
+        todas as variáveis de localidade para o mesmo valor.  O valor de
+        <code class="literal">LANG</code> é utilizado como um valor padrão para qualquer
+        variável de localidade que está indefinida.  Para ver a lista de localidades
+        disponíveis em um sistema Unix, execute o comando <span class="command"><strong>locale
+        -a</strong></span>.</p><p>No Windows, a configuração de localidade é feita por meio do
+        item “<span class="quote">Opções Regionais e de Idioma</span>” no painel de
+        controle.  Lá você poderá ver e selecionar os valores das configurações
+        individuais das localidades disponíveis, e até mesmo personalizar (a um
+        nível de detalhe enjoativo) várias das convenções de formatação de
+        exibição.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.l10n.svnuse"></a>Uso de localidades do Subversion</h3></div></div></div><p>O cliente Subversion, <span class="command"><strong>svn</strong></span>, aplica a
+        configuração de localidade atual de duas formas.  Primeiro, ele trata
+        o valor da variável <code class="literal">LC_MESSAGES</code> e
+        tenta imprimir todas as mensagens no idioma especificado.  Por
+        exemplo:</p><pre class="screen">
+$ export LC_MESSAGES=de_DE
+$ svn help cat
+cat: Gibt den Inhalt der angegebenen Dateien oder URLs aus.
+Aufruf: cat ZIEL[@REV]...
+…
+</pre><p>Este comportamento ocorre identicamente tanto em sistemas Unix quando
+        em Windows.  Note, entretanto, que enquanto seu sistema operacional possa
+        ter suporte para uma certa localidade, o cliente do Subversion ainda
+        pode não estar hábil para falar com o idioma específico.  A fim de
+        produzir mensagens localizadas, pessoas voluntárias podem fornecer
+        traduções para cada linguagem.  As traduções são escritas
+        usando o pacote GNU gettext, que resultam em módulos de
+        tradução que terminam com a extensão <code class="filename">.mo</code> no nome do
+        arquivo.  Por exemplo, o arquivo de tradução para o Alemão é nomeado
+        <code class="filename">de.mo</code>.  Estes arquivos de tradução estão
+        instalados em algum lugar em seu sistema.  No Unix, eles normalmente
+        ficam em <code class="filename">/usr/share/locale/</code>, enquanto que
+        no Windows eles são frequentemente encontrados na
+        pasta <code class="filename">\share\locale\</code> na área de instalação
+        do Subversion.  Uma vez instalado, um módulo que contém o nome do
+        programa que fornece as traduções.  Por exemplo, o arquivo
+        <code class="filename">de.mo</code> pode vir a ser finalmente
+        instalado como
+        <code class="filename">/usr/share/locale/de/LC_MESSAGES/subversion.mo</code>.
+        Ao navegar pelos arquivos <code class="filename">.mo</code> instalados, você
+        pode ver quais linguagens o cliente Subversion está hábil para
+        falar.</p><p>A segunda forma na qual a localidade é aplicada envolve como o
+        <span class="command"><strong>svn</strong></span> interpreta suas entradas.  O repositório
+        armazena todos os caminhos, nomes de arquivo, e mensagens de log em Unicode,
+        codificadas como UTF-8.  Nesse sentido, o repositório está
+        <em class="firstterm">internacionalizado</em>—isto é, o
+        repositório está pronto para aceitar entradas em qualquer linguagem humana.
+        Isso significa, contudo, que o cliente do Subversion é responsável
+        por enviar somente nomes de arquivos e mensagens de log em UTF-8 para o
+        repositório.  Para isso, ele deve converter os dados a partir
+        da localidade nativa em UTF-8.</p><p>Por exemplo, suponha que você criou uma arquivo chamado
+        <code class="filename">caffÃ¨.txt</code>, e então ao submeter o
+        arquivo, você escreve a mensagem de log como “<span class="quote">Adesso il caffÃ¨ Ã¨
+        piÃ¹ forte</span>”.  Tanto o nome do arquivo quanto a mensagem de log contem
+        caracteres não-ASCII, porém, sua localidade está definida como
+        <code class="literal">it_IT</code>, e o cliente Subversion sabe
+        interpretá-los como Italiano.  Ele usa um conjunto de caracteres do Italiano
+        para converter os dados para UTF-8 antes de enviá-los para o
+        repositório.</p><p>Observe que, enquanto o repositório demanda nomes de arquivo e mensagens
+        de log em UTF-8, ele <span class="emphasis"><em>não</em></span> presta atenção
+        ao conteúdo do arquivo.  O Subversion trata o conteúdo do arquivo como
+        sequências de bytes quaisquer, e nem o cliente nem servidor fazem uma
+        tentativa de entender o conjunto de caracteres ou codificação do
+        conteúdo.</p><div class="sidebar"><p class="title"><b>Erros de conversão de conjuntos de caractere</b></p><p>Quando estiver usando o Subversion, você pode receber um erro
+          relacionado a conversões de conjuntos de caractere:</p><pre class="screen">
+svn: Can't convert string from native encoding to 'UTF-8':
+…
+svn: Can't convert string from 'UTF-8' to native encoding:
+…
+</pre><p>Erros como estes normalmente ocorrem quando o cliente do
+          Subversion recebeu uma sequência UTF-8 do repositório, mas
+          nem todos os caracteres nesta sequência podem ser representados
+          usando a codificação da localidade atual.  Por exemplo, se
+          sua localidade é <code class="literal">en_US</code> mas um colaborador
+          submeteu um nome de arquivo em Japonês, você provavelmente verá este
+          erro quando for receber o arquivo durante um <span class="command"><strong>svn
+          update</strong></span>.</p><p>A solução está tanto em definir sua localidade para alguma
+          que <span class="emphasis"><em>possa</em></span> representar os dados UTF-8
+          recebidos, ou modificar o nome do arquivo ou mensagem de log dentro do
+          repositório.  (E não esqueça de dar uma bofetada na mão de seu
+          colaborador—os projetos devem decidir o quanto antes as linguagens
+          comuns, para que todos participantes estejam utilizando a mesma
+          localidade.)</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.confarea.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.customization.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.externaldifftools.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Área de Configuração do Tempo de Execução </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Usando Ferramentas Externas de Diferenciação</td></tr></table></div></body></html>

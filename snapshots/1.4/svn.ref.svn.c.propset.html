@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn propset</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.proplist.html" title="svn proplist" /><link rel="next" href="svn.ref.svn.c.resolved.html" title="svn resolved" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn propset</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.proplist.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.resolved.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.propset"></a><div class="titlepage"></div><a id="id2644874" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn propset — Define PROPNAME para PROPVAL em arquivos, diretórios, ou revisões.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644902"></a><h2>Sinopse</h2><pre class="programlisting">svn propset PROPNAME [PROPVAL | -F VALFILE] PATH...</pre><pre class="programlisting">svn propset PROPNAME --revprop -r REV [PROPVAL | -F VALFILE] [TARGET]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644922"></a><h2>Descrição</h2><p>Define <em class="replaceable"><code>PROPNAME</code></em> para
+            <em class="replaceable"><code>PROPVAL</code></em> em arquivos, diretórios,
+            ou revisões.  O primeiro exemplo cria uma modificação numa
+            propriedade local, versionada, na cópia de trabalho; e o
+            segundo cria uma modificação numa propriedade remota,
+            não-versionada, em uma revisão de repositório
+            (<em class="replaceable"><code>TARGET</code></em> apenas determina que
+            repositório acessar).</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>O Subversion tem um conjunto de propriedades
+              “<span class="quote">especiais</span>” que afetam seu comportamento.
+              Veja <a class="xref" href="svn.ref.properties.html" title="Propriedades do Subversion">“Propriedades do Subversion”</a> para mais sobre
+              estas propriedades.</p></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644974"></a><h2>Nomes Alternativos</h2><p>pset, ps</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644984"></a><h2>Altera</h2><p>Cópia de trabalho, repositório apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644996"></a><h2>Acessa o Repositório</h2><p>Apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645008"></a><h2>Opções</h2><pre class="screen">
+--file (-F) FILE
+--quiet (-q)
+--revision (-r) REV
+--targets FILENAME
+--recursive (-R)
+--revprop
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--encoding ENC
+--force
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645023"></a><h2>Exemplos</h2><p>Define o tipo mime de um arquivo:</p><pre class="screen">
+$ svn propset svn:mime-type image/jpeg foo.jpg 
+property 'svn:mime-type' set on 'foo.jpg'
+</pre><p>Em um sistema UNIX, se você quiser que um arquivo tenha
+            a permissão de execução definida:</p><pre class="screen">
+$ svn propset svn:executable ON somescript
+property 'svn:executable' set on 'somescript'
+</pre><p>Talvez você tenha uma política interna que defina certas
+            propriedades para beneficiar seus colaboradores:</p><pre class="screen">
+$ svn propset owner sally foo.c
+property 'owner' set on 'foo.c'
+</pre><p>Se você se enganar escrevendo uma mensagem de log para
+            uma dada revisão e quiser mudá-la, use
+            <code class="option">--revprop</code> e atribua o valor de 
+            <code class="literal">svn:log</code> para  a nova mensagem de
+            log:</p><pre class="screen">
+$ svn propset --revprop -r 25 svn:log "Journaled about trip to New York."
+property 'svn:log' set on repository revision '25'
+</pre><p>Ou, se você não tiver uma cópia de trabalho, você pode
+            informar uma URL.</p><pre class="screen">
+$ svn propset --revprop -r 26 svn:log "Document nap." http://svn.red-bean.com/repos
+property 'svn:log' set on repository revision '25'
+</pre><p>Por fim, você pode informar ao propset para obter suas
+            entradas a partir de um arquivo.  Você ainda pode usar isso
+            para definir o conteúdo de uma propriedade para qualquer
+            valor binário:</p><pre class="screen">
+$ svn propset owner-pic -F sally.jpg moo.c 
+property 'owner-pic' set on 'moo.c'
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>Por padrão, você não pode modificar propriedades de
+              revisão em um repositório Subversion.  O administrador de
+              seu repositório deve explicitamente permitir modificações
+              em revisões de propriedades criando um script de extensão
+              (<span class="foreignphrase"><em class="foreignphrase">hook</em></span>) chamado 
+              <code class="literal">pre-revprop-change</code>.  Veja <a class="xref" href="svn.reposadmin.create.html#svn.reposadmin.create.hooks" title="Implementando Ganchos de Repositório">“Implementando Ganchos de Repositório”</a> para mais
+              informações sobre scripts de extensão.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.proplist.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.resolved.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn proplist </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn resolved</td></tr></table></div></body></html>

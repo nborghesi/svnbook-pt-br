@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Instalando o Subversion</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.intro.html" title="Apêndice A. Guia Rápido de Introdução ao Subversion" /><link rel="prev" href="svn.intro.html" title="Apêndice A. Guia Rápido de Introdução ao Subversion" /><link rel="next" href="svn.intro.quickstart.html" title="Tutorial &quot;Alta Velocidade&quot;" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Instalando o Subversion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.intro.html">Anterior</a> </td><th width="60%" align="center">Apêndice A. Guia Rápido de Introdução ao Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.intro.quickstart.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.intro.install"></a>Instalando o Subversion</h2></div></div></div><p>O Subversion é construído sobre uma camada de portabilidade
+      chamada APR—a biblioteca Apache Portable Runtime.  A
+      biblioteca APR provê todas as interfaces de que o Subversion
+      precisa para funcionar em diferentes sistemas operacionais: acesso
+      a disco, acesso à rede, gerência de memória, e por aí vai.  Ainda
+      que o Subversion seja capaz de usar o Apache como um de seus
+      programas servidores de rede, sua dependência da APR
+      <span class="emphasis"><em>não</em></span> significa que o Apache seja um componente
+      requerido.  APR é uma biblioteca independente e que pode ser usada
+      por qualquer aplicação.  Isso significa, entretanto, que como o
+      Apache, os clientes Subversion e servidores executam em quaisquer
+      sistemas operacionais em que o servidor Apache httpd execute:
+      Windows, Linux, todos os tipos de BSD, Mac OS X, Netware, e
+      outros.</p><p>A maneira mais fácil de obter o Subversion é fazendo o
+      download do pacote binário construído para seu sistema
+      operacional.  O site do Subversion
+      (<a class="ulink" href="http://subversion.tigris.org" target="_top">http://subversion.tigris.org</a>) quase sempre terá
+      estes pacotes disponíveis para download, submetidos por
+      voluntários.  O site comumente contém pacotes de instaladores
+      gráficos para os usuários de sistemas operacionais Microsoft.  Se
+      você tem um sistema operacional Unix-like, você pode usar o
+      sistema de pacotes nativo de sua distribuição (RPMs, DEBs, a
+      árvore de ports, etc.) para obter o Subversion.</p><p>Como alternativa, você também pode compilar o Subversion
+      diretamente a partir do código-fonte, ainda que esta não seja
+      sempre uma tarefa fácil.  (Se você não tem experiência em compilar
+      pacotes de software de código aberto, ao invés disso,
+      provavelmente seria melhor que você fizesse o download da
+      distribuição binária!)  Do site do Subversion, baixe a última
+      versão do código-fonte.  Depois de descompactá-lo, siga as
+      instruções no arquivo <code class="filename">INSTALL</code> para
+      compilá-lo.  Note que um pacote com os fontes pode não conter tudo
+      o que você precisa para compilar um cliente de linha de comando
+      capaz de se comunicar com um repositório remoto.  Desde o
+      Subversion 1.4 e posteriores, as bibliotecas de que o Subversion
+      depende (apr, apr-util, e neon) são distribuídas em um pacote de
+      fontes em separado com o sufixo <code class="filename">-deps</code>.  Estas
+      bibliotecas, no entanto, são bastante comuns hoje em dia e é
+      possível que já estejam instaladas em seu sistema.  Se não, você
+      precisará descompactar o pacote de dependências no mesmo diretório
+      em que descompactou os fontes principais do Subversion.  Além
+      disso, porém, é possível que você queira obter outras dependências
+      opcionais tais como Berkeley DB e possivelmente o servidor Apache
+      httpd.  Se você quiser uma compilação completa, certifique-se de
+      ter todos os pacotes relacionados no arquivo
+      <code class="filename">INSTALL</code>.</p><p>Se você é uma daquelas pessoas que gosta de usar software
+      ainda em desenvolvimento, você também pode obter o código-fonte do
+      Subversion a partir do repositório Subversion onde ele se
+      encontra.  Obviamente, você precisa já ter um cliente Subversion
+      em mãos para fazer isso.  Mas uma vez que você o faça, você pode
+      obter uma cópia de trabalho do repositório dos fontes do
+      Subversion em
+      <a class="ulink" href="http://svn.collab.net/repos/svn/trunk/" target="_top">http://svn.collab.net/repos/svn/trunk/</a>:
+      <sup>[<a id="id2672933" href="#ftn.id2672933" class="footnote">62</a>]</sup></p><pre class="screen">
+$ svn checkout http://svn.collab.net/repos/svn/trunk subversion
+A    subversion/HACKING
+A    subversion/INSTALL
+A    subversion/README
+A    subversion/autogen.sh
+A    subversion/build.conf
+…
+</pre><p>O comando acima vai criar uma cópia de trabalho da última
+      versão (ainda não distribuída) do código-fonte do Subversion em
+      um diretório chamado <code class="filename">subversion</code> no diretório
+      de trabalho atual.  Você pode ajustar o último argumento como
+      quiser.  Independentemente de que nome você dê ao diretório de sua
+      nova cópia de trabalho, porém, quando esta operação concluir,
+      você agora terá o código-fonte do Subversion.  É claro que você
+      ainda vai precisar obter algumas poucas bibliotecas auxiliares
+      (apr, apr-util, etc.)—consulte o arquivo
+      <code class="filename">INSTALL</code> na raiz de sua cópia de trabalho para
+      mais detalhes.</p><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2672933" href="#id2672933" class="para">62</a>] </sup>Perceba que a URL mencionada no exemplo acima não termina
+          com <code class="literal">svn</code>, mas com um subdiretório chamado
+          de <code class="literal">trunk</code>.  Veja nossa discussão sobre o
+          modelo de ramificação
+          (<span class="foreignphrase"><em class="foreignphrase">branching</em></span>) e rotulagem
+          (<span class="foreignphrase"><em class="foreignphrase">branching</em></span>) para entender as
+          razões por trás disto.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.intro.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.intro.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.intro.quickstart.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Apêndice A. Guia Rápido de Introdução ao Subversion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Tutorial "Alta Velocidade"</td></tr></table></div></body></html>

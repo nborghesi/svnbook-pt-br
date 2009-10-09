@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnserve</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="prev" href="svn.ref.svnsync.c.sync.html" title="svnsync synchronize" /><link rel="next" href="svn.ref.svnversion.html" title="svnversion" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnserve</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnsync.c.sync.html">Anterior</a> </td><th width="60%" align="center">Capítulo 9. Referência Completa do Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnversion.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.ref.svnserve"></a><span class="command"><strong>svnserve</strong></span></h2></div></div></div><p>O <span class="command"><strong>svnserve</strong></span> possibilita o acesso a
+      repositórios do Subversion usando o protocolo de rede específico
+      do Subversion.</p><p>Você pode executar o <span class="command"><strong>svnserve</strong></span> como um
+      processo servidor independente (para clientes que estejam usando o
+      método de acesso <code class="literal">svn://</code>); você pode deixar com
+      que um daemon tal como o <span class="command"><strong>inetd</strong></span> ou
+      <span class="command"><strong>xinetd</strong></span> execute-o para você sob demanda (também
+      para acesso via <code class="literal">svn://</code>), ou você pode fazer com
+      que o <span class="command"><strong>sshd</strong></span> execute-o sob demanda para o método
+      de acesso <code class="literal">svn+ssh://</code>.</p><p>Independentemente do método de acesso, uma vez que o cliente
+      tenha selecionado um repositório enviando sua URL, o 
+      <span class="command"><strong>svnserve</strong></span> lê um arquivo chamado 
+      <code class="filename">conf/svnserve.conf</code> no diretório do
+      repositório para determinar configurações específicas tais como
+      qual base de dados de autenticação usar e que políticas de
+      autorização aplicar.  Veja <a class="xref" href="svn.serverconfig.svnserve.html" title="svnserve, um servidor especializado">“svnserve, um servidor especializado”</a> para mais detalhes sobre o
+      arquivo <code class="filename">svnserve.conf</code>.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svnserve.sw"></a>Opções do <span class="command"><strong>svnserve</strong></span></h3></div></div></div><p>Diferente dos comandos anteriores que descrevemos, o
+        <span class="command"><strong>svnserve</strong></span> não possui subcomandos—o
+        <span class="command"><strong>svnserve</strong></span> é controlado exclusivamente por
+        opções.</p><div class="variablelist"><dl><dt><span class="term"><code class="option">--daemon</code> (<code class="option">-d</code>)</span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> execute em
+              modo daemon.  O próprio <span class="command"><strong>svnserve</strong></span> se pôe
+              em segundo plano, aceitando e servindo conexões TCP/IP na
+              porta do svn (3690, por padrão).</p></dd><dt><span class="term"><code class="option">--listen-port</code>=<em class="replaceable"><code>PORT</code></em></span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> escute na
+                porta <em class="replaceable"><code>PORT</code></em> quando executado em
+                modo daemon.  (Por padrão, daemons FreeBSD só escutam em
+                tcp6—esta opção também faz com que escutem em
+                tcp4.)</p></dd><dt><span class="term"><code class="option">--listen-host</code>=<em class="replaceable"><code>HOST</code></em></span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> escute na
+              interface especificada por
+              <em class="replaceable"><code>HOST</code></em>, que pode ser tanto um
+              nome de host ou um endereço de IP.</p></dd><dt><span class="term"><code class="option">--foreground</code></span></dt><dd><p>Quando usado junto com <code class="option">-d</code>, esta opção
+              faz com que o <span class="command"><strong>svnserve</strong></span> permaneça em
+              primeiro plano.  Esta opção é especialmente útil para
+              depuração.</p></dd><dt><span class="term"><code class="option">--inetd</code> (<code class="option">-i</code>)</span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> use os
+              descritores de arquivo stdin/stdout, como apropriado para
+              um daemon que esteja executando via
+              <span class="command"><strong>inetd</strong></span>.</p></dd><dt><span class="term"><code class="option">--help</code> (<code class="option">-h</code>)</span></dt><dd><p>Exibe um resumo de utilização do comando e encerra.</p></dd><dt><span class="term"><code class="option">--version</code></span></dt><dd><p>Exibe informação de versão, uma lista de módulos
+              disponíveis para repositório e encerra.</p></dd><dt><span class="term"><code class="option">--root</code>=<em class="replaceable"><code>ROOT</code></em>
+          (<code class="option">-r</code>=<em class="replaceable"><code>ROOT</code></em>)</span></dt><dd><p>Define a raiz virtual para os repositório servidos
+              pelo <span class="command"><strong>svnserve</strong></span>.  O caminho nas URLs
+              provido pelo cliente será interpretado como relativo a
+              este diretório raiz, e não será permitido de lá
+              escapar.</p></dd><dt><span class="term"><code class="option">--tunnel</code> (<code class="option">-t</code>)</span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> execute em 
+              modo túnel, o que é bem parecido com o modo de operação 
+              <span class="command"><strong>inetd</strong></span> (ambos os modos disponibilizam
+              uma conexão através de stdin/stdout, e então encerram), 
+              exceto que a conexão é considerada como já estando
+              pré-autenticada com o nome do usuário do uid atual.  Esta
+              informação é passada automaticamente para você pelo 
+              cliente quando se estiver executando sobre um agente túnel
+              como o <span class="command"><strong>ssh</strong></span>.  Isso quer dizer que 
+              raramente <span class="emphasis"><em>você</em></span> precisará passar esta
+              opção para o <span class="command"><strong>svnserve</strong></span>.  Então se você 
+              se digitar <code class="literal">svnserve --tunnel</code> na linha
+              de comando, e ficar se perguntando o que acontece a 
+              seguir, veja <a class="xref" href="svn.serverconfig.svnserve.html#svn.serverconfig.svnserve.sshauth" title="Tunelamento sobre SSH">“Tunelamento sobre SSH”</a>.
+              </p></dd><dt><span class="term"><code class="option">--tunnel-user NAME</code></span></dt><dd><p>Usado juntamente com a opção
+              <code class="option">--tunnel</code>; instrui para que o svnserve
+              considere que <em class="replaceable"><code>NAME</code></em> é o usuário 
+              autenticado, ao invés daquele do UID do processo svnserve.  
+              É útil para usuários que querem compartilhar uma única 
+              conta do sistema através de SSH mas ainda manter 
+              identidades distintas nos registros de submissão no
+              repositório.</p></dd><dt><span class="term"><code class="option">--threads</code> (<code class="option">-T</code>)</span></dt><dd><p>Quando executado em modo daemon, faz com que o 
+              <span class="command"><strong>svnserve</strong></span> dispare uma thread ao invés de 
+              um processo para cada conexão (p.ex., para quando estiver
+              executando em um sistema Windows).  O processo
+              <span class="command"><strong>svnserve</strong></span> em si ainda permanece em
+              segundo quando iniciado.</p></dd><dt><span class="term"><code class="option">--listen-once</code> (<code class="option">-X</code>)</span></dt><dd><p>Faz com que o <span class="command"><strong>svnserve</strong></span> aceite uma
+              conexão na porta do svn, atenda a requisição, e encerre.  
+              Esta opção é útil principalmente para depuração.</p></dd></dl></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnsync.c.sync.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnversion.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnsync synchronize </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnversion</td></tr></table></div></body></html>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Usando Ferramentas Externas de Diferenciação</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.customization.html" title="Capítulo 7. Customizando sua Experiência com Subversion" /><link rel="prev" href="svn.advanced.l10n.html" title="Localização" /><link rel="next" href="svn.developer.html" title="Capítulo 8. Incorporando o Subversion" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Usando Ferramentas Externas de Diferenciação</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.l10n.html">Anterior</a> </td><th width="60%" align="center">Capítulo 7. Customizando sua Experiência com Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.developer.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.externaldifftools"></a>Usando Ferramentas Externas de Diferenciação</h2></div></div></div><p>A presença das opções <code class="option">--diff-cmd</code> e
+      <code class="option">--diff3-cmd</code>, e dos parâmetros de configuração em
+      tempo de execução similarmente nomeados (veja <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a>), podem levar a uma
+      falsa noção do qual fácil seja usar ferramentas externas de
+      diferenciação (ou “<span class="quote">diff</span>”) ou de fusão com o
+      Subversion.  Ainda que o Subversion possa usar a maioria das
+      ferramentas populares disponíveis, o esforço investido nesta
+      configuração quase sempre acaba por se tornar algo
+      não-trivial.</p><p>A interface entre o Subversion e ferramentas externas de
+      diferenciação e fusão remontam a uma época em que as únicas
+      capacidades de diferenciação do Subversion eram construídas sobre
+      invocações de utilitários do kit de ferramentas diffutils do GNU,
+      especificamente os utilitários <span class="command"><strong>diff</strong></span> e
+      <span class="command"><strong>diff3</strong></span>.  Para conseguir o tipo de comportamento
+      de que o Subversion precisa, ele chamava esses utilitários com
+      mais algumas opções e parâmetros úteis, muitas das quais eram
+      bastante específicas desses utilitários.  Algum tempo depois, o
+      Subversion desenvolveu-se com sua própria biblioteca de
+      diferenciação, e com mecanismos de recuperação de falhas,
+      <sup>[<a id="id2628976" href="#ftn.id2628976" class="footnote">52</a>]</sup>
+      as opções <code class="option">--diff-cmd</code> e
+      <code class="option">--diff3-cmd</code> foram adicionadas ao cliente de linha
+      de comando do Subversion e então os usuários puderam indicar com
+      mais facilidade se preferiam usar os utilitários GNU diff e diff3
+      ao invés da nova biblioteca biblioteca interna de diferenciação.
+      Se essas opções forem usadas, o Subversion deverá simplesmente
+      ignorar sua biblioteca interna de diferenciação, voltando a usar
+      programas externos, longas listas de argumentos e tudo o mais.  E
+      é assim que as coisas permanecem até hoje.</p><p>Não demora muito para as pessoas perceberem que dispor de tais
+      mecanismos de configuração para especificar que o Subversion deve
+      usar os utilitários GNU diff e diff3 localizados em um local
+      específico no sistema poderia ser aplicado também para o uso de
+      outras ferramentas de diferenciação e fusão.  No fim das contas, o
+      Subversion atualmente nem verifica se as coisas que mencionamos
+      executar eram membros do kit de ferramentas GNU diffutils.  Mas o
+      único aspecto configurável ao usar estas ferramentas externas é a
+      sua localização no sistema—e não o conjunto de opções,
+      parâmetros, ordem, etc.  O Subversion continua incluindo todas
+      essas opções de utilitários GNU à sua ferramenta externa de
+      diferenciação independentemente se o programa em questão pode
+      entender tais opções ou não.  E é aqui que as coisas deixam de ser
+      intuitivas para a maioria dos usuários.</p><p>O ponto chave ao usar ferramentas externas de diferenciação e
+      fusão com o Subversion (que não as diff e diff3 do kit GNU, é
+      claro) é usar scripts encapsuladores que convertam a entrada do
+      Subversion em algo que sua ferramenta de diferenciação possa
+      entender, e então converter a saída de sua ferramenta de volta num
+      formato esperado pelo Subversion—o formato que as
+      ferramentas GNU deveriam usar.  As seções seguintes abordam os
+      detalhes sobre esses formatos.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>A decisão sobre quando disparar uma diferenciação ou fusão
+        contextual como parte de uma operação maior do Subversion é
+        feita inteiramente pelo Subversion, e é afetada por, entre
+        outras coisas, se os arquivos em questão sobre os quais o
+        sistema estiver operando estiver ou não em um formato legível
+        por humanos como determinado a partir de sua propriedade
+        <code class="literal">svn:mime-type</code>.  Isto quer dizer, por exemplo,
+        que mesmo que se você tiver a ferramenta ou plugin de
+        diferenciação ou fusão do Microsoft Word mais esperta do
+        universo, ela nunca deveria ser invocada pelo Subversion se seus
+        documentos do Word sob controle de versão possuírem um tipo MIME
+        configurado que denote que eles não são legíveis por humanos
+        (tal como <code class="literal">application/msword</code>).  Para mais
+        informações sobre configurações de tipos MIME, veja <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a></p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.externaldifftools.diff"></a>Ferramentas diff Externas</h3></div></div></div><p>O Subversion chama programas de diferenciação externos com
+        os parâmetros que são adequados para o utilitário GNU diff, e
+        espera apenas que o programa externo retorne para o sistema com
+        um código indicando sucesso.  Para a maioria dos programas diff
+        alternativos, apenas o sexto e sétimo argumentos—os
+        caminhos dos arquivos que representam os lados esquerdo e
+        direito do diff, respectivamente—são relevantes.  Note que
+        o Subversion executa o programa diff uma vez para os arquivos
+        modificados abordados por uma operação do Subversion, então se
+        seu programa executa de maneira assíncrona (ou em “<span class="quote">segundo
+        plano</span>”), você pode ter diversas instâncias todas
+        executando simultaneamente.  E finalmente, o Subversion espera
+        que seu programa retorne um código de erro igual a 1 se seu
+        programa tiver encontrado quaisquer diferenças, ou 0 em caso
+        contrário—qualquer outro código resultante é considerado
+        como um erro fatal.
+        <sup>[<a id="id2629023" href="#ftn.id2629023" class="footnote">53</a>]</sup>
+      </p><p><a class="xref" href="svn.advanced.externaldifftools.html#svn.advanced.externaldifftools.diff.ex-1" title="Exemplo 7.2. diffwrap.sh">Exemplo 7.2, “diffwrap.sh”</a>
+        e <a class="xref" href="svn.advanced.externaldifftools.html#svn.advanced.externaldifftools.diff.ex-2" title="Exemplo 7.3. diffwrap.bat">Exemplo 7.3, “diffwrap.bat”</a> são
+        modelos para scripts encapsuladores para ferramentas diff
+        externas, em formato de arquivos shell Bourne e batch do
+        Windows, respectivamente.</p><div class="example"><a id="svn.advanced.externaldifftools.diff.ex-1"></a><p class="title"><b>Exemplo 7.2. diffwrap.sh</b></p><div class="example-contents"><pre class="programlisting">
+#!/bin/sh
+
+# Configura seu programa diff preferido aqui.
+DIFF="/usr/local/bin/my-diff-tool"
+
+# O Subversion dispõe dos caminhos que precisamos como o sexto e
+# sétimo parâmetros.
+LEFT=${6}
+RIGHT=${7}
+
+# Chama o comando diff (modifique a linha a seguir de acordo com seu
+# programa).
+$DIFF --left $LEFT --right $RIGHT
+
+# Retorna um código de erro de 0 se nenhumas diferenças forem
+# encontradas, ou 1 em caso contrário.  Qualquer outro código de erro
+# será considerado como fatal.
+</pre></div></div><br class="example-break" /><div class="example"><a id="svn.advanced.externaldifftools.diff.ex-2"></a><p class="title"><b>Exemplo 7.3. diffwrap.bat</b></p><div class="example-contents"><pre class="programlisting">
+@ECHO OFF
+
+REM Configura seu programa diff preferido aqui.
+SET DIFF="C:\Program Files\Funky Stuff\My Diff Tool.exe"
+
+REM O Subversion dispõe dos caminhos que precisamos como o sexto e
+REM sétimo parâmetros.
+SET LEFT=%6
+SET RIGHT=%7
+
+REM Chama o comando diff (modifique a linha a seguir de acordo com seu
+REM programa).
+%DIFF% --left %LEFT% --right %RIGHT%
+
+REM Retorna um código de erro de 0 se nenhumas diferenças forem
+REM encontradas, ou 1 em caso contrário.  Qualquer outro código de erro
+REM será considerado como fatal.
+</pre></div></div><br class="example-break" /></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.externaldifftools.diff3"></a>Ferramentas diff3 Externas</h3></div></div></div><p>O Subversion chama programas externos de fusão de texto com
+        parâmetros adequados para o utilitário GNU diff3, esperando que
+        o programa externo retorne com para o sistema com um código 
+        indicando sucesso e que o conteúdo completo do arquivo
+        resultante da fusão de texto seja exibido na saída padrão (para
+        que então o Subversion possa redirecioná-la adequadamente para
+        o arquivo sob controle de versão).  Para a maioria dos programas
+        de fusão alternativos, apenas o nono, décimo e décimo primeiro 
+        argumentos—os caminhos dos arquivos que representam a
+        “<span class="quote">minha</span>” versão do arquivo, a “<span class="quote">mais
+        antiga</span>” e a “<span class="quote">sua</span>” versão do arquivo,
+        respectivamente—são relevantes.  Note que como o
+        Subversion depende da saída de seu programa de fusão de texto,
+        seu script de encapsulamento não deve encerrar antes que a saída
+        tenha sido repassada ao Subversion.  Quando o script finalmente
+        terminar, ele deveria retornar um código de status de 0 se a
+        fusão foi executada com sucesso, ou 1 se conflitos ainda
+        permanecerem na saída—qualquer outro código de erro é
+        considerado como erro fatal.</p><p><a class="xref" href="svn.advanced.externaldifftools.html#svn.advanced.externaldifftools.diff3.ex-1" title="Exemplo 7.4. diff3wrap.sh">Exemplo 7.4, “diff3wrap.sh”</a> 
+        e <a class="xref" href="svn.advanced.externaldifftools.html#svn.advanced.externaldifftools.diff3.ex-2" title="Exemplo 7.5. diff3wrap.bat">Exemplo 7.5, “diff3wrap.bat”</a>
+        são modelos para scripts encapsuladores para ferramentas de
+        fusão de texto externas, em formato de arquivos shell Bourne e 
+        batch do Windows, respectivamente.</p><div class="example"><a id="svn.advanced.externaldifftools.diff3.ex-1"></a><p class="title"><b>Exemplo 7.4. diff3wrap.sh</b></p><div class="example-contents"><pre class="programlisting">
+#!/bin/sh
+
+# Configura seu programa diff3 preferido aqui.
+DIFF3="/usr/local/bin/my-merge-tool"
+
+# O Subversion dispõe dos caminhos que precisamos como o nono, décimo e
+# décimo primeiro parâmetros.
+MINE=${9}
+OLDER=${10}
+YOURS=${11}
+
+# Chama o comando de fusão de texto (modifique a linha a seguir de
+# acordo com seu programa).
+$DIFF3 --older $OLDER --mine $MINE --yours $YOURS
+
+# Depois de executar a fusão de texto, este script precisa imprimir o
+# conteúdo do arquivo resultante para stdout.  Você pode fazer isso da
+# forma que achar melhor.  Retorna um código de erro de 0 no caso de uma
+# fusão de sucesso, 1 se conflitos não resolvidos ainda permanecerem no
+# arquivo resultante.  Qualquer outro código de erro será tratado como
+# fatal.
+</pre></div></div><br class="example-break" /><div class="example"><a id="svn.advanced.externaldifftools.diff3.ex-2"></a><p class="title"><b>Exemplo 7.5. diff3wrap.bat</b></p><div class="example-contents"><pre class="programlisting">
+@ECHO OFF
+
+REM Configura seu programa diff3 preferido aqui.
+SET DIFF3="C:\Program Files\Funky Stuff\My Merge Tool.exe"
+
+REM O Subversion dispõe dos caminhos que precisamos como o nono, décimo e
+REM décimo primeiro parâmetros.  Mas só temos acesso a nove parâmetros de
+REM cada vez, então deslocamos nosso nove parâmetros duas vezes para que
+REM possamos obter os valores que precisamos.
+SHIFT
+SHIFT
+SET MINE=%7
+SET OLDER=%8
+SET YOURS=%9
+
+REM Chama o comando de fusão de texto (modifique a linha a seguir de
+REM acordo com seu programa).
+%DIFF3% --older %OLDER% --mine %MINE% --yours %YOURS%
+
+REM Depois de executar a fusão de texto, este script precisa imprimir o
+REM conteúdo do arquivo resultante para stdout.  Você pode fazer isso da
+REM forma que achar melhor.  Retorna um código de erro de 0 no caso de uma
+REM fusão de sucesso, 1 se conflitos não resolvidos ainda permanecerem no
+REM arquivo resultante.  Qualquer outro código de erro será tratado como
+REM fatal.
+</pre></div></div><br class="example-break" /></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2628976" href="#id2628976" class="para">52</a>] </sup>Os desenvolvedores do Subversion são muito bons, mas até
+          os melhores às vezes comentem erros.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2629023" href="#id2629023" class="para">53</a>] </sup>A página de manual do GNU diff descreve isso da seguinte
+            forma: “<span class="quote">Uma saída de status de 0 significa que não
+            foram encontradas diferenças, 1 significa que algumas
+            diferenças foram encontradas, e 2 significa
+            problemas.</span>”</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.l10n.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.customization.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.developer.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Localização </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Capítulo 8. Incorporando o Subversion</td></tr></table></div></body></html>

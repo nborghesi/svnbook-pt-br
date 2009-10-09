@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Às Vezes Você Só Precisa Limpar</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.tour.html" title="Capítulo 2. Uso Básico" /><link rel="prev" href="svn.tour.history.html" title="Examinando o Histórico" /><link rel="next" href="svn.tour.summary.html" title="Sumário" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Às Vezes Você Só Precisa Limpar</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.history.html">Anterior</a> </td><th width="60%" align="center">Capítulo 2. Uso Básico</th><td width="20%" align="right"> <a accesskey="n" href="svn.tour.summary.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.cleanup"></a>Às Vezes Você Só Precisa Limpar</h2></div></div></div><p>Quando o Subversion modifica sua cópia de trabalho (ou
+      qualquer informação dentro de <code class="filename">.svn</code>), ele
+      tenta fazer isso da forma mais segura possível.  Antes de
+      modificar a cópia de trabalho, o Subversion escreve suas pretensões
+      em um arquivo de log.  Depois ele executa os comandos no arquivo
+      de log para aplicar a alteração requisitada, mantendo uma trava na
+      parte relevante da cópia de trabalho enquanto trabalha—para
+      evitar que outros clientes Subversion acessem a cópia de trabalho
+      nesse meio-tempo.  Por fim, o Subversion remove o arquivo de log.
+      Arquiteturalmente, isto é similar a um sistema de arquivos com
+      journaling.  Se uma operação do Subversion é interrompida (se o
+      processo for morto, ou se a máquina travar, por exemplo), o
+      arquivo de log permanece no disco.  Executando novamente os
+      arquivos de log, o Subversion pode completar a operação
+      previamente iniciadas, e sua cópia de trabalho pode manter-se de
+      novo em um estado consistente.</p><p>E isto é exatamente o que o <span class="command"><strong>svn cleanup</strong></span>
+      faz: varre sua cópia de trabalho e executa quaisquer arquivos de
+      log que tenham ficado, removendo as travas da cópia de trabalho
+      durante o processo.  Se acaso o Subversion lhe disser que alguma
+      parte de sua cópia de trabalho está “<span class="quote">travada</span>”
+      (<span class="foreignphrase"><em class="foreignphrase">locked</em></span>), então este é o comando
+      que você deverá rodar.  E ainda, o <span class="command"><strong>svn status</strong></span>
+      mostrará um <code class="literal">L</code> próximo dos itens que estiverem
+      travados:</p><pre class="screen">
+$ svn status
+  L    somedir
+M      somedir/foo.c
+
+$ svn cleanup
+$ svn status
+M      somedir/foo.c
+</pre><p>Não confunda estas travas da cópia de trabalho com as travas
+      ordinárias que os usuários do Subversion criam ao usar o modelo de
+      controle de versão “<span class="quote">travar-modificar-destravar</span>”; veja
+      <a class="xref" href="svn.advanced.locking.html#svn.advanced.locking.meanings" title="Os três significados de trava">Os três significados de trava</a> para mais
+      esclarecimentos.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.history.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.tour.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.tour.summary.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Examinando o Histórico </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Sumário</td></tr></table></div></body></html>

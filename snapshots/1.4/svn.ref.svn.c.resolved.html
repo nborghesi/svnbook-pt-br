@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn resolved</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.propset.html" title="svn propset" /><link rel="next" href="svn.ref.svn.c.revert.html" title="svn revert" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn resolved</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.propset.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.revert.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.resolved"></a><div class="titlepage"></div><a id="id2645170" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn resolved — Remove arquivo ou diretórios da cópia de trabalho
+            do estado de “<span class="quote">conflito</span>”.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645202"></a><h2>Sinopse</h2><pre class="programlisting">svn resolved PATH...</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645214"></a><h2>Descrição</h2><p>Remove o estado de “<span class="quote">conflito</span>” em arquivos
+            ou diretórios numa cópia de trabalho.  Esta rotina não
+            resolve marcadores de conflito semanticamente; ele apenas
+            remove os arquivos auxiliares relacionados ao conflito e
+            permite que o <em class="replaceable"><code>PATH</code></em> possa ser
+            submetido novamente; isto é, ele informa ao Subversion que
+            o conflito foi “<span class="quote">resolvido</span>”.  Leia <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.resolve" title="Resolvendo Conflitos (Combinando Alterações de Outros)">“Resolvendo Conflitos (Combinando Alterações de Outros)”</a> para uma visão mais
+            aprofundada sobre resolução de conflitos.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645256"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645267"></a><h2>Altera</h2><p>Cópia de trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645277"></a><h2>Acessa o Repositório</h2><p>Não</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645288"></a><h2>Opções</h2><pre class="screen">
+--targets FILENAME
+--recursive (-R)
+--quiet (-q)
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645302"></a><h2>Exemplos</h2><p>Se você obtiver um conflito em uma atualização, sua
+            cópia de trabalho irá gerar três novos arquivos:</p><pre class="screen">
+$ svn update
+C  foo.c
+Updated to revision 31.
+$ ls
+foo.c
+foo.c.mine
+foo.c.r30
+foo.c.r31
+</pre><p>Uma vez que você tenha resolvido o conflito e que
+            <code class="filename">foo.c</code> esteja pronto para ser submetido,
+            execute o comando <span class="command"><strong>svn resolved</strong></span> para fazer
+            com que sua cópia de trabalho saiba que você já cuidou de
+            tudo.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Você <span class="emphasis"><em>pode</em></span> apenas remover os
+              arquivos relacionados ao conflito e realizar a operação de
+              commit, mas o <span class="command"><strong>svn resolved</strong></span> corrige
+              alguns dados de registro na área administrativa na cópia
+              de trabalho além de remover os arquivos conflituosos, de
+              forma que recomendamos que você utilize este
+              comando.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.propset.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.revert.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn propset </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn revert</td></tr></table></div></body></html>

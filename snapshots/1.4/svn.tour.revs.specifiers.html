@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Especificadores de Revisão</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="next" href="svn.advanced.props.html" title="Propriedades" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Especificadores de Revisão</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.props.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.revs.specifiers"></a>Especificadores de Revisão</h2></div></div></div><p>Como você viu em <a class="xref" href="svn.basic.in-action.html#svn.basic.in-action.revs" title="Revisões">“Revisões”</a>,
+      números de revisão no Subversion são bastante
+      simples—números inteiros que aumentam conforme você submete
+      mais alterações em seus dados versionados.  Assim, não demora
+      muito para que você não se lembre mais do que aconteceu exatamente
+      em toda uma dada revisão.  Felizmente, o típico ciclo de trabalho
+      no Subversion frequentemente não precisa que você informe números
+      de revisão arbitrários para as operações que você executa no
+      Subversion.  Para aquelas operações que
+      <span class="emphasis"><em>precisam</em></span> de um especificador de revisão, você
+      geralmente informa um número de revisão que você viu em um e-mail
+      da submissão (e-mail de <span class="foreignphrase"><em class="foreignphrase">commit</em></span>), na
+      saída de alguma outra operação do Subversion, ou em algum outro
+      contexto que poderia fazer sentido para aquele número em
+      particular.</p><p>Mas ocasionalmente, você precisa de um marco de um momento no
+      tempo para o qual você não tem ainda um número de revisão
+      memorizado ou em mãos.  Neste caso, além de números inteiros de
+      revisão, o <span class="command"><strong>svn</strong></span> permite como entrada algumas
+      formas de especificadores de revisão—<em class="firstterm">termos de
+      revisão</em>, e datas de revisão.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>As várias formas de especificadores de revisão do Subversion
+        podem ser misturadas e correspondidas quando usadas para
+        especificar intervalos de revisão.  Por exemplo, você pode usar 
+        <code class="option">-r
+        <em class="replaceable"><code>REV1</code></em>:<em class="replaceable"><code>REV2</code></em></code>
+        onde <em class="replaceable"><code>REV1</code></em> seja um termo de revisão e 
+        <em class="replaceable"><code>REV2</code></em> seja um número de revisão, onde 
+        <em class="replaceable"><code>REV1</code></em> seja uma data e
+        <em class="replaceable"><code>REV2</code></em>, um termo de revisão, e por aí
+        vai.  Especificadores de revisão individuais são avaliados
+        independentemente, então você pode pôr o que bem quiser junto
+        dos dois-pontos.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.revs.keywords"></a>Termos de Revisão</h3></div></div></div><a id="id2569414" class="indexterm"></a><a id="id2569426" class="indexterm"></a><a id="id2569434" class="indexterm"></a><a id="id2569443" class="indexterm"></a><a id="id2569451" class="indexterm"></a><p>O cliente Subversion entende um conjunto de termos de
+        revisão.  Estes termos podem ser usados no lugar dos argumentos
+        inteiros para a opção <code class="option">--revision (-r)</code>, e são
+        resolvidos para números de revisão específicos pelo
+        Subversion:</p><div class="variablelist"><dl><dt><span class="term">HEAD</span></dt><dd><p>A última (ou “<span class="quote">mais recente</span>”) revisão no
+              repositório.</p></dd><dt><span class="term">BASE</span></dt><dd><p>O número de revisão de um item em uma cópia de
+              trabalho.  Se o item tiver sido modificado localmente, a
+              “<span class="quote">versão BASE</span>” refere-se à forma como o item
+              estaria sem estas modificações locais.</p></dd><dt><span class="term">COMMITTED</span></dt><dd><p>A revisão mais recente anterior, ou igual a,
+              <code class="literal">BASE</code>, na qual o item foi modificado.</p></dd><dt><span class="term">PREV</span></dt><dd><p>A revisão imediatamente <span class="emphasis"><em>anterior</em></span>
+              à última revisão na qual o item foi modificado.
+              Tecnicamente, isto se resume a
+              <code class="literal">COMMITTED</code>-1.</p></dd></dl></div><p>Como pode ser deduzido de suas descrições, os termos de
+        revisão <code class="literal">PREV</code>, <code class="literal">BASE</code>, e
+        <code class="literal">COMMITTED</code> são usados apenas quando se
+        referirem a um caminho numa cópia de trabalho—eles não se
+        aplicam a URLs do repositório.  <code class="literal">HEAD</code>, por
+        outro lado, pode ser usado em conjunto para qualquer um desses
+        tipos de caminho.</p><p>Aqui estão alguns exemplos da utilização de termos de
+        revisão:</p><pre class="screen">
+$ svn diff -r PREV:COMMITTED foo.c
+# exibe a última alteração submetida em foo.c
+
+$ svn log -r HEAD
+# mostra a mensagem de log do último registro no repositório
+
+$ svn diff -r HEAD
+# compara sua cópia de trabalho (com todas suas alterações locais) com a 
+# última versão na árvore do diretório
+
+$ svn diff -r BASE:HEAD foo.c
+# compara a versão inalterada de foo.c com a última versão de
+# foo.c no repositório
+
+$ svn log -r BASE:HEAD
+# mostra todos os logs das submissões para o diretório atual versionado
+# desde a última atualização que você fez em sua cópia de trabalho
+
+$ svn update -r PREV foo.c
+# retorna à última alteração feita em foo.c, reduzindo o número de
+# revisão de foo.c
+
+$ svn diff -r BASE:14 foo.c
+# compara a versão inalterada de foo.c com o conteúdo que foo.c tinha na
+# revisão 14
+</pre></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.revs.dates"></a>Datas de Revisão</h3></div></div></div><a id="id2569088" class="indexterm"></a><p>Números de revisão não revelam nada sobre o mundo fora do
+        sistema de controle de versão, mas algumas vezes você precisa
+        correlacionar um momento em tempo real com um momento no
+        histórico de revisões.  Para facilitar isto, a opção
+        <code class="option">--revision (-r)</code> também pode aceitar
+        especificadores de data delimitados por chaves
+        (<code class="literal">{</code> e <code class="literal">}</code>) como entrada.  O
+        Subversion aceita datas e horas no padrão ISO-8601, além de
+        alguns poucos outros.  Aqui estão alguns exemplos.  (Lembre-se
+        de usar aspas para delimitar quaisquer datas que contenham
+        espaços.)</p><pre class="screen">
+$ svn checkout -r {2006-02-17}
+$ svn checkout -r {15:30}
+$ svn checkout -r {15:30:00.200000}
+$ svn checkout -r {"2006-02-17 15:30"}
+$ svn checkout -r {"2006-02-17 15:30 +0230"}
+$ svn checkout -r {2006-02-17T15:30}
+$ svn checkout -r {2006-02-17T15:30Z}
+$ svn checkout -r {2006-02-17T15:30-04:00}
+$ svn checkout -r {20060217T1530}
+$ svn checkout -r {20060217T1530Z}
+$ svn checkout -r {20060217T1530-0500}
+…
+</pre><p>Quando você especifica uma data, o Subversion resolve aquela
+        data para a revisão mais recente do repositório com aquela data,
+        e então continua a operação usando o número de revisão
+        obtido:</p><pre class="screen">
+$ svn log -r {2006-11-28}
+------------------------------------------------------------------------
+r12 | ira | 2006-11-27 12:31:51 -0600 (Mon, 27 Nov 2006) | 6 lines
+…
+</pre><div class="sidebar"><p class="title"><b>O Subversion está um dia adiantado?</b></p><p>Se você especificar uma única data como uma revisão sem
+          especificar uma hora do dia (por exemplo
+          <code class="literal">2006-11-27</code>), você pode pensar que o
+          Subversion deveria dar a você a última revisão que tivesse
+          ocorrido em 27 de novembro.  Entretanto, você vai obter uma
+          revisão do dia 26, ou mesmo anterior a isso.  Lembre-se de que
+          o Subversion vai procurar a <span class="emphasis"><em>revisão do repositório
+          mais recente</em></span> que a da data que você informou.  Se
+          você informar uma data sem a parte de horário, como
+          <code class="literal">2006-11-27</code>, o Subversion assume um horário
+          de 00:00:00, então procurar pela revisão mais recente não vai
+          retornar nada do dia 27.</p><p>Se você quiser incluir o dia 27 em sua busca, você pode
+          tanto especificar o dia 27 com o horário
+          (<code class="literal">{"2006-11-27 23:59"}</code>), ou apenas
+          especificar o próximo dia
+          (<code class="literal">{2006-11-28}</code>).</p></div><p>Você também pode usar intervalos de datas.  O Subversion vai
+        encontrar todas as revisões entre as datas, inclusive:</p><pre class="screen">
+$ svn log -r {2006-11-20}:{2006-11-29}
+…
+</pre><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Uma vez que a data e horário
+          (<span class="foreignphrase"><em class="foreignphrase">timestamp</em></span>) de uma revisão é
+          armazenada como uma propriedade da revisão não-versionada e
+          passível de alteração (veja <a class="xref" href="svn.advanced.props.html" title="Propriedades">“Propriedades”</a>, essas informações de data e
+          horário podem ser modificadas para representar falsificações
+          completas da cronologia real, ou mesmo podem ser removidas
+          inteiramente.  A capacidade do Subversion de converter
+          corretamente datas de revisão em números de revisão depende da
+          manutenção da ordem seqüencial desta informação
+          temporal—quanto mais recente uma revisão, mais recente é
+          sua informação de data e horário.  Se esta ordenação não for
+          mantida, você perceberá que tentar usar datas para especificar
+          intervalos de revisão em seu repositório nem sempre retornará
+          os dados que você espera.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.props.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 3. Tópicos Avançados </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Propriedades</td></tr></table></div></body></html>

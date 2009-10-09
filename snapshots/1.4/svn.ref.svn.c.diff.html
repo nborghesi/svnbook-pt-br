@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn diff</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.delete.html" title="svn delete" /><link rel="next" href="svn.ref.svn.c.export.html" title="svn export" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn diff</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.delete.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.export.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.diff"></a><div class="titlepage"></div><a id="id2640930" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn diff — Exibe as diferenças entre duas revisões ou
+            caminhos.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640958"></a><h2>Sinopse</h2><pre class="programlisting">diff [-c M | -r N[:M]] [TARGET[@REV]...]</pre><pre class="programlisting">diff [-r N[:M]] --old=OLD-TGT[@OLDREV] [--new=NEW-TGT[@NEWREV]] [PATH...]</pre><pre class="programlisting">diff OLD-URL[@OLDREV] NEW-URL[@NEWREV]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640982"></a><h2>Descrição</h2><p>Exibe as diferenças entre dois caminhos.  As formas de
+            se usar o <span class="command"><strong>svn diff</strong></span> são:</p><p>Use somente <span class="command"><strong>svn diff'</strong></span> para exibir as
+            modificações locais em uma cópia de trabalho.</p><p>Exibe as mudanças feitas nos
+            <em class="replaceable"><code>TARGET</code></em>s de como eram em
+            <em class="replaceable"><code>REV</code></em> entre duas revisões.
+            <em class="replaceable"><code>TARGET</code></em>s podem ser todos cópias de
+            trabalho como <em class="replaceable"><code>URL</code></em>s.  Se
+            <em class="replaceable"><code>TARGET</code></em>s são caminhos na cópia de
+            trabalho, <em class="replaceable"><code>N</code></em> se referirá por
+            padrão a <code class="literal">BASE</code> e
+            <em class="replaceable"><code>M</code></em>, à cópia de trabalho; se forem
+            <em class="replaceable"><code>URL</code></em>s,
+            <em class="replaceable"><code>N</code></em> deve ser especificado e
+            <em class="replaceable"><code>M</code></em> servirá de referência a
+            <code class="literal">HEAD</code>.  A opção “<span class="quote">-c M</span>” é
+            equivalente a “<span class="quote">-r N:M</span>” sendo <code class="literal">N =
+            M-1</code>.  Usar “<span class="quote">-c -M</span>” faz o contrário:
+            “<span class="quote">-r M:N</span>” sendo <code class="literal">N =
+            M-1</code>.</p><p>Exibe as diferenças entre 
+            <em class="replaceable"><code>OLD-TGT</code></em> de como estava em 
+            <em class="replaceable"><code>OLDREV</code></em> e
+            <em class="replaceable"><code>NEW-TGT</code></em> de como estava em 
+            <em class="replaceable"><code>NEWREV</code></em>.
+            <em class="replaceable"><code>PATH</code></em>s, se especificados, são
+            relativos a <em class="replaceable"><code>OLD-TGT</code></em> e
+            <em class="replaceable"><code>NEW-TGT</code></em> e restringem a saída às
+            diferenças entre estes caminhos.
+            <em class="replaceable"><code>OLD-TGT</code></em> e
+            <em class="replaceable"><code>NEW-TGT</code></em> podem ser caminhos na
+            cópia de trabalho ou <em class="replaceable"><code>URL[@REV]</code></em>.
+            <em class="replaceable"><code>NEW-TGT</code></em>, por padrão, se refere a
+            <em class="replaceable"><code>OLD-TGT</code></em> se não for especificada.
+            “<span class="quote">-r N</span>” faz com que OLDREV seja N, -r N:M
+            faz com que <em class="replaceable"><code>OLDREV</code></em> seja
+            <em class="replaceable"><code>N</code></em> e que
+            <em class="replaceable"><code>NEWREV</code></em> seja
+            <em class="replaceable"><code>M</code></em>.</p><p>Abreviação para <span class="command"><strong>svn diff --old=OLD-URL[@OLDREV]
+            --new=NEW-URL[@NEWREV]</strong></span></p><p><span class="command"><strong>svn diff -r N:M URL</strong></span> é abreviação para
+            <span class="command"><strong>svn diff -r N:M --old=URL
+            --new=URL</strong></span>.</p><p><span class="command"><strong>svn diff [-r N[:M]] URL1[@N]
+            URL2[@M]</strong></span> é abreviação para <span class="command"><strong>svn diff [-r
+            N[:M]] --old=URL1 --new=URL2</strong></span>.</p><p>Se <em class="replaceable"><code>TARGET</code></em> for uma URL, então
+            as revisões N e M podem ser dadas tanto pela opção
+            <code class="option">--revision</code> como pela notação
+            “<span class="quote">@</span>” como descrito anteriormente.</p><p>Se <em class="replaceable"><code>TARGET</code></em> é um caminho na
+            cópia de trabalho, então a opção <code class="option">--revision</code>
+            significa:</p><div class="variablelist"><dl><dt><span class="term"><code class="option">--revision N:M</code></span></dt><dd><p>O servidor compara 
+                  <em class="replaceable"><code>TARGET</code></em>@<em class="replaceable"><code>N</code></em>
+                  e
+                  <em class="replaceable"><code>TARGET</code></em>@<em class="replaceable"><code>M</code></em>.</p></dd><dt><span class="term"><code class="option">--revision N</code></span></dt><dd><p>O cliente compara 
+                  <em class="replaceable"><code>TARGET</code></em>@<em class="replaceable"><code>N</code></em>
+                  com a cópia de trabalho.</p></dd><dt><span class="term">(sem <code class="option">--revision</code>)</span></dt><dd><p>O cliente compara a base com a cópia de trabalho
+                  de <em class="replaceable"><code>TARGET</code></em>.</p></dd></dl></div><p>Se a sintaxe alternativa for usada, o servidor compara 
+            <em class="replaceable"><code>URL1</code></em> e
+            <em class="replaceable"><code>URL2</code></em> nas revisões 
+            <em class="replaceable"><code>N</code></em> e
+            <em class="replaceable"><code>M</code></em> respectivamente.  Se tanto 
+            <em class="replaceable"><code>N</code></em> ou
+            <em class="replaceable"><code>M</code></em> forem omitidos, é assumido o
+            valor de <code class="literal">HEAD</code>.</p><p>Por padrão, <span class="command"><strong>svn diff</strong></span> ignora os
+            diretórios superiores dos caminhos dos arquivos e meramente
+            compara o conteúdo dos dois arquivos sendo comparados.  Se
+            você usar <code class="option">--notice-ancestry</code>, estes
+            ancestrais dos caminhos serão levados em consideração ao
+            comparar as revisões (isto é, se você executar <span class="command"><strong>svn
+            diff</strong></span> em dois arquivos com conteúdos idênticos mas
+            com diretórios superiores em caminhos diferentes, você irá
+            ver o conteúdo inteiro do arquivo como se ele tivesse sido
+            removido e adicionado novamente).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641407"></a><h2>Nomes Alternativos</h2><p>di</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641417"></a><h2>Altera</h2><p>Nada</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641428"></a><h2>Acessa o Repositório</h2><p>Para obter as diferenças de qualquer coisa com relação
+            à revisão <code class="literal">BASE</code> em sua cópia de
+            trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641448"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) ARG
+--change (-c) ARG
+--old ARG
+--new ARG
+--non-recursive (-N)
+--diff-cmd CMD
+--extensions (-x) "ARGS"
+--no-diff-deleted
+--notice-ancestry
+--summarize
+--force
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2641465"></a><h2>Exemplos</h2><p>Compara <code class="literal">BASE</code> e sua cópia de trabalho
+            (um dos usos mais comuns do <span class="command"><strong>svn
+            diff</strong></span>):</p><pre class="screen">
+$ svn diff COMMITTERS 
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 4404)
++++ COMMITTERS	(working copy)
+</pre><p>Ver o que mudou no arquivo 
+            <code class="literal">COMMITTERS</code> na revisão 9115:</p><pre class="screen">
+$ svn diff -c 9115 COMMITTERS 
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 3900)
++++ COMMITTERS	(working copy)
+</pre><p>Verificar como as modificações em sua cópia de trabalho
+            se comparam com relação a revisões mais antigas:</p><pre class="screen">
+$ svn diff -r 3900 COMMITTERS 
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 3900)
++++ COMMITTERS	(working copy)
+</pre><p>Comparar a revisão 3000 com a revisão 3500 usando a
+            sintaxe de “<span class="quote">@</span>”:</p><pre class="screen">
+$ svn diff http://svn.collab.net/repos/svn/trunk/COMMITTERS@3000 http://svn.collab.net/repos/svn/trunk/COMMITTERS@3500
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 3000)
++++ COMMITTERS	(revision 3500)
+…
+</pre><p>Compara a revisão 3000 com a revisão 3500 usando a
+            notação de intervalo (você passa apenas uma URL neste
+            caso):</p><pre class="screen">
+$ svn diff -r 3000:3500 http://svn.collab.net/repos/svn/trunk/COMMITTERS
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 3000)
++++ COMMITTERS	(revision 3500)
+</pre><p>Compara a revisão 3000 com a revisão 3500 de todos os
+            arquivos em <code class="filename">trunk</code> usando a notação de
+            intervalo:</p><pre class="screen">
+$ svn diff -r 3000:3500 http://svn.collab.net/repos/svn/trunk
+          </pre><p>Compara a revisão 3000 com a revisão 3500 apenas de três
+            arquivos em <code class="filename">trunk</code> usando a notação de
+            intervalo:</p><pre class="screen">
+$ svn diff -r 3000:3500 --old http://svn.collab.net/repos/svn/trunk COMMITTERS README HACKING
+          </pre><p>Se você já tem uma cópia de trabalho, você pode obter as
+            diferenças sem digitar URLs longas:</p><pre class="screen">
+$ svn diff -r 3000:3500 COMMITTERS 
+Index: COMMITTERS
+===================================================================
+--- COMMITTERS	(revision 3000)
++++ COMMITTERS	(revision 3500)
+</pre><p>Use <code class="option">--diff-cmd</code>
+            <em class="replaceable"><code>CMD</code></em> <code class="option">-x</code> para
+            passar argumentos diretamente para o programa diff
+            externo</p><pre class="screen">
+$ svn diff --diff-cmd /usr/bin/diff -x "-i -b" COMMITTERS 
+Index: COMMITTERS
+===================================================================
+0a1,2
+&gt; This is a test
+&gt; 
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.delete.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.export.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn delete </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn export</td></tr></table></div></body></html>

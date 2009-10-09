@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnsync synchronize</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnsync.html#svn.ref.svnsync.c" title="Subcomandos do svnsync" /><link rel="prev" href="svn.ref.svnsync.c.init.html" title="svnsync initialize" /><link rel="next" href="svn.ref.svnserve.html" title="svnserve" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnsync synchronize</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnsync.c.init.html">Anterior</a> </td><th width="60%" align="center">Subcomandos do svnsync</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnserve.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnsync.c.sync"></a><div class="titlepage"></div><a id="id2652304" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnsync synchronize — Transfere todas as revisões pendentes do
+            repositório de origem para o repositório espelho.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2652334"></a><h2>Sinopse</h2><pre class="programlisting">svnsync synchronize DEST_URL</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2652346"></a><h2>Descrição</h2><p>O comando <span class="command"><strong>svnsync synchronize</strong></span> faz
+            todo o trabalho pesado da operação de espelhamento de
+            repositório.  Depois de verificar o repositório espelho para
+            ver quais revisões já foram copiadas para ele, e então
+            começa a copiar quaisquer revisões que ainda não tenham sido
+            espelhadas a partir do repositório origem.</p><p>O <span class="command"><strong>svnsync synchronize</strong></span> pode ser
+            graciosamente cancelado e reiniciado.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2652385"></a><h2>Nomes Alternativos</h2><p>sync</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2652395"></a><h2>Opções</h2><pre class="screen">
+--non-interactive
+--no-auth-cache
+--username NAME
+--password PASS
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2652409"></a><h2>Exemplos</h2><p>Copia revisões ainda não sincronizadas do repositório de
+            origem para o repositório espelho:</p><pre class="screen">
+$ svnsync synchronize file:///opt/svn/repos-mirror
+Committed revision 1.
+Copied properties for revision 1.
+Committed revision 2.
+Copied properties for revision 2.
+Committed revision 3.
+Copied properties for revision 3.
+…
+Committed revision 45.
+Copied properties for revision 45.
+Committed revision 46.
+Copied properties for revision 46.
+Committed revision 47.
+Copied properties for revision 47.
+$
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnsync.c.init.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnsync.html#svn.ref.svnsync.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnserve.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnsync initialize </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnserve</td></tr></table></div></body></html>

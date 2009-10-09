@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Visão Geral</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor" /><link rel="prev" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor" /><link rel="next" href="svn.serverconfig.choosing.html" title="Escolhendo uma Configuração de Servidor" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Visão Geral</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.serverconfig.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Configuração do Servidor</th><td width="20%" align="right"> <a accesskey="n" href="svn.serverconfig.choosing.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.serverconfig.overview"></a>Visão Geral</h2></div></div></div><p>O Subversion foi desenvolvido com uma camada de rede abstrata.
+      Isso significa que um repositório pode ser acessado via
+      programação por qualquer tipo de processo servidor, e a API de
+      “<span class="quote">acesso ao repositório</span>” do cliente permite aos
+      programadores escrever plugins que falem com protocolos de rede
+      relevantes.  Em teoria, o Subversion pode usar um número infinito
+      de implementações de rede.  Na prática, há apenas dois servidores
+      até o momento em que este livro estava sendo escrito.</p><p>O Apache é um servidor web extremamente popular; usando o
+      módulo <span class="command"><strong>mod_dav_svn</strong></span>, o Apache pode acessar um
+      repositório e torná-lo disponível para os clientes através do
+      protocolo WebDAV/DeltaV, que é uma extensão do HTTP.  Como o
+      Apache é um servidor web extremamente extensível, ele provê um
+      conjunto de recursos “<span class="quote">de graça</span>”, tais como
+      comunicação SSL criptografada, sistema de log, integração com
+      diversos sistemas de autenticação de terceiros, além de navegação
+      simplificada nos repositórios.</p><p>Por outro lado está o <span class="command"><strong>svnserve</strong></span>: um programa
+      servidor pequeno e leve que conversa com os clientes por meio de
+      um protocolo específico.  Pelo fato de ter sido explicitamente
+      desenvolvido para o Subversion e de manter informações de estado
+      (diferentemente do HTTP), este seu protocolo permite operações de
+      rede significativamente mais rápidas—ainda que ao custo de
+      alguns recursos.  Este protocolo só entende autenticação do tipo
+      CRAM-MD5, não possui recursos de log, nem de navegação web nos
+      repositórios, e não tem opção de criptografar o tráfego de rede.
+      Mas é, no entanto, extremamente fácil de configurar e é quase
+      sempre a melhor opção para pequenas equipes que ainda estão
+      iniciando com o Subversion.</p><p>Uma terceira opção é o uso do <span class="command"><strong>svnserve</strong></span>
+      através de uma conexão SSH.  Por mais que este cenário ainda use o
+      <span class="command"><strong>svnserve</strong></span>, ele difere um pouco no que diz
+      respeito aos recursos de uma implantação
+      <span class="command"><strong>svnserve</strong></span> tradicional.  SSH é usado para
+      criptografar toda a comunicação.  O SSH também é usado
+      exclusivamente para autenticação, então são necessárias contas
+      reais no sistema do host servidor (diferentemente do uso do
+      <span class="command"><strong>svnserve</strong></span> tradicional, que possui suas próprias
+      contas de usuário particulares.)  Finalmente, pelo fato desta
+      configuração precisar que cada usuário dispare um processo
+      temporário <span class="command"><strong>svnserve</strong></span> particular, esta opção
+      é equivalente  (do ponto de vista de permissões) a permitir total
+      acesso de um grupo local de usuários no repositório por meio de
+      URLs <code class="literal">file://</code>.  Assim, controle de acesso
+      com base em caminhos não faz sentido, já que cada usuário está
+      acessando os arquivos da base de dados diretamente.</p><p>Aqui está um breve sumário destas três configurações típicas de
+      servidor.</p><div class="table"><a id="svn.serverconfig.overview.tbl-1"></a><p class="title"><b>Tabela 6.1. Comparação das Opções para o Servidor Subversion</b></p><div class="table-contents"><table summary="Comparação das Opções para o Servidor Subversion" border="1"><colgroup><col /><col /><col /><col /></colgroup><thead><tr><th>Característica</th><th>Apache + mod_dav_svn</th><th>svnserve</th><th>svnserve sobre SSH</th></tr></thead><tbody><tr><td>Opções de autenticação</td><td>Autenticação básica HTTP(S), certificados X.509,
+              LDAP, NTLM, ou quaisquer outros mecanismos disponíveis ao
+              Apache httpd</td><td>CRAM-MD5</td><td>SSH</td></tr><tr><td>Opções para contas de usuários</td><td>arquivo 'users' privativo</td><td>arquivo 'users' privativo</td><td>contas no sistema</td></tr><tr><td>Opções de autorização</td><td>acesso leitura/escrita pode ser dado para o
+              repositório como um todo, ou especificado por
+              caminho</td><td>acesso leitura/escrita pode ser dado para o
+              repositório como um todo, ou especificado por
+              caminho</td><td>acesso leitura/escrita passível de ser dado apenas ao
+              repositório como um todo</td></tr><tr><td>Criptografia</td><td>através de SSL opcional</td><td>nenhuma</td><td>túnel SSH</td></tr><tr><td>Registro de log</td><td>logs completos do Apache para cada requisição HTTP,
+            com opcional log “<span class="quote">alto nível</span>” para operações do
+            cliente em geral</td><td>sem log</td><td>sem log</td></tr><tr><td>Interoperabilidade</td><td>parcialmente usável por outros clientes WebDAV</td><td>se comunica apenas com clientes svn</td><td>se comunica apenas com clientes svn</td></tr><tr><td>Visualização pela web</td><td>suporte existente limitado, ou também por meio de
+              ferramentas de terceiros como o ViewVC</td><td>apenas por meio de ferramentas de terceiros como o
+              ViewVC</td><td>apenas por meio de ferramentas de terceiros como o
+              ViewVC</td></tr><tr><td>Velocidade</td><td>um pouco mais lento</td><td>um pouco mais rápido</td><td>um pouco mais rápido</td></tr><tr><td>Configuração inicial</td><td>um tanto complexa</td><td>extremamente simples</td><td>moderadamente simples</td></tr></tbody></table></div></div><br class="table-break" /></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.serverconfig.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.serverconfig.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.serverconfig.choosing.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 6. Configuração do Servidor </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Escolhendo uma Configuração de Servidor</td></tr></table></div></body></html>

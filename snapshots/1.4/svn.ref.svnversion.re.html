@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnversion</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnversion.html" title="svnversion" /><link rel="prev" href="svn.ref.svnversion.html" title="svnversion" /><link rel="next" href="svn.ref.mod_dav_svn.html" title="mod_dav_svn" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnversion</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnversion.html">Anterior</a> </td><th width="60%" align="center">svnversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.mod_dav_svn.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnversion.re"></a><div class="titlepage"></div><a id="id2653070" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnversion — Sumariza revisão(ões) locais de uma cópia de
+                    trabalho.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnversion.re.syn"></a><h2>Sinopse</h2><pre class="programlisting">svnversion [OPTIONS] [WC_PATH [TRAIL_URL]]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnversion.re.desc"></a><h2>Descrição</h2><p>O <span class="command"><strong>svnversion</strong></span> é um programa para
+          sumarização do conjunto de revisões de uma cópia de trabalho.
+          O número de revisão resultante, ou intervalo de revisões, é
+          escrito na saída padrão.</p><p>É comum usar essa saída em seu processo de compilação e
+          distribuição para definir o número de versão de seu
+          programa.</p><p><em class="replaceable"><code>TRAIL_URL</code></em>, se estiver presente,
+          é a porção final da URL usada para determinar se o 
+          <em class="replaceable"><code>WC_PATH</code></em> em si foi trocado
+          (detecção de chaves dentro de 
+          <em class="replaceable"><code>WC_PATH</code></em> não depende de 
+          <em class="replaceable"><code>TRAIL_URL</code></em>).</p><p>Quando <em class="replaceable"><code>WC_PATH</code></em> não está
+          definido, o diretório atual será usado como caminho da cópia
+          de trabalho <em class="replaceable"><code>TRAIL_URL</code></em> não pode ser
+          definido se <em class="replaceable"><code>WC_PATH</code></em> não for
+          informado explicitamente.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnversion.re.sw"></a><h2>Opções</h2><p>Como o <span class="command"><strong>svnserve</strong></span>, o 
+          <span class="command"><strong>svnversion</strong></span> não tem subcomandos, mas apenas
+          opções.</p><div class="variablelist"><dl><dt><span class="term"><code class="option">--no-newline</code> (<code class="option">-n</code>)</span></dt><dd><p>Omite a quebra de linha usual da saída.</p></dd><dt><span class="term"><code class="option">--committed</code> (<code class="option">-c</code>)</span></dt><dd><p>Usa as revisões das últimas modificações ao invés da
+              revisão atual (i.e., a mais alta revisão disponível
+              localmente).</p></dd><dt><span class="term"><code class="option">--help</code> (<code class="option">-h</code>)</span></dt><dd><p>Exibe um resumo da ajuda.</p></dd><dt><span class="term"><code class="option">--version</code></span></dt><dd><p>Exibe a versão do <span class="command"><strong>svnversion</strong></span> e
+              encerra sem nenhum erro.</p></dd></dl></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnversion.re.examples"></a><h2>Exemplos</h2><p>Se a cópia de trabalho estiver toda na mesma revisão (por
+          exemplo, imediatamente depois de uma atualização), então essa
+          revisão é exibida:</p><pre class="screen">
+$ svnversion
+4168
+</pre><p>Você pode adicionar <em class="replaceable"><code>TRAIL_URL</code></em> 
+          para se assegurar que a cópia de trabalho não seja diferente
+          daquela que você espera.  Note que o
+          <em class="replaceable"><code>WC_PATH</code></em> é requerido neste
+          comando:</p><pre class="screen">
+$ svnversion . /repos/svn/trunk
+4168
+</pre><p>Para uma cópia de trabalho que esteja em diversas revisões
+          distintas, o intervalo das revisões presentes é exibido:</p><pre class="screen">
+$ svnversion
+4123:4168
+</pre><p>Se a cópia de trabalho contiver modificações, um "M" é
+          adicionado ao final para sinalizar:</p><pre class="screen">
+$ svnversion
+4168M
+</pre><p>Se a cópia de trabalho for trocada, um "S" é adicionado ao
+          final:</p><pre class="screen">
+$ svnversion
+4168S
+</pre><p>E ainda, aqui está uma cópia de trabalho que foi trocada e
+          que continha algumas modificações locais:</p><pre class="screen">
+$ svnversion
+4212:4168MS
+</pre><p>Se executado em um diretório que não seja uma cópia de
+          trabalho, o <span class="command"><strong>svnversion</strong></span> considera que está
+          em uma cópia de trabalho exportada e exibe "exported":</p><pre class="screen">
+$ svnversion
+exported
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnversion.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnversion.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.mod_dav_svn.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnversion </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> mod_dav_svn</td></tr></table></div></body></html>

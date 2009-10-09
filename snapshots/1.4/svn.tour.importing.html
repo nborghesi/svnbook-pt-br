@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Colocando dados em seu Repositório</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.tour.html" title="Capítulo 2. Uso Básico" /><link rel="prev" href="svn.tour.help.html" title="Help!" /><link rel="next" href="svn.tour.initial.html" title="Checkout Inicial" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Colocando dados em seu Repositório</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.help.html">Anterior</a> </td><th width="60%" align="center">Capítulo 2. Uso Básico</th><td width="20%" align="right"> <a accesskey="n" href="svn.tour.initial.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.importing"></a>Colocando dados em seu Repositório</h2></div></div></div><p>Há dois modos de colocar novos arquivos em seu repositório
+      Subversion: <span class="command"><strong>svn import</strong></span> e <span class="command"><strong>svn
+      add</strong></span>.  Discutiremos <span class="command"><strong>svn import</strong></span> aqui
+      e <span class="command"><strong>svn add</strong></span> mais adiante neste capítulo quando
+      analisarmos um dia típico com o Subversion.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.importing.import"></a>svn import</h3></div></div></div><p>O comando <span class="command"><strong>svn import</strong></span> é um modo rápido para
+        copiar uma árvore de arquivos não versionada em um repositório, criando
+        diretórios intermediários quando necessário. <span class="command"><strong>svn
+        import</strong></span> não requer uma cópia de trabalho, e seus arquivos
+        são imediatamente submetidos ao repositório.  Isto é tipicamente
+        usado quando você tem uma árvore de arquivos existente que você quer
+        monitorar em seu repositório Subversion.  Por exemplo:</p><pre class="screen">
+$ svnadmin create /usr/local/svn/newrepos
+$ svn import mytree file:///usr/local/svn/newrepos/some/project \
+             -m "Importação inicial"
+Adicionando    mytree/foo.c
+Adicionando    mytree/bar.c
+Adicionando    mytree/subdir
+Adicionando    mytree/subdir/quux.h
+
+Commit da revisão 1.
+</pre><p>O exemplo anterior copiou o conteúdo do diretório
+        <code class="filename">mytree</code> no diretório
+        <code class="filename">some/project</code> no repositório:</p><pre class="screen">
+$ svn list file:///usr/local/svn/newrepos/some/project
+bar.c
+foo.c
+subdir/
+</pre><p>Note que após a importação terminar, a árvore inicial
+        <span class="emphasis"><em>não</em></span> está convertida em uma cópia de trabalho.  Para
+        começar a trabalhar, você ainda precisa obter(<span class="command"><strong>svn
+        checkout</strong></span>) uma nova cópia de trabalho da árvore.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.importing.layout"></a>Layout de repositório recomendado</h3></div></div></div><p>Enquanto a flexibilidade do Subversion permite que você organize
+      seu repositório da forma que você escolher, nós recomendamos que você
+      crie um diretório <code class="filename">trunk</code> para armazenar a
+      “<span class="quote">linha principal</span>” de desenvolvimento, um diretório
+      <code class="filename">branches</code> para conter cópias ramificadas,
+      e um diretório <code class="filename">tags</code> para conter cópias
+      rotuladas, por exemplo:</p><pre class="screen">
+$ svn list file:///usr/local/svn/repos
+/trunk
+/branches
+/tags
+</pre><p>Você aprenderá mais sobre tags e branches no <a class="xref" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar">Capítulo 4, <i>Fundir e Ramificar</i></a>.  Para detalhes e como configurar
+      múltiplos projetos, veja <a class="xref" href="svn.branchmerge.maint.html#svn.branchmerge.maint.layout" title="Estrutura de Repositório">“Estrutura de Repositório”</a> e <a class="xref" href="svn.reposadmin.planning.html#svn.reposadmin.projects.chooselayout" title="Planejando a Organização do Repositório">“Planejando a Organização do Repositório”</a> para ler mais
+      sobre “<span class="quote">raízes dos projetos</span>”.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.help.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.tour.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.tour.initial.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Help! </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Checkout Inicial</td></tr></table></div></body></html>

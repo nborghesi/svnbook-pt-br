@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnsync</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="prev" href="svn.ref.svnlook.c.youngest.html" title="svnlook youngest" /><link rel="next" href="svn.ref.svnsync.c.copy-revprops.html" title="svnsync copy-revprops" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnsync</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.youngest.html">Anterior</a> </td><th width="60%" align="center">Capítulo 9. Referência Completa do Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnsync.c.copy-revprops.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.ref.svnsync"></a><span class="command"><strong>svnsync</strong></span></h2></div></div></div><p>O <span class="command"><strong>svnsync</strong></span> é uma ferramenta remota para 
+      espelhamento de repositórios do Subversion.  Colocando de uma
+      forma simples, ela permite que você repita as revisões de um
+      repositório em outro.</p><p>Em um cenário de espelhamento, há dois repositórios: o
+      repositório de origem, e o repositório espelho (ou
+      “<span class="quote">sink</span>”).  O repositório de origem é o repositório a
+      partir do qual o <span class="command"><strong>svnsync</strong></span> obtém as revisões.  O
+      repositório espelho é o destino das revisões obtidas do
+      repositório de origem.  Cada um dos repositórios pode ser local ou
+      remoto—eles são apenas endereçados por suas URLs.</p><p>O processo do <span class="command"><strong>svnsync</strong></span> precisa apenas de
+      acesso de leitura ao repositório de origem; ele nunca tenta
+      modificá-lo.  Mas, obviamente, o <span class="command"><strong>svnsync</strong></span>
+      precisa de acesso tanto de leitura quanto de escrita no
+      repositório espelho.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>O <span class="command"><strong>svnsync</strong></span> é muito sensível a mudanças
+        feitas no repositório espelho quando elas não fazem parte de uma
+        operação de espelhamento.  Para previnir que isso aconteça, será
+        melhor se o processo <span class="command"><strong>svnsync</strong></span> for o único com
+        permissão para modificar o repositório espelho.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svnsync.sw"></a>Opções do <span class="command"><strong>svnsync</strong></span></h3></div></div></div><div class="variablelist"><dl><dt><span class="term"><code class="option">--config-dir</code>
+            <em class="replaceable"><code>DIR</code></em></span></dt><dd><p>Instrui o Subversion a ler informações de configuração
+              de um diretório específico ao invés do local padrão
+              (<code class="filename">.subversion</code> no diretório home do
+              usuário).</p></dd><dt><span class="term"><code class="option">--no-auth-cache</code></span></dt><dd><p>Evita que o cache de informações de autenticação 
+              (p.ex., nome de usuário e senha) seja feito em diretórios
+              administrativos do Subversion.</p></dd><dt><span class="term"><code class="option">--non-interactive</code></span></dt><dd><p>No caso de uma falha de autenticação, ou de
+              credenciais insuficientes, evita que sejam solicitadas
+              informações de credenciais (p.ex., nome de usuário e
+              senha) intereativamente.  Isto é útil se você estiver
+              executando o Subversion dentro de um script automatizado e
+              que seja mais adequado fazer o Subversion falhar do que
+              solicitar por mais informação.</p></dd><dt><span class="term"><code class="option">--password</code>
+            <em class="replaceable"><code>PASS</code></em></span></dt><dd><p>Indica que você está informando sua senha para
+              autenticação na linha de comando—de outra forma, se
+              necessário, o Subversion irá solicitá-la a você
+              interativamente.</p></dd><dt><span class="term"><code class="option">--username</code>
+            <em class="replaceable"><code>NAME</code></em></span></dt><dd><p>Indica que você está informando o nome de usuário para
+              autenticação na linha de comando—de outra forma, se
+              necessário, o Subversion irá solicitá-lo a você
+              interativamente.</p></dd></dl></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svnsync.c"></a>Subcomandos do <span class="command"><strong>svnsync</strong></span></h3></div></div></div><p>Há vários subcomandos:</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.youngest.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnsync.c.copy-revprops.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnlook youngest </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnsync copy-revprops</td></tr></table></div></body></html>

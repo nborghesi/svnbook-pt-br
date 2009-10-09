@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn cleanup</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.checkout.html" title="svn checkout" /><link rel="next" href="svn.ref.svn.c.commit.html" title="svn commit" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn cleanup</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.checkout.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.commit.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.cleanup"></a><div class="titlepage"></div><a id="id2637364" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn cleanup — Faz recursivamente uma limpeza na área de
+            trabalho.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2637391"></a><h2>Sinopse</h2><pre class="programlisting">svn cleanup [PATH...]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2637404"></a><h2>Descrição</h2><p>Faz recursivamente uma limpeza na área de trabalho,
+            removendo travas da cópia de trabalho e concluindo operações
+            não finalizadas.  Sempre que você obtiver um erro de
+            “<span class="quote">cópia de trabalho travada</span>”, execute este
+            comando para remover travas perdidas e deixar sua cópia de
+            trabalho no estado usável novamente.</p><p>Se, por algum motivo, um <span class="command"><strong>svn update</strong></span>
+            falhar devido a um problema ao executar um programa diff
+            externo (p.ex. devido a entrada do usuário ou falha de
+            rede), passe a opção <code class="option">--diff3-cmd</code> para
+            permitir que a limpeza complete qualquer mesclagem com seu
+            programa diff externo.  Você também pode especificar um
+            diretório de configuração com <code class="option">--config-dir</code>,
+            mas você deve precisar destas opções em raríssimas
+            ocasições.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2637462"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2637472"></a><h2>Altera</h2><p>Cópia de trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640006"></a><h2>Acessa o Repositório</h2><p>Não</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640017"></a><h2>Opções</h2><pre class="screen">
+--diff3-cmd CMD
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640030"></a><h2>Exemplos</h2><p>Bem, não há muito para esta parte de exemplo aqui pois o
+            <span class="command"><strong>svn cleanup</strong></span> não gera nenhuma saída.  Se
+            você não informar um caminho
+            (<em class="replaceable"><code>PATH</code></em>), então
+            “<span class="quote"><code class="filename">.</code></span>” é usado.</p><pre class="screen">
+$ svn cleanup
+
+$ svn cleanup /path/to/working-copy
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.checkout.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.commit.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn checkout </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn commit</td></tr></table></div></body></html>

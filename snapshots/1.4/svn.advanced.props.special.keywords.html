@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Substituição de Palavra-Chave</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.props.special.ignore.html" title="Ignorando Itens Não-Versionados" /><link rel="next" href="svn.advanced.locking.html" title="Travamento" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Substituição de Palavra-Chave</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.props.special.ignore.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.locking.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.props.special.keywords"></a>Substituição de Palavra-Chave</h2></div></div></div><p>O Subversion possui a capacidade de substituir
+      <em class="firstterm">palavras-chave</em>—pedaços de informação
+      úteis e dinâmicos sobre um arquivo versionado—dentro do
+      conteúdo do próprio arquivo.  As palavras-chave geralmente fornece
+      informação sobre a última modificação realizada no arquivo.
+      Pelo fato desta informação modificar toda vez que o arquivo
+      é modificado, e mais importante, apenas
+      <span class="emphasis"><em>depois</em></span> que o arquivo é modificado, isto é um aborrecimento
+      para qualquer processo a não ser que o sistema de controle de versão mantenha
+      os dados completamente atualizados.  Se deixada para os autores humanos, a
+      informação se tornaria inevitavelmente obsoleta.</p><p>Por exemplo, digamos que você tem um documento no qual gostaria
+      de mostrar a última data em que ele foi modificado.  Você
+      poderia obrigar que cada autor deste documento que, pouco antes de
+      submeter suas alterações, também ajustasse a parte do
+      documento que descreve quando ele fez a última alteração.  Porém,
+      mais cedo ou mais tarde, alguém esqueceria de fazer isto.  Em vez disso,
+      basta solicitar ao Subversion que efetue a substituição da palavra-chave
+      <code class="literal">LastChangedDate</code> pelo valor adequado.  Você controla
+      onde a palavra-chave é inserida em seu documento colocando uma
+      <em class="firstterm">âncora de palavra-chave</em> no local desejado
+      dentro do arquivo.  Esta âncora é apenas uma sequência de texto
+      formatada como
+      <code class="literal">$</code><em class="replaceable"><code>NomeDaPalavraChave</code></em><code class="literal">$</code>.</p><p>Todas as palavras-chave são sensíveis a minúsculas e maiúsculas onde aparecem como
+      âncoras em arquivos: você deve usar a capitalização correta para
+      que a palavra-chave seja expandida.  Você deve considerar que o
+      valor da propriedade <code class="literal">svn:keywords</code> esteja ciente da
+      capitalização também—certos nomes de palavras-chave serão reconhecidos,
+      independentemente do caso, mas este comportamento está desaprovado.</p><p>O Subversion define a lista de palavras-chave disponíveis para
+      substituição.  Esta lista contém as seguintes cinco palavras-chave, 
+      algumas das quais possuem apelidos que você pode também utilizar:</p><div class="variablelist"><dl><dt><span class="term"><code class="literal">Date</code></span></dt><dd><p>Esta palavra-chave descreve a última vez conhecida em
+            que o arquivo foi modificado no repositório, e
+            está na forma <code class="literal">$Date:
+            2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006)
+            $</code>.  Ela também pode ser especificada como
+            <code class="literal">LastChangedDate</code>.</p></dd><dt><span class="term"><code class="literal">Revision</code></span></dt><dd><p>Esta palavra-chave descreve a última revisão conhecida em
+            que este arquivo foi modificado no repositório, e é apresentada
+            na forma <code class="literal">$Revision: 144 $</code>.  
+            Ela também pode ser especificada como
+            <code class="literal">LastChangedRevision</code> ou
+            <code class="literal">Rev</code>.</p></dd><dt><span class="term"><code class="literal">Author</code></span></dt><dd><p>Esta palavra-chave descreve o último usuário conhecido que
+            modificou este arquivo no repositório, e é apresentada
+            na forma <code class="literal">$Author: harry $</code>.  
+            Ela também pode ser especificada como 
+            <code class="literal">LastChangedBy</code>.</p></dd><dt><span class="term"><code class="literal">HeadURL</code></span></dt><dd><p>Esta palavra-chave descreve a URL completa para a versão
+            mais recente do arquivo no repositório, e é apresentada
+            na forma <code class="literal">$HeadURL:
+            http://svn.collab.net/repos/trunk/README $</code>.
+            Ela também pode ser abreviada como
+            <code class="literal">URL</code>.</p></dd><dt><span class="term"><code class="literal">Id</code></span></dt><dd><p>Esta palavra-chave é uma combinação comprimida das
+            outras palavras-chave.  Sua substituição apresenta-se como
+            <code class="literal">$Id: calc.c 148 2006-07-28 21:30:43Z sally
+            $</code>, e é interpretada no sentido de que o arquivo
+            <code class="filename">calc.c</code> foi modificado pela última vez na revisão
+            148 na noite de 28 de julho de 2006 pelo usuário
+            <code class="literal">sally</code>.</p></dd></dl></div><p>Muitas das descrições anteriores usam a frase “<span class="quote">último
+      valor conhecido</span>” ou algo parecido.  Tenha em mente que
+      a expansão da palavra-chave é uma operação no lado do cliente, e seu cliente
+      somente “<span class="quote">conhece</span>” sobre mudanças que tenham ocorrido no
+      repositório quando você atualiza sua cópia de trabalho para incluir
+      essas mudanças.  Se você nunca atualizar sua cópia de trabalho, suas
+      palavras-chave nunca expandirão para valores diferentes, mesmo que esses
+      arquivos versionados estejam sendo modificados regularmente no
+      repositório.</p><p>Simplesmente adicionar texto da âncora de uma palavra-chave em seu
+      arquivo faz nada de especial.  O Subversion nunca tentará executar
+      substituições textuais no conteúdo de seu arquivo a não ser que
+      seja explicitamente solicitado.  Afinal, você pode estar escrevendo
+      um documento
+      <sup>[<a id="id2573287" href="#ftn.id2573287" class="footnote">14</a>]</sup> 
+      sobre como usar palavras-chave, e você não quer que o Subversion
+      substitua seus belos exemplos de âncoras de palavra-chave, permanecendo
+      não-substituídas!</p><p>Para dizer ao Subversion se substitui ou não as palavras-chave
+      em um arquivo particular, voltamos novamente aos subcomandos relacionados a
+      propriedades.  A propriedade <code class="literal">svn:keywords</code>,
+      quando definida em um arquivo versionado, controla quais palavras-chave serão
+      substituídas naquele arquivo.  O valor é uma lista delimitada por espaços
+      dos nomes ou apelidos de palavra-chave encontradas na tabela
+      anterior.</p><p>Por exemplo, digamos que você tenha um arquivo versionado nomeado
+      <code class="filename">weather.txt</code> que possui esta
+      aparência:</p><pre class="programlisting">
+Aqui está o mais recente relatório das linhas iniciais.
+$LastChangedDate$
+$Rev$
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
+</pre><p>Sem definir a propriedade <code class="literal">svn:keywords</code>
+      neste arquivo, o Subversion fará nada especial.  Agora, vamos
+      permitir a substituição da palavra-chave
+      <code class="literal">LastChangedDate</code>.</p><pre class="screen">
+$ svn propset svn:keywords "Date Author" weather.txt
+property 'svn:keywords' set on 'weather.txt'
+$
+</pre><p>Agora você fez uma modificação local da propriedade no arquivo
+      <code class="filename">weather.txt</code>.  Você verá nenhuma
+      mudança no conteúdo do arquivo (ao menos que você tenha feito alguma
+      definição na propriedade anteriormente).  Note que o arquivo
+      continha uma âncora de palavra-chave para a palavra-chave <code class="literal">Rev</code>,
+      no entanto, não incluímos esta palavra-chave no valor da propriedade
+      que definimos.  Felizmente, o Subversion ignorará pedidos para
+      substituir palavras-chave que não estão presentes no arquivo, e
+      não substituirá palavras-chave que não estão presentes no valor
+      da propriedade <code class="literal">svn:keywords</code>.</p><p>Imediatamente depois de você submeter esta mudança de propriedade,
+      o Subversion atualizará seu arquivo de trabalho com o novo
+      texto substituto.  Em vez de ver a sua âncora da palavra-chave
+      <code class="literal">$LastChangedDate$</code>, você verá como resultado seu
+      valor substituído.  Este resultado também contém o nome da
+      palavra-chave, que continua sendo limitada pelos caracteres de
+      sinal de moeda (<code class="literal">$</code>).  E como prevíamos, a
+      palavra-chave <code class="literal">Rev</code> não foi substituída porque
+      não solicitamos que isto fosse realizado.</p><p>Note também, que definimos a propriedade <code class="literal">svn:keywords</code>
+      para “<span class="quote">Date Author</span>” e, no entanto, a âncora da
+      palavra-chave usou o apelido <code class="literal">$LastChangedDate$</code>
+      e ainda sim expandiu corretamente.</p><pre class="screen">
+Aqui está o mais recente relatório das linhas iniciais.
+$LastChangedDate: 2006-07-22 21:42:37 -0700 (Sat, 22 Jul 2006) $
+$Rev$
+Acúmulos de nuvens estão aparecendo com mais freqüência quando o verão se aproxima.
+</pre><p>Se agora alguém submeter uma mudança para
+      <code class="filename">weather.txt</code>, sua cópia deste arquivo
+      continuará a mostrar o mesmo valor para a palavra-chave substituída
+      como antes—até que você atualize sua cópia de trabalho.  Neste
+      momento as palavras-chave em seu arquivo <code class="filename">weather.txt</code>
+      serão re-substituídas com a informação que
+      reflete a mais recente submissão conhecida para este arquivo.</p><div class="sidebar"><p class="title"><b>Onde está $GlobalRev$?</b></p><p>Novos usuários são freqüentemente confundidos pela forma que a
+        palavra-chave <code class="literal">$Rev$</code> trabalha.  Como o repositório
+        possui um número de revisão único, globalmente incrementado, muitas pessoas
+        assumem que este número está refletido no valor da palavra-chave
+        <code class="literal">$Rev$</code>.  Porém,
+        <code class="literal">$Rev$</code> reflete a última revisão na qual
+        o arquivo foi <span class="emphasis"><em>modificado</em></span>, não a última
+        revisão para qual ele foi atualizado.  Compreender isto esclarece
+        a confusão, mas a frustração muitas vezes permanece—sem o
+        suporte de uma palavra-chave do Subversion para isso, como podemos
+        obter automaticamente o número de revisão global em seus
+        arquivos?</p><p>Para fazer isto, você precisa de processamento externo.  O Subversion
+        vem com uma ferramenta chamada <span class="command"><strong>svnversion</strong></span> que
+        foi projetada apenas para este propósito. O comando
+        <span class="command"><strong>svnversion</strong></span> rastreia sua cópia de trabalho e
+        produz como saída as revisões que encontra.  Você pode usar
+        este programa, mais algumas outras ferramentas, para embutir esta
+        informação sobre as revisões globais em seus arquivos.  Para mais informações sobre
+        <span class="command"><strong>svnversion</strong></span>, veja <a class="xref" href="svn.ref.svnversion.html" title="svnversion">“svnversion”</a>.</p></div><p>O Subversion 1.2 introduziu uma nova variante da sintaxe de
+      palavra-chave que trouxe funcionalidade adicional e útil—embora talvez
+      atípica.  Agora você pode dizer ao Subversion
+      para manter um tamanho fixo (em termos do número de bytes
+      consumidos) para a palavra-chave substituída.  Pelo uso de um
+      duplo dois pontos (<code class="literal">::</code>) após o nome da palavra-chave,
+      seguido por um número de caracteres de espaço, você define esta
+      largura fixa.  Quando o Subversion for substituir sua
+      palavra-chave para a palavra-chave e seu valor, ele substituirá
+      essencialmente apenas aqueles caracteres de espaço, deixando a largura
+      total do campo da palavra-chave inalterada.  Se o valor substituído
+      for menor que a largura definida para o campo, haverá caracteres
+      de enchimento extras (espaços) no final do campo
+      substituído; se for mais longo, será truncado com um
+      caractere de contenção especial (<code class="literal">#</code>) logo antes do
+      sinal de moeda delimitador de fim.</p><p>Por exemplo, digamos que você possui um documento em que temos
+      alguma seção com dados tabulares refletindo as palavras-chave do
+      Subversion sobre o documento.  Usando a sintaxe de substituição de palavra-chave
+      original do Subversion, seu arquivo pode parecer com alguma coisa
+      como:</p><pre class="screen">
+$Rev$:     Revisão da última submissão
+$Author$:  Autor da última submissão
+$Date$:    Data da última submissão
+</pre><p>Neste momento, vemos tudo de forma agradável e tabular.  Mas quando
+      você em seguida submete este arquivo (com a substituição de palavra-chave
+      habilitada, certamente), vemos:</p><pre class="screen">
+$Rev: 12 $:     Revisão da última submissão
+$Author: harry $:  Autor da última submissão
+$Date: 2006-03-15 02:33:03 -0500 (Wed, 15 Mar 2006) $:    Data da última submissão
+</pre><p>O resultado não é tão elegante.  E você pode ser
+      tentado a então ajustar o arquivo depois da substituição para
+      que pareça tabular novamente.  Mas isto apenas funciona quando
+      os valores da palavra-chave são da mesma largura.  Se a última
+      revisão submetida aumentar em uma casa decimal (ou seja, de
+      99 para 100), ou se uma outra pessoa com um nome de usuário maior
+      submete o arquivo, teremos tudo bagunçado novamente.  No entanto, se
+      você está usando o Subversion 1.2 ou superior, você pode usar a nova sintaxe
+      para palavra-chave com tamanho fixo, definir algumas larguras de campo que
+      sejam razoáveis, e agora seu arquivo pode ter esta aparência:</p><pre class="screen">
+$Rev::               $:  Revisão da última submissão
+$Author::            $:  Autor da última submissão
+$Date::              $:  Data da última submissão
+</pre><p>Você submete esta mudança ao seu arquivo.  Desta vez,
+      o Subversion nota a nova sintaxe para palavra-chave com tamanho fixo, e
+      mantém a largura dos campos como definida pelo espaçamento que
+      você colocou entre o duplo dois pontos e o sinal de moeda
+      final.  Depois da substituição, a largura dos campos está
+      completamente inalterada—os curtos valores de
+      <code class="literal">Rev</code> e <code class="literal">Author</code> são
+      preenchidos com espaços, e o longo campo <code class="literal">Date</code>
+      é truncado com um caractere de contenção:</p><pre class="screen">
+$Rev:: 13            $:  Revisão da última submissão
+$Author:: harry      $:  Autor da última submissão
+$Date:: 2006-03-15 0#$:  Data da última submissão
+</pre><p>O uso de palavras-chave de comprimento fixo é especialmente útil
+      quando executamos substituições em formatos de arquivo complexos que
+      por si mesmo usam campos de comprimento fixo nos dados, ou que o
+      tamanho armazenado de um determinado campo de dados é predominantemente
+      difícil de modificar fora da aplicação original do formato
+      (assim como para documentos do Microsoft Office).</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Esteja ciente que pelo fato da largura do campo de uma palavra-chave é
+        medida em bytes, o potencial de corrupção de valores de
+        multi-byte existe.  Por exemplo, um nome de usuário que
+        contém alguns caracteres multi-byte em UTF-8 pode sofrer
+        truncamento no meio da seqüência de bytes que compõem
+        um desses caracteres.  O resultado será um mero
+        truncamento quando visualizado à nível de byte, mas provavelmente
+        aparecerá como uma cadeia com um caractere adicional incorreto ou
+        ilegível quando exibido como texto em UTF-8.  É concebível que
+        certas aplicações, quando solicitadas a carregar o arquivo,
+        notariam o texto em UTF-8 quebrado e ainda considerem todo o arquivo
+        como corrompido, recusando-se a operar sobre o arquivo de um
+        modo geral.  Portanto, ao limitar palavras-chave para um tamanho fixo,
+        escolha um tamanho que permita este tipo de expansão ciente dos
+        bytes.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2573287" href="#id2573287" class="para">14</a>] </sup>… ou até mesmo uma seção de um livro …</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.props.special.ignore.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.locking.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Ignorando Itens Não-Versionados </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Travamento</td></tr></table></div></body></html>

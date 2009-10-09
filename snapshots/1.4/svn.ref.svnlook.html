@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnlook</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.html" title="Capítulo 9. Referência Completa do Subversion" /><link rel="prev" href="svn.ref.svnadmin.c.verify.html" title="svnadmin verify" /><link rel="next" href="svn.ref.svnlook.c.author.html" title="autor svnlook" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnlook</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.verify.html">Anterior</a> </td><th width="60%" align="center">Capítulo 9. Referência Completa do Subversion</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.author.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.ref.svnlook"></a><span class="command"><strong>svnlook</strong></span></h2></div></div></div><p><span class="command"><strong>svnlook</strong></span> é um comando de console útil
+      para examinar diferentes aspectos do repositório Subversion.
+      Ele não faz nenhuma mudança no repositório—é usado mesmo 
+      para dar uma dar uma “<span class="quote">espiada</span>”.
+      <span class="command"><strong>svnlook</strong></span> é usando tipicamente usado pelos
+      hooks do repositório, mas o administrador do repositório pode
+      achá-lo útil como ferramente de diagnóstico.</p><p>Já que <span class="command"><strong>svnlook</strong></span> funciona via acesso direto
+      ao repositório, (e por isso só pode ser usado em máquinas que
+      tenham repositórios), ele se refere ao repositório por um caminho, 
+      não uma URL.</p><p>Se nenhuma revisão ou transação for especificada, o padrão do
+      <span class="command"><strong>svnlook</strong></span> é da revisão mais jovem(mais recente)
+      do repositório.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svnlook.sw"></a>Opções do <span class="command"><strong>svnlook</strong></span></h3></div></div></div><p>Opções no <span class="command"><strong>svnlook</strong></span> são globais, assim como
+        no <span class="command"><strong>svn</strong></span> e <span class="command"><strong>svnadmin</strong></span>;
+        entretanto, a maioria das opções apenas se aplicam a um commando
+        já que as funcionalidades do <span class="command"><strong>svnlook</strong></span> é 
+        (intencionalmente) limitado ao escopo.</p><div class="variablelist"><dl><dt><span class="term"><code class="option">--no-diff-deleted</code></span></dt><dd><p>Previne o <span class="command"><strong>svnlook</strong></span> de mostrar as
+	        diferenças entre arquivos deletados.  O comportamento padrão
+	        quando um arquivo é deletado numa transação/revisão é
+	        mostrar as mesmas diferenças que você veria se tivesse
+	        deixado o arquivo mas apagado seu conteudo.</p></dd><dt><span class="term"><code class="option">--revision</code>
+            (<code class="option">-r</code>)</span></dt><dd><p>Especifica uma revisão em particular que você deseja
+		    examinar.</p></dd><dt><span class="term"><code class="option">--revprop</code></span></dt><dd><p>Opera uma propriedade da revisão ao invés da propriedade
+		    especificada para o arquivo ou diretório. Essa opção exige
+		    que você passe a revisão com a opção
+		    <code class="option">--revision</code> (<code class="option">-r</code>).</p></dd><dt><span class="term"><code class="option">--transaction</code>
+            (<code class="option">-t</code>)</span></dt><dd><p>Especifica um ID de transação particular que você deseja
+	        examinar.</p></dd><dt><span class="term"><code class="option">--show-ids</code></span></dt><dd><p>Mostrar o ID da revisão do nodo do sistema de arquivos
+	        para cada caminho da árvore do sistema de arquivos.</p></dd></dl></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.ref.svnlook.c"></a>Sub-comandos do <span class="command"><strong>svnlook</strong></span> </h3></div></div></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.verify.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.author.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnadmin verify </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> autor svnlook </td></tr></table></div></body></html>

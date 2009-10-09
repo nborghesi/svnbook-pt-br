@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn propedit</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.propdel.html" title="svn propdel" /><link rel="next" href="svn.ref.svn.c.propget.html" title="svn propget" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn propedit</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.propdel.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.propget.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.propedit"></a><div class="titlepage"></div><a id="id2644383" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn propedit — Edita a propriedade de um ou mais itens sob
+            controle de versão.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644411"></a><h2>Sinopse</h2><pre class="programlisting">svn propedit PROPNAME PATH...</pre><pre class="programlisting">svn propedit PROPNAME --revprop -r REV [TARGET]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644430"></a><h2>Descrição</h2><p>Edita uma ou mais propriedades usando seu editor
+            preferido.  A primeira forma edita propriedades versionadas
+            em sua cópia de trabalho, enquanto que a segunda edita
+            propriedades não-versionadas remotas em uma revisão de
+            repositório (<em class="replaceable"><code>TARGET</code></em> apenas
+            determina qual repositório acessar).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644456"></a><h2>Nomes Alternativos</h2><p>pedit, pe</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644466"></a><h2>Altera</h2><p>Cópia de trabalho, repositório apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644478"></a><h2>Acessa o Repositório</h2><p>Apenas se executando sobre uma URL</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644489"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--revprop
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--encoding ENC
+--editor-cmd EDITOR
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2644504"></a><h2>Exemplos</h2><p><span class="command"><strong>svn propedit</strong></span> facilita a modificação
+            de propriedades que tenham múltiplos valores:</p><pre class="screen">
+$ svn propedit svn:keywords  foo.c 
+    &lt;svn will launch your favorite editor here, with a buffer open
+    containing the current contents of the svn:keywords property.  You
+    can add multiple values to a property easily here by entering one
+    value per line.&gt;
+Set new value for property 'svn:keywords' on 'foo.c'
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.propdel.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.propget.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn propdel </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn propget</td></tr></table></div></body></html>

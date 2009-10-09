@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Ramos de fornecedores</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /><link rel="prev" href="svn.branchmerge.maint.html" title="Manutenção de Ramos" /><link rel="next" href="svn.branchmerge.summary.html" title="Sumário" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Ramos de fornecedores</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.branchmerge.maint.html">Anterior</a> </td><th width="60%" align="center">Capítulo 4. Fundir e Ramificar</th><td width="20%" align="right"> <a accesskey="n" href="svn.branchmerge.summary.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.vendorbr"></a>Ramos de fornecedores</h2></div></div></div><p>Como é especialmente o caso quando se trata de desenvolvimento de software, os dados
+      que você mantém sob controle de versão freqüentemente são intimamente relacionados
+      a, ou talvez dependentes de, dados alheios.  Geralmente,
+      as necessidades do seu projeto determinarão que você fique tão
+      atualizado quanto possível em relação aos dados fornecidos por essa entidade
+      externa sem sacrificar a estabilidade do seu próprio projeto.
+      Este cenário se repete o tempo todo—em qualquer lugar onde
+      a informação gerada por um grupo de pessoas tem um efeito
+      direto sobre o que é gerado por outro grupo.</p><p>Por exemplo, desenvolvedores de software podem estar trabalhando em um
+      aplicativo que faz uso de uma biblioteca de terceiros.
+      O Subversion tem tal relacionamento com a biblioteca Apache Portable
+      Runtime (ver <a class="xref" href="svn.developer.usingapi.html#svn.developer.usingapi.apr" title="A Biblioteca Apache Portable Runtime">“A Biblioteca Apache Portable Runtime”</a>). O
+      código fonte do Subversion depende da biblioteca APR para todas as suas 
+      necessidades de portabilidade. Em fases anteriores do desenvolvimento
+      do Subversion, o projeto seguiu de perto as mudanças na API da APR,
+      aderindo sempre ao “<span class="quote">estado da arte</span>” das
+      agitações no código da biblioteca. Agora que tanto a APR quanto o Subversion
+      amadureceram, o Subversion tenta sincronizar com a API da biblioteca APR
+      somente em liberações estáveis e bem testadas.</p><p>Agora, se seu projeto depende de informações de alguém,
+      existem várias maneiras pelas quais você poderia tentar sincronizar essas
+      informações com as suas próprias. Mais dolorosamente, você poderia emitir oral
+      instruções orais ou por escrito a todos os contribuintes do seu projeto,
+      dizendo-lhes para se certificar de que têm as versões específicas
+      dessa informação de terceiros de que seu projeto precisa. Se a
+      informação de terceiros é mantida em um repositório
+      Subversion, você também pode utilizar as definições externas
+      do Subversion para efetivamente “<span class="quote">imobilizar</span>” versões
+      específicas dessa informação em algum lugar no próprio diretório
+      da sua cópia de trabalho (ver <a class="xref" href="svn.advanced.externals.html" title="Definições Externas">“Definições Externas”</a>).</p><p>Mas às vezes você quer manter modificações personalizadas de
+      dados de terceiros em seu próprio sistema de controle de versões. Retornando
+      ao exemplo do desenvolvimento de software, programadores poderiam precisar
+      fazer modificações naquela biblioteca de terceiros para seus próprios
+      propósitos.  Estas alterações poderiam incluir novas funcionalidades
+      ou correções de bugs, mantidas apenas internamente até se tornarem parte
+      de uma liberação oficial da biblioteca de terceiros. Ou as
+      mudanças poderiam nunca ser transmitidas de volta para os mantenedores da biblioteca,
+      existindo apenas como ajustes personalizados para fazer com que a biblioteca atenda
+      melhor as necessidades dos desenvolvedores de software.</p><p>Agora você enfrenta uma situação interessante. Seu projeto poderia
+      abrigar suas próprias modificação aos dados de terceiros de algum modo
+      desarticulado, tal como a utilização de <span class="foreignphrase"><em class="foreignphrase">patches</em></span> ou versões
+      alternativas completas dos arquivos e diretórios. Mas estas rapidamente
+      tornam-se dores de cabeça para a manutenção, exigindo algum mecanismo
+      para aplicar suas alterações personalizadas aos dados de terceiros, e
+      necessitando de regeneração dessas mudanças a cada sucessiva
+      versão dos dados de terceiros que você acompanha.</p><p>A solução para este problema é usar <em class="firstterm">ramos de
+      fornecedores</em> (<span class="foreignphrase"><em class="foreignphrase">vendor branches</em></span>).  Um ramo de fornecedor é uma árvore de diretórios no 
+      nosso próprio sistema de controle de versões que contém informações
+      fornecidas por uma entidade de terceiros, ou fornecedor. Cada versão dos
+      dados do fornecedor que você decidir absorver em seu projeto é
+      chamada <em class="firstterm">pingo de fornecedor</em> (<span class="foreignphrase"><em class="foreignphrase">vendor drop</em></span>).</p><p>Os ramos de fornecedor proporcionam dois benefícios.  Primeiro, por armazenar
+      o pingo de fornecedor atualmente suportado em seu próprio sistema de controle
+      de versão, os membros do seu projeto nunca precisam perguntar
+      se têm a versão correta dos dados do fornecedor. Eles
+      simplesmente recebem essa versão correta como parte de suas atualizações
+      regulares da cópia de trabalho.  Em segundo lugar, como os dados residem em seu
+      próprio repositório Subversion, você pode armazenar as alterações personalizadas feitas nele
+      no próprio local—você não precisa mais de um método automatizado
+      (ou pior, manual) para incluir no projeto suas personalizações.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.vendorbr.general"></a>Procedimento Geral para Manutenção de Ramos de Fornecedores</h3></div></div></div><p>Gerenciar ramos de fornecedores geralmente funciona assim. Você
+        cria um diretório de nível superior (tal como
+        <code class="filename">/vendor</code>) para conter os ramos de fornecedores.
+        Então você importa o código de terceiros em um subdiretório
+        desse diretório de nível superior. Em seguida copia esse subdiretório
+        para o seu ramo principal de desenvolvimento (por exemplo,
+        <code class="filename">/trunk</code>) no local apropriado. Você
+        sempre faz suas alterações locais no ramo principal de desenvolvimento.
+        A cada nova versão do código que você está acompanhando, você o traz
+        para o ramo de fornecedor e funde as alterações em
+        <code class="filename">/trunk</code>, resolvendo quaisquer conflitos
+        que ocorrerem entre suas alterações locais e as alterações da
+        nova versão.</p><p>Talvez um exemplo ajudará a esclarecer este algoritmo.
+        Usaremos um cenário onde a sua equipe de desenvolvimento está criando um
+        <span class="foreignphrase"><em class="foreignphrase">software</em></span> de calculadora que referencia uma complexa biblioteca
+        de aritmética de terceiros, libcomplex.  Começaremos com a
+        criação inicial do ramo de fornecedor, e a importação do
+        primeiro pingo de fornecedor.  Iremos chamar o nosso diretório do ramo de fornecedor
+        de <code class="filename">libcomplex</code>, e nossos pingos de código irão
+        para um subdiretório do nosso ramo de fornecedor chamado
+        <code class="filename">current</code>.  E como <span class="command"><strong>svn
+        import</strong></span> cria todos os diretórios pais
+        intermediários de que precisa, nós podemos de fato realizar ambos os
+        os passos com um único comando.</p><pre class="screen">
+$ svn import /caminho/para/libcomplex-1.0 \
+             http://svn.exemplo.com/repos/vendor/libcomplex/current \
+             -m 'importando pingo de fornecedor 1.0 inicial'
+…
+</pre><p>Temos agora a versão atual do código fonte de libcomplex
+        em <code class="filename">/vendor/libcomplex/current</code>. Agora,
+        vamos rotular essa versão (ver <a class="xref" href="svn.branchmerge.tags.html" title="Rótulos">“Rótulos”</a>)
+        e então copiá-la para o ramo principal de desenvolvimento.  Nosso cópia
+        criará um novo diretório chamado
+        <code class="filename">libcomplex</code> no nosso diretório de projeto
+        <code class="filename">calc</code> já existente. É nesta
+        versão copiada dos dados do fornecedor que nós vamos fazer nossas
+        personalizações.</p><pre class="screen">
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/current  \
+           http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+           -m 'rotulando libcomplex-1.0'
+…
+$ svn copy http://svn.exemplo.com/repos/vendor/libcomplex/1.0  \
+           http://svn.exemplo.com/repos/calc/libcomplex        \
+           -m 'trazendo libcomplex-1.0 para o ramo principal'
+…
+</pre><p>Nós obtemos uma cópia do ramo principal do nosso projeto—que agora
+        inclui uma cópia do primeiro pingo de fornecedor—e começamos a
+        trabalhar personalizando o código de libcomplex.  Antes que saibamos, nossa
+        versão modificada de libcomplex agora está completamente integrada
+        ao nosso programa da calculadora.
+        <sup>[<a id="id2591137" href="#ftn.id2591137" class="footnote">26</a>]</sup>
+      </p><p>Algumas semanas depois, os desenvolvedores da libcomplex lançam uma
+        nova versão da sua biblioteca—versão 1.1—que
+        contém algumas características e funcionalidades que nós queremos muito.
+        Nós gostaríamos de atualizar para esta nova versão, mas sem perder
+        as personalizações que fizemos na versão existente. O que nós
+        essencialmente gostaríamos de fazer é substituir nossa atual
+        versão base da libcomplex 1.0 por uma cópia da libcomplex
+        1.1 e, em seguida, voltar a aplicar as modificações que fizemos
+        anteriormente na biblioteca, desta vez para a nova versão.  Mas na prática nós
+        abordamos o problema na outra direção, aplicando as
+        alterações feitas em libcomplex entre as versões 1.0 e 1.1 diretamente na nossa
+        cópia personalizada dela.</p><p>Para executar esta atualização, nós obtemos uma cópia do nosso ramo
+        de fornecedor, e substituímos o código no diretório
+        <code class="filename">current</code> pelo novo código fonte da
+        libcomplex 1.1.  Nós literalmente copiamos novos arquivos sobre
+        os arquivos existentes, talvez descompactando a versão compactada da
+        libcomplex 1.1 sobre nossos arquivos e diretórios existentes.  A meta
+        aqui é fazer nosso diretório <code class="filename">current</code> 
+        conter apenas o código da libcomplex 1.1, e garantir que todo esse
+        código esteja sob controle de versão. Ah, e nós queremos fazer
+        isto com o mínimo possível de perturbação no histórico do controle de
+        versão.</p><p>Após substituir o código 1.0 pelo código 1.1, <span class="command"><strong> svn
+        status</strong></span> vai mostrar arquivos com modificações locais assim
+        como, talvez, alguns arquivos fora do controle de versão ou faltantes.  Se nós
+        fizemos o que deveríamos ter feito, os arquivos fora do controle de versão são
+        apenas os novos arquivos introduzidos na versão 1.1 da
+        libcomplex—nós executamos <span class="command"><strong>svn add</strong></span> sobre eles para
+        colocá-los sob controle versão.  Os arquivos faltantes são arquivos
+        que estavam em 1.0, mas não em 1.1, e sobre esses caminhos nós executamos
+        <span class="command"><strong>svn delete</strong></span>. Por fim, uma vez que nossa
+        cópia de trabalho <code class="filename">current</code> contém apenas o
+        código da libcomplex 1.1, nós submetemos as alterações que fizemos para
+        que ela ficasse desse jeito.</p><p>Nosso ramo <code class="filename">current</code> agora contém o
+         novo pingo de fornecedor. Nós rotulamos a nova versão (da mesma maneira que
+         anteriormente rotulamos o pingo de fornecedor da versão 1.0), e em seguida fundimos
+         as diferenças entre o rótulo da versão anterior e
+         a nova versão atual em nosso ramo principal de
+         desenvolvimento.</p><pre class="screen">
+$ cd working-copies/calc
+$ svn merge http://svn.exemplo.com/repos/vendor/libcomplex/1.0      \
+            http://svn.exemplo.com/repos/vendor/libcomplex/current  \
+            libcomplex
+… # resolva todos os conflitos entre as alterações deles e as nossas
+$ svn commit -m 'fundindo libcomplex-1.1 com o ramo principal'
+…
+</pre><p>No caso de uso trivial, a nova versão da nossa
+        ferramenta de terceiros pareceria com a versão anterior,
+        de um ponto de vista de arquivos e diretórios.  Nenhum dos
+        arquivos fonte de libcomplex teria sido excluído, renomeado ou
+        movido para locais diferentes—a nova versão
+        conteria apenas alterações textuais em relação à anterior.
+        Em um mundo perfeito, nossas alterações seriam facilmente aplicadas
+        à nova versão da biblioteca, sem absolutamente nenhuma
+        complicação ou conflito.</p><p>Mas as coisas nem sempre são assim tão simples, e na verdade é
+        bastante comum que arquivos fonte sejam movidos de lugar entre
+        liberações de <span class="foreignphrase"><em class="foreignphrase">software</em></span>. Isto dificulta o processo de
+        garantir que as nossas alterações ainda são válidas para a nova
+        versão do código, e pode degradar rapidamente em uma situação
+        onde teremos de recriar manualmente as nossas customizações na
+        nova versão.  Uma vez que o Subversion conhece a história de um
+        determinado arquivo fonte—incluindo todas as suas localizações
+        anteriores—o processo de fusão da nova versão da
+        biblioteca é bem simples.  Mas nós somos responsáveis por
+        dizer ao Subversion como a posição do arquivo fonte mudou entre
+        um pingo de fornecedor e outro.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.vendorbr.svn_load_dirs"></a><span class="command"><strong>svn_load_dirs.pl</strong></span></h3></div></div></div><p>Vendor drops that contain more than a few deletes,
+        additions and moves complicate the process of upgrading to
+        each successive version of the third-party data.  So
+        Subversion supplies the <span class="command"><strong>svn_load_dirs.pl</strong></span>
+        script to assist with this process.  This script automates the
+        importing steps we mentioned in the general vendor branch
+        management procedure to make sure that mistakes are minimized.
+        You will still be responsible for using the merge commands to
+        merge the new versions of the third-party data into your main
+        development branch, but <span class="command"><strong>svn_load_dirs.pl</strong></span>
+        can help you more quickly and easily arrive at that
+        stage.</p><p>In short, <span class="command"><strong>svn_load_dirs.pl</strong></span> is an
+        enhancement to <span class="command"><strong>svn import</strong></span> that has several
+        important characteristics:</p><div class="itemizedlist"><ul type="disc"><li><p>It can be run at any point in time to bring an existing
+            directory in the repository to exactly match an external
+            directory, performing all the necessary adds and deletes,
+            and optionally performing moves, too.</p></li><li><p>It takes care of complicated series of operations between
+            which Subversion requires an intermediate commit—such
+            as before renaming a file or directory twice.</p></li><li><p>It will optionally tag the newly imported directory.</p></li><li><p>It will optionally add arbitrary properties to files and
+            directories that match a regular expression.</p></li></ul></div><p><span class="command"><strong>svn_load_dirs.pl</strong></span> takes three mandatory
+        arguments.  The first argument is the URL to the base
+        Subversion directory to work in.  This argument is followed by
+        the URL—relative to the first argument—into which the
+        current vendor drop will be imported.  Finally, the third
+        argument is the local directory to import.  Using our previous
+        example, a typical run of <span class="command"><strong>svn_load_dirs.pl</strong></span>
+        might look like:</p><pre class="screen">
+$ svn_load_dirs.pl http://svn.example.com/repos/vendor/libcomplex \
+                   current                                        \
+                   /path/to/libcomplex-1.1
+…
+</pre><p>You can indicate that you'd like
+        <span class="command"><strong>svn_load_dirs.pl</strong></span> to tag the new vendor drop
+        by passing the <code class="option">-t</code> command-line option and
+        specifying a tag name.  This tag is another URL relative to
+        the first program argument.</p><pre class="screen">
+$ svn_load_dirs.pl -t libcomplex-1.1                              \
+                   http://svn.example.com/repos/vendor/libcomplex \
+                   current                                        \
+                   /path/to/libcomplex-1.1
+…
+</pre><p>When you run <span class="command"><strong>svn_load_dirs.pl</strong></span>, it
+        examines the contents of your existing “<span class="quote">current</span>”
+        vendor drop, and compares them with the proposed new vendor
+        drop.  In the trivial case, there will be no files that are in
+        one version and not the other, and the script will perform the
+        new import without incident.  If, however, there are
+        discrepancies in the file layouts between versions,
+        <span class="command"><strong>svn_load_dirs.pl</strong></span> will ask you how
+        to resolve those differences.  For example, you
+        will have the opportunity to tell the script that you know
+        that the file <code class="filename">math.c</code> in version 1.0 of
+        libcomplex was renamed to <code class="filename">arithmetic.c</code> in
+        libcomplex 1.1.  Any discrepancies not explained by moves
+        are treated as regular additions and deletions.</p><p>The script also accepts a separate configuration file for
+        setting properties on files and directories matching a regular
+        expression that are <span class="emphasis"><em>added</em></span> to the
+        repository.  This configuration file is specified to
+        <span class="command"><strong>svn_load_dirs.pl</strong></span> using the
+        <code class="option">-p</code> command-line option.  Each line of the
+        configuration file is a whitespace-delimited set of two or
+        four values: a Perl-style regular expression to match the
+        added path against, a control keyword (either
+        <code class="literal">break</code> or <code class="literal">cont</code>), and then
+        optionally a property name and value.</p><pre class="screen">
+\.png$              break   svn:mime-type   image/png
+\.jpe?g$            break   svn:mime-type   image/jpeg
+\.m3u$              cont    svn:mime-type   audio/x-mpegurl
+\.m3u$              break   svn:eol-style   LF
+.*                  break   svn:eol-style   native
+</pre><p>For each added path, the configured property changes whose
+        regular expression matches the path are applied in order,
+        unless the control specification is <code class="literal">break</code>
+        (which means that no more property changes should be applied
+        to that path).  If the control specification is
+        <code class="literal">cont</code>—an abbreviation for
+        <code class="literal">continue</code>—then matching will continue
+        with the next line of the configuration file.</p><p>Any whitespace in the regular expression, property name,
+        or property value must be surrounded by either single or
+        double quote characters.  You can escape quote characters that
+        are not used for wrapping whitespace by preceding them with a
+        backslash (<code class="literal">\</code>) character.  The backslash
+        escapes only quotes when parsing the configuration file, so do
+        not protect any other characters beyond what is necessary for
+        the regular expression.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2591137" href="#id2591137" class="para">26</a>] </sup>E inteiramente livre de <span class="foreignphrase"><em class="foreignphrase">bugs</em></span>, é claro!</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.branchmerge.maint.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.branchmerge.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.branchmerge.summary.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Manutenção de Ramos </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Sumário</td></tr></table></div></body></html>

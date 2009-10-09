@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Modelo de Rede</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.pegrevs.html" title="Revisões Marcadoras e Revisões Operativas" /><link rel="next" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Modelo de Rede</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.pegrevs.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.branchmerge.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.serverconfig.netmodel"></a>Modelo de Rede</h2></div></div></div><p>Em algum momento, será necessário compreender como seu
+      cliente Subversion comunica com seu servidor.  A camada de rede
+      do Subversion é abstrata, significando que os clientes Subversion
+      apresentam o mesmo comportamento geral não importando com que tipo de
+      servidor eles estão operando.  Seja comunicando no protocolo HTTP
+      (<code class="literal">http://</code>) com o Servidor HTTP Apache ou
+      comunicando no protocolo personalizado do Subversion
+      (<code class="literal">svn://</code>) com <span class="command"><strong>svnserve</strong></span>,
+      o modelo de rede básico é o mesmo.  Nesta seção, vamos
+      explicar os princípios básicos deste modelo de rede, incluindo como
+      o Subversion gerencia as questões de autenticação e
+      autorização.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.netmodel.reqresp"></a>Solicitações e Respostas</h3></div></div></div><p>O cliente Subversion passa a maior parte de seu tempo gerenciando
+        cópias de trabalho.  Quando ele precisa de informações de um repositório
+        remoto, entretanto, ele efetua uma solicitação de rede, e o
+        servidor responde com uma resposta apropriada.  Os detalhes do
+        protocolo de rede estão escondidos do usuário—o cliente
+        tenta acessar uma URL, e dependendo do esquema na URL, um
+        protocolo específico é usado para comunicar com o servidor (veja <a class="xref" href="svn.basic.in-action.html#svn.basic.in-action.wc.sb-1" title="URLs do Repositório">URLs do Repositório</a>).</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Execute <span class="command"><strong>svn --version</strong></span> para ver
+        quais esquemas de URL e protocolos que o cliente sabe como
+        usar.</p></div><p>Quando o processo servidor recebe uma requisição do cliente,
+        ele quase sempre solicita que o cliente se identifique.  Ele
+        lança um desafio de autenticação para o cliente, e o cliente
+        responde enviando de volta suas
+        <em class="firstterm">credenciais</em> ao servidor.  Quando a
+        autenticação for concluída, o servidor responde com a informação
+        original a qual o cliente requisitou.  Perceba que este sistema
+        é diferente de sistemas como o CVS em que o cliente oferece
+        credenciais preemptivamente (“<span class="quote">efetua um login</span>”) ao
+        servidor antes de fazer uma requisição.  No Subversion, o
+        servidor é que “<span class="quote">pega</span>” as credenciais desafiando o
+        cliente no momento adequado, ao invés de o cliente ter de
+        “<span class="quote">inserí-las</span>”.  Isto torna certas operações mais
+        elegantes.  Por exemplo, se um servidor estiver configurado para
+        permitir globalmente que qualquer um leia o repositório, então
+        o servidor nunca vai emitir um desafio de autenticação quando o
+        cliente executar um <span class="command"><strong>svn checkout</strong></span>.</p><p>Se uma dada requisição de rede feita pelo cliente resultar
+        em uma nova revisão sendo criada no repositório (p.ex.
+        <span class="command"><strong>svn commit</strong></span>), então o Subversion usa o nome de
+        usuário autenticado associado a essas requisições como autor da
+        revisão.  Isto é, o nome do usuário autenticado é armazenado
+        como o valor da propriedade <code class="literal">svn:author</code> na
+        nova revisão (veja <a class="xref" href="svn.ref.properties.html" title="Propriedades do Subversion">“Propriedades do Subversion”</a>).  Se o
+        cliente não estava autenticado (em outras palavras, se o
+        servidor nunca lançara um desafio de autenticação),
+        então a propriedade <code class="literal">svn:author</code> será vazia.
+      </p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.serverconfig.netmodel.credcache"></a>Armazenando Credenciais no Cliente</h3></div></div></div><p>Muitos servidores estão configurados para exigir autenticação em
+        todas solicitações.  Isto seria um grande incomodo para os usuários, se
+        eles forem forçados a digitar suas senhas várias vezes.
+        Felizmente, o cliente Subversion possui um remédio para
+        isto—um sistema embutido para armazenamento das credenciais
+        de autenticação em disco.  Por padrão, se o cliente de linha de
+        comando responde com sucesso a um desafio de autenticação do
+        servidor, ele salva as credenciais na área privada de configuração
+        de execução do usuário
+        (<code class="filename">~/.subversion/auth/</code> em sistemas baseado em Unix
+        ou <code class="filename">%APPDATA%/Subversion/auth/</code> em Windows;
+        veja <a class="xref" href="svn.advanced.confarea.html" title="Área de Configuração do Tempo de Execução">“Área de Configuração do Tempo de Execução”</a> para maiores detalhes
+        sobre o sistema de configuração de execução).  As credenciais
+        aprovadas são armazenadas em disco, chaveadas com uma combinação do
+        nome do servidor, porta, e o domínio de autenticação.</p><p>Quando o cliente recebe um desafio de autenticação, ele
+        primeiro procura pelas credenciais apropriadas na cache em disco do
+        usuário.  Se aparentemente nenhuma credencial apta está presente, ou
+        se em último caso a credencial armazenada falhar ao autenticar,
+        então o cliente, por padrão, voltará a solicitar ao
+        usuário pela informação necessária.</p><p>O leitor consciente de segurança suspeitará imediatamente
+        que há motivo para preocupação aqui.  “<span class="quote">Armazenar
+        senhas em disco?  Isto é terrível!  Você nunca deve fazer
+        isto!</span>”</p><p>Os desenvolvedores do Subversion reconhecem a legitimidade de tais
+        preocupações, e por esta razão o Subversion trabalha com os mecanismos disponíveis
+        fornecidos pelo sistema e ambiente operacional para tentar
+        minimizar o risco de vazamento destas informações.  Aqui está uma
+        descrição de que isto significa para os usuários nas plataformas mais
+        comuns:</p><div class="itemizedlist"><ul type="disc"><li><p>No Windows 2000 e posteriores, o cliente Subversion utiliza
+            os serviços de criptografia padrão do Windows para criptografar a
+            senha no disco.  Devido a chave de criptografia ser gerenciada
+            pelo Windows e ser vinculada às credenciais de <span class="foreignphrase"><em class="foreignphrase">login</em></span> do próprio
+            usuário, somente o usuário pode descriptografar a senha
+            armazenada.  (Note que se a senha da conta Windows do usuário
+            é redefinida por um administrador, todas as senhas armazenadas
+            se tornam indecifráveis.  O cliente Subversion se comportará
+            como se elas não existissem, solicitando pelas senhas quando
+            requeridas.)</p></li><li><p>Similarmente, no Mac OS X, o cliente Subversion armazena
+            todas as senha de repositório na coleção de chaves de <span class="foreignphrase"><em class="foreignphrase">login</em></span> (gerenciada pelo
+            serviço <span class="foreignphrase"><em class="foreignphrase">Keychain</em></span>), o qual é protegida pela senha da
+            conta do usuário.  As configurações de preferências do usuário podem impor
+            políticas adicionais, como exigir que a senha da conta do usuário
+            seja fornecida cada vez que o Subversion utilize a
+            senha.</p></li><li><p>Para outros sistemas operacionais baseado em Unix, nenhum serviço
+            de “<span class="quote">keychain</span>” existe.  No entanto,
+            a área de armazenamento <code class="filename">auth/</code> ainda é
+            protegida por permissão para que somente o usuário (proprietário) possa
+            ler dados dela, não todos em geral.  As permissões de arquivo do
+            próprio sistema operacional protege as senhas.</p></li></ul></div><p>Claro que, para o paranóico de verdade, nenhum destes
+        mecanismos satisfaz o teste de perfeição.  Então, para aqueles
+        dispostos a sacrificar a conveniência pela segurança extrema,
+        o Subversion oferece vários meios de desabilitar seu sistema de
+        armazenamento de credenciais completamente.</p><p>Para desabilitar o armazenamento para um único comando, passe a
+        opção <code class="option">--no-auth-cache</code>:</p><pre class="screen">
+$ svn commit -F log_msg.txt --no-auth-cache
+Authentication realm: &lt;svn://host.example.com:3690&gt; example realm
+Username:  joe
+Password for 'joe':
+
+Adding         newfile
+Transmitting file data .
+Committed revision 2324.
+
+# password was not cached, so a second commit still prompts us
+
+$ svn delete newfile
+$ svn commit -F new_msg.txt
+Authentication realm: &lt;svn://host.example.com:3690&gt; example realm
+Username:  joe
+…
+</pre><p>Ou, se você quiser desabilitar o armazenamento de credencial permanentemente,
+        você pode editar o arquivo <code class="filename">config</code> em sua
+        área de configuração do ambiente de execução, e defina a opção
+        <code class="option">store-auth-creds</code> para
+        <code class="literal">no</code>.  Isso evitará o armazenamento de
+        credenciais usadas em qualquer interação que você efetuar com o Subversion
+        no computador afetado.  Isso pode ser estendido a todos os
+        usuários no computador, também, ao modificar a área de
+        configuração do sistema como um todo (descrito em <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.layout" title="Estrutura da Área de Configuração">“Estrutura da Área de Configuração”</a>).</p><pre class="screen">
+[auth]
+store-auth-creds = no
+</pre><p>Algumas vezes os usuários poderão querer remover credenciais específicas
+        da cache em disco.  Para fazer isso, você precisa ir até
+        a área <code class="filename">auth/</code> e excluir manualmente o
+        arquivo de cache apropriado.  As credenciais são armazenadas em arquivos
+        individuais;  se você olhar dentro de cada arquivo, você verá chaves e
+        valores.  A chave <code class="literal">svn:realmstring</code> descreve
+        o domínio do servidor específico ao qual o arquivo está
+        associado:</p><pre class="screen">
+$ ls ~/.subversion/auth/svn.simple/
+5671adf2865e267db74f09ba6f872c28
+3893ed123b39500bca8a0b382839198e
+5c3c22968347b390f349ff340196ed39
+
+$ cat ~/.subversion/auth/svn.simple/5671adf2865e267db74f09ba6f872c28
+
+K 8
+username
+V 3
+joe
+K 8
+password
+V 4
+blah
+K 15
+svn:realmstring
+V 45
+&lt;https://svn.domain.com:443&gt; Joe's repository
+END
+</pre><p>Assim que você localizar o respectivo arquivo de cache, apenas o
+        exclua.</p><p>Uma última palavra sobre o comportamento de autenticação do
+        <span class="command"><strong>svn</strong></span>, especificamente em relação às opções
+        <code class="option">--username</code> e <code class="option">--password</code>.
+        Muitos dos subcomandos do cliente aceitam estas opções, mas
+        é importante entender que o uso dessas opções
+        <span class="emphasis"><em>não</em></span> envia as credenciais automaticamente ao
+        servidor.  Conforme discutido anteriormente, o servidor “<span class="quote">puxa</span>”
+        as credenciais do cliente quando julgar necessário; o
+        cliente não pode “<span class="quote">empurrá</span>”-las à vontade.  Se um nome de usuário
+        e/ou senha são passados como opções, elas somente serão
+        apresentadas ao servidor se o servidor solicitar elas.
+        <sup>[<a id="id2577623" href="#ftn.id2577623" class="footnote">21</a>]</sup>
+
+        Estas opções são normalmente utilizadas para autenticar como um
+        usuário diferente daquele que o Subversion teria optado por padrão
+        (como seu nome de usuário no sistema), ou quando tenta-se evitar
+        as perguntas interativas (como nas chamadas ao comando
+        <span class="command"><strong>svn</strong></span> a partir de um script).</p><p>Aqui está um resumo final que descreve como um cliente
+        Subversion se comporta quando ele recebe um desafio de
+        autenticação.</p><div class="orderedlist"><ol type="1"><li><p>Primeiro, o cliente verifica se o usuário especificou
+            alguma credencial na linda de comando com as opções
+            (<code class="option">--username</code> e/ou
+            <code class="option">--password</code>).  Se não, ou se essas opções
+            não conseguem autenticar com sucesso, então</p></li><li><p>o cliente procura pelo nome, porta e domínio do servidor na
+            área <code class="filename">auth/</code> do ambiente de execução, para ver se o
+            usuário já possui as credenciais em cache.  Se
+            não, ou se as credenciais em cache não conseguem autenticar,
+            então</p></li><li><p>finalmente, o cliente solicita as credenciais ao usuário
+            (a menos que seja instruído a não fazer isso através da
+            opção <code class="option">--non-interactive</code> ou suas
+            equivalentes específicas do cliente).</p></li></ol></div><p>Se o cliente autentica-se com sucesso por qualquer dos
+        métodos listados acima, ele tentará armazenar as credenciais
+        em disco (a menos que o usuário tenha desabilitado este comportamento,
+        como mencionado anteriormente).</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2577623" href="#id2577623" class="para">21</a>] </sup>Novamente, um erro comum é deixar um servidor mal
+           configurado de forma que ele nunca exija a autenticação do usuário.
+           Quando os usuários passam as opções <code class="option">--username</code> e
+           <code class="option">--password</code> para o cliente, eles ficam
+           surpresos ao ver que elas nunca foram usadas, ou seja, novas
+           revisões parecem ter sido submetidas
+           anonimamente!</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.pegrevs.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.branchmerge.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Revisões Marcadoras e Revisões Operativas </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Capítulo 4. Fundir e Ramificar</td></tr></table></div></body></html>

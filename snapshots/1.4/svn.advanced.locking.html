@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Travamento</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.props.special.keywords.html" title="Substituição de Palavra-Chave" /><link rel="next" href="svn.advanced.externals.html" title="Definições Externas" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Travamento</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.props.special.keywords.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.externals.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.locking"></a>Travamento</h2></div></div></div><p>O modelo de controle de versão copiar-modificar-fundir do Subversion ganha e
+      perde sua utilidade em seus algoritmos de fusão de dados, especificamente sobre quão
+      bem esses algoritmos executam ao tentar resolver conflitos
+      causados por múltiplos usuários modificando o mesmo arquivo simultaneamente.
+      O próprio Subversion oferece somente um algoritmo, um algoritmo de diferenciação
+      de três meios, que é inteligente o suficiente para manipular dados até uma
+      granularidade de uma única linha de texto.  O Subversion também permite
+      que você complemente o processamento de fusão de conteúdo com utilitários de
+      diferenciação externos (como descrito em <a class="xref" href="svn.advanced.externaldifftools.html#svn.advanced.externaldifftools.diff3" title="Ferramentas diff3 Externas">“Ferramentas diff3 Externas”</a>), alguns dos
+      quais podem fazer um trabalho ainda melhor, talvez oferecendo granularidade
+      em nível de palavra ou em nível de caractere de texto.  Mas o comum entre esses
+      algoritmos é que eles geralmente trabalham apenas sobre arquivos de texto.  O
+      cenário começa a parecer consideravelmente rígido quando você começa a discursar
+      sobre fusões de conteúdo em formatos de arquivo não-textual.  E quando você não
+      pode encontrar uma ferramenta que possa manipular este tipo de fusão, você
+      começa a verificar os problemas com o modelo
+      copiar-modificar-fundir.</p><p>Vejamos um exemplo da vida real onde este modelo não trabalha
+      adequadamente.  Harry e Sally são ambos desenhistas gráficos trabalhando no
+      mesmo projeto, que faz parte do marketing paralelo para um
+      automóvel mecânico.  O núcleo da concepção de um determinado
+      cartaz é uma imagem de um carro que necessita de alguns reparos, armazenada em
+      um arquivo usando o formato de imagem PNG.  O leiaute do cartaz está
+      quase pronto, e tanto Harry quanto Sally estão satisfeitos com a
+      foto que eles escolheram para o carro danificado—um Ford Mustang
+      1967 azul bebê com uma parte infelizmente amassada no
+      pára-lama dianteiro esquerdo.</p><p>Agora, como é comum em trabalhos de desenho gráfico, existe uma mudança
+      de planos que faz da cor do carro uma preocupação.  Então, Sally
+      atualiza sua cópia de trabalho para a revisão <code class="literal">HEAD</code>, inicializa
+      seu software de edição de fotos, e realiza alguns ajustes na imagem de
+      modo que o carro está agora vermelho cereja.  Enquanto isso, Harry, sentindo-se
+      particularmente inspirado neste dia, decide que a imagem
+      teria mais impacto se o carro também apresentasse ter sofrido um
+      maior impacto.  Ele, também, atualiza para a revisão <code class="literal">HEAD</code>,
+      e então, desenha algumas rachaduras no pára-brisa do veículo.  Ele
+      conduz de forma a concluir seu trabalho antes de Sally terminar o dela, e depois,
+      admirando o fruto de seu inegável talento, submete a imagem
+      modificada.  Pouco tempo depois, Sally finaliza sua nova versão
+      do carro, e tenta submeter suas mudanças.  Porém, como
+      esperado, o Subversion falha na submissão, informando Sally que agora
+      sua versão da imagem está desatualizada.</p><p>Vejamos onde a dificuldade ocorre.  Se Harry e Sally estivessem
+      realizando mudanças em um arquivo de texto, Sally iria simplesmente atualizar sua
+      cópia de trabalho, recebendo as mudanças que Harry realizou.  No
+      pior caso possível, eles teriam modificado a mesma região do
+      arquivo, e Sally teria que realizar uma adequada
+      resolução do conflito.  Mas estes não são arquivos de
+      texto—são imagens binárias.  E enquanto seja uma simples
+      questão de descrever o que seria esperado como resultado desta
+      fusão de conteúdos, existe uma pequena chance preciosa de que qualquer
+      software existente seja inteligente o suficiente para examinar a imagem que
+      cada um dos artistas gráficos se basearam para realizarem seu
+      trabalho, as mudanças que Harry fez e as mudanças que Sally
+      faz, e produzir uma imagem de um Mustang vermelho degradado com um
+      pára-brisa trincado!</p><p>Obviamente, as coias teriam sido mais simples se Harry e
+      Sally tivessem seqüenciado suas modificações na imagem—se, digamos,
+      Harry aguardasse para desenhar seus trincados no pára-brisa no novo carro
+      vermelho de Sally, ou se Sally trocasse a cor de um carro cujo
+      pára-brisa já estivesse trincado.  Como é discutido em <a class="xref" href="svn.basic.vsn-models.html#svn.basic.vsn-models.copy-merge" title="A Solução Copy-Modify-Merge">“A Solução Copy-Modify-Merge”</a>, a maioria destes
+      tipos de problemas desaparecerão totalmente quando existir uma perfeita
+      comunicação entre Harry e Sally.
+      <sup>[<a id="id2574019" href="#ftn.id2574019" class="footnote">15</a>]</sup>
+      Porém, como um sistema de controle de versão é de fato uma forma de
+      comunicação, ter um software que facilita a
+      a serialização de esforços não passíveis de paralelamento não é
+      ruim.  É neste cenário que a implementação do Subversion do modelo
+      travar-modificar-destravar ganha maior destaque.  Este é o momento
+      que falamos sobre a característica  de <em class="firstterm">travamento</em>
+      do Subversion, a qual é similar aos mecanismos de “<span class="quote">obter cópias
+      reservadas</span>” de outros sistemas de controle de
+      versão.</p><p>A funcionalidade de travamento do Subversion serve dois propósitos
+      principais:</p><div class="itemizedlist"><ul type="disc"><li><p><span class="emphasis"><em>Serializar o acesso a um objeto
+          versionado</em></span>.  Ao permitir que um usuário requeira
+          programaticamente o direito exclusivo de modificar um
+          arquivo no repositório, este usuário pode estar razoavelmente
+          seguro de que os esforços investidos nas mudanças não-mescláveis não
+          serão desperdiçados—a submissão de suas alterações será bem sucedida.</p></li><li><p><span class="emphasis"><em>Ajudar a comunicação</em></span>.  Ao alertar
+          outros usuários que a serialização está em vigor para um determinado
+          objeto versionado, estes outros usuários podem razoavelmente esperar
+          que o objeto está prestes de ser modificado por outra pessoa,
+          e eles, também, podem evitar o desperdício de seu tempo e energia em
+          mudanças não-mescláveis que não serão submetidas adequadamente e ocasionando
+          possível perda de dados.</p></li></ul></div><p>Quando nos referimos à funcionalidade de travamento do Subversion, estaremos
+      também falando sobre uma coleção de comportamentos bastante diversificada
+      que incluem a capacidade de travar um arquivo
+      <sup>[<a id="id2574115" href="#ftn.id2574115" class="footnote">16</a>]</sup>
+      versionado (requerendo o direito exclusivo de modificar o arquivo), de destravar
+      este arquivo (cedendo este direito exclusivo de modificar), de ver
+      relatórios sobre quais arquivos estão travados e por quem, de marcar
+      arquivos para os quais o travamento antes da edição é fortemente aconselhado, e
+      assim por diante.  Nesta seção, cobriremos todas destas facetas da ampla
+      funcionalidade de travamento.</p><div class="sidebar"><a id="svn.advanced.locking.meanings"></a><p class="title"><b>Os três significados de “<span class="quote">trava</span>”</b></p><p>Nesta seção, e em quase todas neste livro, as
+        palavras “<span class="quote">trava</span>” e “<span class="quote">travamento</span>” representam
+        um mecanismo para exclusão mútua entre os usuários para evitar
+        submissões conflitantes. Infelizmente, existem dois outros tipos
+        de “<span class="quote">trava</span>” com os quais o Subversion, e portanto
+        este livro, algumas vezes precisam se preocupar.</p><p>O primeiro tipo são as <em class="firstterm">travas da cópia de trabalho</em>,
+        usadas internamente pelo Subversion para prevenir conflitos entre
+        múltiplos clientes Subversion operando na mesma cópia de
+        trabalho.  Este é o tipo de trava indicada por um
+        <code class="computeroutput">L</code> na terceira coluna da saída produzida por
+        <span class="command"><strong>svn status</strong></span>, e removida pelo comando
+        <span class="command"><strong>svn cleanup</strong></span>, como especificado em <a class="xref" href="svn.tour.cleanup.html" title="Às Vezes Você Só Precisa Limpar">“Às Vezes Você Só Precisa Limpar”</a>.</p><p>Em segundo lugar, existem as <em class="firstterm">travas do banco de dados</em>,
+        usadas internamente pelo sistema Berkeley DB para prevenir conflitos
+        entre múltiplos programas tentando acessar o banco de dados.  Este
+        é o tipo de trava cuja indesejável persistência após um erro
+        pode fazer com que um repositório seja “<span class="quote">corrompido</span>”, como
+        descrito em <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.recovery" title="Recuperação do Berkeley DB">“Recuperação do Berkeley DB”</a>.</p><p>Você pode geralmente esquecer destes outros tipos de travas
+        até que algo de errado ocorra e requeira seus cuidados sobre
+        eles.  Neste livro, “<span class="quote">trava</span>” possui o significado do primeiro tipo
+        ao menos que o contrário esteja claro pelo contexto ou explicitamente
+        indicado.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.locking.creation"></a>Criando travas</h3></div></div></div><p>No repositório Subversion, uma
+        <em class="firstterm">trava</em> é um pedaço de metadados que
+        concede acesso exclusivo para um usuário modificar um arquivo.  Este
+        usuário é chamado de <em class="firstterm">proprietário da trava</em>.
+        Cada trava também tem um identificador único, tipicamente uma longa
+        cadeia de caracteres, conhecida como o <em class="firstterm">sinal de
+        trava</em>.  O repositório gerencia as travas, basicamente
+        manipulando sua criação, aplicação e remoção.  Se qualquer
+        transação de submissão tenta modificar ou excluir um arquivo travado
+        (ou excluir um dos diretórios pais do arquivo), o
+        repositório exigirá dois pedaços de informação—que
+        o cliente executante da submissão esteja autenticado como o proprietário
+        da trava, e que o sinal de trava tenha sido fornecido como parte do
+        processo de submissão como um tipo de prova que o cliente conhece qual
+        trava ele está usando.</p><p>Para demonstrar a criação de uma trava, vamos voltar ao nosso
+        exemplo de múltiplos desenhistas gráficos trabalhando sobre os mesmos
+        arquivos binários de imagem.  Harry decidiu modificar uma imagem JPEG.
+        Para prevenir que outras pessoas submetessem mudanças no arquivo
+        enquanto ele está modificando-o (bem como alertando-os que ele está
+        prestes a mudá-lo), ele trava o arquivo no repositório usando o
+        comando <span class="command"><strong>svn lock</strong></span>.</p><pre class="screen">
+$ svn lock banana.jpg -m "Editando arquivo para a liberação de amanhã."
+'banana.jpg' locked by user 'harry'.
+$
+</pre><p>Existe uma série de novas coisas demonstradas no
+        exemplo anterior.  Primeiro, note que Harry passou a opção
+        <code class="option">--message (-m)</code> para o comando <span class="command"><strong>svn
+        lock</strong></span>.  Similar ao <span class="command"><strong>svn commit</strong></span>, o
+        comando <span class="command"><strong>svn lock</strong></span> pode receber comentários (seja
+        via <code class="option">--message (-m)</code> ou <code class="option">--file
+        (-F)</code>) para descrever a razão do travamento do arquivo.
+        Ao contrário do <span class="command"><strong>svn commit</strong></span>, entretanto, o <span class="command"><strong>svn
+        lock</strong></span> não exigirá uma mensagem executando seu editor
+        de texto preferido.  Os comentários de trava são opcionais, mas ainda
+        recomendados para ajudar na comunicação.</p><p>Em segundo lugar, a trava foi bem sucedida.  Isto significa que o
+        arquivo não estava travado, e que Harry tinha a mais recente
+        versão do arquivo.  Se o arquivo da cópia de trabalho de Harry estivesse
+        desatualizado, o repositório teria rejeitado a
+        requisição, forçando Harry a executar <span class="command"><strong>svn update</strong></span> e
+        tentar o comando de travamento novamente.  O comando de travamento também
+        teria falhado se o arquivo já estivesse travado por outro
+        usuário.</p><p>Como você pode ver, o comando <span class="command"><strong>svn lock</strong></span>
+        imprime a confirmação do sucesso no travamento.  A partir deste ponto,
+        o fato de que o arquivo está travado torna-se aparente na
+        saída dos relatórios dos subcomandos <span class="command"><strong>svn status</strong></span>
+        e <span class="command"><strong>svn info</strong></span>.</p><pre class="screen">
+$ svn status
+     K banana.jpg
+
+$ svn info banana.jpg
+Path: banana.jpg
+Name: banana.jpg
+URL: http://svn.example.com/repos/project/banana.jpg
+Repository UUID: edb2f264-5ef2-0310-a47a-87b0ce17a8ec
+Revision: 2198
+Node Kind: file
+Schedule: normal
+Last Changed Author: frank
+Last Changed Rev: 1950
+Last Changed Date: 2006-03-15 12:43:04 -0600 (Wed, 15 Mar 2006)
+Text Last Updated: 2006-06-08 19:23:07 -0500 (Thu, 08 Jun 2006)
+Properties Last Updated: 2006-06-08 19:23:07 -0500 (Thu, 08 Jun 2006)
+Checksum: 3b110d3b10638f5d1f4fe0f436a5a2a5
+Lock Token: opaquelocktoken:0c0f600b-88f9-0310-9e48-355b44d4a58e
+Lock Owner: harry
+Lock Created: 2006-06-14 17:20:31 -0500 (Wed, 14 Jun 2006)
+Lock Comment (1 line):
+Editando arquivo para a liberação de amanhã.
+
+$
+</pre><p>O comando <span class="command"><strong>svn info</strong></span>, o qual não
+        consulta o repositório quando executa sobre caminhos de uma cópia
+        de trabalho, pode mostrar o sinal de trava e revela um importante fato
+        sobre o sinal de trava—que eles são colocados em cache na cópia
+        de trabalho.  A presença do sinal de trava é crítica.  Ele dá
+        à cópia de trabalho a autorização para fazer uso da trava mais
+        tarde.  Além disso, o comando <span class="command"><strong>svn status</strong></span> mostra um
+        <code class="literal">K</code> próximo ao arquivo (abreviação para <span class="foreignphrase"><em class="foreignphrase">locKed</em></span>),
+        indicando que o sinal de trava está presente.</p><div class="sidebar"><p class="title"><b>Em relação aos sinais de trava</b></p><p>Um sinal de trava não é um sinal de autenticação, tanto como
+          um sinal de <span class="emphasis"><em>autorização</em></span>.  O sinal
+          não é um segredo protegido.  De fato, um sinal de trava exclusivo é
+          descoberto por qualquer pessoa que execute <span class="command"><strong>svn info
+          URL</strong></span>.  Um sinal de trava é especial somente quando reside
+          dentro de uma cópia de trabalho.  Ele é prova de que a trava foi criada
+          em uma cópia de trabalho específica, e não noutra qualquer por algum
+          outro cliente.  Apenas se autenticando como o proprietário da trava
+          não é suficiente para prevenir acidentes.</p><p>Por exemplo, suponha que você travou um arquivo usando um computador em
+          seu escritório, mas deixou o trabalho antes de concluir
+          suas modificações para esse arquivo.  Não deveria ser possível
+          acidentalmente submeter mudanças para esse mesmo arquivo do seu
+          computador de casa mais tarde da noite, simplesmente porque você está
+          autenticado como o proprietário da trava.  Em outras palavras, o sinal de
+          trava previne uma parte do software relacionado ao Subversion de
+          invadir o trabalho do outro.  (Em nosso exemplo, se você
+          realmente precisa modificar o arquivo de uma cópia de trabalho alternativa,
+          você precisaria <em class="firstterm">parar</em> a trava e retravar o
+          arquivo.)</p></div><p>Agora que Harry tem o arquivo <code class="filename">banana.jpg</code> travado,
+        Sally não poderá modificar ou excluir esse arquivo:</p><pre class="screen">
+$ svn delete banana.jpg
+D         banana.jpg
+$ svn commit -m "Excluir arquivo sem uso."
+Deleting       banana.jpg
+svn: Commit failed (details follow):
+svn: DELETE of
+'/repos/project/!svn/wrk/64bad3a9-96f9-0310-818a-df4224ddc35d/banana.jpg':
+423 Locked (http://svn.example.com)
+$
+</pre><p>Porém Harry, após retocar a tonalidade amarela da banana,
+        é capaz de submeter suas mudanças no arquivo.  Isso porque ele
+        se autenticou como o proprietário da trava, e também porque sua cópia de
+        trabalho possui o sinal de trava correto:</p><pre class="screen">
+$ svn status
+M    K banana.jpg
+$ svn commit -m "Torna a banana mais amarela"
+Sending        banana.jpg
+Transmitting file data .
+Committed revision 2201.
+$ svn status
+$
+</pre><p>Note que após a submissão ser concluída, <span class="command"><strong>svn
+        status</strong></span> mostra que o sinal de trava não está mais
+        presente na cópia de trabalho.  Este é o comportamento padrão de
+        <span class="command"><strong>svn commit</strong></span>—ele procura na cópia de
+        trabalho (ou lista de alvos, se você fornecer uma lista desse tipo) por
+        modificações locais, e envia todos os sinalizadores de trava
+        encontrados durante esta caminhada para o servidor como parte da
+        transação de submissão.  Após a submissão concluir com sucesso,
+        todas as travas do repositório que forem mencionadas são
+        liberadas—<span class="emphasis"><em>até mesmo em arquivos que não foram
+        submetidos</em></span>.  Isto é utilizado para que os usuários não
+        sejam desleixados com os travamentos, ou segurem travas por muito
+        tempo.  Se Harry trava de forma desorganizada trinta arquivos em um diretório
+        nomeado <code class="filename">images</code> porque não tem certeza de quais
+        arquivos ele precisa modificar, por ora apenas modifica quatro destes
+        arquivos, quando ele executar <span class="command"><strong>svn commit images</strong></span>, o
+        processo mesmo assim liberará todas as trinta travas.</p><p>Este comportamento de liberar as travas automaticamente pode ser
+        evitado com a passagem da opção <code class="option">--no-unlock</code> ao
+        comando <span class="command"><strong>svn commit</strong></span>.  Isso tem melhor uso para aqueles
+        casos quando você quer submeter mudanças, mas ainda planeja fazer
+        mais mudanças e, portanto, precisa conservar as travas existentes.  Você
+        também pode fazer este seu comportamento padrão configurando a opção
+        <code class="literal">no-unlock</code> do seu ambiente de execução (veja
+        <a class="xref" href="svn.advanced.confarea.html" title="Área de Configuração do Tempo de Execução">“Área de Configuração do Tempo de Execução”</a>).</p><p>Evidentemente, travar um arquivo não o obriga a submeter uma
+        mudança para ele.  A trava pode ser liberada a qualquer tempo com um
+        simples comando <span class="command"><strong>svn unlock</strong></span>:</p><pre class="screen">
+$ svn unlock banana.c
+'banana.c' unlocked.
+</pre></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.locking.discovery"></a>Descobrindo as travas</h3></div></div></div><p>Quando uma submissão falha devido a um trava que outra pessoa criou, é
+        bastante fácil ver os detalhes sobre ela.  A forma mais fácil delas
+        é <span class="command"><strong>svn status --show-updates</strong></span>:</p><pre class="screen">
+$ svn status -u
+M              23   bar.c
+M    O         32   raisin.jpg
+       *       72   foo.h
+Status against revision:     105
+$
+</pre><p>Neste exemplo, Sally pode ver não somente que sua cópia de
+        <code class="filename">foo.h</code> está desatualizada, mas que um dos
+        dois arquivos modificados que ela planeja submeter está travado no
+        repositório.  O símbolo <code class="literal">O</code> corresponde a
+        “<span class="quote">Other</span>”, significando que existe uma trava sobre o arquivo,
+        e foi criada por outra pessoa.  Se ela vier a tentar uma
+        submissão, a trava sobre <code class="filename">raisin.jpg</code> a
+        impediria.  Sally deve estar imaginando quem fez a trava, quando,
+        e porquê.  Mais uma vez, <span class="command"><strong>svn info</strong></span> tem as
+        respostas:</p><pre class="screen">
+$ svn info http://svn.example.com/repos/project/raisin.jpg
+Path: raisin.jpg
+Name: raisin.jpg
+URL: http://svn.example.com/repos/project/raisin.jpg
+Repository UUID: edb2f264-5ef2-0310-a47a-87b0ce17a8ec
+Revision: 105
+Node Kind: file
+Last Changed Author: sally
+Last Changed Rev: 32
+Last Changed Date: 2006-01-25 12:43:04 -0600 (Sun, 25 Jan 2006)
+Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Lock Owner: harry
+Lock Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
+Lock Comment (1 line):
+Necessidade de fazer um ajuste rápido nesta imagem.
+$
+</pre><p>Assim como <span class="command"><strong>svn info</strong></span> pode ser usado para examinar
+        objetos na cópia de trabalho, ele também pode ser usado para examinar
+        objetos no repositório.  Se o argumento principal para
+        <span class="command"><strong>svn info</strong></span> é um caminho de uma cópia de trabalho, então todas
+        informações em cache da cópia de trabalho são exibidas; qualquer
+        menção a uma trava significa que a cópia de trabalho está mantendo um
+        sinal de trava (se um arquivo é travado por outro usuário ou em outra
+        cópia de trabalho, <span class="command"><strong>svn info</strong></span> em um caminho de cópia de
+        trabalho não mostrará qualquer informação da trava).  Se o argumento
+        principal para <span class="command"><strong>svn info</strong></span> é uma URL, então as
+        informações refletem a mais recente versão de um objeto no
+        repositório, e qualquer menção a uma trava descreve a atual
+        trava sobre o objeto.</p><p>Portanto, neste exemplo particular, Sally pode ver que Harry
+        travou o arquivo em 16 de Fevereiro para “<span class="quote">fazer um ajuste
+        rápido</span>”.  Já estando em Junho, ela suspeita que ele provavelmente
+        se esqueceu totalmente da trava.  Ela poderia ligar para Harry para reclamar
+        e lhe pedir que libere a trava.  Se ele estiver indisponível, ela
+        poderá tentar quebrar a trava a força ou solicitar um
+        administrador para o fazer.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.locking.break-steal"></a>Quebrando e roubando travas</h3></div></div></div><p>Uma trava no repositório não é algo sagrado—na configuração
+        padrão do Subversion, as travas podem ser liberadas não somente pela
+        pessoa que a criou, mas por qualquer outra também.  Quando
+        alguém que são seja o criador original da trava a destrói,
+        referimos a isto como <em class="firstterm">quebrar</em> a
+        trava.</p><p>Para o administrador é simples quebrar
+        travas.  Os programas <span class="command"><strong>svnlook</strong></span>
+        e <span class="command"><strong>svnadmin</strong></span> possuem a habilidade de
+        mostrar e remover travas diretamente do repositório.  (Para
+        mais informações sobre estas ferramentas, veja
+        <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.tk" title="Um Kit de Ferramentas do Administrador">“Um Kit de Ferramentas do Administrador”</a>.)</p><pre class="screen">
+$ svnadmin lslocks /usr/local/svn/repos
+Path: /project2/images/banana.jpg
+UUID Token: opaquelocktoken:c32b4d88-e8fb-2310-abb3-153ff1236923
+Owner: frank
+Created: 2006-06-15 13:29:18 -0500 (Thu, 15 Jun 2006)
+Expires: 
+Comment (1 line):
+Ainda melhorando a cor amarela.
+
+Path: /project/raisin.jpg
+UUID Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Owner: harry
+Created: 2006-02-16 13:29:18 -0500 (Thu, 16 Feb 2006)
+Expires: 
+Comment (1 line):
+Necessidade de fazer um ajuste rápido nesta imagem.
+
+$ svnadmin rmlocks /usr/local/svn/repos /project/raisin.jpg
+Removed lock on '/project/raisin.jpg'.
+$
+</pre><p>Uma opção mais interessante é permitir que usuários quebrem
+        as travas de outros através da rede.  Para fazer isto, Sally simplesmente
+        precisa passar a opção <code class="option">--force</code> para o comando de
+        destravamento:</p><pre class="screen">
+$ svn status -u
+M              23   bar.c
+M    O         32   raisin.jpg
+       *       72   foo.h
+Status against revision:     105
+$ svn unlock raisin.jpg
+svn: 'raisin.jpg' is not locked in this working copy
+$ svn info raisin.jpg | grep URL
+URL: http://svn.example.com/repos/project/raisin.jpg
+$ svn unlock http://svn.example.com/repos/project/raisin.jpg
+svn: Unlock request failed: 403 Forbidden (http://svn.example.com)
+$ svn unlock --force http://svn.example.com/repos/project/raisin.jpg
+'raisin.jpg' unlocked.
+$
+</pre><p>Agora, a tentativa inicial de Sally para destravar falhou porque ela
+        executou <span class="command"><strong>svn unlock</strong></span> diretamente em sua cópia de trabalho
+        do arquivo, e nenhum sinal de trava estava presente.  Para remover a
+        trava diretamente do repositório, ela precisa passar uma URL
+        para <span class="command"><strong>svn unlock</strong></span>.  Sua primeira tentativa para destravar
+        a URL falhou, porque ela não pode autenticar como a proprietária
+        da trava (nem ela possui o sinal de trava).  Mas quando ela
+        passa <code class="option">--force</code>, os requisitos de autenticação e
+        autorização são ignorados, e a trava remota agora está
+        quebrada.</p><p>Simplesmente quebrar uma trava pode não ser suficiente.  No
+        exemplo atual, Sally pode não somente querer quebrar a trava esquecida
+        a longo prazo por Harry, mas também retravar o arquivo para seu próprio uso.
+        Ela pode realizar isto executando <span class="command"><strong>svn unlock
+        --force</strong></span> e então <span class="command"><strong>svn lock</strong></span>
+        logo em seguida, mas existe uma pequena chance de que outra pessoa
+        possa travar o arquivo entre os dois comandos.  Uma coisa mais simples
+        é <em class="firstterm">roubar</em> a trava, que envolve
+        quebrar e retravar o arquivo em um passo atômico.  Para
+        fazer isto, Sally passa a opção <code class="option">--force</code>
+        para <span class="command"><strong>svn lock</strong></span>:</p><pre class="screen">
+$ svn lock raisin.jpg
+svn: Lock request failed: 423 Locked (http://svn.example.com)
+$ svn lock --force raisin.jpg
+'raisin.jpg' locked by user 'sally'.
+$
+</pre><p>Em qualquer caso, se a trava é quebrada ou roubada, Harry
+        terá uma surpresa.  A cópia de trabalho de Harry ainda contém
+        o sinal original da trava, mas esta trava não existe mais.  O
+        sinal da trava está agora <em class="firstterm">extinto</em>.  A
+        trava representada pelo sinal de trava, ou terá sido quebrada (não
+        está mais no repositório), ou roubada (substituída por uma
+        trava diferente).  De qualquer forma, Harry pode ver isto pedindo para
+        <span class="command"><strong>svn status</strong></span> verificar o
+        repositório:</p><pre class="screen">
+$ svn status
+     K raisin.jpg
+$ svn status -u
+     B         32   raisin.jpg
+$ svn update
+  B  raisin.jpg
+$ svn status
+$
+</pre><p>Se a trava foi quebrada no repositório, então <span class="command"><strong>svn
+        status --show-updates</strong></span> exibe um símbolo
+        <code class="literal">B</code> (<span class="foreignphrase"><em class="foreignphrase">Broken</em></span>) próximo ao arquivo.  Se uma
+        nova trava existe no lugar da anterior, então um símbolo
+        <code class="literal">T</code> (<span class="foreignphrase"><em class="foreignphrase">sTolen</em></span>) é mostrado.  Finalmente,
+        <span class="command"><strong>svn update</strong></span> relata os sinais de trava existentes
+        e os remove da cópia de trabalho.</p><div class="sidebar"><p class="title"><b>Políticas de Travamento</b></p><p>Diferentes sistemas possuem diferentes noções de como rigorosa uma
+          trava deve ser.  Algumas pessoas afirmam que travas devem ser
+          estritamente aplicadas a todo custo, liberáveis somente pelo
+          criador original ou administrador.  Eles argumentam que se
+          qualquer um pode quebrar uma trava, então o caos corre galopante e
+          toda circunstância de travamento é derrotada.  O outro lado afirma
+          que travas são, antes de mais nada, uma ferramenta de comunicação.  Se
+          usuários estão constantemente quebrando as travas de outros, então ele
+          representa um fracasso cultural dentro da equipe e o
+          problema sai fora do escopo da aplicação de software.</p><p>Por padrão o Subversion possui uma abordagem “<span class="quote">branda</span>”,
+          mas ainda permite que administradores criem políticas de aplicação
+          mais rigorosas através da utilização de scripts de gancho.  Em
+          particular, os ganchos <code class="filename">pre-lock</code> e
+          <code class="filename">pre-unlock</code> permitem aos administradores
+          decidir quando a criação e liberação de travas são autorizadas
+          a acontecer.  Dependendo se uma trava já existe ou não,
+          estes dois ganchos podem decidir se permitem ou não que um
+          certo usuário pode quebrar ou roubar uma trava.  Os ganchos
+          <code class="filename">post-lock</code> e
+          <code class="filename">post-unlock</code> também estão disponíveis,
+          e podem ser usados para enviar e-mail após ações de travamento.  Para
+          aprender mais sobre ganhos de repositório, veja <a class="xref" href="svn.reposadmin.create.html#svn.reposadmin.create.hooks" title="Implementando Ganchos de Repositório">“Implementando Ganchos de Repositório”</a>.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.advanced.locking.lock-communication"></a>Comunicação de Travas</h3></div></div></div><p>Vimos como <span class="command"><strong>svn lock</strong></span>
+        e <span class="command"><strong>svn unlock</strong></span> podem ser usados para criar,
+        liberar, quebrar, e roubar travas.  Isso satisfaz o objetivo de
+        serializar o acesso a submissões de um arquivo.  Mas o que aconteceu
+        com o maior problema da prevenção de perda de tempo?</p><p>Por exemplo, suponha que Harry trave um arquivo de imagem e, em seguida,
+        inicie sua edição.  Entretanto, a milhas de distância, Sally deseja fazer
+        a mesma coisa.  Ela não pensa em executar <span class="command"><strong>svn status
+        --show-updates</strong></span>, portanto ele não tem idéia de que Harry já
+        tenha travado o arquivo.  Ela gasta horas editando o arquivo,
+        e quando ela tenta submeter sua mudança, ela descobre que
+        ou o arquivo está travado ou que ela está desatualizada.
+        Indiferente disso, suas alterações não são mescláveis com as de Harry.  Uma
+        destas duas pessoas tem que jogar fora seu trabalho, e um monte de
+        tempo foi perdido.</p><p>A solução do Subversion para este problema é oferecer um
+        mecanismo para avisar aos usuários que um arquivo deve ser travado
+        <span class="emphasis"><em>antes</em></span> de iniciar sua edição.  O mecanismo
+        é uma propriedade especial, <code class="literal">svn:needs-lock</code>.  Se
+        esta propriedade está anexada a um arquivo (indiferente de seu valor,
+        o qual é irrelevante), então o Subversion tentará utilizar
+        permissões a nível de sistema de arquivo para tornar o arquivo somente leitura—exceto,
+        claro, o usuário tiver explicitamente travado o arquivo.
+        Quando um sinal de trava está presente (como resultado de executar
+        <span class="command"><strong>svn lock</strong></span>), o arquivo fica como leitura e escrita.
+        Quando a trava é liberada, o arquivo fica como somente leitura
+        novamente.</p><p>A teoria, então, é que se o arquivo de imagem tem esta
+        propriedade anexada, então Sally iria verificar imediatamente que
+        alguma coisa está estranho quando ela abrir o arquivo para edição:
+        muitas aplicações avisam os usuários imediatamente quando um arquivo somente
+        leitura é aberto para edição, e quase todos impedem
+        que alterações sejam salvas no arquivo.  Isto
+        lembra ela para travar o arquivo antes de editá-lo, e então ela
+        descobre a trava já existente:</p><pre class="screen">
+$ /usr/local/bin/gimp raisin.jpg
+gimp: error: file is read-only!
+$ ls -l raisin.jpg
+-r--r--r--   1 sally   sally   215589 Jun  8 19:23 raisin.jpg
+$ svn lock raisin.jpg
+svn: Lock request failed: 423 Locked (http://svn.example.com)
+$ svn info http://svn.example.com/repos/project/raisin.jpg | grep Lock
+Lock Token: opaquelocktoken:fc2b4dee-98f9-0310-abf3-653ff3226e6b
+Lock Owner: harry
+Lock Created: 2006-06-08 07:29:18 -0500 (Thu, 08 June 2006)
+Lock Comment (1 line):
+Fazendo alguns ajustes.  Travando para as próximas duas horas.
+$
+</pre><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Tanto usuários e administradores são encorajados a anexar
+          a propriedade <code class="literal">svn:needs-lock</code> em qualquer arquivo
+          que não possa ser contextualmente mesclado.  Esta é a principal
+          técnica para incentivar bons hábitos de travamento e evitar
+          desperdício de esforços.</p></div><p>Note que esta propriedade é um instrumento de comunicação que
+        trabalha independentemente do sistema de travamento.  Em outras palavras,
+        qualquer arquivo pode ser travado, estando esta propriedade presente
+        ou não.  E reciprocamente, a presença desta propriedade
+        não faz com que o repositório requeira uma trava quando for
+        submeter as mudanças.</p><p>Infelizmente, o sistema não é perfeito.  É possível
+        que mesmo quando um arquivo possua a propriedade, a advertência de somente leitura
+        nem sempre funcione.  Algumas vezes as aplicações comportam-se mal e
+        “<span class="quote">adulteram</span>” o arquivo somente leitura, silenciosamente permitindo aos
+        usuários editar e salvar o arquivo de qualquer forma.  Não há muito que o
+        Subversion possa fazer nesta situação—de qualquer maneira,
+        simplesmente não há substituição para uma boa comunicação
+        entre as pessoas.
+        <sup>[<a id="id2575371" href="#ftn.id2575371" class="footnote">17</a>]</sup>
+      </p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2574019" href="#id2574019" class="para">15</a>] </sup>A comunicação não teria sido algo tão ruim para os homônimos
+          de Harry e Sally em Hollywood, ainda que seja para nosso
+          caso.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2574115" href="#id2574115" class="para">16</a>] </sup>Atualmente o Subversion does não permite travas em diretórios.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2575371" href="#id2575371" class="para">17</a>] </sup>Exceto, talvez, uma mente-lógica do clássico Vulcaniano.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.props.special.keywords.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.externals.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Substituição de Palavra-Chave </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Definições Externas</td></tr></table></div></body></html>

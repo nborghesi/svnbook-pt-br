@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Versões de Diretório</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.forcvs.html" title="Apêndice B. Subversion para Usuários de CVS" /><link rel="prev" href="svn.forcvs.revnums.html" title="Os Números de Revisão Agora São Diferentes" /><link rel="next" href="svn.forcvs.disconnected.html" title="Mais Operações Desconectadas" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Versões de Diretório</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.forcvs.revnums.html">Anterior</a> </td><th width="60%" align="center">Apêndice B. Subversion para Usuários de CVS</th><td width="20%" align="right"> <a accesskey="n" href="svn.forcvs.disconnected.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.forcvs.directories"></a>Versões de Diretório</h2></div></div></div><p>O Subversion rastreia estruturas de árvores, e não apenas o conteúdo dos arquivos.
+      Esta é uma das maiores razões pelas quais o Subversion foi escrito para
+      substituir o CVS.</p><p>Aqui está o que isto significa para você, como antigo usuário de CVS:</p><div class="itemizedlist"><ul type="disc"><li><p>Os comandos <span class="command"><strong>svn add</strong></span> e <span class="command"><strong>svn
+          delete </strong></span> agora funcionam em diretórios, da mesma forma como
+          funcionam em arquivos.  O mesmo vale para <span class="command"><strong>svn copy</strong></span> e
+          <span class="command"><strong>svn move</strong></span>.  Entretanto, estes comandos
+          <span class="emphasis"><em>não</em></span> causam nenhum tipo de mudança
+          imediata no repositório.  Em vez disso, os itens de trabalho são simplesmente
+          “<span class="quote">marcados</span>” para adição ou exclusão.  Nenhuma
+          mudança no repositório acontece até que você execute <span class="command"><strong>svn
+          commit</strong></span>.</p></li><li><p>Os diretórios não são mais simples contêineres; eles têm
+          números de revisão como os arquivos.  (Ou, mais propriamente, é
+          correto dizer “<span class="quote">diretório
+          <code class="filename">foo/</code> na revisão 5</span>”.)</p></li></ul></div><p>Vamos falar mais sobre esse último ponto.  O versionamento de diretórios
+      é um problema difícil; como nós queremos permitir cópias de trabalho
+      de revisões mistas, há algumas limitações no quanto podemos
+      abusar deste modelo.</p><p>De um ponto de vista teórico, nós definimos que a “<span class="quote">revisão
+      5 do diretório <code class="filename">foo</code></span>” significa uma
+      coleção específica de entradas de diretório e propriedades.  Agora
+      suponha que começamos a adicionar e remover arquivos de
+      <code class="filename">foo</code>, e então submetemos.  Seria mentira
+      dizer que nós ainda temos a revisão 5 de
+      <code class="filename">foo</code>.  Entretanto, se nós mudássemos
+      o número de revisão de <code class="filename">foo</code> depois da submissão,
+      isso também seria falso; pode haver outras mudanças em
+      <code class="filename">foo</code> que nós ainda não recebemos, porque
+      ainda não atualizamos.</p><p>O Subversion lida com este problema rastreando secretamente
+      na área <code class="filename">.svn</code> as adições e exclusões
+      submetidas.  Quando você eventualmente executa <span class="command"><strong>svn update</strong></span>,
+      todas as contas são acertadas com o repositório, e o
+      novo número de revisão do diretório é determinado corretamente.
+      <span class="emphasis"><em>Portanto, apenas depois de uma atualização é realmente seguro
+      dizer que você tem uma “<span class="quote">perfeita</span>” revisão de um
+      diretório.</em></span> Na maior parte do tempo, sua cópia de trabalho
+      conterá revisões de diretório “<span class="quote">imperfeitas</span>”.</p><p>Similarmente, surge um problema se você tenta submeter
+      mudanças de propriedades em um diretório.  Normalmente, a submissão
+      mudaria o número de revisão local do diretório de trabalho.  Mas, novamente,
+      isso seria falso, porque pode haver adições ou exclusões que
+      o diretório ainda não tem, porque nenhuma atualização aconteceu.
+      <span class="emphasis"><em>Portanto, não é permitido que você submeta
+      mudanças de propriedade em um diretório, a não ser que ele esteja
+      atualizado.</em></span></p><p>Para mais discussão sobre as limitações do versionamento de
+      diretórios, veja <a class="xref" href="svn.basic.in-action.html#svn.basic.in-action.mixedrevs" title="Revisões Locais Mistas">“Revisões Locais Mistas”</a>.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.forcvs.revnums.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.forcvs.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.forcvs.disconnected.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Os Números de Revisão Agora São Diferentes </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Mais Operações Desconectadas</td></tr></table></div></body></html>

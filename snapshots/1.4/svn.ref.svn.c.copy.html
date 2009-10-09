@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn copy</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.commit.html" title="svn commit" /><link rel="next" href="svn.ref.svn.c.delete.html" title="svn delete" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn copy</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.commit.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.delete.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.copy"></a><div class="titlepage"></div><a id="id2640365" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn copy — Copia um arquivo ou diretório em uma cópia de
+            trabalho ou no repositório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640394"></a><h2>Sinopse</h2><pre class="programlisting">svn copy SRC DST</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640406"></a><h2>Descrição</h2><p>Copia um arquivo em uma cópia de trabalho ou no
+            repositório.  <em class="replaceable"><code>SRC</code></em> e
+            <em class="replaceable"><code>DST</code></em> podem ser tanto um caminho em
+              uma cópia de trabalho (WC) ou uma URL:</p><div class="variablelist"><dl><dt><span class="term">WC  -&gt; WC</span></dt><dd><p>Copia e agenda um item para adição (com o
+                    histórico).</p></dd><dt><span class="term">WC  -&gt; URL</span></dt><dd><p>Imediatamente submete uma cópia de WC para a
+                    URL.</p></dd><dt><span class="term">URL -&gt; WC</span></dt><dd><p>Obtém (<span class="foreignphrase"><em class="foreignphrase">check out</em></span>)
+                    a URL para dentro da WC, agendando-a para
+                    adição.</p></dd><dt><span class="term">URL -&gt; URL</span></dt><dd><p>Execução de uma cópia inteiramente do lado do
+                    servidor.  Isto é frequentemente usado para criação
+                    de ramos (<span class="foreignphrase"><em class="foreignphrase">branch</em></span>) e
+                    de rótulos
+                    (<span class="foreignphrase"><em class="foreignphrase">tag</em></span>).</p></dd></dl></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>Você só pode copiar arquivos para dentro de um único
+              repositório.  O Subversion não dá suporte a cópias entre
+              repositórios distintos.</p></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640526"></a><h2>Nomes Alternativos</h2><p>cp</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640536"></a><h2>Altera</h2><p>O repositório, se o destino for uma URL.</p><p>A cópia de trabalho, se o destino for um caminho em uma
+            WC.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640553"></a><h2>Acessa o Repositório</h2><p>Se a origem ou destino da cópia for o repositório, ou se
+            for preciso buscar um dado número de revisão da
+            origem.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640568"></a><h2>Opções</h2><pre class="screen">
+--message (-m) TEXT
+--file (-F) FILE
+--revision (-r) REV
+--quiet (-q)
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--force-log
+--editor-cmd EDITOR
+--encoding ENC
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640584"></a><h2>Exemplos</h2><p>Copia um item para dentro de sua cópia de trabalho (
+            apenas agenda a cópia—nada ocorre com o repositório
+            até que você submeta a alteração):</p><pre class="screen">
+$ svn copy foo.txt bar.txt
+A         bar.txt
+$ svn status
+A  +   bar.txt
+</pre><p>Copia um item de sua cópia de trabalho para uma URL no
+            repositório (com submissão imediata, então você deve
+            informar também uma mensagem de log):</p><pre class="screen">
+$ svn copy near.txt file:///tmp/repos/test/far-away.txt -m "Remote copy."
+
+Committed revision 8.
+</pre><p>Copia um item do repositório para sua cópia de trabalho
+            (apenas agenda a cópia—nada ocorre com o repositório
+            até que você submeta a alteração):</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Esta é a maneira recomendada para ressuscitar um
+              arquivo morto em seu repositório!</p></div><pre class="screen">
+$ svn copy file:///tmp/repos/test/far-away near-here
+A         near-here
+</pre><p>E, finalmente, copiando entre duas URLs:</p><pre class="screen">
+$ svn copy file:///tmp/repos/test/far-away file:///tmp/repos/test/over-there -m "remote copy."
+
+Committed revision 9.
+</pre><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Esta é a forma mais fácil de “<span class="quote">rotular</span>”
+              (tag) uma revisão em seu repositório—apenas execute
+              um <span class="command"><strong>svn copy</strong></span> daquela revisão
+              (normalmente a <code class="literal">HEAD</code>) para dentro de seu
+              diretório tags.</p></div><pre class="screen">
+$ svn copy file:///tmp/repos/test/trunk file:///tmp/repos/test/tags/0.6.32-prerelease -m "tag tree"
+
+Committed revision 12.
+</pre><p>E não se preocupe se você se esquecer de rotular—
+            você pode sempre especificar uma revisão mais antiga e o
+            rótulo a qualquer momento:</p><pre class="screen">
+$ svn copy -r 11 file:///tmp/repos/test/trunk file:///tmp/repos/test/tags/0.6.32-prerelease -m "Forgot to tag at rev 11"
+
+Committed revision 13.
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.commit.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.delete.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn commit </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn delete</td></tr></table></div></body></html>

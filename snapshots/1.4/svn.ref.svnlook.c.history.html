@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnlook history</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnlook.html#svn.ref.svnlook.c" title="Sub-comandos do svnlook" /><link rel="prev" href="svn.ref.svnlook.c.help.html" title="svnlook help" /><link rel="next" href="svn.ref.svnlook.c.info.html" title="svnlook info" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnlook history</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.help.html">Anterior</a> </td><th width="60%" align="center">Sub-comandos do svnlook </th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.info.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnlook.c.history"></a><div class="titlepage"></div><a id="id2650760" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnlook history — Mostra informções sobre o histórico de um caminhos
+            em um repositório (ou da raiz do diretório se nenhum caminho
+            for informado).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650791"></a><h2>Sinopse</h2><pre class="programlisting">svnlook history REPOS_PATH [PATH_IN_REPOS]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650804"></a><h2>Descrição</h2><p>Mostra informações sobre histórico de um caminho 
+            em um repositório (ou da raiz do diretório se nenhum caminho
+            for informado).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650819"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--show-ids
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2650832"></a><h2>Exemplos</h2><p>Isto mostra o histórico de um caminho 
+            <code class="filename">/tags/1.0</code>  da revisão 20 no nosso
+            repositório de exemplo.</p><pre class="screen">
+$ svnlook history -r 20 /usr/local/svn/repos /tags/1.0 --show-ids
+REVISION   PATH &lt;ID&gt;
+--------   ---------
+      19   /tags/1.0 &lt;1.2.12&gt;
+      17   /branches/1.0-rc2 &lt;1.1.10&gt;
+      16   /branches/1.0-rc2 &lt;1.1.x&gt;
+      14   /trunk &lt;1.0.q&gt;
+      13   /trunk &lt;1.0.o&gt;
+      11   /trunk &lt;1.0.k&gt;
+       9   /trunk &lt;1.0.g&gt;
+       8   /trunk &lt;1.0.e&gt;
+       7   /trunk &lt;1.0.b&gt;
+       6   /trunk &lt;1.0.9&gt;
+       5   /trunk &lt;1.0.7&gt;
+       4   /trunk &lt;1.0.6&gt;
+       2   /trunk &lt;1.0.3&gt;
+       1   /trunk &lt;1.0.2&gt;
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnlook.c.help.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnlook.html#svn.ref.svnlook.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnlook.c.info.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnlook help </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnlook info</td></tr></table></div></body></html>

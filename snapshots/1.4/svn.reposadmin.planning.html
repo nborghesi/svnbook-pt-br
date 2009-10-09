@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Estratégias para Implementação de Repositórios</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.reposadmin.html" title="Capítulo 5. Administração do Repositório" /><link rel="prev" href="svn.reposadmin.basics.html" title="O Repositório Subversion, Definição" /><link rel="next" href="svn.reposadmin.create.html" title="Criando e Configurando Seu Repositório" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Estratégias para Implementação de Repositórios</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.reposadmin.basics.html">Anterior</a> </td><th width="60%" align="center">Capítulo 5. Administração do Repositório</th><td width="20%" align="right"> <a accesskey="n" href="svn.reposadmin.create.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.reposadmin.planning"></a>Estratégias para Implementação de Repositórios</h2></div></div></div><p>Devido, em grande parte, a simplicidade do projeto do
+      repositório Subversion e as tecnologias nas quais ele se baseia,
+      criá-lo e configurá-lo são tarefas bastante naturais.  Existem
+      algumas decisões preliminares que você precisará tomar, mas o
+      trabalho necessário para fazer alguma configuração no repositório
+      Subversion é muito simples, tendendo a repetição mecânica a medida
+      que você começa a configurar várias dessas coisas.</p><p>Algumas coisas que você precisará considerar logo no início
+      são:</p><div class="itemizedlist"><ul type="disc"><li><p>Que dados você espera armazenar no seu repositório (ou
+          repositórios), e como eles serão organizados?</p></li><li><p>Onde viverá o seu repositório, e como ele será
+          acessado?</p></li><li><p>Que tipo de controle de acesso e notificação de eventos
+          você irá precisar?</p></li><li><p>Qual tipo de armazenamento de dados, entre os disponíveis,
+          você irá utilizar?</p></li></ul></div><p>Nessa seção nós iremos tentar ajudá-lo a responder essas
+      questões.</p><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.projects.chooselayout"></a>Planejando a Organização do Repositório</h3></div></div></div><p>Embora o Subversion permita que você mova arquivos e
+        diretórios versionados sem qualquer perda de informação, e até
+        mesmo provê meios de mover conjuntos inteiros de eventos
+        históricos versionados de um repositório para outro, fazer isso
+        pode atrapalhar significativamente o fluxo de trabalho daqueles
+        que acessam o repositório frequentemente e esperam que algumas
+        coisas estejam em certos lugares.  Então antes de criar um novo
+        repositório, tente olhar um pouco para o futuro; pense a diante
+        antes de colocar seus dados no controle de versão.  Planejando
+        conscientemente o “<span class="quote">leiaute</span>” do repositório, ou
+        repositórios, e seu conteúdo versionado antes do tempo, você
+        pode prevenir muitas dores de cabeça futuras.</p><p>Vamos assumir que como administrador de repositório você
+        será responsável pelo suporte do sistema de controle de versões
+        para vários projetos. Sua primeira decisão é se usará um único
+        repositório para múltiplos projetos, ou fornecer para cada
+        projeto o seu próprio repositório, ou ainda alguma combinação
+        disso.</p><p>Existem vantagens em se utilizar um único repositório para
+        múltiplos projetos e a mais óbvia é a ausência de manutenção
+        duplicada. Um único repositório significa que haverá um único
+        conjunto de programas de ganchos, uma única coisa para fazer
+        cópias de segurança periódicas, uma única coisa para descarregar
+        e carregar se o Subversion lança um nova versão incompatível, e
+        por aí vai.  Além disso, você pode mover dados entre projetos
+        facilmente, e sem perder qualquer informação de
+        versionamento.</p><p>A desvantagem de usar um único repositório é que diferentes
+        projetos podem ter diferentes requisitos em termos de ganchos
+        de eventos, como por exemplo a necessidade de enviar
+        notificações de submissão para diferentes listas de e-mail, ou
+        ter diferentes definições sobre o que constitui uma submissão
+        correta.  É claro que eles não são problemas
+        insuperáveis—somente significa que todos os seus scripts
+        de ganchos devem ser sensíveis ao leiaute do seu repositório ao
+        invés de assumir que todo o repositório está associado com um
+        único grupo de pessoas.  Além disso, lembre-se que o Subversion
+        usa números de revisão globais com relação ao repositório.
+        Muito embora esses números não tenham particularmente nenhum
+        poder mágico, algumas pessoas continuam não gostando do fato de
+        que mesmo que não hajam modificações no seu projeto recentemente
+        o número de revisão continua sendo incrementado porque outros
+        projetos continuam adicionando novas revisões.
+        <sup>[<a id="id2597882" href="#ftn.id2597882" class="footnote">28</a>]</sup>
+      </p><p>Uma abordagem meio termo pode ser utilizada também.  Por
+        exemplo, projetos podem ser agrupados pela forma como eles se
+        relacionam entre si.  Você pode ter alguns poucos repositórios
+        com um punhado de projetos em cada um deles.  Dessa forma,
+        projetos nos quais é desejável o compartilhamento de dados podem
+        fazê-lo facilmente, e quando novas revisões são adicionadas ao
+        repositório, os desenvolvedores saberão que essas revisões são
+        no mínimo remotamente relacionadas com todos que usam esse
+        repositório.</p><p>Depois de decidir como organizar seus projetos com relação
+        aos repositórios você irá provavelmente pensar sobre a
+        hierarquia de diretórios lá dentro.  Como o Subversion utiliza
+        cópias comuns de diretórios para ramificações
+        (<span class="foreignphrase"><em class="foreignphrase">branches</em></span>) e rótulos
+        (<span class="foreignphrase"><em class="foreignphrase">tags</em></span>) (veja <a class="xref" href="svn.branchmerge.html" title="Capítulo 4. Fundir e Ramificar">Capítulo 4, <i>Fundir e Ramificar</i></a>), a comunidade recomenda que você
+        escolha uma localização para cada  <em class="firstterm">raiz de
+        projeto</em>—o “<span class="quote">mais alto</span>” diretório
+        que irá conter dados relacionados com o projeto—e então
+        criar três subdiretórios abaixo desse raiz:
+        <code class="filename">trunk</code>, o diretório no qual o
+        desenvolvimento principal do projeto ocorre;
+        <code class="filename">branches</code>, diretório no podem ser criados
+        vários ramos da linha principal de desenvolvimento;
+        <code class="filename">tags</code>, diretório que poderá conter uma
+        coleção de instantâneos de árvores de diretório que são criados,
+        e possivelmente destruídos, mas nunca alterados.
+        <sup>[<a id="id2598187" href="#ftn.id2598187" class="footnote">29</a>]</sup>
+        </p><p>Por exemplo, seu repositório poderá se parecer com o
+        seguinte:</p><pre class="screen">
+/
+   calc/
+      trunk/
+      tags/
+      branches/
+   calendar/
+      trunk/
+      tags/
+      branches/
+   spreadsheet/
+      trunk/
+      tags/
+      branches/
+   …
+</pre><p>Note que não importa onde está cada raiz de projeto no seu
+        repositório. Se você possuir somente um único projeto por
+        repositório, o lugar mais lógico para colocar cada raiz de
+        projeto é na raiz do respectivo repositório do projeto.  Se você
+        possui múltiplos projetos, você pode querer organizá-los em
+        grupos dentro do repositório, talvez colocando projetos com
+        objetivos semelhantes ou código compartilhado no mesmo
+        subdiretório, ou talvez simplesmente agrupá-los alfabeticamente.
+        Tal organização poderia se parecer com o que segue:</p><pre class="screen">
+/
+   utils/
+      calc/
+         trunk/
+         tags/
+         branches/
+      calendar/
+         trunk/
+         tags/
+         branches/
+      …
+   office/
+      spreadsheet/
+         trunk/
+         tags/
+         branches/
+      …
+</pre><p>Organize seu repositório da forma que você preferir.  O
+        Subversion não espera ou força uma organização
+        particular—na sua visão, um diretório é um diretório.  No
+        final das contas você deve escolher a organização de repositório
+        que atende as necessidades das pessoas que trabalham nos
+        projetos que irão viver lá.</p><p>Em nome da revelação completa, no entanto, nós iremos
+        mencionar outra forma muito comum de organização.  Nesse leiaute
+        os diretórios <code class="filename">trunk</code>,
+        <code class="filename">tags</code> e <code class="filename">branches</code>
+        residem no diretório raiz do repositório e os projetos estão em
+        subdiretórios abaixo deles, como:</p><pre class="screen">
+/
+   trunk/
+      calc/
+      calendar/
+      spreadsheet/
+      …
+   tags/
+      calc/
+      calendar/
+      spreadsheet/
+      …
+   branches/
+      calc/
+      calendar/
+      spreadsheet/
+      …
+</pre><p>Não existe nada de incorreto nessa forma de organização, mas
+        ela pode ou não parecer intuitiva para seus usuários.
+        Especialmente em situações de vários e grandes projetos com
+        muitos usuários, esses usuários podem tender a se familiarizar
+        com somente um ou dois projetos no repositório.  Utilizar
+        projetos como ramos irmãos tende a desenfatizar a
+        individualidade dos projetos e focar no conjunto inteiro como
+        uma única entidade. De qualquer forma essa é uma questão social.
+        Nós gostamos da organização inicialmente proposta por razões
+        puramente práticas—é fácil perguntar sobre (ou modificar,
+        ou migrar para outro lugar) o histórico completo de um único
+        projeto quando existe um único caminho no repositório que guarda
+        tudo—passado, presente, etiquetas, e ramos—referente
+        ao projeto sozinho.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.basics.hosting"></a>Decidindo Onde e Como Hospedar Seu Repositório</h3></div></div></div><p>Antes de criar seu repositório Subversion, uma questão óbvia
+        que você precisa responder é onde a coisa toda deverá ficar.
+        Isto está fortemente interligado a uma miríade de outras
+        questões que dizem respeito a como o repositório será acessado
+        (através de um servidor Subversion ou diretamente), por quem
+        (usuários que estejam por atrás de um firewall corporativo ou
+        globalmente por meio da Internet), que outros serviços você irá
+        disponibilizar em conjunto com o Subversion (interfaces de
+        navegação de repositório, avisos de submissões
+        (<span class="foreignphrase"><em class="foreignphrase">commits</em></span>) por e-mail, etc.), sua
+        estratégia de cópias de segurança
+        (<span class="foreignphrase"><em class="foreignphrase">backup</em></span>), e por aí vai.</p><p>Abordamos a escolha do servidor e configuração em <a class="xref" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor">Capítulo 6, <i>Configuração do Servidor</i></a>, o que gostaríamos brevemente de
+        apontar aqui é simplesmente que as respostas a algumas destas e
+        de outras perguntas podem ter implicações que forcem sua cuca
+        ao decidir sobre onde seu repositório irá residir.  Por exemplo,
+        certos cenários de produção podem demandar acesso ao repositório
+        a partir de um sistema de arquivos remoto para múltiplos
+        computadores, caso este em que (como você verá na próxima seção)
+        a sua escolha de um repositório secundário para armazenamento de
+        dados passa a não ser uma escolha porque apenas um dos
+        servidores secundários disponíveis irá funcionar neste
+        cenário.</p><p>Averiguar cada possível maneira de implantação do Subversion
+        também é impossível, e fora do escopo deste livro.  Simplesmente
+        encorajamos você a avaliar suas opções usando estas páginas e
+        outras fontes como seu material de referência, e planejar a
+        partir daí.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.reposadmin.basics.backends"></a>Escolhendo uma Base de Dados</h3></div></div></div><p>A partir da versão 1.1, o Subversion oferece duas opções de
+        tipos de base de dados—frequentemente referenciada como o
+        “<span class="quote">back-end</span>” ou, de uma maneira que causa confusão,
+        “<span class="quote">o sistema de arquivos (versionado)</span>”—que
+        poderão ser utilizadas pelos repositórios.  Um tipo mantém tudo
+        em um ambiente de banco de dados Berkeley DB (ou BDB);
+        repositórios baseados nesse ambiente também são conhecidos como
+        “<span class="quote">BDB-backed</span>”.  O outro tipo de armazenagem de dados
+        usa arquivos comuns, com um formato próprio.  Os desenvolvedores
+        do Subversion têm o hábito de chamar esse último mecanismo de
+        <em class="firstterm">FSFS</em>
+        <sup>[<a id="id2598471" href="#ftn.id2598471" class="footnote">30</a>]</sup>—uma implementação de sistema de arquivos
+        versionado que usa diretamente o sistema de arquivos nativo do
+        Sistema Operacional—ao invés de uma biblioteca de banco de
+        dados ou outra camada de abstração— para armazenar os
+        dados.</p><p><a class="xref" href="svn.reposadmin.planning.html#svn.reposadmin.basics.backends.tbl-1" title="Tabela 5.1. Comparativo dos Mecanismos de Armazenamento">Tabela 5.1, “Comparativo dos Mecanismos de Armazenamento”</a>
+        fornece um comparativo geral dos repositórios Berkeley DB e
+        FSFS.</p><div class="table"><a id="svn.reposadmin.basics.backends.tbl-1"></a><p class="title"><b>Tabela 5.1. Comparativo dos Mecanismos de Armazenamento</b></p><div class="table-contents"><table summary="Comparativo dos Mecanismos de Armazenamento" border="1"><colgroup><col /><col /><col /><col /></colgroup><thead><tr><th>Categoria</th><th>Característica</th><th>Berkeley DB</th><th>FSFS</th></tr></thead><tbody><tr><td rowspan="2">Confiabilidade</td><td>Integridade dos Dados</td><td>quando corretamente implementado é extremamente
+                confiável; Berkeley DB 4.4 oferece auto-recuperação</td><td>versões antigas têm bugs que comprometem os dados,
+                mas essas situações acontecem raramente</td></tr><tr><td>Sensibilidade a interrupções</td><td>grande; travamentos e problemas de permissões podem
+                deixar a base de dados “<span class="quote">quebrada</span>”,
+                requirindo procedimentos para recuperação.</td><td>bastante insensível</td></tr><tr><td rowspan="4">Acessibilidade</td><td>Usável de uma sistema de arquivos "montado" como
+                "somente leitura"</td><td>não</td><td>sim</td></tr><tr><td>Armazenamento independente de plataforma</td><td>não</td><td>sim</td></tr><tr><td>Usável em sistemas de arquivos de rede</td><td>geralmente não</td><td>sim</td></tr><tr><td>Tratamento de permissões em grupo</td><td>sensível a problemas de umask; melhor se acessado
+                por somente um usuário</td><td>contorna problemas de umask</td></tr><tr><td rowspan="3">Escalabilidade</td><td>Uso de disco do repositório</td><td>grande (especialmente se arquivos de log não são
+                limpados)</td><td>pequeno</td></tr><tr><td>Número de árvores de revisão</td><td>banco de dados; sem problemas</td><td>alguns sistemas de arquivos nativos antigos não
+                crescem bem com milhares de entradas em um único
+                diretório</td></tr><tr><td>Diretórios com muitos arquivos</td><td>lento</td><td>rápido</td></tr><tr><td rowspan="2">Desempenho</td><td>Obter cópia da última revisão</td><td>sem diferenças significativas</td><td>sem diferenças significativas</td></tr><tr><td>Grandes submissões</td><td>geralmente lentas, mas o custo é pago ao longo da
+                vida da submissão</td><td>geralmente rápidas, mas atraso na finalização pode
+                ocasionar <span class="foreignphrase"><em class="foreignphrase">timeouts</em></span> no cliente</td></tr></tbody></table></div></div><br class="table-break" /><p>Existem vantagens e desvantagens em cada um desses dois
+        mecanismos de armazenamento.  Nenhum deles é mais
+        “<span class="quote">oficial</span>” que o outro, embora os novos FSFS sejam
+        o padrão do Subversion 1.2.  Ambos são seguros o bastante para
+        você confiar seus dados versionados.  Mas como você pode ver em
+        <a class="xref" href="svn.reposadmin.planning.html#svn.reposadmin.basics.backends.tbl-1" title="Tabela 5.1. Comparativo dos Mecanismos de Armazenamento">Tabela 5.1, “Comparativo dos Mecanismos de Armazenamento”</a>, o FSFS
+        oferece um pouco mais de flexibilidade em termos de seus
+        cenários de implantação.  Maior flexibilidade significa que você
+        tem que trabalhar um pouco mais para encontrar formas de
+        implantá-lo incorretamente.  Essas razões—adicionadas
+        ao fato de que não usando Berkeley DB significa que existem um
+        componente a menos no sistema—explicam porque atualmente
+        quase todo mundo utiliza o FSFS para criar novos repositórios.
+        </p><p>Felizmente, muitos programas que acessam os repositórios
+        Subversion são abençoados por ignorarem o mecanismo de
+        armazenamento que está em uso.  E você nem mesmo precisa se
+        preocupar com a sua primeira escolha de mecanismo de
+        armazenamento—no caso de você mudar de idéia
+        posteriormente, o Subversion oferece formas de migrar os dados
+        do seu repositório para outro repositório que usa um mecanismo
+        de armazenamento diferente.  Nós iremos falar mais sobre isso
+        nesse capítulo.</p><p>As seguintes subseções oferecem uma visão mais detalhada
+        sobre os tipos de mecanismos de armazenamento disponíveis.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.reposadmin.basics.backends.bdb"></a>Berkeley DB</h4></div></div></div><p>Quando a fase de projeto inicial do Subversion estava em
+          andamento, os desenvolvedores decidiram usar o Berkeley DB por
+          diversas razões, incluindo sua licença open-source, suporte a
+          transações, confiabilidade, desempenho, simplicidade da API,
+          segurança no uso em multitarefas, suporte para cursores de
+          dados, dentre outras.</p><p>O Berkeley DB oferece suporte real para
+          transações—talvez seu recurso mais poderoso.  Múltiplos
+          processos que acessem seus repositórios Subversion não
+          precisam se preocupar em sobrescrever acidentalmente os dados
+          uns dos outros.  O isolamento oferecido pelo sistema de
+          transações age de tal forma que, para cada operação realizada,
+          o código no repositório do Subversion tenha uma visão estática
+          da base de dados—e não uma base de dados que esteja
+          mudando constantemente nas mãos de alguns outros
+          processos—e possa tomar decisões baseadas no que vê.
+          Se uma decisão tomada parecer conflitar com o que outro
+          processo esteja fazendo, a operação inteira é desfeita como se
+          nunca tivesse acontecido, e o Subversion graciosamente irá
+          tentar executar a operação sobre uma nova, atualizada (e ainda
+          assim, estática) visão da base de dados.</p><p>Outro grande recurso do Berkeley DB é o <em class="firstterm">backup
+          a quente</em>—a habilidade de executar uma cópia
+          de segurança do ambiente da base de dados sem precisar deixar
+          o sistema “<span class="quote">offline</span>”.  Vamos discutir como fazer
+          cópias de segurança de seu repositório em <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.backup" title="Backup de Repositório">“Backup de Repositório”</a>, mas os benefícios de
+          se poder fazer cópias funcionais de seus repositórios sem
+          desligar o sistema devem lhe ser óbvios.</p><p>Berkeley DB é também um sistema de base de dados muito
+          confiável quando utilizado adequadamente.  O Subversion usa as
+          facilidades de registros de log do Berkeley DB, o que quer
+          dizer que a base de dados primeiro escreve uma descrição de
+          quaisquer modificações que estiver para fazer em seus arquivos
+          de log em disco, e só então realiza a modificação em si.  Isto
+          é para garantir que se qualquer coisa der errado, o sistema da
+          base de dados pode se recuperar para um determinado
+          <em class="firstterm">ponto de verificação</em>
+          (<span class="foreignphrase"><em class="foreignphrase">checkpoint</em></span>) anterior—um
+          local nos arquivos de log que se sabe não estarem
+          corrompidos—e re-executa as transações até que os dados
+          sejam restaurados para um estado utilizável.  Veja <a class="xref" href="svn.reposadmin.maint.html#svn.reposadmin.maint.diskspace" title="Gerenciando Espaço em Disco">“Gerenciando Espaço em Disco”</a> para saber mais
+          sobre os arquivos de log do Berkeley DB.</p><p>Mas cada rosa tem seus espinhos, e assim devemos destacar
+          algumas conhecidas limitações do Berkeley DB.  Em primeiro
+          lugar, o ambiente do Berkeley DB não é portável.  Você não
+          pode simplesmente copiar um repositório do Subversion que foi
+          criado em um sistema Unix para dentro de um sistema Windows e
+          esperar que funcione.  Ainda que muito do formato da base de
+          dados do Berkeley DB seja independente de plataforma, há
+          alguns aspectos do ambiente que não o são.  Em segundo lugar,
+          o Subversion utiliza o Berkeley DB de forma que não irá
+          funcionar em sistemas Windows 95/98—se você precisa
+          hospedar um repositório em formato Berkeley DB em uma máquina
+          Windows, utilize-o com sistemas Windows 2000 ou
+          posteriores.</p><p>Ainda que o Berkeley DB prometa se comportar corretamente
+          em compartilhamentos de rede que estejam de acordo com um
+          conjunto de especificações,
+          <sup>[<a id="id2598981" href="#ftn.id2598981" class="footnote">31</a>]</sup>
+          e a maioria dos tipos de sistemas de arquivos e aplicações
+          atuais <span class="emphasis"><em>não</em></span> implementam essas tais
+          especificações.  E de forma nenhuma você pode usar um
+          repositório baseado em BDB que resida em um compartilhamento
+          de rede sendo acessado por múltiplos clientes do
+          compartilhamento de uma só vez (o que muitas vezes é o ponto
+          determinante para não se escolher ter repositórios hospedados
+          em um compartilhamento em primeiro lugar).</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Se você tentar usar Berkeley DB em um sistema de
+            arquivos remoto que não atenda às especificações, os
+            resultados serão imprevisíveis—você pode ver erros
+            misteriosos imediatamente, ou pode levar meses antes de você
+            descobrir que sua base de dados do repositório está
+            sutilmente corrompida.  Você deveria considerar muito
+            seriamente o uso de armazenamento de dados em FSFS para
+            repositórios que precisem residir em um compartilhamento de
+            rede.</p></div><p>E finalmente, como o Berkeley DB é uma biblioteca
+          interligada diretamente dentro do Subversion, ele é mais
+          sensível a interrupções do que um sistema de uma base de dados
+          relacional.  A maioria dos sistemas SQL, por exemplo, possuem
+          um processo servidor dedicado que intermedia todo o acesso às
+          tabelas.  Se um programa que esteja acessando a base de dados
+          travar por algum motivo, o daemon da base de dados percebe a
+          perda de conexão e efetua uma limpeza de quaisquer vestígios
+          problemáticos que tenham ficado.  E como o daemon da base de
+          dados é o único processo que efetivamente acessa as tabelas,
+          as aplicações não precisam se preocupar com relação a
+          conflitos de permissão.  No entanto, esse tipo de cenário não
+          se aplica ao Berkeley BD.  O Subversion (e os programas que
+          usam bibliotecas do Subversion) acessam as tabelas da base de
+          dados diretamente, o que quer dizer que o travamento de um
+          programa pode deixar a base de dados temporariamente
+          inconsistente, em um estado inacessível.  Quando isso
+          acontece, um administrador precisa solicitar que o Berkeley DB
+          restaure-se a partir de um ponto de verificação, o que um
+          tanto quanto inconveniente.  Outras coisas também podem 
+          “<span class="quote">comprometer</span>” um repositório em virtude de
+          processos travados, tais como conflitos entre programas
+          relacionados a permissões e propriedades dos arquivos na base
+          de dados.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>O Berkeley DB 4.4 oferece para o Subversion (nas versões
+            do Subversion 1.4 e superiores) a capacidade de se recuperar
+            o ambiente do Berkeley DB de forma automática e
+            transparente, caso necessário.  Quando um processo do
+            Subversion se interliga a um ambiente Berkeley DB do
+            repositório, ele utiliza alguns mecanismos de contabilização
+            para detectar quaisquer desconexões de processos anteriores,
+            executa alguma recuperação necessária, e então prossegue
+            como se nada tiver acontecido.  Isto não elimina
+            completamente as possibilidade de corrupção de instâncias do
+            repositório, mas reduz drasticamente a necessidade de
+            interação humana necessária para se recuperar desses tipos
+            de problemas.</p></div><p>Assim, por mais que que um repositório Berkeley DB seja
+          bastante rápido e escalável, ele é melhor aproveitado se for
+          utilizado por um único processo servidor executando como um
+          único usuário—como o <span class="command"><strong>httpd</strong></span> do Apache
+          ou o <span class="command"><strong>svnserve</strong></span> (veja <a class="xref" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor">Capítulo 6, <i>Configuração do Servidor</i></a>)—ao invés do que por vários
+          usuários diferentes através de URLs <code class="literal">file://</code>
+          ou <code class="literal">svn+ssh://</code>.  Se você for usar um
+          repositório em Berkeley DB diretamente para múltiplos
+          usuários, certifique-se de ler <a class="xref" href="svn.serverconfig.multimethod.html" title="Dando Suporte a Múltiplos Métodos de Acesso ao Repositório">“Dando Suporte a Múltiplos Métodos de Acesso ao
+      Repositório”</a>.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.reposadmin.basics.backends.fsfs"></a>FSFS</h4></div></div></div><p>Em meados de 2004, um segundo tipo de sistema de armazenamento
+          de repositórios—um que não usa um banco de dados—
+          nasceu.  Um repositório FSFS armazena as mudanças relacionadas com
+          uma revisão em um única arquivo, e assim todas as revisões do
+          repositório podem ser encontradas num único subdiretório que
+          contém arquivos numerados. Transações são criadas em subdiretórios
+          diferentes como arquivos individuais. Quando completa, o arquivo
+          de transação é renomeado e movido para o diretório de revisões,
+          garantindo assim que a transação será atômica. Em função do
+          arquivo de revisão ser permanente e imodificável, também é 
+          possível fazer uma cópia de segurança “<span class="quote">quente</span>” assim
+          como os repositórios baseados em BDB.</p><p>Os arquivos de revisão FSFS decrevem uma estrutura de
+        diretórios de uma revisão, conteúdo dos arquivos, e diferenças em
+          relação aos arquivos em outras árvores de revisão. Ao contrário
+          das baseas de dados Berkeley DB esse formato de armazenamento é
+          portável em muitos sistemas operacionais e não é sensível a
+          arquitetura de CPU. Em função de não haver journaling ou arquivos
+          com memória compartilhada o repositório pode ser acessado com
+          segurança a partir de um sistema de arquivos de rede e examinado
+          em um ambiente somente para leitura. A inexistência da sobrecarga
+          de um banco de dados também significa que o tamanho total do
+          repositório também é um pouco menor.</p><p>FSFS tem característica de desempenho diferentes também.
+          Quando se submete um diretório com um alto número de arquivos,
+          o FSFS é capaz de rapidamente atualizar as entradas de 
+          diretório. Por outro lado, FSF escreve a última versão de um
+          arquivo como um delta em relação à uma versão anterior, o que
+          significa que obtee a última árvore de diretórios é um pouco
+          mais lento do que obter os textos completos armazenados em 
+          uma revisão HEAD no Berkeley DB. O FSFS também possui uma certa
+          demora na finalização de uma submissão, o que em casos extremos
+          pode causar timeout no cliente.</p><p>A diferença mais importante, entretanto, é o formato 
+          “<span class="quote">inabalável</span>” do FSFS quando alguma coisa errada
+          acontece. Se ocorre um problema qualquer com um processo que 
+          está usando um banco de dados Berkeley DB, o banco de dados
+          pode ficar em um estado que não permite o seu uso até que um
+          adminitrador recupere ele. Se os mesmo cenários acontecerem
+          com um processo que utiliza FSFS, o repositório não é afetado.
+          No pior caso, algumas informações de transação são deixadas
+          para trás.</p><p>O único argumento coerente contra o FSFS é que ele é
+        relativamente imaturo quando comparado ao Berkeley DB. Ao
+        contrário do Berkeley DB que tem anos de história, sua própria
+        equipe de desenvolvimento e, agora, o grande nome da Oracle
+        ligado à ele,
+          <sup>[<a id="id2597551" href="#ftn.id2597551" class="footnote">32</a>]</sup> 
+          FSFS é muito mais novo em termos de engenharia. Antes da
+          versão 1.4 ele ainda era afetado por algumas falhas bem
+          sérias com relação a integridade dos dados, muito embora
+          essas falhas ocorressem raramente, elas nunca deveriam ocorrer.
+          Dito isso, o FSFS tem se tornado rapidamente a escolha de 
+          armazenamento de alguns dos maiores repositórios Subversion
+          públicos e privados, e oferece poucos obstáculos a ponto de ser
+          um bom ponto de entrada para o Subversion. </p></div></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2597882" href="#id2597882" class="para">28</a>] </sup>Quer seja baseado na ignorância ou em fracos conceitos
+            sobre como produzir métricas de desenvolvimento
+            corretamente, números de revisões globais são uma coisa tola
+            para temer, e <span class="emphasis"><em>não</em></span> o tipo de coisa que
+            você deveria pesar na hora de decidir como organizar seus
+            projetos e repositórios.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2598187" href="#id2598187" class="para">29</a>] </sup>O trio <code class="filename">trunk</code>,
+            <code class="filename">tags</code>, e <code class="filename">branches</code>
+            são muitas vezes chamados de “<span class="quote">diretórios
+            TTB</span>”.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2598471" href="#id2598471" class="para">30</a>] </sup>Frequentemente pronunciado como “<span class="quote">fuzz-fuzz</span>”,
+            a menos que Jack Repenning tenha algo a dizer sobre isso.
+            (Este livro, entretanto, assume que o leitor está pensando
+            “<span class="quote">efe-esse-efe-esse</span>”.)</p></div><div class="footnote"><p><sup>[<a id="ftn.id2598981" href="#id2598981" class="para">31</a>] </sup>O Berkeley DB precisa que o sistema de arquivos em
+              questão onde esteja o compartilhamento deve implementar
+              estritamente a semântica POSIX de travamento, e ainda mais 
+              importante, a capacidade de mapear arquivos diretamente
+              para processos em memória.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2597551" href="#id2597551" class="para">32</a>] </sup>A Oracle comprou Sleepycat e seu software,
+              Berkeley DB, no dia dos namorados em 2006.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.reposadmin.basics.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.reposadmin.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.reposadmin.create.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">O Repositório Subversion, Definição </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Criando e Configurando Seu Repositório</td></tr></table></div></body></html>

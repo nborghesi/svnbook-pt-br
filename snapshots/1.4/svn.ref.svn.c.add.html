@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn add</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.html" title="O Cliente de Linha de Comando do Subversion: svn" /><link rel="next" href="svn.ref.svn.c.blame.html" title="svn blame" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn add</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.blame.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.add"></a><div class="titlepage"></div><a id="id2638964" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn add — Adiciona arquivos, diretórios ou links simbólicos.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2638991"></a><h2>Sinopse</h2><pre class="programlisting">svn add PATH...</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639003"></a><h2>Descrição</h2><p>Agenda arquivos, diretórios ou links simbólicos em sua
+            cópia de trabalho para adição no repositório.  Eles serão
+            carregados e adicionados efetivamente ao repositório em sua
+            próxima submissão.  Se você adicionar alguma coisa e mudar
+            de idéia antes de realizar o commit, você pode cancelar o
+            agendamento usando <span class="command"><strong>svn revert</strong></span>.
+          </p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639030"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639041"></a><h2>Altera</h2><p>Cópia de trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639051"></a><h2>Acessa o Repositório</h2><p>Não</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639062"></a><h2>Opções</h2><pre class="screen">
+--targets FILENAME
+--non-recursive (-N)
+--quiet (-q)
+--config-dir DIR
+--no-ignore
+--auto-props
+--no-auto-props
+--force
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2639076"></a><h2>Exemplos</h2><p>Para adicionar um arquivo para sua cópia de trabalho:</p><pre class="screen">
+$ svn add foo.c 
+A         foo.c
+</pre><p>Ao adicionar um diretório, o comportamento padrão do 
+            <span class="command"><strong>svn add</strong></span> é ser recursivo:</p><pre class="screen">
+$ svn add testdir
+A         testdir
+A         testdir/a
+A         testdir/b
+A         testdir/c
+A         testdir/d
+</pre><p>Você também pode adicionar um diretório sem adicionar
+            seu conteúdo:</p><pre class="screen">
+$ svn add --non-recursive otherdir
+A         otherdir
+</pre><p>Normalmente, o comando <span class="command"><strong>svn add *</strong></span> vai
+            desconsiderar quaisquer diretórios que já estiverem sob
+            controle de versão.  Algumas vezes, no entanto, você pode
+            querer adicionar quaisquer objetos não-versionados em sua
+            cópia de trabalho, incluindo os que estiverem escondidos
+            mais profundamente na árvore de diretórios.  Passar a opção 
+            <code class="option">--force</code> faz com que o <span class="command"><strong>svn
+            add</strong></span> aja recursivamente também nos diretórios
+            versionados:
+          </p><pre class="screen">
+$ svn add * --force
+A         foo.c
+A         somedir/bar.c
+A         otherdir/docs/baz.doc
+…
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.blame.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">O Cliente de Linha de Comando do Subversion:
+      svn </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn blame</td></tr></table></div></body></html>

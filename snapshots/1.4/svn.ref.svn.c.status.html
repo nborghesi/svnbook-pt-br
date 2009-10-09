@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn status</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.revert.html" title="svn revert" /><link rel="next" href="svn.ref.svn.c.switch.html" title="svn switch" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn status</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.revert.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.switch.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.status"></a><div class="titlepage"></div><a id="id2645609" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn status — Exibe informação sobre o estado de arquivos e
+            diretórios na cópia de trabalho.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645638"></a><h2>Sinopse</h2><pre class="programlisting">svn status [PATH...]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2645650"></a><h2>Descrição</h2><p>Exibe informação sobre o estado de arquivos e diretórios
+            na cópia de trabalho.  Sem argumentos, o comando exibe
+            apenas os itens modificados localmente (sem acesso ao
+            repositório).  Com <code class="option">--show-updates</code>, ele
+            adiciona informação sobre a revisão de trabalho e
+            informações defasadas de servidor.  Com
+            <code class="option">--verbose</code>, exibe informações completas
+            sobre revisão de cada item.</p><p>As primeiras seis colunas na saída têm um caractere de
+            largura cada, e cada coluna lhe dá informação sobre
+            diferentes aspectos de cada item na cópia de
+            trabalho.</p><p>A primeira coluna indica que um item foi adicionado,
+            removido, ou então alterado.</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>Sem modificações.</p></dd><dt><span class="term">'A'</span></dt><dd><p>O item foi agendado para adição.</p></dd><dt><span class="term">'D'</span></dt><dd><p>O item foi agendado para remoção (deleção).</p></dd><dt><span class="term">'M'</span></dt><dd><p>O item está sendo modificado.</p></dd><dt><span class="term">'R'</span></dt><dd><p>O item foi substituído em sua cópia de trabalho.
+                Isto significa que o arquivo foi agendado para remoção,
+                e então um novo arquivo com o mesmo nome foi agendado
+                para adição em seu lugar.</p></dd><dt><span class="term">'C'</span></dt><dd><p>O conteúdo (ao contrário das propriedades) do item
+                  entra em conflito com as atualizações recebidas do
+                  repositório.</p></dd><dt><span class="term">'X'</span></dt><dd><p>O item está presente devido a uma definição externa.</p></dd><dt><span class="term">'I'</span></dt><dd><p>O item está sendo ignorado (p.ex., com a
+                  propriedade <code class="literal">svn:ignore</code>).</p></dd><dt><span class="term">'?'</span></dt><dd><p>O item não está sob controle de versão.</p></dd><dt><span class="term">'!'</span></dt><dd><p>O item está faltando (p.ex., você o moveu ou
+                  removeu sem usar o <span class="command"><strong>svn</strong></span>).  Isto
+                  também indica que um diretório está incompleto (uma
+                  operação de checkout ou update foi
+                  interrompida).</p></dd><dt><span class="term">'~'</span></dt><dd><p>O item está versionado como um tipo de objeto (
+                  arquivo, diretório, link), mas está sendo substituído
+                  por um tipo diferente de objeto.</p></dd></dl></div><p>A segunda coluna indica o estado das propriedades de um
+            arquivo ou diretório.</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>Sem modificações.</p></dd><dt><span class="term">'M'</span></dt><dd><p>Propriedades deste item foram modificadas.</p></dd><dt><span class="term">'C'</span></dt><dd><p>As propriedades para este item entram em conflito
+                  com as atualizações de propriedades recebidas do
+                  repositório.</p></dd></dl></div><p>A terceira coluna é preenchida apenas se a cópia de
+            trabalho estiver travada.  (Veja
+            <a class="xref" href="svn.tour.cleanup.html" title="Às Vezes Você Só Precisa Limpar">“Às Vezes Você Só Precisa Limpar”</a>.)</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>O item não está travado.</p></dd><dt><span class="term">'L'</span></dt><dd><p>O item está travado.</p></dd></dl></div><p>A quarta coluna é preenchida se o item estiver agendado
+            para adição com histórico.</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>O histórico não está agendado para submissão.</p></dd><dt><span class="term">'+'</span></dt><dd><p>O histórico está agendado para submissão.</p></dd></dl></div><p>A quinta coluna é preenchida apenas se o item tiver sido
+            trocado relativo a seus diretórios anteriores (veja <a class="xref" href="svn.branchmerge.switchwc.html" title="Atravessando Ramos">“Atravessando Ramos”</a>).</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>O item é filho de seu diretório pai.</p></dd><dt><span class="term">'S'</span></dt><dd><p>O item foi trocado.</p></dd></dl></div><p>A sexta coluna contém informação sobre trava.</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>Quando <code class="option">--show-updates</code> é usado,
+                o arquivo não está travado.  Se 
+                <code class="option">--show-updates</code> <span class="emphasis"><em>não</em></span>
+                é usado, isto apenas significa que o arquivo não está
+                travado nesta cópia de trabalho.</p></dd><dt><span class="term">K</span></dt><dd><p>O arquivo está travado nesta cópia de
+                trabalho.</p></dd><dt><span class="term">O</span></dt><dd><p>O arquivo ou está travado por outro usuário ou em
+                outra cópia de trabalho.  Isto só aparece quando 
+                <code class="option">--show-updates</code> é usado.</p></dd><dt><span class="term">T</span></dt><dd><p>O arquivo estava travado nesta cópia de trabalho,
+                mas a trava foi “<span class="quote">roubada</span>” e está inválida.
+                O arquivo atualmente está travado no repositório.  Isto
+                só aparece quando <code class="option">--show-updates</code> é
+                usado.</p></dd><dt><span class="term">B</span></dt><dd><p>O arquivo estava travado nesta cópia de trabalho,
+                mas a trava está sendo “<span class="quote">quebrada</span>” e está
+                inválida.  O arquivo não está mais travado.  Isto só
+                aparece quando <code class="option">--show-updates</code> é
+                usado</p></dd></dl></div><p>A informação defasada aparece na sétima coluna (apenas
+            se você passar a opção
+            <code class="option">--show-updates</code>).</p><div class="variablelist"><dl><dt><span class="term">' '</span></dt><dd><p>O item em sua cópia de trabalho está atualizado.</p></dd><dt><span class="term">'*'</span></dt><dd><p>Uma nova revisão do item existe no servidor.</p></dd></dl></div><p>Os campos restantes têm largura variável e são
+            delimitados por espaços.  A revisão de trabalho é o próximo
+            campo se as opções <code class="option">--show-updates</code> ou
+            <code class="option">--verbose</code> forem passadas.</p><p>Se a opção <code class="option">--verbose</code> for passada, a
+            última revisão submetida e o último autor são exibidos na
+            sequência.</p><p>O caminho na cópia de trabalho é sempre o último campo,
+            então ele pode incluir espaços.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646284"></a><h2>Nomes Alternativos</h2><p>stat, st</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646294"></a><h2>Altera</h2><p>Nada</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646304"></a><h2>Acessa o Repositório</h2><p>Apenas quando usando <code class="option">--show-updates</code></p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646317"></a><h2>Opções</h2><pre class="screen">
+--show-updates (-u)
+--verbose (-v)
+--non-recursive (-N)
+--quiet (-q)
+--no-ignore
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+--ignore-externals
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646332"></a><h2>Exemplos</h2><p>Esta é a forma mais fácil de encontrar quais alterações
+            você fez em sua cópia de trabalho:</p><pre class="screen">
+$ svn status wc
+ M     wc/bar.c
+A  +   wc/qax.c
+</pre><p>Se você quiser encontrar quais arquivos em sua cópia de
+            trabalho estão desatualizados, passe a opção 
+            <code class="option">--show-updates</code> (isto
+            <span class="emphasis"><em>não</em></span> faz quaisquer alterações em sua
+            cópia de trabalho).  Aqui você pode ver que 
+            <code class="filename">wc/foo.c</code> foi modificado no repositório
+            desde a última atualização em sua cópia de trabalho:</p><pre class="screen">
+$ svn status --show-updates wc
+ M           965    wc/bar.c
+       *     965    wc/foo.c
+A  +         965    wc/qax.c
+Status against revision:    981
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p><code class="option">--show-updates</code>
+              <span class="emphasis"><em>apenas</em></span> coloca um asterisco próximo
+              aos itens que estão desatualizados (isto é, os itens que
+              serão atualizados a partir do repositório se você executar
+              um <span class="command"><strong>svn update</strong></span>).
+              <code class="option">--show-updates</code> <span class="emphasis"><em>não</em></span>
+              faz com que a listagem de estado reflita a versão de
+              repositório do item (apesar de que  você pode ver o número
+              de revisão do repositório passando a opção
+              <code class="option">--verbose</code>).</p></div><p>E finalmente, o máximo de informação que você pode obter
+            com o subcomando status:</p><pre class="screen">
+$ svn status --show-updates --verbose wc
+ M           965       938 sally        wc/bar.c
+       *     965       922 harry        wc/foo.c
+A  +         965       687 harry        wc/qax.c
+             965       687 harry        wc/zig.c
+Head revision:   981
+</pre><p>Para mais exemplos de <span class="command"><strong>svn status</strong></span>,
+            veja <a class="xref" href="svn.tour.cycle.html#svn.tour.cycle.examine.status" title="Obtendo uma visão geral de suas alterações">“Obtendo uma visão geral de suas alterações”</a>.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.revert.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.switch.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn revert </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn switch</td></tr></table></div></body></html>

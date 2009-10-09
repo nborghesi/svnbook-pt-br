@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn switch</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.status.html" title="svn status" /><link rel="next" href="svn.ref.svn.c.unlock.html" title="svn unlock" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn switch</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.status.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.unlock.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.switch"></a><div class="titlepage"></div><a id="id2646473" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn switch — Atualiza a cópia de trabalho para uma URL diferente.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646501"></a><h2>Sinopse</h2><pre class="programlisting">svn switch URL [PATH]</pre><pre class="programlisting">switch --relocate FROM TO [PATH...]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646518"></a><h2>Descrição</h2><p>A primeira variante deste subcomando (sem a opção
+            <code class="option">--relocate</code>) atualiza sua cópia de trabalho
+            para apontar para uma nova URL—frequentemente uma URL
+            que compartilhe um ancestral comum com sua cópia de
+            trabalho, apesar de não ser necessário.  Esta é a forma que
+            o Subversion usa para mover uma cópia de trabalho para um
+            novo ramo.  Consulte <a class="xref" href="svn.branchmerge.switchwc.html" title="Atravessando Ramos">“Atravessando Ramos”</a> para uma visão mais
+            aprofundada sobre este recurso.</p><p>
+            A opção <code class="option">--relocate</code> faz com que o
+            <span class="command"><strong>svn switch</strong></span> execute algo diferente: ele
+            atualiza sua cópia de trabalho para apontar para <span class="emphasis"><em>o
+            mesmo</em></span> diretório no repositório, apenas numa URL
+            diferente (tipicamente porque um administrador moveu o
+            repositório para um outro servidor, ou para outra URL no
+            mesmo servidor).</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646583"></a><h2>Nomes Alternativos</h2><p>sw</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646594"></a><h2>Altera</h2><p>Cópia de trabalho</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646604"></a><h2>Acessa o Repositório</h2><p>Sim</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646615"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--non-recursive (-N)
+--quiet (-q)
+--diff3-cmd CMD
+--relocate FROM TO
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2646630"></a><h2>Exemplos</h2><p>Se você atualmente dentro do diretório 
+            <code class="filename">vendors</code>, o qual foi ramificado para
+            <code class="filename">vendors-with-fix</code>, e você gostaria de
+            trocar sua cópia de trabalho para esse ramo:</p><pre class="screen">
+$ svn switch http://svn.red-bean.com/repos/branches/vendors-with-fix .
+U  myproj/foo.txt
+U  myproj/bar.txt
+U  myproj/baz.c
+U  myproj/qux.c
+Updated to revision 31.
+</pre><p>A para trocar de volta, apenas informa a URL para o
+            local no repositório a partir do qual você originalmente
+            obteve sua cópia de trabalho:</p><pre class="screen">
+$ svn switch http://svn.red-bean.com/repos/trunk/vendors .
+U  myproj/foo.txt
+U  myproj/bar.txt
+U  myproj/baz.c
+U  myproj/qux.c
+Updated to revision 31.
+</pre><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Você pode apenas trocar parte de sua cópia de trabalho
+              para um ramo se você não quiser trocar toda a sua cópia de
+              trabalho.</p></div><p>Algumas vezes um administrador pode mudar a
+            “<span class="quote">localização base</span>” de seu repositório—em
+            outras palavras, o conteúdo do repositório não muda, mas a
+            URL principal que dá acesso à raiz do repositório sim.  Por
+            exemplo, o nome do host pode mudar, o esquema da URL pode
+            mudar, ou qualquer parte da URL relacionada ao repositório
+            em si pode mudar.  Ao invés de obter (<span class="foreignphrase"><em class="foreignphrase">check
+            out</em></span>) uma nova cópia de trabalho, você pode
+            fazer com que o comando <span class="command"><strong>svn switch</strong></span>
+            “<span class="quote">reescreva</span>” os começos de todas as URLs em sua
+            cópia de trabalho.  Use a opção <code class="option">--relocate</code>
+            para fazer a substituição.  Nenhum conteúdo de arquivo é
+            modificado, nem sequer o repositório é contactado.  É
+            semelhante a executar um script em Perl sobre os diretórios
+            <code class="filename">.svn/</code> de sua cópia de trabalho,
+            executando <span class="command"><strong>s/OldRoot/NewRoot/</strong></span>.</p><pre class="screen">
+$ svn checkout file:///tmp/repos test
+A  test/a
+A  test/b
+…
+
+$ mv repos newlocation
+$ cd test/
+
+$ svn update
+svn: Unable to open an ra_local session to URL
+svn: Unable to open repository 'file:///tmp/repos'
+
+$ svn switch --relocate file:///tmp/repos file:///tmp/newlocation .
+$ svn update
+At revision 3.
+</pre><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Tenha cuidado ao usar a opção
+            <code class="option">--relocate</code>.  Se você errar na digitação do
+            argumento, você pode terminar criando URLs sem sentido
+            relacionadas a sua cópia de trabalho que deixem todo o seu
+            espaço de trabalho inutilizável e difícil de corrigir.
+            Também é importante entender exatamente quando se deve ou
+            não usar <code class="option">--relocate</code>.  Aqui vai uma regra
+            de ouro:</p><div class="itemizedlist"><ul type="disc"><li><p>Se sua cópia de trabalho precisar refletir
+                  um novo diretório <span class="emphasis"><em>dentro</em></span> do
+                  repositório, então apenas use <span class="command"><strong>svn
+                  switch</strong></span>.</p></li><li><p>Se a cópia de trabalho ainda reflete o
+                  mesmo diretório no repositório, mas o local do
+                  repositório em si foi mudado, então use <span class="command"><strong>svn
+                  switch --relocate</strong></span>.</p></li></ul></div></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.status.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.unlock.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn status </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn unlock</td></tr></table></div></body></html>

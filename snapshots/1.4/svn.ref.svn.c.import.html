@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn import</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.help.html" title="svn help" /><link rel="next" href="svn.ref.svn.c.info.html" title="svn info" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn import</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.help.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.info.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.import"></a><div class="titlepage"></div><a id="id2642051" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn import — Submete (<span class="foreignphrase"><em class="foreignphrase">commit</em></span>) um
+            arquivo ou árvore não-versionada ao
+            repositório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642083"></a><h2>Sinopse</h2><pre class="programlisting">svn import [PATH] URL</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642095"></a><h2>Descrição</h2><p>Submete recursivamente uma cópia de 
+            <em class="replaceable"><code>PATH</code></em> para
+            <em class="replaceable"><code>URL</code></em>.  Se 
+            <em class="replaceable"><code>PATH</code></em> for omitido, então
+            “<span class="quote"><code class="filename">.</code></span>” é assumido.
+            Diretórios anteriores são criados no repositório, se
+            necessário.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642129"></a><h2>Nomes Alternativos</h2><p>Nenhum</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642140"></a><h2>Altera</h2><p>Repositório</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642150"></a><h2>Acessa o Repositório</h2><p>Sim</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642160"></a><h2>Opções</h2><pre class="screen">
+--message (-m) TEXT
+--file (-F) FILE
+--quiet (-q)
+--non-recursive (-N)
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--force-log
+--editor-cmd EDITOR 
+--encoding ENC
+--config-dir DIR
+--auto-props
+--no-auto-props
+--ignore-externals
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642177"></a><h2>Exemplos</h2><p>Isto importa o diretório local
+            <code class="filename">myproj</code> para dentro de 
+            <code class="filename">trunk/misc</code> em seu repositório.  O
+            diretório <code class="filename">trunk/misc</code> não precisa
+            existir antes da operação—<span class="command"><strong>svn
+            import</strong></span> irá criar diretórios recursivamente para
+            você.</p><pre class="screen">
+$ svn import -m "New import" myproj http://svn.red-bean.com/repos/trunk/misc
+Adding         myproj/sample.txt
+…
+Transmitting file data .........
+Committed revision 16.
+</pre><p>Atente que isto <span class="emphasis"><em>não</em></span> cria um
+            diretório chamado <code class="filename">myproj</code> no
+            repositório.  Se é isso o que você quer, simplesmente
+            adicione <code class="filename">myproj</code> ao final da URL:</p><pre class="screen">
+$ svn import -m "New import" myproj http://svn.red-bean.com/repos/trunk/misc/myproj
+Adding         myproj/sample.txt
+…
+Transmitting file data .........
+Committed revision 16.
+</pre><p>Depois de importar dados, perceba que a árvore original
+            <span class="emphasis"><em>not</em></span> está sob controle de versão.  Para
+            começar a trabalhar, você ainda precisa realizar um
+            <span class="command"><strong>svn checkout</strong></span> para obter uma nova cópia de
+            trabalho da árvore.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.help.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.info.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn help </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn info</td></tr></table></div></body></html>

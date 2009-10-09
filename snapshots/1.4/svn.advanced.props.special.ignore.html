@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Ignorando Itens Não-Versionados</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.advanced.html" title="Capítulo 3. Tópicos Avançados" /><link rel="prev" href="svn.advanced.props.file-portability.html" title="Portabilidade de Arquivo" /><link rel="next" href="svn.advanced.props.special.keywords.html" title="Substituição de Palavra-Chave" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Ignorando Itens Não-Versionados</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.advanced.props.file-portability.html">Anterior</a> </td><th width="60%" align="center">Capítulo 3. Tópicos Avançados</th><td width="20%" align="right"> <a accesskey="n" href="svn.advanced.props.special.keywords.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.advanced.props.special.ignore"></a>Ignorando Itens Não-Versionados</h2></div></div></div><p>Em qualquer cópia de trabalho obtida, há uma boa chance que
+      juntamente com todos os arquivos e diretórios versionados estão outros
+      arquivos e diretórios que não são versionados e nem pretendem
+      ser.  Editores de texto deixam diretórios com arquivos de backup.
+      Compiladores de software produzem arquivos intermediários—ou
+      mesmo definitivos—que você normalmente não faria controle de
+      versão.  E os próprios usuários deixam vários outros arquivos e
+      diretórios, sempre que acharem adequado, muitas vezes em cópias de
+      trabalho com controle de versão.</p><p>É ridículo esperar que cópias de trabalho do Subversion sejam
+      de algum modo impenetráveis a este tipo de resíduo e impureza.  De
+      fato, o Subversion os considera como um <span class="emphasis"><em>recurso</em></span>
+      que suas cópias de trabalho estão apenas com diretórios normais, como
+      árvores não-versionadas.  Mas estes arquivos e diretórios que não deveriam
+      ser versionados podem causar algum incômodo aos usuários do Subversion.  Por
+      exemplo, pelo fato dos comandos <span class="command"><strong>svn add</strong></span> e <span class="command"><strong>svn
+      import</strong></span> agirem recursivamente por padrão, e não saberem
+      quais arquivos em uma dada árvore você deseja ou não versionar,
+      é acidentalmente fácil adicionar coisas ao controle de versão que
+      você não pretendia.  E pelo fato do comando <span class="command"><strong>svn
+      status</strong></span> reportar, por padrão, cada item de interesse em
+      uma cópia de trabalho—incluindo arquivos e diretórios não
+      versionados—sua saída pode ficar muito poluída, onde grande número
+      destas coisas aparecem.</p><p>Portanto, o Subversion oferece dois meios para dizer quais
+      arquivos você preferiria que ele simplesmente desconsiderasse.  Um dos
+      meios envolve o uso do sistema de configuração do ambiente de execução do
+      Subversion (veja <a class="xref" href="svn.advanced.confarea.html" title="Área de Configuração do Tempo de Execução">“Área de Configuração do Tempo de Execução”</a>), e
+      conseqüentemente aplica-se a todas operações do Subversion que fazem
+      uso desta configuração do ambiente de execução, geralmente aquelas executadas
+      em um computador específico, ou por um usuário específico de um computador.
+      O outro meio faz uso do suporte de propriedade de diretório do
+      Subversion, é mais fortemente vinculado à própria árvore versionada e,
+      conseqüentemente, afeta todos aqueles que têm uma cópia de trabalho desta árvore.
+      Os dois mecanismos usam filtros de arquivo.</p><p>O sistema de configuração <span class="foreignphrase"><em class="foreignphrase">runtime</em></span> do Subversion oferece uma
+      opção, <code class="literal">global-ignores</code>, cujo valor é uma coleção
+      de filtros de arquivo delimitados por espaços em branco (também conhecida com
+      <em class="firstterm">globs</em>).  O cliente do Subversion verifica
+      esses filtros em comparação com os nomes dos arquivos que são
+      candidatos para adição ao controle de versão, bem como os arquivos
+      não versionados os quais o comando <span class="command"><strong>svn status</strong></span>
+      notifica.  Se algum nome de arquivo coincidir com um dos
+      filtros, basicamente, o Subversion atuará como se o arquivo não
+      existisse.  Isto é realmente útil para os tipos de arquivos que
+      você raramente precisará controlar versão, tal como cópias de arquivos feitas por editores
+      como os arquivos <code class="literal">*~</code> e <code class="literal">.*~</code> do
+      <span class="foreignphrase"><em class="foreignphrase">Emacs</em></span>.</p><p>Quando encontrada em um diretório versionado, a propriedade
+      <code class="literal">svn:ignore</code> espera que contenha uma lista de
+      filtros de arquivo delimitadas por quebras de linha que o Subversion deve
+      usar para determinar objetos ignoráveis neste mesmo diretório.
+      Estes filtros não anulam os encontrados na opção
+      <code class="literal">global-ignores</code> da configuração <span class="foreignphrase"><em class="foreignphrase">runtime</em></span>,
+      porém, são apenas anexados a esta lista.  E é importante notar mais
+      uma vez que, ao contrário da opção <code class="literal">global-ignores</code>,
+      os filtros encontrados na propriedade <code class="literal">svn:ignore</code>
+      aplicam-se somente ao diretório no qual esta propriedade está
+      definida, e em nenhum de seus subdiretórios.  A propriedade
+      <code class="literal">svn:ignore</code> é uma boa maneira para dizer ao
+      Subversion ignorar arquivos que estão susceptíveis a estarem presentes em
+      todas as cópias de trabalho de usuário deste diretório, assim como as saídas
+      de compilador ou—para usar um exemplo mais apropriado para este
+      livro—os arquivos HTML, PDF, ou PostScript produzidos como o
+      resultado de uma conversão de alguns arquivos XML do fonte DocBook para um
+      formato de saída mais legível.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p>O suporte do Subversion para filtros de arquivos ignoráveis estende
+        somente até o processo de adicionar arquivos e diretórios
+        não versionados ao controle de versão.  Desde que um objeto está
+        sob o controle do Subversion, os mecanismos de filtro de ignoração já
+        não são mais aplicáveis a ele.  Em outras palavras, não espere que o Subversion
+        deixe de realizar a submissão de mudanças que você efetuou em arquivos versionados
+        simplesmente porque estes nomes de arquivo coincidem com um filtro de
+        ignoração—o Subversion <span class="emphasis"><em>sempre</em></span> avisa quais
+        objetos foram versionados.</p></div><div class="sidebar"><p class="title"><b>Filtros de Rejeição para Usuários CVS</b></p><p>A propriedade <code class="literal">svn:ignore</code> do Subversion é
+        muito similar em sintaxe e função ao arquivo
+        <code class="filename">.cvsignore</code> do CVS.  De fato, se você está
+        migrando de uma cópia de trabalho CVS para Subversion, você pode
+        migrar os filtros de rejeição, diretamente, pelo uso do arquivo
+        <code class="filename">.cvsignore</code> como arquivo de entrada para o
+        comando <span class="command"><strong>svn propset</strong></span>:</p><pre class="screen">
+$ svn propset svn:ignore -F .cvsignore .
+property 'svn:ignore' set on '.'
+$
+</pre><p>Existem, entretanto, algumas diferenças nos meios que CVS
+        e Subversion manipulam filtros de rejeição.  Os dois sistemas usam
+        os filtros de rejeição em tempos um pouco diferentes, e existem
+        ligeiras discrepâncias na aplicação dos filtros de rejeição.
+        Além disso, o Subversion não reconhece o uso do filtro
+        <code class="literal">!</code> como uma redefinição que torna os filtros
+        seguintes como não-ignorados.</p></div><p>A lista global de filtros de rejeição tende ser mais uma
+      questão de gosto pessoal, e vinculada mais estreitamente a uma série de
+      ferramentas específicas do usuário do que aos detalhes de qualquer
+      cópia de trabalho particular necessita.  Assim, o resto desta seção
+      focará na propriedade <code class="literal">svn:ignore</code> e seus
+      usos.</p><p>Digamos que você tenha a seguinte saída do <span class="command"><strong>svn
+      status</strong></span>:</p><pre class="screen">
+$ svn status calc
+ M     calc/button.c
+?      calc/calculator
+?      calc/data.c
+?      calc/debug_log
+?      calc/debug_log.1
+?      calc/debug_log.2.gz
+?      calc/debug_log.3.gz
+</pre><p>Neste exemplo, você realizou algumas modificações no arquivo
+      <code class="filename">button.c</code>, mas em sua cópia de trabalho você
+      também possui alguns arquivos não-versionados: o mais recente programa
+      <code class="filename">calculator</code> que você compilou a partir
+      do seu código fonte, um arquivo fonte nomeado
+      <code class="filename">data.c</code>, e uma série de arquivos de registro da saída de
+      depuração.  Agora, você sabe que seu sistema de construção sempre resulta
+      no programa <code class="filename">calculator</code> como produto.
+      <sup>[<a id="id2572736" href="#ftn.id2572736" class="footnote">13</a>]</sup>
+      E você sabe que sua ferramenta de testes sempre deixa aqueles arquivos de
+      registro de depuração alojando ao redor.  Estes fatos são verdadeiros para todas cópias
+      de trabalho deste projeto, não para apenas sua própria.  E você também
+      não está interessado em ver aquelas coisas toda vez que você executa
+      <span class="command"><strong>svn status</strong></span>, e bastante seguro que ninguém mais
+      está interessado em nenhuma delas.  Sendo assim, você executa <span class="command"><strong>svn propedit
+      svn:ignore calc</strong></span> para adicionar alguns filtros de rejeição para o
+      diretório <code class="filename">calc</code>.  Por exemplo, você pode adicionar
+      os filtros abaixo como o novo valor da propriedade
+      <code class="literal">svn:ignore</code>:</p><pre class="programlisting">
+calculator
+debug_log*
+</pre><p>Depois de você adicionar esta propriedade, você terá agora uma modificação
+      de propriedade local no diretório <code class="filename">calc</code>.
+      Mas note que o restante da saída é diferente para o comando
+      <span class="command"><strong>svn status</strong></span>:</p><pre class="screen">
+$ svn status
+ M     calc
+ M     calc/button.c
+?      calc/data.c
+</pre><p>Agora, todas aqueles resíduos não são apresentados nos resultados!  Certamente,
+      seu programa compilado <code class="filename">calculator</code> e todos aqueles
+      arquivos de registro estão ainda em sua cópia de trabalho.  O Subversion está
+      simplesmente não lembrando você que eles estão presentes e não-versionados.
+      E agora com todos os arquivos desinteressantes removidos dos resultados,
+      você visualizará somente os itens mais interessantes—assim como
+      o arquivo de código fonte <code class="filename">data.c</code> que você
+      provavelmente esqueceu de adicionar ao controle de versão.</p><p>Evidentemente, este relatório menos prolixo da situação de sua cópia
+      de trabalho não é a única disponível.  Se você realmente quiser ver
+      os arquivos ignorados como parte do relatório de situação, você pode passar
+      a opção <code class="option">--no-ignore</code> para o Subversion:</p><pre class="screen">
+$ svn status --no-ignore
+ M     calc
+ M     calc/button.c
+I      calc/calculator
+?      calc/data.c
+I      calc/debug_log
+I      calc/debug_log.1
+I      calc/debug_log.2.gz
+I      calc/debug_log.3.gz
+</pre><p>Como mencionado anteriormente, a lista de filtros de arquivos a ignorar
+      também é usada pelos comandos <span class="command"><strong>svn add</strong></span> e <span class="command"><strong>svn
+      import</strong></span>.  Estas duas operações implicam solicitar ao
+      Subversion iniciar o gerenciamento de algum conjunto de arquivos e diretórios.
+      Ao invés de forçar o usuário a escolher quais arquivos em uma
+      árvore ele deseja iniciar o versionamento, o Subversion usa os filtros de
+      rejeição—tanto a lista global quanto a por diretório
+      (<code class="literal">svn-ignore</code>)—para determinar quais arquivos não devem
+      ser varridos para o sistema de controle de versão como parte de uma operação
+      recursiva de adição ou importação.  E da mesma forma, você pode usar a opção
+      <code class="option">--no-ignore</code> para indicar ao Subversion desconsiderar
+      suas listas de rejeição e operar em todos os arquivos e diretórios
+      presentes.</p><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2572736" href="#id2572736" class="para">13</a>] </sup>Não é isso o resultado completo de um sistema de construção?</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.advanced.props.file-portability.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.advanced.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.advanced.props.special.keywords.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Portabilidade de Arquivo </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Substituição de Palavra-Chave</td></tr></table></div></body></html>

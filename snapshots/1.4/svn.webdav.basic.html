@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>O que é WebDAV?</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento" /><link rel="prev" href="svn.webdav.html" title="Apêndice C. WebDAV e Autoversionamento" /><link rel="next" href="svn.webdav.autoversioning.html" title="Autoversionamento" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">O que é WebDAV?</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.webdav.html">Anterior</a> </td><th width="60%" align="center">Apêndice C. WebDAV e Autoversionamento</th><td width="20%" align="right"> <a accesskey="n" href="svn.webdav.autoversioning.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.webdav.basic"></a>O que é WebDAV?</h2></div></div></div><p><em class="firstterm">DAV</em> é uma sigla em inglês para
+      “<span class="quote">Versionamento e Autoração Distribuída</span>”.  A RFC 2518
+      define um conjunto de conceitos e métodos de extensão relacionados
+      a HTTP 1.1 que transformam a web em uma mídia mais universal de
+      leitura e escrita.  A idéia básica é que um servidor web que siga
+      o padrão WebDAV pode agir como um servidor de arquivos genérico;
+      os clientes podem “<span class="quote">montar</span>” pastas compartilhadas
+      sobre HTTP que se comportem como qualquer outro sistema de
+      arquivos de rede (como NFS ou SMB.)</p><p>O problema, porém, é que apesar do acrônimo, a especificação
+      RFC atualmente não descreve qualquer forma de controle de versão.
+      Clientes básicos de WebDAV e servidores assumem apenas uma versão
+      para cada arquivo ou diretório existente, e podem ser
+      repetidamente sobrescritos.</p><p>Devido a RFC 2518 não contemplar conceitos de versionamento,
+      outro comitê tomou para si a responsabilidade de escrever a RFC
+      3253 alguns anos depois.  A nova RFC adiciona conceitos de
+      versionamento ao WebDAV, fazendo valer o significado do
+      “<span class="quote">V</span>” em “<span class="quote">DAV</span>”—daí o termo
+      “<span class="quote">DeltaV</span>”.  Clientes e servidores WebDAV/DeltaV quase
+      sempre são apenas chamados de programas “<span class="quote">DeltaV</span>”, uma
+      vez que DeltaV implica na existência de WebDAV básico.</p><p>O padrão WebDAV original tem sido largamente usado com
+      sucesso.  Cada sistema operacional de computadores modernos tem
+      uma implementação interna de um cliente WebDAV (mais detalhes a
+      seguir), e diversas aplicações independentes populares também são
+      capazes de se comunicar em WebDAV—como o Microsoft Office,
+      Dreamweaver, e Photoshop para relacionar apenas algumas.  No lado
+      do servidor, o servidor web Apache tem capacidade de oferecer
+      serviços WebDAV desde 1998 e é considerado o padrão open-source
+      “<span class="quote">de facto</span>”.  Há outros servidores WebDAV disponíveis,
+      incluindo o próprio IIS da Microsoft.</p><p>Já o DeltaV, infelizmente, não tem sido tão bem sucedido.  É
+      muito difícil de encontrar clientes ou servidores DeltaV.  Os
+      poucos que existem são produtos comerciais relativamente
+      desconhecidos, e assim é muito difícil testar interoperabilidade.
+      Não é totalmente claro o porquê de que o DeltaV permanece
+      estagnado.  Alguns argumentam apenas que a especificação é muito
+      complexa, já outros dizem que apesar de os recursos do WebDAV
+      terem apelo maciço (ao menos para usuários técnicos que apreciem
+      compartilhamento de arquivos em rede), recursos de controle de
+      versão não são interessantes ou mesmo necessários para a maioria
+      dos usuários.  Finalmente, alguns ainda consideram que o DeltaV
+      permanece impopular porque ainda não há um servidor como produto
+      open-source que o implemente tão bem.</p><p>Ainda que o Subversion ainda esteja em fase de
+      desenvolvimento, parece uma grande idéia usar o Apache como
+      servidor de rede.  Ele já possui um módulo para prover serviços
+      WebDAV.  DeltaV era uma especificação relativamente nova.  A
+      esperança era que o módulo servidor do Subversion (o
+      <span class="command"><strong>mod_dav_svn</strong></span>) pudesse eventualmente evoluir para
+      uma implementação open-source de referência DeltaV.  Infelizmente,
+      o DeltaV tem um modelo de versionamento muito específico que não é
+      exatamente adequado ao modelo do Subversion.  Alguns conceitos
+      foram mapeados, mas outros não.</p><p>Mas então, o que isto significa?</p><p>Primeiro, o cliente Subversion não é uma implementação
+      completa de um cliente DeltaV.  Ele precisa de algumas certas
+      coisas do servidor que o DeltaV em si não pode prover, e assim
+      ele é altamente dependente de diversas requisições HTTP
+      <code class="literal">REPORT</code> específicas para o Subversion que apenas
+      o <span class="command"><strong>mod_dav_svn</strong></span> pode entender.</p><p>Segundo, o <span class="command"><strong>mod_dav_svn</strong></span> também não é um
+      servidor DeltaV completamente implementado.  Muitas partes da
+      especificação DeltaV eram irrelevantes para o Subversion, e assim
+      simplesmente não foram implementadas.</p><p>Ainda há um certo debate na comunidade de desenvolvedores se
+      ainda é ou não adequado se preocupar em tentar remediar estas
+      situações.  É quase impensável alterar-se o projeto do Subversion
+      para corresponder à especificação DeltaV, então provavelmente não
+      há nada que que um cliente não pode aprender para ter tudo o que
+      precisa de um servidor DeltaV.  Por outro lado, o
+      <span class="command"><strong>mod_dav_svn</strong></span> <span class="emphasis"><em>poderia</em></span> ser
+      desenvolvido para implementar tudo do DeltaV, mas é difícil
+      encontrar motivação para fazê-lo—não há muitos clientes
+      DeltaV com os quais se possa comunicar.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.webdav.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.webdav.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.webdav.autoversioning.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Apêndice C. WebDAV e Autoversionamento </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Autoversionamento</td></tr></table></div></body></html>

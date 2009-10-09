@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>O Repositório Subversion, Definição</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.reposadmin.html" title="Capítulo 5. Administração do Repositório" /><link rel="prev" href="svn.reposadmin.html" title="Capítulo 5. Administração do Repositório" /><link rel="next" href="svn.reposadmin.planning.html" title="Estratégias para Implementação de Repositórios" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">O Repositório Subversion, Definição</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.reposadmin.html">Anterior</a> </td><th width="60%" align="center">Capítulo 5. Administração do Repositório</th><td width="20%" align="right"> <a accesskey="n" href="svn.reposadmin.planning.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.reposadmin.basics"></a>O Repositório Subversion, Definição</h2></div></div></div><p>Antes de entrarmos no vasto tópico da administração do
+      repositório, vamos primeiro definir o que é um repositório.  Como
+      ele se parece?  Como ele se sente?  Ele gosta de chá gelado ou
+      quente, doce, e com limão?  Como um administrador, será esperado
+      que você entenda a composição de um repositório tanto da
+      perspectiva do Sistema Operacional—como o repositório se
+      parece e se comporta em relação a ferramentas que não são do
+      Subversion—e de uma perspectiva lógica—relacionada
+      com a forma com que os dados são representados
+      <span class="emphasis"><em>dentro</em></span> do repositório.</p><p>Vendo pelos olhos de um típico navegador de arquivos (como o
+      Windows Explorer) ou de ferramentas de navegação em sistemas de
+      arquivos baseadas em linha de comando, o repositório Subversion é
+      apenas outro diretório cheio de coisas.  Existem alguns
+      subdiretórios que possuem arquivos de configuração que podem ser
+      lidos por humanos, e outros que não são tão fáceis de serem lidos,
+      e assim por diante.  Como em outras áreas do projeto do
+      Subversion, modularidade tem grande importância, e a organização
+      hierárquica é usada pra controlar o caos.  Assim, uma olhada
+      superficial nas partes essenciais é suficiente para revelar os
+      componentes básicos do repositório:</p><pre class="screen">
+$ ls repos
+conf/  dav/  db/  format  hooks/  locks/  README.txt
+</pre><p>Aqui está uma pequena pincelada do que exatamente você está
+      vendo nessa lista do diretório. (Não fique assustado com a
+      terminologia—uma explicação mais detalhada desses
+      componentes está disponível em algum lugar nesse e em outros
+      capítulos.)</p><div class="variablelist"><dl><dt><span class="term">conf</span></dt><dd><p>Um diretório contendo arquivos de configuração do
+            repositório.</p></dd><dt><span class="term">dav</span></dt><dd><p>Um diretório onde ficam os arquivos usados pelo
+            mod_dav_svn.</p></dd><dt><span class="term">db</span></dt><dd><p>Local onde são armazenados todos os seus dados
+            versionados.</p></dd><dt><span class="term">format</span></dt><dd><p>Um arquivo que contém um simples inteiro que indica o
+            número da versão do repositório.</p></dd><dt><span class="term">hooks</span></dt><dd><p>Um diretório cheio de modelos de scripts (e scripts, uma
+            vez que você tenha instalado algum).</p></dd><dt><span class="term">locks</span></dt><dd><p>Um diretório para arquivos travados do Subversion, usado
+            para rastrear acessos ao repositório.</p></dd><dt><span class="term">README.txt</span></dt><dd><p>Arquivo que meramente informa a seus leitores que eles
+            estão olhando para um repositório Subversion.</p></dd></dl></div><p>É claro que, quando acessado por meio das bibliotecas do
+      Subversion, esse estranho conjunto de arquivos e diretórios de
+      repente torna-se uma implementação de um sistema de arquivos
+      virtual, versionável e completo, com gatilhos 
+      <span class="foreignphrase"><em class="foreignphrase">hook</em></span> de eventos personalizáveis.  
+      Este sistema de arquivos tem o seu próprio
+      entendimento sobre diretórios e arquivos, muito semelhante aos
+      conceitos usados em sistemas de arquivos reais (como NTFS, FAT32,
+      ext3, e assim por diante).  Mas este é um sistema de arquivos
+      especial—ele controla os diretórios e arquivos a partir das
+      revisões, mantendo todas as mudanças que você fez neles
+      armazenadas com segurança e sempre acessíveis.  É aqui onde todos
+      os seus dados versionados vivem.</p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.reposadmin.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.reposadmin.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.reposadmin.planning.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Capítulo 5. Administração do Repositório </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Estratégias para Implementação de Repositórios</td></tr></table></div></body></html>

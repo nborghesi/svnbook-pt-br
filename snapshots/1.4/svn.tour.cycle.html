@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Ciclo Básico de Trabalho</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.tour.html" title="Capítulo 2. Uso Básico" /><link rel="prev" href="svn.tour.initial.html" title="Checkout Inicial" /><link rel="next" href="svn.tour.history.html" title="Examinando o Histórico" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Ciclo Básico de Trabalho</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.tour.initial.html">Anterior</a> </td><th width="60%" align="center">Capítulo 2. Uso Básico</th><td width="20%" align="right"> <a accesskey="n" href="svn.tour.history.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.tour.cycle"></a>Ciclo Básico de Trabalho</h2></div></div></div><p>O Subversion tem diversos recursos, opções, avisos e
+      sinalizações, mas no básico do dia-a-dia, é mais provável que você
+      utilize apenas uns poucos destes recursos.  Nesta seção vamos
+      abordar as coisas mais comuns que você de fato pode fazer com o
+      Subversion no decorrer de um dia de trabalho comum.</p><p>Um ciclo básico de trabalho é parecido com:</p><div class="itemizedlist"><ul type="disc"><li><p>Atualizar sua cópia de trabalho</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn update</strong></span></p></li></ul></div></li><li><p>Fazer alterações</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn add</strong></span></p></li><li><p><span class="command"><strong>svn delete</strong></span></p></li><li><p><span class="command"><strong>svn copy</strong></span></p></li><li><p><span class="command"><strong>svn move</strong></span></p></li></ul></div></li><li><p>Verificar suas alterações</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn status</strong></span></p></li><li><p><span class="command"><strong>svn diff</strong></span></p></li></ul></div></li><li><p>Possivelmente desfazer algumas alterações</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn revert</strong></span></p></li></ul></div></li><li><p>Resolver conflitos (combinar alterações de outros)</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn update</strong></span></p></li><li><p><span class="command"><strong>svn resolved</strong></span></p></li></ul></div></li><li><p>Submeter suas alterações</p><div class="itemizedlist"><ul type="circle"><li><p><span class="command"><strong>svn commit</strong></span></p></li></ul></div></li></ul></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.update"></a>Atualizando Sua Cópia de Trabalho</h3></div></div></div><p>Ao trabalhar num projeto em equipe, você vai querer
+        atualizar sua cópia de trabalho para receber quaisquer
+        alterações feitas por outros desenvolvedores do projeto desde
+        sua última atualização.  Use <span class="command"><strong>svn update</strong></span> para
+        deixar sua cópia de trabalho em sincronia com a última revisão
+        no repositório.</p><pre class="screen">
+$ svn update
+U  foo.c
+U  bar.c
+Updated to revision 2.
+</pre><p>Neste caso, alguém submeteu modificações em 
+        <code class="filename">foo.c</code> e <code class="filename">bar.c</code> desde a
+        última vez que você atualizou, e o Subversion atualizou
+        sua cópia de trabalho para incluir estas modificações.</p><p>Quando o servidor envia as alterações para sua cópia de
+        trabalho por meio do <span class="command"><strong>svn update</strong></span>, uma letra é
+        exibida como código próximo de cada item para que você saiba que
+        ações o Subversion executou para deixar sua cópia de trabalho
+        atualizada.  Para conferir o que essas letras significam, veja
+        <a class="xref" href="svn.ref.svn.c.update.html" title="svn update">svn update</a>.</p></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.edit"></a>Fazendo Alterações em Sua Cópia de Trabalho</h3></div></div></div><p>Agora você já pode trabalhar e fazer alterações em sua cópia
+        de trabalho.  É comumente mais conveniente optar por fazer uma
+        alteração (ou conjunto de alterações) discreta, como escrever um
+        novo recurso, corrigir um bug, etc.  Os comandos do Subversion
+        que você usará aqui são <span class="command"><strong>svn add</strong></span>, <span class="command"><strong>svn
+        delete</strong></span>, <span class="command"><strong>svn copy</strong></span>, <span class="command"><strong>svn
+        move</strong></span>, e <span class="command"><strong>svn mkdir</strong></span>.  No entanto, se
+        você está meramente editando arquivos que já se encontram no
+        Subversion, você pode não precisar usar nenhum destes comandos
+        para registrar suas alterações.</p><p>Há dois tipos de alterações que você pode fazer em sua cópia
+        de trabalho: alterações nos arquivos e alterações na árvore.
+        Você não precisa avisar ao Subversion que você pretende
+        modificar um arquivo; apenas faça suas alterações usando seu
+        editor de texto, suite de escritório, programa gráfico, ou
+        qualquer outra ferramenta que você use normalmente.  O
+        Subversion automaticamente irá identificar que arquivos foram
+        modificados, ele também vai manipular arquivos binários da mesma
+        forma que manipula arquivos de texto—e tão eficientemente
+        quanto.  Para alterações na árvore, você pode solicitar ao
+        Subversion que “<span class="quote">marque</span>” os arquivos e diretórios
+        para remoção, adição, cópia ou movimentação agendada.  Estas
+        alterações terão efeito imediatamente em sua cópia de trabalho,
+        mas nenhuma adição ou remoção vai acontecer no repositório até
+        que você registre tais alterações.</p><p>Aqui está uma visão geral dos cinco subcomandos do
+        Subversion que você vai usar mais frequentemente para fazer
+        alterações na árvore.</p><div class="sidebar"><p class="title"><b>Versionando links simbólicos</b></p><p>Em plataformas não-Windows, o Subversion é capaz de
+          versionar arquivos do tipo especial <em class="firstterm">link
+          simbólico</em> (ou, “<span class="quote">symlink</span>”).  Um
+          link simbólico é um arquivo que funciona como uma espécie de
+          referência transparente para alguns outros objetos no sistema
+          de arquivos, permitindo que programas leiam e escrevam nestes
+          objetos indiretamente através da execução destas operações no
+          link simbólico em si.</p><p>Quando um link simbólico é registrado em um repositório
+          Subversion, o Subversion se lembra que o arquivo é de fato um
+          symlink, bem como também se lembra do objeto ao qual o link
+          “<span class="quote">aponta</span>”.  Quando o link simbólico sofre um
+          checkout em outra cópia de trabalho em um sistema não-Windows,
+          o Subversion recria um link simbólico no nível do sistema de
+          arquivos real a partir do symlink versionado.  Mas isto de
+          forma nenhuma limita a usabilidade das cópias de trabalho em
+          sistemas como o Windows que não suportam links simbólicos.
+          Nesses sistemas, o Subversion simplesmente cria um arquivo de
+          texto normal que cujo conteúdo é o caminho para o qual o link
+          original aponta.  Apesar deste arquivo não poder ser usado
+          como link simbólico num sistema Windows, ele também não
+          proíbe os usuários Windows de executarem suas outras
+          atividades relacionadas ao Subversion.</p></div><div class="variablelist"><dl><dt><span class="term"><span class="command"><strong>svn add foo</strong></span></span></dt><dd><p>Agenda o arquivo, diretório, ou link simbólico 
+              <code class="filename">foo</code> para ser adicionado ao
+              repositório.  Na próxima vez que você der um commit,
+              <code class="filename">foo</code> passará a fazer parte do
+              diretório pai onde estiver.  Veja que se
+              <code class="filename">foo</code> for um diretório, tudo que
+              estiver dentro de <code class="filename">foo</code> será marcado
+              para adição.  Se você quiser adicionar apenas o diretório
+              <code class="filename">foo</code> em si, inclua a opção
+              <code class="option">--non-recursive (-N)</code>.</p></dd><dt><span class="term"><span class="command"><strong>svn delete foo</strong></span></span></dt><dd><p>Agenda o arquivo, diretório, ou link simbólico
+              <code class="filename">foo</code> para ser excluído do repositório.
+              Se <code class="filename">foo</code> for um arquivo ou link, ele é
+              imediatamente removido de sua cópia de trabalho.  Se 
+              <code class="filename">foo</code> for um diretório, ele não é
+              excluído, mas o Subversion o deixa agendado para exclusão.
+              Quando você der commit em suas alterações,
+              <code class="filename">foo</code> será inteiramente removido de sua
+              cópia de trabalho e do repositório.
+              <sup>[<a id="id2561968" href="#ftn.id2561968" class="footnote">4</a>]</sup></p></dd><dt><span class="term"><span class="command"><strong>svn copy foo bar</strong></span></span></dt><dd><p>Cria um novo item <code class="filename">bar</code> como uma
+              duplicata de <code class="filename">foo</code> e agenda
+              <code class="filename">bar</code> automaticamente para adição.
+              Quando <code class="filename">bar</code> for adicionado ao
+              repositório no próximo commit, o histórico da cópia é
+              gravado (como vindo originalmente de
+              <code class="filename">foo</code>).  <span class="command"><strong>svn copy</strong></span>
+              não cria diretórios intermediários.</p></dd><dt><span class="term"><span class="command"><strong>svn move foo bar</strong></span></span></dt><dd><p>Este comando é exatamente o mesmo que <span class="command"><strong>svn
+              copy foo bar; svn delete foo</strong></span>.  Isto é,
+              <code class="filename">bar</code> é agendado para ser adicionado
+              como uma cópia de <code class="filename">foo</code>, e 
+              <code class="filename">foo</code> é agendado para remoção.
+              <span class="command"><strong>svn move</strong></span> não cria diretórios
+              intermediários.</p></dd><dt><span class="term"><span class="command"><strong>svn mkdir blort</strong></span></span></dt><dd><p>Este comando é exatamente o mesmo que se executar 
+              <span class="command"><strong>mkdir blort; svn add blort</strong></span>.  Isto é, um
+              novo diretório chamado <code class="filename">blort</code> é criado
+              e agendado para adição.</p></dd></dl></div><div class="sidebar"><p class="title"><b>Modificando o Repositório Sem uma Cópia de Trabalho</b></p><p><span class="emphasis"><em>Há</em></span> algumas formas de registrar
+          alterações imediatamente na árvore do repositório.  Isto
+          apenas acontece quando um subcomando está operando diretamente
+          numa URL, ao invés de na cópia de trabalho.  Em particular,
+          usos específicos de <span class="command"><strong>svn mkdir</strong></span>, <span class="command"><strong>svn
+          copy</strong></span>, <span class="command"><strong>svn move</strong></span> e
+          <span class="command"><strong>svn delete</strong></span> trabalham com URLs (e não
+          esqueça que o <span class="command"><strong>svn import</strong></span> sempre faz
+          alterações em uma URL).</p><p>Operações em URL funcionam desta maneira porque os
+          comandos que operam em uma cópia de trabalho podem usar a
+          cópia de trabalho como uma espécie de “<span class="quote">área de
+          teste</span>” onde executar suas alterações antes de
+          registrá-las efetivamente no repositório.  Os comandos que
+          operam em URLs não dispõem deste luxo, então quando você opera
+          diretamente em uma URL, quaisquer das ações acima resultam em
+          commits imediatos.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.examine"></a>Verificando Suas Alterações</h3></div></div></div><p>Tendo terminado de fazer suas alterações, você precisa
+        registrá-las no repositório, mas antes de fazer isso, é quase
+        sempre uma boa idéia conferir exatamente que alterações você
+        fez.  Ao verificar suas alterações antes de dar commit, você
+        pode criar uma mensagem de log bem mais adequada. Você também pode
+        descobrir se não modificou um arquivo inadvertidamente, e então
+        ter a oportunidade de reverter essas modificações antes de dar
+        commit.  Você pode ter uma visão geral das alterações que você
+        fez usando <span class="command"><strong>svn status</strong></span>, e obter os detalhes
+        sobre essas alterações usando <span class="command"><strong>svn
+        diff</strong></span>.</p><div class="sidebar"><p class="title"><b>Olha Mãe!  Sem a Rede!</b></p><p>Os comandos <span class="command"><strong>svn status</strong></span>,
+          <span class="command"><strong>svn diff</strong></span>, e <span class="command"><strong>svn
+          revert</strong></span> podem ser usados sem nenhum acesso a rede
+          mesmo se seu repositório <span class="emphasis"><em>for</em></span>
+          disponibilizado em rede.  Isto facilitar a gerência de suas
+          alterações em curso quando você estiver sem conexão de rede,
+          como enquanto estiver voando de avião, andando de trem ou
+          mesmo usando seu notebook na praia.<sup>[<a id="id2562297" href="#ftn.id2562297" class="footnote">5</a>]</sup></p><p>O Subversion faz isso mantendo caches privados das versões
+          intactas de cada arquivo sob controle de versão dentro dos
+          diretórios das áreas administrativas
+          <code class="filename">.svn</code>.  Isto permite ao Subversion
+          reportar—e reverter—modificações locais nestes
+          arquivos <span class="emphasis"><em>sem precisar acessar a rede</em></span>.
+          Este cache (chamado de “<span class="quote">texto-base</span>”) também
+          possibilita ao Subversion enviar as modificações locais do
+          usuário durante um commit ao servidor como um arquivo
+          compactado <em class="firstterm">delta</em> (ou
+          “<span class="quote">diferença</span>”) sobre a versão original do arquivo.
+          Ter este cache representa um grande benefício—mesmo se
+          você tiver uma conexão rápida de rede, é muito mais rápido
+          enviar apenas as modificações do arquivo que enviar todo o
+          arquivo para o servidor.</p></div><p>O Subversion está sendo otimizado para ajudar você com esta
+        tarefa e é capaz de fazer muitas coisas sem se comunicar com o
+        repositório.  Em particular, sua cópia de trabalho contém um
+        cache escondido com uma cópia “<span class="quote">intacta</span>” de cada
+        arquivo sob controle de versão dentro da área
+        <code class="filename">.svn</code>.  Por isso, o Subversion pode
+        rapidamente lhe mostrar como seus arquivos de trabalho mudaram,
+        ou mesmo permitir a você desfazer suas alterações sem contactar
+        o repositório.</p><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.examine.status"></a>Obtendo uma visão geral de suas alterações</h4></div></div></div><p>Para ter uma visão geral de suas modificações, você vai
+          usar o comando <span class="command"><strong>svn status</strong></span>.  Você
+          provavelmente vai usar mais o comando <span class="command"><strong>svn
+          status</strong></span> do que qualquer outro comando do
+          Subversion.</p><div class="sidebar"><p class="title"><b>Usuários CVS: Segurem o Update!</b></p><p>Você provavelmente costuma usar <span class="command"><strong>cvs
+            update</strong></span> para ver que alterações você fez em sua
+            cópia de trabalho.  O <span class="command"><strong>svn status</strong></span> lhe dará
+            toda a informação de que você precisa sobre o que mudou em
+            sua cópia de trabalho—sem acessar o repositório ou
+            potencialmente incorporar novas alterações publicadas por
+            outros usuários.</p><p>No Subversion, <span class="command"><strong>update</strong></span> faz apenas
+            isso—ele atualiza sua cópia de trabalho com quaisquer
+            alterações registradas no repositório desde a última vez que
+            você atualizou sua cópia de trabalho.  Você deve quebrar o
+            hábito de usar o comando <span class="command"><strong>update</strong></span> para ver
+            que alterações locais você fez.</p></div><p>Se você executar <span class="command"><strong>svn status</strong></span> no topo de
+          cópia de trabalho sem argumentos, ele irá detectar todas as
+          alterações de arquivos e árvores que você fez.  Abaixo estão
+          uns poucos exemplos dos códigos mais comuns de estado que o
+          <span class="command"><strong>svn status</strong></span> pode retornar.  (Note que o
+          texto após <code class="literal">#</code> não é exibido pelo
+          <span class="command"><strong>svn status</strong></span>.)</p><pre class="screen">
+A       stuff/loot/bloo.h   # arquivo agendado para adição
+C       stuff/loot/lump.c   # arquivo em conflito a partir de um update
+D       stuff/fish.c        # arquivo agendado para exclusão
+M       bar.c               # conteúdo em bar.c tem alterações locais 
+</pre><p>Neste formato de saída <span class="command"><strong>svn status</strong></span> exibe
+          seis colunas de caracteres, seguidas de diversos espaços em
+          branco, seguidos por um nome de arquivo ou diretório. A
+          primeira coluna indica o estado do arquivo ou diretório e/ou
+          seu conteúdo. Os códigos listados são:</p><div class="variablelist"><dl><dt><span class="term"><code class="computeroutput">A      item</code></span></dt><dd><p>O arquivo, diretório, ou link simbólico
+                <code class="filename">item</code> está agendado para ser
+                adicionado ao repositório.</p></dd><dt><span class="term"><code class="computeroutput">C      item</code></span></dt><dd><p>O arquivo <code class="filename">item</code> está em um
+                estado de conflito.  Isto é, as modificações recebidas
+                do servidor durante um update se sobrepõem às alterações
+                locais feitas por você em sua cópia de trabalho.  Você
+                deve resolver este conflito antes de submeter suas
+                alterações ao repositório.</p></dd><dt><span class="term"><code class="computeroutput">D      item</code></span></dt><dd><p>O arquivo, diretório, ou link simbólico 
+                <code class="filename">item</code> está agendado para ser
+                excluído do repositório.</p></dd><dt><span class="term"><code class="computeroutput">M      item</code></span></dt><dd><p>O conteúdo do arquivo <code class="filename">item</code>
+                foi modificado.</p></dd></dl></div><p>Se você passar um caminho específico para o <span class="command"><strong>svn
+          status</strong></span>, você vai obter informação apenas sobre
+          aquele item:</p><pre class="screen">
+$ svn status stuff/fish.c
+D      stuff/fish.c
+</pre><p>O <span class="command"><strong>svn status</strong></span> também tem uma opção
+          <code class="option">--verbose (-v)</code>, a qual vai lhe mostrar o
+          estado de <span class="emphasis"><em>cada</em></span> item em sua cópia de
+          trabalho, mesmo se não tiver sido modificado:</p><pre class="screen">
+$ svn status -v
+M               44        23    sally     README
+                44        30    sally     INSTALL
+M               44        20    harry     bar.c
+                44        18    ira       stuff
+                44        35    harry     stuff/trout.c
+D               44        19    ira       stuff/fish.c
+                44        21    sally     stuff/things
+A                0         ?     ?        stuff/things/bloo.h
+                44        36    harry     stuff/things/gloo.c
+</pre><p>Esta é a “<span class="quote">forma estendida</span>” da saída do
+          <span class="command"><strong>svn status</strong></span>.  As letras na primeira coluna
+          significam o mesmo que antes, mas a segunda coluna mostra a
+          revisão de trabalho do item.  A terceira e quarta coluna
+          mostram a revisão na qual o item sofreu a última alteração, e
+          quem o modificou.</p><p>Nenhuma das execuções anteriores de <span class="command"><strong>svn
+          status</strong></span> contactam o repositório—ao invés disso,
+          elas comparam os metadados no diretório
+          <code class="filename">.svn</code> com a cópia de trabalho.
+          Finalmente, existe a opção <code class="option">--show-updates
+          (-u)</code>, que se conecta ao repositório e adiciona
+          informação sobre as coisas que estão desatualizadas:</p><pre class="screen">
+$ svn status -u -v
+M      *        44        23    sally     README
+M               44        20    harry     bar.c
+       *        44        35    harry     stuff/trout.c
+D               44        19    ira       stuff/fish.c
+A                0         ?     ?        stuff/things/bloo.h
+Status against revision:   46
+</pre><p>Perceba os dois asteriscos: se você executar <span class="command"><strong>svn
+          update</strong></span> neste ponto, você deverá receber alterações
+          nos arquivos <code class="filename">README</code> e
+          <code class="filename">trout.c</code>.  Isto lhe dá alguma informação
+          bastante útil—você vai precisar atualizar e obter as
+          modificações do servidor no arquivo
+          <code class="filename">README</code> antes de executar um commit, ou o
+          repositório vai rejeitar sua submissão por ter estar
+          desatualizada.  (Mais sobre este assunto mais tarde.)</p><p>O <span class="command"><strong>svn status</strong></span> pode exibir muito mais
+            informação sobre os arquivos e diretórios em sua cópia de
+            trabalho do que o que mostramos aqui—para uma
+            descrição exaustiva do svn status e de sua saída, veja <a class="xref" href="svn.ref.svn.c.status.html" title="svn status">svn status</a>.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.examine.diff"></a>Examinando os detalhes de suas alterações locais</h4></div></div></div><p>Outra forma de examinar suas alterações é com o comando 
+          <span class="command"><strong>svn diff</strong></span>.  Você pode verificar
+          <span class="emphasis"><em>exatamente</em></span> como você modificou as coisas
+          executando <span class="command"><strong>svn diff</strong></span> sem argumentos, o que
+          exibe as modificações de arquivo no <em class="firstterm">formato diff
+          unificado</em>:</p><pre class="screen">
+$ svn diff
+Index: bar.c
+===================================================================
+--- bar.c	(revision 3)
++++ bar.c	(working copy)
+@@ -1,7 +1,12 @@
++#include &lt;sys/types.h&gt;
++#include &lt;sys/stat.h&gt;
++#include &lt;unistd.h&gt;
++
++#include &lt;stdio.h&gt;
+
+ int main(void) {
+-  printf("Sixty-four slices of American Cheese...\n");
++  printf("Sixty-five slices of American Cheese...\n");
+ return 0;
+ }
+
+Index: README
+===================================================================
+--- README	(revision 3)
++++ README	(working copy)
+@@ -193,3 +193,4 @@
++Note to self:  pick up laundry.
+
+Index: stuff/fish.c
+===================================================================
+--- stuff/fish.c	(revision 1)
++++ stuff/fish.c	(working copy)
+-Welcome to the file known as 'fish'.
+-Information on fish will be here soon.
+
+Index: stuff/things/bloo.h
+===================================================================
+--- stuff/things/bloo.h	(revision 8)
++++ stuff/things/bloo.h	(working copy)
++Here is a new file to describe
++things about bloo.
+</pre><p>O comando <span class="command"><strong>svn diff</strong></span> produz esta saída
+          comparando seus arquivos de trabalho com a cópia 
+          “<span class="quote">intacta</span>” em cache que fica dentro da área 
+          <code class="filename">.svn</code>.  Os arquivos marcados para adição
+          são exibidos com todo o texto adicionado, e os arquivos
+          marcados para exclusão são exibidos com todo o texto
+          excluído.</p><p>A saída é exibida no formato diff unificado.  Isto é,
+          linhas removidas são iniciadas com <code class="literal">-</code> e
+          linhas adicionadas são iniciadas com <code class="literal">+</code>.  O
+          <span class="command"><strong>svn diff</strong></span> também exibe o nome do arquivo e
+          uma informação de deslocamento
+          (<span class="foreignphrase"><em class="foreignphrase">offset</em></span>) que é útil para o
+          programa <span class="command"><strong>patch</strong></span>, de forma que você pode
+          gerar “<span class="quote">atualizações</span>”
+          (<span class="foreignphrase"><em class="foreignphrase">patches</em></span>) redirecionando a
+          saída do diff para um arquivo:</p><pre class="screen">
+$ svn diff &gt; patchfile
+</pre><p>Você pode, por exemplo, enviar um arquivo de atualização
+          por e-mail para outro desenvolvedor para revisão ou teste
+          prévio antes de submeter.</p><p>O Subversion usa seu mecanismo interno de diff, o qual
+          gera o formato diff unificado, por padrão.  Se você quiser
+          esta saída em um formato diferente, especifique um programa
+          diff externo usando <code class="option">--diff-cmd</code> e passe as
+          opções de sua preferência para ele com <code class="option">--extensions
+          (-x)</code>.  Por exemplo, para ver as diferenças locais no
+          arquivo <code class="filename">foo.c</code> no formato de saída de
+          contexto ao mesmo tempo ignorando diferenças de maiúsculas e
+          minúsculas, você poderia executar <span class="command"><strong>svn diff --diff-cmd
+          /usr/bin/diff --extensions '-i' foo.c</strong></span>.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.revert"></a>Desfazendo Modificações de Trabalho</h3></div></div></div><p>Suponha que ao ver a saída do <span class="command"><strong>svn diff</strong></span>
+        você decida que todas as modificações que você fez em um certo
+        arquivo foram equivocadas.  Talvez você não tivesse que ter
+        modificado o arquivo como um todo, ou talvez você veja que
+        acabará sendo mais fácil fazer outras modificações começando
+        tudo de novo.</p><p>Esta é uma oportunidade perfeita para usar o comando
+        <span class="command"><strong>svn revert</strong></span>:</p><pre class="screen">
+$ svn revert README
+Reverted 'README'
+</pre><p>O Subversion reverte o arquivo para seu estado antes da
+        alteração sobrescrevendo-o com a cópia “<span class="quote">intacta</span>”
+        que está na área <code class="filename">.svn</code>.  Mas atente também
+        que <span class="command"><strong>svn revert</strong></span> pode desfazer
+        <span class="emphasis"><em>quaisquer</em></span> operações agendadas—por
+        exemplo, você pode decidir que você não quer mais adicionar um
+        novo arquivo:</p><pre class="screen">
+$ svn status foo
+?      foo
+
+$ svn add foo
+A         foo
+
+$ svn revert foo
+Reverted 'foo'
+
+$ svn status foo
+?      foo
+</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Nota</h3><p><span class="command"><strong>svn revert</strong></span>
+          <em class="replaceable"><code>ITEM</code></em> tem exatamente o mesmo efeito
+          de se excluir o <em class="replaceable"><code>ITEM</code></em> de sua cópia
+          de trabalho e então executar <span class="command"><strong>svn update -r
+          BASE</strong></span> <em class="replaceable"><code>ITEM</code></em>.  Porém, se
+          você estiver revertendo um arquivo, o <span class="command"><strong>svn
+          revert</strong></span> tem uma notável diferença—ele não
+          precisa se comunicar com o repositório para restaurar o seu
+          arquivo.</p></div><p>Ou talvez você tenha removido um arquivo do controle de
+        versão por engano:</p><pre class="screen">
+$ svn status README
+       README
+
+$ svn delete README
+D         README
+
+$ svn revert README
+Reverted 'README'
+
+$ svn status README
+       README
+</pre></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.resolve"></a>Resolvendo Conflitos (Combinando Alterações de Outros)</h3></div></div></div><p>Já vimos como o <span class="command"><strong>svn status -u</strong></span> pode prever
+        conflitos.  Suponha que você execute <span class="command"><strong>svn
+        update</strong></span> e aconteça algo interessante:</p><pre class="screen">
+$ svn update
+U  INSTALL
+G  README
+C  bar.c
+Updated to revision 46.
+</pre><p>Os códigos <code class="computeroutput">U</code> e
+        <code class="computeroutput">G</code> não são motivo de
+        preocupação; esses arquivos absorveram as alterações do
+        repositório normalmente.  O arquivo marcado com 
+        <code class="computeroutput">U</code> não continha modificações
+        locais mas foi atualizado
+        (<span class="foreignphrase"><em class="foreignphrase"><code class="computeroutput">U</code>pdated</em></span>)
+        com as modificações do repositório.  O
+        <code class="computeroutput">G</code> vem de
+        <span class="foreignphrase"><em class="foreignphrase">mer<code class="computeroutput">G</code>ed</em></span>,
+        o que significa que o arquivo local continha alterações
+        inicialmente, e que também houve alterações vindas do
+        repositório, que no entanto não se sobrepuseram às alterações
+        locais.</p><p>Já o <code class="computeroutput">C</code> significa
+        <code class="computeroutput">C</code>onflito.  Isto quer dizer que
+        as modificações do servidor se sobrepõem com as suas próprias, e
+        que agora você precisa escolher entre elas manualmente.</p><p>Sempre que um conflito ocorre, normalmente acontecem três
+        coisas para ajudar você a compreender e resolver este
+        conflito:</p><div class="itemizedlist"><ul type="disc"><li><p>O Subversion exibe um <code class="computeroutput">C</code>
+            durante o update, e lembra que o arquivo está num estado de
+            conflito.</p></li><li><p>Se o Subversion considerar que o arquivo é mesclável,
+            ele põe <em class="firstterm">marcações de
+            conflito</em>—strings de texto especiais que
+            delimitam os “<span class="quote">lados</span>” do conflito—dentro
+            do arquivo para mostrar visivelmente as áreas de
+            sobreposição.  (O Subversion usa a propriedade
+            <code class="literal">svn:mime-type</code> para decidir se um arquivo
+            é passível de combinação contextual de linhas.  Veja
+            <a class="xref" href="svn.advanced.props.file-portability.html#svn.advanced.props.special.mime-type" title="Tipo de Conteúdo do Arquivo">“Tipo de Conteúdo do Arquivo”</a> para
+            saber mais.)</p></li><li><p>Para cada arquivo em conflito, o Subversion mantém três
+            arquivos extras não-versionados em sua cópia de
+            trabalho:</p><div class="variablelist"><dl><dt><span class="term"><code class="filename">filename.mine</code></span></dt><dd><p>Este é o seu arquivo como o que existia em sua
+                  cópia de trabalho antes de você atualizá-la—isto
+                  é, sem as marcações de conflito.  Este arquivo tem
+                  apenas as suas últimas alterações feitas nele.  (Se o
+                  Subversion considerar que o arquivo não é mesclável,
+                  então o arquivo <code class="filename">.mine</code> não é
+                  criado, uma vez que seria idêntico ao arquivo de
+                  trabalho.)</p></dd><dt><span class="term"><code class="filename">filename.rOLDREV</code></span></dt><dd><p>Este é o arquivo que estava na revisão 
+                  <code class="literal">BASE</code> antes de você atualizar sua
+                  cópia de trabalho.  Isto é, o arquivo em que você
+                  pegou do repositório antes de fazer suas últimas
+                  alterações.</p></dd><dt><span class="term"><code class="filename">filename.rNEWREV</code></span></dt><dd><p>Este é o arquivo que seu cliente Subversion acabou
+                  de receber do servidor quando você atualizou sua cópia
+                  de trabalho.  Este arquivo corresponde à revisão
+                  <code class="literal">HEAD</code> do repositório.</p></dd></dl></div><p>Aqui, <code class="literal">OLDREV</code> é o número de revisão do
+            arquivo em seu diretório <code class="filename">.svn</code> e 
+            <code class="literal">NEWREV</code> é o número de revisão do
+            repositório <code class="literal">HEAD</code>.</p></li></ul></div><p>Como exemplo, Sally faz modificações no arquivo
+        <code class="filename">sandwich.txt</code> no repositório.  Harry acabou
+        de alterar o arquivo em sua cópia de trabalho e o submeteu.
+        Sally atualiza sua cópia de trabalho antes de executar um commit
+        o que resulta em um conflito:</p><pre class="screen">
+$ svn update
+C  sandwich.txt
+Updated to revision 2.
+$ ls -1
+sandwich.txt
+sandwich.txt.mine
+sandwich.txt.r1
+sandwich.txt.r2
+</pre><p>Neste ponto, o Subversion <span class="emphasis"><em>não</em></span> vai
+        deixar que você submeta o arquivo
+        <code class="filename">sandwich.txt</code> até que os três arquivos
+        temporários sejam removidos.</p><pre class="screen">
+$ svn commit -m "Add a few more things"
+svn: Commit failed (details follow):
+svn: Aborting commit: '/home/sally/svn-work/sandwich.txt' remains in conflict
+</pre><p>Se você tiver um conflito, você precisa fazer uma dessas
+        três coisas:</p><div class="itemizedlist"><ul type="disc"><li><p>Mesclar o texto conflituoso
+              “<span class="quote">na mão</span>” (examinando e editando as
+              marcações de conflito dentro do arquivo).</p></li><li><p>Fazer uma cópia de um dos arquivos temporários em cima
+              de seu arquivo de trabalho.</p></li><li><p>Executar <span class="command"><strong>svn revert
+              &lt;filename&gt;</strong></span> para se desfazer de todas as
+              suas modificações locais.</p></li></ul></div><p>Uma vez que você tenha resolvido o conflito, você precisa
+        informar isto ao Subversion executando <span class="command"><strong>svn 
+        resolved</strong></span>.  Isso remove os três arquivos temporários e
+        o Subversion não mais considera o arquivo como estando em
+        conflito.<sup>[<a id="id2563615" href="#ftn.id2563615" class="footnote">6</a>]</sup></p><pre class="screen">
+$ svn resolved sandwich.txt
+Resolved conflicted state of 'sandwich.txt'
+</pre><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.byhand"></a>Mesclando Conflitos na Mão</h4></div></div></div><p>Mesclar conflitos na mão pode ser algo bem intimidante na
+          na primeira vez que você tentar, mas com um pouco de prática,
+          pode ser tornar tão fácil quanto andar de bicicleta.</p><p>Veja um exemplo.  Por um problema de comunicação, você e
+          Sally, sua colaboradora, ambos editam o arquivo 
+          <code class="filename">sandwich.txt</code> ao mesmo tempo.  Sally
+          submete suas alterações, e quando você atualizar sua cópia de
+          trabalho, você terá um conflito e precisará editar o arquivo 
+          <code class="filename">sandwich.txt</code> para resolvê-los.
+          Primeiro, vamos dar uma olhada no arquivo:</p><pre class="screen">
+$ cat sandwich.txt
+Top piece of bread
+Mayonnaise
+Lettuce
+Tomato
+Provolone
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+Salami
+Mortadella
+Prosciutto
+=======
+Sauerkraut
+Grilled Chicken
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
+Creole Mustard
+Bottom piece of bread
+</pre><p>As strings de sinais de menor, sinais de igual, e sinais
+          de maior são marcações de conflito, e não fazem parte
+          atualmente dos dados em conflito.  Você geralmente quer
+          garantir que estes sinais sejam removidos
+          do arquivo antes de seu próximo commit.  O texto entre os dois
+          primeiros conjuntos de marcações é composto pelas alterações
+          que você fez na área do conflito:</p><pre class="screen">
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
+Salami
+Mortadella
+Prosciutto
+=======
+</pre><p>O texto entre o segundo e terceiro conjuntos de marcações
+          de conflito é o texto das alterações submetidas por
+          Sally:</p><pre class="screen">
+=======
+Sauerkraut
+Grilled Chicken
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
+</pre><p>Normalmente você não vai querer apenas remover as
+          marcações e as alterações de Sally—ela ficaria
+          terrivelmente surpresa quando o sanduíche chegar e não for o
+          que ela queria.  Então este é o momento em que você pega o
+          telefone ou atravessa o escritório e explica para Sally o que
+          você não gosta de sauerkraut como iguaria
+          italiana.<sup>[<a id="id2563392" href="#ftn.id2563392" class="footnote">7</a>]</sup>  Uma vez que vocês tenham chegado a
+          um acordo sobre as alterações que serão mantidas, edite seu
+          arquivo e remova as marcações de conflito.</p><pre class="screen">
+Top piece of bread
+Mayonnaise
+Lettuce
+Tomato
+Provolone
+Salami
+Mortadella
+Prosciutto
+Creole Mustard
+Bottom piece of bread
+</pre><p>Agora execute <span class="command"><strong>svn resolved</strong></span>, e você
+          estará pronto para submeter suas alterações:</p><pre class="screen">
+$ svn resolved sandwich.txt
+$ svn commit -m "Go ahead and use my sandwich, discarding Sally's edits."
+</pre><p>Veja que o <span class="command"><strong>svn resolved</strong></span>, ao contrário
+          muitos dos outros comandos que abordamos neste capítulo,
+          precisa de um argumento.  Em todo caso, você vai querer ter
+          cuidado e só executar <span class="command"><strong>svn resolved</strong></span> quando
+          tiver certeza de ter resolvido o conflito em seu
+          arquivo—quando os arquivos temporários forem removidos,
+          o Subversion vai deixar que você submeta o arquivo ainda que
+          ele permaneça com marcações de conflito.</p><p>Se você se confundiu ao editar o arquivo conflituoso, você
+          sempre pode consultar os três arquivos que o Subversion cria
+          para você em sua cópia de trabalho—inclusive o seu
+          arquivo como era antes de você atualizar.  Você ainda pode
+          usar uma ferramenta interativa de mesclagem de terceiros para
+          examinar esses três arquivos.</p></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.copyover"></a>Copiando um Arquivo em Cima de Seu Arquivo de
+          Trabalho</h4></div></div></div><p>Se você tiver um conflito e decidir que quer descartar
+          suas modificações, você pode meramente copiar um dos arquivos
+          temporários criados pelo Subversion em cima do arquivo de sua
+          cópia de trabalho:</p><pre class="screen">
+$ svn update
+C  sandwich.txt
+Updated to revision 2.
+$ ls sandwich.*
+sandwich.txt  sandwich.txt.mine  sandwich.txt.r2  sandwich.txt.r1
+$ cp sandwich.txt.r2 sandwich.txt
+$ svn resolved sandwich.txt
+</pre></div><div class="sect3" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h4 class="title"><a id="svn.tour.cycle.resolve.revert"></a>Punting: Usando o <span class="command"><strong>svn revert</strong></span></h4></div></div></div><p>Se você tiver um conflito, e após examinar, decidir que
+          prefere descartar suas alterações e começar a editar outras
+          coisas, apenas reverta suas alterações:</p><pre class="screen">
+$ svn revert sandwich.txt
+Reverted 'sandwich.txt'
+$ ls sandwich.*
+sandwich.txt
+</pre><p>Perceba que ao reverter um arquivo em conflito, você não
+          precisa executar <span class="command"><strong>svn resolved</strong></span>.</p></div></div><div class="sect2" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h3 class="title"><a id="svn.tour.cycle.commit"></a>Registrando Suas Alterações</h3></div></div></div><p>Finalmente!  Suas edições estão concluídas, você mesclou
+        todas as alterações do servidor, e agora está pronto para
+        registrar suas alterações no repositório.</p><p>O comando <span class="command"><strong>svn commit</strong></span> envia todas as suas
+        modificações para o servidor.  Quando você registra uma
+        alteração, você precisa informar uma <em class="firstterm">mensagem de
+        log</em>, descrevendo sua alteração.  Sua mensagem de log
+        será anexada à nova revisão que você criar.  Se sua mensagem de
+        log for breve, você pode querer escrevê-la na própria linha de
+        comando usando a opção <code class="option">--message</code> (ou
+        <code class="option">-m</code>):</p><pre class="screen">
+$ svn commit -m "Corrected number of cheese slices."
+Sending        sandwich.txt
+Transmitting file data .
+Committed revision 3.
+</pre><p>No entanto, se você estiver escrevendo sua mensagem conforme
+        for trabalhando, você pode querer informar ao Subversion para
+        obter a mensagem a partir de um arquivo indicando-o com a opção 
+        <code class="option">--file (-F)</code>:</p><pre class="screen">
+$ svn commit -F logmsg
+Sending        sandwich.txt
+Transmitting file data .
+Committed revision 4.
+</pre><p>Se você não especificar a opção <code class="option">--message</code>
+        nem a <code class="option">--file</code>, o Subversion vai abrir
+        automaticamente seu editor de texto preferido (veja a seção 
+        <code class="literal">editor-cmd</code> em <a class="xref" href="svn.advanced.confarea.html#svn.advanced.confarea.opts.config" title="Configuração">“Configuração”</a>) para compor a
+        mensagem de log.</p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Dica</h3><p>Se você estiver escrevendo a mensagem de log em seu editor
+          neste ponto e decidir cancelar seu commit, você pode apenas
+          sair do seu editor sem salvar suas alterações.  Se você já
+          salvou sua mensagem de log, simplesmente exclua o texto,
+          salve novamente, então feche o programa.</p><pre class="screen">
+$ svn commit
+Waiting for Emacs...Done
+
+Log message unchanged or not specified
+a)bort, c)ontinue, e)dit
+a
+$
+</pre></div><p>O repositório não sabe nem mesmo se importa se suas
+        modificações sequer fazem sentido como um todo; ele apenas
+        garante que ninguém mais tenha modificado nada dos mesmos
+        arquivos que você enquanto você não estava olhando.  Se alguém 
+        <span class="emphasis"><em>tiver</em></span> feito isso, o commit todo irá falhar
+        com uma mensagem informando a você que um ou mais de seus
+        arquivos está desatualizado:</p><pre class="screen">
+$ svn commit -m "Add another rule"
+Sending        rules.txt
+svn: Commit failed (details follow):
+svn: Your file or directory 'sandwich.txt' is probably out-of-date
+…
+</pre><p>(Os dizeres exatos desta mensagem de erro dependem de qual
+        protocolo de rede e qual servidor você está usando, mas a idéia
+        é a mesma em todos os casos.)</p><p>Neste ponto, você precisa executar <span class="command"><strong>svn
+        update</strong></span>, lidar com quaisquer mesclagens ou conflitos
+        resultantes, e tentar executar o commit novamente.</p><p>Isto conclui o ciclo básico de trabalho no uso do
+        Subversion.  Há muitos outros recursos no Subversion que você
+        pode usar para gerenciar seu repositório e sua cópia de
+        trabalho, mas muito de seu uso cotidiano do Subversion vai
+        envolver apenas os comandos que discutimos neste capítulo.
+        Vamos, entretanto, abordar mais uns poucos comandos que você
+        também pode usar bastante.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2561968" href="#id2561968" class="para">4</a>] </sup>Claro que nada é completamente excluído do
+              repositório—mas apenas da versão
+              <code class="literal">HEAD</code> do repositório.  Você pode trazer
+              de volta qualquer coisa que você tenha excluído dando um
+              checkout (ou atualizando sua cópia de trabalho) para uma
+              revisão anterior àquela em que você tenha feito a
+              exclusão.  Veja também <a class="xref" href="svn.branchmerge.commonuses.html#svn.branchmerge.commonuses.resurrect" title="Ressucitando Itens Excluídos">“Ressucitando Itens Excluídos”</a>.
+            </p></div><div class="footnote"><p><sup>[<a id="ftn.id2562297" href="#id2562297" class="para">5</a>] </sup>Daquelas
+          que não tenham acesso sem-fio.  Achou que ia nos pegar,
+          hein?</p></div><div class="footnote"><p><sup>[<a id="ftn.id2563615" href="#id2563615" class="para">6</a>] </sup>Você sempre pode remover os arquivos
+        temporários você mesmo, mas você vai realmente querer fazer isso
+        quando o Subversion pode fazer por você?  Nós achamos que
+        não.</p></div><div class="footnote"><p><sup>[<a id="ftn.id2563392" href="#id2563392" class="para">7</a>] </sup>E se você lhes disser isso, eles
+          podem muito bem expulsar você para fora da cidade num
+          minuto.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.tour.initial.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.tour.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.tour.history.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">Checkout Inicial </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Examinando o Histórico</td></tr></table></div></body></html>

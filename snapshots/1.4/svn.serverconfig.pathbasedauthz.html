@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Autorização Baseada em Caminhos</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.serverconfig.html" title="Capítulo 6. Configuração do Servidor" /><link rel="prev" href="svn.serverconfig.httpd.html" title="httpd, o servidor HTTP Apache" /><link rel="next" href="svn.serverconfig.multimethod.html" title="Dando Suporte a Múltiplos Métodos de Acesso ao Repositório" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Autorização Baseada em Caminhos</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.serverconfig.httpd.html">Anterior</a> </td><th width="60%" align="center">Capítulo 6. Configuração do Servidor</th><td width="20%" align="right"> <a accesskey="n" href="svn.serverconfig.multimethod.html">Próxima</a></td></tr></table><hr /></div><div class="sect1" lang="pt-br" xml:lang="pt-br"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="svn.serverconfig.pathbasedauthz"></a>Autorização Baseada em Caminhos</h2></div></div></div><p>Tanto o Apache como o <span class="command"><strong>svnserve</strong></span> são capazes
+      de garantir (ou negar) permissões aos usuários.  Tipicamente isto
+      é feito considerando todo o repositório: um usuário pode ler o
+      repositório (ou não), e pode escrever no repositório (ou não).  No
+      entanto, também é possível definir regras de acesso mais
+      pormenorizadas.  Um conjunto de usuários podem ter permissão para
+      escrever em um certo diretório do repositório, mas não em outros;
+      outro diretório pode não ser legível por todos, exceto alguns
+      usuários em particular.</p><p>Ambos os servidores usam um formato de arquivo comum para
+      descrever estas regras de acesso baseadas em caminhos.  No caso do
+      Apache, precisa-se carregar o módulo
+      <span class="command"><strong>mod_authz_svn</strong></span> e então adicionar-se a diretiva 
+      <code class="literal">AuthzSVNAccessFile</code> (dentro do arquivo 
+      <code class="filename">httpd.conf</code>) para apontar para seu arquivo de
+      regras.  (Para uma descrição completa, veja
+      <a class="xref" href="svn.serverconfig.httpd.html#svn.serverconfig.httpd.authz.perdir" title="Controle de Acesso por Diretório">“Controle de Acesso por Diretório”</a>.)  Se você
+      está usando o <span class="command"><strong>svnserve</strong></span>, então você precisa fazer
+      a variável <code class="literal">authz-db</code> (dentro do 
+      <code class="filename">svnserve.conf</code>) apontar para seu arquivo de
+      regras.</p><div class="sidebar"><p class="title"><b>Você realmente precisa de controle de acesso baseado em
+        caminhos?</b></p><p>Muitos administradores que configuram o Subversion pela
+        primeira vez tendem a usar controle de acesso baseado em caminhos
+        mesmo sem pensar muito sobre ele.  O administrador comumente sabe
+        quais equipes de pessoas estão trabalhando em quais projetos,
+        então é fácil considerar isso e permitir que certas equipes
+        acessem determinados diretórios e não outros.  Parece uma coisa
+        natural, e isso até tranquiliza os desejos dos administradores de
+        manter um controle rígido do repositório.</p><p>Perceba, porém, que sempre há custos invisíveis (e visíveis!)
+        associados a este recurso.  Quanto aos custos visíveis, tem-se
+        que o servidor precisa de muito mas esforço para garantir que
+        cada usuário tenha o acesso correto de leitura ou escrita em cada
+        caminho específico; em certas circunstâncias, há uma sensível
+        perda de desempenho.  Quanto aos custos invisíveis, considere a
+        cultura que você está criando.  Na maior parte do tempo, ainda
+        que certos usuários <span class="emphasis"><em>não devessem</em></span> estar
+        registrando alterações em certas partes do repositório, este
+        contrato social não precisa ser reforçado tecnologicamente.
+        Algumas vezes as equipes podem colaborar umas com as outras
+        espontaneamente; alguém pode querer ajudar a algum outro fazendo
+        alterações em alguma parte na qual não trabalha normalmente.
+        Ao prevenir este tipo de coisa a nível de servidor, você está
+        criando inesperadas barreiras à colaboração.  Você também está
+        criando um monte de regras que deverão ser mantidas conforme os
+        projetos são desenvolvidos, novos usuários são adicionados, e por
+        aí vai.  É muito trabalho extra para manter.</p><p>Lembre-se de que isto é um sistema de controle de versão!
+        Mesmo que alguém acidentalmente faça alguma alteração em algo que
+        não deveria, é fácil desfazer a alteração.  E se um usuário
+        registrar uma modificação intencionalmente no lugar errado, isto
+        é um problema social de qualquer maneira, e este é um problema
+        que precisará ser tratado fora do Subversion.</p><p>Então antes de começar a restringir os direitos de acesso dos
+        usuários, pergunte a si mesmo se há uma razão real e legítima
+        para isto, ou se não é algo que apenas “<span class="quote">parece uma boa
+        idéia</span>” para um administrador.  Decida ainda se vale a pena
+        sacrificar um pouco da velocidade do servidor, e lembre-se que há
+        muito pouco risco envolvido; é ruim se tornar dependente da
+        tecnologia como uma muleta para problemas
+        sociais<sup>[<a id="id2618556" href="#ftn.id2618556" class="footnote">49</a>]</sup>.</p><p>Como um exemplo a considerar, veja que o próprio projeto
+        Subversion sempre teve a noção de quem tem permissão para realizar
+        alterações em que lugares, mas isto já é o que acaba ocorrendo na 
+        prática.  Este é um bom modelo de confiança da comunidade,
+        especialmente para projetos
+        <span class="foreignphrase"><em class="foreignphrase">open-source</em></span>.  De fato, algumas
+        vezes <span class="emphasis"><em>há</em></span> razões verdadeiramente legítimas
+        para se ter controle de acesso baseado em caminhos; em empresas,
+        por exemplo, certos tipos de dados realmente podem ser sensíveis,
+        aos quais os acessos precisam ser verdadeiramente restritos a
+        pequenos grupos de pessoas.</p></div><p>Uma vez que o servidor saiba onde encontrar seu arquivo de
+      regras, é hora de definí-las.</p><p>A sintaxe do arquivo é aquela mesma sintaxe familiar usada no
+      <span class="command"><strong>svnserve.conf</strong></span> e nos arquivos de configuração em
+      tempo de execução.  Linhas que comecem com cerquilha
+      (<code class="literal">#</code>) são ignoradas.  Em sua forma mais simples,
+      cada seção nomeia um repositório e um caminho dentro dele, e os
+      nomes de usuários autenticados são os nomes das opções dentro de
+      cada seção.  O valor de cada opção descreve o nível de acesso dos
+      usuários naquele caminho do repositório: seja
+      <code class="literal">r</code> (somente leitura) ou <code class="literal">rw</code>
+      (leitura/escrita).  Se o usuário não for mencionado de forma
+      nenhuma, nenhum acesso será permitido.</p><p>Para ser mais específico: o valor dos nomes das seções ou são
+      da forma <code class="literal">[repos-name:path]</code> ou da forma
+      <code class="literal">[path]</code>.  Se você está usando a diretiva 
+      <code class="literal">SVNParentPath</code>, então é importante especificar os
+      nomes dos repositórios em suas seções.  Se você omití-los, então
+      uma seção como <code class="literal">[/algum/dir]</code> irá corresponder ao
+      caminho <code class="filename">/algum/dir</code> em <span class="emphasis"><em>cada</em></span>
+      repositório.  Se você está usando a diretiva
+      <code class="literal">SVNPath</code>, porém, então não há problema em definir
+      apenas os caminhos em suas seções—afinal de contas, há apenas
+      um repositório.</p><pre class="screen">
+[calc:/branches/calc/bug-142]
+harry = rw
+sally = r
+</pre><p>Neste primeiro, o usuário <code class="literal">harry</code> tem completo
+      acesso de leitura e escrita ao diretório 
+      <code class="filename">/branches/calc/bug-142</code> no repositório 
+      <code class="literal">calc</code>, mas o usuário
+      <code class="literal">sally</code> tem acesso somente leitura.  Quaisquer
+      outros usuários têm seu acesso a este repositório bloqueado.</p><p>É claro que as permissões são herdadas de um diretório para
+      um filho.  Isto quer dizer que podemos especificar um subdiretório
+      com uma política de acesso diferente para Sally:</p><pre class="screen">
+[calc:/branches/calc/bug-142]
+harry = rw
+sally = r
+
+# dá à sally acesso de escrita apenas no subdiretório 'testing'
+[calc:/branches/calc/bug-142/testing]
+sally = rw
+</pre><p>Agora Sally pode escrever no subdiretório
+      <code class="filename">testing</code> do ramo, mas ainda continua tendo
+      acesso somente leitura a outras partes.  Harry, no entanto,
+      continua a ter acesso completo de leitura/escrita ao ramo
+      inteiro.</p><p>Também é possível negar permissão a alguns usuários através das
+      regras de herança, removendo o valor da variável do nome do
+      usuário:</p><pre class="screen">
+[calc:/branches/calc/bug-142]
+harry = rw
+sally = r
+
+[calc:/branches/calc/bug-142/secret]
+harry =
+</pre><p>Neste exemplo, Harry tem acesso completo leitura/escrita à toda
+      a árvore <code class="filename">bug-142</code>, mas não tem absolutamente
+      nenhum acesso em todo o subdiretório <code class="filename">secret</code>
+      dentro dela.</p><p>O que você deve lembrar é que a correspondência sempre é feita
+      com os caminhos mais específicos primeiro.  O servidor tenta achar
+      uma ocorrência com o próprio caminho, então depois com o caminho do
+      diretório pai, e depois com o pai deste, e assim por diante.  O
+      efeito em rede é que mencionando um caminho específico no arquivo
+      de acesso sempre irá sobrescrever qualquer permissão herdada dos
+      diretórios pais.</p><p>Por padrão, ninguém tem acesso ao repositório como um todo.
+      Isto significa que se você está iniciando com um arquivo vazio,
+      você provavelmente quer pelo menos dar permissão de leitura a todos
+      os usuários na raiz do repositório.  Você pode fazer isso usando a
+      variável asterisco (<code class="literal">*</code>), o que quer dizer
+      “<span class="quote">todos os usuários</span>”:</p><pre class="screen">
+[/]
+* = r
+</pre><p>Esta é uma configuração comum; note que não aparece o nome de
+      nenhum repositório no nome da seção.  Isto torna todos os
+      repositórios legíveis para todos os usuários.  Uma vez que todos os
+      usuários tem acesso de leitura aos repositórios, você pode dar
+      permissões <code class="literal">rw</code> explícitas a certos usuários em
+      subdiretórios dentro de repositórios específicos.</p><p>A variável asterisco (<code class="literal">*</code>) merece também um
+      destaque especial aqui: é o <span class="emphasis"><em>único</em></span> padrão que
+      corresponde com o usuário anônimo.  Se você configurou seu bloco
+      servidor para permitir um misto de acesso anônimo e autenticado,
+      todos os usuários iniciam acessando anonimamente.  O servidor
+      procura por um valor <code class="literal">*</code> definido para o caminho
+      sendo acessado; se encontrar, então requisita autenticação efetiva
+      do cliente.</p><p>O arquivo de acesso também lhe possibilita definir grupos
+      inteiros de usuários, tal como o arquivo 
+      <code class="filename">/etc/group</code> do Unix:</p><pre class="screen">
+[groups]
+calc-developers = harry, sally, joe
+paint-developers = frank, sally, jane
+everyone = harry, sally, joe, frank, sally, jane
+</pre><p>Controle de acesso pode ser definido para grupos da mesma forma
+      como para usuários.  Sendo que os grupos se distinguem por tem um
+      sinal de “<span class="quote">arroba</span>” (<code class="literal">@</code>) na
+      frente:</p><pre class="screen">
+[calc:/projects/calc]
+@calc-developers = rw
+
+[paint:/projects/paint]
+@paint-developers = rw
+jane = r
+</pre><p>Grupos também podem ser definidos de forma a conter outros
+      grupos:</p><pre class="screen">
+[groups]
+calc-developers = harry, sally, joe
+paint-developers = frank, sally, jane
+everyone = @calc-developers, @paint-developers
+</pre><div class="sidebar"><p class="title"><b>Legibilidade Parcial e Checkouts</b></p><p>Se você está usando o Apache como seu servidor Subversion e
+      deixou determinados subdiretórios de seu repositório ilegíveis para
+      certos usuários, então você precisa ter cuidado com um
+      possível comportamento não-otimizado do comando <span class="command"><strong>svn
+      checkout</strong></span>.</p><p>Quando o cliente realiza um checkout ou update sobre HTTP, ele
+      faz uma única requisição ao servidor, e recebe uma única resposta
+      (quase sempre bem grande).  Quando o servidor recebe a requisição,
+      que é a <span class="emphasis"><em>única</em></span> oportunidade que o Apache tem de
+      solicitar autenticação do usuário.  Isto tem alguns efeitos
+      colaterais.  Por exemplo, se um certo determinado subdiretório do
+      repositório é legível apenas pelo usuário Sally, e o usuário Harry
+      dá um checkout num diretório pai, seu cliente vai atender ao
+      desafio de autenticação inicial como Harry.  Como o servidor gera
+      uma resposta grande, não há uma forma de reenviar um desafio de
+      autenticação quando encontrar um subdiretório especial; pulando
+      assim este subdiretório como um todo, em vez de solicitar que o
+      usuário se re-autentique como Sally no momento certo.  De maneira
+      similar, se a raiz do repositório é legível anonimamente por todos,
+      então todo checkout será feito sem autenticação—novamente,
+      pulando o diretório legível em vez de solicitar autenticação para
+      ter acesso a essas partes do repositório.</p></div><div class="footnotes"><br /><hr width="100" align="left" /><div class="footnote"><p><sup>[<a id="ftn.id2618556" href="#id2618556" class="para">49</a>] </sup>Um tema recorrente neste
+        livro!</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.serverconfig.httpd.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.serverconfig.html">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.serverconfig.multimethod.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">httpd, o servidor HTTP Apache </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> Dando Suporte a Múltiplos Métodos de Acesso ao
+      Repositório</td></tr></table></div></body></html>

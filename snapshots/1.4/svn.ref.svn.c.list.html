@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn list</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.info.html" title="svn info" /><link rel="next" href="svn.ref.svn.c.lock.html" title="svn lock" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn list</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.info.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.lock.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.list"></a><div class="titlepage"></div><a id="id2642605" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn list — Lista entradas de diretório no
+            repositório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642632"></a><h2>Sinopse</h2><pre class="programlisting">svn list [TARGET[@REV]...]</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642644"></a><h2>Descrição</h2><p>Lista cada arquivo em <em class="replaceable"><code>TARGET</code></em>
+            e o conteúdo de cada diretório em
+            <em class="replaceable"><code>TARGET</code></em> como existirem no
+            repositório.  Se <em class="replaceable"><code>TARGET</code></em> for um
+            caminho em uma cópia de trabalho, a URL correspondente no
+            repositório será usada.</p><p>O <em class="replaceable"><code>TARGET</code></em> padrão, quando não
+            informado, é “<span class="quote"><code class="filename">.</code></span>”,
+            significando a URL correspondente ao diretório atual na
+            cópia de trabalho.</p><p>Com <code class="option">--verbose</code>, <span class="command"><strong>svn
+            list</strong></span> exibe os seguintes campos para cada
+            item:</p><div class="itemizedlist"><ul type="disc"><li><p>Número da revisão do último
+              commit</p></li><li><p>Autor do último commit</p></li><li><p>Se travado, a letra “<span class="quote">O</span>” (Veja
+              <a class="xref" href="svn.ref.svn.c.info.html" title="svn info">svn info</a> para
+              detalhes).</p></li><li><p>Tamanho (em bytes)</p></li><li><p>Data e horário do último
+              commit</p></li></ul></div><p>Com <code class="option">--xml</code>, a saída fica em um formato
+            XML (com um cabeçalho e um elemento de documento
+            encapsulador, a menos que <code class="option">--incremental</code>
+            também seja especificado).  Toda a informação está presente;
+            a opção <code class="option">--verbose</code> não é aceita.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642769"></a><h2>Nomes Alternativos</h2><p>ls</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642779"></a><h2>Altera</h2><p>Nada</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642789"></a><h2>Acessa o Repositório</h2><p>Sim</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642800"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--verbose (-v)
+--recursive (-R)
+--incremental
+--xml
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2642815"></a><h2>Exemplos</h2><p><span class="command"><strong>svn list</strong></span> é mais útil se você quiser
+            ver que arquivos um repositório tem sem precisar obter uma
+            cópia de trabalho:</p><pre class="screen">
+$ svn list http://svn.red-bean.com/repos/test/support
+README.txt
+INSTALL
+examples/
+…
+</pre><p>Você pode passar a opção <code class="option">--verbose</code> para
+            informações adicionais, similar ao comando UNIX 
+            <span class="command"><strong>ls -l</strong></span>:</p><pre class="screen">
+$ svn list --verbose file:///tmp/repos
+     16 sally         28361 Jan 16 23:18 README.txt
+     27 sally             0 Jan 18 15:27 INSTALL
+     24 harry               Jan 18 11:27 examples/
+</pre><p>Para mais detalhes, veja <a class="xref" href="svn.tour.history.html#svn.tour.history.browsing.list" title="svn list">“svn list”</a>.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.info.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.lock.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn info </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn lock</td></tr></table></div></body></html>

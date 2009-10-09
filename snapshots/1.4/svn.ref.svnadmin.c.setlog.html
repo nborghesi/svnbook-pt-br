@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svnadmin setlog</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c" title="Subcomandos do svnadmin" /><link rel="prev" href="svn.ref.svnadmin.c.rmtxns.html" title="svnadmin rmtxns" /><link rel="next" href="svn.ref.svnadmin.c.verify.html" title="svnadmin verify" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svnadmin setlog</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.rmtxns.html">Anterior</a> </td><th width="60%" align="center">Subcomandos do svnadmin</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.verify.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svnadmin.c.setlog"></a><div class="titlepage"></div><a id="id2649416" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svnadmin setlog — Define a mensagem de log de uma revisão.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649443"></a><h2>Sinopse</h2><pre class="programlisting">svnadmin setlog REPOS_PATH -r REVISION FILE</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649455"></a><h2>Descrição</h2><p>Define a mensagem de log da revisão REVISION para o
+            conteúdo de FILE.</p><p>Isto é similar a se usar <span class="command"><strong>svn propset
+            --revprop</strong></span> para definir a propriedade
+            <code class="literal">svn:log</code> de uma revisão, exceto que você
+            também pode usar a opção <code class="option">--bypass-hooks</code>
+            para previnir que qualquer script de hook pre- ou
+            post-commit seja executado, o que é útil se a modificação
+            nas propriedades da revisão não estava habilitada no script
+            pre-revprop-change.</p><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Atenção</h3><p>Propriedades de revisão não estão sob controle de
+              versão, então este comando irá sobrescrever
+              permanentemente a mensagem de log anterior.</p></div></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649512"></a><h2>Opções</h2><pre class="screen">
+--revision (-r) REV
+--bypass-hooks
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2649525"></a><h2>Exemplos</h2><p>Define a mensagem de log da revisão 19 para o conteúdo
+            do arquivo <code class="filename">msg</code>:</p><pre class="screen">
+$ svnadmin setlog /usr/local/svn/repos/ -r 19 msg
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svnadmin.c.rmtxns.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svnadmin.html#svn.ref.svnadmin.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svnadmin.c.verify.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svnadmin rmtxns </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svnadmin verify</td></tr></table></div></body></html>

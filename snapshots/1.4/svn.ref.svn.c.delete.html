@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>svn delete</title><link rel="stylesheet" href="styles.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /><link rel="home" href="index.html" title="Controle de Versão com Subversion" /><link rel="up" href="svn.ref.svn.html#svn.ref.svn.c" title="Subcomandos svn" /><link rel="prev" href="svn.ref.svn.c.copy.html" title="svn copy" /><link rel="next" href="svn.ref.svn.c.diff.html" title="svn diff" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">svn delete</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="svn.ref.svn.c.copy.html">Anterior</a> </td><th width="60%" align="center">Subcomandos svn</th><td width="20%" align="right"> <a accesskey="n" href="svn.ref.svn.c.diff.html">Próxima</a></td></tr></table><hr /></div><div class="refentry" lang="pt-br" xml:lang="pt-br"><a id="svn.ref.svn.c.delete"></a><div class="titlepage"></div><a id="id2640722" class="indexterm"></a><div class="refnamediv"><h2>Nome</h2><p>svn delete — Exclui um item de uma cópia de trabalho ou do
+            repositório.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640750"></a><h2>Sinopse</h2><pre class="programlisting">svn delete PATH...</pre><pre class="programlisting">svn delete URL...</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640769"></a><h2>Descrição</h2><p>Os itens especificados pelo
+            <em class="replaceable"><code>PATH</code></em> são agendados para exclusão
+            até o próximo commit.  Os arquivos (e diretórios que ainda
+            não foram submetidos) são imediatamente removidos da cópia
+            de trabalho.  O comando não irá remover quaisquer itens não
+            versionados ou modificados; utilize a opção
+            <code class="option">--force</code> para sobrescrever este
+            comportamento.</p><p>Itens especificados pela URL são excluídos do
+            repositório por meio de um registro (commit) imediato.
+            Múltiplas URLs sofrem as alterações de forma atômica.</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640807"></a><h2>Nomes Alternativos</h2><p>del, remove, rm</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640817"></a><h2>Altera</h2><p>Cópia de trabalho, se executando sobre arquivos;
+            repositório, se operando sobre URLs</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640830"></a><h2>Acessa o Repositório</h2><p>Apenas quando executado sobre URLs</p></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640841"></a><h2>Opções</h2><pre class="screen">
+--force
+--force-log
+--message (-m) TEXT
+--file (-F) FILE
+--quiet (-q)
+--targets FILENAME
+--username USER
+--password PASS
+--no-auth-cache
+--non-interactive
+--editor-cmd EDITOR
+--encoding ENC
+--config-dir DIR
+</pre></div><div class="refsect1" lang="pt-br" xml:lang="pt-br"><a id="id2640857"></a><h2>Exemplos</h2><p>Usar <span class="command"><strong>svn</strong></span> para excluir um arquivo de
+            sua cópia de trabalho remove sua cópia local do arquivo, mas
+            apenas faz o agendamento para que ele seja removido do
+            repositório.  Quando você submeter a alteração, o arquivo é
+            excluído efetivamente do repositório.</p><pre class="screen">
+$ svn delete myfile
+D         myfile
+
+$ svn commit -m "Deleted file 'myfile'."
+Deleting       myfile
+Transmitting file data .
+Committed revision 14.
+</pre><p>Excluir uma URL, no entanto, é imediato, então você deve
+            informar também uma mensagem de log:</p><pre class="screen">
+$ svn delete -m "Deleting file 'yourfile'" file:///tmp/repos/test/yourfile
+
+Committed revision 15.
+</pre><p>Aqui está um exemplo de como forçar a exclusão de um
+            arquivo que já foi modificado localmente:</p><pre class="screen">
+$ svn delete over-there 
+svn: Attempting restricted operation for modified resource
+svn: Use --force to override this restriction
+svn: 'over-there' has local modifications
+
+$ svn delete --force over-there 
+D         over-there
+</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="svn.ref.svn.c.copy.html">Anterior</a> </td><td width="20%" align="center"><a accesskey="u" href="svn.ref.svn.html#svn.ref.svn.c">Acima</a></td><td width="40%" align="right"> <a accesskey="n" href="svn.ref.svn.c.diff.html">Próxima</a></td></tr><tr><td width="40%" align="left" valign="top">svn copy </td><td width="20%" align="center"><a accesskey="h" href="index.html">Principal</a></td><td width="40%" align="right" valign="top"> svn diff</td></tr></table></div></body></html>
